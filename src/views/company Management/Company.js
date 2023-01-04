@@ -4,6 +4,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
+import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
 
 const Company = () => {
   const title = 'Company Management';
@@ -45,6 +46,11 @@ const Company = () => {
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+            <NavLink to="/addcompany">
+            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+            <CsLineIcons icon="plus" /> <span>Add Company</span>
+            </Button>
+            </NavLink>
             <NavLink to="/addcompany">
             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
             <CsLineIcons icon="plus" /> <span>Add Company</span>

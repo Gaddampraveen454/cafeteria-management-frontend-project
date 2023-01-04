@@ -105,7 +105,11 @@ const User = () => {
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-        <DialogContent style={{width:"500px" ,height:"200px"}}>
+        <DialogContent style={{width:"550px" ,height:"230px"}}>
+        <DialogActions style={{cursor:"pointer"}} onClick={() => setOpen(false)} >
+        <CsLineIcons icon="close" />
+        </DialogActions>
+        
           <DialogContentText >
           <Form.Label>Select Company</Form.Label>
           <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
@@ -146,7 +150,7 @@ const User = () => {
             <span> Modal content </span>
           </Popup> */}
           <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
-            <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
+            <CsLineIcons icon="plus" /> <span>Upload User</span>
             </Button>
             <NavLink to="/adduser">
             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
@@ -242,7 +246,7 @@ const User = () => {
               <div className="text-muted text-medium cursor-pointer sort">Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Employee ID*</div>
+              <div className="text-muted text-medium cursor-pointer sort">Employee ID</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
@@ -251,7 +255,7 @@ const User = () => {
               <div className="text-muted text-medium cursor-pointer sort">Phone No</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Company Name*</div>
+              <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>

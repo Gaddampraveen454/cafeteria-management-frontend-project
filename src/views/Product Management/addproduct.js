@@ -76,7 +76,7 @@ const addproduct = () => {
                 <Row className="g-3">
                 <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Form.Control type="text" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
