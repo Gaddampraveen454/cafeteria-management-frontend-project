@@ -4,12 +4,13 @@ import { Row, Col, Button, Form } from 'react-bootstrap';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 
 const Cardsdetails = () => {
+  const [open, setOpen] = React.useState(false);
   return (
     <>
       <Form className="mb-5">
         <p className="text-large text-muted mb-2">Menu</p>
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">Happy New Year 2023 Combos</label>
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">No Added Sugar</label><br />
+        <label onClick="alert( 'Hello India' )" href="firstcolumn"  style={{cursor:"pointer"}} title className="form-check-label  mb-2">Happy New Year 2023 Combos</label><br />
+        <label href="secondcolumn" style={{cursor:"pointer"}} title className="form-check-label  mb-2">No Added Sugar</label><br />
         <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">100 ml Ice creams</label><br />
         <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">500 ml Ice creams</label><br />
         <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">750 ml Ice creams</label><br />

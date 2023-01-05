@@ -51,11 +51,6 @@ const Company = () => {
             <CsLineIcons icon="plus" /> <span>Add Company</span>
             </Button>
             </NavLink>
-            <NavLink to="/addcompany">
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-            <CsLineIcons icon="plus" /> <span>Add Company</span>
-            </Button>
-            </NavLink>
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
             </Button>

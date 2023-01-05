@@ -12,6 +12,8 @@ import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
 
+
+
 const Menu = () => {
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
@@ -70,7 +72,7 @@ const Menu = () => {
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none" onClick={() => setIsOpenFiltersModal(true)}>
+            <Button style={{zIndex:"1",position:"fixed"}} variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none mt-5" onClick={() => setIsOpenFiltersModal(true)}>
               <CsLineIcons icon="filter" />
             </Button>
             <Dropdown className="ms-1 w-100 w-md-auto" align="end">
@@ -122,63 +124,692 @@ const Menu = () => {
         )}
 
         <Col lg="8" xl="9">
+
+        <div id="firstcolumn">
+        <Form className="mb-5">
+        <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
+        </Form>
           {/* Product Thumbnails Start */}
           <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-          <Col xs="12" md="4" lg="2">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
           <Card className="h-100 hover-scale-up cursor-pointer">
-            <Card.Body className="d-flex flex-column align-items-center">
-              <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
-                <CsLineIcons icon="dollar" className="text-primary" />
-              </div>
-              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
-              <div className="text-primary cta-4">$ 315.20</div>
-            </Card.Body>
-          </Card>
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Divine Combo
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
         </Col>
-        <Col xs="12" md="4" lg="2">
+        
+            </Row>
+            </div>
+
+            <div id='secondcolumn'>
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">No Added Sugar</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+
+        <Col xs="12" md="6" lg="6" xl="6">
           <Card className="h-100 hover-scale-up cursor-pointer">
-            <Card.Body className="d-flex flex-column align-items-center">
-              <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
-                <CsLineIcons icon="dollar" className="text-primary" />
-              </div>
-              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
-              <div className="text-primary cta-4">$ 315.20</div>
-            </Card.Body>
-          </Card>
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Roasted Almond Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
         </Col>
-        <Col xs="12" md="4" lg="2">
+        <Col xs="12" md="6" lg="6" xl="6">
           <Card className="h-100 hover-scale-up cursor-pointer">
-            <Card.Body className="d-flex flex-column align-items-center">
-              <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
-                <CsLineIcons icon="dollar" className="text-primary" />
-              </div>
-              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
-              <div className="text-primary cta-4">$ 315.20</div>
-            </Card.Body>
-          </Card>
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
         </Col>
-            <Col>
+            </Row>
+            </div>
+
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">100 ml Ice creams</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Alphonso Mango Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹75</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Mixed Berries Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹90</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Paan Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹80</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" mmd="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Gajar Halwa Ice Cream 100ML
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹80</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹55</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Chocochips Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹60</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Madagascar Chocolate Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹100</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Sea Salt Caramel Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹120</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Gulab Jamun Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹150</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Roasted Almond Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹75</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Dryfruit Overload Ice Cream 100ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹90</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+            <Col xs="12" md="6" lg="6" xl="6">
               <Card className={`h-100 ${selectedItems.includes(1) && 'selected'}`}>
                 {/* <Badge bg="primary" className="me-1 position-absolute e-3 t-n2 z-index-1">
                   SALE
                 </Badge> */}
                 {/* <Card.Img src="/img/product/small/product-1.webp" className="card-img-top sh-22" alt="card image" /> */}
                 <Card.Body className="pb-3">
-                <img src={GreenDot} alt="GreenDot" style={{width:"10%"}} className="heading mb-3 d-flex"/>
-                  <h5 className="heading mb-0 d-flex">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
                     
                     {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
-                    <NavLink style={{float:"left"}} to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
-                      Divine Combo
+                      Anjeer Ice Cream 100ml
                       </Clamp>
                     </NavLink>
-                    <NavLink style={{float:"left",marginLeft:"30px"}} to="/">
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                     <CsLineIcons icon="plus"/><span>Add</span>
                     </Button>
                     </NavLink>
-                  </h5>
+                    </div>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   {/* <div className="mb-2">
@@ -195,23 +826,1328 @@ const Menu = () => {
                     {/* <div className="text-muted text-overline text-small">
                       <del>$ 14.25</del>
                     </div> */}
-                    <div>₹466</div>
+                    <div>₹50</div>
                   </div>
                 </Card.Footer>
               </Card>
             </Col>
-            <Col>
+            </Row>
+
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">500 ml Ice creams</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}} >
+                    <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+            </Row>
+
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">100 ml Ice creams</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div  style={{float:"left"}}>
+                    <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                    <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+            </Row>
+
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">500 ml Ice creams</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+            </Row>
+
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">750 ml Ice creams</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+            </Row>
+
+            <Form className="mb-5">
+        <p className="text-large text-muted mb-2">Kulfi</p>
+        </Form>
+          {/* Product Thumbnails Start */}
+          <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+          
+          <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+        <Col xs="12" md="6" lg="6" xl="6">
+          <Card className="h-100 hover-scale-up cursor-pointer">
+          <Card.Body className="pb-3">
+                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}  className="heading mb-0 d-flex">
+                    
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <div style={{float:"left"}}>
+                      <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                      <Clamp tag="span" clamp="2">
+                      Tender Coconut Ice Cream (No Added Sugar) 500ml
+                      </Clamp>
+                    </NavLink>
+                    </div>
+                    <div style={{float:"right"}}>
+                    <NavLink  to="/">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <CsLineIcons icon="plus"/><span>Add</span>
+                    </Button>
+                    </NavLink>
+                    </div>
+                  </div> <br />
+                  <div>₹350</div>
+                </Card.Body>
+                </Card>
+                <Card.Footer>
+                
+                  {/* <div className="mb-2">
+
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                  <div className="card-text">
+                    {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                    
+                  </div>
+                </Card.Footer>
+        </Col>
+            </Row>
+
+
+
+
+            {/* <Col>
               <Card className={`h-100 mb-2 ${selectedItems.includes(2) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-2.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(2)} onChange={() => checkItem(2)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Sandwitch Bread with Sesame Seeds
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -237,14 +2173,14 @@ const Menu = () => {
                 </Badge>
                 <Card.Img src="/img/product/small/product-3.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(3)} onChange={() => checkItem(3)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Basler Brot
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -269,14 +2205,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(4) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-4.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(4)} onChange={() => checkItem(4)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Pullman Loaf
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -299,14 +2235,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(5) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-5.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(5)} onChange={() => checkItem(5)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Bucellato di Lucca
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -329,14 +2265,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(6) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-6.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(6)} onChange={() => checkItem(6)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Zopf
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -359,14 +2295,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(7) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-7.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(7)} onChange={() => checkItem(7)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Steirer Brot
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -389,14 +2325,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(8) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-8.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(8)} onChange={() => checkItem(8)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Pain de Campagne
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -419,14 +2355,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(9) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-9.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(9)} onChange={() => checkItem(9)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Rugbraud
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -449,14 +2385,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(10) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-10.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(10)} onChange={() => checkItem(10)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Guernsey Gache
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -479,14 +2415,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(11) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-7.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(11)} onChange={() => checkItem(11)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Toast Bread
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -509,14 +2445,14 @@ const Menu = () => {
               <Card className={`h-100 mb-2 ${selectedItems.includes(12) && 'selected'}`}>
                 <Card.Img src="/img/product/small/product-4.webp" className="card-img-top sh-22" alt="card image" />
                 <Card.Body className="pb-3">
-                  <h5 className="heading mb-0 d-flex">
+                  <div className="heading mb-0 d-flex">
                     <Form.Check className="form-check" type="checkbox" checked={selectedItems.includes(12)} onChange={() => checkItem(12)} />
                     <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
                         Michetta
                       </Clamp>
                     </NavLink>
-                  </h5>
+                  </div>
                 </Card.Body>
                 <Card.Footer className="border-0 pt-0">
                   <div className="mb-2">
@@ -533,9 +2469,9 @@ const Menu = () => {
                     <div>$ 4.50</div>
                   </div>
                 </Card.Footer>
-              </Card>
-            </Col>
-          </Row>
+              </Card> */}
+            {/* </Col> */}
+          
           {/* Product Thumbnails End */}
 
           {/* Pagination Start */}
@@ -562,7 +2498,7 @@ const Menu = () => {
       {!isLgScreen && (
         <Modal className="modal-left" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
           <Modal.Header closeButton>
-            <Modal.Title as="h5">Filters</Modal.Title>
+            <Modal.Title as="div">Filters</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Cardsdetails />
