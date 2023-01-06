@@ -20,6 +20,7 @@
     "autosuggest-trie": "^2.1.1",
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.19.0",
+    "babel-eslint": "^10.1.0",
     "chart.js": "^3.5.1",
     "chartjs-adapter-luxon": "^1.0.0",
     "chartjs-plugin-crosshair": "^1.2.0",
@@ -115,9 +116,11 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/eslint-parser": "^7.19.1",
     "babel-plugin-module-resolver": "^2.2.0",
     "concurrently": "^6.2.0",
-    "eslint": "^7.28.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",

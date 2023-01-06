@@ -7,14 +7,29 @@ const Cardsdetails = () => {
   const [open, setOpen] = React.useState(false);
   return (
     <>
+      <div >
       <Form className="mb-5">
         <p className="text-large text-muted mb-2">Menu</p>
-        <label onClick="alert( 'Hello India' )" href="firstcolumn"  style={{cursor:"pointer"}} title className="form-check-label  mb-2">Happy New Year 2023 Combos</label><br />
-        <label href="secondcolumn" style={{cursor:"pointer"}} title className="form-check-label  mb-2">No Added Sugar</label><br />
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">100 ml Ice creams</label><br />
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">500 ml Ice creams</label><br />
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">750 ml Ice creams</label><br />
+        <a href="#firstcolumn">
+        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2">Happy New Year 2023 Combos</label>
+          </a><br />
+        <a href="#secondcolumn"><label  style={{cursor:"pointer"}} title className="form-check-label  mb-2">No Added Sugar</label></a>
+        <br />
+        <a href="#thirdcolumn">
+        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">100 ml Ice creams</label>
+          </a><br />
+        <a href="#fourthcolumn">
+        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">500 ml Ice creams</label>
+          </a><br />
+        <a href="#fifthcolumn">
+        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">750 ml Ice creams</label>
+          </a><br />
+          <a href="#sixthcolumn">
+        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">650 ml Ice creams</label>
+          </a><br />
+        <a href="#seventhcolumn">
         <label style={{cursor:"pointer"}} title className="form-check-label">Kulfi</label>
+        </a>
         {/* <Form.Check  label="Happy New Year 2023 Combos" />
         <Form.Check  label="No Added Sugar" />
         <Form.Check  label="100 ml Ice creams" />
@@ -22,6 +37,7 @@ const Cardsdetails = () => {
         <Form.Check  label="750 ml Ice creams" />
         <Form.Check  label="Kulfi" /> */}
       </Form>
+      </div>
       {/* <Form className="mb-5">
         <p className="text-small text-muted mb-2">CATEGORY</p>
         <Form.Check type="radio" label="Biscuit" id="categoryRadio1" name="categoryRadios" />
