@@ -103,25 +103,23 @@ const Menu = () => {
               </Dropdown>
             </div> */}
           </Col>
-          <Col style={{display:"grid",placeContent:"center"}} xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            {/* <div> */}
+          {/* <Col style={{display:"grid",placeContent:"center"}} xs="12" md="6" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+            <div>
             <Button style={{
               zIndex:"1",
             position:"fixed",
-            // borderRadius:"30%",
             backgroundColor:"#502c1e",
             width:"17%",
             height:"auto",
             color:"white",
             textAlign:"center",
-            // padding:"12px 45px 42px 21px",
             }} 
             variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none mt-5" onClick={() => setIsOpenFiltersModal(true)}>
               <CsLineIcons icon="menu" /> <br />
               <h5 style={{fontWeight:"700",}}>Menu</h5>
             </Button>
-            {/* </div> */}
-            </Col>
+            </div>
+            </Col> */}
           {/* Top Buttons End */}
         </Row>
       </div>
@@ -199,10 +197,33 @@ const Menu = () => {
             </Row>
             </div>
 
+            
+
             <div id='secondcolumn'>
             <Form className="mb-5">
         <p className="text-large text-muted mb-2">No Added Sugar</p>
         </Form>
+        <Row style={{float:"right",}} className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3">
+            <Col style={{display:"grid",placeContent:"center"}}>
+            <div xs="12" md="4" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+            <Button style={{
+              zIndex:"2",
+            position:"fixed",
+            // borderRadius:"45%",
+            backgroundColor:"#502c1e",
+            width:"17%",
+            height:"9%",
+            color:"white",
+            textAlign:"center",
+            // padding:"12px 45px 42px 21px",
+            }} 
+            variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none mt-5" onClick={() => setIsOpenFiltersModal(true)}>
+              <CsLineIcons icon="menu" /> <br />
+              <h5 style={{fontWeight:"700",}}>Menu</h5>
+            </Button>
+            </div>
+            </Col>
+            </Row>
           {/* Product Thumbnails Start */}
           <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
           
