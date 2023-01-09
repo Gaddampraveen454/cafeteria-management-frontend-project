@@ -1,13 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink , useHistory} from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
+import axios from 'axios';
+
 
 const Login = () => {
+  const history = useHistory()
   const title = 'Login';
   const description = 'Login Page';
 
@@ -20,6 +23,32 @@ const Login = () => {
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const Payload={
+      "email" : values.email,
+      "password" : values.password,
+  
+    }
+    axios.post(`${process.env.REACT_APP_WEB_APP}/user/admin/login`, Payload,)
+    .then(res => {
+      console.log(res, "resp00");
+      if(res.status===200){
+        history.push("/")
+      }
+      
+  
+    })
+    .catch(err => {
+      console.log(err, "err00");
+    
+    });
+  }
+
+
+
+
 
   const leftSide = (
     <div className="min-h-100 d-flex align-items-center">
@@ -62,7 +91,10 @@ const Login = () => {
           </p>
         </div>
         <div>
-          <form id="loginForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
+          <form id="loginForm" className="tooltip-end-bottom" 
+          // onSubmit={handleSubmit}
+          onSubmit={handleLogin}
+          >
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
               <Form.Control type="text" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
