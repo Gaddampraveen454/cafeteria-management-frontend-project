@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{ useEffect } from 'react';
 import { NavLink , useHistory} from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
@@ -6,13 +6,28 @@ import { useFormik } from 'formik';
 import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { LoginURL } from '../../auth/authSlice'
 
 
 const Login = () => {
-  const history = useHistory()
   const title = 'Login';
   const description = 'Login Page';
+  const { currentUser, isLogin } = useSelector((state) => state.auth);
+  console.log(currentUser,isLogin,"currentUser")
+  const history = useHistory()
+  useEffect(()=> {
+
+if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier"){
+  history.push('/dashboard')
+  localStorage.setItem('token',currentUser)
+}
+else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
+  history.push('/dashboard')
+  localStorage.setItem('token',currentUser)
+}
+  })
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),
@@ -24,30 +39,15 @@ const Login = () => {
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const Payload={
-      "email" : values.email,
-      "password" : values.password,
-  
-    }
-    axios.post(`${process.env.REACT_APP_WEB_APP}/user/admin/login`, Payload,)
-    .then(res => {
-      console.log(res, "resp00");
-      if(res.status===200){
-        history.push("/")
-      }
-      
-  
-    })
-    .catch(err => {
-      console.log(err, "err00");
-    
-    });
+  const dispatch = useDispatch();
+
+  console.log(values,"values")
+  const LoginAPI = (event) =>{
+    event.preventDefault()
+    dispatch(LoginURL(values));
+
+    console.log(event.target.elements, "dfghhjj")
   }
-
-
-
 
 
   const leftSide = (
@@ -92,8 +92,8 @@ const Login = () => {
         </div>
         <div>
           <form id="loginForm" className="tooltip-end-bottom" 
-          // onSubmit={handleSubmit}
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit}
+          // onSubmit={handleLogin}
           >
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
@@ -108,7 +108,7 @@ const Login = () => {
               </NavLink>
               {errors.password && touched.password && <div className="d-block invalid-tooltip">{errors.password}</div>}
             </div>
-            <Button size="lg" type="submit">
+            <Button size="lg" type="submit" onClick={LoginAPI}>
               Login
             </Button>
           </form>

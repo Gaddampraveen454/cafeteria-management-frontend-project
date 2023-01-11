@@ -33,6 +33,8 @@ export const DEFAULT_SETTINGS = {
   USE_SIDEBAR: false,
 };
 
+export const Data = localStorage.getItem('token')
+console.log(Data,"dsfdffxdfzdffdsdfdsf")
 export const DEFAULT_USER = {
   id: 1,
   name: 'Lisa Jackson',

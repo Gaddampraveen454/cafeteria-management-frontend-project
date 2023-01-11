@@ -55,7 +55,7 @@ const settings = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-const routesAndMenuItems = {
+const adminRoutesAndMenuItems = {
   mainMenuItems: [
     {
       path: DEFAULT_PATHS.APP,
@@ -66,7 +66,7 @@ const routesAndMenuItems = {
     {
       path: `${appRoot}/dashboard`,
       component: dashboard,
-      label: 'menu.dashboard111',
+      label: 'menu.dashboardadmin',
       icon: 'shop',
     },
         {
@@ -234,4 +234,4 @@ const routesAndMenuItems = {
   ],
   sidebarItems: [],
 };
-export default routesAndMenuItems;
+export default adminRoutesAndMenuItems;

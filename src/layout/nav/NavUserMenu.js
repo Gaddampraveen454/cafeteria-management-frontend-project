@@ -5,97 +5,197 @@ import { Col, Dropdown, Row } from 'react-bootstrap';
 import { MENU_PLACEMENT } from 'constants.js';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { layoutShowingNavMenu } from 'layout/layoutSlice';
+import { LogOutURL, LoginURL } from 'auth/authSlice';
+import { useHistory } from 'react-router-dom';
 
-const NavUserMenuContent = () => (
-  <div>
-    <Row className="mb-3 ms-0 me-0">
-      <Col xs="12" className="ps-1 mb-2">
-        <div className="text-extra-small text-primary">ACCOUNT</div>
-      </Col>
-      <Col xs="6" className="ps-1 pe-1">
-        <ul className="list-unstyled">
-          <li>
-            <a href="#/!">User Info</a>
-          </li>
-          <li>
-            <a href="#/!">Preferences</a>
-          </li>
-          <li>
-            <a href="#/!">Calendar</a>
-          </li>
-        </ul>
-      </Col>
-      <Col xs="6" className="ps-1 pe-1">
-        <ul className="list-unstyled">
-          <li>
-            <a href="#/!">Security</a>
-          </li>
-          <li>
-            <a href="#/!">Billing</a>
-          </li>
-        </ul>
-      </Col>
-    </Row>
-    <Row className="mb-1 ms-0 me-0">
-      <Col xs="12" className="p-1 mb-2 pt-2">
-        <div className="text-extra-small text-primary">APPLICATION</div>
-      </Col>
-      <Col xs="6" className="ps-1 pe-1">
-        <ul className="list-unstyled">
-          <li>
-            <a href="#/!">Themes</a>
-          </li>
-          <li>
-            <a href="#/!">Language</a>
-          </li>
-        </ul>
-      </Col>
-      <Col xs="6" className="pe-1 ps-1">
-        <ul className="list-unstyled">
-          <li>
-            <a href="#/!">Devices</a>
-          </li>
-          <li>
-            <a href="#/!">Storage</a>
-          </li>
-        </ul>
-      </Col>
-    </Row>
-    <Row className="mb-1 ms-0 me-0">
-      <Col xs="12" className="p-1 mb-3 pt-3">
-        <div className="separator-light" />
-      </Col>
-      <Col xs="6" className="ps-1 pe-1">
-        <ul className="list-unstyled">
-          <li>
-            <a href="#/!">
-              <CsLineIcons icon="help" className="me-2" size="17" /> <span className="align-middle">Help</span>
-            </a>
-          </li>
-          <li>
-            <a href="#/!">
-              <CsLineIcons icon="file-text" className="me-2" size="17" /> <span className="align-middle">Docs</span>
-            </a>
-          </li>
-        </ul>
-      </Col>
-      <Col xs="6" className="pe-1 ps-1">
-        <ul className="list-unstyled">
-          <li>
-            <a href="#/!">
-              <CsLineIcons icon="gear" className="me-2" size="17" /> <span className="align-middle">Settings</span>
-            </a>
-          </li>
-          <li>
-            <a href="#/!">
-              <CsLineIcons icon="logout" className="me-2" size="17" /> <span className="align-middle">Logout</span>
-            </a>
-          </li>
-        </ul>
-      </Col>
-    </Row>
-  </div>
-);
+
+const NavUserMenuContent = (props1) => {
+  // const redirect = props1
+  const dispatch = useDispatch();
+  const history = useHistory()
+
+  const redirect = () => {
+    console.log("enter1")
+    dispatch(LogOutURL())
+    history.push('/login')
+  }
+  return <div>
+  <Row className="mb-3 ms-0 me-0">
+    <Col xs="12" className="ps-1 mb-2">
+      <div className="text-extra-small text-primary">ACCOUNT</div>
+    </Col>
+    <Col xs="6" className="ps-1 pe-1">
+      <ul className="list-unstyled">
+        <li>
+          <a href="#/!">User Info</a>
+        </li>
+        <li>
+          <a href="#/!">Preferences</a>
+        </li>
+        <li>
+          <a href="#/!">Calendar</a>
+        </li>
+      </ul>
+    </Col>
+    <Col xs="6" className="ps-1 pe-1">
+      <ul className="list-unstyled">
+        <li>
+          <a href="#/!">Security</a>
+        </li>
+        <li>
+          <a href="#/!">Billing</a>
+        </li>
+      </ul>
+    </Col>
+  </Row>
+  <Row className="mb-1 ms-0 me-0">
+    <Col xs="12" className="p-1 mb-2 pt-2">
+      <div className="text-extra-small text-primary">APPLICATION</div>
+    </Col>
+    <Col xs="6" className="ps-1 pe-1">
+      <ul className="list-unstyled">
+        <li>
+          <a href="#/!">Themes</a>
+        </li>
+        <li>
+          <a href="#/!">Language</a>
+        </li>
+      </ul>
+    </Col>
+    <Col xs="6" className="pe-1 ps-1">
+      <ul className="list-unstyled">
+        <li>
+          <a href="#/!">Devices</a>
+        </li>
+        <li>
+          <a href="#/!">Storage</a>
+        </li>
+      </ul>
+    </Col>
+  </Row>
+  <Row className="mb-1 ms-0 me-0">
+    <Col xs="12" className="p-1 mb-3 pt-3">
+      <div className="separator-light" />
+    </Col>
+    <Col xs="6" className="ps-1 pe-1">
+      <ul className="list-unstyled">
+        <li>
+          <a href="#/!">
+            <CsLineIcons icon="help" className="me-2" size="17" /> <span className="align-middle">Help</span>
+          </a>
+        </li>
+        <li>
+          <a href="#/!">
+            <CsLineIcons icon="file-text" className="me-2" size="17" /> <span className="align-middle">Docs</span>
+          </a>
+        </li>
+      </ul>
+    </Col>
+    <Col xs="6" className="pe-1 ps-1">
+      <ul className="list-unstyled">
+        <li>
+            <CsLineIcons icon="gear" className="me-2" size="17" /> <span className="align-middle">Settings</span>
+        </li>
+        <li>
+          <a onClick={() => redirect()} style={{cursor:'pointer'}}>
+            <CsLineIcons icon="logout" className="me-2" size="17"/> <span className="align-middle">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </Col>
+  </Row>
+</div>
+}
+// (
+//   <div>
+//     <Row className="mb-3 ms-0 me-0">
+//       <Col xs="12" className="ps-1 mb-2">
+//         <div className="text-extra-small text-primary">ACCOUNT</div>
+//       </Col>
+//       <Col xs="6" className="ps-1 pe-1">
+//         <ul className="list-unstyled">
+//           <li>
+//             <a href="#/!">User Info</a>
+//           </li>
+//           <li>
+//             <a href="#/!">Preferences</a>
+//           </li>
+//           <li>
+//             <a href="#/!">Calendar</a>
+//           </li>
+//         </ul>
+//       </Col>
+//       <Col xs="6" className="ps-1 pe-1">
+//         <ul className="list-unstyled">
+//           <li>
+//             <a href="#/!">Security</a>
+//           </li>
+//           <li>
+//             <a href="#/!">Billing</a>
+//           </li>
+//         </ul>
+//       </Col>
+//     </Row>
+//     <Row className="mb-1 ms-0 me-0">
+//       <Col xs="12" className="p-1 mb-2 pt-2">
+//         <div className="text-extra-small text-primary">APPLICATION</div>
+//       </Col>
+//       <Col xs="6" className="ps-1 pe-1">
+//         <ul className="list-unstyled">
+//           <li>
+//             <a href="#/!">Themes</a>
+//           </li>
+//           <li>
+//             <a href="#/!">Language</a>
+//           </li>
+//         </ul>
+//       </Col>
+//       <Col xs="6" className="pe-1 ps-1">
+//         <ul className="list-unstyled">
+//           <li>
+//             <a href="#/!">Devices</a>
+//           </li>
+//           <li>
+//             <a href="#/!">Storage</a>
+//           </li>
+//         </ul>
+//       </Col>
+//     </Row>
+//     <Row className="mb-1 ms-0 me-0">
+//       <Col xs="12" className="p-1 mb-3 pt-3">
+//         <div className="separator-light" />
+//       </Col>
+//       <Col xs="6" className="ps-1 pe-1">
+//         <ul className="list-unstyled">
+//           <li>
+//             <a href="#/!">
+//               <CsLineIcons icon="help" className="me-2" size="17" /> <span className="align-middle">Help</span>
+//             </a>
+//           </li>
+//           <li>
+//             <a href="#/!">
+//               <CsLineIcons icon="file-text" className="me-2" size="17" /> <span className="align-middle">Docs</span>
+//             </a>
+//           </li>
+//         </ul>
+//       </Col>
+//       <Col xs="6" className="pe-1 ps-1">
+//         <ul className="list-unstyled">
+//           <li>
+//             <a onClick={props.redirect}>
+//               <CsLineIcons icon="gear" className="me-2" size="17" /> <span className="align-middle">Settings</span>
+//             </a>
+//           </li>
+//           <li>
+//             <a href="#/!">
+//               <CsLineIcons icon="logout" className="me-2" size="17" /> <span className="align-middle">Logout</span>
+//             </a>
+//           </li>
+//         </ul>
+//       </Col>
+//     </Row>
+//   </div>
+// );
 
 const NavUserMenuDropdownToggle = React.memo(
   React.forwardRef(({ onClick, expanded = false, user = {} }, ref) => (
@@ -120,9 +220,13 @@ const NavUserMenuDropdownToggle = React.memo(
 // Dropdown needs access to the DOM of the Menu to measure it
 const NavUserMenuDropdownMenu = React.memo(
   React.forwardRef(({ style, className }, ref) => {
+    const redirect = () => {
+      const dispatch = useDispatch();
+      dispatch(LogOutURL)
+    }
     return (
       <div ref={ref} style={style} className={classNames('dropdown-menu dropdown-menu-end user-menu wide', className)}>
-        <NavUserMenuContent />
+        <NavUserMenuContent redirect={redirect}/>
       </div>
     );
   })

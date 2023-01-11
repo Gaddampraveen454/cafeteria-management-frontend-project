@@ -1,3 +1,74 @@
+// /* eslint-disable */
+// import { lazy } from 'react';
+// import { USER_ROLE } from 'constants.js';
+// import { DEFAULT_PATHS } from 'config.js';
+
+// const dashboard = lazy(() => import('views/dashboard/Dashboard'));
+// const products = {
+//   list: lazy(() => import('views/products/list/ProductsList')),
+//   detail: lazy(() => import('views/products/detail/ProductsDetail')),
+//   add: lazy(() => import('views/products/detail/ProductAdd')),
+// };
+// const orders = {
+//   list: lazy(() => import('views/orders/list/OrdersList')),
+//   detail: lazy(() => import('views/orders/detail/OrdersDetail')),
+// };
+// const customers = {
+//   list: lazy(() => import('views/customers/list/CustomersGroupList')),
+//   detail: lazy(() => import('views/customers/detail/CustomersDetail')),
+// };
+
+// const storefront = {
+//   home: lazy(() => import('views/storefront/home/Home')),
+//   filters: lazy(() => import('views/storefront/filters/Filters')),
+//   categories: lazy(() => import('views/storefront/categories/Categories')),
+  
+  
+// };
+// const shipping = lazy(() => import('views/shipping/Shipping'));
+// const discount = lazy(() => import('views/discount/Discount'));
+
+// const settings = {
+//   home: lazy(() => import('views/settings/home/Home')),
+//   general: lazy(() => import('views/settings/general/HomePage')),
+// };
+
+// const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
+
+
+// const customerroutesAndMenuItems = {
+//   mainMenuItems: [
+//     {
+//       path: DEFAULT_PATHS.APP,
+//       exact: true,
+//       redirect: true,
+//       to: `${appRoot}/login`,
+//     },
+//     {
+//       path: `${appRoot}/storefront`,
+//       exact: true,
+//       redirect: true,
+//       to: `${appRoot}/storefront/home`,
+//       label: 'menu.storefront',
+//       icon: 'screen',
+//       // path declaration 
+//       subs: [
+//         { path: '/home', label: 'menu.home', component: storefront.home },
+//         { path: '/filters', label: 'menu.filters', component: storefront.filters },
+//         { path: '/categories', label: 'menu.categories', component: storefront.categories },
+    
+//       ],
+//     },
+//   ],
+//   sidebarItems: [],
+// };
+// export default customerroutesAndMenuItems;
+
+
+
+
+
+
 /* eslint-disable */
 import { lazy } from 'react';
 import { USER_ROLE } from 'constants.js';
@@ -55,7 +126,7 @@ const settings = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-const routesAndMenuItems = {
+const consumerRoutesAndMenuItems = {
   mainMenuItems: [
     {
       path: DEFAULT_PATHS.APP,
@@ -66,7 +137,7 @@ const routesAndMenuItems = {
     {
       path: `${appRoot}/dashboard`,
       component: dashboard,
-      label: 'menu.dashboard111',
+      label: 'menu.dashboard-ccc',
       icon: 'shop',
     },
         {
@@ -234,4 +305,4 @@ const routesAndMenuItems = {
   ],
   sidebarItems: [],
 };
-export default routesAndMenuItems;
+export default consumerRoutesAndMenuItems;

@@ -13,6 +13,8 @@ import authReducer from 'auth/authSlice';
 import menuReducer from 'layout/nav/main-menu/menuSlice';
 import notificationReducer from 'layout/nav/notifications/notificationSlice';
 import scrollspyReducer from 'components/scrollspy/scrollspySlice';
+import companyReducer from 'Redux/AdminRedux/Comapny/Company';
+
 
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
@@ -20,7 +22,7 @@ import { REDUX_PERSIST_KEY } from 'config.js';
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
   storage,
-  whitelist: ['menu', 'settings', 'lang'],
+  // whitelist: ['menu', 'settings', 'lang'],
 };
 
 const persistedReducer = persistReducer(
@@ -33,6 +35,8 @@ const persistedReducer = persistReducer(
     menu: menuReducer,
     notification: notificationReducer,
     scrollspy: scrollspyReducer,
+    companyList: companyReducer,
+
   })
 );
 const store = configureStore({
