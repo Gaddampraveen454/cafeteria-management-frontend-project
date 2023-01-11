@@ -20,6 +20,7 @@ const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const Cards = lazy(() => import('views/company Management/Cards'));
+const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 
 
@@ -160,6 +161,12 @@ const routesAndMenuItems = {
       component: Cards,
       label: 'Menu',
       icon: 'news',
+    },
+    {
+      path: `${appRoot}/Cardcart`,
+      component: Cardcart,
+      // label: 'Menu',
+      // icon: 'news',
     },
     // {
     //   path: `${appRoot}/adddetails`,

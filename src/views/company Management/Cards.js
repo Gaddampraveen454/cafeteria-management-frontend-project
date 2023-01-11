@@ -73,6 +73,11 @@ const Menu = () => {
           {/* Top Buttons Start */}
          
             <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+            <NavLink  to="/Cardcart">
+            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+            <CsLineIcons icon="cart"/><span> Cart</span>
+            </Button>
+            </NavLink>
             <Dropdown className="ms-1 w-100 w-md-auto" align="end">
               <Dropdown.Toggle variant="outline-primary" className="w-100 w-md-auto">
                 Order: Default
