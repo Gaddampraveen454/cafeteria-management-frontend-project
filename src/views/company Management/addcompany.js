@@ -4,8 +4,12 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { useDispatch, useSelector } from 'react-redux';
 
 const addCompany = () => {
+  const dispatch = useDispatch()
+  const { currentUser } = useSelector((state) => state.auth)
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
 
@@ -51,6 +55,33 @@ const addCompany = () => {
     { value: '30', label: '30' },
   ];
 
+
+
+
+
+  const [companyName, setComapnayName]=useState("")
+  const [walletamount, setwalletamount]=useState("")
+  const [email, setEmail]=useState("")
+  const [mobile, setMobile]=useState("")
+  const [location, setLocation]=useState("")
+  const [address, setAddress]=useState("")
+
+  console.log(companyName,"companyName")
+
+  const AddCategory = (event) => {
+    event.preventDefault()
+    const value = event.target.elements
+    const payload = {
+        "company_name" : companyName,
+        "email" : email,
+        "mobile" : mobile,
+        "wallet_amount" : walletamount,
+        "location":location,
+        "address":address,
+    }
+    dispatch(categoryAddURL(payload, currentUser.token))
+    // dispatch(categoryListURL(currentUser.token))
+}
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -72,27 +103,28 @@ const addCompany = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form onSubmit={AddCategory}>
                 <Row className="g-3">
                 <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Form.Control type="text"  onChange={(e)=>{setComapnayName(e.target.value)}}/>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text"  onChange={(e)=>{setwalletamount(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="number"  onChange={(e)=>{setMobile(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="email" onChange={(e)=>{setEmail(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Location</Form.Label>
-                    <Form.Control as="textarea" rows={2} />
+                    <Form.Control as="textarea" rows={2} onChange={(e)=>{setLocation(e.target.value)}}/>
                   </Col>
 
                   {/* <Col lg="4">
@@ -109,11 +141,11 @@ const addCompany = () => {
                   </Col> */}
                   <Col lg="6">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows={2} />
+                    <Form.Control as="textarea" rows={2} onChange={(e)=>{setAddress(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
                     </Col>

@@ -33,7 +33,7 @@ export const { setCurrentUser } = authSlice.actions;
 export const LoginURL = (values) => async (dispatch) => {
 
   
-  const response = await axios.post(`${process.env.REACT_APP_URL}user/admin/login`,values);
+  const response = await axios.post(`${process.env.REACT_APP_URL}/user/admin/login`,values);
   console.log(response, "dfghj")
   console.log(localStorage.getItem('token'), JSON.stringify(response))
   dispatch(setCurrentUser(response.data));

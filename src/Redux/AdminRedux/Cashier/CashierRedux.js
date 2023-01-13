@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 const initialState = {
-  companyData: [],
+  cashierData: [],
 };
 
 const catSlice = createSlice({
@@ -12,7 +12,7 @@ const catSlice = createSlice({
   initialState,
   reducers: {
     setCatData(state, action) {
-      state.companyData = action.payload;
+      state.cashierData = action.payload;
     },
   },
 });
@@ -20,32 +20,32 @@ const catSlice = createSlice({
 export const { setCatData } = catSlice.actions;
 
 
-export const categoryListURL = (token) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=0&limit=10&search=`,{headers:{
+export const cashierListURL = (token) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/user/list/cashier?pagenum=0&limit=10&search=`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")
   dispatch(setCatData(response.data));
 };
 
-export const categoryAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/company/create`,payload,{headers:{
+export const cashierAddURL = (payload,token) => async (dispatch) => {
+    const response = await axios.post(`${process.env.REACT_APP_URL}/user/register/cashier`,payload,{headers:{
       "x-auth-token" : token
     }});
     console.log(response, "dfghj")
-    categoryListURL(token)
+    cashierListURL(token)
   };
 
-export const catgoryUpdateURL = (uuid,payload, token) => async (dispatch) => {
+export const cashierUpdateURL = (uuid,payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/company/update/${uuid}`,payload,{headers:{
       "x-auth-token" : token
     }});
     console.log(response, "ffdgddfgdgdfgffgdf")
     if (response.status===200){
-      categoryListURL(token)
+      cashierListURL(token)
     }
    
   };
-const companyReducer = catSlice.reducer;
+const cashierReducer = catSlice.reducer;
 
-export default companyReducer;
+export default cashierReducer;

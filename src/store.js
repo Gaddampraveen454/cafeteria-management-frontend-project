@@ -14,6 +14,7 @@ import menuReducer from 'layout/nav/main-menu/menuSlice';
 import notificationReducer from 'layout/nav/notifications/notificationSlice';
 import scrollspyReducer from 'components/scrollspy/scrollspySlice';
 import companyReducer from 'Redux/AdminRedux/Comapny/Company';
+import cashierReducer from 'Redux/AdminRedux/Cashier/CashierRedux';
 
 
 // import persist key
@@ -36,6 +37,7 @@ const persistedReducer = persistReducer(
     notification: notificationReducer,
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
+    cashierList:cashierReducer,
 
   })
 );

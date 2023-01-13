@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { cashierListURL, cashierAddURL, cashierUpdateURL } from 'Redux/AdminRedux/Cashier/CashierRedux';
+import addCompany from 'views/company Management/addcompany';
+import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
 
 const addexecutive = () => {
+  const dispatch = useDispatch()
+  const { currentUser } = useSelector((state) => state.auth)
   const title = 'Add Executive';
   const description = 'Ecommerce Storefront Add Details Page';
 
   const [selectValueState, setSelectValueState] = useState();
+  console.log(selectValueState,"sdfsdfsdfs")
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
     { value: 'Lefse', label: 'Lefse' },
@@ -51,6 +58,42 @@ const addexecutive = () => {
     { value: '30', label: '30' },
   ];
 
+  const { companyData } = useSelector((state) => state.companyList)
+
+  useEffect(() => {
+    dispatch(categoryListURL(currentUser.token))
+  }, [])
+  console.log(companyData,"sfsdfdsfs");
+
+  const [name, setName]=useState("")
+  const [companyName, setComapnayName]=useState("")
+  const [email, setEmail]=useState("")
+  const [mobile, setMobile]=useState("")
+  const [password, setPassword]=useState("")
+ 
+
+
+  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+
+
+
+
+  const AddCashier = (event) => {
+    event.preventDefault()
+    const payload = {
+      "name":name,
+        // "company_name" : companyName,
+        "email" : email,
+        "mobile" : mobile,
+        "password":password,
+        "company_uuid" :selectValueState && selectValueState.value
+    }
+    dispatch(cashierAddURL(payload, currentUser.token))
+    // dispatch(categoryListURL(currentUser.token))
+}
+
+
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -72,27 +115,34 @@ const addexecutive = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form onSubmit={AddCashier}>
                 <Row className="g-3">
                   <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Select classNamePrefix="react-select" options={companyList}
+                     value={selectValueState} onChange={setSelectValueState} placeholder=""
+                      />
+                    {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                   </Col>
                   <Col lg="6">
                     <Form.Label>Phone No</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setMobile(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email ID</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setEmail(e.target.value)}}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="text" onChange={(e)=>{setPassword(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
                     </Col>

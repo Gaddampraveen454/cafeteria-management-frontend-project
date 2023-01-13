@@ -6,6 +6,14 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
 
 const Company = () => {
   const title = 'Company Management';
@@ -13,6 +21,20 @@ const Company = () => {
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
+  const [status, setStatus] = useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [eventType, setEventType] = useState(false)
+  const [companyName, setComapnayName] = useState("")
+  const [walletamount, setwalletamount] = useState("")
+  const [email, setEmail] = useState("")
+  const [mobile, setMobile] = useState("")
+  const [location, setLocation] = useState("")
+  const [address, setAddress] = useState("")
+  const [compnayId,setCompnayId]=useState("")
+
+  console.log(status, "fgdffdggdf")
+
+
   const checkItem = (item) => {
     if (selectedItems.includes(item)) {
       setSelectedItems(selectedItems.filter((x) => x !== item));
@@ -31,26 +53,51 @@ const Company = () => {
   const dispatch = useDispatch()
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { companyData} = useSelector((state) => state.companyList)
+  const { companyData } = useSelector((state) => state.companyList)
 
 
 
 
   useEffect(() => {
     dispatch(categoryListURL(currentUser.token))
-}, [])
+  }, [])
 
 
-  console.log(companyData,"currentUsersdffscurrentUser")
+  console.log(companyData, "currentUsersdffscurrentUser")
 
 
 
 
   const eventHandler = (event) => {
-    console.log(event, "event")
-    // setData(event)
-    // setOpen(true);
-};
+    setOpen(true)
+
+    console.log(event, "eventxcvvxcvv")
+    setComapnayName(event.company_name)
+    setwalletamount(event.wallet_amount)
+    setEmail(event.email)
+    setMobile(event.mobile)
+    setLocation(event.location)
+    setAddress(event.address)
+    setCompnayId(event.uuid)
+
+
+  };
+
+
+  const update = (event) => {
+    event.preventDefault()
+    const value = event.target.elements
+    const payload = {
+        "company_name" : companyName,
+      "email" : email,
+      "mobile" : mobile,
+      "wallet_amount" : walletamount,
+      "location":location,
+      "address":address,
+  }
+    dispatch(catgoryUpdateURL(compnayId , payload, currentUser.token))
+    dispatch(categoryListURL(currentUser.token))
+}
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -71,9 +118,9 @@ const Company = () => {
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <NavLink to="/addcompany">
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-            <CsLineIcons icon="plus" /> <span>Add Company</span>
-            </Button>
+              <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                <CsLineIcons icon="plus" /> <span>Add Company</span>
+              </Button>
             </NavLink>
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
@@ -193,69 +240,69 @@ const Company = () => {
 
 
 
-      {companyData && companyData.data &&  companyData.data.map((item, index) => {
-                return <div key="">
-                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
+      {companyData && companyData.data && companyData.data.map((item, index) => {
+        return <div key="">
+          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+            <Row className="g-0 h-100 sh-lg-9 position-relative">
+              {/* <Col xs="auto" className="positio-relative">
             <NavLink to="/products/detail">
               <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
             </NavLink>
           </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
+              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                <Row className="g-0 h-100 ">
+                  {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
                 <NavLink to="/products/detail">
                   Anpan
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.company_name}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.location}</div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.company_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.location}</div>
+                  </Col>
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.address}</div>
               </Col> */}
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.mobile}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.email}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-              <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.mobile}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.email}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                    <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                    <div className="lh-1 text-alternate">
+                      <div className="mb-n1">
+                        {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
+                        <Form.Check type="switch" id="quantitySwitch2" value={status} onChange={(e) => { setStatus(!status) }} defaultChecked />
+                        {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
+                      </div>
+                    </div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                    <div className="lh-1 text-alternate">
+                      <table>
+                        <tr>
+                          {/* <ToggleButton
                 value={ items.is_active }
                 onToggle={()=>activefunct(items)}
                  /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" onClick={() => eventHandler(item)}> 
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
+                          <td>
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(true) }}>
+                              <CsLineIcons icon="eye" />
+                            </Button>
+                          </td>
+                          <td>
+                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
+                              <CsLineIcons icon="edit-square" />
+                            </Button>
+                          </td>
+                          {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
                  <CsLineIcons icon="check" />
                  </Button>
@@ -265,27 +312,27 @@ const Company = () => {
                  <CsLineIcons icon="close" />
                  </Button>
                   </td> */}
-                  {/* <td>
+                          {/* <td>
                   <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
                  <CsLineIcons icon="bin" />
                  </Button>
                   </td> */}
-                </tr>
-              </table>
-              </div>
-            </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                        </tr>
+                      </table>
+                    </div>
+                  </Col>
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
                 <Badge bg="outline-primary">SALE</Badge>
               </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
+                  {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
                 <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
               </Col> */}
+                </Row>
+              </Col>
             </Row>
-          </Col>
-        </Row>
-      </Card>
-                </div>
-            })}
+          </Card>
+        </div>
+      })}
 
 
 
@@ -378,7 +425,7 @@ const Company = () => {
           </Col>
         </Row>
       </Card> */}
-  
+
       {/* List Items End */}
 
       {/* Pagination Start */}
@@ -397,6 +444,76 @@ const Company = () => {
           </Pagination.Next>
         </Pagination>
       </div>
+      <div>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title">
+          Hello India
+          {"Use Google's location service?"}
+        </DialogTitle> */}
+          <DialogContent style={{ width: "500px", height: "400px" }}>
+            <Form
+            onSubmit={update}
+            >
+              <Row className="g-3">
+                <Col lg="6">
+                  <Form.Label>Company Name</Form.Label>
+                  <Form.Control type="text" value={companyName} onChange={(e) => { setComapnayName(e.target.value) }} disabled={eventType} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Wallet Amount</Form.Label>
+                  <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Contact No</Form.Label>
+                  <Form.Control type="number" value={mobile} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" value={email} onChange={(e) => { setEmail(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />
+                </Col>
+
+
+                <Col lg="6">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                    <Col lg="3">
+                    {eventType ?
+                  null
+                  :
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
+                }
+                    </Col>
+                    
+                  </Col>
+                  <Col lg="6" align="right">
+                    {/* <Col lg="3"> */}
+                    <Button onClick={() => setOpen(false)} autoFocus>
+                  cancel
+                </Button>
+                    {/* </Col> */}
+                    
+                  </Col>
+              </Row>
+           
+            </Form>
+
+          </DialogContent>
+
+        </Dialog>
+      </div>
+
       {/* Pagination End */}
     </>
   );
