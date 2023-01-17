@@ -14,6 +14,8 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import Select from 'react-select';
+import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
 
 const executive = () => {
   
@@ -32,9 +34,10 @@ const executive = () => {
   const [password, setPassword]=useState("")
 
 
-
-
-
+  const [selectedCompany, setSelectedCompany] = useState();
+  console.log(selectedCompany,"sdzfsdfsdf")
+const [cashierId,setCashierId]=useState("")
+ 
 
 
   const checkItem = (item) => {
@@ -54,6 +57,10 @@ const executive = () => {
 
   const { currentUser } = useSelector((state) => state.auth)
   const { cashierData } = useSelector((state) => state.cashierList)
+  const { companyData } = useSelector((state) => state.companyList)
+useEffect(() => {
+  dispatch(categoryListURL(currentUser.token))
+}, [])
 
 console.log(cashierData,"currentUsersdsdfsfdsd")
 useEffect(() => {
@@ -67,8 +74,11 @@ const eventHandler = (event) => {
   console.log(event, "eventxcvvxcvv")
   // setComapnayName(event.company_name)
   // setwalletamount(event.wallet_amount)
+  setName(event.name)
   setEmail(event.email)
   setMobile(event.mobile)
+  setSelectedCompany({label:event.company_name, value:event.company_uuid})
+  setCashierId(event.uuid)
   // setLocation(event.location)
   // setAddress(event.address)
   // setCompnayId(event.uuid)
@@ -83,19 +93,18 @@ const update = (event) => {
   const value = event.target.elements
   const payload = {
     "name":name,
-    // "company_name" : companyName,
+    "company_uuid" : selectedCompany.value,
     "email" : email,
     "mobile" : mobile,
-    "password":password,
-    // "company_uuid" :selectValueState && selectValueState.value
+    // "password":password,
+    // "company_uuid" :selectedCompany && selectedCompany.value
 }
-  // dispatch(catgoryUpdateURL(compnayId , payload, currentUser.token))
+  dispatch(cashierUpdateURL(cashierId , payload, currentUser.token))
   // dispatch(categoryListURL(currentUser.token))
 }
 
 
-
-
+const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -330,10 +339,20 @@ const update = (event) => {
             >
               <Row className="g-3">
                 <Col lg="6">
-                  <Form.Label>Company Name</Form.Label>
-                  <Form.Control type="text" value={companyName} onChange={(e) => { setComapnayName(e.target.value) }} disabled={eventType} />
-                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="text" value={name} onChange={(e) => { setName(e.target.value) }} disabled={eventType} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectedCompany} onChange={setSelectedCompany} placeholder="" /> */}
                 </Col>
+                <Col lg="6">
+                    <Form.Label>Company Name</Form.Label>
+                    <Select classNamePrefix="react-select" 
+                     options={companyList}
+                     value={selectedCompany} 
+                     onChange={setSelectedCompany}
+                      placeholder=""
+                      />
+                    {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
+                  </Col>
                 {/* <Col lg="6">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />

@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { consumerListURL,consumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
 
 const adduser = () => {
   const title = 'Add User';
   const description = 'Ecommerce Storefront Add Details Page';
-
+  const dispatch = useDispatch()
+  const { currentUser } = useSelector((state) => state.auth)
   const [selectValueState, setSelectValueState] = useState();
+  console.log(selectValueState,"selectValueState")
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
     { value: 'Lefse', label: 'Lefse' },
@@ -51,6 +56,47 @@ const adduser = () => {
     { value: '30', label: '30' },
   ];
 
+
+
+  const [name,setName]=useState("")
+  const [companyName, setComapnayName]=useState("")
+  const [email, setEmail]=useState("")
+  const [mobile, setMobile]=useState("")
+  const [location, setLocation]=useState("")
+  
+  const { companyData } = useSelector((state) => state.companyList)
+
+  useEffect(() => {
+    dispatch(categoryListURL(currentUser.token))
+  }, [])
+  console.log(companyData,"sfsdfdsfs");
+ 
+  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+
+  console.log(companyName,"companyName")
+
+  const AddCategory = (event) => {
+    event.preventDefault()
+    const value = event.target.elements
+    const payload = {
+        // "company_name" : companyName,
+        // "email" : email,
+        // "mobile" : mobile,
+        // "wallet_amount" : walletamount,
+        // "location":location,
+        // "address":address,
+        
+          "name" : name,
+          "mobile" : mobile,
+          "email" : email,
+          "company_uuid" : companyName,
+          "emp_id" : "SCIENS001",
+          "location" :location,
+      
+    }
+    dispatch(consumerAddURL(payload, currentUser.token))
+    // dispatch(categoryListURL(currentUser.token))
+}
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -76,11 +122,13 @@ const adduser = () => {
                 <Row className="g-3">
                   <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text"  onChange={(e)=>{setName(e.target.value)}} />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Select classNamePrefix="react-select" options={companyList}
+                     value={selectValueState} onChange={setSelectValueState} placeholder=""
+                      />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Employee ID</Form.Label>

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 const initialState = {
-  companyData: [],
+  consumerData: [],
 };
 
 const catSlice = createSlice({
