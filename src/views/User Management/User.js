@@ -27,13 +27,18 @@ const User = () => {
   const title = 'User Management';
   const description = 'Ecommerce User Management Page';
 
-
+  const [openPopup, setOpenPopup] = React.useState(false);
+  const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
   const { consumerData } = useSelector((state) => state.consumerList)
+  const { companyData } = useSelector((state) => state.companyList)
   // const { companyData } = useSelector((state) => state.companyList)
 useEffect(() => {
   dispatch(consumerListURL(currentUser.token))
 }, [])
+
+
+const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 console.log(consumerData,"cashierDatadassadad")
 
 
@@ -105,6 +110,55 @@ console.log(consumerData,"cashierDatadassadad")
       setSelectedItems([]);
     }
   };
+
+
+
+
+
+  const [name,setName]=useState("")
+  const [companyName, setComapnayName]=useState("")
+  const [email, setEmail]=useState("")
+  const [mobile, setMobile]=useState("")
+  const [location, setLocation]=useState("")
+  const [EmpId,setEmpId]=useState("")
+  const [consmerId, setConsumerId]=useState("")
+  const [selectedCompany, setSelectedCompany] = useState();
+  console.log(selectedCompany,"selectedCompany")
+
+
+  const eventHandler = (event) => {
+    setOpenPopup(true)
+  
+    console.log(event, "eventxsddsdcvvxcvv")
+    setName(event.name)
+    // setComapnayName(event.company_name)
+    setEmail(event.email)
+    setMobile(event.mobile)
+    setSelectedCompany({label:event.company_name, value:event.company_uuid})
+    setEmpId(event.emp_id)
+    setLocation(event.location)
+    setConsumerId(event.uuid)
+  
+  
+  
+  };
+  const UpdateConsumer = (event) => {
+    event.preventDefault()
+    const value = event.target.elements
+    const payload = {       
+          "name" : name,
+          "mobile" : mobile,
+          "email" : email,
+          "company_uuid" : selectedCompany.value,
+          "emp_id" :EmpId,
+          "location" :location,
+      
+    }
+  
+    dispatch(consumerUpdateURL(consmerId , payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
+}
+
 
   return (
     <>
@@ -315,7 +369,7 @@ console.log(consumerData,"cashierDatadassadad")
                 <div className="lh-1 text-alternate">{item.company_name}</div>
               </Col>
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">Yousufguda</div>
+                <div className="lh-1 text-alternate">{item.location}</div>
               </Col>
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                 <div className="lh-1 text-alternate">
@@ -335,12 +389,15 @@ console.log(consumerData,"cashierDatadassadad")
                 onToggle={()=>activefunct(items)}
                  /> */}
                   <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
+                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
+                  onClick={() => { eventHandler(item); setEventType(true) }}>
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
                   <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
+                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
+                  onClick={() => { eventHandler(item); setEventType(false) }}
+                  >
                  <CsLineIcons icon="edit-square" />
                  </Button>
                   </td>
@@ -395,6 +452,118 @@ console.log(consumerData,"cashierDatadassadad")
         </Pagination>
       </div>
       {/* Pagination End */}
+
+
+
+         {/* view and edit popup start */}
+         <div>
+        <Dialog
+          open={openPopup}
+          onClose={() => setOpenPopup(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title">
+          Hello India
+          {"Use Google's location service?"}
+        </DialogTitle> */}
+          <DialogContent style={{ width: "500px", height: "auto"  }}>
+            <Form
+            onSubmit={UpdateConsumer}
+            >
+              <Row className="g-3">
+                <Col lg="6">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="text" 
+                  value={name} 
+                  onChange={(e) => { setName(e.target.value) }} 
+                  disabled={eventType} 
+
+                  />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectedCompany} onChange={setSelectedCompany} placeholder="" /> */}
+                </Col>
+                <Col lg="6">
+                    <Form.Label>Company Name</Form.Label>
+                    <Select classNamePrefix="react-select" 
+                     options={companyList}
+                     value={selectedCompany} 
+                     onChange={setSelectedCompany}
+                      placeholder=""
+                      disabled={eventType} 
+                      />
+                    {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
+                  </Col>
+                {/* <Col lg="6">
+                  <Form.Label>Wallet Amount</Form.Label>
+                  <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
+                </Col> */}
+                <Col lg="6">
+                  <Form.Label>Contact No</Form.Label>
+                  <Form.Control type="number"
+                   value={mobile}
+                    onChange={(e) => { setMobile(e.target.value) }}
+                     disabled={eventType}
+                      />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" 
+                  value={email} 
+                  onChange={(e) => { setEmail(e.target.value) }} 
+                  disabled={eventType} />
+                </Col>
+
+                <Col lg="6">
+                  <Form.Label>Employee Id</Form.Label>
+                  <Form.Control type="text" 
+                  value={EmpId} 
+                  onChange={(e) => { setEmpId(e.target.value) }} 
+                  disabled={eventType} />
+                </Col>
+
+                <Col lg="6">
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control type="text" 
+                  value={location} 
+                  onChange={(e) => { setLocation(e.target.value) }} 
+                  disabled={eventType} />
+                </Col>
+                {/* <Col lg="6">
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />
+                </Col> */}
+
+
+                {/* <Col lg="6">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
+                </Col> */}
+                <Col lg="6">
+                    <Col lg="3">
+                    {eventType ?
+                  null
+                  :
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
+                }
+                    </Col>
+                    
+                  </Col>
+                  <Col lg="6" align="right">
+                    {/* <Col lg="3"> */}
+                    <Button onClick={() => setOpenPopup(false)} autoFocus>
+                  cancel
+                </Button>
+                    {/* </Col> */}
+                    
+                  </Col>
+              </Row>
+           
+            </Form>
+
+          </DialogContent>
+
+        </Dialog>
+      </div>
     </>
   );
 };

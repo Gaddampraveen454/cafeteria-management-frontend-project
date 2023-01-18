@@ -7,8 +7,8 @@ const initialState = {
   consumerData: [],
 };
 
-const catSlice = createSlice({
-  name: 'products',
+const companySlice = createSlice({
+  name: 'company',
   initialState,
   reducers: {
     setCatData(state, action) {
@@ -17,10 +17,10 @@ const catSlice = createSlice({
   },
 });
 
-export const { setCatData } = catSlice.actions;
+export const { setCatData } = companySlice.actions;
 
 
-export const categoryListURL = (token) => async (dispatch) => {
+export const CompanyListURL = (token) => async (dispatch) => {
   const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=0&limit=10&search=`,{headers:{
     "x-auth-token" : token
   }});
@@ -28,24 +28,24 @@ export const categoryListURL = (token) => async (dispatch) => {
   dispatch(setCatData(response.data));
 };
 
-export const categoryAddURL = (payload,token) => async (dispatch) => {
+export const companyAddURL = (payload,token) => async (dispatch) => {
     const response = await axios.post(`${process.env.REACT_APP_URL}/company/create`,payload,{headers:{
       "x-auth-token" : token
     }});
     console.log(response, "dfghj")
-    categoryListURL(token)
+    CompanyListURL(token)
   };
 
-export const catgoryUpdateURL = (uuid,payload, token) => async (dispatch) => {
+export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/company/update/${uuid}`,payload,{headers:{
       "x-auth-token" : token
     }});
     console.log(response, "ffdgddfgdgdfgffgdf")
     if (response.status===200){
-      categoryListURL(token)
+      CompanyListURL(token)
     }
    
   };
-const companyReducer = catSlice.reducer;
+const companyReducer = companySlice.reducer;
 
 export default companyReducer;

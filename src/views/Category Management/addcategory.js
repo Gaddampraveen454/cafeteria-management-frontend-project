@@ -4,8 +4,11 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { CategoryListURL, CategoryAddURL, CategoryUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 
 const addcategory = () => {
+  const dispatch = useDispatch()
   const title = 'Add Category';
   const description = 'Ecommerce Category Management Page';
 
@@ -51,6 +54,24 @@ const addcategory = () => {
     { value: '30', label: '30' },
   ];
 
+  const [name, setName]=useState("")
+
+  const { currentUser } = useSelector((state) => state.auth)
+  // const { cashierData } = useSelector((state) => state.cashierList)
+//   const { categoryData } = useSelector((state) => state.cotegoryList)
+// useEffect(() => {
+//   dispatch(CategoryListURL(currentUser.token))
+// }, [])
+  const AddCategory = (event) => {
+    event.preventDefault()
+    const payload = {
+      "name":name,
+
+    }
+    dispatch(CategoryAddURL(payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
+}
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -72,15 +93,15 @@ const addcategory = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form onSubmit={AddCategory}>
                 <Row className="g-3">
                      <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
                   <Col lg="12" className='mt-4'>
                   {/* <Form.Label >hello</Form.Label> */}
-                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
                   </Col>

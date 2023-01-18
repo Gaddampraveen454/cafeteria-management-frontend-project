@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
+import { useDispatch, useSelector } from 'react-redux';
+import { CategoryListURL, CategoryAddURL, CategoryUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
 
 const category = () => {
+  const dispatch = useDispatch()
   const title = 'Category Management';
   const description = 'Ecommerce Category Management Page';
 
@@ -26,6 +37,44 @@ const category = () => {
     }
   };
 
+  const [open, setOpen] = React.useState(false);
+  const [eventType, setEventType] = useState(false)
+  const [name, setName]=useState("")
+  const [categoryId, setCategoryId]=useState("")
+
+  const { currentUser } = useSelector((state) => state.auth)
+  // const { cashierData } = useSelector((state) => state.cashierList)
+  const { categoryData } = useSelector((state) => state.cotegoryList)
+useEffect(() => {
+  dispatch(CategoryListURL(currentUser.token))
+}, [])
+
+
+
+
+
+
+const eventHandler = (event) => {
+  setOpen(true)
+
+  console.log(event, "eventxcvvxcvv")
+  setName(event.name)
+  setCategoryId(event.uuid)
+};
+
+
+
+const updateCategory = (event) => {
+  event.preventDefault()
+  const value = event.target.elements
+  const payload = {
+    "name":name,
+  }
+  dispatch(CategoryUpdateURL(categoryId , payload, currentUser.token))
+  // dispatch(CompanyListURL(currentUser.token))
+}
+
+console.log(categoryData,"categoryDatacategoryData")
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -159,6 +208,8 @@ const category = () => {
       {/* List Header End */}
 
       {/* List Items Start */}
+      {categoryData && categoryData.data && categoryData.data.map((item, index) => {
+      return<div key="">
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
           {/* <Col xs="auto" className="positio-relative">
@@ -175,7 +226,7 @@ const category = () => {
                 </NavLink>
               </Col> */}
               <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
+                <div className="lh-1 text-alternate">{item.name}</div>
               </Col>
               <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
@@ -196,12 +247,12 @@ const category = () => {
                 onToggle={()=>activefunct(items)}
                  /> */}
                   <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
+                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(true) }}>
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
                   <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
+                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
                  <CsLineIcons icon="edit-square" />
                  </Button>
                   </td>
@@ -244,771 +295,9 @@ const category = () => {
           </Col>
         </Row>
       </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
-                </tr>
-              </table>
-              </div>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">XYZA</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
-      </Card>
+      </div>
+      })}
+
       {/* List Items End */}
 
       {/* Pagination Start */}
@@ -1028,6 +317,60 @@ const category = () => {
         </Pagination>
       </div>
       {/* Pagination End */}
+
+
+
+      {/* edit view popup start */}
+      <div>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title1">
+          Hello India1
+       
+        </DialogTitle> */}
+          <DialogContent style={{ width: "500px", height: "auto" }}>
+            <Form
+            onSubmit={updateCategory}
+            >
+              <Row className="g-3">
+                <Col lg="12">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="text" value={name} onChange={(e) => { setName(e.target.value) }} disabled={eventType} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectedCompany} onChange={setSelectedCompany} placeholder="" /> */}
+                </Col>
+              
+
+          
+                <Col lg="6">
+                    <Col lg="3">
+                    {eventType ?
+                  null
+                  :
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
+                }
+                    </Col>
+                    
+                  </Col>
+                  <Col lg="6" align="right">
+                    {/* <Col lg="3"> */}
+                    <Button onClick={() => setOpen(false)} autoFocus>
+                  cancel
+                </Button>
+                    {/* </Col> */}
+                    
+                  </Col>
+              </Row>
+           
+            </Form>
+
+          </DialogContent>
+
+        </Dialog>
+      </div>
     </>
   );
 };

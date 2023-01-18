@@ -4,15 +4,24 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
 
 const addproduct = () => {
+  
+  const dispatch = useDispatch()
   const title = 'Add Product';
   const description = 'Ecommerce Product Management Page';
 
-  const [selectValueState, setSelectValueState] = useState();
-  const optionsState = [
-    { value: 'Fougasse', label: 'Fougasse' },
-    { value: 'Lefse', label: 'Lefse' },
+  const [selectType, setSelectType] = useState();
+  const [selectCategory, setSelectCategory] = useState();
+  const [selectCompany, setSelectCompany] = useState();
+
+
+  console.log(selectType,selectCategory,selectCompany,"sfsdfsdfsdfsdfsdf")
+  const optionsType = [
+    { value: 'veg', label: 'veg' },
+    { value: 'non-veg', label: 'non-veg' },
   ];
 
   const [selectValueCity, setSelectValueCity] = useState();
@@ -50,6 +59,44 @@ const addproduct = () => {
     { value: '29', label: '29' },
     { value: '30', label: '30' },
   ];
+  const { currentUser } = useSelector((state) => state.auth)
+  const { categoryData } = useSelector((state) => state.cotegoryList)
+  // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
+  console.log(productList,"categoryDatacategoryData")
+
+
+  const { companyData } = useSelector((state) => state.companyList)
+
+  // useEffect(() => {
+  //   dispatch(CompanyListURL(currentUser.token))
+  // }, [])
+  console.log(companyData,"sfsdfdsfs");
+ 
+  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+
+
+  const [name, setName]=useState("")
+  const [price, setPrice]=useState("")
+  const [quantity, setQuantity]=useState("")
+ 
+
+
+
+
+  const AddProduct = (event) => {
+    event.preventDefault()
+    const payload = {
+        "name" : name,
+        "type" : selectType.value,
+        "category_uuid" : selectCategory.value,
+        "price" : price,
+        "quantity" : quantity,
+        "company_uuid" : selectCompany.value,
+    }
+    dispatch(ProductAddURL(payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
+}
 
   return (
     <>
@@ -72,38 +119,43 @@ const addproduct = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form onSubmit={AddProduct}>
                 <Row className="g-3">
                 <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Company</Form.Label>
+                    <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Veg/Non Veg</Form.Label>
-                    <Form.Control type="text" />
+
+                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Price</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setPrice(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Quantity</Form.Label>
-                    <Form.Control as="textarea" rows={1} />
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setQuantity(e.target.value)}}/>
                   </Col>
                   <Col lg="12">
                     <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
                     </Col>
                   </Col>
                   {/* <Col lg="4">
                     <Form.Label>State</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
                   </Col>
                   <Col lg="4">
                     <Form.Label>City</Form.Label>

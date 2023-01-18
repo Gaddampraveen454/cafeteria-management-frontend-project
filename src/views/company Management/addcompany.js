@@ -4,7 +4,7 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 import { useDispatch, useSelector } from 'react-redux';
 
 const addCompany = () => {
@@ -79,8 +79,8 @@ const addCompany = () => {
         "location":location,
         "address":address,
     }
-    dispatch(categoryAddURL(payload, currentUser.token))
-    // dispatch(categoryListURL(currentUser.token))
+    dispatch(companyAddURL(payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
 }
   return (
     <>

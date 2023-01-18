@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const consumerSlice = createSlice({
-  name: 'products',
+  name: 'consumer',
   initialState,
   reducers: {
     setConsumerData(state, action) {
@@ -29,7 +29,7 @@ export const consumerListURL = (token) => async (dispatch) => {
 };
 
 export const consumerAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/user/register/cashier`,payload,{headers:{
+    const response = await axios.post(`${process.env.REACT_APP_URL}/user/create/consumer`,payload,{headers:{
       "x-auth-token" : token
     }});
     console.log(response, "dfghj")
@@ -37,7 +37,7 @@ export const consumerAddURL = (payload,token) => async (dispatch) => {
   };
 
 export const consumerUpdateURL = (uuid,payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/user/update/cashier/${uuid}`,payload,{headers:{
+    const response = await axios.put(`${process.env.REACT_APP_URL}/user/update/consumer/${uuid}`,payload,{headers:{
       "x-auth-token" : token
     }});
     console.log(response, "ffdgddfgdgdfgffgdf")

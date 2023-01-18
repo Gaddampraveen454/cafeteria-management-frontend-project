@@ -17,6 +17,8 @@ import companyReducer from 'Redux/AdminRedux/Comapny/Company';
 import cashierReducer from 'Redux/AdminRedux/Cashier/CashierRedux';
 // import consumerReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import consumerReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import categoryReducer from 'Redux/AdminRedux/Cataogy/categoryRedux';
+import productReducer from 'Redux/AdminRedux/Product/ProductRedux';
 
 
 // import persist key
@@ -41,6 +43,8 @@ const persistedReducer = persistReducer(
     companyList: companyReducer,
     cashierList:cashierReducer,
     consumerList:consumerReducer,
+    cotegoryList:categoryReducer,
+    productList:productReducer,
 
   })
 );

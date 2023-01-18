@@ -7,7 +7,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { cashierListURL, cashierAddURL, cashierUpdateURL } from 'Redux/AdminRedux/Cashier/CashierRedux';
 import addCompany from 'views/company Management/addcompany';
-import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 
 const addexecutive = () => {
   const dispatch = useDispatch()
@@ -61,7 +61,7 @@ const addexecutive = () => {
   const { companyData } = useSelector((state) => state.companyList)
 
   useEffect(() => {
-    dispatch(categoryListURL(currentUser.token))
+    dispatch(CompanyListURL(currentUser.token))
   }, [])
   console.log(companyData,"sfsdfdsfs");
 
@@ -89,7 +89,7 @@ const addexecutive = () => {
         "company_uuid" :selectValueState && selectValueState.value
     }
     dispatch(cashierAddURL(payload, currentUser.token))
-    // dispatch(categoryListURL(currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
 }
 
 

@@ -5,7 +5,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
-import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 import {
   Dialog,
   DialogActions,
@@ -59,7 +59,7 @@ const Company = () => {
 
 
   useEffect(() => {
-    dispatch(categoryListURL(currentUser.token))
+    dispatch(CompanyListURL(currentUser.token))
   }, [])
 
 
@@ -95,8 +95,8 @@ const Company = () => {
       "location":location,
       "address":address,
   }
-    dispatch(catgoryUpdateURL(compnayId , payload, currentUser.token))
-    dispatch(categoryListURL(currentUser.token))
+    dispatch(compnayUpdateURL(compnayId , payload, currentUser.token))
+    dispatch(CompanyListURL(currentUser.token))
 }
   return (
     <>
@@ -455,7 +455,7 @@ const Company = () => {
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-          <DialogContent style={{ width: "500px", height: "400px" }}>
+          <DialogContent style={{ width: "500px", height: "auto"  }}>
             <Form
             onSubmit={update}
             >

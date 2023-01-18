@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const catSlice = createSlice({
-  name: 'products',
+  name: 'cashier',
   initialState,
   reducers: {
     setCatData(state, action) {

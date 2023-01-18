@@ -6,7 +6,8 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { consumerListURL,consumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
-import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+
 
 const adduser = () => {
   const title = 'Add User';
@@ -15,6 +16,11 @@ const adduser = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const [selectValueState, setSelectValueState] = useState();
   console.log(selectValueState,"selectValueState")
+
+
+
+
+
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
     { value: 'Lefse', label: 'Lefse' },
@@ -63,11 +69,12 @@ const adduser = () => {
   const [email, setEmail]=useState("")
   const [mobile, setMobile]=useState("")
   const [location, setLocation]=useState("")
+  const [EmpId,setEmpId]=useState("")
   
   const { companyData } = useSelector((state) => state.companyList)
 
   useEffect(() => {
-    dispatch(categoryListURL(currentUser.token))
+    dispatch(CompanyListURL(currentUser.token))
   }, [])
   console.log(companyData,"sfsdfdsfs");
  
@@ -75,7 +82,7 @@ const adduser = () => {
 
   console.log(companyName,"companyName")
 
-  const AddCategory = (event) => {
+  const AddConsumer = (event) => {
     event.preventDefault()
     const value = event.target.elements
     const payload = {
@@ -89,13 +96,13 @@ const adduser = () => {
           "name" : name,
           "mobile" : mobile,
           "email" : email,
-          "company_uuid" : companyName,
-          "emp_id" : "SCIENS001",
+          "company_uuid" : selectValueState.value,
+          "emp_id" :EmpId,
           "location" :location,
       
     }
     dispatch(consumerAddURL(payload, currentUser.token))
-    // dispatch(categoryListURL(currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
 }
   return (
     <>
@@ -118,7 +125,7 @@ const adduser = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form onSubmit={AddConsumer}>
                 <Row className="g-3">
                   <Col lg="6">
                     <Form.Label>Name</Form.Label>
@@ -132,23 +139,23 @@ const adduser = () => {
                   </Col>
                   <Col lg="6">
                     <Form.Label>Employee ID</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setEmpId(e.target.value)}} />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email ID</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text"  onChange={(e)=>{setEmail(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Phone No</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setMobile(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Location</Form.Label>
-                    <Form.Control as="textarea" rows={1} />
+                    <Form.Control as="textarea" rows={1} onChange={(e)=>{setLocation(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
                     <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type='submit'>
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
                     </Col>
@@ -291,6 +298,10 @@ const adduser = () => {
           </Card> */}
         {/* </Col> */}
       </Row>
+
+
+
+   
     </>
   );
 };

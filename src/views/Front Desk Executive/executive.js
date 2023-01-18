@@ -15,7 +15,7 @@ import {
   Input,
 } from '@mui/material';
 import Select from 'react-select';
-import { categoryListURL, catgoryUpdateURL, categoryAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 
 const executive = () => {
   
@@ -59,7 +59,7 @@ const [cashierId,setCashierId]=useState("")
   const { cashierData } = useSelector((state) => state.cashierList)
   const { companyData } = useSelector((state) => state.companyList)
 useEffect(() => {
-  dispatch(categoryListURL(currentUser.token))
+  dispatch(CompanyListURL(currentUser.token))
 }, [])
 
 console.log(cashierData,"currentUsersdsdfsfdsd")
@@ -100,7 +100,7 @@ const update = (event) => {
     // "company_uuid" :selectedCompany && selectedCompany.value
 }
   dispatch(cashierUpdateURL(cashierId , payload, currentUser.token))
-  // dispatch(categoryListURL(currentUser.token))
+  // dispatch(CompanyListURL(currentUser.token))
 }
 
 
@@ -333,7 +333,7 @@ const companyList= companyData && companyData.data && companyData.data.map((item
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-          <DialogContent style={{ width: "500px", height: "400px" }}>
+          <DialogContent style={{ width: "500px",  height: "auto"  }}>
             <Form
             onSubmit={update}
             >
