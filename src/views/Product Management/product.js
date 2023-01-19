@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const product = () => {
   const dispatch = useDispatch()
@@ -26,6 +28,11 @@ const product = () => {
     { value: 'Fougasse', label: 'Fougasse' },
     { value: 'Lefse', label: 'Lefse' },
   ];
+  const optionsType = [
+    { value: 'veg', label: 'veg' },
+    { value: 'non-veg', label: 'non-veg' },
+  ];
+
 
   const [selectValueCity, setSelectValueCity] = useState();
   const optionsCity = [
@@ -64,6 +71,29 @@ const product = () => {
   ];
 
   const [open, setOpen] = React.useState(false);
+  const [openEditViewOpupup, setOpenEditViewOpupup] = React.useState(false);
+  const [eventType, setEventType] = useState(false)
+
+  const [name, setName]=useState("")
+  const [price, setPrice]=useState("")
+  const [quantity, setQuantity]=useState("")
+ 
+
+
+  const [selectType, setSelectType] = useState();
+  const [selectCategory, setSelectCategory] = useState();
+  const [selectCompany, setSelectCompany] = useState();
+  const [productId,setProductId]=useState("")
+
+  const [suc,setSuc] = useState(false);
+
+
+
+
+
+
+
+
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
@@ -83,16 +113,97 @@ const product = () => {
   };
 
 
-
-
   const { currentUser } = useSelector((state) => state.auth)
-  // const { cashierData } = useSelector((state) => state.cashierList)
-  const { ProductData } = useSelector((state) => state.productList)
-useEffect(() => {
-  dispatch(ProductListURL(currentUser.token))
-}, [])
-console.log(ProductData,"ProductDataProductData")
+  const { categoryData } = useSelector((state) => state.cotegoryList)
+  const { companyData } = useSelector((state) => state.companyList)
 
+
+
+  const { ProductData, notification } = useSelector((state) => state.productList)
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(ProductListURL(currentUser.token))
+        setOpenEditViewOpupup(false)
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
+
+
+
+
+
+
+
+
+
+
+  // // const { currentUser } = useSelector((state) => state.auth)
+  // const { categoryData } = useSelector((state) => state.cotegoryList)
+  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
+  // console.log(productList,"categoryDatacategoryData")
+
+
+  // const { companyData } = useSelector((state) => state.companyList)
+ 
+  // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+
+
+
+ 
+
+
+
+
+
+
+const eventHandler = (event) => {
+  setOpenEditViewOpupup(true)
+
+  console.log(event, "sdfssdfsdfsf")
+  setName(event.name)
+  setSelectCompany({label:event.company_name, value:event.company_uuid})
+  setSelectCategory({label:event.category_name, value:event.category_uuid})
+  setSelectType({label:event.type, value:event.type})
+  setPrice(event.price)
+  setQuantity(event.quantity)
+  setProductId(event.uuid)
+
+};
+
+
+const updateProduct = (event) => {
+  event.preventDefault()
+  const payload = {
+    "name" : name,
+    "type" : selectType.value,
+    "category_uuid" : selectCategory.value,
+    "price" : price,
+    "quantity" : quantity,
+    "company_uuid" : selectCompany.value,
+  }
+  dispatch(ProductUpdateURL(productId, payload, currentUser.token))
+  // dispatch(CompanyListURL(currentUser.token))
+  setSuc(true)
+
+}
   return (
     <>
               <Dialog 
@@ -315,12 +426,16 @@ console.log(ProductData,"ProductDataProductData")
                 onToggle={()=>activefunct(items)}
                  /> */}
                   <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
+                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                  onClick={() => { eventHandler(item); setEventType(true) }}
+                  >
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
                   <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
+                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
+                  onClick={() => { eventHandler(item); setEventType(false) }}
+                  >
                  <CsLineIcons icon="edit-square" />
                  </Button>
                   </td>
@@ -379,6 +494,129 @@ console.log(ProductData,"ProductDataProductData")
         </Pagination>
       </div>
       {/* Pagination End */}
+
+
+
+      <div>
+        <Dialog
+          open={openEditViewOpupup}
+          onClose={() => setOpenEditViewOpupup(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* <DialogTitle id="alert-dialog-title">
+          Hello India
+          {"Use Google's location service?"}
+        </DialogTitle> */}
+          <DialogContent style={{ width: "500px",  height: "auto"  }}>
+          <Form 
+          onSubmit={updateProduct}
+          >
+                <Row className="g-3">
+                <Col lg="6">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="text" 
+                    onChange={(e)=>{setName(e.target.value)}}
+                    value={name}
+                    disabled={eventType}
+                    />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Company</Form.Label>
+                    <Select classNamePrefix="react-select" 
+                    options={companyList} 
+                    value={selectCompany} 
+                    onChange={setSelectCompany}
+                    placeholder=""
+                    disabled={eventType}
+                     />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Category</Form.Label>
+                    <Select classNamePrefix="react-select" 
+                    options={productList}
+                     value={selectCategory} 
+                     onChange={setSelectCategory}
+                      placeholder="" 
+                      disabled={eventType}
+                      />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Veg/Non Veg</Form.Label>
+
+                    <Select classNamePrefix="react-select" 
+                    options={optionsType} 
+                    value={selectType} 
+                    onChange={setSelectType}
+                     placeholder="" 
+                     disabled={eventType}
+                     />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control type="text" 
+                    onChange={(e)=>{setPrice(e.target.value)}}
+                    disabled={eventType}
+                    value={price}
+                    />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Quantity</Form.Label>
+                    <Form.Control type="text" rows={1}  
+                    onChange={(e)=>{setQuantity(e.target.value)}}
+                    value={quantity}
+
+                    disabled={eventType}
+                    />
+                  </Col>
+                  {/* <Col lg="12">
+                    <Col lg="3">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                    <CsLineIcons /> <span>Submit</span>
+                    </Button>
+                    </Col>
+                  </Col> */}
+                  <Col lg="6">
+                    <Col lg="3">
+                    {eventType ?
+                  null
+                  :
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
+                }
+                    </Col>
+                    
+                  </Col>
+                  <Col lg="6" align="right">
+                    {/* <Col lg="3"> */}
+                    <Button onClick={() => setOpenEditViewOpupup(false)} autoFocus>
+                  cancel
+                </Button>
+                    {/* </Col> */}
+                    
+                  </Col>
+                  {/* <Col lg="4">
+                    <Form.Label>State</Form.Label>
+                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
+                  </Col>
+                  <Col lg="4">
+                    <Form.Label>City</Form.Label>
+                    <Select classNamePrefix="react-select" options={optionsCity} value={selectValueCity} onChange={setSelectValueCity} placeholder="" />
+                  </Col>
+                  <Col lg="4">
+                    <Form.Label>Zip Code</Form.Label>
+                    <Form.Control type="text" />
+                  </Col> */}
+                  {/* <Col lg="6">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control as="textarea" rows={2} />
+                  </Col> */}
+                </Row>
+              </Form>
+
+          </DialogContent>
+
+        </Dialog>
+      </div>
     </>
   );
 };

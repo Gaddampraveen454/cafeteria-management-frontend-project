@@ -21,6 +21,8 @@ import {
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { consumerListURL,consumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const User = () => {
   const dispatch = useDispatch()
@@ -30,7 +32,7 @@ const User = () => {
   const [openPopup, setOpenPopup] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
-  const { consumerData } = useSelector((state) => state.consumerList)
+  const { consumerData,notification } = useSelector((state) => state.consumerList)
   const { companyData } = useSelector((state) => state.companyList)
   // const { companyData } = useSelector((state) => state.companyList)
 useEffect(() => {
@@ -124,6 +126,8 @@ console.log(consumerData,"cashierDatadassadad")
   const [consmerId, setConsumerId]=useState("")
   const [selectedCompany, setSelectedCompany] = useState();
   console.log(selectedCompany,"selectedCompany")
+  
+  const [suc,setSuc] = useState(false);
 
 
   const eventHandler = (event) => {
@@ -156,9 +160,32 @@ console.log(consumerData,"cashierDatadassadad")
     }
   
     dispatch(consumerUpdateURL(consmerId , payload, currentUser.token))
+    setSuc(true)
     // dispatch(CompanyListURL(currentUser.token))
 }
 
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(consumerListURL(currentUser.token))
+        setOpenPopup(false)
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
 
   return (
     <>

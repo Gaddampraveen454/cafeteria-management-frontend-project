@@ -1,5 +1,5 @@
 import React, { useState,useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory} from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -8,10 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cashierListURL, cashierAddURL, cashierUpdateURL } from 'Redux/AdminRedux/Cashier/CashierRedux';
 import addCompany from 'views/company Management/addcompany';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const addexecutive = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
   const { currentUser } = useSelector((state) => state.auth)
+  const { cashierData, notification } = useSelector((state) => state.cashierList)
   const title = 'Add Executive';
   const description = 'Ecommerce Storefront Add Details Page';
 
@@ -64,7 +68,7 @@ const addexecutive = () => {
     dispatch(CompanyListURL(currentUser.token))
   }, [])
   console.log(companyData,"sfsdfdsfs");
-
+  const [suc,setSuc] = useState(false);
   const [name, setName]=useState("")
   const [companyName, setComapnayName]=useState("")
   const [email, setEmail]=useState("")
@@ -90,10 +94,32 @@ const addexecutive = () => {
     }
     dispatch(cashierAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
+    setSuc(true)
 }
 
 
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        // dispatch(ProductListURL(currentUser.token))
+        history.push(({
+          pathname: "/executive",
+          // state : {detail : id,fullname : name, pic :image, type:"edit"},
+        }));
+      },2000)
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
 
+}, [notification])
   return (
     <>
       <HtmlHead title={title} description={description} />

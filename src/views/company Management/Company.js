@@ -14,6 +14,8 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Company = () => {
   const title = 'Company Management';
@@ -31,6 +33,7 @@ const Company = () => {
   const [location, setLocation] = useState("")
   const [address, setAddress] = useState("")
   const [compnayId,setCompnayId]=useState("")
+  const [suc,setSuc] = useState(false);
 
   console.log(status, "fgdffdggdf")
 
@@ -53,8 +56,7 @@ const Company = () => {
   const dispatch = useDispatch()
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { companyData } = useSelector((state) => state.companyList)
-
+  const { companyData, notification } = useSelector((state) => state.companyList)
 
 
 
@@ -96,8 +98,39 @@ const Company = () => {
       "address":address,
   }
     dispatch(compnayUpdateURL(compnayId , payload, currentUser.token))
-    dispatch(CompanyListURL(currentUser.token))
+    setSuc(true)
+    
 }
+
+
+
+
+
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(CompanyListURL(currentUser.token))
+        setOpen(false)
+
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
   return (
     <>
       <HtmlHead title={title} description={description} />

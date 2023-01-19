@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -7,16 +7,20 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { consumerListURL,consumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const adduser = () => {
+  const history = useHistory();
   const title = 'Add User';
   const description = 'Ecommerce Storefront Add Details Page';
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.auth)
+  const { consumerData,notification } = useSelector((state) => state.consumerList)
   const [selectValueState, setSelectValueState] = useState();
   console.log(selectValueState,"selectValueState")
-
+  const [suc,setSuc] = useState(false);
 
 
 
@@ -96,14 +100,41 @@ const adduser = () => {
           "name" : name,
           "mobile" : mobile,
           "email" : email,
-          "company_uuid" : selectValueState.value,
+          "company_uuid" : selectValueState && selectValueState.value,
           "emp_id" :EmpId,
           "location" :location,
       
     }
     dispatch(consumerAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
+    setSuc(true)
 }
+
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        // dispatch(ProductListURL(currentUser.token))
+        history.push(({
+          pathname: "/User",
+          // state : {detail : id,fullname : name, pic :image, type:"edit"},
+        }));
+      },2000)
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
   return (
     <>
       <HtmlHead title={title} description={description} />

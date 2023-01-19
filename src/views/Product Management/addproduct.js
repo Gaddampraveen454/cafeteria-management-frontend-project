@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const addproduct = () => {
   
   const dispatch = useDispatch()
+  const history = useHistory();
   const title = 'Add Product';
   const description = 'Ecommerce Product Management Page';
 
@@ -61,21 +64,22 @@ const addproduct = () => {
   ];
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData } = useSelector((state) => state.cotegoryList)
-  // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
-  const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
-  console.log(productList,"categoryDatacategoryData")
-
-
   const { companyData } = useSelector((state) => state.companyList)
+  const { ProductData,notification } = useSelector((state) => state.productList)
+  
 
-  // useEffect(() => {
-  //   dispatch(CompanyListURL(currentUser.token))
-  // }, [])
-  console.log(companyData,"sfsdfdsfs");
- 
+  const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
+
   const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
 
+
+
+
+
+
+
+  const [suc,setSuc] = useState(false);
   const [name, setName]=useState("")
   const [price, setPrice]=useState("")
   const [quantity, setQuantity]=useState("")
@@ -84,20 +88,47 @@ const addproduct = () => {
 
 
 
+
   const AddProduct = (event) => {
     event.preventDefault()
     const payload = {
         "name" : name,
-        "type" : selectType.value,
-        "category_uuid" : selectCategory.value,
+        "type" : selectType && selectType.value,
+        "category_uuid" : selectCategory && selectCategory.value,
         "price" : price,
         "quantity" : quantity,
-        "company_uuid" : selectCompany.value,
+        "company_uuid" : selectCompany && selectCompany.value,
     }
     dispatch(ProductAddURL(payload, currentUser.token))
-    // dispatch(CompanyListURL(currentUser.token))
+    setSuc(true)
+   
 }
 
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(ProductListURL(currentUser.token))
+        history.push(({
+          pathname: "/product",
+          // state : {detail : id,fullname : name, pic :image, type:"edit"},
+        }));
+      },2000)
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
   return (
     <>
       <HtmlHead title={title} description={description} />

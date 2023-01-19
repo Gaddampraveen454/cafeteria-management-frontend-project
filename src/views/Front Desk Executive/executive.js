@@ -16,6 +16,8 @@ import {
 } from '@mui/material';
 import Select from 'react-select';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const executive = () => {
   
@@ -32,6 +34,8 @@ const executive = () => {
   const [email, setEmail]=useState("")
   const [mobile, setMobile]=useState("")
   const [password, setPassword]=useState("")
+
+  const [suc,setSuc] = useState(false);
 
 
   const [selectedCompany, setSelectedCompany] = useState();
@@ -56,7 +60,7 @@ const [cashierId,setCashierId]=useState("")
   };
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { cashierData } = useSelector((state) => state.cashierList)
+  const { cashierData, notification } = useSelector((state) => state.cashierList)
   const { companyData } = useSelector((state) => state.companyList)
 useEffect(() => {
   dispatch(CompanyListURL(currentUser.token))
@@ -79,6 +83,7 @@ const eventHandler = (event) => {
   setMobile(event.mobile)
   setSelectedCompany({label:event.company_name, value:event.company_uuid})
   setCashierId(event.uuid)
+  setComapnayName(event.company_name)
   // setLocation(event.location)
   // setAddress(event.address)
   // setCompnayId(event.uuid)
@@ -96,16 +101,49 @@ const update = (event) => {
     "company_uuid" : selectedCompany.value,
     "email" : email,
     "mobile" : mobile,
+    // "company_name":companyName,
     // "password":password,
     // "company_uuid" :selectedCompany && selectedCompany.value
 }
   dispatch(cashierUpdateURL(cashierId , payload, currentUser.token))
+  setSuc(true)
   // dispatch(CompanyListURL(currentUser.token))
 }
 
 
 const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
-  return (
+
+
+
+
+
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(cashierListURL(currentUser.token))
+        setOpen(false)
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
+
+
+return (
     <>
       <HtmlHead title={title} description={description} />
       <div className="page-title-container">
@@ -350,6 +388,7 @@ const companyList= companyData && companyData.data && companyData.data.map((item
                      value={selectedCompany} 
                      onChange={setSelectedCompany}
                       placeholder=""
+                      disabled={eventType}
                       />
                     {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                   </Col>

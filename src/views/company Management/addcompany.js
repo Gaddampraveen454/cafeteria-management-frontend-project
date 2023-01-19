@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink,useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const addCompany = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
   const { currentUser } = useSelector((state) => state.auth)
+  const { companyData, notification } = useSelector((state) => state.companyList)
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
 
@@ -65,6 +69,7 @@ const addCompany = () => {
   const [mobile, setMobile]=useState("")
   const [location, setLocation]=useState("")
   const [address, setAddress]=useState("")
+  const [suc,setSuc] = useState(false);
 
   console.log(companyName,"companyName")
 
@@ -80,8 +85,38 @@ const addCompany = () => {
         "address":address,
     }
     dispatch(companyAddURL(payload, currentUser.token))
+    setSuc(true)
     // dispatch(CompanyListURL(currentUser.token))
 }
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        // dispatch(CompanyListURL(currentUser.token))
+        history.push(({
+          pathname: "/Company",
+         
+        }));
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
+
+
+
   return (
     <>
       <HtmlHead title={title} description={description} />

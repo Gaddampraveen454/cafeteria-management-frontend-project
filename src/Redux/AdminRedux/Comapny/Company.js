@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   consumerData: [],
+  notification:{}
 };
 
 const companySlice = createSlice({
@@ -14,10 +15,13 @@ const companySlice = createSlice({
     setCatData(state, action) {
       state.companyData = action.payload;
     },
+    setToast(state, action) {
+      state.notification = action.payload;
+    }
   },
 });
 
-export const { setCatData } = companySlice.actions;
+export const { setCatData, setToast } = companySlice.actions;
 
 
 export const CompanyListURL = (token) => async (dispatch) => {
@@ -31,19 +35,28 @@ export const CompanyListURL = (token) => async (dispatch) => {
 export const companyAddURL = (payload,token) => async (dispatch) => {
     const response = await axios.post(`${process.env.REACT_APP_URL}/company/create`,payload,{headers:{
       "x-auth-token" : token
-    }});
-    console.log(response, "dfghj")
-    CompanyListURL(token)
+    }})
+    .then((res) => {
+      console.log(res, "sdfsdfsdff")
+      dispatch(setToast({ status: true, message: res.data.message }))
+    })
+    .catch((err) => {
+      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+
+    })
   };
 
 export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/company/update/${uuid}`,payload,{headers:{
       "x-auth-token" : token
-    }});
-    console.log(response, "ffdgddfgdgdfgffgdf")
-    if (response.status===200){
-      CompanyListURL(token)
-    }
+    }}).then((res) => {
+      console.log(res, "sdfsddffsdff")
+      dispatch(setToast({ status: true, message: res.data.message }))
+    })
+      .catch((err) => {
+        dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+  
+      })
    
   };
 const companyReducer = companySlice.reducer;

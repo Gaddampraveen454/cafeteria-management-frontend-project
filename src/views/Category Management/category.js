@@ -14,6 +14,9 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const category = () => {
   const dispatch = useDispatch()
@@ -41,10 +44,12 @@ const category = () => {
   const [eventType, setEventType] = useState(false)
   const [name, setName]=useState("")
   const [categoryId, setCategoryId]=useState("")
+  const [suc,setSuc] = useState(false);
+
 
   const { currentUser } = useSelector((state) => state.auth)
   // const { cashierData } = useSelector((state) => state.cashierList)
-  const { categoryData } = useSelector((state) => state.cotegoryList)
+  const { categoryData, notification } = useSelector((state) => state.cotegoryList)
 useEffect(() => {
   dispatch(CategoryListURL(currentUser.token))
 }, [])
@@ -72,7 +77,34 @@ const updateCategory = (event) => {
   }
   dispatch(CategoryUpdateURL(categoryId , payload, currentUser.token))
   // dispatch(CompanyListURL(currentUser.token))
+  setSuc(true)
 }
+
+
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(CategoryListURL(currentUser.token))
+        setOpen(false)
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
 
 console.log(categoryData,"categoryDatacategoryData")
   return (
