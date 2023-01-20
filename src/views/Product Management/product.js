@@ -14,7 +14,7 @@ import {
   Input,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -204,6 +204,33 @@ const updateProduct = (event) => {
   setSuc(true)
 
 }
+
+
+
+
+
+const [file, setFile] = useState()
+console.log(file,"dfsfsdfsffsfs");
+function handleChange(event) {
+  setFile(event.target.files[0])
+}
+
+function handleSubmit(event) {
+  if (!file) {
+console.log("zxczxczxcz")
+toast.error("Please Select File")
+  }
+  else{
+
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('fileName', file.name);
+  dispatch(ProductBulkUplodURL(formData, currentUser.token))
+  setSuc(true)
+}
+}
+
   return (
     <>
               <Dialog 
@@ -218,21 +245,37 @@ const updateProduct = (event) => {
         </DialogTitle> */}
         <DialogContent style={{width:"500px" ,height:"200px"}}>
           <DialogContentText >
-          <Form.Label>Select Company</Form.Label>
+          {/* <Form.Label>Select Company</Form.Label>
           <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+          */}
           </DialogContentText><br />
 
           <DialogContentText >
-          <input type="file" className="form-control" />
+          <input type="file" onChange={handleChange} className="form-control" />
           </DialogContentText>
 
 
         </DialogContent>
         <DialogActions>
-          {/* <Button onClick={() => setOpen(false)}>Disagree</Button> */}
-          <Button onClick={() => setOpen(false)}  autoFocus>
+          {/* <Button onClick={() => setOpen(false)}>Disagree</Button>
+          <Button  onClick={() => handleSubmit()}   autoFocus>
             submit
-          </Button>
+          </Button> */}
+          <Row
+            className="g-3"
+            style={{ width: "100%" }}
+          >
+            <Col lg="6">
+
+              <p><a href="https://cmsapi.scienstechnologies.com/api/v1/product/download/productdata/excel/format">Download Sample File <CsLineIcons icon="download" /> </a> </p>
+            </Col>
+            <Col lg="6" align="right">
+              {/* <Button onClick={() => setOpen(false)}>Disagree</Button> */}
+              <Button onClick={() => handleSubmit()} autoFocus>
+                submit
+              </Button>
+            </Col>
+          </Row>
         </DialogActions>
       </Dialog>
       <HtmlHead title={title} description={description} />

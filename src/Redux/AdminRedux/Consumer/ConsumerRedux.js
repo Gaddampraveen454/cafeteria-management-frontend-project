@@ -45,6 +45,21 @@ export const consumerAddURL = (payload,token) => async (dispatch) => {
     })
   };
 
+
+  export const consumerBulkUploadURL = (payload,token) => async (dispatch) => {
+    const response = await axios.post(`${process.env.REACT_APP_URL}/user/upload/bulk`,payload,{headers:{
+      "x-auth-token" : token
+    }}).then((res) => {
+      console.log(res, "xcvxxvxcvxcvxv")
+      dispatch(setToast({ status: true, message:res && res.data && res.data.message?res.data.message: " file Uploaded successfully"  }))
+    })
+    .catch((err) => {
+      console.log(err.response,"sdfsdfsdfs")
+      dispatch(setToast({ status: false, message: err && err.response && err.response.data &&  err.response.data.message ? err.response.data.message:"Something went wrong" }))
+
+    })
+  };
+
 export const consumerUpdateURL = (uuid,payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/user/update/consumer/${uuid}`,payload,{headers:{
       "x-auth-token" : token

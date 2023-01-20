@@ -56,6 +56,23 @@ export const ProductAddURL = (payload, token) => async (dispatch) => {
     })
 
 };
+export const ProductBulkUplodURL = (payload, token) => async (dispatch) => {
+  const response = await axios.post(`${process.env.REACT_APP_URL}/product/upload/bulk`, payload, {
+    headers: {
+      "x-auth-token": token
+    }
+  })
+  .then((res) => {
+    console.log(res, "xcvxxvxcvxcvxv")
+    dispatch(setToast({ status: true, message:res && res.data && res.data.message?res.data.message: " file Uploaded successfully"  }))
+  })
+  .catch((err) => {
+    console.log(err.response,"sdfsdfsdfs")
+    dispatch(setToast({ status: false, message: err && err.response && err.response.data &&  err.response.data.message ? err.response.data.message:"Something went wrong" }))
+
+  })
+
+};
 
 export const ProductUpdateURL = (uuid, payload, token) => async (dispatch) => {
   const response = await axios.put(`${process.env.REACT_APP_URL}/product/update/${uuid}`, payload, {
