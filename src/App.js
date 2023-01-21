@@ -14,21 +14,20 @@ import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import consumerRoutesAndMenuItems from 'customerRoutes';
 import Loading from 'components/loading/Loading';
-
+import defaultRoutesAndMenuItems from 'defaultRoutes';
 
 const App = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-
-
-
-  console.log(currentUser,"currentUser")
+  console.log(currentUser,"fhhgfhfghfhfghfghfgh")
   let routsData=''
-if (currentUser.data.group==="admin"){
+if (currentUser && currentUser.data && currentUser.data.group==="admin"){
   routsData=adminRoutesAndMenuItems.mainMenuItems
-}else if(currentUser.data.group==="cashier"){
+}else if(currentUser && currentUser.data && currentUser.data.group==="cashier"){
   routsData=cashierRoutesAndMenuItems.mainMenuItems 
-}else if(currentUser.data.group==="consumer"){
+}else if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
   routsData=consumerRoutesAndMenuItems.mainMenuItems 
+}else{
+  routsData=defaultRoutesAndMenuItems.mainMenuItems
 }
 
   const routes = useMemo(() => getRoutes({ data: routsData, isLogin, userRole: currentUser.role }), [isLogin, currentUser]);

@@ -19,6 +19,7 @@ import cashierReducer from 'Redux/AdminRedux/Cashier/CashierRedux';
 import consumerReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import categoryReducer from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import productReducer from 'Redux/AdminRedux/Product/ProductRedux';
+import OrderReducer from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 
 
 // import persist key
@@ -45,6 +46,7 @@ const persistedReducer = persistReducer(
     consumerList:consumerReducer,
     cotegoryList:categoryReducer,
     productList:productReducer,
+    orderList:OrderReducer,
 
   })
 );

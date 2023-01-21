@@ -16,6 +16,10 @@ const addproduct = () => {
   const title = 'Add Product';
   const description = 'Ecommerce Product Management Page';
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search , setSearch] = useState('')
+
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState();
   const [selectCompany, setSelectCompany] = useState();
@@ -115,7 +119,7 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(ProductListURL(currentUser.token))
+        // dispatch(ProductListURL(page, search,currentUser.token,limit))
         history.push(({
           pathname: "/product",
           // state : {detail : id,fullname : name, pic :image, type:"edit"},

@@ -24,8 +24,8 @@ const companySlice = createSlice({
 export const { setCatData, setToast } = companySlice.actions;
 
 
-export const CompanyListURL = (token) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=0&limit=10&search=`,{headers:{
+export const CompanyListURL = (pageNUm, search, token, limit) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")

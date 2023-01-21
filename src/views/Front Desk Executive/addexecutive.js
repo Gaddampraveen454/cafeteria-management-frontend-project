@@ -64,9 +64,9 @@ const addexecutive = () => {
 
   const { companyData } = useSelector((state) => state.companyList)
 
-  useEffect(() => {
-    dispatch(CompanyListURL(currentUser.token))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(CompanyListURL(currentUser.token))
+  // }, [])
   console.log(companyData,"sfsdfdsfs");
   const [suc,setSuc] = useState(false);
   const [name, setName]=useState("")

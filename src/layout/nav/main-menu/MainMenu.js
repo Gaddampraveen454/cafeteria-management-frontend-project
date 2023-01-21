@@ -10,6 +10,7 @@ import routesAndMenuItems from 'routes.js';
 import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import consumerRoutesAndMenuItems from 'customerRoutes';
+import defaultRoutesAndMenuItems from 'defaultRoutes';
 import { layoutShowingNavMenu } from 'layout/layoutSlice';
 import MainMenuItems from './MainMenuItems';
 import {
@@ -35,12 +36,14 @@ const MainMenu = () => {
 
   console.log(currentUser,"currentUser")
   let routsData=''
-if (currentUser.data.group==="admin"){
+if (currentUser && currentUser.data && currentUser.data.group==="admin"){
   routsData=adminRoutesAndMenuItems.mainMenuItems
-}else if(currentUser.data.group==="cashier"){
+}else if(currentUser && currentUser.data && currentUser.data.group==="cashier"){
   routsData=cashierRoutesAndMenuItems.mainMenuItems 
-}else if(currentUser.data.group==="consumer"){
+}else if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
   routsData=consumerRoutesAndMenuItems.mainMenuItems 
+}else{
+  routsData=defaultRoutesAndMenuItems.mainMenuItems
 }
 
 

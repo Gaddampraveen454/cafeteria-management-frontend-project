@@ -87,10 +87,12 @@ const product = () => {
 
   const [suc,setSuc] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search , setSearch] = useState('')
 
 
-
-
+console.log(page,limit,search,"sdsasfasasdasd")
 
 
 
@@ -120,9 +122,10 @@ const product = () => {
 
 
   const { ProductData, notification } = useSelector((state) => state.productList)
-
-
-
+useEffect(()=>{
+  dispatch(ProductListURL(page, search,currentUser.token,limit))
+},[])
+console.log(ProductData,"ProductDatasdfdsfdsf");
 useEffect(() => {
   if (suc === true) {
     if (notification.status === true) {
@@ -131,7 +134,7 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(ProductListURL(currentUser.token))
+        dispatch(ProductListURL(page, search,currentUser.token,limit))
         setOpenEditViewOpupup(false)
       },1000)
      
@@ -231,6 +234,42 @@ toast.error("Please Select File")
 }
 }
 
+
+
+
+const searchfunction =(type , pages)=>{
+  if(type === "search"){
+   console.log(pages ,"ghjkvbnm")
+   setSearch(pages)
+   setPage(0)
+   dispatch(ProductListURL(0, pages,currentUser.token,limit)) 
+  }
+  if(type === "prev"){
+   setPage(page-1)
+   dispatch(ProductListURL(page-1,search,currentUser.token,limit))
+  }
+  else if(type === "next"){
+   setPage(page+1)
+   dispatch(ProductListURL(page+1,search,currentUser.token,limit))
+  }
+  else if(type === "page"){
+   setPage(page)
+   dispatch(ProductListURL(page,search,currentUser.token,limit))
+  }
+  else if(type === "page+1"){
+   setPage(page+1)
+   dispatch(ProductListURL(page+1,search,currentUser.token,limit))
+  }
+  else if(type === "page+2"){
+   setPage(page+2)
+   dispatch(ProductListURL(page+2,search,currentUser.token,limit))
+  }
+  else if(type === "limit"){
+   setLimit(pages)
+   setPage(0)
+   dispatch(ProductListURL(0,search,currentUser.token,pages))
+  }
+ }
   return (
     <>
               <Dialog 
@@ -332,7 +371,7 @@ toast.error("Please Select File")
         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-            <Form.Control type="text" placeholder="Search" />
+          <Form.Control type="text" onChange={(event)=>searchfunction("search" , event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -374,9 +413,9 @@ toast.error("Please Select File")
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">5 Items</Dropdown.Item>
-              <Dropdown.Item href="#">10 Items</Dropdown.Item>
-              <Dropdown.Item href="#">20 Items</Dropdown.Item>
+            <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={()=>searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {/* Length End */}
@@ -409,9 +448,7 @@ toast.error("Please Select File")
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col>
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Location</div>
-            </Col> */}
+          
           </Row>
         </Col>
       </Row>
@@ -422,19 +459,10 @@ toast.error("Please Select File")
       return<div key="">
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
+        
           <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
             <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
+           
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.name}</div>
               </Col>
@@ -464,10 +492,7 @@ toast.error("Please Select File")
                 <div className="lh-1 text-alternate">
               <table>
                 <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
+              
                   <td>
                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                   onClick={() => { eventHandler(item); setEventType(true) }}
@@ -482,35 +507,13 @@ toast.error("Please Select File")
                  <CsLineIcons icon="edit-square" />
                  </Button>
                   </td>
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
+              
                 </tr>
               </table>
               </div>
                 </div>
               </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
+          
             </Row>
           </Col>
         </Row>
@@ -521,7 +524,7 @@ toast.error("Please Select File")
       {/* List Items End */}
 
       {/* Pagination Start */}
-      <div className="d-flex justify-content-center mt-5">
+      {/* <div className="d-flex justify-content-center mt-5">
         <Pagination>
           <Pagination.Prev className="shadow" disabled>
             <CsLineIcons icon="chevron-left" />
@@ -535,11 +538,33 @@ toast.error("Please Select File")
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>
+      </div> */}
+      <div className="d-flex justify-content-center mt-5">
+        <Pagination>
+          <Pagination.Prev className="shadow" disabled={page===0} onClick={()=>searchfunction("prev")}>
+            <CsLineIcons icon="chevron-left" />
+          </Pagination.Prev>
+          <Pagination.Item className="shadow" active onClick={()=>searchfunction("page")} >
+            {page+1}
+          </Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count/limit)<= page+1} onClick={()=>searchfunction("page+1",page+1)}>{page+2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count/limit)<= page+2} onClick={()=>searchfunction("page+2",page+2)}>{page+3}</Pagination.Item>
+
+          {Math.ceil(ProductData && ProductData.count/limit) > page+3 &&
+          <>
+          <Pagination.Item className="shadow" >...</Pagination.Item>
+           </>
+
+        }
+          <Pagination.Next className="shadow" disabled={Math.ceil(ProductData && ProductData.count/limit)<= page+1} onClick={()=>searchfunction("next")}>
+            <CsLineIcons icon="chevron-right" />
+          </Pagination.Next>
+        </Pagination>
       </div>
       {/* Pagination End */}
 
 
-
+ {/* View And Edit Popup Start */}
       <div>
         <Dialog
           open={openEditViewOpupup}
@@ -660,6 +685,7 @@ toast.error("Please Select File")
 
         </Dialog>
       </div>
+       {/* View And Edit Popup end */}
     </>
   );
 };

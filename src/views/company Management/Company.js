@@ -35,6 +35,15 @@ const Company = () => {
   const [compnayId,setCompnayId]=useState("")
   const [suc,setSuc] = useState(false);
 
+
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search , setSearch] = useState('')
+
+
+// console.log(page,limit,search,"sdsasfasasdasd")
+
+
   console.log(status, "fgdffdggdf")
 
 
@@ -61,7 +70,7 @@ const Company = () => {
 
 
   useEffect(() => {
-    dispatch(CompanyListURL(currentUser.token))
+    dispatch(CompanyListURL(page, search,currentUser.token,limit))
   }, [])
 
 
@@ -117,7 +126,7 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(CompanyListURL(currentUser.token))
+        dispatch(CompanyListURL(page, search,currentUser.token,limit))
         setOpen(false)
 
       },1000)
@@ -131,6 +140,41 @@ useEffect(() => {
 
 }, [notification])
 console.log(notification ,"ProductDataProductData")
+
+
+const searchfunction =(type , pages)=>{
+  if(type === "search"){
+   console.log(pages ,"ghjkvbnm")
+   setSearch(pages)
+   setPage(0)
+   dispatch(CompanyListURL(0, pages,currentUser.token,limit)) 
+  }
+  if(type === "prev"){
+   setPage(page-1)
+   dispatch(CompanyListURL(page-1,search,currentUser.token,limit))
+  }
+  else if(type === "next"){
+   setPage(page+1)
+   dispatch(CompanyListURL(page+1,search,currentUser.token,limit))
+  }
+  else if(type === "page"){
+   setPage(page)
+   dispatch(CompanyListURL(page,search,currentUser.token,limit))
+  }
+  else if(type === "page+1"){
+   setPage(page+1)
+   dispatch(CompanyListURL(page+1,search,currentUser.token,limit))
+  }
+  else if(type === "page+2"){
+   setPage(page+2)
+   dispatch(CompanyListURL(page+2,search,currentUser.token,limit))
+  }
+  else if(type === "limit"){
+   setLimit(pages)
+   setPage(0)
+   dispatch(CompanyListURL(0,search,currentUser.token,pages))
+  }
+ }
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -184,7 +228,7 @@ console.log(notification ,"ProductDataProductData")
         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-            <Form.Control type="text" placeholder="Search" />
+          <Form.Control type="text" onChange={(event)=>searchfunction("search" , event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -195,28 +239,7 @@ console.log(notification ,"ProductDataProductData")
           {/* Search End */}
         </Col>
         <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
-          {/* Print Button Start */}
-          {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-            <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-              <CsLineIcons icon="print" />
-            </Button>
-          </OverlayTrigger> */}
-          {/* Print Button End */}
-
-          {/* Export Dropdown Start */}
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-              <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                <CsLineIcons icon="download" />
-              </Dropdown.Toggle>
-            </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">Copy</Dropdown.Item>
-              <Dropdown.Item href="#">Excel</Dropdown.Item>
-              <Dropdown.Item href="#">Cvs</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown> */}
-          {/* Export Dropdown End */}
+       
 
           {/* Length Start */}
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -226,9 +249,9 @@ console.log(notification ,"ProductDataProductData")
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">5 Items</Dropdown.Item>
-              <Dropdown.Item href="#">10 Items</Dropdown.Item>
-              <Dropdown.Item href="#">20 Items</Dropdown.Item>
+            <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={()=>searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {/* Length End */}
@@ -462,21 +485,31 @@ console.log(notification ,"ProductDataProductData")
       {/* List Items End */}
 
       {/* Pagination Start */}
+ 
       <div className="d-flex justify-content-center mt-5">
         <Pagination>
-          <Pagination.Prev className="shadow" disabled>
+          <Pagination.Prev className="shadow" disabled={page===0} onClick={()=>searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
           </Pagination.Prev>
-          <Pagination.Item className="shadow" active>
-            1
+          <Pagination.Item className="shadow" active onClick={()=>searchfunction("page")} >
+            {page+1}
           </Pagination.Item>
-          <Pagination.Item className="shadow">2</Pagination.Item>
-          <Pagination.Item className="shadow">3</Pagination.Item>
-          <Pagination.Next className="shadow">
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyData && companyData.count/limit)<= page+1} onClick={()=>searchfunction("page+1",page+1)}>{page+2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyData && companyData.count/limit)<= page+2} onClick={()=>searchfunction("page+2",page+2)}>{page+3}</Pagination.Item>
+
+          {Math.ceil(companyData && companyData.count/limit) > page+3 &&
+          <>
+          <Pagination.Item className="shadow" >...</Pagination.Item>
+           </>
+
+        }
+          <Pagination.Next className="shadow" disabled={Math.ceil(companyData && companyData.count/limit)<= page+1} onClick={()=>searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>
       </div>
+        {/* Pagination end */}
+         {/* View And Edit Popup Start */}
       <div>
         <Dialog
           open={open}
@@ -546,8 +579,8 @@ console.log(notification ,"ProductDataProductData")
 
         </Dialog>
       </div>
-
-      {/* Pagination End */}
+  {/* View And Edit Popup end */}
+      
     </>
   );
 };

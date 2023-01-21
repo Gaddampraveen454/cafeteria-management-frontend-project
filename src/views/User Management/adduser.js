@@ -74,12 +74,15 @@ const adduser = () => {
   const [mobile, setMobile]=useState("")
   const [location, setLocation]=useState("")
   const [EmpId,setEmpId]=useState("")
+  // const [page, setPage] = useState(0);
+  // const [limit, setLimit] = useState("");
+  // const [search , setSearch] = useState('')
   
   const { companyData } = useSelector((state) => state.companyList)
 
-  useEffect(() => {
-    dispatch(CompanyListURL(currentUser.token))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(CompanyListURL(page, search,currentUser.token,limit))
+  // }, [])
   console.log(companyData,"sfsdfdsfs");
  
   const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
