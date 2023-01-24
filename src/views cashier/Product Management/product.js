@@ -14,7 +14,7 @@ import {
   Input,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL } from 'Redux/CashierRedux/Product/ProductRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -121,9 +121,9 @@ console.log(selectCompany,"dfgdfgdfgdd")
 
 
 
-  const { ProductData, notification } = useSelector((state) => state.productList)
+  const { ProductData, notification } = useSelector((state) => state.CashierProductList)
 useEffect(()=>{
-  dispatch(ProductListURL(page, search,currentUser.token,limit))
+  dispatch(ProductListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
 },[])
 console.log(ProductData,"ProductDatasdfdsfdsf");
 useEffect(() => {
@@ -134,7 +134,7 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(ProductListURL(page, search,currentUser.token,limit))
+        dispatch(ProductListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
         setOpenEditViewOpupup(false)
       },1000)
      
@@ -243,32 +243,32 @@ const searchfunction =(type , pages)=>{
    console.log(pages ,"ghjkvbnm")
    setSearch(pages)
    setPage(0)
-   dispatch(ProductListURL(0, pages,currentUser.token,limit)) 
+   dispatch(ProductListURL(0, pages,currentUser.token,limit,currentUser.data.company_uuid)) 
   }
   if(type === "prev"){
    setPage(page-1)
-   dispatch(ProductListURL(page-1,search,currentUser.token,limit))
+   dispatch(ProductListURL(page-1,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "next"){
    setPage(page+1)
-   dispatch(ProductListURL(page+1,search,currentUser.token,limit))
+   dispatch(ProductListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "page"){
    setPage(page)
-   dispatch(ProductListURL(page,search,currentUser.token,limit))
+   dispatch(ProductListURL(page,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "page+1"){
    setPage(page+1)
-   dispatch(ProductListURL(page+1,search,currentUser.token,limit))
+   dispatch(ProductListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "page+2"){
    setPage(page+2)
-   dispatch(ProductListURL(page+2,search,currentUser.token,limit))
+   dispatch(ProductListURL(page+2,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "limit"){
    setLimit(pages)
    setPage(0)
-   dispatch(ProductListURL(0,search,currentUser.token,pages))
+   dispatch(ProductListURL(0,search,currentUser.token,pages,currentUser.data.company_uuid))
   }
  }
   return (
@@ -335,14 +335,16 @@ const searchfunction =(type , pages)=>{
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-          <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
+          <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+          // onClick={() => setOpen(true)}
+          >
             <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
             </Button>
-            <NavLink to="/addproduct">
+            {/* <NavLink to="/addproduct"> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
             <CsLineIcons icon="plus" /> <span>Add Product</span>
             </Button>
-            </NavLink>
+            {/* </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
             </Button>
@@ -496,14 +498,14 @@ const searchfunction =(type , pages)=>{
               
                   <td>
                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                  onClick={() => { eventHandler(item); setEventType(true) }}
+                  // onClick={() => { eventHandler(item); setEventType(true) }}
                   >
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
                   <td>
                   <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
-                  onClick={() => { eventHandler(item); setEventType(false) }}
+                  // onClick={() => { eventHandler(item); setEventType(false) }}
                   >
                  <CsLineIcons icon="edit-square" />
                  </Button>

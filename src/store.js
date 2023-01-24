@@ -20,7 +20,9 @@ import consumerReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import categoryReducer from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import productReducer from 'Redux/AdminRedux/Product/ProductRedux';
 import OrderReducer from 'Redux/AdminRedux/OrderRedux/OrderRedux';
-
+import OrderReducerCashier from 'Redux/CashierRedux/OrderRedux/OrderRedux';
+import CashierConsumerReducer from 'Redux/CashierRedux/Consumer/ConsumerRedux';
+import CashierProductReducer from 'Redux/CashierRedux/Product/ProductRedux';
 
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
@@ -47,6 +49,9 @@ const persistedReducer = persistReducer(
     cotegoryList:categoryReducer,
     productList:productReducer,
     orderList:OrderReducer,
+    orderListCashier:OrderReducerCashier,
+    CashierConsumerList:CashierConsumerReducer,
+    CashierProductList:CashierProductReducer,
 
   })
 );

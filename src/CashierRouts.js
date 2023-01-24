@@ -7,15 +7,15 @@ const dashboard = lazy(() => import('views/dashboard/Dashboard'));
 
 const Company = lazy(() => import('views/company Management/Company'));
 const addcompany = lazy(() => import('views/company Management/addcompany'));
-const User = lazy(() => import('views/User Management/User'));
+const User = lazy(() => import('views cashier/User Management/User'));
 const adduser = lazy(() => import('views/User Management/adduser'));
 const executive = lazy(() => import('views/Front Desk Executive/executive'));
 const addexecutive = lazy(() => import('views/Front Desk Executive/addexecutive'));
 const category = lazy(() => import('views/Category Management/category'));
 const addcategory = lazy(() => import('views/Category Management/addcategory'));
-const product = lazy(() => import('views/Product Management/product'));
+const product = lazy(() => import('views cashier/Product Management/product'));
 const addproduct = lazy(() => import('views/Product Management/addproduct'));
-const NICorders = lazy(() => import('views/NICorders/NICorders'));
+const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
@@ -69,90 +69,90 @@ const cashierRoutesAndMenuItems = {
       label: 'dashboard-cashier',
       icon: 'shop',
     },
-        {
-      path: `${appRoot}/Company`,
-      component: Company,
-      label: 'Company Management',
-      icon: 'shipping',
-    },
-    {
-      path: `${appRoot}/addcompany`,
-      component: addcompany,
-      // label: 'User Management',
-      // icon: 'user',
-    },
+    //     {
+    //   path: `${appRoot}/Company`,
+    //   component: Company,
+    //   label: 'Company Management',
+    //   icon: 'shipping',
+    // },
+    // {
+    //   path: `${appRoot}/addcompany`,
+    //   component: addcompany,
+    //   // label: 'User Management',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/User`,
       component: User,
       label: 'User Management',
       icon: 'user',
     },
-    {
-      path: `${appRoot}/adduser`,
-      component: adduser,
-      // label: 'User Management',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/executive`,
-      component: executive,
-      label: 'Front Desk Executive',
-      icon: 'laptop',
-    },
-    {
-      path: `${appRoot}/addexecutive`,
-      component: addexecutive,
-      // label: 'Front Desk Executive',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/category`,
-      component: category,
-      label: 'Category Management',
-      icon: 'save',
-    },
-    {
-      path: `${appRoot}/addcategory`,
-      component: addcategory,
-      // label: 'Category Management',
-      // icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/adduser`,
+    //   component: adduser,
+    //   // label: 'User Management',
+    //   // icon: 'user',
+    // },
+    // {
+    //   path: `${appRoot}/executive`,
+    //   component: executive,
+    //   label: 'Front Desk Executive',
+    //   icon: 'laptop',
+    // },
+    // {
+    //   path: `${appRoot}/addexecutive`,
+    //   component: addexecutive,
+    //   // label: 'Front Desk Executive',
+    //   // icon: 'user',
+    // },
+    // {
+    //   path: `${appRoot}/category`,
+    //   component: category,
+    //   label: 'Category Management',
+    //   icon: 'save',
+    // },
+    // {
+    //   path: `${appRoot}/addcategory`,
+    //   component: addcategory,
+    //   // label: 'Category Management',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/product`,
       component: product,
       label: 'Product Management',
       icon: 'web-page',
     },
-    {
-      path: `${appRoot}/addproduct`,
-      component: addproduct,
-      // label: 'Product Management',
-      // icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/addproduct`,
+    //   component: addproduct,
+    //   // label: 'Product Management',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/NICorders`,
       component: NICorders,
       label: 'Orders',
       icon: 'wallet',
     },
-    {
-      path: `${appRoot}/addNICorder`,
-      component: addNICorder,
-      // label: 'Orders',
-      // icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/addNICorder`,
+    //   component: addNICorder,
+    //   // label: 'Orders',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/report`,
       component: report,
       label: 'Report',
       icon: 'news',
     },
-    {
-      path: `${appRoot}/addreport`,
-      component: addreport,
-      // label: 'Report',
-      // icon: 'news',
-    },
+    // {
+    //   path: `${appRoot}/addreport`,
+    //   component: addreport,
+    //   // label: 'Report',
+    //   // icon: 'news',
+    // },
     // {
     //   path: `${appRoot}/adddetails`,
     //   component: adddetails,

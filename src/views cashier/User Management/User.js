@@ -20,7 +20,7 @@ import {
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL } from 'Redux/CashierRedux/Consumer/ConsumerRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -33,7 +33,7 @@ const User = () => {
   const [openPopup, setOpenPopup] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
-  const { consumerData, notification } = useSelector((state) => state.consumerList)
+  const { consumerData, notification } = useSelector((state) => state.CashierConsumerList)
   const { companyData } = useSelector((state) => state.companyList)
   // const { companyData } = useSelector((state) => state.companyList)
   const [selectCompany, setSelectCompany] = useState();
@@ -43,7 +43,7 @@ const User = () => {
   console.log(selectCompany,"sfsfsdfdsfsfds")
 
   useEffect(() => {
-    dispatch(consumerListURL(page, search,currentUser.token,limit))
+    dispatch(consumerListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
   }, [])
 
 
@@ -180,7 +180,7 @@ const User = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(consumerListURL(page, search,currentUser.token,limit))
+          dispatch(consumerListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
           setOpenPopup(false)
         }, 1000)
 
@@ -224,32 +224,32 @@ const searchfunction =(type , pages)=>{
    console.log(pages ,"ghjkvbnm")
    setSearch(pages)
    setPage(0)
-   dispatch(consumerListURL(0, pages,currentUser.token,limit)) 
+   dispatch(consumerListURL(0, pages,currentUser.token,limit,currentUser.data.company_uuid)) 
   }
   if(type === "prev"){
    setPage(page-1)
-   dispatch(consumerListURL(page-1,search,currentUser.token,limit))
+   dispatch(consumerListURL(page-1,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "next"){
    setPage(page+1)
-   dispatch(consumerListURL(page+1,search,currentUser.token,limit))
+   dispatch(consumerListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "page"){
    setPage(page)
-   dispatch(consumerListURL(page,search,currentUser.token,limit))
+   dispatch(consumerListURL(page,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "page+1"){
    setPage(page+1)
-   dispatch(consumerListURL(page+1,search,currentUser.token,limit))
+   dispatch(consumerListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "page+2"){
    setPage(page+2)
-   dispatch(consumerListURL(page+2,search,currentUser.token,limit))
+   dispatch(consumerListURL(page+2,search,currentUser.token,limit,currentUser.data.company_uuid))
   }
   else if(type === "limit"){
    setLimit(pages)
    setPage(0)
-   dispatch(consumerListURL(0,search,currentUser.token,pages))
+   dispatch(consumerListURL(0,search,currentUser.token,pages,currentUser.data.company_uuid))
   }
  }
 
@@ -290,7 +290,9 @@ const searchfunction =(type , pages)=>{
             </Col>
             <Col lg="6" align="right">
               {/* <Button onClick={() => setOpen(false)}>Disagree</Button> */}
-              <Button onClick={() => handleSubmit()} autoFocus>
+              <Button
+              //  onClick={() => handleSubmit()} 
+               autoFocus>
                 submit
               </Button>
             </Col>
@@ -320,14 +322,18 @@ const searchfunction =(type , pages)=>{
             {/* <Popup trigger={<Button className="button"> Open Modal </Button>} modal>
             <span> Modal content </span>
           </Popup> */}
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
+            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+            // onClick={() => setOpen(true)}
+            >
               <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
             </Button>
-            <NavLink to="/adduser">
+            {/* <NavLink 
+            to="/adduser"
+            > */}
               <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="plus" /> <span>Add User</span>
               </Button>
-            </NavLink>
+            {/* </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
             </Button>
@@ -498,13 +504,14 @@ const searchfunction =(type , pages)=>{
                  /> */}
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                              onClick={() => { eventHandler(item); setEventType(true) }}>
+                              onClick={() => { eventHandler(item); setEventType(true) }}
+                              >
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>
                           <td>
                             <Button title="EDIT" variant="outline-success" className="btn px-2 py-2"
-                              onClick={() => { eventHandler(item); setEventType(false) }}
+                              // onClick={() => { eventHandler(item); setEventType(false) }}
                             >
                               <CsLineIcons icon="edit-square" />
                             </Button>
