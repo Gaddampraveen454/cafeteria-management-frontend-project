@@ -143,8 +143,9 @@ console.log(notification ,"ProductDataProductData")
 
 
 const searchfunction =(type , pages)=>{
+  console.log(pages,type,"ghjkfgdvxvxvcvcfgssdvbnm")
   if(type === "search"){
-   console.log(pages ,"ghjkvbnm")
+   console.log(pages,type,"ghjkfgdfgssdvbnm")
    setSearch(pages)
    setPage(0)
    dispatch(CompanyListURL(0, pages,currentUser.token,limit)) 
@@ -349,7 +350,7 @@ const searchfunction =(type , pages)=>{
                 onToggle={()=>activefunct(items)}
                  /> */}
                           <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(true) }}>
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"  >
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>

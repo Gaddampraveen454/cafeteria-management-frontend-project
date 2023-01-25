@@ -91,6 +91,23 @@ export const OrderUpdateURL = (uuid, payload, token) => async (dispatch) => {
   // console.log(response, "sdfsfsdfs")
 
 };
+
+export const OrderStatusUpdateCashierURL = (payload, token) => async (dispatch) => {
+  const response = await axios.put(`${process.env.REACT_APP_URL}/order/cashier/update/status`, payload, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsddffsdff")
+    dispatch(setToast({ status: true, message: res.data.message }))
+  })
+    .catch((err) => {
+      console.log(err && err.response,"hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+
+    })
+  }
+
 const OrderReducerCashier = orderSlice.reducer;
 
 export default OrderReducerCashier;

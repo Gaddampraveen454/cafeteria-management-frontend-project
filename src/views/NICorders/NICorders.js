@@ -5,16 +5,18 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
-import { OrderListURL, } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
+import { OrderListURL,OrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const NICorders = () => {
   const dispatch = useDispatch()
-  const title = 'Orders';
+  const title = 'Orders1';
   const description = 'Ecommerce Orders Page';
-
+  const [status, setStatus] = useState(false)
+  const [suc,setSuc] = useState(false);
+  console.log(status,"sdfsdfsfs")
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
   const checkItem = (item) => {
@@ -38,7 +40,7 @@ const NICorders = () => {
   const [search , setSearch] = useState('')
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { OrderData } = useSelector((state) => state.orderList)
+  const { OrderData, notification } = useSelector((state) => state.orderList)
   useEffect(()=>{
     dispatch(OrderListURL(page, search,currentUser.token,limit))
   },[])
@@ -78,6 +80,50 @@ const NICorders = () => {
      dispatch(OrderListURL(0,search,currentUser.token,pages))
     }
    }
+
+
+
+
+
+
+
+const eventHandler = (event) => {
+  console.log(event, "eventxcvvxcvv")
+  // if (event.is_delivered)
+  const payload = {
+    "order_uuid" : event.uuid,
+    "order_status" : !event.is_delivered
+}
+  dispatch(OrderStatusUpdateURL(payload, currentUser.token))
+  setSuc(true)
+  
+
+};
+
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(OrderListURL(page, search,currentUser.token,limit))
+        // setOpen(false)
+
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -187,10 +233,13 @@ const NICorders = () => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            <Col xs="2" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Orders</div>
             </Col>
-            <Col xs="2" lg="6" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Status</div>
+            </Col>
+            <Col xs="2" lg="4" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col>
             {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
@@ -234,10 +283,24 @@ const NICorders = () => {
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-              <Col lg="6" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.name}</div>
               </Col>
-              <Col lg="6" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              {/* <Form.Check type="switch" id="quantitySwitch2" value={item.is_delivered} 
+              onChange={(e) => { setStatus(!status) }} 
+              // defaultChecked
+               /> */}
+                <Form.Check 
+                className="form-check mt-2 ps-7 ps-md-2" 
+                type="switch" checked={item.is_delivered} 
+                // onChange={() => StatusUpdate()}
+
+                onClick={() => { eventHandler(item) }}
+                />
+              </Col>
+        
+              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
               <table>
                 <tr>
