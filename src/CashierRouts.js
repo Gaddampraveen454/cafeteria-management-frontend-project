@@ -3,7 +3,7 @@ import { lazy } from 'react';
 import { USER_ROLE } from 'constants.js';
 import { DEFAULT_PATHS } from 'config.js';
 
-const dashboard = lazy(() => import('views/dashboard/Dashboard'));
+const dashboard = lazy(() => import('views cashier/dashboard/Dashboard'));
 
 const Company = lazy(() => import('views/company Management/Company'));
 const addcompany = lazy(() => import('views/company Management/addcompany'));
@@ -17,7 +17,7 @@ const product = lazy(() => import('views cashier/Product Management/product'));
 const addproduct = lazy(() => import('views/Product Management/addproduct'));
 const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
-const report = lazy(() => import('views/Reports/report'));
+const report = lazy(() => import('views cashier/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 

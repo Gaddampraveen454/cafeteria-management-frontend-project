@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {AdminReportListURL} from "Redux/AdminRedux/Reports/ReportRedux"
+import {CashierReportListURL} from "Redux/CashierRedux/Reports/ReportRedux"
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -33,14 +33,14 @@ const report = () => {
 
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { AdminReportData,notification } = useSelector((state) => state.AdminReportList)
-console.log(AdminReportData,"jsdggjjhg");
+  const { CashierReportData,notification } = useSelector((state) => state.CashierReportList)
+console.log(CashierReportData,"jsdggjjhg");
 
 
 useEffect(()=>{
-  dispatch(AdminReportListURL(currentUser.token))
+  dispatch(CashierReportListURL(currentUser.token))
 },[])
-console.log(AdminReportData,"dffdgdff");
+console.log(CashierReportData,"dffdgdff");
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -193,7 +193,7 @@ console.log(AdminReportData,"dffdgdff");
       {/* List Header End */}
 
       {/* List Items Start */}
-      {AdminReportData && AdminReportData.data && AdminReportData.data.map((item, index) => {
+      {CashierReportData && CashierReportData.data && CashierReportData.data.map((item, index) => {
       return<div key="">
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">

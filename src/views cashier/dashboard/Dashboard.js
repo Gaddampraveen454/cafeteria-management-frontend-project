@@ -1,6 +1,6 @@
-import React,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {DashdoardContListURL} from "Redux/AdminRedux/DashBoard/DashCountRedux"
+import {DashdoardContListURL} from "Redux/CashierRedux/DashBoard/DashCountRedux"
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +8,8 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import PerformanceChart from './components/PerformanceChart';
+
+// import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
 
 
 const Dashboard = () => {
@@ -17,7 +19,7 @@ const Dashboard = () => {
   
   
   const { currentUser } = useSelector((state) => state.auth)
-  const { DashboardCountData,notification } = useSelector((state) => state.AdminDashbordCountList)
+  const { DashboardCountData,notification } = useSelector((state) => state.CashierDashbordCountList)
 console.log(DashboardCountData,"jsdggjjhg");
 
 
@@ -60,9 +62,10 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
                 <CsLineIcons icon="dollar" className="text-primary" />
               </div>
-              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
+              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS1</div>
               <div className="text-primary cta-4">$
-              {DashboardCountData.total_order_amount}</div>
+              {DashboardCountData.total_order_amount}
+</div>
             </Card.Body>
           </Card>
         </Col>

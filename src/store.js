@@ -23,7 +23,10 @@ import OrderReducer from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import OrderReducerCashier from 'Redux/CashierRedux/OrderRedux/OrderRedux';
 import CashierConsumerReducer from 'Redux/CashierRedux/Consumer/ConsumerRedux';
 import CashierProductReducer from 'Redux/CashierRedux/Product/ProductRedux';
-
+import cashierDashbordCountReducer from 'Redux/CashierRedux/DashBoard/DashCountRedux';
+import AdminDashbordCountReducer from 'Redux/AdminRedux/DashBoard/DashCountRedux';
+import AdminReportReducer from 'Redux/AdminRedux/Reports/ReportRedux';
+import CashierReportReducer from 'Redux/CashierRedux/Reports/ReportRedux'; 
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
 
@@ -52,6 +55,11 @@ const persistedReducer = persistReducer(
     orderListCashier:OrderReducerCashier,
     CashierConsumerList:CashierConsumerReducer,
     CashierProductList:CashierProductReducer,
+    CashierDashbordCountList:cashierDashbordCountReducer,
+    AdminDashbordCountList:AdminDashbordCountReducer,
+    AdminReportList:AdminReportReducer,
+    CashierReportList:CashierReportReducer,
+    
 
   })
 );
