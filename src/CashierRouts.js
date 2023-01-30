@@ -66,7 +66,7 @@ const cashierRoutesAndMenuItems = {
     {
       path: `${appRoot}/dashboard`,
       component: dashboard,
-      label: 'dashboard-cashier',
+      label: 'Dashboard-Cashier',
       icon: 'shop',
     },
     //     {

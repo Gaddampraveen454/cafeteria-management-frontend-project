@@ -66,7 +66,7 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/dashboard`,
       component: dashboard,
-      label: 'dashboard-admin',
+      label: 'Dashboard-Admin',
       icon: 'shop',
     },
         {

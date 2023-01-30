@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const NICorders = () => {
   const dispatch = useDispatch()
-  const title = 'Orders1';
+  const title = 'Orders';
   const description = 'Ecommerce Orders Page';
   const [status, setStatus] = useState(false)
   const [suc,setSuc] = useState(false);
@@ -233,15 +233,30 @@ useEffect(() => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Orders</div>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
-            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Status</div>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
-            <Col xs="2" lg="4" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Product name </div>
+            </Col>
+            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
+            </Col>
+            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">price</div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">status</div>
+            </Col>
+            {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
-            </Col>
+            </Col> */}
             {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
             </Col>
@@ -267,7 +282,7 @@ useEffect(() => {
       
       return item.details.map((newItem,newindex)=>{
           return <div key="">
-      {console.log(newItem,"dffdfdfdfsssf")}
+      {console.log(item,"dffdfdfdfsssfsdfsdf")}
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
           {/* <Col xs="auto" className="positio-relative">
@@ -283,10 +298,29 @@ useEffect(() => {
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{index+1}</div>
+              </Col>
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{newItem.uuid}</div>
+              </Col>
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.name}</div>
               </Col>
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{newItem.quantity}</div>
+              </Col>
+              
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{newItem.price}</div>
+              </Col>
+              
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+              </Col>
+              
+              
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
               {/* <Form.Check type="switch" id="quantitySwitch2" value={item.is_delivered} 
               onChange={(e) => { setStatus(!status) }} 
               // defaultChecked
@@ -300,7 +334,7 @@ useEffect(() => {
                 />
               </Col>
         
-              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
               <table>
                 <tr>
