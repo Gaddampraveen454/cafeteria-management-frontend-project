@@ -283,7 +283,10 @@ const searchfunction =(type , pages)=>{
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-        <DialogContent style={{width:"500px" ,height:"200px"}}>
+        <DialogContent style={{width:"550px" ,height:"230px"}}>
+        <DialogActions style={{cursor:"pointer"}} onClick={() => setOpen(false)} >
+        <CsLineIcons icon="close" />
+        </DialogActions>
           <DialogContentText >
           <Form.Label>Select Company</Form.Label>
           {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
@@ -336,7 +339,7 @@ const searchfunction =(type , pages)=>{
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
           <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
-            <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
+            <CsLineIcons icon="plus" /> <span>Upload Product</span>
             </Button>
             <NavLink to="/addproduct">
             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">

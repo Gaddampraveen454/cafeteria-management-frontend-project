@@ -21,7 +21,8 @@ const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 
-
+const Cards = lazy(() => import('views/company Management/Cards'));
+const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 
 const products = {
   list: lazy(() => import('views/products/list/ProductsList')),
@@ -48,6 +49,7 @@ const storefront = {
 const shipping = lazy(() => import('views/shipping/Shipping'));
 const discount = lazy(() => import('views/discount/Discount'));
 
+
 const settings = {
   home: lazy(() => import('views/settings/home/Home')),
   general: lazy(() => import('views/settings/general/General')),
@@ -73,6 +75,18 @@ const adminRoutesAndMenuItems = {
       path: `${appRoot}/Company`,
       component: Company,
       label: 'Company Management',
+      icon: 'shipping',
+    },
+    {
+      path: `${appRoot}/Cards`,
+      component: Cards,
+      label: 'Cards',
+      icon: 'shipping',
+    },
+    {
+      path: `${appRoot}/Cardcart`,
+      component: Cardcart,
+      label: 'Cardcart',
       icon: 'shipping',
     },
     {
@@ -159,6 +173,19 @@ const adminRoutesAndMenuItems = {
       label: 'User Management',
       icon: 'user',
     },
+
+    // {
+    //   path: `${appRoot}/Cards`,
+    //   component: Cards,
+    //   label: 'Menu',
+    //   icon: 'news',
+    // },
+    // {
+    //   path: `${appRoot}/Cardcart`,
+    //   component: Cardcart,
+    //   // label: 'Menu',
+    //   // icon: 'news',
+    // },
     {
       path: `${appRoot}/products`,
       exact: true,

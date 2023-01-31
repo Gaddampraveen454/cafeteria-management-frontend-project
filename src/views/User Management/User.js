@@ -417,7 +417,7 @@ const searchfunction =(type , pages)=>{
               <div className="text-muted text-medium cursor-pointer sort">Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Employee ID*</div>
+              <div className="text-muted text-medium cursor-pointer sort">Employee ID</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
@@ -426,7 +426,7 @@ const searchfunction =(type , pages)=>{
               <div className="text-muted text-medium cursor-pointer sort">Phone No</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Company Name*</div>
+              <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>

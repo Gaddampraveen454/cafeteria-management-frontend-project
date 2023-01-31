@@ -8,6 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OrderListURL,OrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
 
 
 const NICorders = () => {
@@ -15,7 +23,11 @@ const NICorders = () => {
   const title = 'Orders';
   const description = 'Ecommerce Orders Page';
   const [status, setStatus] = useState(false)
+  const [eventType, setEventType] = useState(false)
   const [suc,setSuc] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [productDetails, setProductDetails]=useState([])
+  console.log(productDetails, "fdfdsfdsfsdfsdfsdfffgfdgd")
   console.log(status,"sdfsdfsfs")
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
@@ -123,6 +135,17 @@ useEffect(() => {
   }
 
 }, [notification])
+
+
+
+const viewEventHandler = (event) => {
+  setOpen(true)
+
+  console.log(event, "fdfffgfdgd")
+  setProductDetails(event.details)
+
+
+};
 
   return (
     <>
@@ -240,12 +263,10 @@ useEffect(() => {
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Product name </div>
+              <div className="text-muted text-medium cursor-pointer sort">Consumer name </div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
-            </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+          
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">price</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -279,10 +300,8 @@ useEffect(() => {
 
       {/* List Items Start */}
       {OrderData && OrderData.data && OrderData.data.map((item, index) => {
-      
-      return item.details.map((newItem,newindex)=>{
           return <div key="">
-      {console.log(item,"dffdfdfdfsssfsdfsdf")}
+           {console.log(item,"dffdfdfdfsssfsdfsdf")}
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
           {/* <Col xs="auto" className="positio-relative">
@@ -302,37 +321,38 @@ useEffect(() => {
                 <div className="lh-1 text-alternate">{index+1}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{newItem.uuid}</div>
+                <div className="lh-1 text-alternate">{item.uuid}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{newItem.name}</div>
+                <div className="lh-1 text-alternate">{item.users[0].name}
+                </div>
               </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.quantity}</div>
-              </Col>
+              </Col> */}
               
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{newItem.price}</div>
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{item.total_amount}</div>
               </Col>
               
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
               </Col>
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{item.is_delivered===true?"Delivered":"Pending"}</div>
+              </Col>
               
               
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-              {/* <Form.Check type="switch" id="quantitySwitch2" value={item.is_delivered} 
-              onChange={(e) => { setStatus(!status) }} 
-              // defaultChecked
-               /> */}
+              {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+             
                 <Form.Check 
                 className="form-check mt-2 ps-7 ps-md-2" 
                 type="switch" checked={item.is_delivered} 
-                // onChange={() => StatusUpdate()}
+               
 
                 onClick={() => { eventHandler(item) }}
                 />
-              </Col>
+              </Col> */}
         
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
@@ -343,7 +363,9 @@ useEffect(() => {
                 onToggle={()=>activefunct(items)}
                  /> */}
                   <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
+                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
+                  onClick={() => { viewEventHandler(item); setEventType(false) }}
+                  >
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
@@ -397,9 +419,6 @@ useEffect(() => {
         </Row>
       </Card>
       </div>
-          
-        })
-      
       })}
      
       {/* List Items End */}
@@ -443,6 +462,103 @@ useEffect(() => {
         </Pagination>
       </div>
       {/* Pagination End */}
+
+
+
+      <div>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          
+        >
+          {/* <DialogTitle id="alert-dialog-title">
+          Hello India
+          {"Use Google's location service?"}
+        </DialogTitle> */}
+          <DialogContent style={{ width: "500px", height: "auto"  }}>
+           
+ {/* List Header Start */}
+ <Row className="g-0 mb-2 d-none d-lg-flex">
+        {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
+        <Col>
+          <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">S.No</div>
+            </Col>
+            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
+            </Col>
+           
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">price</div>
+            </Col>
+            
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">status</div>
+            </Col>
+        
+          </Row>
+        </Col>
+      </Row>
+      {/* List Header End */}
+
+      {/* List Items Start */}
+      {productDetails && productDetails.map((item, index) => {
+          return <div key="">
+           {console.log(item,"fghfghfghh")}
+      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+        <Row className="g-0 h-100 sh-lg-9 position-relative">
+         
+          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+            <Row className="g-0 h-100 ">
+             
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{index+1}</div>
+              </Col>
+              <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{item.name}</div>
+              </Col>
+              
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{item.quantity}</div>
+              </Col>
+              
+              <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{item.price}</div>
+              </Col>
+              
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                {/* <div className="lh-1 text-alternate">{item.is_active.toString()}</div> */}
+                <Form.Check 
+                className="form-check mt-2 ps-7 ps-md-2" 
+                type="switch" checked={item.is_delivered} 
+                // onChange={() => StatusUpdate()}
+
+                onClick={() => { eventHandler(item) }}
+                />
+              </Col>
+              
+              
+              
+        
+            
+            </Row>
+          </Col>
+        </Row>
+      </Card>
+      </div>
+      })}
+     
+      {/* List Items End */}
+          </DialogContent>
+
+        </Dialog>
+      </div>
     </>
   );
 };
