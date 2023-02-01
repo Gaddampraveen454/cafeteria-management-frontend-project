@@ -77,18 +77,18 @@ const adminRoutesAndMenuItems = {
       label: 'Company Management',
       icon: 'shipping',
     },
-    {
-      path: `${appRoot}/Cards`,
-      component: Cards,
-      label: 'Cards',
-      icon: 'shipping',
-    },
-    {
-      path: `${appRoot}/Cardcart`,
-      component: Cardcart,
-      label: 'Cardcart',
-      icon: 'shipping',
-    },
+    // {
+    //   path: `${appRoot}/Cards`,
+    //   component: Cards,
+    //   label: 'Cards',
+    //   icon: 'shipping',
+    // },
+    // {
+    //   path: `${appRoot}/Cardcart`,
+    //   component: Cardcart,
+    //   label: 'Cardcart',
+    //   icon: 'shipping',
+    // },
     {
       path: `${appRoot}/addcompany`,
       component: addcompany,

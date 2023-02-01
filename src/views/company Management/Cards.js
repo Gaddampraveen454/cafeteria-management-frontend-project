@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
+import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal } from 'react-bootstrap';
@@ -14,7 +16,9 @@ import GreenDot from '../../Assests/images/GreenDot.png';
 
 
 
+
 const Menu = () => {
+  const dispatch = useDispatch()
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
 
@@ -51,7 +55,14 @@ const Menu = () => {
       setSelectedItems([]);
     }
   };
-
+  const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
+  const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
+  console.log(categoryForConsumer,"sjdfjsffsfdfsf")
+  useEffect(() => {
+    dispatch(ProductForConsumerListURL())
+    dispatch(categoryForConsumerListURL())
+    
+  }, [])
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -151,18 +162,19 @@ const Menu = () => {
         </Form>
           {/* Product Thumbnails Start */}
           <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-          
-          <Col xs="12" md="6" lg="6" xl="6">
+          {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item)=>{
+            return<>
+            <Col xs="12" md="6" lg="6" xl="6">
           <Card className="h-100 hover-scale-up cursor-pointer">
           <Card.Body className="pb-3">
-                <img src={GreenDot} alt="GreenDot" style={{width:"4%"}} className="heading mb-3 d-flex"/>
+                <img src={item.image_url} alt="GreenDot" style={{width:"50%"}} className="heading mb-3 d-flex" crossOrigin="anonymous"/>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} className="heading mb-0 d-flex">
                     
                     {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
                     <div style={{float:"left"}}>
                     <NavLink  to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
                       <Clamp tag="span" clamp="2">
-                      Divine Combo
+                      {item.name}
                       </Clamp>
                     </NavLink>
                     </div>
@@ -198,6 +210,10 @@ const Menu = () => {
                   </div>
                 </Card.Footer>
         </Col>
+            </>
+            
+          })}
+       
         
             </Row>
             </div>
@@ -210,7 +226,7 @@ const Menu = () => {
         </Form>
         <Row style={{float:"right",}} className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3">
             <Col style={{display:"grid",placeContent:"center"}}>
-            <div xs="12" md="4" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+            <Col xs="12" md="4" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button style={{
               zIndex:"2",
             position:"fixed",
@@ -225,8 +241,9 @@ const Menu = () => {
             variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none mt-5" onClick={() => setIsOpenFiltersModal(true)}>
               <CsLineIcons icon="menu" /> <br />
               <h5 style={{fontWeight:"700",}}>Menu</h5>
+            
             </Button>
-            </div>
+            </Col>
             </Col>
             </Row>
           {/* Product Thumbnails Start */}

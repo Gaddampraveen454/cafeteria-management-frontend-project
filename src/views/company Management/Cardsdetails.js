@@ -1,15 +1,39 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Rating from 'react-rating';
+import { useDispatch,useSelector } from 'react-redux';
+
+import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
+
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 
 const Cardsdetails = () => {
+  const dispatch = useDispatch()
+
   const [open, setOpen] = React.useState(false);
+
+
+
+  const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
+  // const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
+  console.log(categoryForConsumer,"sdfsdfsdfsdfsd")
+  useEffect(() => {
+    // dispatch(ProductForConsumerListURL())
+    dispatch(categoryForConsumerListURL())
+    
+  }, [])
   return (
     <>
       <div >
       <Form className="mb-5">
-        <p className="text-large text-muted mb-2">Menu</p>
+        <p className="text-large text-muted mb-2">Menu1</p>
+        {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item)=>{
+          return<>
+          <a href="#firstcolumn">
+        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2">{item.name}</label>
+          </a><br />
+          </>
+        })}
         <a href="#firstcolumn">
         <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2">Happy New Year 2023 Combos</label>
           </a><br />

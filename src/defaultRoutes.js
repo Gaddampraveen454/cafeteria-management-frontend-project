@@ -20,7 +20,8 @@ const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
-
+const Cards = lazy(() => import('views/company Management/Cards'));
+const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 
 
 const products = {
@@ -68,6 +69,18 @@ const defaultRoutesAndMenuItems = {
       component: dashboard,
       label: 'dashboard-Default',
       icon: 'shop',
+    },
+    {
+      path: `${appRoot}/Cards`,
+      component: Cards,
+      label: 'Cards',
+      icon: 'shipping',
+    },
+    {
+      path: `${appRoot}/Cardcart`,
+      component: Cardcart,
+      label: 'Cardcart',
+      icon: 'shipping',
     },
     //     {
     //   path: `${appRoot}/Company`,
