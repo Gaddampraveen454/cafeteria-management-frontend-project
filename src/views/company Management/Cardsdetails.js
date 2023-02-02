@@ -1,8 +1,9 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import Rating from 'react-rating';
 import { useDispatch,useSelector } from 'react-redux';
 
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
+import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -12,48 +13,39 @@ const Cardsdetails = () => {
 
   const [open, setOpen] = React.useState(false);
 
-
+const [category, setCategory]=useState("")
 
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
-  // const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
+  const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
   console.log(categoryForConsumer,"sdfsdfsdfsdfsd")
+
+  useEffect(()=>{
+    setCategory(categoryForConsumer.data[0].uuid)
+  },[])
+
   useEffect(() => {
-    // dispatch(ProductForConsumerListURL())
-    dispatch(categoryForConsumerListURL())
-    
-  }, [])
+    // if (category===!""){
+      if(category){
+        dispatch(ProductForConsumerListURL(category))
+        dispatch(categoryForConsumerListURL())
+      }
+
+  }, [category])
+
+
   return (
     <>
       <div >
       <Form className="mb-5">
-        <p className="text-large text-muted mb-2">Menu1</p>
+        <p className="text-large text-muted mb-2">Menu</p>
         {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item)=>{
           return<>
           <a href="#firstcolumn">
-        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2">{item.name}</label>
+        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2" onClick={()=>{setCategory(item.uuid)}}>{item.name}</label>
           </a><br />
           </>
         })}
-        <a href="#firstcolumn">
-        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2">Happy New Year 2023 Combos</label>
-          </a><br />
-        <a href="#secondcolumn"><label  style={{cursor:"pointer"}} title className="form-check-label  mb-2">No Added Sugar</label></a>
-        <br />
-        <a href="#thirdcolumn">
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">100 ml Ice creams</label>
-          </a><br />
-        <a href="#fourthcolumn">
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">500 ml Ice creams</label>
-          </a><br />
-        <a href="#fifthcolumn">
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">750 ml Ice creams</label>
-          </a><br />
-          <a href="#sixthcolumn">
-        <label style={{cursor:"pointer"}} title className="form-check-label  mb-2">650 ml Ice creams</label>
-          </a><br />
-        <a href="#seventhcolumn">
-        <label style={{cursor:"pointer"}} title className="form-check-label">Kulfi</label>
-        </a>
+  
         {/* <Form.Check  label="Happy New Year 2023 Combos" />
         <Form.Check  label="No Added Sugar" />
         <Form.Check  label="100 ml Ice creams" />

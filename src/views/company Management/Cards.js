@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useHistory } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
+import { addToCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
@@ -17,8 +20,10 @@ import GreenDot from '../../Assests/images/GreenDot.png';
 
 
 
+
 const Menu = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
 
@@ -27,6 +32,8 @@ const Menu = () => {
   const { width } = useWindowSize();
   const [isLgScreen, setIsLgScreen] = useState(false);
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
+  const [category, setCategory]=useState("")
+  const [suc,setSuc] = useState(false);
 
   useEffect(() => {
     if (width) {
@@ -56,13 +63,54 @@ const Menu = () => {
     }
   };
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
-  const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
+  const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+  const { CartData,notification } = useSelector((state) => state.CartList)
   console.log(categoryForConsumer,"sjdfjsffsfdfsf")
-  useEffect(() => {
-    dispatch(ProductForConsumerListURL())
-    dispatch(categoryForConsumerListURL())
-    
-  }, [])
+
+
+
+
+
+  const addToCart = (event) => {
+    console.log(event,"jhjjgjhgjgjhg")
+    // event.preventDefault()
+    // const value = event.target.elements
+    const payload = {
+      "item_uuid" : event.uuid,
+      "quantity" : 1,
+      "user_uuid" : "CN-C0479E75"  
+    } 
+    dispatch(addToCartURL(payload))
+    setSuc(true)
+    // dispatch(CompanyListURL(currentUser.token))
+}
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        // dispatch(CompanyListURL(currentUser.token))
+        history.push(({
+          pathname: "/Cardcart",
+         
+        }));
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
+ 
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -179,11 +227,14 @@ const Menu = () => {
                     </NavLink>
                     </div>
                     <div style={{float:"right"}}>
-                    <NavLink  to="/">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    {/* <NavLink  to="/"> */}
+                    <Button variant="outline-primary" 
+                    className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                    onClick={()=>{addToCart(item)}}
+                    >
                     <CsLineIcons icon="plus"/><span>Add</span>
                     </Button>
-                    </NavLink>
+                    {/* </NavLink> */}
                     </div>
 
                   </div> <br />

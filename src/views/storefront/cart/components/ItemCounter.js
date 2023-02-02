@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 
 const ItemCounter = ({ defVal = 0 }) => {
   const [value, setValue] = useState(parseInt(defVal, 10));
-
+  const [btndisabl, setBtnDisabl]=useState(false)
+console.log(value,"adfadfasfafsa")
   const onInput = (event) => {
     setValue(event.target.value || 0);
   };
@@ -16,10 +17,18 @@ const ItemCounter = ({ defVal = 0 }) => {
     setValue(parseInt(typeof value === 'number' ? value : 0, 10) - 1);
   };
 
+
+  
+// useEffect(()=>{
+// if(value===1)
+// setBtnDisabl(true)
+// },[value])
+
+  
   return (
     <InputGroup className="spinner sw-11">
       <InputGroup.Text id="basic-addon1">
-        <button type="button" className="spin-down single px-2" onClick={spinDown}>
+        <button type="button" className="spin-down single px-2" onClick={spinDown}  disabled={btndisabl}>
           -
         </button>
       </InputGroup.Text>

@@ -1,15 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { CartListURL,deleteToCartURL,updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import Clamp from 'components/clamp/index';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import ItemCounter from '../storefront/cart/components/ItemCounter';
 
+
 const Cardcart = () => {
+  const dispatch = useDispatch()
   const title = 'Cart';
   const description = 'Ecommerce Storefront Cart Page';
+  const { CartData,notification } = useSelector((state) => state.CartList)
+const [CartId , setCartId]=useState()
+const [suc,setSuc] = useState(false);
 
+console.log(CartId, "Dsdfsfddsfsdfdsf")
+useEffect(()=>{
+  dispatch(CartListURL())
+},[])
+console.log(CartData,"jhfhdfdffdfjhfj")
+
+
+// const updateToCart = (event) => {
+//   console.log(event,"jhjjgjhsdfsfsdgjgjhg")
+
+//   const payload = {
+//     "uuid" :event.uuid,
+//     "quantity" : value
+// }
+//   dispatch(updateCartURL(payload))
+//   setSuc(true)
+//   // dispatch(CompanyListURL(currentUser.token))
+// }
+
+
+const deleteToCart = (event) => {
+  console.log(event,"jhjjgjhsdfsfsdgjgjhg")
+
+  const payload = {
+    "uuid" : "CRT-491D74D0"
+}
+  dispatch(deleteToCartURL(payload))
+  setSuc(true)
+  // dispatch(CompanyListURL(currentUser.token))
+}
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        dispatch(CartListURL())
+        // history.push(({
+        //   pathname: "/Cardcart",
+         
+        // }));
+      },1000)
+     
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+console.log(notification ,"ProductDataProductData")
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -30,11 +94,11 @@ const Cardcart = () => {
           {/* Items Start */}
           <h2 className="small-title">Items</h2>
           <div className="mb-5">
-            <Card className="mb-2">
+          {CartData && CartData.data && CartData.data.map((item)=>{
+return<>
+<Card className="mb-2">
               <Row className="g-0 sh-18 sh-md-14">
-                {/* <Col xs="auto">
-                  <img src="/img/product/small/product-1.webp" className="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="thumb" />
-                </Col> */}
+               
                 <Col className="position-relative h-100">
                   <Card.Body>
                     <Row className="h-100">
@@ -42,7 +106,7 @@ const Cardcart = () => {
                         <div className="pt-0 pb-0 pe-2">
                           <div className="h6 mb-0">
                             <Clamp tag="span" clamp="1">
-                            Divine Combo
+                           {item.product_name}
                             </Clamp>
                           </div>
                           {/* <div className="text-muted text-small">Whole Wheat</div>
@@ -50,151 +114,28 @@ const Cardcart = () => {
                         </div>
                       </Col>
                       <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center">
-                        <ItemCounter defVal="4" />
+                        <ItemCounter defVal={item.quantity} />
                       </Col>
                       <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
-                        <div className="h6 mb-0">₹ 124.20</div>
+                        <div className="h6 mb-0">₹ {item.product_price}</div>
                       </Col>
                     </Row>
-                    <Button size="sm" className="btn-icon btn-icon-only position-absolute t-2 e-2" variant="foreground-alternate">
-                      <CsLineIcons icon="error-hexagon" />
+                    <Button size="sm" 
+                    className="btn-icon btn-icon-only position-absolute t-2 e-2" 
+                    variant="foreground-alternate"
+                    onClick={()=>{deleteToCart(item)}}
+                    >
+                     <CsLineIcons icon="error-hexagon" />
                     </Button>
                   </Card.Body>
                 </Col>
               </Row>
             </Card>
-            <Card className="mb-2">
-              <Row className="g-0 sh-18 sh-md-14">
-                {/* <Col xs="auto">
-                  <img src="/img/product/small/product-1.webp" className="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="thumb" />
-                </Col> */}
-                <Col className="position-relative h-100">
-                  <Card.Body>
-                    <Row className="h-100">
-                      <Col md="6" lg={4} className="mb-2 mb-md-0 d-flex align-items-center">
-                        <div className="pt-0 pb-0 pe-2">
-                          <div className="h6 mb-0">
-                            <Clamp tag="span" clamp="1">
-                            Roasted Almond Ice Cream
-                            </Clamp>
-                          </div>
-                          {/* <div className="text-muted text-small">Whole Wheat</div>
-                          <div className="mb-0 sw-19">$ 22.60</div> */}
-                        </div>
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center">
-                        <ItemCounter defVal="4" />
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
-                        <div className="h6 mb-0">₹ 556.44</div>
-                      </Col>
-                    </Row>
-                    <Button size="sm" className="btn-icon btn-icon-only position-absolute t-2 e-2" variant="foreground-alternate">
-                      <CsLineIcons icon="error-hexagon" />
-                    </Button>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
-            <Card className="mb-2">
-              <Row className="g-0 sh-18 sh-md-14">
-                {/* <Col xs="auto">
-                  <img src="/img/product/small/product-1.webp" className="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="thumb" />
-                </Col> */}
-                <Col className="position-relative h-100">
-                  <Card.Body>
-                    <Row className="h-100">
-                      <Col md="6" lg={4} className="mb-2 mb-md-0 d-flex align-items-center">
-                        <div className="pt-0 pb-0 pe-2">
-                          <div className="h6 mb-0">
-                            <Clamp tag="span" clamp="1">
-                            Tender Coconut Ice Cream
-                            </Clamp>
-                          </div>
-                          {/* <div className="text-muted text-small">Whole Wheat</div>
-                          <div className="mb-0 sw-19">$ 22.60</div> */}
-                        </div>
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center">
-                        <ItemCounter defVal="4" />
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
-                        <div className="h6 mb-0">₹ 864.98</div>
-                      </Col>
-                    </Row>
-                    <Button size="sm" className="btn-icon btn-icon-only position-absolute t-2 e-2" variant="foreground-alternate">
-                      <CsLineIcons icon="error-hexagon" />
-                    </Button>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
-            <Card className="mb-2">
-              <Row className="g-0 sh-18 sh-md-14">
-                {/* <Col xs="auto">
-                  <img src="/img/product/small/product-1.webp" className="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="thumb" />
-                </Col> */}
-                <Col className="position-relative h-100">
-                  <Card.Body>
-                    <Row className="h-100">
-                      <Col md="6" lg={4} className="mb-2 mb-md-0 d-flex align-items-center">
-                        <div className="pt-0 pb-0 pe-2">
-                          <div className="h6 mb-0">
-                            <Clamp tag="span" clamp="1">
-                            Alphonso Mango Ice Cream
-                            </Clamp>
-                          </div>
-                          {/* <div className="text-muted text-small">Whole Wheat</div>
-                          <div className="mb-0 sw-19">$ 22.60</div> */}
-                        </div>
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center">
-                        <ItemCounter defVal="4" />
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
-                        <div className="h6 mb-0">₹ 398.67</div>
-                      </Col>
-                    </Row>
-                    <Button size="sm" className="btn-icon btn-icon-only position-absolute t-2 e-2" variant="foreground-alternate">
-                      <CsLineIcons icon="error-hexagon" />
-                    </Button>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
-            <Card className="mb-2">
-              <Row className="g-0 sh-18 sh-md-14">
-                {/* <Col xs="auto">
-                  <img src="/img/product/small/product-1.webp" className="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="thumb" />
-                </Col> */}
-                <Col className="position-relative h-100">
-                  <Card.Body>
-                    <Row className="h-100">
-                      <Col md="6" lg={4} className="mb-2 mb-md-0 d-flex align-items-center">
-                        <div className="pt-0 pb-0 pe-2">
-                          <div className="h6 mb-0">
-                            <Clamp tag="span" clamp="1">
-                            Mixed Berries Ice Cream
-                            </Clamp>
-                          </div>
-                          {/* <div className="text-muted text-small">Whole Wheat</div>
-                          <div className="mb-0 sw-19">$ 22.60</div> */}
-                        </div>
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center">
-                        <ItemCounter defVal="4" />
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
-                        <div className="h6 mb-0">₹ 876.76</div>
-                      </Col>
-                    </Row>
-                    <Button size="sm" className="btn-icon btn-icon-only position-absolute t-2 e-2" variant="foreground-alternate">
-                      <CsLineIcons icon="error-hexagon" />
-                    </Button>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
+</>
+
+          })}
+            
+            
           </div>
           {/* Items End */}
 
