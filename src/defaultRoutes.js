@@ -62,7 +62,7 @@ const defaultRoutesAndMenuItems = {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/login`,
+      to: `${appRoot}/dashboard`,
     },
     {
       path: `${appRoot}/dashboard`,

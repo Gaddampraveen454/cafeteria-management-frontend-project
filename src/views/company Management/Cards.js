@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { NavLink,useHistory } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
@@ -34,6 +35,20 @@ const Menu = () => {
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
   const [category, setCategory]=useState("")
   const [suc,setSuc] = useState(false);
+
+
+
+  const [ip, setIP] = useState('');
+console.log(ip,"dsfsdfdsfdsfsd")
+const getData = async () => {
+  const res = await axios.get('https://ipapi.co/json/')
+  console.log(res.data);
+  setIP(res.data.ip)
+}
+
+useEffect( () => {
+  getData()
+}, [])
 
   useEffect(() => {
     if (width) {
@@ -78,7 +93,7 @@ const Menu = () => {
     const payload = {
       "item_uuid" : event.uuid,
       "quantity" : 1,
-      "user_uuid" : "CN-C0479E75"  
+      "ip_address" : ip
     } 
     dispatch(addToCartURL(payload))
     setSuc(true)

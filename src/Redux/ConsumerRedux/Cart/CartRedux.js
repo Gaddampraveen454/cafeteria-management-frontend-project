@@ -24,8 +24,8 @@ const CartSlice = createSlice({
 export const { setCartData, setToast } = CartSlice.actions;
 
 
-export const CartListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?user_uuid=CN-C0479E75`,{headers:{
+export const CartListURL = (ip, search, token, limit) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?ip_address=${ip}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfgcvvcvcvbchj")
@@ -49,7 +49,7 @@ export const addToCartURL = (payload,token) => async (dispatch) => {
   };
 
 export const updateCartURL = (payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/quantity/update`,payload,{headers:{
+    const response = await axios.put(`${process.env.REACT_APP_URL}/cart/quantity/update`,payload,{headers:{
       "x-auth-token" : token
     }}).then((res) => {
       console.log(res, "sdfsddffsdff")
@@ -63,41 +63,39 @@ export const updateCartURL = (payload, token) => async (dispatch) => {
   };
 
 
-  // export const deleteToCartURL = (payload,token) => async (dispatch) => {
-  //   const response = await axios.delete(`${process.env.REACT_APP_URL}/cart/delete`,payload,
-  //   {headers:{
-  //     "x-auth-token" : token
-  //   }}
-  //   )
-  //   .then((res) => {
-  //     console.log(res, "sdfsdfsdff")
-  //     dispatch(setToast({ status: true, message: res.data.message }))
-  //   })
-  //   .catch((err) => {
-  //     dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
-
-  //   })
-  // };
-
-
-
-
-  export const deleteToCartURL = (data) => async (dispatch) => {
-    const response = await axios.delete(`${process.env.REACT_APP_URL}/cart/delete`, 
-    { 
-      data
-    }
- 
-    )   
+  export const deleteToCartURL = (uuid,token) => async (dispatch) => {
+    const response = await axios.delete(`${process.env.REACT_APP_URL}/cart/delete/${uuid}`,
+   
+    )
     .then((res) => {
-            console.log(res, "sdfsdfsdff")
-            dispatch(setToast({ status: true, message: res.data.message }))
-          })
-          .catch((err) => {
-            dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      console.log(res, "sdfsdfsdff")
+      dispatch(setToast({ status: true, message: res.data.message }))
+    })
+    .catch((err) => {
+      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+
+    })
+  };
+
+
+
+
+  // export const deleteToCartURL = (data) => async (dispatch) => {
+  //   const response = await axios.delete(`${process.env.REACT_APP_URL}/cart/delete`, 
+  //   { 
+  //     data
+  //   }
+ 
+  //   )   
+  //   .then((res) => {
+  //           console.log(res, "sdfsdfsdff")
+  //           dispatch(setToast({ status: true, message: res.data.message }))
+  //         })
+  //         .catch((err) => {
+  //           dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
       
-          })
-  }
+  //         })
+  // }
 const CartReducer = CartSlice.reducer;
 
 export default CartReducer;

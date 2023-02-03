@@ -8,7 +8,9 @@ import Clamp from 'components/clamp/index';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import axios from 'axios';
 import ItemCounter from '../storefront/cart/components/ItemCounter';
+
 
 
 const Cardcart = () => {
@@ -19,10 +21,24 @@ const Cardcart = () => {
 const [CartId , setCartId]=useState()
 const [suc,setSuc] = useState(false);
 
+
+const [ip, setIP] = useState('');
+console.log(ip,"dsfsdfdsfdsfsd")
+const getData = async () => {
+  const res = await axios.get('https://ipapi.co/json/')
+  console.log(res.data);
+  setIP(res.data.ip)
+}
+
+useEffect( () => {
+  getData()
+}, [])
+
 console.log(CartId, "Dsdfsfddsfsdfdsf")
 useEffect(()=>{
-  dispatch(CartListURL())
-},[])
+  if(ip)
+  dispatch(CartListURL(ip))
+},[ip])
 console.log(CartData,"jhfhdfdffdfjhfj")
 
 
@@ -41,14 +57,18 @@ console.log(CartData,"jhfhdfdffdfjhfj")
 
 const deleteToCart = (event) => {
   console.log(event,"jhjjgjhsdfsfsdgjgjhg")
-
-  const payload = {
-    "uuid" : "CRT-491D74D0"
-}
-  dispatch(deleteToCartURL(payload))
+  dispatch(deleteToCartURL(event.uuid))
   setSuc(true)
-  // dispatch(CompanyListURL(currentUser.token))
 }
+
+const[updateQnt, setUpdateQnt]=useState()
+const updateQntevnt = (event) => {
+  setUpdateQnt(event)
+  // console.log(event,"jhjjgjhsdfsfsdgjgjhg")
+  // dispatch(deleteToCartURL(event.uuid))
+  setSuc(true)
+}
+
 
 useEffect(() => {
   if (suc === true) {
@@ -58,7 +78,8 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(CartListURL())
+       
+        dispatch(CartListURL(ip))
         // history.push(({
         //   pathname: "/Cardcart",
          
@@ -74,6 +95,14 @@ useEffect(() => {
 
 }, [notification])
 console.log(notification ,"ProductDataProductData")
+
+
+
+
+
+
+
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -113,9 +142,10 @@ return<>
                           <div className="mb-0 sw-19">$ 22.60</div> */}
                         </div>
                       </Col>
-                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center">
-                        <ItemCounter defVal={item.quantity} />
+                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center" onClick={()=>{updateQntevnt(item)}}>
+                        <ItemCounter defVal={item.quantity} data={updateQnt} />
                       </Col>
+                      
                       <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
                         <div className="h6 mb-0">₹ {item.product_price}</div>
                       </Col>
@@ -206,7 +236,7 @@ return<>
                 <div className="mb-2">
                   <p className="text-small text-muted mb-1">ITEMS</p>
                   <p>
-                    <span className="text-alternate">5</span>
+                    <span className="text-alternate"> {CartData.count}</span>
                   </p>
                 </div>
                 <div className="mb-2">
@@ -214,7 +244,7 @@ return<>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                      285.25
+                      {CartData.total_amount}
                     </span>
                   </p>
                 </div>
@@ -223,7 +253,7 @@ return<>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                      12.50
+                 0
                     </span>
                   </p>
                 </div>
@@ -232,7 +262,7 @@ return<>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                      -24.50
+                     
                     </span>
                   </p>
                 </div>
@@ -241,7 +271,7 @@ return<>
                   <div className="cta-2">
                     <span>
                       <span className="text-small text-muted cta-2">₹</span>
-                      321.50
+                      {CartData.total_amount}
                     </span>
                   </div>
                 </div>
