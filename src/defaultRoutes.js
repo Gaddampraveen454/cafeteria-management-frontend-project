@@ -22,6 +22,7 @@ const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
+const Checkout =lazy(()=>import('view Consumer/checkout/Checkout'))
 
 
 const products = {
@@ -82,12 +83,12 @@ const defaultRoutesAndMenuItems = {
       label: 'Cardcart',
       icon: 'shipping',
     },
-    //     {
-    //   path: `${appRoot}/Company`,
-    //   component: Company,
-    //   label: 'Company Management',
-    //   icon: 'shipping',
-    // },
+        {
+      path: `${appRoot}/Checkout`,
+      component: Checkout,
+      // label: 'Company Management',
+      // icon: 'shipping',
+    },
     // {
     //   path: `${appRoot}/addcompany`,
     //   component: addcompany,

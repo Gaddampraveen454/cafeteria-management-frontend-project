@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { CartListURL,deleteToCartURL,updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { Row, Col, Card, Button } from 'react-bootstrap';
@@ -15,8 +15,11 @@ import ItemCounter from '../storefront/cart/components/ItemCounter';
 
 const Cardcart = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
   const title = 'Cart';
   const description = 'Ecommerce Storefront Cart Page';
+  const { currentUser, isLogin } = useSelector((state) => state.auth);
+  console.log(currentUser,isLogin,"curreasdasdntUdfddsfsdfdser")
   const { CartData,notification } = useSelector((state) => state.CartList)
 const [CartId , setCartId]=useState()
 const [suc,setSuc] = useState(false);
@@ -98,9 +101,25 @@ console.log(notification ,"ProductDataProductData")
 
 
 
+const CheckLogin=()=>{
+  if(currentUser && currentUser.data && currentUser.data.group==="consumer")
+  {
 
+history.push(({
+          // pathname: "/consumer/login",
+          pathname: "/Checkout",
+        
+        }));
+}
+else{
+  history.push(({
+    pathname: "/consumer/login",
+    // pathname: "Checkout",
+  
+  }));
+}
 
-
+}
 
 
   return (
@@ -276,8 +295,8 @@ return<>
                   </div>
                 </div>
               </div>
-              <Button className="btn-icon btn-icon-end w-100" variant="primary">
-                <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
+              <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={CheckLogin}>
+                <span>Proceed to checkout1</span> <CsLineIcons icon="chevron-right" />
               </Button>
             </Card.Body>
           </Card>

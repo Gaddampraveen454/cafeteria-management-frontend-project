@@ -41,7 +41,7 @@ if (currentUser && currentUser.data && currentUser.data.group==="admin"){
 }else if(currentUser && currentUser.data && currentUser.data.group==="cashier"){
   routsData=cashierRoutesAndMenuItems.mainMenuItems 
 }else if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
-  routsData=consumerRoutesAndMenuItems.mainMenuItems 
+  routsData=defaultRoutesAndMenuItems.mainMenuItems 
 }else{
   routsData=defaultRoutesAndMenuItems.mainMenuItems
 }

@@ -7,18 +7,19 @@ import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoginURL } from '../../auth/authSlice'
+// import { LoginURL } from '../../auth/authSlice'
+import { ConsumerLoginURL } from '../../auth/ConsumerAuthSlice';
 
 
 const Login = () => {
   const title = 'Login';
   const description = 'Login Page';
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-  console.log(currentUser,isLogin,"currentUser")
+  console.log(currentUser,isLogin,"currentUdfddsfsdfdser")
   const history = useHistory()
   useEffect(()=> {
 
-if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier"){
+if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
   history.push('/dashboard')
   localStorage.setItem('token',currentUser)
 }
@@ -32,7 +33,7 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
     email: Yup.string().email().required('Email is required'),
     password: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
   });
-  const initialValues = { email: '', password: '' };
+  const initialValues = { emp_id: '', password: '' };
   const onSubmit = (values) => console.log('submit form', values);
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
@@ -43,7 +44,7 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
   console.log(values,"values")
   const LoginAPI = (event) =>{
     event.preventDefault()
-    dispatch(LoginURL(values));
+    dispatch(ConsumerLoginURL(values));
 
     console.log(event.target.elements, "dfghhjj")
   }
@@ -80,7 +81,7 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
           </NavLink>
         </div>
         <div className="mb-5">
-          <h2 className="cta-1 mb-0 text-primary">Welcome,</h2>
+          <h2 className="cta-1 mb-0 text-primary">Welcome1,</h2>
           <h2 className="cta-1 text-primary">let's get started!</h2>
         </div>
         <div className="mb-5">
@@ -96,7 +97,7 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
           >
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
-              <Form.Control type="text" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
+              <Form.Control type="text" name="emp_id" placeholder="Email" value={values.email} onChange={handleChange} />
               {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
             </div>
             <div className="mb-3 filled form-group tooltip-end-top">
