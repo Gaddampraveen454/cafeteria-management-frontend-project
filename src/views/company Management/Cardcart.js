@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useDispatch,useSelector } from 'react-redux';
-import { CartListURL,deleteToCartURL,updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { useDispatch, useSelector } from 'react-redux';
+import { CartListURL, deleteToCartURL, updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CreateCheckOutURL,CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import Clamp from 'components/clamp/index';
@@ -19,108 +20,165 @@ const Cardcart = () => {
   const title = 'Cart';
   const description = 'Ecommerce Storefront Cart Page';
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-  console.log(currentUser,isLogin,"curreasdasdntUdfddsfsdfdser")
-  const { CartData,notification } = useSelector((state) => state.CartList)
-const [CartId , setCartId]=useState()
-const [suc,setSuc] = useState(false);
+  const { CheckoutData, checkoutnotification } = useSelector((state) => state.checkoutdata);
+  console.log(CheckoutData, "asdadssdfdsazcs")
+  console.log(currentUser, isLogin, "curreasdasdntUdfddsfsdfdser")
+  const { CartData, notification } = useSelector((state) => state.CartList)
+  const [CartId, setCartId] = useState()
+  const [suc, setSuc] = useState(false);
 
 
-const [ip, setIP] = useState('');
-console.log(ip,"dsfsdfdsfdsfsd")
-const getData = async () => {
-  const res = await axios.get('https://ipapi.co/json/')
-  console.log(res.data);
-  setIP(res.data.ip)
-}
-
-useEffect( () => {
-  getData()
-}, [])
-
-console.log(CartId, "Dsdfsfddsfsdfdsf")
-useEffect(()=>{
-  if(ip)
-  dispatch(CartListURL(ip))
-},[ip])
-console.log(CartData,"jhfhdfdffdfjhfj")
-
-
-// const updateToCart = (event) => {
-//   console.log(event,"jhjjgjhsdfsfsdgjgjhg")
-
-//   const payload = {
-//     "uuid" :event.uuid,
-//     "quantity" : value
-// }
-//   dispatch(updateCartURL(payload))
-//   setSuc(true)
-//   // dispatch(CompanyListURL(currentUser.token))
-// }
-
-
-const deleteToCart = (event) => {
-  console.log(event,"jhjjgjhsdfsfsdgjgjhg")
-  dispatch(deleteToCartURL(event.uuid))
-  setSuc(true)
-}
-
-const[updateQnt, setUpdateQnt]=useState()
-const updateQntevnt = (event) => {
-  setUpdateQnt(event)
-  // console.log(event,"jhjjgjhsdfsfsdgjgjhg")
-  // dispatch(deleteToCartURL(event.uuid))
-  setSuc(true)
-}
-
-
-useEffect(() => {
-  if (suc === true) {
-    if (notification.status === true) {
-      toast.success(notification.message,{
-        position:"top-right",
-      })
-      setSuc(false)
-      setTimeout(()=>{
-       
-        dispatch(CartListURL(ip))
-        // history.push(({
-        //   pathname: "/Cardcart",
-         
-        // }));
-      },1000)
-     
-    }
-    else if (notification.status === false) {
-      toast.error(notification.message)
-      setSuc(false)
-    }
+  const [ip, setIP] = useState('');
+  console.log(ip, "dsfsdfdsfdsfsd")
+  const getData = async () => {
+    const res = await axios.get('https://ipapi.co/json/')
+    console.log(res.data);
+    setIP(res.data.ip)
   }
 
-}, [notification])
-console.log(notification ,"ProductDataProductData")
+  useEffect(() => {
+    getData()
+  }, [])
+
+  console.log(CartId, "Dsdfsfddsfsdfdsf")
+  useEffect(() => {
+    if (ip)
+      dispatch(CartListURL(ip))
+  }, [ip])
+  console.log(CartData, "jhfhdfdffdfjhfj")
+
+
+  // const updateToCart = (event) => {
+  //   console.log(event,"jhjjgjhsdfsfsdgjgjhg")
+
+  //   const payload = {
+  //     "uuid" :event.uuid,
+  //     "quantity" : value
+  // }
+  //   dispatch(updateCartURL(payload))
+  //   setSuc(true)
+  //   // dispatch(CompanyListURL(currentUser.token))
+  // }
+
+
+  const deleteToCart = (event) => {
+    console.log(event, "jhjjgjhsdfsfsdgjgjhg")
+    dispatch(deleteToCartURL(event.uuid))
+    setSuc(true)
+  }
+
+  const [updateQnt, setUpdateQnt] = useState()
+  const updateQntevnt = (event) => {
+    setUpdateQnt(event)
+    // console.log(event,"jhjjgjhsdfsfsdgjgjhg")
+    // dispatch(deleteToCartURL(event.uuid))
+    setSuc(true)
+  }
+
+
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+
+          dispatch(CartListURL(ip))
+          // history.push(({
+          //   pathname: "/Cardcart",
+
+          // }));
+        }, 1000)
+
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
 
 
 
-const CheckLogin=()=>{
-  if(currentUser && currentUser.data && currentUser.data.group==="consumer")
-  {
+  const GuestCheckOut = () => {
+    const payload = {
+      "ip_address": ip
 
-history.push(({
-          // pathname: "/consumer/login",
-          pathname: "/Checkout",
-        
-        }));
-}
-else{
-  history.push(({
-    pathname: "/consumer/login",
-    // pathname: "Checkout",
-  
-  }));
-}
+    }
+    dispatch(CreateCheckOutGuestURL(payload,))
+    setSuc(true)
+  }
+  const GuestCheckOut1 = () => {
+    const payload = {
+      "user_uuid" : currentUser.data.uuid
+  }
+    dispatch(CreateCheckOutURL(payload,currentUser.token))
+    setSuc(true)
+  }
 
-}
+  const CheckLogin = () => {
+    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
 
+      history.push(({
+        // pathname: "/consumer/login",
+        pathname: "/Checkout",
+        state: {
+          userType: "consumer"
+        }
+      }));
+    }
+    else {
+      history.push(({
+        pathname: "/consumer/login",
+        // pathname: "Checkout",
+
+      }));
+    }
+
+  }
+
+
+  useEffect(() => {
+    if (suc === true) {
+      if (checkoutnotification.status === true) {
+        toast.success(checkoutnotification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+
+          if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+
+            history.push(({
+              // pathname: "/consumer/login",
+              pathname: "/Checkout",
+              state: {
+                userType: "consumer"
+              }
+            }));
+          }
+          else {
+            history.push(({
+              pathname: "/consumer/login",
+              // pathname: "Checkout",
+      
+            }));
+          }
+        }, 1000)
+
+      }
+      else if (checkoutnotification.status === false) {
+        toast.error(checkoutnotification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [checkoutnotification])
+  console.log(checkoutnotification, "ProductDataProductData")
 
   return (
     <>
@@ -142,49 +200,49 @@ else{
           {/* Items Start */}
           <h2 className="small-title">Items</h2>
           <div className="mb-5">
-          {CartData && CartData.data && CartData.data.map((item)=>{
-return<>
-<Card className="mb-2">
-              <Row className="g-0 sh-18 sh-md-14">
-               
-                <Col className="position-relative h-100">
-                  <Card.Body>
-                    <Row className="h-100">
-                      <Col md="6" lg={4} className="mb-2 mb-md-0 d-flex align-items-center">
-                        <div className="pt-0 pb-0 pe-2">
-                          <div className="h6 mb-0">
-                            <Clamp tag="span" clamp="1">
-                           {item.product_name}
-                            </Clamp>
-                          </div>
-                          {/* <div className="text-muted text-small">Whole Wheat</div>
-                          <div className="mb-0 sw-19">$ 22.60</div> */}
-                        </div>
-                      </Col>
-                      <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center" onClick={()=>{updateQntevnt(item)}}>
-                        <ItemCounter defVal={item.quantity} data={updateQnt} />
-                      </Col>
-                      
-                      <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
-                        <div className="h6 mb-0">₹ {item.product_price}</div>
-                      </Col>
-                    </Row>
-                    <Button size="sm" 
-                    className="btn-icon btn-icon-only position-absolute t-2 e-2" 
-                    variant="foreground-alternate"
-                    onClick={()=>{deleteToCart(item)}}
-                    >
-                     <CsLineIcons icon="error-hexagon" />
-                    </Button>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
-</>
+            {CartData && CartData.data && CartData.data.map((item) => {
+              return <>
+                <Card className="mb-2">
+                  <Row className="g-0 sh-18 sh-md-14">
 
-          })}
-            
-            
+                    <Col className="position-relative h-100">
+                      <Card.Body>
+                        <Row className="h-100">
+                          <Col md="6" lg={4} className="mb-2 mb-md-0 d-flex align-items-center">
+                            <div className="pt-0 pb-0 pe-2">
+                              <div className="h6 mb-0">
+                                <Clamp tag="span" clamp="1">
+                                  {item.product_name}
+                                </Clamp>
+                              </div>
+                              {/* <div className="text-muted text-small">Whole Wheat</div>
+                          <div className="mb-0 sw-19">$ 22.60</div> */}
+                            </div>
+                          </Col>
+                          <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center" onClick={() => { updateQntevnt(item) }}>
+                            <ItemCounter defVal={item.quantity} data={updateQnt} />
+                          </Col>
+
+                          <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
+                            <div className="h6 mb-0">₹ {item.product_price}</div>
+                          </Col>
+                        </Row>
+                        <Button size="sm"
+                          className="btn-icon btn-icon-only position-absolute t-2 e-2"
+                          variant="foreground-alternate"
+                          onClick={() => { deleteToCart(item) }}
+                        >
+                          <CsLineIcons icon="error-hexagon" />
+                        </Button>
+                      </Card.Body>
+                    </Col>
+                  </Row>
+                </Card>
+              </>
+
+            })}
+
+
           </div>
           {/* Items End */}
 
@@ -272,7 +330,7 @@ return<>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                 0
+                      0
                     </span>
                   </p>
                 </div>
@@ -281,7 +339,7 @@ return<>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                     
+
                     </span>
                   </p>
                 </div>
@@ -295,7 +353,7 @@ return<>
                   </div>
                 </div>
               </div>
-              <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={CheckLogin}>
+              <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={GuestCheckOut}>
                 <span>Proceed to checkout1</span> <CsLineIcons icon="chevron-right" />
               </Button>
             </Card.Body>

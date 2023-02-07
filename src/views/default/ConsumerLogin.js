@@ -20,7 +20,15 @@ const Login = () => {
   useEffect(()=> {
 
 if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
-  history.push('/dashboard')
+  // history.push('/dashboard')
+  history.push(({
+    // pathname: "/consumer/login",
+    pathname: "/Checkout",
+    state:{
+      userType:"consumer"
+    }
+  
+  }));
   localStorage.setItem('token',currentUser)
 }
 else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
@@ -48,7 +56,19 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
 
     console.log(event.target.elements, "dfghhjj")
   }
+  const Guest=()=>{
+  history.push(({
+            // pathname: "/consumer/login",
+            pathname: "/Checkout",
+            state:{
+              userType:"guest"
+            }
+          
+          }));
+  }
 
+  
+  
 
   const leftSide = (
     <div className="min-h-100 d-flex align-items-center">
@@ -110,6 +130,13 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
             </div>
             <Button size="lg" type="submit" onClick={LoginAPI}>
               Login
+            </Button>
+            <Button size="lg" 
+            // type="submit" 
+            onClick={Guest}
+
+            >
+              Checkout as a guest
             </Button>
           </form>
         </div>

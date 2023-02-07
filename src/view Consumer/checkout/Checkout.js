@@ -1,27 +1,56 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink ,useLocation,useHistory} from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { createOrderURL, createOrderAsGuestURL ,CreateCheckOutURL} from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const Categories = () => {
   const title = 'Checkout';
   const description = 'Ecommerce Storefront Checkout Page';
-  const { CartData,notification } = useSelector((state) => state.CartList)
+  const location = useLocation();
+  const dispatch = useDispatch()
+  const history = useHistory();
+  const userType = location &&  location.state && location.state.userType;
+    console.log(location,"sdffsdfsdf") 
+  const { CartData, } = useSelector((state) => state.CartList)
+  const { currentUser, isLogin } = useSelector((state) => state.auth);
+  const { CheckoutData,checkoutnotification } = useSelector((state) => state.checkoutdata);
+  console.log(CheckoutData,"asdadssdfsdfazcs")
+  const walletAmount=currentUser && currentUser.data && currentUser.data.wallet_amount?currentUser.data.wallet_amount:0
+console.log(CartData,currentUser,"fgdgsgdfgsfsdfsd")
 
-  const [selectValueState, setSelectValueState] = useState();
-  const optionsState = [
-    { value: 'Fougasse', label: 'Fougasse' },
-    { value: 'Lefse', label: 'Lefse' },
-  ];
 
-  const [selectValueCity, setSelectValueCity] = useState();
-  const optionsCity = [
-    { value: 'Breadstick', label: 'Breadstick' },
-    { value: 'Biscotti', label: 'Biscotti' },
-  ];
+const [suc,setSuc] = useState(false);
+const [ip, setIP] = useState('');
+console.log(ip, "dsfsdfdsfdsfsd")
+const getData = async () => {
+  const res = await axios.get('https://ipapi.co/json/')
+  console.log(res.data);
+  setIP(res.data.ip)
+}
+
+useEffect(() => {
+  getData()
+}, [])
+
+
+  // const [selectValueState, setSelectValueState] = useState();
+  // const optionsState = [
+  //   { value: 'Fougasse', label: 'Fougasse' },
+  //   { value: 'Lefse', label: 'Lefse' },
+  // ];
+
+  // const [selectValueCity, setSelectValueCity] = useState();
+  // const optionsCity = [
+  //   { value: 'Breadstick', label: 'Breadstick' },
+  //   { value: 'Biscotti', label: 'Biscotti' },
+  // ];
 
   const [selectValueMonth, setSelectValueMonth] = useState();
   const optionsMonth = [
@@ -52,6 +81,89 @@ const Categories = () => {
     { value: '29', label: '29' },
     { value: '30', label: '30' },
   ];
+const GuestCheckOut=()=>{
+  const payload = {
+    "ip_address" : "117.98.149.81"
+
+}
+  dispatch(CreateCheckOutURL(payload,currentUser.token))
+  setSuc(true)
+}
+
+  const submitOrder = (event) => {
+    if(userType==="consumer"){
+      event.preventDefault()
+      const value = event.target.elements
+      const payload = {
+        // "checkout_uuid":CheckoutData.data.uuid,
+        // "user_uuid" : currentUser.data.uuid,
+        // "company_uuid" : currentUser.data.company_uuid,
+        // // "transaction_uuid" : "TRANS-2425AA95",
+        // // "payment_status" : "paid",
+        // "paid_from_wallet" : 200
+        
+          "checkout_uuid" : CheckoutData.data.uuid,
+          "user_uuid" : currentUser.data.uuid,
+          "company_uuid" : CheckoutData.data.company_uuid,
+          "paid_from_wallet" : walletAmount
+      
+    }
+      dispatch(createOrderURL(payload, currentUser.token))
+      setSuc(true)
+    }else{
+      event.preventDefault()
+    const value = event.target.elements
+    const payload = {
+      // "checkout_uuid":CheckoutData.data.uuid,
+      // "ip_address": ip,
+      // "company_uuid": "COMP-50F627E6",
+      // // "transaction_uuid": "TRANS-2425AA95",
+      // // "payment_status": "paid",
+      // // "paid_from_wallet" : 200
+      // "mobile":"8374312034"
+      
+        "checkout_uuid" : CheckoutData.data.uuid,
+        "ip_address" : ip,
+        "company_uuid" : CheckoutData.data.company_uuid,
+        "mobile" : "9985119760"
+    
+  }
+
+    dispatch(createOrderAsGuestURL(payload, currentUser.token))
+    setSuc(true)
+    }
+    
+   
+}
+
+
+useEffect(() => {
+  if (suc === true) {
+    if (checkoutnotification.status === true) {
+      toast.success(checkoutnotification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        // dispatch(CompanyListURL(currentUser.token))
+        // history.push(({
+        //   pathname: "/Company",
+         
+        // }));
+      },1000)
+     
+    }
+    else if (checkoutnotification.status === false) {
+      toast.error(checkoutnotification.message)
+      setSuc(false)
+    }
+  }
+
+}, [checkoutnotification])
+console.log(checkoutnotification ,"ProductDataProductData")
+
+
+
 
   return (
     <>
@@ -198,10 +310,10 @@ const Categories = () => {
                   </p>
                 </div>
                 <div className="mb-2">
-                  <p className="text-small text-muted mb-1">SALE</p>
+                  <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">$</span> 0
+                      <span className="text-small text-muted">$</span> {walletAmount}
                     </span>
                   </p>
                 </div>
@@ -209,13 +321,13 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">$</span>{CartData.total_amount}
+                      <span className="text-small text-muted cta-2">$</span>{CartData && CartData.total_amount-walletAmount}
                     </span>
                   </div>
                 </div>
               </div>
               <div className="form-check mb-4">
-                <input type="checkbox" className="form-check-input" name="terms" />
+                <input type="checkbox" className="form-check-input" name="terms" onChange={(e)=>console.log(e.target.value,"DSfsdfsdfsdfsdf")}/>
                 <label className="form-check-label">
                   I have read and accept the{' '}
                   <NavLink to="/" target="_blank">
@@ -223,7 +335,7 @@ const Categories = () => {
                   </NavLink>
                 </label>
               </div>
-              <Button className="btn-icon btn-icon-end w-100" variant="primary">
+              <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={submitOrder}>
                 <span>Purchase</span> <CsLineIcons icon="chevron-right" />
               </Button>
             </Card.Body>

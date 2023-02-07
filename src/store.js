@@ -30,6 +30,7 @@ import CashierReportReducer from 'Redux/CashierRedux/Reports/ReportRedux';
 import ProductForConsumerReducer from 'Redux/ConsumerRedux/Product/ProductRedux';
 import categoryForConsumerReducer from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import CartReducer from 'Redux/ConsumerRedux/Cart/CartRedux';
+import checkoutReducer from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
 
@@ -65,6 +66,7 @@ const persistedReducer = persistReducer(
     ProductForConsumerList:ProductForConsumerReducer,
     categoryForConsumerList:categoryForConsumerReducer,
     CartList:CartReducer,
+    checkoutdata:checkoutReducer,
     
 
   })
