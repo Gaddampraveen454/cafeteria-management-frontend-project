@@ -17,7 +17,7 @@ const NavUserMenuContent = (props1) => {
   const redirect = () => {
     console.log("enter1")
     dispatch(LogOutURL())
-    history.push('/login')
+    history.push('/dashboard')
   }
   return <div>
   <Row className="mb-3 ms-0 me-0">

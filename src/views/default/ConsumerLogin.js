@@ -35,7 +35,7 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
   history.push('/dashboard')
   localStorage.setItem('token',currentUser)
 }
-  })
+  },[currentUser])
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),

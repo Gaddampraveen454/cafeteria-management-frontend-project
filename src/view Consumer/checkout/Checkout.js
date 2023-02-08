@@ -5,7 +5,9 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import { createOrderURL, createOrderAsGuestURL ,CreateCheckOutURL} from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { createOrderURL, createOrderAsGuestURL ,CreateCheckOutURL,CreateCheckOutGuestURL} from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { IfLogedinUpdateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+// import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -21,7 +23,10 @@ const Categories = () => {
   const { CartData, } = useSelector((state) => state.CartList)
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const { CheckoutData,checkoutnotification } = useSelector((state) => state.checkoutdata);
-  console.log(CheckoutData,"asdadssdfsdfazcs")
+  const { IpAddressData } = useSelector((state) => state.IpAddressList);
+  console.log(IpAddressData,"IpAddressData")
+  // const { IpAddress } = useSelector((state) => state.IpAddressData);
+  // console.log(IpAddress,"IpAddress")
   const walletAmount=currentUser && currentUser.data && currentUser.data.wallet_amount?currentUser.data.wallet_amount:0
 console.log(CartData,currentUser,"fgdgsgdfgsfsdfsd")
 
@@ -40,17 +45,7 @@ useEffect(() => {
 }, [])
 
 
-  // const [selectValueState, setSelectValueState] = useState();
-  // const optionsState = [
-  //   { value: 'Fougasse', label: 'Fougasse' },
-  //   { value: 'Lefse', label: 'Lefse' },
-  // ];
-
-  // const [selectValueCity, setSelectValueCity] = useState();
-  // const optionsCity = [
-  //   { value: 'Breadstick', label: 'Breadstick' },
-  //   { value: 'Biscotti', label: 'Biscotti' },
-  // ];
+  
 
   const [selectValueMonth, setSelectValueMonth] = useState();
   const optionsMonth = [
@@ -81,26 +76,72 @@ useEffect(() => {
     { value: '29', label: '29' },
     { value: '30', label: '30' },
   ];
-const GuestCheckOut=()=>{
-  const payload = {
-    "ip_address" : "117.98.149.81"
 
+// const GuestCheckOut=()=>{
+//   const payload = {
+//     "ip_address" : "117.98.149.81"
+
+// }
+//   dispatch(CreateCheckOutURL(payload,currentUser.token))
+//   setSuc(true)
+// }
+
+
+const CartUpdate = () => {
+  const payload = {
+          "user_uuid":currentUser.data.uuid,
+          "ip_address" : IpAddressData.ip
+        } 
+        dispatch(IfLogedinUpdateCartURL(payload,currentUser.token))
+      
+  setSuc(true)
+}
+const ConsumerCheckout = () => {
+  const payload = {
+    "user_uuid" : currentUser.data.uuid
 }
   dispatch(CreateCheckOutURL(payload,currentUser.token))
   setSuc(true)
 }
+
+
+
+const GuestCheckOut = () => {
+
+  const payload = {
+    "ip_address": IpAddressData.ip
+  }
+  dispatch(CreateCheckOutGuestURL(payload,))
+  setSuc(true)
+
+}
+useEffect(()=>{
+  if(currentUser && currentUser.data  && currentUser.data.uuid){
+    CartUpdate()
+    ConsumerCheckout()
+  }else{
+   
+    GuestCheckOut()
+  }
+  
+},[])
+
+
+
+
+
+
+
+
+
+
 
   const submitOrder = (event) => {
     if(userType==="consumer"){
       event.preventDefault()
       const value = event.target.elements
       const payload = {
-        // "checkout_uuid":CheckoutData.data.uuid,
-        // "user_uuid" : currentUser.data.uuid,
-        // "company_uuid" : currentUser.data.company_uuid,
-        // // "transaction_uuid" : "TRANS-2425AA95",
-        // // "payment_status" : "paid",
-        // "paid_from_wallet" : 200
+        
         
           "checkout_uuid" : CheckoutData.data.uuid,
           "user_uuid" : currentUser.data.uuid,
@@ -114,13 +155,7 @@ const GuestCheckOut=()=>{
       event.preventDefault()
     const value = event.target.elements
     const payload = {
-      // "checkout_uuid":CheckoutData.data.uuid,
-      // "ip_address": ip,
-      // "company_uuid": "COMP-50F627E6",
-      // // "transaction_uuid": "TRANS-2425AA95",
-      // // "payment_status": "paid",
-      // // "paid_from_wallet" : 200
-      // "mobile":"8374312034"
+  
       
         "checkout_uuid" : CheckoutData.data.uuid,
         "ip_address" : ip,
@@ -164,6 +199,17 @@ console.log(checkoutnotification ,"ProductDataProductData")
 
 
 
+
+// useEffect(()=>{
+//   if(ip){
+//     const payload = {
+//       "user_uuid":currentUser.data.uuid,
+//       "ip_address" : ip
+//     } 
+//     dispatch(IfLogedinUpdateCartURL(payload,currentUser.token))
+//   }
+ 
+// },[currentUser,ip])
 
   return (
     <>

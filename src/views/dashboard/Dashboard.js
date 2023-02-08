@@ -1,6 +1,7 @@
 import React,{ useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {DashdoardContListURL} from "Redux/AdminRedux/DashBoard/DashCountRedux"
+import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +9,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import PerformanceChart from './components/PerformanceChart';
+
 
 
 const Dashboard = () => {
@@ -20,11 +22,16 @@ const Dashboard = () => {
   const { DashboardCountData,notification } = useSelector((state) => state.AdminDashbordCountList)
 console.log(DashboardCountData,"jsdggjjhg");
 
+  const { IpAddressData } = useSelector((state) => state.IpAddressList);
+  console.log(IpAddressData,"IpAddressData")
+
 
 useEffect(()=>{
   dispatch(DashdoardContListURL(currentUser.token))
+  dispatch(IpAddressDataURL())
 },[])
 console.log(DashboardCountData,"jsdggjjhg");
+
   return (
     <>
       <HtmlHead title={title} description={description} />

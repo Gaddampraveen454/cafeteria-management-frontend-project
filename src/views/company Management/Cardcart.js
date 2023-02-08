@@ -105,13 +105,14 @@ const Cardcart = () => {
 
 
   const GuestCheckOut = () => {
+
     const payload = {
       "ip_address": ip
-
     }
     dispatch(CreateCheckOutGuestURL(payload,))
     setSuc(true)
   }
+
   const GuestCheckOut1 = () => {
     const payload = {
       "user_uuid" : currentUser.data.uuid
@@ -119,6 +120,8 @@ const Cardcart = () => {
     dispatch(CreateCheckOutURL(payload,currentUser.token))
     setSuc(true)
   }
+
+
 
   const CheckLogin = () => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
@@ -142,43 +145,46 @@ const Cardcart = () => {
   }
 
 
-  useEffect(() => {
-    if (suc === true) {
-      if (checkoutnotification.status === true) {
-        toast.success(checkoutnotification.message, {
-          position: "top-right",
-        })
-        setSuc(false)
-        setTimeout(() => {
 
-          if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
 
-            history.push(({
-              // pathname: "/consumer/login",
-              pathname: "/Checkout",
-              state: {
-                userType: "consumer"
-              }
-            }));
-          }
-          else {
-            history.push(({
-              pathname: "/consumer/login",
-              // pathname: "Checkout",
+
+  // useEffect(() => {
+  //   if (suc === true) {
+  //     if (checkoutnotification.status === true) {
+  //       toast.success(checkoutnotification.message, {
+  //         position: "top-right",
+  //       })
+  //       setSuc(false)
+  //       setTimeout(() => {
+
+  //         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+
+  //           history.push(({
+  //             // pathname: "/consumer/login",
+  //             pathname: "/Checkout",
+  //             state: {
+  //               userType: "consumer"
+  //             }
+  //           }));
+  //         }
+  //         else {
+  //           history.push(({
+  //             pathname: "/consumer/login",
+  //             // pathname: "Checkout",
       
-            }));
-          }
-        }, 1000)
+  //           }));
+  //         }
+  //       }, 1000)
 
-      }
-      else if (checkoutnotification.status === false) {
-        toast.error(checkoutnotification.message)
-        setSuc(false)
-      }
-    }
+  //     }
+  //     else if (checkoutnotification.status === false) {
+  //       toast.error(checkoutnotification.message)
+  //       setSuc(false)
+  //     }
+  //   }
 
-  }, [checkoutnotification])
-  console.log(checkoutnotification, "ProductDataProductData")
+  // }, [checkoutnotification])
+
 
   return (
     <>
@@ -353,8 +359,8 @@ const Cardcart = () => {
                   </div>
                 </div>
               </div>
-              <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={GuestCheckOut}>
-                <span>Proceed to checkout1</span> <CsLineIcons icon="chevron-right" />
+              <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={CheckLogin}>
+                <span>Proceed to checkout2</span> <CsLineIcons icon="chevron-right" />
               </Button>
             </Card.Body>
           </Card>
