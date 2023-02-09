@@ -20,14 +20,15 @@ const [category, setCategory]=useState("")
   console.log(categoryForConsumer,"sdfsdfsdfsdfsd")
 
   useEffect(()=>{
-    setCategory(categoryForConsumer.data[0].uuid)
+    dispatch(categoryForConsumerListURL())
+    setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
   },[])
 
   useEffect(() => {
     // if (category===!""){
       if(category){
         dispatch(ProductForConsumerListURL(category))
-        dispatch(categoryForConsumerListURL())
+        // dispatch(categoryForConsumerListURL())
       }
 
   }, [category])
