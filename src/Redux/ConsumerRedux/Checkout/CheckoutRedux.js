@@ -79,12 +79,12 @@ export const createOrderURL = (payload,token) => async (dispatch) => {
     }}
     )
     .then((res) => {
-      console.log(res, "sdfsdfsdff")
+      console.log(res, "sdfsdfhghfhfhfhgfhfsdff")
       dispatch(setToast({ status: true, message: res.data.message }))
     })
     .catch((err) => {
       dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
-
+      console.log(err, "zxczczxczxczxcz")
     })
   };
 

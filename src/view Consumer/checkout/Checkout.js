@@ -25,6 +25,7 @@ const Categories = () => {
   const { CheckoutData,checkoutnotification } = useSelector((state) => state.checkoutdata);
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   console.log(IpAddressData,"IpAddressData")
+  const [mobile, setMobile]=useState("")
   // const { IpAddress } = useSelector((state) => state.IpAddressData);
   // console.log(IpAddress,"IpAddress")
   const walletAmount=currentUser && currentUser.data && currentUser.data.wallet_amount?currentUser.data.wallet_amount:0
@@ -94,14 +95,14 @@ const CartUpdate = () => {
         } 
         dispatch(IfLogedinUpdateCartURL(payload,currentUser.token))
       
-  setSuc(true)
+  // setSuc(true)
 }
 const ConsumerCheckout = () => {
   const payload = {
     "user_uuid" : currentUser.data.uuid
 }
   dispatch(CreateCheckOutURL(payload,currentUser.token))
-  setSuc(true)
+  // setSuc(true)
 }
 
 
@@ -112,7 +113,7 @@ const GuestCheckOut = () => {
     "ip_address": IpAddressData.ip
   }
   dispatch(CreateCheckOutGuestURL(payload,))
-  setSuc(true)
+  // setSuc(true)
 
 }
 useEffect(()=>{
@@ -160,7 +161,7 @@ useEffect(()=>{
         "checkout_uuid" : CheckoutData.data.uuid,
         "ip_address" : ip,
         "company_uuid" : CheckoutData.data.company_uuid,
-        "mobile" : "9985119760"
+        "mobile" : mobile
     
   }
 
@@ -287,6 +288,16 @@ console.log(checkoutnotification ,"ProductDataProductData")
           <h2 className="small-title">Payment</h2>
           <Card className="mb-5">
             <Card.Body>
+            {userType==="guest"?
+            <Row className="g-3">
+                <Col className="col-sm-auto mb-3">
+                  <Form.Label>Mobile Number</Form.Label>
+                  <Form.Control type="text" className="w-100 sw-sm-40" onChange={(e)=>setMobile(e.target.value)} />
+                </Col>
+              </Row>
+            :
+            null}
+          
               <Row className="g-3">
                 <Col className="col-sm-auto mb-3">
                   <Form.Label>Card Number</Form.Label>

@@ -21,8 +21,14 @@ const [category, setCategory]=useState("")
 
   useEffect(()=>{
     dispatch(categoryForConsumerListURL())
-    setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
+    // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
   },[])
+
+  useEffect(()=>{
+if(categoryForConsumer){
+  setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
+}
+  },[categoryForConsumer])
 
   useEffect(() => {
     // if (category===!""){
@@ -39,14 +45,22 @@ const [category, setCategory]=useState("")
       <div >
       <Form className="mb-5">
         <p className="text-large text-muted mb-2">Menu</p>
+        {categoryForConsumer?
+        <div>
         {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item)=>{
           return<>
-          <a href="#firstcolumn">
+          {/* <a href="#firstcolumn"> */}
         <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2" onClick={()=>{setCategory(item.uuid)}}>{item.name}</label>
-          </a><br />
+          {/* </a> */}
+          <br />
           </>
         })}
-  
+        </div>
+         
+  :
+  null
+        }
+        
         {/* <Form.Check  label="Happy New Year 2023 Combos" />
         <Form.Check  label="No Added Sugar" />
         <Form.Check  label="100 ml Ice creams" />
