@@ -313,7 +313,9 @@ const Menu = () => {
             <Modal.Title as="div">Filters</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Cardsdetails />
+            <Cardsdetails
+            // onClose={setIsOpenFiltersModal(false)}
+             />
           </Modal.Body>
         </Modal>
         </>

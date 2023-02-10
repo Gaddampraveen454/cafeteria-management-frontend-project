@@ -472,7 +472,7 @@ return (
                   <Col lg="6" align="right">
                     {/* <Col lg="3"> */}
                     <Button onClick={() => setOpen(false)} autoFocus>
-                  cancel
+                  Cancel
                 </Button>
                     {/* </Col> */}
                     

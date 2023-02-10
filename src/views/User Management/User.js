@@ -666,7 +666,7 @@ const searchfunction =(type , pages)=>{
                 <Col lg="6" align="right">
                   {/* <Col lg="3"> */}
                   <Button onClick={() => setOpenPopup(false)} autoFocus>
-                    cancel
+                    Cancel
                   </Button>
                   {/* </Col> */}
 

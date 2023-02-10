@@ -8,7 +8,8 @@ import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRe
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 
-const Cardsdetails = () => {
+const Cardsdetails = (props) => {
+  console.log(props,"gfsfgsgsfgsg")
   const dispatch = useDispatch()
 
   const [open, setOpen] = React.useState(false);

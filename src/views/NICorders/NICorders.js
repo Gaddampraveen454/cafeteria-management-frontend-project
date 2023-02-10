@@ -324,7 +324,7 @@ const viewEventHandler = (event) => {
                 <div className="lh-1 text-alternate">{item.uuid}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.users[0].name}
+                <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
                 </div>
               </Col>
               {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
