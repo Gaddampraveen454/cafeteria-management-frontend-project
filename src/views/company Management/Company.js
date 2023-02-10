@@ -350,7 +350,9 @@ const searchfunction =(type , pages)=>{
                 onToggle={()=>activefunct(items)}
                  /> */}
                           <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"  >
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
+                            onClick={() => { eventHandler(item); setEventType(true) }}
+                             >
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>

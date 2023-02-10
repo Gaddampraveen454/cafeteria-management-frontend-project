@@ -7,10 +7,28 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL ,CreateCheckOutURL,CreateCheckOutGuestURL} from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IfLogedinUpdateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+
+
+
+// function loadScript(src) {
+//   return new Promise((resolve) => {
+//     const script = document.createElement('script')
+//     script.src = src
+//     script.onload = () => {
+//       resolve(true)
+//     }
+//     script.onerror = () => {
+//       resolve(false)
+//     }
+//     document.body.appendChild(script)
+
+//   })
+// }
 
 const Categories = () => {
   const title = 'Checkout';
@@ -22,14 +40,15 @@ const Categories = () => {
     console.log(location,"sdffsdfsdf") 
   const { CartData, } = useSelector((state) => state.CartList)
   const { currentUser, isLogin } = useSelector((state) => state.auth);
+  const { WalletData} = useSelector((state) => state.WalletData);
   const { CheckoutData,checkoutnotification } = useSelector((state) => state.checkoutdata);
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
-  console.log(IpAddressData,"IpAddressData")
+  console.log(WalletData,"WalletData")
   const [mobile, setMobile]=useState("")
   // const { IpAddress } = useSelector((state) => state.IpAddressData);
   // console.log(IpAddress,"IpAddress")
-  const walletAmount=currentUser && currentUser.data && currentUser.data.wallet_amount?currentUser.data.wallet_amount:0
-console.log(CartData,currentUser,"fgdgsgdfgsfsdfsd")
+  const walletAmount=WalletData ? WalletData.data.wallet_amount:0
+console.log(currentUser,"fgdgsgdczxczxczfgsfsdfsd")
 
 
 const [suc,setSuc] = useState(false);
@@ -44,6 +63,12 @@ const getData = async () => {
 useEffect(() => {
   getData()
 }, [])
+
+useEffect(()=>{
+  if(currentUser){
+    dispatch(getWalletURL(currentUser.data.uuid,currentUser.token))
+  }
+},[])
 
 
   
@@ -78,14 +103,7 @@ useEffect(() => {
     { value: '30', label: '30' },
   ];
 
-// const GuestCheckOut=()=>{
-//   const payload = {
-//     "ip_address" : "117.98.149.81"
 
-// }
-//   dispatch(CreateCheckOutURL(payload,currentUser.token))
-//   setSuc(true)
-// }
 
 
 const CartUpdate = () => {
@@ -201,17 +219,110 @@ console.log(checkoutnotification ,"ProductDataProductData")
 
 
 
-// useEffect(()=>{
-//   if(ip){
-//     const payload = {
-//       "user_uuid":currentUser.data.uuid,
-//       "ip_address" : ip
-//     } 
-//     dispatch(IfLogedinUpdateCartURL(payload,currentUser.token))
-//   }
- 
-// },[currentUser,ip])
 
+// const displayRazorpay = async () => {
+
+//   const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+//   if (!res) {
+//     alert("err")
+//     return
+//   }
+
+//   const options = {
+//     "key": process.env.RAZOR_PAY_ID, // Enter the Key ID generated from the Dashboard
+//     "amount": 2993500, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+//     "currency": "INR",
+//     "name": "Mista Eats",
+//     "description": "Thanks for subscription",
+//     "image": "https://example.com/your_logo",
+//     "order_id": data.data.razorpay_id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+//     //    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+//     handler: (response) => {
+//       // console.log(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature, "dgdghj")
+//       const payLoad = {
+//         "checkout_uuid": data.data.checkout_uuid,
+//         "transaction_uuid": data.data.transaction_id,
+//         "payment_status": "paid",
+//         "razorpay_order_id": response.razorpay_order_id,
+//         "razorpay_payment_id": response.razorpay_payment_id,
+//         "razorpay_signature": response.razorpay_signature
+//       }
+//       axios.put(`${process.env.REACT_APP_URL}/checkout/payment/update`, payLoad)
+//         .then((resp) => {
+//           toast.success("Payment Sucess")
+//           const payLoads = {
+//             "checkout_uuid": data.data.checkout_uuid,
+//             "payment_status": "paid",
+//             "delivery_address": {
+//               "first_name": firstName,
+//               "last_name": lastName,
+//               "mobile": mobileNum,
+//               "company_name": company,
+//               "city": selectValueCity && selectValueCity.value,
+//               "state": selectValueState && selectValueState.value,
+//               "pincode": selectValuePincode && selectValuePincode.value,
+//               "address": address
+//             }
+//           }
+//           axios.post(`${process.env.REACT_APP_URL}/order/place`, payLoads)
+//             .then((respons) => {
+//               toast.success("Order Placed !")
+//               setTimeout(function () {
+//                 history.push({
+//                   pathname: '/dashboard',
+//                 })
+//               }, 1000)
+//             })
+//             .catch((err) => {
+//               toast.success(err.response.data)
+//             })
+
+//         })
+//         .catch((err) => {
+//           toast.success(err.response.data.message)
+
+//         })
+
+//     },
+//     "prefill": {
+//       "name": currentUser.profile.full_name,
+//       "email": currentUser.profile.email,
+//       "contact": currentUser.profile.mobile
+//     },
+//     config: {
+//       display: {
+//         hide: [
+//           {
+//             method: 'upi'
+//           }
+//         ],
+//         preferences: {
+//           show_default_blocks: true,
+//         },
+//       },
+//     },
+//     // config: {
+//     //   display: {
+//     //     blocks: {
+//     //       banks: {
+//     //         name: 'Pay via Card',
+//     //         instruments: [
+//     //           {
+//     //             method: 'card'
+//     //           }
+//     //         ],
+//     //       },
+//     //     },
+//     //     sequence: ['block.banks'],
+//     //     preferences: {
+//     //       show_default_blocks: false,
+//     //     },
+//     //   },
+//     // },
+//   };
+//   const paymentObject = new window.Razorpay(options);
+//   paymentObject.open()
+// }
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -229,60 +340,6 @@ console.log(checkoutnotification ,"ProductDataProductData")
 
       <Row>
         <Col xs="12" className="col-lg order-1 order-lg-0">
-          {/* Address Start */}
-          {/* <h2 className="small-title">Address</h2> */}
-          {/* <Card className="mb-5">
-            <Card.Body>
-              <Form>
-                <Row className="g-3">
-                  <Col lg="6">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control type="text" />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Company(Optional)</Form.Label>
-                    <Form.Control type="text" />
-                  </Col>
-                  <Col lg="4">
-                    <Form.Label>State</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
-                  </Col>
-                  <Col lg="4">
-                    <Form.Label>City</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsCity} value={selectValueCity} onChange={setSelectValueCity} placeholder="" />
-                  </Col>
-                  <Col lg="4">
-                    <Form.Label>Zip Code</Form.Label>
-                    <Form.Control type="text" />
-                  </Col>
-                  <Col lg="12">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows={3} />
-                  </Col>
-                </Row>
-              </Form>
-            </Card.Body>
-          </Card> */}
-          {/* Address End */}
-
-          {/* Shipment Start */}
-          {/* <h2 className="small-title">Shipment</h2> */}
-          {/* <Card className="mb-5">
-            <Card.Body>
-              <Form.Label>Options</Form.Label>
-              <Form.Check type="radio" label="Free standard delivery" id="shipmentRadio1" name="shipmentRadio" />
-              <Form.Check type="radio" label="Same day delivery for $12.00" id="shipmentRadio2" name="shipmentRadio" />
-            </Card.Body>
-          </Card> */}
-          {/* Shipment End */}
 
           {/* Payment Start */}
           <h2 className="small-title">Payment</h2>

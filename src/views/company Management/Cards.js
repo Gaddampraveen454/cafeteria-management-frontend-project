@@ -225,7 +225,7 @@ const Menu = () => {
                           </div>
 
                         </div> <br />
-                        <div>₹350</div>
+                        <div>₹{item.price}</div>
                       </Card.Body>
                     </Card>
                     <Card.Footer>

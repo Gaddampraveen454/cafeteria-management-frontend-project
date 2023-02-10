@@ -23,6 +23,9 @@ const adddetails = lazy(() => import('views/Add details/adddetails'));
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 const Checkout =lazy(()=>import('view Consumer/checkout/Checkout'))
+const Profile =lazy(()=>import('view Consumer/checkout/Profile/Profile.js'))
+
+
 
 
 const products = {
@@ -72,6 +75,12 @@ const defaultRoutesAndMenuItems = {
       icon: 'shop',
     },
     {
+      path: `${appRoot}/Profile`,
+      component: Profile,
+      label: 'Profile',
+      icon: 'user',
+    },
+    {
       path: `${appRoot}/Cards`,
       component: Cards,
       label: 'Cards',
@@ -89,6 +98,11 @@ const defaultRoutesAndMenuItems = {
       // label: 'Company Management',
       // icon: 'shipping',
     },
+
+
+
+
+
     // {
     //   path: `${appRoot}/addcompany`,
     //   component: addcompany,

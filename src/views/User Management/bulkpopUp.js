@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 
 export default () => (
   <Popup
-    trigger={<button className="button"> Open Modal1 </button>}
+    trigger={<button className="button"> Open Modal </button>}
     modal
     nested
   >

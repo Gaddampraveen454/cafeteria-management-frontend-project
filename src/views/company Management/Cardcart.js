@@ -226,7 +226,10 @@ const Cardcart = () => {
                             </div>
                           </Col>
                           <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center" onClick={() => { updateQntevnt(item) }}>
-                            <ItemCounter defVal={item.quantity} data={updateQnt} />
+                            <ItemCounter 
+                            defVal={item.quantity} 
+                            // value={item.quantity}
+                            data={updateQnt} />
                           </Col>
 
                           <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
@@ -345,7 +348,7 @@ const Cardcart = () => {
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-
+                              0
                     </span>
                   </p>
                 </div>
@@ -360,7 +363,7 @@ const Cardcart = () => {
                 </div>
               </div>
               <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={CheckLogin}>
-                <span>Proceed to checkout2</span> <CsLineIcons icon="chevron-right" />
+                <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
               </Button>
             </Card.Body>
           </Card>
