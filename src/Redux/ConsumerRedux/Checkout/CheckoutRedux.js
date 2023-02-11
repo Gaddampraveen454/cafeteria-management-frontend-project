@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   CheckoutData: [],
+  OrderData:[],
   checkoutnotification:{}
 };
 
@@ -15,13 +16,16 @@ const CartSlice = createSlice({
     setCheckoutData(state, action) {
       state.CheckoutData = action.payload;
     },
+    setOrderData(state, action) {
+      state.OrderData = action.payload;
+    },
     setToast(state, action) {
       state.checkoutnotification = action.payload;
     }
   },
 });
 
-export const { setCheckoutData, setToast } = CartSlice.actions;
+export const { setCheckoutData, setOrderData, setToast } = CartSlice.actions;
 
 export const CreateCheckOutURL = (payload,token) => async (dispatch) => {
   const response = await axios.post(`${process.env.REACT_APP_URL}/checkout`,payload,
@@ -65,6 +69,7 @@ export const createOrderURL = (payload,token) => async (dispatch) => {
     )
     .then((res) => {
       console.log(res, "sdfsdfsdff")
+      dispatch(setOrderData(res.data));
       dispatch(setToast({ status: true, message: res.data.message }))
     })
     .catch((err) => {
