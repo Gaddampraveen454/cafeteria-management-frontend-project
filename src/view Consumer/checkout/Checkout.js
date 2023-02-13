@@ -46,7 +46,7 @@ const Categories = () => {
   const [orderData, setOrderData]=useState([])
 
   console.log(orderData.length===0,"gsgdsfdsfsdfsdfsdfsdfsdfds")
-   const walletAmount = WalletData ? WalletData.data.wallet_amount : 0
+   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
    const TotaleAmount=(CartData.total_amount-walletAmount)*100
 //    const [WalletAmount1, setWalletAmount]=useState(WalletData ? WalletData.data.wallet_amount : 0)
 // console.log(WalletAmount1,"dsfdsfsdfsdf")
