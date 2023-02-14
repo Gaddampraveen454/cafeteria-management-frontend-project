@@ -130,7 +130,7 @@ const cashierRoutesAndMenuItems = {
     //   // icon: 'user',
     // },
     {
-      path: `${appRoot}/NICorders`,
+      path: `${appRoot}/orders`,
       component: NICorders,
       label: 'Orders',
       icon: 'wallet',

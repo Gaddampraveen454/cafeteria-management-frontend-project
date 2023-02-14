@@ -6,7 +6,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
-import { IfLogedinUpdateCartURL,CartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { IfLogedinUpdateCartURL, CartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { toast } from 'react-toastify';
@@ -43,17 +43,17 @@ const Categories = () => {
   // const { OrderData } = useSelector((state) => state.checkoutdata);
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
-  const [orderData, setOrderData]=useState([])
+  const [orderData, setOrderData] = useState([])
+  console.log(WalletData, "WalletData12313213")
+  console.log(orderData.length === 0, "gsgdsfdsfsdfsdfsdfsdfsdfds")
+  const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
+  const TotaleAmount = (CartData.total_amount - walletAmount) * 100
+  //    const [WalletAmount1, setWalletAmount]=useState(WalletData ? WalletData.data.wallet_amount : 0)
+  // console.log(WalletAmount1,"dsfdsfsdfsdf")
 
-  console.log(orderData.length===0,"gsgdsfdsfsdfsdfsdfsdfsdfds")
-   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
-   const TotaleAmount=(CartData.total_amount-walletAmount)*100
-//    const [WalletAmount1, setWalletAmount]=useState(WalletData ? WalletData.data.wallet_amount : 0)
-// console.log(WalletAmount1,"dsfdsfsdfsdf")
 
 
-
-   console.log(currentUser==={}, "fgdgsgdczxczxczfgsfsdfsd")
+  console.log(currentUser === {}, "fgdgsgdczxczxczfgsfsdfsd")
 
 
   const [suc, setSuc] = useState(false);
@@ -86,123 +86,123 @@ const Categories = () => {
   const RAZORPAY_KEY_SECRET = "28NnsrgmxIHGKGU6qcgBwans"
 
   const displayRazorpay = async () => {
-    
-if(orderData){
-    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
-    if (!res) {
-      alert("err")
-      return
+
+    if (orderData) {
+      const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+      if (!res) {
+        alert("err")
+        return
+      }
+
+      const options = {
+        "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+        "amount": TotaleAmount.toString(), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Cafeteria",
+        "description": "Cafeteria",
+        "image": "https://example.com/your_logo",
+        // "order_id": data.data.razorpay_id,
+        "order_id": orderData && orderData.data && orderData.data.razorpay_id,
+
+        // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        //    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+        handler: (response) => {
+          console.log(response, "dgdghj")
+          const payLoad = {
+            "order_uuid": orderData && orderData.data && orderData.data.order_uuid,
+            "transaction_uuid": orderData && orderData.data && orderData.data.transaction_id,
+            "payment_status": "paid",
+            "razorpay_order_id": response.razorpay_order_id,
+            "razorpay_payment_id": response.razorpay_payment_id,
+            "razorpay_signature": response.razorpay_signature,
+          }
+          axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
+            .then((resp) => {
+              dispatch(CartListURL(IpAddressData.ip))
+              // toast.success("Payment Sucess")
+              // const payLoads = {
+              //   "checkout_uuid": data.data.checkout_uuid,
+              //   "payment_status": "paid",
+              //   "delivery_address": {
+              //     "first_name": firstName,
+              //     "last_name": lastName,
+              //     "mobile": mobileNum,
+              //     "company_name": company,
+              //     "city": selectValueCity && selectValueCity.value,
+              //     "state": selectValueState && selectValueState.value,
+              //     "pincode": selectValuePincode && selectValuePincode.value,
+              //     "address": address
+              //   }
+              // }
+              // axios.post(`${process.env.REACT_APP_URL}/order/place`, payLoads)
+              //   .then((respons) => {
+              //     toast.success("Order Placed !")
+              //     setTimeout(function () {
+              //       history.push({
+              //         pathname: '/dashboard',
+              //       })
+              //     }, 1000)
+              //   })
+              //   .catch((err) => {
+              //     toast.success(err.response.data)
+              //   })
+
+            })
+            .catch((err) => {
+              // toast.success(err.response.data.message)
+
+            })
+
+        },
+        "prefill": {
+          "name": currentUser.name,
+          "email": currentUser.email,
+          "contact": currentUser.mobile
+        },
+        // config: {
+        //   display: {
+        //     hide: [
+        //       {
+        //         method: 'upi'
+        //       }
+        //     ],
+        //     preferences: {
+        //       show_default_blocks: true,
+        //     },
+        //   },
+        // },
+        // config: {
+        //   display: {
+        //     blocks: {
+        //       banks: {
+        //         name: 'Pay via Card',
+        //         instruments: [
+        //           {
+        //             method: 'card'
+        //           }
+        //         ],
+        //       },
+        //     },
+        //     sequence: ['block.banks'],
+        //     preferences: {
+        //       show_default_blocks: false,
+        //     },
+        //   },
+        // },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open()
     }
-   
-    const options = {
-      "key":process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-      "amount": TotaleAmount.toString(), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      "currency": "INR",
-      "name": "Cafeteria",
-      "description": "Cafeteria",
-      "image": "https://example.com/your_logo",
-      // "order_id": data.data.razorpay_id,
-      "order_id":orderData && orderData.data && orderData.data.razorpay_id,
-
-      // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      //    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
-      handler: (response) => {
-        console.log(response, "dgdghj")
-        const payLoad = {
-          "order_uuid": orderData && orderData.data && orderData.data.order_uuid,
-          "transaction_uuid": orderData && orderData.data &&  orderData.data.transaction_id,
-          "payment_status": "paid",
-          "razorpay_order_id": response.razorpay_order_id,
-          "razorpay_payment_id": response.razorpay_payment_id,
-          "razorpay_signature": response.razorpay_signature,
-        }
-        axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
-          .then((resp) => {
-            dispatch(CartListURL(IpAddressData.ip))
-            // toast.success("Payment Sucess")
-            // const payLoads = {
-            //   "checkout_uuid": data.data.checkout_uuid,
-            //   "payment_status": "paid",
-            //   "delivery_address": {
-            //     "first_name": firstName,
-            //     "last_name": lastName,
-            //     "mobile": mobileNum,
-            //     "company_name": company,
-            //     "city": selectValueCity && selectValueCity.value,
-            //     "state": selectValueState && selectValueState.value,
-            //     "pincode": selectValuePincode && selectValuePincode.value,
-            //     "address": address
-            //   }
-            // }
-            // axios.post(`${process.env.REACT_APP_URL}/order/place`, payLoads)
-            //   .then((respons) => {
-            //     toast.success("Order Placed !")
-            //     setTimeout(function () {
-            //       history.push({
-            //         pathname: '/dashboard',
-            //       })
-            //     }, 1000)
-            //   })
-            //   .catch((err) => {
-            //     toast.success(err.response.data)
-            //   })
-
-          })
-          .catch((err) => {
-            // toast.success(err.response.data.message)
-
-          })
-
-      },
-      "prefill": {
-        "name": currentUser.name,
-        "email": currentUser.email,
-        "contact": currentUser.mobile
-      },
-      // config: {
-      //   display: {
-      //     hide: [
-      //       {
-      //         method: 'upi'
-      //       }
-      //     ],
-      //     preferences: {
-      //       show_default_blocks: true,
-      //     },
-      //   },
-      // },
-      // config: {
-      //   display: {
-      //     blocks: {
-      //       banks: {
-      //         name: 'Pay via Card',
-      //         instruments: [
-      //           {
-      //             method: 'card'
-      //           }
-      //         ],
-      //       },
-      //     },
-      //     sequence: ['block.banks'],
-      //     preferences: {
-      //       show_default_blocks: false,
-      //     },
-      //   },
-      // },
-    };
-
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open()
   }
-}
 
 
 
-useEffect(()=>{
-  if(orderData.length!==0 ){
-    displayRazorpay()
-  }
-},[orderData])
+  useEffect(() => {
+    if (orderData.length !== 0) {
+      displayRazorpay()
+    }
+  }, [orderData])
 
   const [selectValueMonth, setSelectValueMonth] = useState();
   const optionsMonth = [
@@ -238,14 +238,14 @@ useEffect(()=>{
 
 
   const CartUpdate = () => {
-    if(currentUser){
+    if (currentUser) {
       const payload = {
         "user_uuid": currentUser.data.uuid,
         "ip_address": IpAddressData.ip
       }
       dispatch(IfLogedinUpdateCartURL(payload, currentUser.token))
     }
-    
+
 
     // setSuc(true)
   }
@@ -288,12 +288,12 @@ useEffect(()=>{
   //   }
   //   axios.post(`${process.env.REACT_APP_URL}/order/place`, payLoads)
   //         .then((respons) => {
-           
+
   //         })
   //         .catch((err) => {
-           
+
   //         })
-  
+
   // }
 
   // useEffect(() => {
@@ -319,18 +319,20 @@ useEffect(()=>{
 
       }
       axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
-      {headers:{
-        "x-auth-token" : currentUser.token
-      }})
-      .then((respons) => {
-        console.log(respons,"fffgdsfsdfdsf")
-        setOrderData(respons.data)
-        // displayRazorpay()
-      
-      })
-      .catch((err) => {
-       
-      })
+        {
+          headers: {
+            "x-auth-token": currentUser.token
+          }
+        })
+        .then((respons) => {
+          console.log(respons, "fffgdsfsdfdsf")
+          setOrderData(respons.data)
+          // displayRazorpay()
+
+        })
+        .catch((err) => {
+
+        })
 
 
 
@@ -354,23 +356,25 @@ useEffect(()=>{
       }
 
       axios.post(`${process.env.REACT_APP_URL}/order/create/guest`, payload,
-      {headers:{
-        "x-auth-token" : currentUser.token
-      }})
-      .then((respons) => {
-        console.log(respons,"fffgdsfsdfdsf")
-        setOrderData(respons.data)
-        // displayRazorpay()
-      
-      })
-      .catch((err) => {
-       
-      })
+        {
+          headers: {
+            "x-auth-token": currentUser.token
+          }
+        })
+        .then((respons) => {
+          console.log(respons, "fffgdsfsdfdsf")
+          setOrderData(respons.data)
+          // displayRazorpay()
+
+        })
+        .catch((err) => {
+
+        })
       // dispatch(createOrderAsGuestURL(payload, currentUser.token))
       // setSuc(true)
       // setOrderData(respons.data)
       // displayRazorpay()
-      
+
     }
 
 

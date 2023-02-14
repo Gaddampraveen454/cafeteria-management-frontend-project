@@ -1,4 +1,4 @@
-import React ,{ useEffect } from 'react';
+import React ,{ useEffect,useState } from 'react';
 import { NavLink , useHistory} from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
@@ -8,34 +8,75 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
 import { useDispatch, useSelector } from 'react-redux';
 // import { LoginURL } from '../../auth/authSlice'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ConsumerLoginURL } from '../../auth/ConsumerAuthSlice';
 
 
 const Login = () => {
   const title = 'Login';
   const description = 'Login Page';
-  const { currentUser, isLogin } = useSelector((state) => state.auth);
+  const [suc,setSuc] = useState(false);
+  const { currentUser, isLogin,notification } = useSelector((state) => state.auth);
   console.log(currentUser,isLogin,"currentUdfddsfsdfdser")
   const history = useHistory()
-  useEffect(()=> {
-
-if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
-  // history.push('/dashboard')
-  history.push(({
-    // pathname: "/consumer/login",
-    pathname: "/Checkout",
-    state:{
-      userType:"consumer"
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message,{
+          position:"top-right",
+        })
+        setSuc(false)
+        if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
+          // history.push('/dashboard')
+          history.push(({
+            // pathname: "/consumer/login",
+            pathname: "/Checkout",
+            state:{
+              userType:"consumer"
+            }
+          
+          }));
+          localStorage.setItem('token',currentUser)
+        }
+        else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
+          history.push('/dashboard')
+          localStorage.setItem('token',currentUser)
+        }
+       
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
     }
   
-  }));
-  localStorage.setItem('token',currentUser)
-}
-else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
-  history.push('/dashboard')
-  localStorage.setItem('token',currentUser)
-}
-  },[currentUser])
+  }, [notification,currentUser])
+
+
+//   useEffect(()=> {
+
+// if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
+//   // history.push('/dashboard')
+//   history.push(({
+//     // pathname: "/consumer/login",
+//     pathname: "/Checkout",
+//     state:{
+//       userType:"consumer"
+//     }
+  
+//   }));
+//   localStorage.setItem('token',currentUser)
+// }
+// else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
+//   history.push('/dashboard')
+//   localStorage.setItem('token',currentUser)
+// }
+//   },[currentUser])
+
+
+  
+
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),
@@ -53,7 +94,7 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
   const LoginAPI = (event) =>{
     event.preventDefault()
     dispatch(ConsumerLoginURL(values));
-
+    setSuc(true)
     console.log(event.target.elements, "dfghhjj")
   }
   const Guest=()=>{

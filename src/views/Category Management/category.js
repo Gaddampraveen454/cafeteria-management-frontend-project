@@ -263,7 +263,7 @@ const searchfunction =(type , pages)=>{
               <div className="text-muted text-medium cursor-pointer " />
             </Col>
             <Col xs="2" lg="4" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
+              <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
             {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email</div>

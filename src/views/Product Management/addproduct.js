@@ -162,7 +162,7 @@ useEffect(() => {
                   </Col>
                   <Col lg="6">
                     <Form.Label>Company</Form.Label>
-                    <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+                    <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="Select Company" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>

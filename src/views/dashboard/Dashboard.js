@@ -20,7 +20,7 @@ const Dashboard = () => {
   
   const { currentUser } = useSelector((state) => state.auth)
   const { DashboardCountData,notification } = useSelector((state) => state.AdminDashbordCountList)
-console.log(DashboardCountData,"jsdggjjhg");
+  console.log(DashboardCountData,"jsdggjjhg");
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   console.log(IpAddressData,"IpAddressData")
@@ -84,7 +84,7 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card.Body>
           </Card>
         </Col>
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -94,7 +94,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="text-primary cta-4">463</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
         <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
@@ -106,7 +106,7 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card.Body>
           </Card>
         </Col>
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -127,7 +127,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="text-primary cta-4">5</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
       {/* Stats End */}
 

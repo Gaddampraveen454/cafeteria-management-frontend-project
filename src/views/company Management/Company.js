@@ -264,7 +264,10 @@ const searchfunction =(type , pages)=>{
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Company</div>
+            </Col> */}
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
@@ -279,7 +282,7 @@ const searchfunction =(type , pages)=>{
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Wallet Amount</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">

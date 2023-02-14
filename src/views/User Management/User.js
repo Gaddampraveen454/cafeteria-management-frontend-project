@@ -129,6 +129,7 @@ const User = () => {
   const [email, setEmail] = useState("")
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
+  const [WalletAmount, setWalletAmount]=useState("")
   const [EmpId, setEmpId] = useState("")
   const [consmerId, setConsumerId] = useState("")
   const [selectedCompany, setSelectedCompany] = useState();
@@ -148,6 +149,7 @@ const User = () => {
     setSelectedCompany({ label: event.company_name, value: event.company_uuid })
     setEmpId(event.emp_id)
     setLocation(event.location)
+    setWalletAmount(event.wallet_amount)
     setConsumerId(event.uuid)
 
 
@@ -422,20 +424,20 @@ const searchfunction =(type , pages)=>{
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Phone No</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+            {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
-            </Col>
+            </Col> */}
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer" />
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
+              <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
           </Row>
         </Col>
@@ -470,15 +472,15 @@ const searchfunction =(type , pages)=>{
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.email}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.mobile}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">{item.location}</div>
-                  </Col>
+                  </Col> */}
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
@@ -642,6 +644,13 @@ const searchfunction =(type , pages)=>{
                     value={location}
                     onChange={(e) => { setLocation(e.target.value) }}
                     disabled={eventType} />
+                </Col>
+                <Col lg="12">
+                  <Form.Label>Wallet Amount</Form.Label>
+                  <Form.Control type="text"
+                    value={WalletAmount}
+                    // onChange={(e) => { setLocation(e.target.value) }}
+                    disabled />
                 </Col>
                 {/* <Col lg="6">
                   <Form.Label>Location</Form.Label>

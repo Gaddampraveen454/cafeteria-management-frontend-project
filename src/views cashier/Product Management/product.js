@@ -335,15 +335,15 @@ const searchfunction =(type , pages)=>{
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-          <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+          {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
           // onClick={() => setOpen(true)}
           >
             <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
-            </Button>
+            </Button> */}
             {/* <NavLink to="/addproduct"> */}
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+            {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
             <CsLineIcons icon="plus" /> <span>Add Product</span>
-            </Button>
+            </Button> */}
             {/* </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
@@ -449,7 +449,7 @@ const searchfunction =(type , pages)=>{
               <div className="text-muted text-medium cursor-pointer " />
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
+              <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
           
           </Row>
@@ -498,17 +498,17 @@ const searchfunction =(type , pages)=>{
               
                   <td>
                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                  // onClick={() => { eventHandler(item); setEventType(true) }}
+                  onClick={() => { eventHandler(item); setEventType(true) }}
                   >
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
                   <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
+                  {/* <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
                   // onClick={() => { eventHandler(item); setEventType(false) }}
                   >
                  <CsLineIcons icon="edit-square" />
-                 </Button>
+                 </Button> */}
                   </td>
               
                 </tr>

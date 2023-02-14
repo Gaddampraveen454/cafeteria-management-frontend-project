@@ -322,17 +322,17 @@ const searchfunction =(type , pages)=>{
             {/* <Popup trigger={<Button className="button"> Open Modal </Button>} modal>
             <span> Modal content </span>
           </Popup> */}
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+            {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
             // onClick={() => setOpen(true)}
             >
               <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
-            </Button>
+            </Button> */}
             {/* <NavLink 
             to="/adduser"
             > */}
-              <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+              {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="plus" /> <span>Add User</span>
-              </Button>
+              </Button> */}
             {/* </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
@@ -441,7 +441,7 @@ const searchfunction =(type , pages)=>{
               <div className="text-muted text-medium cursor-pointer" />
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
+              <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
           </Row>
         </Col>
@@ -510,11 +510,11 @@ const searchfunction =(type , pages)=>{
                             </Button>
                           </td>
                           <td>
-                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2"
+                            {/* <Button title="EDIT" variant="outline-success" className="btn px-2 py-2"
                               // onClick={() => { eventHandler(item); setEventType(false) }}
                             >
                               <CsLineIcons icon="edit-square" />
-                            </Button>
+                            </Button> */}
                           </td>
                           {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">

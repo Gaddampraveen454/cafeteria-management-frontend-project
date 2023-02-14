@@ -21,47 +21,12 @@ const addexecutive = () => {
 
   const [selectValueState, setSelectValueState] = useState();
   console.log(selectValueState,"sdfsdfsdfs")
-  const optionsState = [
-    { value: 'Fougasse', label: 'Fougasse' },
-    { value: 'Lefse', label: 'Lefse' },
-  ];
-
-  const [selectValueCity, setSelectValueCity] = useState();
-  const optionsCity = [
-    { value: 'Breadstick', label: 'Breadstick' },
-    { value: 'Biscotti', label: 'Biscotti' },
-  ];
-
-  const [selectValueMonth, setSelectValueMonth] = useState();
-  const optionsMonth = [
-    { value: '01', label: '01' },
-    { value: '02', label: '02' },
-    { value: '03', label: '03' },
-    { value: '04', label: '04' },
-    { value: '05', label: '05' },
-    { value: '06', label: '06' },
-    { value: '07', label: '07' },
-    { value: '08', label: '08' },
-    { value: '09', label: '09' },
-    { value: '10', label: '10' },
-    { value: '11', label: '11' },
-    { value: '12', label: '12' },
-  ];
-
-  const [selectValueYear, setSelectValueYear] = useState();
-  const optionsYear = [
-    { value: '21', label: '21' },
-    { value: '22', label: '22' },
-    { value: '23', label: '23' },
-    { value: '24', label: '24' },
-    { value: '25', label: '25' },
-    { value: '26', label: '26' },
-    { value: '27', label: '27' },
-    { value: '28', label: '28' },
-    { value: '29', label: '29' },
-    { value: '30', label: '30' },
-  ];
-
+ 
+  const initialValues = { name: "", email: "", mobile: "", password: ""};
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  
   const { companyData } = useSelector((state) => state.companyList)
 
   // useEffect(() => {
@@ -69,11 +34,11 @@ const addexecutive = () => {
   // }, [])
   console.log(companyData,"sfsdfdsfs");
   const [suc,setSuc] = useState(false);
-  const [name, setName]=useState("")
-  const [companyName, setComapnayName]=useState("")
-  const [email, setEmail]=useState("")
-  const [mobile, setMobile]=useState("")
-  const [password, setPassword]=useState("")
+  // const [name, setName]=useState("")
+  // const [companyName, setComapnayName]=useState("")
+  // const [email, setEmail]=useState("")
+  // const [mobile, setMobile]=useState("")
+  // const [password, setPassword]=useState("")
  
 
 
@@ -82,14 +47,14 @@ const addexecutive = () => {
 
 
 
-  const AddCashier = (event) => {
-    event.preventDefault()
+  const AddCashier = () => {
+    // event.preventDefault()
     const payload = {
-      "name":name,
+      "name":formValues.name,
         // "company_name" : companyName,
-        "email" : email,
-        "mobile" : mobile,
-        "password":password,
+        "email" : formValues.email,
+        "mobile" : formValues.mobile,
+        "password":formValues.password,
         "company_uuid" :selectValueState && selectValueState.value
     }
     dispatch(cashierAddURL(payload, currentUser.token))
@@ -120,6 +85,65 @@ useEffect(() => {
   }
 
 }, [notification])
+
+
+
+
+const validate = (values) => {
+  const errors = {};
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+  const alpharegex = /^[A-Za-z].{3,15}$/
+  const numberregex = /^[0-9]{10,12}$/
+ 
+  if (!values.name) {
+    errors.name = "Name is Required";
+  }
+  
+ else if (!values.mobile) {
+  errors.mobile = "Moble number is Required";
+}
+else if (!numberregex.test(values.mobile)) {
+  errors.mobile = "Please Enter vailid Mobile Number";
+}
+  
+  else if (!values.email) {
+    errors.email = "Email is required!";
+  } else if (!regex.test(values.email)) {
+    errors.email = "This is not a valid email format!";
+  }
+
+
+  else if(!values.password){
+    errors.password = "password is required!";
+  }
+
+ 
+
+  else {
+    setIsSubmit(true)
+
+  }
+  return errors;
+};
+console.log(formValues, "initialValues")
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  setFormErrors(validate(formValues));
+
+};
+const myhandlechange = (e) => {
+  const { name, value } = e.target;
+  setFormValues({ ...formValues, [name]: value });
+};
+
+
+useEffect(() => {
+  if (isSubmit === true) {
+    AddCashier()
+  }
+
+}, [formErrors])
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -141,30 +165,52 @@ useEffect(() => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form onSubmit={AddCashier}>
+              <Form onSubmit={handleSubmit}>
                 <Row className="g-3">
                   <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
+                    <Form.Control type="text" 
+                    // onChange={(e)=>{setName(e.target.value)}}
+                    name="name"
+                    onChange={myhandlechange}
+                     />
+                        <p style={{color:"red"}}>{formErrors.name}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
                     <Select classNamePrefix="react-select" options={companyList}
-                     value={selectValueState} onChange={setSelectValueState} placeholder=""
+                     value={selectValueState} onChange={setSelectValueState} placeholder="Select Comapany"
                       />
                     {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                   </Col>
                   <Col lg="6">
                     <Form.Label>Phone No</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setMobile(e.target.value)}}/>
+                    <Form.Control type="text" 
+                    // onChange={(e)=>{setMobile(e.target.value)}}
+                    name="mobile"
+                    onChange={myhandlechange}
+                     />
+                        <p style={{color:"red"}}>{formErrors.mobile}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email ID</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setEmail(e.target.value)}}/>
+                    <Form.Control type="text" 
+                    // onChange={(e)=>{setEmail(e.target.value)}}
+
+                    name="email"
+                    onChange={myhandlechange}
+                     />
+                        <p style={{color:"red"}}>{formErrors.email}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setPassword(e.target.value)}}/>
+                    <Form.Control type="text" 
+                    // onChange={(e)=>{setPassword(e.target.value)}}
+                    
+                    name="password"
+                    onChange={myhandlechange}
+                     />
+                        <p style={{color:"red"}}>{formErrors.password}</p>
                   </Col>
                   <Col lg="6">
                     <Col lg="3">
