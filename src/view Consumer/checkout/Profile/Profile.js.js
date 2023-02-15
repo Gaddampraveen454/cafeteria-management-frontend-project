@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ReactTags from 'react-tag-autocomplete';
 import { Row, Col, Button, Dropdown, Card, Badge, Form } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux'
 
 const Profile = () => {
   const title = 'Customer Detail';
@@ -25,6 +26,18 @@ const Profile = () => {
       return [...tags, tag];
     });
   };
+
+
+const [ConsumerData, setConsumerData]=useState()
+console.log(ConsumerData,"ConsumerData")
+  const { currentUser } = useSelector((state) => state.auth)
+  console.log(currentUser,"currentUser")
+  useEffect(()=>{
+    if(currentUser.data){
+      setConsumerData(currentUser.data)
+    }
+
+  },[])
 
   return (
     <>
@@ -73,14 +86,14 @@ const Profile = () => {
                   <div className="sw-6 sh-6 mb-3 d-inline-block bg-primary d-flex justify-content-center align-items-center rounded-xl">
                     <div className="text-white">BC</div>
                   </div>
-                  <div className="h5 mb-1">Blaine Cottrell</div>
+                  <div className="h5 mb-1">{ConsumerData?ConsumerData.name:"Guest"}</div>
                   <div className="text-muted">
-                    <CsLineIcons icon="pin" className="me-1" />
-                    <span className="align-middle">Montreal, Canada</span>
+                    {/* <CsLineIcons icon="pin" className="me-1" /> */}
+                    <span className="align-middle">{ConsumerData?ConsumerData.emp_id:""}</span>
                   </div>
                 </div>
                 <div className="d-flex flex-row justify-content-between w-100 w-sm-50 w-xl-100">
-                  <Button variant="primary" className="w-100 me-2">
+                  {/* <Button variant="primary" className="w-100 me-2">
                     Edit
                   </Button>
                   <Button variant="outline-primary" className="w-100 me-2">
@@ -88,7 +101,7 @@ const Profile = () => {
                   </Button>
                   <Button variant="outline-primary" className="btn-icon btn-icon-only">
                     <CsLineIcons icon="more-horizontal" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
               <div className="mb-5">
@@ -101,15 +114,15 @@ const Profile = () => {
                   <Col className="ps-3">
                     <Row className="g-0">
                       <Col>
-                        <div className="sh-5 d-flex align-items-center lh-1-25">Lifetime Spent</div>
+                        <div className="sh-5 d-flex align-items-center lh-1-25">Wallet Amount </div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center">$ 5,325.55</div>
+                        <div className="sh-5 d-flex align-items-center">$ {ConsumerData ? ConsumerData.wallet_amount:"0"}</div>
                       </Col>
                     </Row>
                   </Col>
                 </Row>
-                <Row className="g-0 align-items-center mb-2">
+                {/* <Row className="g-0 align-items-center mb-2">
                   <Col xs="auto">
                     <div className="border border-primary sw-5 sh-5 rounded-xl d-flex justify-content-center align-items-center">
                       <CsLineIcons icon="cart" className="text-primary" />
@@ -142,17 +155,17 @@ const Profile = () => {
                       </Col>
                     </Row>
                   </Col>
-                </Row>
+                </Row> */}
               </div>
               <div className="mb-5">
-                <p className="text-small text-muted mb-2">SHIPPING ADDRESS</p>
+                <p className="text-small text-muted mb-2">Details</p>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
                     <div className="sw-3 me-1">
                       <CsLineIcons icon="user" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">Blaine Cottrell</Col>
+                  <Col className="text-alternate">{ConsumerData?ConsumerData.name:"Guest"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -160,7 +173,7 @@ const Profile = () => {
                       <CsLineIcons icon="pin" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">4 Glamis Avenue, Strathmore Park, Wellington 6022, New Zealand</Col>
+                  <Col className="text-alternate">{ConsumerData?ConsumerData.location:"No location"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -168,7 +181,7 @@ const Profile = () => {
                       <CsLineIcons icon="phone" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">+6443884455</Col>
+                  <Col className="text-alternate">{ConsumerData?ConsumerData.mobile:"Guest"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -176,10 +189,10 @@ const Profile = () => {
                       <CsLineIcons icon="email" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">blaine@cottrell.com</Col>
+                  <Col className="text-alternate">{ConsumerData?ConsumerData.email:"guest@gmail.com"}</Col>
                 </Row>
               </div>
-              <div className="mb-5">
+              {/* <div className="mb-5">
                 <p className="text-small text-muted mb-2">BILLING ADDRESS</p>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -213,14 +226,14 @@ const Profile = () => {
                   </Col>
                   <Col className="text-alternate">blaine@cottrell.com</Col>
                 </Row>
-              </div>
+              </div> */}
             </Card.Body>
           </Card>
         </Col>
 
         <Col xl="8">
           {/* Recent Orders Start */}
-          <div className="d-flex justify-content-between">
+          {/* <div className="d-flex justify-content-between">
             <h2 className="small-title">Recent Orders</h2>
             <Button variant="background-alternate" size="xs" className="btn-icon btn-icon-end p-0 text-small">
               <span className="align-bottom">View All</span> <CsLineIcons icon="chevron-right" className="align-middle" size="12" />
@@ -256,127 +269,12 @@ const Profile = () => {
                 </Row>
               </Card.Body>
             </Card>
-            <Card className="mb-2">
-              <Card.Body className="sh-16 sh-md-8 py-0">
-                <Row className="g-0 h-100 align-content-center">
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 h-md-100">
-                    <div className="text-muted text-small d-md-none">Id</div>
-                    <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                      1251
-                    </NavLink>
-                  </Col>
-                  <Col xs="6" md="4" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Price</div>
-                    <div className="text-alternate">
-                      <span>
-                        <span className="text-small">$</span>
-                        59.00
-                      </span>
-                    </div>
-                  </Col>
-                  <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Date</div>
-                    <div className="text-alternate">14.09.2021</div>
-                  </Col>
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 align-items-md-end">
-                    <div className="text-muted text-small d-md-none">Status</div>
-                    <Badge bg="outline-secondary">PENDING</Badge>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-            <Card className="mb-2">
-              <Card.Body className="sh-16 sh-md-8 py-0">
-                <Row className="g-0 h-100 align-content-center">
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 h-md-100">
-                    <div className="text-muted text-small d-md-none">Id</div>
-                    <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                      1397
-                    </NavLink>
-                  </Col>
-                  <Col xs="6" md="4" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Price</div>
-                    <div className="text-alternate">
-                      <span>
-                        <span className="text-small">$</span>
-                        128.25
-                      </span>
-                    </div>
-                  </Col>
-                  <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Date</div>
-                    <div className="text-alternate">17.09.2021</div>
-                  </Col>
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 align-items-md-end">
-                    <div className="text-muted text-small d-md-none">Status</div>
-                    <Badge bg="outline-secondary">PENDING</Badge>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-            <Card className="mb-2">
-              <Card.Body className="sh-16 sh-md-8 py-0">
-                <Row className="g-0 h-100 align-content-center">
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 h-md-100">
-                    <div className="text-muted text-small d-md-none">Id</div>
-                    <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                      1421
-                    </NavLink>
-                  </Col>
-                  <Col xs="6" md="4" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Price</div>
-                    <div className="text-alternate">
-                      <span>
-                        <span className="text-small">$</span>
-                        252.75
-                      </span>
-                    </div>
-                  </Col>
-                  <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Date</div>
-                    <div className="text-alternate">17.09.2021</div>
-                  </Col>
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 align-items-md-end">
-                    <div className="text-muted text-small d-md-none">Status</div>
-                    <Badge bg="outline-primary">DELIVERED</Badge>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-            <Card className="mb-2">
-              <Card.Body className="sh-16 sh-md-8 py-0">
-                <Row className="g-0 h-100 align-content-center">
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 h-md-100">
-                    <div className="text-muted text-small d-md-none">Id</div>
-                    <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                      1438
-                    </NavLink>
-                  </Col>
-                  <Col xs="6" md="4" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Price</div>
-                    <div className="text-alternate">
-                      <span>
-                        <span className="text-small">$</span>
-                        189.50
-                      </span>
-                    </div>
-                  </Col>
-                  <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0">
-                    <div className="text-muted text-small d-md-none">Date</div>
-                    <div className="text-alternate">17.09.2021</div>
-                  </Col>
-                  <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 align-items-md-end">
-                    <div className="text-muted text-small d-md-none">Status</div>
-                    <Badge bg="outline-primary">DELIVERED</Badge>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </div>
+         
+          </div> */}
           {/* Recent Orders End */}
 
           {/* History Start */}
-          <h2 className="small-title">History</h2>
+          {/* <h2 className="small-title">History</h2>
           <Card className="mb-5">
             <Card.Body>
               <Row className="g-0">
@@ -535,11 +433,11 @@ const Profile = () => {
                 </Col>
               </Row>
             </Card.Body>
-          </Card>
+          </Card> */}
           {/* History End */}
 
           {/* Additional Info Start */}
-          <h2 className="small-title">Additional Info</h2>
+          {/* <h2 className="small-title">Additional Info</h2>
           <Card>
             <Card.Body>
               <div className="mb-3">
@@ -556,7 +454,7 @@ Rates the items a lot."
                 />
               </div>
             </Card.Body>
-          </Card>
+          </Card> */}
           {/* Additional Info End */}
         </Col>
       </Row>

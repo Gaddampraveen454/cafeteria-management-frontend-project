@@ -33,6 +33,7 @@ import CartReducer from 'Redux/ConsumerRedux/Cart/CartRedux';
 import checkoutReducer from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import IpAddressReducer from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import WalletReducer from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
+import ConsumerOrderReducer from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
 
@@ -71,6 +72,7 @@ const persistedReducer = persistReducer(
     checkoutdata:checkoutReducer,
     IpAddressList:IpAddressReducer,
     WalletData:WalletReducer,
+    OrderPlacedData:ConsumerOrderReducer,
     
 
   })

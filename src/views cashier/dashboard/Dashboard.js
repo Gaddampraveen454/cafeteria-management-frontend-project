@@ -62,7 +62,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
                 <CsLineIcons icon="dollar" className="text-primary" />
               </div>
-              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS1</div>
+              <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
               <div className="text-primary cta-4">$
               {DashboardCountData.total_order_amount}
 </div>
@@ -80,7 +80,7 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card.Body>
           </Card>
         </Col>
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -90,7 +90,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="text-primary cta-4">463</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
         <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
@@ -102,7 +102,7 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card.Body>
           </Card>
         </Col>
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -123,7 +123,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="text-primary cta-4">5</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
       {/* Stats End */}
 

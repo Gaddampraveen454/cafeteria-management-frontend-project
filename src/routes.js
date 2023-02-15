@@ -157,7 +157,7 @@ const routesAndMenuItems = {
       // icon: 'news',
     },
     {
-      path: `${appRoot}/Cards`,
+      path: `${appRoot}/menu`,
       component: Cards,
       label: 'Menu',
       icon: 'news',
