@@ -36,7 +36,7 @@ const adduser = () => {
   // const [EmpId,setEmpId]=useState("")
   
 
-  const initialValues = { name: "", email: "", mobile: "", location: "", EmpId: "" };
+  const initialValues = { name: "", email: "", mobile: "", location: "", EmpId: "" ,designation:"",per_day_amount:""};
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -62,6 +62,8 @@ const adduser = () => {
           "company_uuid" : selectValueState && selectValueState.value,
           "emp_id" :formValues.EmpId,
           "location" :formValues.location,
+          "designation" : formValues.designation,
+          "per_day_amount" : formValues.per_day_amount,
       
     }
     dispatch(consumerAddURL(payload, currentUser.token))
@@ -110,6 +112,9 @@ const validate = (values) => {
   else if(!values.EmpId){
     errors.EmpId = "Employe id is required!";
   }
+  else if(!values.designation){
+    errors.designation = "designation is required!";
+  }
   else if (!values.email) {
     errors.email = "Email is required!";
   } else if (!regex.test(values.email)) {
@@ -125,6 +130,10 @@ const validate = (values) => {
 
   else if(!values.location){
     errors.location = "Location is required!";
+  }
+  
+  else if(!values.per_day_amount){
+    errors.per_day_amount = "Location is required!";
   }
 
  
@@ -208,6 +217,16 @@ useEffect(() => {
                       <p style={{color:"red"}}>{formErrors.EmpId}</p>
                   </Col>
                   <Col lg="6">
+                    <Form.Label>designation</Form.Label>
+                    <Form.Control type="text"
+                      // onChange={(e)=>{setEmail(e.target.value)}}
+                      name="designation"
+                    onChange={myhandlechange}
+
+                      />
+                       <p style={{color:"red"}}>{formErrors.designation}</p>
+                  </Col>
+                  <Col lg="6">
                     <Form.Label>Email ID</Form.Label>
                     <Form.Control type="text"
                       // onChange={(e)=>{setEmail(e.target.value)}}
@@ -234,6 +253,15 @@ useEffect(() => {
                     onChange={myhandlechange}
                     />
                      <p style={{color:"red"}}>{formErrors.location}</p>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Per day amount</Form.Label>
+                    <Form.Control type="number"
+                    // onChange={(e)=>{setLocation(e.target.value)}}
+                    name="per_day_amount"
+                    onChange={myhandlechange}
+                    />
+                     <p style={{color:"red"}}>{formErrors.per_day_amount}</p>
                   </Col>
                   <Col lg="6">
                     <Col lg="3">

@@ -24,8 +24,8 @@ const cashierReportSlice = createSlice({
 export const { setCashierReportData, setToast } = cashierReportSlice.actions;
 
 
-export const CashierReportListURL = (token) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/cashier?pagenum=0&limit=10&search=&user_uuid=&strat_date=&end_date=`, {
+export const CashierReportListURL = (companyId,startDate, endDate, token) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/cashier?pagenum=0&limit=10&search=&company_uuid=${companyId}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, {
     headers: {
       "x-auth-token": token
     }

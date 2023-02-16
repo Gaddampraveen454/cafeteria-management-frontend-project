@@ -168,6 +168,12 @@ const adminRoutesAndMenuItems = {
       // icon: 'news',
     },
     // {
+    //   path: `${appRoot}/discount`,
+    //   component: discount,
+    //   label: 'discount',
+    //   icon: 'discount',
+    // },
+    // {
     //   path: `${appRoot}/adddetails`,
     //   component: adddetails,
     //   label: 'User Management',

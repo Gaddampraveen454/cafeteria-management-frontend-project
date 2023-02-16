@@ -1,12 +1,15 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {AdminReportListURL} from "Redux/AdminRedux/Reports/ReportRedux"
+import { AdminReportListURL,ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+// import Export from 'Export';
+import { ExportExcel } from 'Export';
 
 const report = () => {
   const dispatch = useDispatch()
@@ -29,26 +32,47 @@ const report = () => {
       setSelectedItems([]);
     }
   };
-  const [selectValueState, setSelectValueState] = useState();
-
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [selectValueState, setSelectValueState] = useState("");
+  console.log(selectValueState, "selectValueState")
   const { companyData } = useSelector((state) => state.companyList)
 
 
-  console.log(companyData,"sfsdfdsfs");
- 
-  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  console.log(companyData, "sfsdfdsfs");
 
- 
+  const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { AdminReportData,notification } = useSelector((state) => state.AdminReportList)
-console.log(AdminReportData,"jsdggjjhg");
+  const { AdminReportData, notification } = useSelector((state) => state.AdminReportList)
+  console.log(AdminReportData, "jsdggjjhg");
 
 
-useEffect(()=>{
-  dispatch(AdminReportListURL(currentUser.token))
-},[])
-console.log(AdminReportData,"dffdgdff");
+  // useEffect(() => {
+  //   dispatch(AdminReportListURL(currentUser.token))
+  // }, [])
+  useEffect(() => {
+    if (selectValueState)
+      dispatch(AdminReportListURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
+// dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
+
+  }, [selectValueState,startDate,endDate])
+
+
+
+
+  const ChangeStartData = e => {
+    console.log("ChangeStartData: ", e.target.value);
+    setStartDate(e.target.value);
+  };
+  const ChangeEndData = e => {
+    console.log("ChangeStartData: ", e.target.value);
+    setEndDate(e.target.value);
+  };
+
+  const exportfunction = async () => {
+    await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
+   }
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -69,9 +93,9 @@ console.log(AdminReportData,"dffdgdff");
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <NavLink to="/addreport">
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-            <CsLineIcons icon="plus" /> <span>Add Report</span>
-            </Button>
+              <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                <CsLineIcons icon="plus" /> <span>Add Report</span>
+              </Button>
             </NavLink>
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
@@ -99,9 +123,11 @@ console.log(AdminReportData,"dffdgdff");
       </div>
 
       <Row className="mb-3">
-        <Col md="4" lg="4" xxl="2" className="mb-1">
+        <Col md="3" lg="3" xxl="3" className="mb-1">
           {/* Search Start */}
+          <Form.Label>Search</Form.Label>
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+        
             <Form.Control type="text" placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
@@ -112,18 +138,29 @@ console.log(AdminReportData,"dffdgdff");
           </div>
           {/* Search End */}
         </Col>
-        <Col md="4" lg="4" xxl="2" className="mb-1">
-          {/* <Form.Label>Company Name</Form.Label> */}
-                    <Select classNamePrefix="react-select" 
-                    options={companyList}
-                     value={selectValueState}
-                     onChange={setSelectValueState} 
-                     placeholder="Select Company"
-                    //  name="companyName"
-                    //  onChange={myhandlechange}
-                      />
-                      </Col>
-        <Col md="4" lg="4" xxl="2"  className="mb-1 text-end">
+        <Col  md="3" lg="3" xxl="3"  className="mb-1">
+          <Form.Label>Company Name</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={companyList}
+            value={selectValueState}
+            onChange={setSelectValueState}
+            placeholder="Select Company"
+          //  name="companyName"
+          //  onChange={myhandlechange}
+          />
+        </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1">
+          {/* <div className="mb-3"> */}
+          <Form.Label>Start date</Form.Label>
+          <Form.Control type="date" value={startDate} onChange={ChangeStartData} />
+        </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1">
+          <Form.Label>End date</Form.Label>
+          <Form.Control type="date" value={endDate} onChange={ChangeEndData} />
+          {/* </div> */}
+        </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1 text-end">
+        
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -133,7 +170,7 @@ console.log(AdminReportData,"dffdgdff");
           {/* Print Button End */}
 
           {/* Export Dropdown Start */}
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
@@ -141,10 +178,10 @@ console.log(AdminReportData,"dffdgdff");
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
               <Dropdown.Item href="#">Copy</Dropdown.Item>
-              <Dropdown.Item href="#">Excel</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
               <Dropdown.Item href="#">Cvs</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown> */}
+          </Dropdown>
           {/* Export Dropdown End */}
 
           {/* Length Start */}
@@ -160,10 +197,10 @@ console.log(AdminReportData,"dffdgdff");
               <Dropdown.Item href="#">20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          
+
           {/* Length End */}
         </Col>
-        
+
       </Row>
 
       {/* List Header Start */}
@@ -189,7 +226,7 @@ console.log(AdminReportData,"dffdgdff");
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">transaction</div>
             </Col>
-            
+
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col>
@@ -215,60 +252,60 @@ console.log(AdminReportData,"dffdgdff");
 
       {/* List Items Start */}
       {AdminReportData && AdminReportData.data && AdminReportData.data.map((item, index) => {
-      return<div key="">
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
+        return <div key="">
+          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+            <Row className="g-0 h-100 sh-lg-9 position-relative">
+              {/* <Col xs="auto" className="positio-relative">
             <NavLink to="/products/detail">
               <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
             </NavLink>
           </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
+              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                <Row className="g-0 h-100 ">
+                  {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
                 <NavLink to="/products/detail">
                   Anpan
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.company_name}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.employee_name}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.employee_id}</div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.paid_from_wallet}</div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.total_amount}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
-              </Col>
-             
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                {/* <ToggleButton
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.company_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.employee_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.employee_id}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.paid_from_wallet}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.total_amount}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+                  </Col>
+
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">
+                      <table>
+                        <tr>
+                          {/* <ToggleButton
                 value={ items.is_active }
                 onToggle={()=>activefunct(items)}
                  /> */}
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  {/* <td>
+                          <td>
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
+                              <CsLineIcons icon="eye" />
+                            </Button>
+                          </td>
+                          <td>
+                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2">
+                              <CsLineIcons icon="edit-square" />
+                            </Button>
+                          </td>
+                          {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
                  <CsLineIcons icon="check" />
                  </Button>
@@ -278,16 +315,16 @@ console.log(AdminReportData,"dffdgdff");
                  <CsLineIcons icon="close" />
                  </Button>
                   </td> */}
-                  {/* <td>
+                          {/* <td>
                   <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
                  <CsLineIcons icon="bin" />
                  </Button>
                   </td> */}
-                </tr>
-              </table>
-                </div>
-              </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                        </tr>
+                      </table>
+                    </div>
+                  </Col>
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">Non veg</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -299,19 +336,20 @@ console.log(AdminReportData,"dffdgdff");
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">icons</div>
               </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                 <div className="lh-1 text-alternate">₹ 250</div>
               </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
                 <Badge bg="outline-primary">SALE</Badge>
               </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
+                  {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
                 <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
               </Col> */}
+                </Row>
+              </Col>
             </Row>
-          </Col>
-        </Row>
-      </Card></div>})}
+          </Card></div>
+      })}
 
       {/* List Items End */}
 
