@@ -6,6 +6,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
+import Select from 'react-select';
 
 const report = () => {
   const dispatch = useDispatch()
@@ -28,9 +29,16 @@ const report = () => {
       setSelectedItems([]);
     }
   };
+  const [selectValueState, setSelectValueState] = useState();
+
+  const { companyData } = useSelector((state) => state.companyList)
 
 
+  console.log(companyData,"sfsdfdsfs");
+ 
+  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
+ 
 
   const { currentUser } = useSelector((state) => state.auth)
   const { AdminReportData,notification } = useSelector((state) => state.AdminReportList)
@@ -91,7 +99,7 @@ console.log(AdminReportData,"dffdgdff");
       </div>
 
       <Row className="mb-3">
-        <Col md="5" lg="3" xxl="2" className="mb-1">
+        <Col md="4" lg="4" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
             <Form.Control type="text" placeholder="Search" />
@@ -104,7 +112,18 @@ console.log(AdminReportData,"dffdgdff");
           </div>
           {/* Search End */}
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+        <Col md="4" lg="4" xxl="2" className="mb-1">
+          {/* <Form.Label>Company Name</Form.Label> */}
+                    <Select classNamePrefix="react-select" 
+                    options={companyList}
+                     value={selectValueState}
+                     onChange={setSelectValueState} 
+                     placeholder="Select Company"
+                    //  name="companyName"
+                    //  onChange={myhandlechange}
+                      />
+                      </Col>
+        <Col md="4" lg="4" xxl="2"  className="mb-1 text-end">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -141,8 +160,10 @@ console.log(AdminReportData,"dffdgdff");
               <Dropdown.Item href="#">20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+          
           {/* Length End */}
         </Col>
+        
       </Row>
 
       {/* List Header Start */}
