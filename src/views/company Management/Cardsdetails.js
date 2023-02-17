@@ -20,11 +20,19 @@ const Cardsdetails = ({onClose}) => {
 
   // const [cmpid,companyId]=id.split("=")
 
-  console.log(companyId,"companyId")
+  // console.log(companyId,"companyId")
+
+  useEffect(() => {
+    localStorage.setItem('companyId', (companyId));
+  }, [companyId]);
 
 
-
-
+  const [items, setItems] = useState();
+console.log(items,"itemsitemsitems")
+  useEffect(()=>{
+    const getcompanyId = (localStorage.getItem('companyId'));
+    setItems(getcompanyId)
+  },[])
 
 
   const [open, setOpen] = React.useState(false);
@@ -73,7 +81,7 @@ if(categoryForConsumer){
           return<>
           {/* <a href="#firstcolumn"> */}
         <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2" 
-        onClick={()=>{setCategory(item.uuid)}} 
+        onClick={()=>{setCategory(item.uuid);closeFunction()}} 
         // onClick={closeFunction}
         >{item.name}</label>
           {/* </a> */}

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { lazy } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { USER_ROLE } from 'constants.js';
 import { DEFAULT_PATHS } from 'config.js';
 
@@ -62,6 +62,19 @@ const settings = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
+
+// const [items, setItems] = useState();
+// console.log(items,"itemsitemsitems")
+//   useEffect(()=>{
+//     const getcompanyId = (localStorage.getItem('companyId'));
+//     setItems(getcompanyId)
+//   },[])
+
+
+
+  const companyId = localStorage.getItem('companyId');
+const compNewId = companyId===null?"qr":companyId
+
 const defaultRoutesAndMenuItems = {
   mainMenuItems: [
     {
@@ -89,7 +102,7 @@ const defaultRoutesAndMenuItems = {
       // icon: 'shipping',
     },
     {
-      path: `${appRoot}/menu/qr`,
+      path: `${appRoot}/menu/${compNewId}`,
       // component: Cards,
       label: 'Menu',
       icon: 'shipping',
