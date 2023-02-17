@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory,useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
@@ -27,7 +27,10 @@ const Menu = () => {
   const history = useHistory();
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
-
+  const { id } = useParams();
+  const [cmpid,newid]=id.split("=")
+  console.log(newid,"sdfsdsdfsdfsdfdsfsdf")
+  console.log(window.location.pathname,"sdfsdfsdfsdfsdfsd")
   const { themeValues } = useSelector((state) => state.settings);
   const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
   const { width } = useWindowSize();
@@ -125,6 +128,17 @@ const Menu = () => {
 
   }, [notification])
   console.log(notification, "ProductDataProductData")
+
+  const handleModel =()=>{
+    setIsOpenFiltersModal(false)
+  }
+  useEffect(()=>{
+if(window.location.pathname==="/menu/qr"){
+  toast.error("Please Scan the QR code")
+}
+
+
+  },[window.location.pathname])
 
   return (
     <>
@@ -314,7 +328,7 @@ const Menu = () => {
           </Modal.Header>
           <Modal.Body>
             <Cardsdetails
-            // onClose={setIsOpenFiltersModal(false)}
+            onClose={handleModel}
              />
           </Modal.Body>
         </Modal>

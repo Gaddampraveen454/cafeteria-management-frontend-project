@@ -1,16 +1,31 @@
 import React,{useEffect, useState} from 'react';
 import Rating from 'react-rating';
 import { useDispatch,useSelector } from 'react-redux';
+import { NavLink, useHistory,useParams } from 'react-router-dom';
 
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Cardsdetails = (props) => {
-  console.log(props,"gfsfgsgsfgsg")
+const Cardsdetails = ({onClose}) => {
+  console.log(onClose,"gfsfgsgsfgsg")
   const dispatch = useDispatch()
+  const [suc, setSuc] = useState(false);
+  const { id } = useParams();
+  const [companyId , setCompanyId]=useState(id)
+
+  // const [cmpid,companyId]=id.split("=")
+
+  console.log(companyId,"companyId")
+
+
+
+
+
 
   const [open, setOpen] = React.useState(false);
 
@@ -34,11 +49,17 @@ if(categoryForConsumer){
   useEffect(() => {
     // if (category===!""){
       if(category){
-        dispatch(ProductForConsumerListURL(category))
-        // dispatch(categoryForConsumerListURL())
+        dispatch(ProductForConsumerListURL(companyId,category))
+      
       }
 
   }, [category])
+
+  const closeFunction =()=>{
+    onClose()
+  }
+
+
 
 
   return (
@@ -51,7 +72,10 @@ if(categoryForConsumer){
         {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item)=>{
           return<>
           {/* <a href="#firstcolumn"> */}
-        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2" onClick={()=>{setCategory(item.uuid)}}>{item.name}</label>
+        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2" 
+        onClick={()=>{setCategory(item.uuid)}} 
+        // onClick={closeFunction}
+        >{item.name}</label>
           {/* </a> */}
           <br />
           </>

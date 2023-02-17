@@ -83,8 +83,14 @@ const defaultRoutesAndMenuItems = {
       icon: 'user',
     },
     {
-      path: `${appRoot}/menu`,
+      path: `${appRoot}/menu/:id`,
       component: Cards,
+      // label: 'Menu',
+      // icon: 'shipping',
+    },
+    {
+      path: `${appRoot}/menu/qr`,
+      // component: Cards,
       label: 'Menu',
       icon: 'shipping',
     },
