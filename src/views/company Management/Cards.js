@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { NavLink, useHistory,useParams } from 'react-router-dom';
+import { NavLink, useHistory,useParams ,Redirect} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
@@ -14,8 +14,20 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import { QrReader } from 'react-qr-reader';
+import QrReader from "react-web-qr-reader";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
+
+
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
 
 
@@ -38,6 +50,44 @@ const Menu = () => {
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
   const [category, setCategory] = useState("")
   const [suc, setSuc] = useState(false);
+  
+  const [open, setOpen] = React.useState(false);
+  const [result1, setResult1] = useState();
+
+  // const [data, setData] = useState('No result');
+  const delay = 500;
+
+  const previewStyle = {
+    // height: 200,
+    width: 280
+  };
+
+
+
+  const handleScan = (result) => {
+    console.log(result.data,"fsfsfsdfsdf")
+    if (result) {
+      setResult1(result.data);
+    }
+  };
+
+  const handleError = (error) => {
+    console.log(error);
+  };
+  useEffect(()=>{
+    if(result1){
+      const [url,compnayId]=result1.split("menu/")
+      history.push(({
+        pathname: `/menu/${compnayId}`,
+
+      }));
+      window.location.reload();
+      // <Redirect to="/somewhere/else" />
+    }
+    
+  },[result1])
+
+
 
 
 
@@ -142,6 +192,8 @@ if(window.location.pathname==="/menu/qr"){
 
   return (
     <>
+   
+  
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
@@ -158,9 +210,16 @@ if(window.location.pathname==="/menu/qr"){
           </Col>
           {/* Title End */}
 
+         
+
+
           {/* Top Buttons Start */}
 
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+          <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+          onClick={()=>setOpen(true)}>
+                <CsLineIcons icon="scanner" /><span> Scan QR Code</span>
+              </Button>
             <NavLink to="/Cardcart">
               <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="cart" /><span> Cart</span>
@@ -335,6 +394,30 @@ if(window.location.pathname==="/menu/qr"){
         </>
       )}
       {/* Filters Modal End */}
+
+
+      {/* edit view popup start */}
+      {/* <div> */}
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+       
+        >
+        
+  {/* qr code start */}
+  <DialogContent style={{ width: "100%", height: "100%" }}>
+  <QrReader
+        delay={delay}
+        style={previewStyle}
+        onError={handleError}
+        onScan={handleScan}
+      />
+      </DialogContent>
+      <p>{result1}</p>
+        </Dialog>
+        {/* </div> */}
     </>
   );
 };

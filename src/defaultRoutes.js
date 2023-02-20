@@ -62,18 +62,8 @@ const settings = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-
-// const [items, setItems] = useState();
-// console.log(items,"itemsitemsitems")
-//   useEffect(()=>{
-//     const getcompanyId = (localStorage.getItem('companyId'));
-//     setItems(getcompanyId)
-//   },[])
-
-
-
   const companyId = localStorage.getItem('companyId');
-const compNewId = companyId===null?"qr":companyId
+  const compNewId = companyId===null?"qr":companyId
 
 const defaultRoutesAndMenuItems = {
   mainMenuItems: [
