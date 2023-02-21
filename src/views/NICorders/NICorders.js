@@ -536,9 +536,8 @@ const viewEventHandler = (event) => {
                 {/* <div className="lh-1 text-alternate">{item.is_active.toString()}</div> */}
                 <Form.Check 
                 className="form-check mt-2 ps-7 ps-md-2" 
-                type="switch" checked={item.is_delivered} 
-                // onChange={() => StatusUpdate()}
-
+                type="switch"
+                 checked={item.is_delivered} 
                 onClick={() => { eventHandler(item) }}
                 />
               </Col>

@@ -5,7 +5,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
-import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL ,CompanyStatusUpdateURL} from 'Redux/AdminRedux/Comapny/Company';
 import {
   Dialog,
   DialogActions,
@@ -176,6 +176,22 @@ const searchfunction =(type , pages)=>{
    dispatch(CompanyListURL(0,search,currentUser.token,pages))
   }
  }
+
+
+
+
+
+ const HandleCompanyStatus = (event) => {
+  console.log(event, "eventxcvvxcvv")
+  // if (event.is_delivered)
+  const payload = {
+    "uuid" : event.uuid,
+    "status" : !event.is_active
+}
+  dispatch(CompanyStatusUpdateURL(payload, currentUser.token))
+  setSuc(true)
+  
+};
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -339,7 +355,17 @@ const searchfunction =(type , pages)=>{
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
                         {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                        <Form.Check type="switch" id="quantitySwitch2" value={status} onChange={(e) => { setStatus(!status) }} defaultChecked />
+                        <Form.Check 
+                        // type="switch"
+                        //  id="quantitySwitch2" 
+                        //  value={status} 
+                        //  onChange={(e) => { setStatus(!status) }} 
+                        //  defaultChecked 
+                           type="switch"
+                           checked={item.is_active} 
+                           onClick={() => { HandleCompanyStatus(item) }}
+
+                         />
                         {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
                       </div>
                     </div>

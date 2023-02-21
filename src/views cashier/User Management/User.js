@@ -428,7 +428,7 @@ const searchfunction =(type , pages)=>{
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Phone No</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
@@ -437,9 +437,9 @@ const searchfunction =(type , pages)=>{
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+            {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer" />
-            </Col>
+            </Col> */}
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
@@ -476,7 +476,7 @@ const searchfunction =(type , pages)=>{
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.email}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.mobile}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -485,15 +485,15 @@ const searchfunction =(type , pages)=>{
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">{item.location}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
-                        {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
+                      
                         <Form.Check type="switch" id="quantitySwitch2" defaultChecked />
-                        {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
+                       
                       </div>
                     </div>
-                  </Col>
+                  </Col> */}
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">
                       <table>

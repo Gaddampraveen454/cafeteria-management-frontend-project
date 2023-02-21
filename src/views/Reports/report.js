@@ -92,11 +92,11 @@ const report = () => {
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            <NavLink to="/addreport">
+            {/* <NavLink to="/addreport">
               <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="plus" /> <span>Add Report</span>
               </Button>
-            </NavLink>
+            </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
             </Button>

@@ -20,7 +20,7 @@ import {
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL ,ConsumerStatusUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -255,6 +255,22 @@ const searchfunction =(type , pages)=>{
   }
  }
 
+
+
+
+
+ const HandleUserStatus = (event) => {
+  console.log(event, "eventxcvadsdavxcvv")
+  // if (event.is_delivered)
+  const payload = {
+    "uuid" : event.uuid,
+    "status" : !event.is_active
+}
+  dispatch(ConsumerStatusUpdateURL(payload, currentUser.token))
+  setSuc(true)
+  
+};
+
   return (
     <>
       <Dialog
@@ -485,7 +501,16 @@ const searchfunction =(type , pages)=>{
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
                         {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                        <Form.Check type="switch" id="quantitySwitch2" defaultChecked />
+                        <Form.Check 
+                        // type="switch" 
+                        // id="quantitySwitch2" 
+                        // defaultChecked 
+                           type="switch"
+                           checked={item.is_active} 
+                           onClick={() => { HandleUserStatus(item) }}
+
+
+                        />
                         {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
                       </div>
                     </div>

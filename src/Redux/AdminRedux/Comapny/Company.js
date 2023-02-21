@@ -59,6 +59,27 @@ export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
       })
    
   };
+  export const CompanyStatusUpdateURL = (payload, token) => async (dispatch) => {
+    const response = await axios.put(`${process.env.REACT_APP_URL}/company/change/status`, payload, {
+      headers: {
+        "x-auth-token": token
+      }
+    }).then((res) => {
+      console.log(res, "sdfsddffsdff")
+      dispatch(setToast({ status: true, message: res.data.message }))
+    })
+      .catch((err) => {
+        console.log(err && err.response,"hjgjghgjhghj")
+        dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+  
+      })
+    // console.log(response, "sdfsfsdfs")
+  
+  };
+
+
+
+
 const companyReducer = companySlice.reducer;
 
 export default companyReducer;

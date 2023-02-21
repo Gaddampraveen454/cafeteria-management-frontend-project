@@ -14,7 +14,7 @@ import {
   Input,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL,ProductStatusUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -271,6 +271,19 @@ const searchfunction =(type , pages)=>{
    dispatch(ProductListURL(0,search,currentUser.token,pages))
   }
  }
+
+
+ const HandleProductStatus = (event) => {
+  console.log(event, "eventxcvvxcvv")
+  // if (event.is_delivered)
+  const payload = {
+    "uuid" : event.uuid,
+    "status" : !event.is_active
+}
+  dispatch(ProductStatusUpdateURL(payload, currentUser.token))
+  setSuc(true)
+  
+};
   return (
     <>
               <Dialog 
@@ -486,7 +499,12 @@ const searchfunction =(type , pages)=>{
                 <div className="lh-1 text-alternate">
                 <div className="mb-n1">
                   {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
+                  <Form.Check 
+                 type="switch"
+                           checked={item.is_active} 
+                           onClick={() => { HandleProductStatus(item) }}
+
+                  />
                   {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
                 </div>
                 </div>

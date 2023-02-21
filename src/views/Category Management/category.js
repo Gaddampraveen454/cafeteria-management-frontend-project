@@ -5,7 +5,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
-import { CategoryListURL, CategoryAddURL, CategoryUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
+import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import {
   Dialog,
   DialogActions,
@@ -147,6 +147,18 @@ const searchfunction =(type , pages)=>{
    dispatch(CategoryListURL(0,search,currentUser.token,pages))
   }
  }
+
+ const HandleCategoryStatus = (event) => {
+  console.log(event, "eventxcvvxcvv")
+  // if (event.is_delivered)
+  const payload = {
+    "uuid" : event.uuid,
+    "status" : !event.is_active
+}
+  dispatch(CategoryStatusUpdateURL(payload, currentUser.token))
+  setSuc(true)
+  
+};
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -310,7 +322,13 @@ const searchfunction =(type , pages)=>{
                 <div className="lh-1 text-alternate">
                 <div className="mb-n1">
                   {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
+                  <Form.Check 
+                   
+                  type="switch"
+                           checked={item.is_active} 
+                           onClick={() => { HandleCategoryStatus(item) }}
+
+                     />
                   {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
                 </div>
                 </div>

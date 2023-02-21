@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OrderListUR,OrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import { ConsumerOrderListURL } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
+import { InvoiceListURL } from 'Redux/AdminRedux/invoice/InvoiceRedux';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Dialog,
@@ -17,6 +18,7 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import axios from 'axios';
 
 
 const OrderPlaced = () => {
@@ -27,6 +29,8 @@ const OrderPlaced = () => {
   const [eventType, setEventType] = useState(false)
   const [suc,setSuc] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openpdf,setOpenPdf]=useState(false)
+  const [closepdf, setClosePdf] = useState(false);
   const [productDetails, setProductDetails]=useState([])
   console.log(productDetails, "fdfdsfdsfsdfsdfsdfffgfdgd")
   console.log(status,"sdfsdfsfs")
@@ -55,6 +59,9 @@ const OrderPlaced = () => {
   const { currentUser } = useSelector((state) => state.auth)
   console.log(currentUser,"currentUser")
   const { ConsumerOrderData, notification } = useSelector((state) => state.OrderPlacedData)
+  const { InvoiceData } = useSelector((state) => state.InvoiceData)
+  console.log(InvoiceData,"InvoiceData")
+  
   useEffect(()=>{
     if(currentUser.data){
       dispatch(ConsumerOrderListURL(page, search,currentUser.token,limit,currentUser.data.uuid))
@@ -117,6 +124,14 @@ const eventHandler = (event) => {
 
 };
 
+const GetInvoice = (event) => {
+  console.log(event, "sfdfsfdsf")
+ 
+  dispatch(InvoiceListURL(currentUser.token))
+};
+
+
+
 
 
 useEffect(() => {
@@ -150,6 +165,99 @@ const viewEventHandler = (event) => {
   setProductDetails(event.details)
 
 
+};
+
+
+
+
+const failurePdfOpen = () => {
+  setClosePdf(true);
+};
+
+const failurePdfClose = () => {
+  setClosePdf(false);
+};
+
+const handlePdfOpen = () => {
+  setOpenPdf(true);
+};
+
+const handlePdfClose = () => {
+  setOpenPdf(false);
+};
+
+// const handlePdf = (event) => {
+//   const endPoint = "";
+ 
+
+//   // setLoader(true);
+//   let dt;
+//   let url;
+//   async function getpdf(item) {
+//     try {
+//       await axios
+//         .get(`${process.env.REACT_APP_URL}/order/invoice/ORD-052669A2`, {
+//           // headers: {
+//           //   "x-auth-token": authState.token,
+//           // },
+//         })
+//         .then((res) => {
+//           if (res.data) {
+//             dt = res.data;
+//             // setLoader(false);
+//           }
+//         });
+
+//       handlePdfOpen();
+//       await fetch("data:application/pdf;base64," + dt)
+//         .then((res) => res.blob())
+//         .then((blob) => {
+//           url = window.URL.createObjectURL(blob);
+//         });
+//       const iframe = document.querySelector("#pdf");
+//       iframe.setAttribute("src", url);
+//     } catch (error) {
+//       // failurePdfOpen();
+//     }
+//   }
+
+//   getpdf(item);
+// };
+
+
+const handleHistoryCaseNote = (e) => {
+  console.log(e.uuid,"Asdasdasdasdasdas")
+  // setLoader(true);
+  // const caseid = e.target.id;
+  const caseid =e.uuid
+  let dt;
+  let url;
+  async function getpdf(id) {
+    try {
+      await axios
+        .get(`${process.env.REACT_APP_URL}/order/invoice/${id}`
+        )
+        .then((res) => {
+          if (res.data) {
+            dt = res.data;
+            // setLoader(false);
+          }
+        });
+
+      handlePdfOpen();
+      await fetch(`data:application/pdf;base64,${dt}`)
+        .then((res) => res.blob())
+        .then((blob) => {
+          url = window.URL.createObjectURL(blob);
+        });
+      const iframe = document.querySelector("#pdf");
+      iframe.setAttribute("src", url);
+    } catch (error) {
+      failurePdfOpen();
+    }
+  }
+
+  getpdf(caseid);
 };
 
   return (
@@ -373,6 +481,11 @@ const viewEventHandler = (event) => {
                   >
                   <CsLineIcons icon="eye" />                  
                  </Button>
+                 <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2" 
+                  onClick={(e) => { handleHistoryCaseNote(item);  }}
+                  >
+                  <CsLineIcons icon="print" />                  
+                 </Button>
            </div>
               </Col>
               {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -402,6 +515,8 @@ const viewEventHandler = (event) => {
       </Card>
       </div>
       })}
+     
+      
      
       {/* List Items End */}
 
@@ -544,6 +659,37 @@ const viewEventHandler = (event) => {
 
         </Dialog>
       </div>
+      <Dialog
+          disableBackdropClick
+          style={{ borderRadius: "0px" }}
+          // fullScreen
+        maxWidth="lg"
+        fullWidth
+        open={openpdf}
+        // scroll="paper"
+        onClose={handlePdfClose}
+        PaperProps={{ sx: { width: "100%", height: "100%" } }}
+
+        
+        >
+        
+         
+             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"  style={{width:"40px"}}
+                 onClick={() => handlePdfClose()}
+                 
+                  >
+                  <CsLineIcons icon="close" />                  
+                 </Button>
+            <DialogContent >
+              <iframe src="" className="pdfiframe" id="pdf" title="myFrame" 
+              style={{width:"100%",height:"100%"}}
+
+              />
+             
+              
+            </DialogContent>
+          {/* </div> */}
+        </Dialog>
     </>
   );
 };
