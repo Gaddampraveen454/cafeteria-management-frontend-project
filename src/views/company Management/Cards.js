@@ -251,7 +251,7 @@ if(window.location.pathname==="/menu/qr"){
 
       <Row>
         {isLgScreen && (
-          <Col lg="4" xl="3" className="d-none d-lg-block">
+          <Col lg="4" xl="4" className="d-none d-lg-block">
             {/* Filters Start */}
             <Card style={{ position: "fixed", zIndex: "1" }} className="mb-5">
               <Card.Body>
@@ -262,7 +262,7 @@ if(window.location.pathname==="/menu/qr"){
           </Col>
         )}
 
-        <Col style={{ position: "sticky" }} lg="8" xl="9">
+        <Col style={{ position: "sticky" }} lg="8" xl="8">
 
           <div id="firstcolumn">
             <Form className="mb-5">
@@ -370,9 +370,12 @@ if(window.location.pathname==="/menu/qr"){
         <>
         
         <div className='settings-buttons-container'
-             style={{marginTop:"-200px"}}
+             style={{
+              marginTop:"130px",
+              marginRight:"20px",
+            }}
             >
-              <Button
+              <Button 
               style={{padding:"10px"}}
               
                 onClick={() => setIsOpenFiltersModal(true)}
@@ -381,9 +384,9 @@ if(window.location.pathname==="/menu/qr"){
                 <h5>Menu</h5>
               </Button>
             </div>
-        <Modal className="modal-left" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
+        <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
           <Modal.Header closeButton>
-            <Modal.Title as="div">Filters</Modal.Title>
+            <Modal.Title as="div">Menu</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Cardsdetails
