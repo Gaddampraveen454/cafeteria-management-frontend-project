@@ -216,16 +216,18 @@ if(window.location.pathname==="/menu/qr"){
           {/* Top Buttons Start */}
 
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-          <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
-          onClick={()=>setOpen(true)}>
-                <CsLineIcons icon="scanner" /><span> Scan QR Code</span>
+                <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+                onClick={()=>setOpen(true)}>
+                <CsLineIcons icon="scanner" /><span>Scan QR Code</span>
               </Button>
+              &nbsp;&nbsp;
             <NavLink to="/Cardcart">
-              <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                <CsLineIcons icon="cart" /><span> Cart</span>
+              <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                <CsLineIcons icon="cart" />
+                <span> Cart</span>
               </Button>
-            </NavLink>
-            <Dropdown className="ms-1 w-100 w-md-auto" align="end">
+            </NavLink>&nbsp;&nbsp;
+            {/* <Dropdown xs="4"  className="ms-1 w-100 w-md-auto" align="end">
               <Dropdown.Toggle variant="outline-primary" className="w-100 w-md-auto">
                 Order: Default
               </Dropdown.Toggle>
@@ -236,7 +238,7 @@ if(window.location.pathname==="/menu/qr"){
                 <Dropdown.Item>Rating</Dropdown.Item>
                 <Dropdown.Item>Newest</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
            
           </Col>
           {/* <Col 
@@ -251,9 +253,9 @@ if(window.location.pathname==="/menu/qr"){
 
       <Row>
         {isLgScreen && (
-          <Col lg="4" xl="4" className="d-none d-lg-block">
+          <Col lg="3" xl="3" className="d-none d-lg-block">
             {/* Filters Start */}
-            <Card style={{ position: "fixed", zIndex: "1" }} className="mb-5">
+            <Card style={{ position: "fixed", zIndex: "1" ,width:"18%",height:"auto"}} className="mb-5">
               <Card.Body>
                 <Cardsdetails />
               </Card.Body>
@@ -262,7 +264,7 @@ if(window.location.pathname==="/menu/qr"){
           </Col>
         )}
 
-        <Col style={{ position: "sticky" }} lg="8" xl="8">
+        <Col style={{ position: "sticky" }} lg="9" xl="9">
 
           <div id="firstcolumn">
             <Form className="mb-5">
@@ -273,32 +275,34 @@ if(window.location.pathname==="/menu/qr"){
               {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
                 return <>
                   <Col xs="12" md="6" lg="6" xl="6">
-                    <Card className="h-100 hover-scale-up cursor-pointer">
+                    <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
-                        <img src={item.image_url} alt="GreenDot" style={{ width: "50%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} className="heading mb-0 d-flex">
-
+                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                        <Row >
                           {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
-                          <div style={{ float: "left" }}>
-                            <NavLink to="#" className="body-link d-block sh-5 mb-0 h6 heading lh-1-5">
+                          <Col xs="6" sm="8" md="8" lg="8">
+                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                               <Clamp tag="span" clamp="2">
                                 {item.name}
                               </Clamp>
                             </NavLink>
-                          </div>
-                          <div style={{ float: "right" }}>
+                            ₹{item.price}
+                          </Col>
+                          {/* <Col> &nbsp;</Col> */}
+                          <Col xs="6" sm="4" md="4" lg="4">
                             {/* <NavLink  to="/"> */}
+                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%",height:"auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                             <Button variant="outline-primary"
-                              className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
                               onClick={() => { addToCart(item) }}
                             >
                               <CsLineIcons icon="plus" /><span>Add</span>
                             </Button>
                             {/* </NavLink> */}
-                          </div>
+                          </Col>
 
-                        </div> <br />
-                        <div>₹{item.price}</div>
+                        </Row>
+                        
                       </Card.Body>
                     </Card>
                     <Card.Footer>
@@ -376,19 +380,19 @@ if(window.location.pathname==="/menu/qr"){
             }}
             >
               <Button 
-              style={{padding:"10px"}}
+              style={{borderRadius:"50%",width:"65px",height:"65px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",border: "2px solid #fff",}}
               
                 onClick={() => setIsOpenFiltersModal(true)}
                 >
-                <CsLineIcons icon="menu" /> <br />
-                <h5>Menu</h5>
+                <CsLineIcons icon="menu" style={{width:"80%",height:"auto"}}/>
+                <h6>Menu</h6>
               </Button>
             </div>
         <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title as="div">Menu</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body >
             <Cardsdetails
             onClose={handleModel}
              />
