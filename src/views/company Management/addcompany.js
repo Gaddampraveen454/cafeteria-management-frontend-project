@@ -88,7 +88,7 @@ const addCompany = () => {
   console.log(formValues, "sdfsdfsdfsdf")
   const validate = (values) => {
     const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
     const alpharegex = /^[A-Za-z].{3,15}$/
     const numberregex = /^[0-9]{10,12}$/
 

@@ -30,10 +30,9 @@ const NICorders = () => {
   const [open, setOpen] = React.useState(false);
   const [productDetails, setProductDetails]=useState([])
   const optionsType = [
-    { value:true, label: "Delivered" },
-    { value:false, label: "Pending" },
+    { value:true, label:"true" },
+    { value:false, label: "false" },
   ];
-  const [selectType, setSelectType] = useState();
 
 
 
@@ -101,12 +100,12 @@ const NICorders = () => {
    }
 
 
-   const eventHandler = (event) => {
-    console.log(event, "eventxcvvxcvv")
+   const eventHandler = (event,status) => {
+    console.log(event,status, "eventxzdsdcvvxcvv")
     // if (event.is_delivered)
     const payload = {
       "order_uuid" : event.uuid,
-      "order_status" : !event.is_delivered
+      "order_status" : status
   }
     dispatch(OrderStatusUpdateCashierURL(payload, currentUser.token))
     setSuc(true)
@@ -239,7 +238,7 @@ const NICorders = () => {
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-            <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
               <Dropdown.Item onClick={()=>searchfunction("limit", 10)}>10 Items</Dropdown.Item>
               <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
@@ -338,18 +337,30 @@ const NICorders = () => {
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
               </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 {/* <div className="lh-1 text-alternate">{item.is_delivered===true?"Delivered":"Pending"}</div> */}
-                <Select 
+                {/* <Select 
                 classNamePrefix="react-select" 
                 options={optionsType}
-                 value="item.is_delivered"
-                //  onChange={setSelectType}
-                onChange={() => { eventHandler(item) }}
-                 placeholder="" />
-              </Col>
+                value={item.is_delivered}
+                onChange={() => { eventHandler(item)}}
+                 placeholder="zxczxczxc" /> */}
               
               
+              <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+              <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+              {item.is_delivered===true?"Delivered":"Pending"}
+              </Dropdown.Toggle>
+            </OverlayTrigger>
+            <Dropdown.Menu className="shadow dropdown-menu-end">
+              <Dropdown.Item
+              onClick={(status) => { eventHandler(item,status=true)}}>Delivered</Dropdown.Item>
+              <Dropdown.Item onClick={(status) => { eventHandler(item,status=false)}}>Pending</Dropdown.Item>
+              {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
+            </Dropdown.Menu>
+          </Dropdown>
+          </Col>
               {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
           
                 <Form.Check 

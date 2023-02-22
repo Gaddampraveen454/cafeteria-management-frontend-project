@@ -45,6 +45,7 @@ export const companyAddURL = (payload,token) => async (dispatch) => {
 
     })
   };
+  
 
 export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/company/update/${uuid}`,payload,{headers:{

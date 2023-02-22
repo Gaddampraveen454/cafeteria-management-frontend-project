@@ -15,7 +15,9 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL,ProductStatusUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 const product = () => {
@@ -118,8 +120,14 @@ console.log(selectCompany,"dfgdfgdfgdd")
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
+  const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
+  const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
+  
+useEffect(()=>{
 
+  dispatch(ActiveCompnyURL(currentUser.token))
+},[])
 
   const { ProductData, notification } = useSelector((state) => state.productList)
 useEffect(()=>{
@@ -303,7 +311,7 @@ const searchfunction =(type , pages)=>{
           <DialogContentText >
           <Form.Label>Select Company</Form.Label>
           {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-          <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+          <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
           </DialogContentText><br />
 
           <DialogContentText >

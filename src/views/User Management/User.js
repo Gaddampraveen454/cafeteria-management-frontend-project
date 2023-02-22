@@ -21,6 +21,7 @@ import {
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL ,ConsumerStatusUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -34,6 +35,7 @@ const User = () => {
   const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
   const { consumerData, notification } = useSelector((state) => state.consumerList)
+  const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
   const { companyData } = useSelector((state) => state.companyList)
   // const { companyData } = useSelector((state) => state.companyList)
   const [selectCompany, setSelectCompany] = useState();
@@ -48,8 +50,17 @@ const User = () => {
 
 
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
+  const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
+  
   console.log(consumerData, "cashierDatadassadad")
 
+
+useEffect(()=>{
+
+  dispatch(ActiveCompnyURL(currentUser.token))
+},[])
+
+  console.log(ActiveCompnayData,"sfsdfdssdfsffs");
 
   const [selectValueState, setSelectValueState] = useState();
   const optionsState = [
@@ -288,7 +299,7 @@ const searchfunction =(type , pages)=>{
 
             <Form.Label>Select Company</Form.Label>
           {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-          <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+          <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
           </DialogContentText><br />
 
           <DialogContentText >

@@ -6,6 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -70,11 +71,23 @@ const addproduct = () => {
   const { categoryData } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
   const { ProductData,notification } = useSelector((state) => state.productList)
+
+  const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
+
+  useEffect(()=>{
+  
+    dispatch(ActiveCompnyURL(currentUser.token))
+  },[])
+    console.log(ActiveCompnayData,"sfsdfdssdfsffs");
+   
+    const companyList= ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  
+   
   
 
   const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
 
-  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
 
 
