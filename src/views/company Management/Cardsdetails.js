@@ -73,19 +73,19 @@ if(categoryForConsumer){
   return (
     <>
       <div >
-      <Form className="mb-5">
-        <p className="text-large text-muted mb-2">Menu</p>
+      <Form  className="mb-5">
+        {/* <p className="text-large text-muted mb-2">Menu</p> */}
         {categoryForConsumer?
         <div>
         {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item)=>{
           return<>
           {/* <a href="#firstcolumn"> */}
-        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-2" 
+        <label   style={{cursor:"pointer",textAlign:"center"}} title className="form-check-label  mb-3 d-flex justify-content-center align-items-center" 
         onClick={()=>{setCategory(item.uuid);closeFunction()}} 
         // onClick={closeFunction}
         >{item.name}</label>
           {/* </a> */}
-          <br />
+          {/* <br /> */}
           </>
         })}
         </div>
