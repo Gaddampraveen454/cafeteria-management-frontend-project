@@ -183,7 +183,7 @@ const Menu = () => {
     setIsOpenFiltersModal(false)
   }
   useEffect(()=>{
-if(window.location.pathname==="/menu/qr"){
+if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/undefined" ){
   toast.error("Please Scan the QR code")
 }
 

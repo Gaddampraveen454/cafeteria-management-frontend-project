@@ -8,6 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OrderListURL, OrderStatusUpdateCashierURL} from 'Redux/CashierRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
+import Select from 'react-select';
 
 
 const NICorders = () => {
@@ -17,6 +26,17 @@ const NICorders = () => {
   const [suc,setSuc] = useState(false);
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
+  const [eventType, setEventType] = useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [productDetails, setProductDetails]=useState([])
+  const optionsType = [
+    { value:true, label: "Delivered" },
+    { value:false, label: "Pending" },
+  ];
+  const [selectType, setSelectType] = useState();
+
+
+
   const checkItem = (item) => {
     if (selectedItems.includes(item)) {
       setSelectedItems(selectedItems.filter((x) => x !== item));
@@ -116,6 +136,14 @@ const NICorders = () => {
     }
   
   }, [notification])
+
+
+  const viewEventHandler = (event) => {
+    setOpen(true)
+    console.log(event, "fdfffgfdgd")
+    setProductDetails(event.details)
+  };
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -310,13 +338,20 @@ const NICorders = () => {
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
               </Col>
-              
-              
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-              {/* <Form.Check type="switch" id="quantitySwitch2" value={item.is_delivered} 
-              onChange={(e) => { setStatus(!status) }} 
-              // defaultChecked
-               /> */}
+                {/* <div className="lh-1 text-alternate">{item.is_delivered===true?"Delivered":"Pending"}</div> */}
+                <Select 
+                classNamePrefix="react-select" 
+                options={optionsType}
+                 value="item.is_delivered"
+                //  onChange={setSelectType}
+                onChange={() => { eventHandler(item) }}
+                 placeholder="" />
+              </Col>
+              
+              
+              {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+          
                 <Form.Check 
                 className="form-check mt-2 ps-7 ps-md-2" 
                 type="switch" checked={item.is_delivered} 
@@ -324,7 +359,7 @@ const NICorders = () => {
 
                 onClick={() => { eventHandler(item) }}
                 />
-              </Col>
+              </Col> */}
         
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
@@ -335,7 +370,9 @@ const NICorders = () => {
                 onToggle={()=>activefunct(items)}
                  /> */}
                   <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
+                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
+                  onClick={() => { viewEventHandler(item); setEventType(false) }}
+                  >
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
@@ -435,6 +472,100 @@ const NICorders = () => {
         </Pagination>
       </div>
       {/* Pagination End */}
+
+      <div>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+
+        >
+          {/* <DialogTitle id="alert-dialog-title">
+          Hello India
+          {"Use Google's location service?"}
+        </DialogTitle> */}
+          <DialogContent style={{ width: "500px", height: "auto" }}>
+
+            {/* List Header Start */}
+            <Row className="g-0 mb-2 d-none d-lg-flex">
+              {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
+              <Col>
+                <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
+                  <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">S.No</div>
+                  </Col>
+                  <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
+                  </Col>
+
+                  <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
+                  </Col>
+                  <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">price</div>
+                  </Col>
+
+                  {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">status</div>
+                  </Col> */}
+
+                </Row>
+              </Col>
+            </Row>
+            {/* List Header End */}
+
+            {/* List Items Start */}
+            {productDetails && productDetails.map((item, index) => {
+              return <div key="">
+                {console.log(item, "fghfghfghh")}
+                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+                  <Row className="g-0 h-100 sh-lg-9 position-relative">
+
+                    <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                      <Row className="g-0 h-100 ">
+
+                        <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                          <div className="lh-1 text-alternate">{index + 1}</div>
+                        </Col>
+                        <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                          <div className="lh-1 text-alternate">{item.name}</div>
+                        </Col>
+
+                        <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                          <div className="lh-1 text-alternate">{item.quantity}</div>
+                        </Col>
+
+                        <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                          <div className="lh-1 text-alternate">{item.price}</div>
+                        </Col>
+
+                        {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+
+                          <Form.Check
+                            className="form-check mt-2 ps-7 ps-md-2"
+                            type="switch"
+                            checked={item.is_delivered}
+                            onClick={() => { eventHandler(item) }}
+                          />
+                        </Col> */}
+
+
+
+
+
+                      </Row>
+                    </Col>
+                  </Row>
+                </Card>
+              </div>
+            })}
+
+            {/* List Items End */}
+          </DialogContent>
+
+        </Dialog>
+      </div>
     </>
   );
 };
