@@ -20,7 +20,7 @@ const Dashboard = () => {
   
   const { currentUser } = useSelector((state) => state.auth)
   const { DashboardCountData,notification } = useSelector((state) => state.CashierDashbordCountList)
-console.log(DashboardCountData,"jsdggjjhg");
+console.log(currentUser,"jsdggsdfsjjhg");
 
 
 useEffect(()=>{

@@ -86,7 +86,7 @@ const defaultRoutesAndMenuItems = {
     {
       path: `${appRoot}/dashboard`,
       component: dashboard,
-      label: 'dashboard-Default',
+      label: 'Dashboard',
       icon: 'shop',
     },
     {

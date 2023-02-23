@@ -8,6 +8,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IfLogedinUpdateCartURL, CartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
+import { LogOutURL, LoginURL } from 'auth/authSlice';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -327,10 +328,22 @@ const Categories = () => {
         .then((respons) => {
           console.log(respons, "fffgdsfsdfdsf")
           setOrderData(respons.data)
-          // displayRazorpay()
-
+    
         })
         .catch((err) => {
+          console.log(err.response.data.message,"zasdsadasd")
+          toast.error(err.response.data.message)
+        
+          if(err.response.data.message==="Your account has been deactivated. Please contact superadmin."){
+            setTimeout(() => {
+              // console.log('Hello, World!')
+              dispatch(LogOutURL())
+              history.push('/dashboard')
+            }, 3000);
+           
+            
+          }
+
 
         })
 

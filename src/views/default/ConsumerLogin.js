@@ -169,13 +169,13 @@ const Login = () => {
               </NavLink>
               {errors.password && touched.password && <div className="d-block invalid-tooltip">{errors.password}</div>}
             </div>
-            <Button size="lg" type="submit" onClick={LoginAPI}>
+            <Button size="lg" type="submit" onClick={LoginAPI} className="mb-2">
               Login
-            </Button>
+            </Button>&nbsp;&nbsp;
             <Button size="lg" 
             // type="submit" 
             onClick={Guest}
-
+            className="mb-2"
             >
               Checkout as a guest
             </Button>

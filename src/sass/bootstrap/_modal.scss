@@ -170,15 +170,19 @@
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    margin-top: 55%;
+    margin-top: 40%;
     height: 100%;
-    max-width: 430px;
+    max-width: 830px;
   }
   .modal-body {
     height: 100% !important;
+    display: flex;
+    justify-content: center;
+    // align-items: center;
   }
 
   .modal-content {
+   
     min-height: 100%;
     border: initial;
     border-radius: initial;

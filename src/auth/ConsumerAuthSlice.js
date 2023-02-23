@@ -45,10 +45,9 @@ export const ConsumerLoginURL = (values) => async (dispatch) => {
     dispatch(setToast({ status: true, message: res.data.message }))
   })
   .catch((err) => {
-    console.log(err, "dfgfsdfsfdsfsdhj")
+    console.log(err.response, "dfgfsdfsfdsfsdhj")
     dispatch(setToast({ status: false,
-       message:" Invalid Email ID or Password "
-      //  err && err.response? err && err.response.data:"Something went wrong"
+       message:err && err.response? err && err.response.data.message:"Something went wrong"
        }))
 
   })
