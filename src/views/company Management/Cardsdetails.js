@@ -36,15 +36,14 @@ console.log(items,"itemsitemsitems")
 
 
   const [open, setOpen] = React.useState(false);
-
-const [category, setCategory]=useState("")
+  const [category, setCategory]=useState("")
 
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
   console.log(categoryForConsumer,"sdfsdfsdfsdfsd")
 
   useEffect(()=>{
-    dispatch(categoryForConsumerListURL())
+    dispatch(categoryForConsumerListURL(companyId))
     // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
   },[])
 

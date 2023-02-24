@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink ,useHistory} from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -21,12 +21,14 @@ import {
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL } from 'Redux/CashierRedux/Consumer/ConsumerRedux';
+import { LogOutURL, LoginURL } from 'auth/authSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const User = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
   const title = 'User Management';
   const description = 'Ecommerce User Management Page';
 
@@ -253,6 +255,24 @@ const searchfunction =(type , pages)=>{
   }
  }
 
+ useEffect(() => {
+  setSuc(true)
+  if (suc === true) {
+    if (notification.status === false) {
+      toast.error(notification.message.message)
+      setSuc(false)
+      if(notification.message.logout===true){
+   setTimeout(() => {
+        // console.log('Hello, World!')
+        dispatch(LogOutURL())
+        history.push('/login')
+      }, 5000);
+      }
+   
+    }
+  }
+
+}, [notification])
   return (
     <>
       <Dialog

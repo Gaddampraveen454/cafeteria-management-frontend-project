@@ -142,7 +142,7 @@ const Login = () => {
           </NavLink>
         </div>
         <div className="mb-5">
-          <h2 className="cta-1 mb-0 text-primary">Welcome1,</h2>
+          <h2 className="cta-1 mb-0 text-primary">Welcome,</h2>
           <h2 className="cta-1 text-primary">let's get started!</h2>
         </div>
         <div className="mb-5">
@@ -158,7 +158,7 @@ const Login = () => {
           >
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
-              <Form.Control type="text" name="emp_id" placeholder="Email" value={values.email} onChange={handleChange} />
+              <Form.Control type="text" name="emp_id" placeholder="EMP ID" value={values.email} onChange={handleChange} />
               {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
             </div>
             <div className="mb-3 filled form-group tooltip-end-top">

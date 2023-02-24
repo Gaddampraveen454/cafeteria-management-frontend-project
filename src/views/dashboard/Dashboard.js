@@ -68,7 +68,7 @@ console.log(DashboardCountData,"jsdggjjhg");
                 <CsLineIcons icon="dollar" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
-              <div className="text-primary cta-4">$
+              <div className="text-primary cta-4">₹
               {DashboardCountData.total_order_amount}</div>
             </Card.Body>
           </Card>

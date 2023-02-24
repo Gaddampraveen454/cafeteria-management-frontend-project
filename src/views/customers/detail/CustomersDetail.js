@@ -104,7 +104,7 @@ const CustomersDetail = () => {
                         <div className="sh-5 d-flex align-items-center lh-1-25">Lifetime Spent</div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center">$ 5,325.55</div>
+                        <div className="sh-5 d-flex align-items-center">₹ 5,325.55</div>
                       </Col>
                     </Row>
                   </Col>
@@ -121,7 +121,7 @@ const CustomersDetail = () => {
                         <div className="sh-5 d-flex align-items-center lh-1-25">Avarage Order</div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center">$ 590.50</div>
+                        <div className="sh-5 d-flex align-items-center">₹ 590.50</div>
                       </Col>
                     </Row>
                   </Col>
@@ -240,7 +240,7 @@ const CustomersDetail = () => {
                     <div className="text-muted text-small d-md-none">Price</div>
                     <div className="text-alternate">
                       <span>
-                        <span className="text-small">$</span>
+                        <span className="text-small">₹</span>
                         321.75
                       </span>
                     </div>
@@ -269,7 +269,7 @@ const CustomersDetail = () => {
                     <div className="text-muted text-small d-md-none">Price</div>
                     <div className="text-alternate">
                       <span>
-                        <span className="text-small">$</span>
+                        <span className="text-small">₹</span>
                         59.00
                       </span>
                     </div>
@@ -298,7 +298,7 @@ const CustomersDetail = () => {
                     <div className="text-muted text-small d-md-none">Price</div>
                     <div className="text-alternate">
                       <span>
-                        <span className="text-small">$</span>
+                        <span className="text-small">₹</span>
                         128.25
                       </span>
                     </div>
@@ -327,7 +327,7 @@ const CustomersDetail = () => {
                     <div className="text-muted text-small d-md-none">Price</div>
                     <div className="text-alternate">
                       <span>
-                        <span className="text-small">$</span>
+                        <span className="text-small">₹</span>
                         252.75
                       </span>
                     </div>
@@ -356,7 +356,7 @@ const CustomersDetail = () => {
                     <div className="text-muted text-small d-md-none">Price</div>
                     <div className="text-alternate">
                       <span>
-                        <span className="text-small">$</span>
+                        <span className="text-small">₹</span>
                         189.50
                       </span>
                     </div>

@@ -1,32 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import {DashdoardContListURL} from "Redux/CashierRedux/DashBoard/DashCountRedux"
+import { LogOutURL, LoginURL } from 'auth/authSlice';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import HtmlHead from 'components/html-head/HtmlHead';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import PerformanceChart from './components/PerformanceChart';
+
 
 // import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
 
 
 const Dashboard = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
   const title = 'Dashboard';
   const description = 'Ecommerce Dashboard Page';
   
-  
+  const [suc,setSuc] = useState(false);
   const { currentUser } = useSelector((state) => state.auth)
   const { DashboardCountData,notification } = useSelector((state) => state.CashierDashbordCountList)
-console.log(currentUser,"jsdggsdfsjjhg");
+console.log(currentUser,notification,"jsdggsdfsjjhg");
 
 
 useEffect(()=>{
   dispatch(DashdoardContListURL(currentUser.token))
 },[])
 console.log(DashboardCountData,"jsdggjjhg");
+
+
+
+
+useEffect(() => {
+  setSuc(true)
+  if (suc === true) {
+    if (notification.status === false) {
+      toast.error(notification.message.message)
+      setSuc(false)
+      if(notification.message.logout===true){
+   setTimeout(() => {
+        // console.log('Hello, World!')
+        dispatch(LogOutURL())
+        history.push('/login')
+      }, 5000);
+      }
+   
+    }
+  }
+
+}, [notification])
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -63,7 +91,7 @@ console.log(DashboardCountData,"jsdggjjhg");
                 <CsLineIcons icon="dollar" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
-              <div className="text-primary cta-4">$
+              <div className="text-primary cta-4">₹
               {DashboardCountData.total_order_amount}
 </div>
             </Card.Body>

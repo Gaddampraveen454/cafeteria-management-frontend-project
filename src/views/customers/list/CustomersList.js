@@ -170,7 +170,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 321.75
+                  <span className="text-small">₹</span> 321.75
                 </span>
               </div>
             </Col>
@@ -232,7 +232,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 284.20
+                  <span className="text-small">₹</span> 284.20
                 </span>
               </div>
             </Col>
@@ -410,7 +410,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 29.30
+                  <span className="text-small">₹</span> 29.30
                 </span>
               </div>
             </Col>
@@ -472,7 +472,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 462.20
+                  <span className="text-small">₹</span> 462.20
                 </span>
               </div>
             </Col>
@@ -592,7 +592,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 85.20
+                  <span className="text-small">₹</span> 85.20
                 </span>
               </div>
             </Col>
@@ -654,7 +654,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 104.65
+                  <span className="text-small">₹</span> 104.65
                 </span>
               </div>
             </Col>
@@ -716,7 +716,7 @@ const CustomersList = () => {
               <div className="text-muted text-small d-lg-none">Spent</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span> 72.50
+                  <span className="text-small">₹</span> 72.50
                 </span>
               </div>
             </Col>

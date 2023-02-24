@@ -523,7 +523,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">TOTAL</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">$</span>{CartData.total_amount}
+                      <span className="text-small text-muted">₹</span>{CartData.total_amount}
                     </span>
                   </p>
                 </div>
@@ -531,7 +531,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">SHIPPING</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">$</span> 0
+                      <span className="text-small text-muted">₹</span> 0
                     </span>
                   </p>
                 </div>
@@ -539,7 +539,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">$</span> {walletAmount}
+                      <span className="text-small text-muted">₹</span> {walletAmount}
                     </span>
                   </p>
                 </div>
@@ -547,7 +547,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">$</span>{CartData && CartData.total_amount - walletAmount}
+                      <span className="text-small text-muted cta-2">₹</span>{CartData && CartData.total_amount - walletAmount}
                     </span>
                   </div>
                 </div>

@@ -161,13 +161,13 @@ const Menu = () => {
           position: "top-right",
         })
         setSuc(false)
-        setTimeout(() => {
-          // dispatch(CompanyListURL(currentUser.token))
-          history.push(({
-            pathname: "/Cardcart",
+        // setTimeout(() => {
+        //   // dispatch(CompanyListURL(currentUser.token))
+        //   history.push(({
+        //     pathname: "/Cardcart",
 
-          }));
-        }, 1000)
+        //   }));
+        // }, 1000)
 
       }
       else if (notification.status === false) {
@@ -189,6 +189,14 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
 
 
   },[window.location.pathname])
+
+
+
+  
+  // useEffect(()=>{
+  //   dispatch(categoryForConsumerListURL())
+    
+  // },[])
 
   return (
     <>

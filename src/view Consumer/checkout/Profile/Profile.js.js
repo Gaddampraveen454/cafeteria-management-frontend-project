@@ -117,7 +117,7 @@ console.log(ConsumerData,"ConsumerData")
                         <div className="sh-5 d-flex align-items-center lh-1-25">Wallet Amount </div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center">$ {ConsumerData ? ConsumerData.wallet_amount:"0"}</div>
+                        <div className="sh-5 d-flex align-items-center">₹ {ConsumerData ? ConsumerData.wallet_amount:"0"}</div>
                       </Col>
                     </Row>
                   </Col>
@@ -253,7 +253,7 @@ console.log(ConsumerData,"ConsumerData")
                     <div className="text-muted text-small d-md-none">Price</div>
                     <div className="text-alternate">
                       <span>
-                        <span className="text-small">$</span>
+                        <span className="text-small">₹</span>
                         321.75
                       </span>
                     </div>

@@ -32,9 +32,16 @@ export const DashdoardContListURL = (token) => async (dispatch) => {
   }).then((res) => {
     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
     dispatch(setDashCountData(res.data));
+    dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log("err");
+      console.log(err.response,"ersdffsdfsdfr");
+      if(err.response){
+        dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      }else{
+        dispatch(setToast({}))
+      }
+     
     })
 
 };

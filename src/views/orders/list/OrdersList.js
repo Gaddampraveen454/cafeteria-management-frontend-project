@@ -163,7 +163,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   321.75
                 </span>
               </div>
@@ -201,7 +201,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   59.00
                 </span>
               </div>
@@ -239,7 +239,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   128.25
                 </span>
               </div>
@@ -277,7 +277,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   252.75
                 </span>
               </div>
@@ -315,7 +315,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   189.50
                 </span>
               </div>
@@ -353,7 +353,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   63.10
                 </span>
               </div>
@@ -391,7 +391,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   45.10
                 </span>
               </div>
@@ -429,7 +429,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   45.10
                 </span>
               </div>
@@ -467,7 +467,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   79.75
                 </span>
               </div>
@@ -505,7 +505,7 @@ const OrdersList = () => {
               <div className="text-muted text-small d-md-none">Purchase</div>
               <div className="text-alternate">
                 <span>
-                  <span className="text-small">$</span>
+                  <span className="text-small">₹</span>
                   124.75
                 </span>
               </div>
