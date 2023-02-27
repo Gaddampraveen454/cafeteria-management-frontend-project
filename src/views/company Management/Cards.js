@@ -275,9 +275,9 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
         <Col style={{ position: "sticky" }} lg="9" xl="9">
 
           <div id="firstcolumn">
-            <Form className="mb-5">
+            {/* <Form className="mb-5">
               <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
-            </Form>
+            </Form> */}
             {/* Product Thumbnails Start */}
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
               {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {

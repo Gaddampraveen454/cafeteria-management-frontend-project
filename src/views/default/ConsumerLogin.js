@@ -1,5 +1,5 @@
 import React ,{ useEffect,useState } from 'react';
-import { NavLink , useHistory} from 'react-router-dom';
+import { NavLink , useHistory,useLocation} from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -17,9 +17,20 @@ const Login = () => {
   const title = 'Login';
   const description = 'Login Page';
   const [suc,setSuc] = useState(false);
+  const [directLogin, setDirectLogin]=useState(false)
   const { currentUser, isLogin,notification } = useSelector((state) => state.auth);
   console.log(currentUser,isLogin,"currentUdfddsfsdfdser")
   const history = useHistory()
+  const location = useLocation();
+  console.log(location.state,"sdffsdfsdfdsfdsf")
+  useEffect(()=>{
+    if(location.state===undefined){
+      setDirectLogin(false)
+    }else{
+      setDirectLogin(true)
+    }
+   
+  },[])
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
@@ -98,15 +109,22 @@ const Login = () => {
     console.log(event.target.elements, "dfghhjj")
   }
   const Guest=()=>{
-  history.push(({
-            // pathname: "/consumer/login",
-            pathname: "/Checkout",
-            state:{
-              userType:"guest"
-            }
-          
-          }));
-  }
+    if(directLogin===true){
+      history.push('/');
+    }
+    
+    else{
+      history.push(({
+        // pathname: "/consumer/login",
+        pathname: "/Checkout",
+        state:{
+          userType:"guest"
+        }
+      
+      }));
+}
+    }
+
 
   
   

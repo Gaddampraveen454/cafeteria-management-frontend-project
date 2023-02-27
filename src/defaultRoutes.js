@@ -81,20 +81,20 @@ const defaultRoutesAndMenuItems = {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/dashboard`,
+      to: `${appRoot}/menu/${compNewId}`,
     },
-    {
-      path: `${appRoot}/dashboard`,
-      component: dashboard,
-      label: 'Dashboard',
-      icon: 'shop',
-    },
-    {
-      path: `${appRoot}/Profile`,
-      component: Profile,
-      label: 'Profile',
-      icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/dashboard`,
+    //   component: dashboard,
+    //   label: 'Dashboard',
+    //   icon: 'shop',
+    // },
+    // {
+    //   path: `${appRoot}/Profile`,
+    //   component: Profile,
+    //   label: 'Profile',
+    //   icon: 'user',
+    // },
     {
       path: `${appRoot}/menu/:id`,
       component: Cards,
@@ -105,7 +105,7 @@ const defaultRoutesAndMenuItems = {
       path: `${appRoot}/menu/${compNewId}`,
       // component: Cards,
       label: 'Menu',
-      icon: 'shipping',
+      icon: 'cupcake',
     },
     {
       path: `${appRoot}/Cardcart`,
@@ -113,12 +113,12 @@ const defaultRoutesAndMenuItems = {
       // label: 'Cardcart',
       // icon: 'shipping',
     },
-    {
-      path: `${appRoot}/Order`,
-      component: orderPlaced,
-      label: 'Order',
-      icon: 'shipping',
-    },
+    // {
+    //   path: `${appRoot}/Order`,
+    //   component: orderPlaced,
+    //   label: 'Order',
+    //   icon: 'shipping',
+    // },
         {
       path: `${appRoot}/Checkout`,
       component: Checkout,
