@@ -57,7 +57,7 @@ console.log(ConsumerData,"ConsumerData")
           {/* Title End */}
 
           {/* Top Buttons Start */}
-          <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+          {/* <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button variant="outline-primary" className="btn-icon btn-icon-start w-100 w-md-auto">
               <CsLineIcons icon="save" /> <span>Update</span>
             </Button>
@@ -71,7 +71,7 @@ console.log(ConsumerData,"ConsumerData")
                 <Dropdown.Item>Track Package</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </Col>
+          </Col> */}
           {/* Top Buttons End */}
         </Row>
       </div>

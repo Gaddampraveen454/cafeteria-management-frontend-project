@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { NavLink, useHistory,useParams ,Redirect} from 'react-router-dom';
+import { NavLink, useHistory, useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
-import { addToCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+// import { CartListURL, deleteToCartURL, updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CartListURL, addToCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
-import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal } from 'react-bootstrap';
+import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
@@ -28,6 +29,7 @@ import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 
 
+
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
 
 
@@ -40,9 +42,9 @@ const Menu = () => {
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
   const { id } = useParams();
-  const [cmpid,newid]=id.split("=")
-  console.log(newid,"sdfsdsdfsdfsdfdsfsdf")
-  console.log(window.location.pathname,"sdfsdfsdfsdfsdfsd")
+  const [cmpid, newid] = id.split("=")
+  console.log(newid, "sdfsdsdfsdfsdfdsfsdf")
+  console.log(window.location.pathname, "sdfsdfsdfsdfsdfsd")
   const { themeValues } = useSelector((state) => state.settings);
   const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
   const { width } = useWindowSize();
@@ -50,7 +52,8 @@ const Menu = () => {
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
   const [category, setCategory] = useState("")
   const [suc, setSuc] = useState(false);
-  
+  const [value, setValue] = useState(0);
+
   const [open, setOpen] = React.useState(false);
   const [result1, setResult1] = useState();
 
@@ -65,7 +68,7 @@ const Menu = () => {
 
 
   const handleScan = (result) => {
-    console.log(result.data,"fsfsfsdfsdf")
+    console.log(result.data, "fsfsfsdfsdf")
     if (result) {
       setResult1(result.data);
     }
@@ -74,9 +77,9 @@ const Menu = () => {
   const handleError = (error) => {
     console.log(error);
   };
-  useEffect(()=>{
-    if(result1){
-      const [url,compnayId]=result1.split("menu/")
+  useEffect(() => {
+    if (result1) {
+      const [url, compnayId] = result1.split("menu/")
       history.push(({
         pathname: `/menu/${compnayId}`,
 
@@ -84,8 +87,8 @@ const Menu = () => {
       window.location.reload();
       // <Redirect to="/somewhere/else" />
     }
-    
-  },[result1])
+
+  }, [result1])
 
 
 
@@ -102,6 +105,10 @@ const Menu = () => {
   useEffect(() => {
     getData()
   }, [])
+  useEffect(() => {
+    if (ip)
+      dispatch(CartListURL(ip))
+  }, [ip])
 
   useEffect(() => {
     if (width) {
@@ -133,9 +140,9 @@ const Menu = () => {
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
   const { CartData, notification } = useSelector((state) => state.CartList)
-  console.log(categoryForConsumer, "sjdfjsffsfdfsf")
+  console.log(CartData, "CartData")
 
-
+  const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
 
 
@@ -154,12 +161,20 @@ const Menu = () => {
   }
 
 
+  const check = CartData && CartData.data && CartData.data.every(({ uuid }) => uuid);
+
+console.log(check, "asdsdssasds");
+
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
-        toast.success(notification.message, {
+        toast.success(
+          // notification.message ,
+          "Successfully Added",
+          {
           position: "top-right",
         })
+        dispatch(CartListURL(ip))
         setSuc(false)
         // setTimeout(() => {
         //   // dispatch(CompanyListURL(currentUser.token))
@@ -179,56 +194,100 @@ const Menu = () => {
   }, [notification])
   console.log(notification, "ProductDataProductData")
 
-  const handleModel =()=>{
+  const handleModel = () => {
     setIsOpenFiltersModal(false)
   }
-  useEffect(()=>{
-if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/undefined" ){
-  toast.error("Please Scan the QR code")
-}
+  useEffect(() => {
+    if (window.location.pathname === "/menu/qr" || window.location.pathname === "/menu/undefined") {
+      toast.error("Please Scan the QR code")
+    }
 
 
-  },[window.location.pathname])
+  }, [window.location.pathname])
 
 
 
-  
+
   // useEffect(()=>{
   //   dispatch(categoryForConsumerListURL())
-    
+
   // },[])
+
+
+  const onInput = (event) => {
+    setValue(event.target.value || 0);
+  };
+
+  const spinUp = () => {
+    setValue(parseInt(typeof value === 'number' ? value : 0, 10) + 1);
+  };
+
+  const spinDown = () => {
+    if (value === 1) {
+      setValue(1)
+    }
+    else {
+      setValue(parseInt(typeof value === 'number' ? value : 0, 10) - 1);
+    }
+
+  };
+
+
+
+  const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+    return item.uuid
+  })
+console.log(prod,"sdfsdfsdfsdfsdfdsf")
+
+
+
+const prodCart =  CartData && CartData.data && CartData.data.map((item) => {
+  return item.item_uuid
+})
+console.log(prodCart[2],"sfgsdfsdfsfds")
+
+
+// return prod.some(obj1 => {
+//   console.log(obj1,"asdasdasdas")
+// const obj2 = prodCart.find(o => o === obj1); 
+// console.log(obj2,"aasdasdasdasdasdasdasd")
+// return obj2  
+
+// });
+
+
 
   return (
     <>
-   
-  
+
+
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
         <Row className="g-0">
           {/* Title Start */}
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard">
-              <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
-            </NavLink>
+            {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard"> */}
+            <CsLineIcons icon="chevron-left" size="20" />
+            <span className="align-middle text-medium ms-1">Home</span>
+            {/* </NavLink> */}
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
             </h1>
           </Col>
           {/* Title End */}
 
-         
+
 
 
           {/* Top Buttons Start */}
 
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
-                onClick={()=>setOpen(true)}>
-                <CsLineIcons icon="scanner" /><span>Scan QR Code</span>
-              </Button>
-              &nbsp;&nbsp;
+            <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+              onClick={() => setOpen(true)}>
+              <CsLineIcons icon="scanner" /><span>Scan QR Code</span>
+            </Button>
+            &nbsp;&nbsp;
             <NavLink to="/Cardcart">
               <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="cart" />
@@ -247,7 +306,7 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
                 <Dropdown.Item>Newest</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown> */}
-           
+
           </Col>
           {/* <Col 
          
@@ -263,7 +322,7 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
         {isLgScreen && (
           <Col lg="3" xl="3" className="d-none d-lg-block">
             {/* Filters Start */}
-            <Card style={{ position: "fixed", zIndex: "1" ,width:"18%",height:"auto"}} className="mb-5">
+            <Card style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }} className="mb-5">
               <Card.Body>
                 <Cardsdetails />
               </Card.Body>
@@ -280,8 +339,11 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
             </Form> */}
             {/* Product Thumbnails Start */}
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-              {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+              {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
+                console.log(item, "sfsdfdsfsdfsdf")
                 return <>
+                  {console.log(item.uuid, "item")}
+
                   <Col xs="12" md="6" lg="6" xl="6">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
@@ -299,18 +361,110 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
                           {/* <Col> &nbsp;</Col> */}
                           <Col xs="6" sm="4" md="4" lg="4">
                             {/* <NavLink  to="/"> */}
-                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%",height:"auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                             <Button variant="outline-primary"
                               className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
                               onClick={() => { addToCart(item) }}
                             >
                               <CsLineIcons icon="plus" /><span>Add</span>
                             </Button>
+{/* {
+
+ 
+  console.log( CartData && CartData.data && CartData.data.every((dd) => dd.item_uuid === item.uuid),"yes")
+}
+{
+  CartData && CartData.data && CartData.data[index] && CartData.data[index].item_uuid === item.uuid ? <h1>false</h1> : <h1>true</h1>
+} */}
+
+{/* {prod.filter(name => name.includes(prodCart)).map(filteredName => (
+    console.log(filteredName,"dsfsdfdsfsdfsdfsdfsdf")
+      ))} */}
+
+
+
+
+{/* {
+                            CartData && CartData.data && CartData.data.map((item5) => {
+                              return <>
+                              
+                              {console.log(item5, "jhkh")}
+                              
+                              {
+                                item.uuid === item5.item_uuid && 
+                                <Button variant="outline-primary"
+                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                              // onClick={() => { addToCart(item) }}
+                            >
+                              <span>Added</span>
+                            </Button>
+                              }
+              
+                              {item.uuid === item5.item_uuid ? 
+                                <Button variant="outline-primary"
+                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                              // onClick={() => { addToCart(item) }}
+                            >
+                              <span>Added</span>
+                            </Button>
+                            :
+                            <Button variant="outline-primary"
+                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                              onClick={() => { addToCart(item) }}
+                            >
+                              <CsLineIcons icon="plus" /><span>Add</span>
+                            </Button>
+                              }
+                              </>
+                            })
+                           } */}
+{/* { */}
+
+  {/* CartData && CartData.data && CartData.data.every((dffd) => {
+  }) */}
+  {/* {
+                                item.uuid !== item5.item_uuid && 
+                                <Button variant="outline-primary"
+                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                              // onClick={() => { addToCart(item) }}
+                            >
+                              <span>Add</span>
+                            </Button>
+                              } */}
+{/* } */}
+                            <br />
+                            <br />
                             {/* </NavLink> */}
+
+
+                            <InputGroup className="spinner sw-11">
+                              <InputGroup.Text id="basic-addon1">
+                                <button type="button" className="spin-down single px-2"
+                                  onClick={spinDown}
+                                // disabled={btndisabl}
+                                >
+                                  -
+                                </button>
+                              </InputGroup.Text>
+                              <Form.Control
+                                value={value}
+                                onInput={onInput}
+                                placeholder="Count"
+                                className="text-center"
+
+                              />
+                              <InputGroup.Text id="basic-addon2">
+                                <button type="button" className="spin-up single px-2"
+                                  onClick={spinUp}
+                                >
+                                  +
+                                </button>
+                              </InputGroup.Text>
+                            </InputGroup>
                           </Col>
 
                         </Row>
-                        
+
                       </Card.Body>
                     </Card>
                     <Card.Footer>
@@ -343,16 +497,16 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
 
 
 
-         
-
-       
 
 
 
 
 
 
-        
+
+
+
+
 
           {/* Product Thumbnails End */}
 
@@ -380,32 +534,32 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
       {/* Filters Modal Start */}
       {!isLgScreen && (
         <>
-        
-        <div className='settings-buttons-container'
-             style={{
-              marginTop:"130px",
-              marginRight:"20px",
+
+          <div className='settings-buttons-container'
+            style={{
+              marginTop: "130px",
+              marginRight: "20px",
             }}
+          >
+            <Button
+              style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
+
+              onClick={() => setIsOpenFiltersModal(true)}
             >
-              <Button 
-              style={{borderRadius:"50%",width:"65px",height:"65px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",border: "2px solid #fff",}}
-              
-                onClick={() => setIsOpenFiltersModal(true)}
-                >
-                <CsLineIcons icon="menu" style={{width:"80%",height:"auto"}}/>
-                <h6>Menu</h6>
-              </Button>
-            </div>
-        <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title as="div">Menu</Modal.Title>
-          </Modal.Header>
-          <Modal.Body >
-            <Cardsdetails
-            onClose={handleModel}
-             />
-          </Modal.Body>
-        </Modal>
+              <CsLineIcons icon="menu" style={{ width: "80%", height: "auto" }} />
+              <h6>Menu</h6>
+            </Button>
+          </div>
+          <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title as="div">Menu</Modal.Title>
+            </Modal.Header>
+            <Modal.Body >
+              <Cardsdetails
+                onClose={handleModel}
+              />
+            </Modal.Body>
+          </Modal>
         </>
       )}
       {/* Filters Modal End */}
@@ -413,26 +567,26 @@ if(window.location.pathname==="/menu/qr" || window.location.pathname==="/menu/un
 
       {/* edit view popup start */}
       {/* <div> */}
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-       
-        >
-        
-  {/* qr code start */}
-  <DialogContent style={{ width: "100%", height: "100%" }}>
-  <QrReader
-        delay={delay}
-        style={previewStyle}
-        onError={handleError}
-        onScan={handleScan}
-      />
-      </DialogContent>
-      <p>{result1}</p>
-        </Dialog>
-        {/* </div> */}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+
+      >
+
+        {/* qr code start */}
+        <DialogContent style={{ width: "100%", height: "100%" }}>
+          <QrReader
+            delay={delay}
+            style={previewStyle}
+            onError={handleError}
+            onScan={handleScan}
+          />
+        </DialogContent>
+        <p>{result1}</p>
+      </Dialog>
+      {/* </div> */}
     </>
   );
 };

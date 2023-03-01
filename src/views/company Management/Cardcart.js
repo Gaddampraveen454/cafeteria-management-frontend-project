@@ -3,6 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartListURL, deleteToCartURL, updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { CreateCheckOutURL,CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import Clamp from 'components/clamp/index';
@@ -39,6 +40,10 @@ const Cardcart = () => {
   useEffect(() => {
     getData()
   }, [])
+
+  useEffect(()=>{
+    dispatch(IpAddressDataURL())
+  },[])
 
   console.log(CartId, "Dsdfsfddsfsdfdsf")
   useEffect(() => {

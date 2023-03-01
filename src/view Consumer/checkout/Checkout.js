@@ -6,6 +6,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { IfLogedinUpdateCartURL, CartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { LogOutURL, LoginURL } from 'auth/authSlice';
@@ -45,16 +46,22 @@ const Categories = () => {
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
   const [orderData, setOrderData] = useState([])
-  console.log(WalletData, "WalletData12313213")
-  console.log(orderData.length === 0, "gsgdsfdsfsdfsdfsdfsdfsdfds")
+  console.log( CheckoutData.data.amount,WalletData.data.wallet_amount,CartData.total_amount,"IpAddrsfdsfdsfessData")
+
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
-  const TotaleAmount = (CartData.total_amount - walletAmount) * 100
-  //    const [WalletAmount1, setWalletAmount]=useState(WalletData ? WalletData.data.wallet_amount : 0)
-  // console.log(WalletAmount1,"dsfdsfsdfsdf")
+  const TotaleAmount = walletAmount>CartData.total_amount?CartData.total_amount:(CartData.total_amount - walletAmount) * 100
+ 
+  // const FinalAmount1=CheckoutData.data.amount<WalletData.data.wallet_amount?0:CheckoutData.data.amount
+  const FinalAmount=CartData.total_amount<WalletData.data.wallet_amount?0:CartData.total_amount-WalletData.data.wallet_amount
+
+ console.log( walletAmount>CartData.total_amount?CartData.total_amount:walletAmount,"gfhggfhgg")
+
+  console.log(walletAmount>CartData.total_amount?CartData.total_amount:TotaleAmount,"vvcbcbvbcbv")
 
 
 
-  console.log(currentUser === {}, "fgdgsgdczxczxczfgsfsdfsd")
+
+
 
 
   const [suc, setSuc] = useState(false);
@@ -67,7 +74,9 @@ const Categories = () => {
 
 
 
-
+  useEffect(()=>{
+    dispatch(IpAddressDataURL())
+  },[])
 
 
 
@@ -120,6 +129,11 @@ const Categories = () => {
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
               dispatch(CartListURL(IpAddressData.ip))
+              dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+
+
+
+
               // toast.success("Payment Sucess")
               // const payLoads = {
               //   "checkout_uuid": data.data.checkout_uuid,
@@ -316,9 +330,10 @@ const Categories = () => {
         "checkout_uuid": CheckoutData.data.uuid,
         "user_uuid": currentUser.data.uuid,
         "company_uuid": CheckoutData.data.company_uuid,
-        "paid_from_wallet": walletAmount
+        "paid_from_wallet": walletAmount>CartData.total_amount?CartData.total_amount:walletAmount
 
       }
+      
       axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
         {
           headers: {
@@ -327,6 +342,13 @@ const Categories = () => {
         })
         .then((respons) => {
           console.log(respons, "fffgdsfsdfdsf")
+          if(respons.data.message){
+            toast.success(respons.data.message
+              , {
+              position: "top-right",
+            })
+          }
+       
           setOrderData(respons.data)
     
         })
@@ -440,10 +462,10 @@ const Categories = () => {
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/storefront/home">
+        {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/storefront/home"> */}
           <CsLineIcons icon="chevron-left" size="13" />
           <span className="align-middle text-small ms-1">Storefront</span>
-        </NavLink>
+        {/* </NavLink> */}
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
         </h1>
@@ -547,7 +569,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">₹</span>{CartData && CartData.total_amount - walletAmount}
+                      <span className="text-small text-muted cta-2">₹</span>{FinalAmount}
                     </span>
                   </div>
                 </div>
