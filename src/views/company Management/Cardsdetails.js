@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Cardsdetails = ({onClose}) => {
-  console.log(onClose,"gfsfgsgsfgsg")
+  // console.log(onClose,"gfsfgsgsfgsg")
   const dispatch = useDispatch()
   const [suc, setSuc] = useState(false);
   const { id } = useParams();
@@ -63,7 +63,7 @@ if(categoryForConsumer){
   }, [category])
 
   const closeFunction =()=>{
-    onClose()
+    // onClose()
   }
 
 
@@ -71,7 +71,7 @@ if(categoryForConsumer){
 
   return (
     <>
-      <div >
+      <div>
       <Form  className="mb-5">
         {/* <p className="text-large text-muted mb-2">Menu</p> */}
         {categoryForConsumer?
