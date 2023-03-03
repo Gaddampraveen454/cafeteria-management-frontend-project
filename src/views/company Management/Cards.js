@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
-// import { CartListURL, deleteToCartURL, updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
-import { CartListURL, addToCartURL,updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
-// import { updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CartListURL, addToCartURL,updateCartURL,deleteToCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
@@ -173,8 +171,8 @@ console.log(check, "asdsdssasds");
     if (suc === true) {
       if (notification.status === true) {
         toast.success(
-          // notification.message ,
-          "Successfully Added",
+          notification.message ,
+          // "Successfully Added",
           {
           position: "top-right",
         })
@@ -272,12 +270,14 @@ console.log(prodCart[2],"sfgsdfsdfsfds")
 const updateCart = (event, event1) => {
   console.log(event1,"jhjjgjhgjgjhg")
   if(event1===0){
-    toast.error(
-      // notification.message ,
-      "Minimum Quantity Should be 1",
-      {
-      position: "top-right",
-    })
+    // toast.error(
+    //   // notification.message ,
+    //   "Minimum Quantity Should be 1",
+    //   {
+    //   position: "top-right",
+    // })
+    dispatch(deleteToCartURL(event.uuid))
+    setSuc(true)
   }else{
     const payload = {
       "uuid" :event.uuid,
@@ -290,6 +290,9 @@ const updateCart = (event, event1) => {
   }
  
 }
+
+
+
 
   return (
     <>

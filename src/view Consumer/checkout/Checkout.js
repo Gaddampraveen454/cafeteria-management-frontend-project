@@ -61,7 +61,7 @@ const Categories = () => {
 
 
 
-
+console.log(currentUser,"currentUser")
 
 
   const [suc, setSuc] = useState(false);
@@ -477,19 +477,19 @@ const Categories = () => {
 
           {/* Payment Start */}
           <h2 className="small-title">Payment</h2>
+          {userType === "guest" ?
           <Card className="mb-5">
             <Card.Body>
-              {userType === "guest" ?
+           
                 <Row className="g-3">
                   <Col className="col-sm-auto mb-3">
                     <Form.Label>Mobile Number</Form.Label>
-                    <Form.Control type="text" className="w-100 sw-sm-40" onChange={(e) => setMobile(e.target.value)} />
+                    <Form.Control type="number" className="w-100 sw-sm-40" onChange={(e) => setMobile(e.target.value)} />
                   </Col>
                 </Row>
-                :
-                null}
+              
 
-              <Row className="g-3">
+              {/* <Row className="g-3">
                 <Col className="col-sm-auto mb-3">
                   <Form.Label>Card Number</Form.Label>
                   <Form.Control type="text" className="w-100 sw-sm-40" />
@@ -525,9 +525,11 @@ const Categories = () => {
                     placeholder=""
                   />
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Body>
           </Card>
+          :
+                null}
           {/* Payment End */}
         </Col>
         <Col lg="auto" className="order-0 order-lg-1">
@@ -561,7 +563,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span> {walletAmount}
+                      <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount:0}
                     </span>
                   </p>
                 </div>
@@ -569,7 +571,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">₹</span>{FinalAmount}
+                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount:CartData.total_amount}
                     </span>
                   </div>
                 </div>

@@ -378,18 +378,18 @@ const settings = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-  const companyId = localStorage.getItem('companyId');
-  let compNewId = companyId===null?"qr":companyId
-  // console.log(window.location.pathname,"dfdsfdssdfdsfdsf")
-  const [url,newCompId]=window.location.pathname.split("menu/")
-  console.log(newCompId,"dfdsfdssdfdsfdsf")
-  if(newCompId!=="qr"){
+const companyId = localStorage.getItem('companyId');
+let compNewId = companyId===null?"qr":companyId
+// console.log(window.location.pathname,"dfdsfdssdfdsfdsf")
+const [url,newCompId]=window.location.pathname.split("menu/")
+console.log(newCompId,"dfdsfdssdfdsfdsf")
+if(newCompId!=="qr"){
 compNewId=newCompId
-  }else if(companyId!==null){
+}else if(companyId!==null){
 compNewId=companyId
-  }else{
+}else{
 compNewId="qr"
-  }
+}
 
 const consumerRoutesAndMenuItems = {
   mainMenuItems: [
@@ -397,14 +397,14 @@ const consumerRoutesAndMenuItems = {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/dashboard`,
+      to: `${appRoot}/menu/${compNewId}`,
     },
-    {
-      path: `${appRoot}/dashboard`,
-      component: dashboard,
-      label: 'Dashboard',
-      icon: 'shop',
-    },
+    // {
+    //   path: `${appRoot}/dashboard`,
+    //   component: dashboard,
+    //   label: 'Dashboard',
+    //   icon: 'shop',
+    // },
     {
       path: `${appRoot}/Profile`,
       component: Profile,
