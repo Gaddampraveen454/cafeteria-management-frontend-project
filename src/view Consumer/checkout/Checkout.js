@@ -60,7 +60,7 @@ const Categories = () => {
 
   console.log(walletAmount>CartData.total_amount?CartData.total_amount:TotaleAmount,"vvcbcbvbcbv")
 
-  console.log(FinalAmount,"FinalAmount")
+  console.log(CheckoutData,"CheckoutData")
 
 
 

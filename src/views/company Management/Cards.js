@@ -139,7 +139,7 @@ const Menu = () => {
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
   const { CartData, notification } = useSelector((state) => state.CartList)
-  console.log(CartData.data,ProductForConsumer.data, "CartData")
+  console.log(CartData, "CartDafdgdfdfta")
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
@@ -326,7 +326,7 @@ const updateCart = (event, event1) => {
             <NavLink to="/Cardcart">
               <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="cart" />
-                <span> Cart</span>
+                <span> Cart {CartData && CartData.count!==0 ? CartData.count :null}</span>
               </Button>
             </NavLink>&nbsp;&nbsp;
             {/* <Dropdown xs="4"  className="ms-1 w-100 w-md-auto" align="end">
