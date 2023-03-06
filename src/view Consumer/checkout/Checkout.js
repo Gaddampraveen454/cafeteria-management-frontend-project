@@ -46,18 +46,21 @@ const Categories = () => {
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
   const [orderData, setOrderData] = useState([])
-  console.log( CheckoutData.data.amount,WalletData.data.wallet_amount,CartData.total_amount,"IpAddrsfdsfdsfessData")
+
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
   const TotaleAmount = walletAmount>CartData.total_amount?CartData.total_amount:(CartData.total_amount - walletAmount) * 100
  
-  // const FinalAmount1=CheckoutData.data.amount<WalletData.data.wallet_amount?0:CheckoutData.data.amount
-  const FinalAmount=CartData.total_amount<WalletData.data.wallet_amount?0:CartData.total_amount-WalletData.data.wallet_amount
+ 
+ 
+
+  const FinalAmount=CartData.total_amount<walletAmount?0:CartData.total_amount-walletAmount
 
  console.log( walletAmount>CartData.total_amount?CartData.total_amount:walletAmount,"gfhggfhgg")
 
   console.log(walletAmount>CartData.total_amount?CartData.total_amount:TotaleAmount,"vvcbcbvbcbv")
 
+  console.log(FinalAmount,"FinalAmount")
 
 
 
@@ -462,10 +465,10 @@ console.log(currentUser,"currentUser")
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/storefront/home"> */}
-          <CsLineIcons icon="chevron-left" size="13" />
-          <span className="align-middle text-small ms-1">Storefront</span>
-        {/* </NavLink> */}
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/Cardcart">
+          <CsLineIcons icon="chevron-left" size="20" />
+          <span className="align-middle text-small ms-1">Cart</span>
+        </NavLink>
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
         </h1>

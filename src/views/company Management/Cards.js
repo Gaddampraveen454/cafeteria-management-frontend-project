@@ -143,8 +143,8 @@ const Menu = () => {
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
-  const dataa= ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
- console.log(dataa,'dataadfsdfsdf')
+//   const dataa= ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
+//  console.log(dataa,'dataadfsdfsdf')
 
 
 
@@ -246,7 +246,7 @@ console.log(prod,"sdfsdfsdfsdfsdfdsf")
 const prodCart =  CartData && CartData.data && CartData.data.map((item) => {
   return item.item_uuid
 })
-console.log(prodCart[2],"sfgsdfsdfsfds")
+// console.log(prodCart[2],"sfgsdfsdfsfds")
 
 
 // return prod.some(obj1 => {
@@ -573,7 +573,7 @@ const updateCart = (event, event1) => {
             </Modal.Header>
             <Modal.Body >
               <Cardsdetails
-                // onClose={handleModel}
+                onClose={handleModel}
               />
             </Modal.Body>
           </Modal>

@@ -190,16 +190,17 @@ const Cardcart = () => {
 
   // }, [checkoutnotification])
 
-
+  const companyId = localStorage.getItem('companyId');
+ 
   return (
     <>
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/Cards"> */}
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to={`/menu/${companyId}`}>
           <CsLineIcons icon="chevron-left" size="20" />
-          <span className="align-middle text-medium ms-1 ">Card</span>
-        {/* </NavLink> */}
+          <span className="align-middle text-medium ms-1 ">Menu</span>
+        </NavLink>
         <h1 className="mb-0 pb-0 display-4 mt-2" id="title">
           {title}
         </h1>

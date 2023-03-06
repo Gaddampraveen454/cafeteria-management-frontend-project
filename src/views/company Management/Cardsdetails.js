@@ -63,7 +63,7 @@ if(categoryForConsumer){
   }, [category])
 
   const closeFunction =()=>{
-    // onClose()
+    onClose()
   }
 
 
