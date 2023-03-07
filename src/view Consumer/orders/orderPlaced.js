@@ -19,7 +19,7 @@ import {
   Input,
 } from '@mui/material';
 import axios from 'axios';
-
+import moment from 'moment';
 
 const OrderPlaced = () => {
   const dispatch = useDispatch()
@@ -365,50 +365,42 @@ const handleHistoryCaseNote = (e) => {
       </Row>
 
       {/* List Header Start */}
-      <Row className="g-0 mb-2 d-none d-lg-flex">
-        {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
+      <Row 
+      className="p-0 mb-2 d-none d-lg-flex"
+      >
+       
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col  lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col  lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Date</div>
+            </Col>
+            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col  lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Paid from Wallet</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col  lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Online Payment</div>
             </Col>
           
-            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Trice</div>
-            </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
-            </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">status</div>
-            </Col>
-            {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
-            </Col> */}
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
-            </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Price</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
+            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
-            </Col> */}
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Location</div>
-            </Col> */}
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Status</div>
+            </Col>
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Action</div>
+            </Col>
+            
+            
           </Row>
         </Col>
       </Row>
@@ -418,38 +410,31 @@ const handleHistoryCaseNote = (e) => {
       {ConsumerOrderData && ConsumerOrderData.data && ConsumerOrderData.data.map((item, index) => {
           return <div key="">
            {console.log(item,"dffdfdfdfsssfsdfsdf")}
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+      {/* <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
+       
           <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
             <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
+            
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{index+1}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{moment(item.createdAt).format('DD/MM/YYYY')}</div>
+              </Col>
+              
+              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.uuid}</div>
               </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item && item.paid_from_wallet}
                 </div>
               </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item && item.online_payment}
                 </div>
               </Col>
-              {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{newItem.quantity}</div>
-              </Col> */}
+          
               
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.total_amount}</div>
@@ -463,16 +448,7 @@ const handleHistoryCaseNote = (e) => {
               </Col>
               
               
-              {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-             
-                <Form.Check 
-                className="form-check mt-2 ps-7 ps-md-2" 
-                type="switch" checked={item.is_delivered} 
-               
-
-                onClick={() => { eventHandler(item) }}
-                />
-              </Col> */}
+        
         
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
            <div>
@@ -488,31 +464,173 @@ const handleHistoryCaseNote = (e) => {
                  </Button>
            </div>
               </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">Non veg</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">₹ 345</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">5 p</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">icons</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col> */}
+             
             </Row>
           </Col>
         </Row>
-      </Card>
+      </Card> */}
+
+      <Col sm="6" lg="12">
+          <Card>
+            <Row className="g-0 h-auto sh-lg-12">
+              <Col xs="12" className="col-lg p-0 h-100">
+                <Card.Body className="h-100">
+                  <Row className="gx-2 d-flex h-100 align-items-lg-center">
+                    {/* <Col lg="1" className="mb-2 mb-lg-1">
+                      <NavLink to="#" className="stretched-link body-link">
+                      <div className="lh-1 text-alternate">{index+1}</div>
+                      </NavLink>
+                    </Col> */}
+                    <Col lg="1">
+                      <Row className="gx-2 align-items-center">
+                      
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Index</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                            <div className="lh-1 text-alternate">{index+1}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="2">
+                      <Row className="gx-2 align-items-center">
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Date</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                            <div className="lh-1 text-alternate">{moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="2">
+                      <Row className="gx-2 align-items-center">
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Order id</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="lh-1 text-alternate">{item.uuid}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="1">
+                      <Row className="gx-2 align-items-center">
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Paid from Wallet</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="lh-1 text-alternate">{item && item.paid_from_wallet}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="1">
+                      <Row className="gx-2 align-items-center">
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Online Payment</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="lh-1 text-alternate">{item && item.online_payment}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="1">
+                      <Row className="gx-2 align-items-center">
+                       
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Price</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="lh-1 text-alternate">{item.total_amount}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="2">
+                      <Row className="gx-2 align-items-center">
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Transaction</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="1">
+                      <Row className="gx-2 align-items-center">
+                       
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Status</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="lh-1 text-alternate">{item.is_delivered===true?"Delivered":"Pending"}</div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col lg="1">
+                      <Row className="gx-2 align-items-center">
+                      
+                        <Col lg="12" className="col">
+                          <Row className="g-0">
+                            <Col className="d-lg-none">
+                              <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Action</div>
+                            </Col>
+                            <Col xs="auto" lg="12">
+                              <div className="sh-4 d-flex align-items-center text-alternate justify-content-lg-end">
+
+                              <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
+                  onClick={() => { viewEventHandler(item); setEventType(false) }}
+                  >
+                  <CsLineIcons icon="eye" />                  
+                 </Button>
+                 <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2" 
+                  onClick={(e) => { handleHistoryCaseNote(item);  }}
+                  >
+                  <CsLineIcons icon="print" />                  
+                 </Button>
+
+                              </div>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <br/>
       </div>
       })}
      
@@ -632,16 +750,7 @@ const handleHistoryCaseNote = (e) => {
                 <div className="lh-1 text-alternate">{item.is_delivered===true?"Delivered":"Pending"}</div>
               </Col>
               
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.is_active.toString()}</div>
-                <Form.Check 
-                className="form-check mt-2 ps-7 ps-md-2" 
-                type="switch" checked={item.is_delivered} 
-                // onChange={() => StatusUpdate()}
-
-                onClick={() => { eventHandler(item) }}
-                />
-              </Col> */}
+             
               
               
               
@@ -651,6 +760,7 @@ const handleHistoryCaseNote = (e) => {
           </Col>
         </Row>
       </Card>
+    
       </div>
       })}
      
@@ -690,8 +800,22 @@ const handleHistoryCaseNote = (e) => {
             </DialogContent>
           {/* </div> */}
         </Dialog>
+
+
+
+
+      <Row>
+        <Col xs="12" className="text-center">
+          <Button variant="outline-primary" className="sw-30">
+            Load More
+          </Button>
+        </Col>
+      </Row>
     </>
   );
 };
 
 export default OrderPlaced;
+
+
+
