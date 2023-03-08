@@ -133,7 +133,19 @@ console.log(currentUser,"currentUser")
             .then((resp) => {
               dispatch(CartListURL(IpAddressData.ip))
               dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+              if(currentUser && currentUser.data){
+                history.push({
+                  pathname: '/order',
+                })
 
+              }else{
+                history.push({
+                  pathname: '/menu',
+                })
+              }
+        
+         
+             
 
 
 
