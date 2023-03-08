@@ -16,6 +16,7 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import moment from 'moment';
 
 
 const NICorders = () => {
@@ -260,6 +261,9 @@ const NICorders = () => {
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Date</div>
+            </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
@@ -267,7 +271,7 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer sort">Consumer name </div>
             </Col>
 
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">price</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -276,24 +280,7 @@ const NICorders = () => {
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">status</div>
             </Col>
-            {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
-            </Col> */}
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
-            </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Price</div>
-            </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
-            </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
-            </Col> */}
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Location</div>
-            </Col> */}
+         
           </Row>
         </Col>
       </Row>
@@ -321,6 +308,10 @@ const NICorders = () => {
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{index + 1}</div>
                   </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                  </Col>
+                 
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
@@ -332,7 +323,7 @@ const NICorders = () => {
                 <div className="lh-1 text-alternate">{newItem.quantity}</div>
               </Col> */}
 
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.total_amount}</div>
                   </Col>
 
@@ -384,26 +375,7 @@ const NICorders = () => {
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>
-                          <td>
-                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2">
-                              <CsLineIcons icon="edit-square" />
-                            </Button>
-                          </td>
-                          {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                          {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
+                        
                         </tr>
                       </table>
                     </div>
@@ -499,23 +471,23 @@ const NICorders = () => {
               {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
               <Col>
                 <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-                  <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                  <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                   </Col>
                   <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                   </Col>
 
-                  <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                  <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                   </Col>
-                  <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                    <div className="text-muted text-medium cursor-pointer sort">price</div>
+                  <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">Price</div>
                   </Col>
 
-                  <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                  {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">status</div>
-                  </Col>
+                  </Col> */}
 
                 </Row>
               </Col>
@@ -532,30 +504,30 @@ const NICorders = () => {
                     <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                       <Row className="g-0 h-100 ">
 
-                        <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                        <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                           <div className="lh-1 text-alternate">{index + 1}</div>
                         </Col>
                         <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                           <div className="lh-1 text-alternate">{item.name}</div>
                         </Col>
 
-                        <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                        <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                           <div className="lh-1 text-alternate">{item.quantity}</div>
                         </Col>
 
                         <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                           <div className="lh-1 text-alternate">{item.price}</div>
                         </Col>
-
+{/* 
                         <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                          {/* <div className="lh-1 text-alternate">{item.is_active.toString()}</div> */}
+                         
                           <Form.Check
                             className="form-check mt-2 ps-7 ps-md-2"
                             type="switch"
                             checked={item.is_delivered}
                             onClick={() => { eventHandler(item) }}
                           />
-                        </Col>
+                        </Col> */}
 
 
 

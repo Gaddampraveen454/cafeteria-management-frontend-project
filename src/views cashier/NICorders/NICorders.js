@@ -17,6 +17,7 @@ import {
   Input,
 } from '@mui/material';
 import Select from 'react-select';
+import moment from 'moment';
 
 
 const NICorders = () => {
@@ -255,13 +256,16 @@ const NICorders = () => {
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Date</div>
+            </Col>
             {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Date</div>
             </Col> */}
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Product name </div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -306,13 +310,17 @@ const NICorders = () => {
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{index+1}</div>
               </Col>
+
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                  </Col>
               {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.createdAt}</div>
               </Col> */}
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.uuid}</div>
               </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.name}</div>
               </Col>
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -376,11 +384,11 @@ const NICorders = () => {
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
-                  <td>
+                  {/* <td>
                   <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
                  <CsLineIcons icon="edit-square" />
                  </Button>
-                  </td>
+                  </td> */}
                   {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
                  <CsLineIcons icon="check" />
@@ -503,7 +511,7 @@ const NICorders = () => {
                     <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                   </Col>
                   <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                    <div className="text-muted text-medium cursor-pointer sort">price</div>
+                    <div className="text-muted text-medium cursor-pointer sort">Price</div>
                   </Col>
 
                   {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
