@@ -284,9 +284,9 @@ const OrderPlaced = () => {
             <CsLineIcons icon="plus" /> <span>Add Orders</span>
             </Button>
             </NavLink> */}
-            <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
+            {/* <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
-            </Button>
+            </Button> */}
             {/* <div className="btn-group ms-1 check-all-container">
               <CheckAll
                 allItems={allItems}
@@ -351,7 +351,7 @@ const OrderPlaced = () => {
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-                10 Items
+                {limit} Items
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
@@ -508,7 +508,7 @@ const OrderPlaced = () => {
                           <Col lg="12" className="col">
                             <Row className="g-0">
                               <Col className="d-lg-none">
-                                <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Order id</div>
+                                <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Order Id</div>
                               </Col>
                               <Col xs="auto" lg="12">
                                 <div className="lh-1 text-alternate">{item.uuid}</div>
@@ -691,10 +691,14 @@ const OrderPlaced = () => {
           >
 
             {/* List Header Start */}
-            <Row className="g-0 mb-2 d-none d-lg-flex">
+            <Row 
+            className="g-0 mb-2 d-none d-lg-flex"
+            >
               {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
               <Col>
-                <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
+                <Row 
+                className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100"
+                >
                   <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                   </Col>
@@ -743,11 +747,11 @@ const OrderPlaced = () => {
                           <Row className="gx-2 align-items-center">
                             <Col lg="12" className="col">
                               <Row className="g-0">
-                                <Col className="d-lg-none">
+                                <Col xs="6"  className="d-lg-none">
                                   <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Name</div>
                                 </Col>
-                                <Col xs="auto" lg="12">
-                                  <div className="lh-1 text-alternate mt-2">{item.name}</div>
+                                <Col xs="6" lg="12">
+                                  <div className="lh-1 text-alternate mt-2 ">{item.name}</div>
                                 </Col>
                               </Row>
                             </Col>
@@ -758,7 +762,7 @@ const OrderPlaced = () => {
                             <Col lg="12" className="col">
                               <Row className="g-0">
                                 <Col className="d-lg-none">
-                                  <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">quantity</div>
+                                  <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Quantity</div>
                                 </Col>
                                 <Col xs="auto" lg="12">
                                   <div className="lh-1 text-alternate  mt-2">{item.quantity}</div>

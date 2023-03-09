@@ -326,10 +326,16 @@ console.log(currentUser,"currentUser")
         .then((respons) => {
           console.log(respons, "fffgdsfsdfdsf")
           if(respons.data.message){
-            toast.success(respons.data.message
-              , {
-              position: "top-right",
-            })
+            // toast.success(respons.data.message
+            //   , {
+            //   position: "top-right",
+            // })
+            history.push(({
+              pathname: "/OrderSuccess",
+              state: {
+                message:`${respons.data.message}`
+              }
+            }));
           }
        
           setOrderData(respons.data)
