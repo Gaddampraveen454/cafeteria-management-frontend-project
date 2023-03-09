@@ -25,6 +25,9 @@ const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 const Checkout =lazy(()=>import('view Consumer/checkout/Checkout'))
 const Profile =lazy(()=>import('view Consumer/checkout/Profile/Profile.js'))
 const orderPlaced =lazy(()=>import('view Consumer/orders/orderPlaced'))
+const orderSuccessPage =lazy(()=>import('view Consumer/orderSuccessPage/OrderSuccessPage'))
+
+
 
 
 
@@ -125,6 +128,13 @@ const defaultRoutesAndMenuItems = {
       // label: 'Company Management',
       // icon: 'shipping',
     },
+    {
+      path: `${appRoot}/OrderSuccess`,
+      component: orderSuccessPage,
+      // label: 'Company Management',
+      // icon: 'shipping',
+    },
+
 
 
 

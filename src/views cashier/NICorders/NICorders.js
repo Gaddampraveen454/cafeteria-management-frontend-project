@@ -71,32 +71,32 @@ const NICorders = () => {
      console.log(pages ,"ghjkvbnm")
      setSearch(pages)
      setPage(0)
-     dispatch(OrderListURL(0, pages,currentUser.token,limit)) 
+     dispatch(OrderListURL(0, pages,currentUser.token,limit, currentUser.data.company_uuid)) 
     }
     if(type === "prev"){
      setPage(page-1)
-     dispatch(OrderListURL(page-1,search,currentUser.token,limit))
+     dispatch(OrderListURL(page-1,search,currentUser.token,limit,currentUser.data.company_uuid))
     }
     else if(type === "next"){
      setPage(page+1)
-     dispatch(OrderListURL(page+1,search,currentUser.token,limit))
+     dispatch(OrderListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
     }
     else if(type === "page"){
      setPage(page)
-     dispatch(OrderListURL(page,search,currentUser.token,limit))
+     dispatch(OrderListURL(page,search,currentUser.token,limit, currentUser.data.company_uuid))
     }
     else if(type === "page+1"){
      setPage(page+1)
-     dispatch(OrderListURL(page+1,search,currentUser.token,limit))
+     dispatch(OrderListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
     }
     else if(type === "page+2"){
      setPage(page+2)
-     dispatch(OrderListURL(page+2,search,currentUser.token,limit))
+     dispatch(OrderListURL(page+2,search,currentUser.token,limit,currentUser.data.company_uuid))
     }
     else if(type === "limit"){
      setLimit(pages)
      setPage(0)
-     dispatch(OrderListURL(0,search,currentUser.token,pages))
+     dispatch(OrderListURL(0,search,currentUser.token,pages,currentUser.data.company_uuid))
     }
    }
 
@@ -259,54 +259,40 @@ const NICorders = () => {
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Date</div>
             </Col>
-            {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Date</div>
-            </Col> */}
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Product name </div>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Consumer name </div>
             </Col>
+
             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
-            </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Price</div>
+              <div className="text-muted text-medium cursor-pointer sort">price</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Status</div>
+              <div className="text-muted text-medium cursor-pointer sort">status</div>
             </Col>
-       
+         
           </Row>
         </Col>
       </Row>
       {/* List Header End */}
 
       {/* List Items Start */}
-      {OrderData && OrderData.data && OrderData.data.map((item, index) => {
+      {/* {OrderData && OrderData.data && OrderData.data.map((item, index) => {
       
       return item.details.map((newItem,newindex)=>{
           return <div key="">
       {console.log(newItem,"dffdfdfdfsssf")}
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
+       
           <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
             <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
+            
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{index+1}</div>
               </Col>
@@ -314,9 +300,7 @@ const NICorders = () => {
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
                   </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{newItem.createdAt}</div>
-              </Col> */}
+             
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{newItem.uuid}</div>
               </Col>
@@ -335,13 +319,7 @@ const NICorders = () => {
                 <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                {/* <div className="lh-1 text-alternate">{item.is_delivered===true?"Delivered":"Pending"}</div> */}
-                {/* <Select 
-                classNamePrefix="react-select" 
-                options={optionsType}
-                value={item.is_delivered}
-                onChange={() => { eventHandler(item)}}
-                 placeholder="zxczxczxc" /> */}
+            
               
               
               <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -354,29 +332,17 @@ const NICorders = () => {
               <Dropdown.Item
               onClick={(status) => { eventHandler(item,status=true)}}>Delivered</Dropdown.Item>
               <Dropdown.Item onClick={(status) => { eventHandler(item,status=false)}}>Pending</Dropdown.Item>
-              {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
+              
             </Dropdown.Menu>
           </Dropdown>
           </Col>
-              {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-          
-                <Form.Check 
-                className="form-check mt-2 ps-7 ps-md-2" 
-                type="switch" checked={item.is_delivered} 
-                // onChange={() => StatusUpdate()}
-
-                onClick={() => { eventHandler(item) }}
-                />
-              </Col> */}
+              
         
               <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
               <table>
                 <tr>
-                {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
+                
                   <td>
                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
                   onClick={() => { viewEventHandler(item); setEventType(false) }}
@@ -384,31 +350,115 @@ const NICorders = () => {
                   <CsLineIcons icon="eye" />                  
                  </Button>
                   </td>
-                  {/* <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td> */}
-                  {/* <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td> */}
+                 
                 </tr>
               </table>
                 </div>
               </Col>
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+              
+            </Row>
+          </Col>
+        </Row>
+      </Card>
+      </div>
+          
+        })
+      
+      })} */}
+      {OrderData && OrderData.data && OrderData.data.map((item, index) => {
+        return <div key="">
+          {console.log(item, "dffdfdfdfsssfsdfsdf")}
+          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+            <Row className="g-0 h-100 sh-lg-9 position-relative">
+              {/* <Col xs="auto" className="positio-relative">
+            <NavLink to="/products/detail">
+              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
+            </NavLink>
+          </Col> */}
+              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                <Row className="g-0 h-100 ">
+                  {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
+                <NavLink to="/products/detail">
+                  Anpan
+                  <div className="text-small text-muted text-truncate">#2342</div>
+                </NavLink>
+              </Col> */}
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{index + 1}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                  </Col>
+                 
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.uuid}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
+                    </div>
+                  </Col>
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                <div className="lh-1 text-alternate">{newItem.quantity}</div>
+              </Col> */}
+
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.total_amount}</div>
+                  </Col>
+
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
+                  
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+              <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+              {item.is_delivered===true?"Delivered":"Pending"}
+              </Dropdown.Toggle>
+            </OverlayTrigger>
+            <Dropdown.Menu className="shadow dropdown-menu-end">
+              <Dropdown.Item
+              onClick={(status) => { eventHandler(item,status=true)}}>Delivered</Dropdown.Item>
+              <Dropdown.Item onClick={(status) => { eventHandler(item,status=false)}} >Pending</Dropdown.Item>
+              {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
+            </Dropdown.Menu>
+          </Dropdown>
+                  </Col>
+
+
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+             
+                <Form.Check 
+                className="form-check mt-2 ps-7 ps-md-2" 
+                type="switch" checked={item.is_delivered} 
+               
+
+                onClick={() => { eventHandler(item) }}
+                />
+              </Col> */}
+
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">
+                      <table>
+                        <tr>
+                          {/* <ToggleButton
+                value={ items.is_active }
+                onToggle={()=>activefunct(items)}
+                 /> */}
+                          <td>
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                              onClick={() => { viewEventHandler(item); setEventType(false) }}
+                            >
+                              <CsLineIcons icon="eye" />
+                            </Button>
+                          </td>
+                        
+                        </tr>
+                      </table>
+                    </div>
+                  </Col>
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">Non veg</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -420,23 +470,20 @@ const NICorders = () => {
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">icons</div>
               </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                 <div className="lh-1 text-alternate">₹ 250</div>
               </Col> */}
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
                 <Badge bg="outline-primary">SALE</Badge>
               </Col> */}
-              {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
+                  {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
                 <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
               </Col> */}
+                </Row>
+              </Col>
             </Row>
-          </Col>
-        </Row>
-      </Card>
-      </div>
-          
-        })
-      
+          </Card>
+        </div>
       })}
      
       {/* List Items End */}

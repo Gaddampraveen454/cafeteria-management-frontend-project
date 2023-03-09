@@ -131,55 +131,23 @@ console.log(currentUser,"currentUser")
           }
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
+              console.log(resp.data,"ssdfsdfsdsdfsdfsdffsdfsdf")
               dispatch(CartListURL(IpAddressData.ip))
-              dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
-              if(currentUser && currentUser.data){
-                history.push({
-                  pathname: '/order',
-                })
+           
+             console.log(resp.data,"ssdfsdfsdsdfsdfsdffsdfsdf")
 
-              }else{
-                history.push({
-                  pathname: '/menu',
-                })
+             history.push(({
+              pathname: "/OrderSuccess",
+              state: {
+                message:`${resp.data.message}`
               }
-        
-         
-             
+            }));
 
-
-
-              // toast.success("Payment Sucess")
-              // const payLoads = {
-              //   "checkout_uuid": data.data.checkout_uuid,
-              //   "payment_status": "paid",
-              //   "delivery_address": {
-              //     "first_name": firstName,
-              //     "last_name": lastName,
-              //     "mobile": mobileNum,
-              //     "company_name": company,
-              //     "city": selectValueCity && selectValueCity.value,
-              //     "state": selectValueState && selectValueState.value,
-              //     "pincode": selectValuePincode && selectValuePincode.value,
-              //     "address": address
-              //   }
-              // }
-              // axios.post(`${process.env.REACT_APP_URL}/order/place`, payLoads)
-              //   .then((respons) => {
-              //     toast.success("Order Placed !")
-              //     setTimeout(function () {
-              //       history.push({
-              //         pathname: '/dashboard',
-              //       })
-              //     }, 1000)
-              //   })
-              //   .catch((err) => {
-              //     toast.success(err.response.data)
-              //   })
-
+            // dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
             })
             .catch((err) => {
               // toast.success(err.response.data.message)
+              console.log(err.response.data,"sdfsdfsdffsd")
 
             })
 
@@ -418,7 +386,9 @@ console.log(currentUser,"currentUser")
 
         })
         .catch((err) => {
-
+console.log(err.response.data,"asdasdasdasdasd")
+toast.error(err.response.data)
+setSuc(false)
         })
       // dispatch(createOrderAsGuestURL(payload, currentUser.token))
       // setSuc(true)
