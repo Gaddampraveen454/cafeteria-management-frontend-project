@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConsumerLoginURL } from '../../auth/ConsumerAuthSlice';
-
+import logo from "../../Assests/images/cafe.png"
 
 const Login = () => {
   const title = 'Login';
@@ -156,7 +156,8 @@ const Login = () => {
       <div className="sw-lg-50 px-5">
         <div className="sh-11">
           <NavLink to="/">
-            <div className="logo-default" />
+            {/* <div className="logo-default" /> */}
+            <img src={logo} alt="logo"  style={{width:"100px", height:"auto"}}/>
           </NavLink>
         </div>
         <div className="mb-5">

@@ -9,7 +9,8 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { LoginURL } from '../../auth/authSlice'
+import { LoginURL } from '../../auth/authSlice';
+import logo from "../../Assests/images/cafe.png"
 
 
 
@@ -110,7 +111,8 @@ else if(isLogin === true && currentUser && currentUser.data && currentUser.data.
       <div className="sw-lg-50 px-5">
         <div className="sh-11">
           <NavLink to="/">
-            <div className="logo-default" />
+            {/* <div className="logo-default" /> */}
+            <img src={logo} alt="logo"  style={{width:"100px", height:"auto"}}/>
           </NavLink>
         </div>
         <div className="mb-5">

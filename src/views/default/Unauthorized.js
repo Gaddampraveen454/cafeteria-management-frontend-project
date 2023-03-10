@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
+import logo from "../../Assests/images/cafe.png"
 
 const Unauthorized = () => {
   const title = 'Unauthorized';
@@ -13,7 +14,8 @@ const Unauthorized = () => {
       <div className="sw-lg-60 px-5">
         <div className="sh-11">
           <NavLink to="/">
-            <div className="logo-default" />
+            {/* <div className="logo-default" /> */}
+            <img src={logo} alt="logo"  style={{width:"100px", height:"auto"}}/>
           </NavLink>
         </div>
         <div className="mb-5">

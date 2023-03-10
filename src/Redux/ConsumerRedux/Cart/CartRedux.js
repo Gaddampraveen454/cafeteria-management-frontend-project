@@ -32,6 +32,15 @@ export const CartListURL = (ip, search, token, limit) => async (dispatch) => {
   dispatch(setCartData(response.data));
 };
 
+export const ConsumerCartListURL = (uuid, search, token, limit) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?user_uuid=${uuid}`,{headers:{
+    "x-auth-token" : token
+  }});
+  console.log(response.data.data, "dfgcvvcvcvbchj")
+  dispatch(setCartData(response.data));
+};
+
+
 export const addToCartURL = (payload,token) => async (dispatch) => {
     const response = await axios.post(`${process.env.REACT_APP_URL}/cart/add`,payload,
     {headers:{
@@ -92,22 +101,7 @@ export const updateCartURL = (payload, token) => async (dispatch) => {
   };
 
 
-  // export const deleteToCartURL = (data) => async (dispatch) => {
-  //   const response = await axios.delete(`${process.env.REACT_APP_URL}/cart/delete`, 
-  //   { 
-  //     data
-  //   }
- 
-  //   )   
-  //   .then((res) => {
-  //           console.log(res, "sdfsdfsdff")
-  //           dispatch(setToast({ status: true, message: res.data.message }))
-  //         })
-  //         .catch((err) => {
-  //           dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
-      
-  //         })
-  // }
+
 const CartReducer = CartSlice.reducer;
 
 export default CartReducer;
