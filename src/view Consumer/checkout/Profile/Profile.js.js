@@ -5,11 +5,12 @@ import { Row, Col, Button, Dropdown, Card, Badge, Form } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux'
+import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 
 const Profile = () => {
   const title = 'Customer Detail';
   const description = 'Ecommerce Customer Detail Page';
-
+  const dispatch = useDispatch()
   // Tags
   const [tags, setTags] = useState([
     { id: 0, name: 'Rates' },
@@ -31,13 +32,19 @@ const Profile = () => {
 const [ConsumerData, setConsumerData]=useState()
 console.log(ConsumerData,"ConsumerData")
   const { currentUser } = useSelector((state) => state.auth)
-  console.log(currentUser,"currentUser")
+  const { WalletData } = useSelector((state) => state.WalletData);
+  console.log(WalletData,"WalletData")
   useEffect(()=>{
     if(currentUser.data){
       setConsumerData(currentUser.data)
     }
 
   },[])
+  useEffect(() => {
+    if (currentUser && currentUser.data) {
+      dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+    }
+  }, [])
 
   return (
     <>
@@ -117,7 +124,7 @@ console.log(ConsumerData,"ConsumerData")
                         <div className="sh-5 d-flex align-items-center lh-1-25">Wallet Amount </div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center">₹ {ConsumerData ? ConsumerData.wallet_amount:"0"}</div>
+                        <div className="sh-5 d-flex align-items-center">₹ {ConsumerData ? WalletData.data.wallet_amount:"0"}</div>
                       </Col>
                     </Row>
                   </Col>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
-import { CartListURL, addToCartURL,updateCartURL,deleteToCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CartListURL, addToCartURL,updateCartURL,deleteToCartURL,ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
@@ -64,7 +64,7 @@ const Menu = () => {
     width: 280
   };
 
-
+  const { currentUser } = useSelector((state) => state.auth)
 
   const handleScan = (result) => {
     console.log(result.data, "fsfsfsdfsdf")
@@ -105,8 +105,15 @@ const Menu = () => {
     getData()
   }, [])
   useEffect(() => {
-    if (ip)
-      dispatch(CartListURL(ip))
+    if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+      setSuc(false)
+    }else if (ip){
+  //  if (ip)
+   dispatch(CartListURL(ip))
+    }
+
+ 
   }, [ip])
 
   useEffect(() => {
@@ -139,7 +146,8 @@ const Menu = () => {
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
   const { CartData, notification } = useSelector((state) => state.CartList)
-  console.log(CartData, "CartDafdgdfdfta")
+  // const { currentUser } = useSelector((state) => state.auth)
+  console.log(currentUser, "currentUser")
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
@@ -150,15 +158,34 @@ const Menu = () => {
 
   const addToCart = (event) => {
     console.log(event, "jhjjgjhgjgjhg")
+if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+  const payload = {
+    "item_uuid": event.uuid,
+    "quantity": 1,
+    "user_uuid" : currentUser && currentUser.data && currentUser.data.uuid
+  }
+  dispatch(addToCartURL(payload))
+  setSuc(true)
+}
+else
+{
+  const payload = {
+    "item_uuid": event.uuid,
+    "quantity": 1,
+    "ip_address": ip
+  }
+  dispatch(addToCartURL(payload))
+  setSuc(true)
+}
     // event.preventDefault()
     // const value = event.target.elements
-    const payload = {
-      "item_uuid": event.uuid,
-      "quantity": 1,
-      "ip_address": ip
-    }
-    dispatch(addToCartURL(payload))
-    setSuc(true)
+    // const payload = {
+    //   "item_uuid": event.uuid,
+    //   "quantity": 1,
+    //   "ip_address": ip
+    // }
+    // dispatch(addToCartURL(payload))
+    // setSuc(true)
     // dispatch(CompanyListURL(currentUser.token))
   }
 
@@ -176,8 +203,14 @@ console.log(check, "asdsdssasds");
           {
           position: "top-right",
         })
-        dispatch(CartListURL(ip))
-        setSuc(false)
+        if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+          dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+          setSuc(false)
+        }else{
+          dispatch(CartListURL(ip))
+          setSuc(false)
+        }
+     
         // setTimeout(() => {
         //   // dispatch(CompanyListURL(currentUser.token))
         //   history.push(({

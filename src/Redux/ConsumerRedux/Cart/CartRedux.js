@@ -90,7 +90,7 @@ export const updateCartURL = (payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/cart/update/login/user`,payload,{headers:{
       "x-auth-token" : token
     }}).then((res) => {
-      console.log(res, "sdfsddffsdff")
+      console.log(res, "sdfsddffzxczcxzxczxsdff")
       dispatch(setToast({ status: true, message: res.data.message }))
     })
       .catch((err) => {

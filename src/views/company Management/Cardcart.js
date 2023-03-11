@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CartListURL, deleteToCartURL, updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CartListURL, deleteToCartURL, updateCartURL , ConsumerCartListURL} from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { CreateCheckOutURL,CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Card, Button } from 'react-bootstrap';
@@ -46,11 +46,32 @@ const Cardcart = () => {
   },[])
 
   console.log(CartId, "Dsdfsfddsfsdfdsf")
+  // useEffect(() => {
+
+  //   if (ip)
+  //     dispatch(CartListURL(ip))
+  // }, [ip])
+  // console.log(CartData, "jhfhdfdffdfjhfj")
+
+
+
+
+
+
   useEffect(() => {
-    if (ip)
-      dispatch(CartListURL(ip))
+    if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+      setSuc(false)
+    }else if (ip) {
+   // if (ip)
+   dispatch(CartListURL(ip))
+    }
+
+ 
   }, [ip])
-  console.log(CartData, "jhfhdfdffdfjhfj")
+
+
+
 
 
   // const updateToCart = (event) => {
@@ -90,7 +111,13 @@ const Cardcart = () => {
         setSuc(false)
         setTimeout(() => {
 
-          dispatch(CartListURL(ip))
+          if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+            setSuc(false)
+          }else if (ip){
+         // if (ip)
+         dispatch(CartListURL(ip))
+          }
           // history.push(({
           //   pathname: "/Cardcart",
 

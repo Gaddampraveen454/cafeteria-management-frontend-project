@@ -7,7 +7,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
-import { IfLogedinUpdateCartURL, CartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { IfLogedinUpdateCartURL, CartListURL,ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { LogOutURL, LoginURL } from 'auth/authSlice';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
@@ -38,7 +38,8 @@ const Categories = () => {
   const dispatch = useDispatch()
   const history = useHistory();
   const userType = location && location.state && location.state.userType;
-  const { CartData, } = useSelector((state) => state.CartList)
+  const { CartData,notification } = useSelector((state) => state.CartList)
+  console.log(CartData,"CartData")
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const { WalletData } = useSelector((state) => state.WalletData);
   const { CheckoutData, checkoutnotification } = useSelector((state) => state.checkoutdata);
@@ -52,7 +53,7 @@ const Categories = () => {
   const TotaleAmount = walletAmount>CartData.total_amount?CartData.total_amount:(CartData.total_amount - walletAmount) * 100
  
  
- 
+ console.log(TotaleAmount,"TotaleAmount")
 
   const FinalAmount=CartData.total_amount<walletAmount?0:CartData.total_amount-walletAmount
 
@@ -68,6 +69,7 @@ console.log(currentUser,"currentUser")
 
 
   const [suc, setSuc] = useState(false);
+  const [suc1, setSuc1] = useState(false);
 
   useEffect(() => {
     if (currentUser && currentUser.data) {
@@ -132,7 +134,14 @@ console.log(currentUser,"currentUser")
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
               console.log(resp.data,"ssdfsdfsdsdfsdfsdffsdfsdf")
-              dispatch(CartListURL(IpAddressData.ip))
+              // dispatch(CartListURL(IpAddressData.ip))
+              if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+                dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+                setSuc(false)
+              }else{
+             // if (ip)
+             dispatch(CartListURL(IpAddressData.ip))
+              }
            
              console.log(resp.data,"ssdfsdfsdsdfsdfsdffsdfsdf")
 
@@ -268,8 +277,16 @@ console.log(currentUser,"currentUser")
   }
   useEffect(() => {
     if (currentUser && currentUser.data && currentUser.data.uuid) {
+      
       CartUpdate()
-      ConsumerCheckout()
+  
+      setTimeout(() => {
+                ConsumerCheckout()
+              }, 1500)
+
+
+             
+      // ConsumerCheckout()
     } else {
 
       GuestCheckOut()
@@ -325,7 +342,7 @@ console.log(currentUser,"currentUser")
         })
         .then((respons) => {
           console.log(respons, "fffgdsfsdfdsf")
-          if(respons.data.message){
+          if(respons.data.message!=="Checkout Success"){
             // toast.success(respons.data.message
             //   , {
             //   position: "top-right",
@@ -433,7 +450,29 @@ setSuc(false)
   console.log(checkoutnotification, "ProductDataProductData")
 
 
+  // useEffect(() => {
+  //   if (suc1 === true) {
+  //     if (notification.status === true) {
+       
+  //       // toast.success(notification.message, {
+  //       //   position: "top-right",
+  //       // })
+        
+       
+  //       setTimeout(() => {
+  //         ConsumerCheckout()
+  //       }, 1000)
+  //       setSuc1(false)
 
+  //     }
+  //     else if (notification.status === false) {
+  //       toast.error(notification.message)
+  //       setSuc1(false)
+  //     }
+  //   }
+
+  // }, [notification])
+  // console.log(notification, "ProductDataProductData")
 
 
 
