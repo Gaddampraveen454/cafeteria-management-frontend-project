@@ -99,8 +99,8 @@ const OrderSuccessPage = () => {
               <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={handleBack}>
                <CsLineIcons icon="chevron-left" />
                {currentUser && currentUser.data && currentUser.data.group === "consumer"?
-               <span>back to order Page </span> :
-               <span>back to menu </span> 
+               <span>Back to Order Page </span> :
+               <span>Back to Menu </span> 
                }
               </Button>
               {/* <Button className="btn-icon btn-icon-end " variant="primary" onClick={handleBack}>

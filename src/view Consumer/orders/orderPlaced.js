@@ -680,6 +680,7 @@ const OrderPlaced = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           fullWidth
+          // width="lg"
 
         >
           {/* <DialogTitle id="alert-dialog-title">
@@ -699,23 +700,26 @@ const OrderPlaced = () => {
                 <Row 
                 className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100"
                 >
-                  <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                  <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                   </Col>
                   <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                   </Col>
+                  <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                  </Col>
 
                   <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                   </Col>
-                  <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                    <div className="text-muted text-medium cursor-pointer sort">price</div>
+                  <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                    <div className="text-muted text-medium cursor-pointer sort">Price</div>
                   </Col>
 
-                  <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                  {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">status</div>
-                  </Col>
+                  </Col> */}
 
                 </Row>
               </Col>
@@ -731,7 +735,7 @@ const OrderPlaced = () => {
 
                     <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                       <Row className="g-0 h-100 ">
-                        <Col lg="2">
+                        <Col lg="1">
                           <Row className="gx-2 align-items-center ">
 
                             <Col lg="12" className="col">
@@ -757,6 +761,20 @@ const OrderPlaced = () => {
                             </Col>
                           </Row>
                         </Col>
+                        <Col lg="4">
+                          <Row className="gx-2 align-items-center">
+                            <Col lg="12" className="col">
+                              <Row className="g-0">
+                                <Col className="d-lg-none">
+                                  <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Product Id</div>
+                                </Col>
+                                <Col xs="auto" lg="12">
+                                  <div className="lh-1 text-alternate  mt-2">{item.uuid}</div>
+                                </Col>
+                              </Row>
+                            </Col>
+                          </Row>
+                        </Col>
                         <Col lg="2">
                           <Row className="gx-2 align-items-center">
                             <Col lg="12" className="col">
@@ -771,7 +789,7 @@ const OrderPlaced = () => {
                             </Col>
                           </Row>
                         </Col>
-                        <Col lg="2">
+                        <Col lg="1">
                           <Row className="gx-2 align-items-center">
                             <Col lg="12" className="col">
                               <Row className="g-0">
@@ -785,7 +803,7 @@ const OrderPlaced = () => {
                             </Col>
                           </Row>
                         </Col>
-                        <Col lg="2">
+                        {/* <Col lg="2">
                           <Row className="gx-2 align-items-center">
                             <Col lg="12" className="col">
                               <Row className="g-0">
@@ -798,7 +816,7 @@ const OrderPlaced = () => {
                               </Row>
                             </Col>
                           </Row>
-                        </Col>
+                        </Col> */}
                       </Row>
                     </Col>
                   </Row>
