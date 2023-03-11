@@ -104,7 +104,7 @@ const OrderSuccessPage = () => {
                }
               </Button>
               {/* <Button className="btn-icon btn-icon-end " variant="primary" onClick={handleBack}>
-               <CsLineIcons icon="chevron-left" /> <span>back to order Page </span> 
+               <CsLineIcons icon="chevron-left" /> <span>back to order Page1 </span> 
               </Button> */}
             </Card.Body>
           </Card>
