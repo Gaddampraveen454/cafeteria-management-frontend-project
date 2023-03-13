@@ -267,13 +267,13 @@ const NICorders = () => {
             </Col>
 
             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">price</div>
+              <div className="text-muted text-medium cursor-pointer sort">Price</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">status</div>
+              <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
          
           </Row>
