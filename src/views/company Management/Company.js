@@ -5,7 +5,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
-import { CompanyListURL, compnayUpdateURL, companyAddURL ,CompanyStatusUpdateURL} from 'Redux/AdminRedux/Comapny/Company';
+import { CompanyListURL, compnayUpdateURL, companyAddURL, CompanyStatusUpdateURL } from 'Redux/AdminRedux/Comapny/Company';
 import {
   Dialog,
   DialogActions,
@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import QRCode from "react-qr-code";
 
 const Company = () => {
   const title = 'Company Management';
@@ -32,17 +33,18 @@ const Company = () => {
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
   const [address, setAddress] = useState("")
-  const [compnayId,setCompnayId]=useState("")
-  const [suc,setSuc] = useState(false);
+  const [compnayId, setCompnayId] = useState("")
+  const [suc, setSuc] = useState(false);
 
 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [search , setSearch] = useState('')
+  const [search, setSearch] = useState('')
 
 
-// console.log(page,limit,search,"sdsasfasasdasd")
-
+  // console.log(page,limit,search,"sdsasfasasdasd")
+  const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
+  const [qrOpen, setQrOpen] = useState(false)
 
   console.log(status, "fgdffdggdf")
 
@@ -70,7 +72,7 @@ const Company = () => {
 
 
   useEffect(() => {
-    dispatch(CompanyListURL(page, search,currentUser.token,limit))
+    dispatch(CompanyListURL(page, search, currentUser.token, limit))
   }, [])
 
 
@@ -99,17 +101,17 @@ const Company = () => {
     event.preventDefault()
     const value = event.target.elements
     const payload = {
-        "company_name" : companyName,
-      "email" : email,
-      "mobile" : mobile,
-      "wallet_amount" : walletamount,
-      "location":location,
-      "address":address,
-  }
-    dispatch(compnayUpdateURL(compnayId , payload, currentUser.token))
+      "company_name": companyName,
+      "email": email,
+      "mobile": mobile,
+      "wallet_amount": walletamount,
+      "location": location,
+      "address": address,
+    }
+    dispatch(compnayUpdateURL(compnayId, payload, currentUser.token))
     setSuc(true)
-    
-}
+
+  }
 
 
 
@@ -118,80 +120,103 @@ const Company = () => {
 
 
 
-useEffect(() => {
-  if (suc === true) {
-    if (notification.status === true) {
-      toast.success(notification.message,{
-        position:"top-right",
-      })
-      setSuc(false)
-      setTimeout(()=>{
-        dispatch(CompanyListURL(page, search,currentUser.token,limit))
-        setOpen(false)
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          dispatch(CompanyListURL(page, search, currentUser.token, limit))
+          setOpen(false)
 
-      },1000)
-     
+        }, 1000)
+
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
     }
-    else if (notification.status === false) {
-      toast.error(notification.message)
-      setSuc(false)
+
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
+
+
+  const searchfunction = (type, pages) => {
+    console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
+    if (type === "search") {
+      console.log(pages, type, "ghjkfgdfgssdvbnm")
+      setSearch(pages)
+      setPage(0)
+      dispatch(CompanyListURL(0, pages, currentUser.token, limit))
+    }
+    if (type === "prev") {
+      setPage(page - 1)
+      dispatch(CompanyListURL(page - 1, search, currentUser.token, limit))
+    }
+    else if (type === "next") {
+      setPage(page + 1)
+      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit))
+    }
+    else if (type === "page") {
+      setPage(page)
+      dispatch(CompanyListURL(page, search, currentUser.token, limit))
+    }
+    else if (type === "page+1") {
+      setPage(page + 1)
+      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit))
+    }
+    else if (type === "page+2") {
+      setPage(page + 2)
+      dispatch(CompanyListURL(page + 2, search, currentUser.token, limit))
+    }
+    else if (type === "limit") {
+      setLimit(pages)
+      setPage(0)
+      dispatch(CompanyListURL(0, search, currentUser.token, pages))
     }
   }
 
-}, [notification])
-console.log(notification ,"ProductDataProductData")
-
-
-const searchfunction =(type , pages)=>{
-  console.log(pages,type,"ghjkfgdvxvxvcvcfgssdvbnm")
-  if(type === "search"){
-   console.log(pages,type,"ghjkfgdfgssdvbnm")
-   setSearch(pages)
-   setPage(0)
-   dispatch(CompanyListURL(0, pages,currentUser.token,limit)) 
-  }
-  if(type === "prev"){
-   setPage(page-1)
-   dispatch(CompanyListURL(page-1,search,currentUser.token,limit))
-  }
-  else if(type === "next"){
-   setPage(page+1)
-   dispatch(CompanyListURL(page+1,search,currentUser.token,limit))
-  }
-  else if(type === "page"){
-   setPage(page)
-   dispatch(CompanyListURL(page,search,currentUser.token,limit))
-  }
-  else if(type === "page+1"){
-   setPage(page+1)
-   dispatch(CompanyListURL(page+1,search,currentUser.token,limit))
-  }
-  else if(type === "page+2"){
-   setPage(page+2)
-   dispatch(CompanyListURL(page+2,search,currentUser.token,limit))
-  }
-  else if(type === "limit"){
-   setLimit(pages)
-   setPage(0)
-   dispatch(CompanyListURL(0,search,currentUser.token,pages))
-  }
- }
 
 
 
 
+  const HandleCompanyStatus = (event) => {
+    console.log(event, "eventxcvvxcvv")
+    // if (event.is_delivered)
+    const payload = {
+      "uuid": event.uuid,
+      "status": !event.is_active
+    }
+    dispatch(CompanyStatusUpdateURL(payload, currentUser.token))
+    setSuc(true)
 
- const HandleCompanyStatus = (event) => {
-  console.log(event, "eventxcvvxcvv")
-  // if (event.is_delivered)
-  const payload = {
-    "uuid" : event.uuid,
-    "status" : !event.is_active
-}
-  dispatch(CompanyStatusUpdateURL(payload, currentUser.token))
-  setSuc(true)
-  
-};
+  };
+
+
+  const [CompnayIdForQR, setCompnayIdForQR] = useState("")
+
+  console.log(CompnayIdForQR, "CompnayIdForQR")
+  const ViewQRCode = (event) => {
+    console.log(event, "sfdsfsdfsdf")
+    setCompnayIdForQR(event.uuid)
+    setQrOpen(true)
+
+
+  }
+  console.log(`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`, "sdfsdfsdfsfd")
+  const handleDownload = () => {
+    window.print();
+    //   const printContents = document.getElementById('printablediv').innerHTML;
+    //   const originalContents = document.body.innerHTML;
+    //   document.body.innerHTML = printContents;
+    //   window.print();
+    //  document.body.innerHTML = originalContents; 
+
+  };
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -245,7 +270,7 @@ const searchfunction =(type , pages)=>{
         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-          <Form.Control type="text" onChange={(event)=>searchfunction("search" , event.target.value)} placeholder="Search" />
+            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -256,19 +281,19 @@ const searchfunction =(type , pages)=>{
           {/* Search End */}
         </Col>
         <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
-       
+
 
           {/* Length Start */}
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-              {limit} Items
+                {limit} Items
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-            <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
-              <Dropdown.Item onClick={()=>searchfunction("limit", 10)}>10 Items</Dropdown.Item>
-              <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {/* Length End */}
@@ -280,29 +305,28 @@ const searchfunction =(type , pages)=>{
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Company</div>
-            </Col> */}
+           
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col>
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Address</div>
-            </Col> */}
+          
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Contact No</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Wallet Amount</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer" />
+            </Col>
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+              <div className="text-muted text-medium cursor-pointer sort">QR Code</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Action</div>
@@ -348,24 +372,24 @@ const searchfunction =(type , pages)=>{
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.email}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
                         {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                        <Form.Check 
-                        // type="switch"
-                        //  id="quantitySwitch2" 
-                        //  value={status} 
-                        //  onChange={(e) => { setStatus(!status) }} 
-                        //  defaultChecked 
-                           type="switch"
-                           checked={item.is_active} 
-                           onClick={() => { HandleCompanyStatus(item) }}
+                        <Form.Check
+                          // type="switch"
+                          //  id="quantitySwitch2" 
+                          //  value={status} 
+                          //  onChange={(e) => { setStatus(!status) }} 
+                          //  defaultChecked 
+                          type="switch"
+                          checked={item.is_active}
+                          onClick={() => { HandleCompanyStatus(item) }}
 
-                         />
+                        />
                         {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
                       </div>
                     </div>
@@ -378,10 +402,32 @@ const searchfunction =(type , pages)=>{
                 value={ items.is_active }
                 onToggle={()=>activefunct(items)}
                  /> */}
+
+
                           <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2" 
-                            onClick={() => { eventHandler(item); setEventType(true) }}
-                             >
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                              onClick={() => { ViewQRCode(item) }}
+                            >
+                              <CsLineIcons icon="print" />
+                            </Button>
+                          </td>
+                          
+                        </tr>
+                      </table>
+                    </div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                    <div className="lh-1 text-alternate">
+                      <table>
+                        <tr>
+                   
+
+
+                         
+                          <td>
+                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                              onClick={() => { eventHandler(item); setEventType(true) }}
+                            >
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>
@@ -517,31 +563,31 @@ const searchfunction =(type , pages)=>{
       {/* List Items End */}
 
       {/* Pagination Start */}
- 
+
       <div className="d-flex justify-content-center mt-5">
         <Pagination>
-          <Pagination.Prev className="shadow" disabled={page===0} onClick={()=>searchfunction("prev")}>
+          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
           </Pagination.Prev>
-          <Pagination.Item className="shadow" active onClick={()=>searchfunction("page")} >
-            {page+1}
+          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+            {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(companyData && companyData.count/limit)<= page+1} onClick={()=>searchfunction("page+1",page+1)}>{page+2}</Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(companyData && companyData.count/limit)<= page+2} onClick={()=>searchfunction("page+2",page+2)}>{page+3}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyData && companyData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyData && companyData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-          {Math.ceil(companyData && companyData.count/limit) > page+3 &&
-          <>
-          <Pagination.Item className="shadow" >...</Pagination.Item>
-           </>
+          {Math.ceil(companyData && companyData.count / limit) > page + 3 &&
+            <>
+              <Pagination.Item className="shadow" >...</Pagination.Item>
+            </>
 
-        }
-          <Pagination.Next className="shadow" disabled={Math.ceil(companyData && companyData.count/limit)<= page+1} onClick={()=>searchfunction("next")}>
+          }
+          <Pagination.Next className="shadow" disabled={Math.ceil(companyData && companyData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>
       </div>
-        {/* Pagination end */}
-         {/* View And Edit Popup Start */}
+      {/* Pagination end */}
+      {/* View And Edit Popup Start */}
       <div>
         <Dialog
           open={open}
@@ -553,9 +599,9 @@ const searchfunction =(type , pages)=>{
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-          <DialogContent style={{ width: "500px", height: "auto"  }}>
+          <DialogContent style={{ width: "500px", height: "auto" }}>
             <Form
-            onSubmit={update}
+              onSubmit={update}
             >
               <Row className="g-3">
                 <Col lg="6">
@@ -586,33 +632,84 @@ const searchfunction =(type , pages)=>{
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
-                    <Col lg="3">
+                  <Col lg="3">
                     {eventType ?
-                  null
-                  :
-                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
-                }
-                    </Col>
-                    
+                      null
+                      :
+                      <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
+                    }
                   </Col>
-                  <Col lg="6" align="right">
-                    {/* <Col lg="3"> */}
-                    <Button onClick={() => setOpen(false)} autoFocus>
-                  Cancel
-                </Button>
-                    {/* </Col> */}
-                    
-                  </Col>
+
+                </Col>
+                <Col lg="6" align="right">
+                  {/* <Col lg="3"> */}
+                  <Button onClick={() => setOpen(false)} autoFocus>
+                    Cancel
+                  </Button>
+                  {/* </Col> */}
+
+                </Col>
               </Row>
-           
+
             </Form>
 
           </DialogContent>
 
         </Dialog>
       </div>
-  {/* View And Edit Popup end */}
-      
+      {/* View And Edit Popup end */}
+
+
+
+
+
+      {/* View QR code  Popup Start */}
+      <div>
+        <Dialog
+          open={qrOpen}
+          onClose={() => setQrOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+
+        >
+
+          <DialogContent
+
+          >
+
+
+            <div>
+              <QRCode
+                size={300}
+                // style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`}
+                viewBox='0 0 556 556'
+              />
+            </div>
+            <br />
+            <div style={{ alignItems: "center" }}>
+              <Button variant="outline-primary"
+                className='btn-icon btn-icon-end w-100'
+                onClick={handleDownload}>
+                <CsLineIcons icon="print" /> <span>Print</span>
+              </Button>
+
+            </div>
+
+          </DialogContent>
+
+        </Dialog>
+      </div>
+      {/* View And Edit Popup end */}
+
+
+
+
+
+
+
+
+
     </>
   );
 };
