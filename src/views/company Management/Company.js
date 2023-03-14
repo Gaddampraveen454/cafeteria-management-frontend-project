@@ -700,7 +700,7 @@ const Company = () => {
 
         </Dialog>
       </div>
-      {/* View And Edit Popup end */}
+      {/* View And Edit Popup end  */}
 
 
 
