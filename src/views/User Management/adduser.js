@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const adduser = () => {
   const history = useHistory();
-  const title = 'Add User';
+  const title = 'Add User 1';
   const description = 'Ecommerce Storefront Add Details Page';
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.auth)

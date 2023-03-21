@@ -9,6 +9,7 @@ import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedu
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const addproduct = () => {
   
@@ -24,6 +25,8 @@ const addproduct = () => {
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState();
   const [selectCompany, setSelectCompany] = useState();
+  const [UploadedFile, setUploadedFile]=useState("")
+  console.log(UploadedFile,"UploadedFile")
 
 
   console.log(selectType,selectCategory,selectCompany,"sfsdfsdfsdfsdfsdf")
@@ -115,6 +118,7 @@ const addproduct = () => {
         "price" : price,
         "quantity" : quantity,
         "company_uuid" : selectCompany && selectCompany.value,
+        "image":UploadedFile
     }
     dispatch(ProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -146,6 +150,48 @@ useEffect(() => {
   }
 
 }, [notification])
+
+
+
+
+const [image, setImage] = useState(null);
+
+
+const handleImageChange = (e) => {
+  setImage(e.target.files[0]);
+};
+
+
+
+
+const handleSubmit = () => {
+  // e.preventDefault();
+  const formData = new FormData();
+  formData.append('image', image);
+  axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+    {
+      headers: {
+        "x-access-token": `${currentUser.token}`,
+      }
+    })
+    .then(res => {
+      console.log(res.data.image, "resp00");
+      setUploadedFile(res.data.image.filename)
+
+    })
+    .catch(err => {
+      console.log(err, "err00")
+     
+    });
+}
+
+useEffect(()=>{
+  if(image!==null){
+    handleSubmit()
+  }
+ 
+},[image])
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -193,6 +239,23 @@ useEffect(() => {
                   <Col lg="6">
                     <Form.Label>Quantity</Form.Label>
                     <Form.Control type="text" rows={1}  onChange={(e)=>{setQuantity(e.target.value)}}/>
+                  </Col>
+
+                  <Col  lg="6">
+                  <div>
+      <input type="file" onChange={handleImageChange} />
+   
+    </div>
+                  </Col>
+                  <Col  lg="6">
+                  <div>
+      
+      {image && (
+        <div >
+          <img src={URL.createObjectURL(image)} alt="Preview" style={{width:"100%", height:"50%"}}/>
+        </div>
+      )}
+    </div>
                   </Col>
                   <Col lg="12">
                     <Col lg="3">
