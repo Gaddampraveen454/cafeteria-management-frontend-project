@@ -16,6 +16,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductBulkUplodURL, ProductStatusUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
+import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -134,6 +135,7 @@ const product = () => {
   useEffect(() => {
 
     dispatch(ActiveCompnyURL(currentUser.token))
+    dispatch(CategoryListURL(page, search,currentUser.token,limit))
   }, [])
 
   const { ProductData, notification } = useSelector((state) => state.productList)
@@ -493,7 +495,7 @@ const product = () => {
         <Col lg="3">
           {/* <Form.Label>Company</Form.Label> */}
           <Select classNamePrefix="react-select"
-            options={companyList}
+            options={ActivcompanyList}
             value={compnayId}
             onChange={setCompnayId}
             placeholder="Select Company"
