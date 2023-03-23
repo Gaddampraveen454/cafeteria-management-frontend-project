@@ -84,11 +84,11 @@ const product = () => {
 
 
   const [selectType, setSelectType] = useState();
-  const [selectCategory, setSelectCategory] = useState();
-  const [selectCompany, setSelectCompany] = useState();
+  const [selectCategory, setSelectCategory] = useState('');
+  const [selectCompany, setSelectCompany] = useState('');
   const [productId, setProductId] = useState("")
   const [imageUrl, setimageUrl] = useState("")
-  console.log(imageUrl, "setimageUrlsdfsdf")
+  console.log(selectCompany && selectCompany.value,selectCategory && selectCategory.value, "selectCompanyselectCategory")
 
   const [suc, setSuc] = useState(false);
 
@@ -96,8 +96,11 @@ const product = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
+  const [compnayId, setCompnayId]=useState('')
+  const [categoryId , setCategoryId]=useState('')
 
-  console.log(selectCompany, "dfgdfgdfgdd")
+
+  console.log(compnayId.value,categoryId.value, "dfgdfgdfgdd")
 
   const [UploadedFile, setUploadedFile] = useState()
   const [image, setImage] = useState(null);
@@ -135,8 +138,8 @@ const product = () => {
 
   const { ProductData, notification } = useSelector((state) => state.productList)
   useEffect(() => {
-    dispatch(ProductListURL(page, search, currentUser.token, limit))
-  }, [])
+    dispatch(ProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+  }, [compnayId,categoryId])
   console.log(ProductData, "ProductDatasdfdsfdsf");
   useEffect(() => {
     if (suc === true) {
@@ -146,12 +149,12 @@ const product = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(ProductListURL(page, search, currentUser.token, limit))
+          dispatch(ProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
           setOpenEditViewOpupup(false)
           setTimeout(() => {
             setImage(null)
-          },1000)
-         
+          }, 1000)
+
         }, 1000)
 
       }
@@ -224,7 +227,7 @@ const product = () => {
 
 
       dispatch(ProductUpdateURL(productId, payload, currentUser.token))
-      
+
       // dispatch(CompanyListURL(currentUser.token))
       setSuc(true)
 
@@ -285,32 +288,32 @@ const product = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductListURL(0, pages, currentUser.token, limit))
+      dispatch(ProductListURL(0, pages, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductListURL(page - 1, search, currentUser.token, limit))
+      dispatch(ProductListURL(page - 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit))
+      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductListURL(page, search, currentUser.token, limit))
+      dispatch(ProductListURL(page, search, currentUser.token, limit), compnayId && compnayId.value, categoryId && categoryId.value)
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit))
+      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductListURL(page + 2, search, currentUser.token, limit))
+      dispatch(ProductListURL(page + 2, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductListURL(0, search, currentUser.token, pages))
+      dispatch(ProductListURL(0, search, currentUser.token, pages ,compnayId && compnayId.value, categoryId && categoryId.value))
     }
   }
 
@@ -473,7 +476,9 @@ const product = () => {
       <Row className="mb-3">
         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
+          {/* <Form.Label/> */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+         
             <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
@@ -484,30 +489,29 @@ const product = () => {
           </div>
           {/* Search End */}
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
-          {/* Print Button Start */}
-          {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-            <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-              <CsLineIcons icon="print" />
-            </Button>
-          </OverlayTrigger> */}
-          {/* Print Button End */}
 
-          {/* Export Dropdown Start */}
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-              <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                <CsLineIcons icon="download" />
-              </Dropdown.Toggle>
-            </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">Copy</Dropdown.Item>
-              <Dropdown.Item href="#">Excel</Dropdown.Item>
-              <Dropdown.Item href="#">Cvs</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown> */}
-          {/* Export Dropdown End */}
-
+        <Col lg="3">
+          {/* <Form.Label>Company</Form.Label> */}
+          <Select classNamePrefix="react-select"
+            options={companyList}
+            value={compnayId}
+            onChange={setCompnayId}
+            placeholder="Select Company"
+            // disabled={eventType}
+          />
+        </Col>
+        <Col lg="3">
+          {/* <Form.Label>Category</Form.Label> */}
+          <Select classNamePrefix="react-select"
+            options={productList}
+            value={categoryId}
+            onChange={setCategoryId}
+            placeholder="Select Category"
+            // disabled={eventType}
+          />
+        </Col>
+        <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
+         
           {/* Length Start */}
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
@@ -537,12 +541,15 @@ const product = () => {
               <div className="text-muted text-medium cursor-pointer sort">Category</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+              <div className="text-muted text-medium cursor-pointer sort">Compnay</div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Price</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -573,12 +580,15 @@ const product = () => {
                     <div className="lh-1 text-alternate">{item.category_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.company_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.type}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.price}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.quantity}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -746,12 +756,12 @@ const product = () => {
                   />
                 </Col>
                 <Col lg="12">
-                {image?null
-                
-                :
-                <img src={imageUrl} alt="product image" crossOrigin="anonymous" style={{ width: "100%", height: "100%" }} />
-                }
-                 
+                  {image ? null
+
+                    :
+                    <img src={imageUrl} alt="product image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
+                  }
+
                 </Col>
                 {/* <Col lg="12">
                     <Col lg="3">
@@ -762,24 +772,25 @@ const product = () => {
                   </Col> */}
 
 
-                  {eventType ?
-                      null
-                      :
-                      <Col lg="12">
-                  <div>
-                  {image && (
-                      <div >
-                        <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "100%", height: "100%" }} />
-                      </div>
-                    )}
-                    <input type="file" onChange={handleImageChange} />
+                {eventType ?
+                  null
+                  :
+                  <Col lg="12">
+                    <div>
+                      {image && (
+                        <div >
+                          <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} />
+                        </div>
+                      )}
+                      {/* <input type="file" onChange={handleImageChange} /> */}
+                      <Form.Control type="file" onChange={handleImageChange} />
 
-                  </div>
-                </Col>
-               
-            
-                    }
-               
+                    </div>
+                  </Col>
+
+
+                }
+
 
 
 
@@ -808,7 +819,7 @@ const product = () => {
                   {/* </Col> */}
 
                 </Col>
-             
+
               </Row>
             </Form>
 

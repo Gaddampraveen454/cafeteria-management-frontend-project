@@ -243,20 +243,21 @@ useEffect(()=>{
 
                   <Col  lg="6">
                   <div>
-      <input type="file" onChange={handleImageChange} />
+                  <Form.Control type="file" onChange={handleImageChange}/>
+      {/* <input type="file" onChange={handleImageChange} /> */}
    
     </div>
                   </Col>
-                  <Col  lg="6">
+                  {/* <Col  lg="6"> */}
                   <div>
       
       {image && (
         <div >
-          <img src={URL.createObjectURL(image)} alt="Preview" style={{width:"100%", height:"50%"}}/>
+          <img src={URL.createObjectURL(image)} alt="Preview" style={{width:"200px", height:"200px"}}/>
         </div>
       )}
     </div>
-                  </Col>
+                  {/* </Col> */}
                   <Col lg="12">
                     <Col lg="3">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
