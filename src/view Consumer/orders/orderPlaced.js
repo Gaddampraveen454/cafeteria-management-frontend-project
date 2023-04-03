@@ -234,24 +234,44 @@ const OrderPlaced = () => {
     let url;
     async function getpdf(id) {
       try {
-        await axios
-          .get(`${process.env.REACT_APP_URL}/order/invoice/${id}`
+        await axios.get(`${process.env.REACT_APP_URL}/order/invoice/${id}`
           )
           .then((res) => {
             if (res.data) {
               dt = res.data;
+              console.log(dt,"SDsadasdasda")
+              fetch(`data:application/pdf;base64,${dt}`).then(response => {
+                response.blob().then(blob => {
+                    // Creating new object of PDF file
+                    const fileURL = window.URL.createObjectURL(blob);
+                    // Setting various property values
+                    const alink = document.createElement('a');
+                    alink.href = fileURL;
+                    alink.download = 'Invoice.pdf';
+                    alink.click();
+                })
+            })
+            
               // setLoader(false);
             }
           });
 
-        handlePdfOpen();
-        await fetch(`data:application/pdf;base64,${dt}`)
-          .then((res) => res.blob())
-          .then((blob) => {
-            url = window.URL.createObjectURL(blob);
-          });
-        const iframe = document.querySelector("#pdf");
-        iframe.setAttribute("src", url);
+      //   handlePdfOpen();
+         
+      //   await fetch(`data:application/pdf;base64,${dt}`)
+      //     .then((res) => res.blob())
+      //     .then((blob) => {
+      //       url = window.URL.createObjectURL(blob);
+      //     });
+      //   const iframe = document.querySelector("#pdf");
+      //   iframe.setAttribute("src", url);
+
+
+      //   // const onButtonClick = () => {
+      //     // using Java Script method to get PDF file
+         
+      // // }
+        
       } catch (error) {
         failurePdfOpen();
       }
@@ -259,6 +279,29 @@ const OrderPlaced = () => {
 
     getpdf(caseid);
   };
+
+
+
+//   const handleDownload = () => {
+//     window.print();
+
+//   };
+
+
+//   const onButtonClick = (e) => {
+//     // using Java Script method to get PDF file
+//     fetch(`${process.env.REACT_APP_URL}/order/invoice/${e.uuid}`).then(response => {
+//         response.data.blob().then(blob => {
+//             // Creating new object of PDF file
+//             const fileURL = window.URL.createObjectURL(blob);
+//             // Setting various property values
+//             const alink = document.createElement('a');
+//             alink.href = fileURL;
+//             alink.download = 'SamplePDF.pdf';
+//             alink.click();
+//         })
+//     })
+// }
 
   return (
     <>
@@ -610,6 +653,12 @@ const OrderPlaced = () => {
                                   >
                                     <CsLineIcons icon="print" />
                                   </Button>
+                                  {/* <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
+                                  //  onClick={onButtonClick}
+                                   onClick={(e) => { onButtonClick(item); }}
+                                   >
+                    Download PDF
+                </Button> */}
 
                                 </div>
                               </Col>
@@ -851,6 +900,7 @@ const OrderPlaced = () => {
         </Button>
         <DialogContent >
           <iframe src="" className="pdfiframe" id="pdf" title="myFrame"
+          
             style={{ width: "100%", height: "100%" }}
 
           />

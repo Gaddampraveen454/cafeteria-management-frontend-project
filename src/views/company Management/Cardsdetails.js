@@ -16,6 +16,7 @@ const Cardsdetails = ({onClose}) => {
   const dispatch = useDispatch()
   const [suc, setSuc] = useState(false);
   const { id } = useParams();
+  console.log(id,"asdadadasd")
   const [companyId , setCompanyId]=useState(id)
 
   // const [cmpid,companyId]=id.split("=")
@@ -38,6 +39,10 @@ console.log(items,"itemsitemsitems")
   const [open, setOpen] = React.useState(false);
   const [category, setCategory]=useState("")
 
+  useEffect(()=>{
+    localStorage.setItem('categoryId', (category));
+  },[category])
+
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
   console.log(categoryForConsumer,"sdfsdfsdfsdfsd")
@@ -56,7 +61,7 @@ if(categoryForConsumer){
   useEffect(() => {
     // if (category===!""){
       if(category){
-        dispatch(ProductForConsumerListURL(companyId,category))
+        dispatch(ProductForConsumerListURL(companyId,category,0))
       
       }
 

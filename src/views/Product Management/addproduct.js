@@ -103,7 +103,9 @@ const addproduct = () => {
   const [name, setName]=useState("")
   const [price, setPrice]=useState("")
   const [quantity, setQuantity]=useState("")
- 
+  const [stockQuantity,setStockQuantity]=useState("")
+  const [cgst, setCgst]=useState("")
+  const [sgst, setSgst]=useState("")
 
 
 
@@ -118,7 +120,10 @@ const addproduct = () => {
         "price" : price,
         "quantity" : quantity,
         "company_uuid" : selectCompany && selectCompany.value,
-        "image":UploadedFile
+        "image":UploadedFile,
+        "stock_quantity" : stockQuantity,
+        "cgst_tax": cgst,
+        "sgst_tax": sgst,
     }
     dispatch(ProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -240,9 +245,22 @@ useEffect(()=>{
                     <Form.Label>Quantity</Form.Label>
                     <Form.Control type="text" rows={1}  onChange={(e)=>{setQuantity(e.target.value)}}/>
                   </Col>
+                  <Col lg="6">
+                    <Form.Label>Stock Quantity</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>C gst</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>S gst</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}}/>
+                  </Col>
 
                   <Col  lg="6">
                   <div>
+                  <Form.Label/>
                   <Form.Control type="file" onChange={handleImageChange}/>
       {/* <input type="file" onChange={handleImageChange} /> */}
    

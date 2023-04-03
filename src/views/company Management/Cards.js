@@ -41,6 +41,9 @@ const Menu = () => {
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
   const { id } = useParams();
+  console.log(id,"dsfsdfsdfsdf")
+
+  
   const [cmpid, newid] = id.split("=")
   console.log(newid, "sdfsdsdfsdfsdfdsfsdf")
   console.log(window.location.pathname, "sdfsdfsdfsdfsdfsd")
@@ -49,12 +52,16 @@ const Menu = () => {
   const { width } = useWindowSize();
   const [isLgScreen, setIsLgScreen] = useState(false);
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
-  const [category, setCategory] = useState("")
+  const [categoryID, setCategoryID] = useState("")
   const [suc, setSuc] = useState(false);
   const [value, setValue] = useState(0);
 
   const [open, setOpen] = React.useState(false);
   const [result1, setResult1] = useState();
+  
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState('')
 
   // const [data, setData] = useState('No result');
   const delay = 500;
@@ -186,7 +193,7 @@ else
     // }
     // dispatch(addToCartURL(payload))
     // setSuc(true)
-    // dispatch(CompanyListURL(currentUser.token))
+    // dispatch(ProductForConsumerListURL(currentUser.token))
   }
 
 
@@ -212,7 +219,7 @@ console.log(check, "asdsdssasds");
         }
      
         // setTimeout(() => {
-        //   // dispatch(CompanyListURL(currentUser.token))
+        //   // dispatch(ProductForConsumerListURL(currentUser.token))
         //   history.push(({
         //     pathname: "/Cardcart",
 
@@ -324,6 +331,49 @@ const updateCart = (event, event1) => {
  
 }
 
+useEffect(()=>{
+  const categoryId = (localStorage.getItem('categoryId'));
+  console.log(categoryId,"bgdhhgfjghhfhgfhhg")
+  setCategoryID(categoryId)
+  // setItems(getcompanyId)
+},[ProductForConsumer])
+
+
+
+const searchfunction = (type, pages) => {
+  console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
+  if (type === "search") {
+    console.log(pages, type, "ghjkfgdfgssdvbnm")
+    setSearch(pages)
+    setPage(0)
+    dispatch(ProductForConsumerListURL(id,categoryID,0, pages, currentUser.token, limit))
+  }
+  if (type === "prev") {
+    setPage(page - 1)
+    dispatch(ProductForConsumerListURL(id,categoryID, page - 1, search, currentUser.token, limit))
+  }
+  else if (type === "next") {
+    setPage(page + 1)
+    dispatch(ProductForConsumerListURL(id,categoryID,page + 1, search, currentUser.token, limit))
+  }
+  else if (type === "page") {
+    setPage(page)
+    dispatch(ProductForConsumerListURL(id,categoryID,page, search, currentUser.token, limit))
+  }
+  else if (type === "page+1") {
+    setPage(page + 1)
+    dispatch(ProductForConsumerListURL(id,categoryID,page + 1, search, currentUser.token, limit))
+  }
+  else if (type === "page+2") {
+    setPage(page + 2)
+    dispatch(ProductForConsumerListURL(id,categoryID,page + 2, search, currentUser.token, limit))
+  }
+  else if (type === "limit") {
+    setLimit(pages)
+    setPage(0)
+    dispatch(ProductForConsumerListURL(id,categoryID,0, search, currentUser.token, pages))
+  }
+}
 
 
 
@@ -426,11 +476,23 @@ const updateCart = (event, event1) => {
                             ₹{item.price}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
+{/*                          
+                          <Col xs="6" sm="4" md="4" lg="4">
+                          <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                         </Col> */}
+                         
                           <Col xs="6" sm="4" md="4" lg="4">
                             {/* <NavLink  to="/"> */}
                             <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                            
-                           {
+{
+item.stock_quantity<=0?
+<Col style={{color:"red"}}>
+ Out of Stock 
+ </Col>
+ :
+ <div>
+ {
                             CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)!==undefined?
                           
                            
@@ -468,6 +530,11 @@ const updateCart = (event, event1) => {
                             </Button>
                            }
                            
+</div>
+}
+
+
+                          
                            
                            
                         
@@ -513,6 +580,9 @@ const updateCart = (event, event1) => {
                             </InputGroup> */}
                           </Col>
 
+
+                          
+                        
                         </Row>
 
                       </Card.Body>
@@ -563,20 +633,27 @@ const updateCart = (event, event1) => {
 
           {/* Pagination Start */}
           <div className="d-flex justify-content-center mt-5">
-            <Pagination>
-              <Pagination.Prev className="shadow" disabled>
-                <CsLineIcons icon="chevron-left" />
-              </Pagination.Prev>
-              <Pagination.Item className="shadow" active>
-                1
-              </Pagination.Item>
-              <Pagination.Item className="shadow">2</Pagination.Item>
-              <Pagination.Item className="shadow">3</Pagination.Item>
-              <Pagination.Next className="shadow">
-                <CsLineIcons icon="chevron-right" />
-              </Pagination.Next>
-            </Pagination>
-          </div>
+        <Pagination>
+          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
+            <CsLineIcons icon="chevron-left" />
+          </Pagination.Prev>
+          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+            {page + 1}
+          </Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+
+          {Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) > page + 3 &&
+            <>
+              <Pagination.Item className="shadow" >...</Pagination.Item>
+            </>
+
+          }
+          <Pagination.Next className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+            <CsLineIcons icon="chevron-right" />
+          </Pagination.Next>
+        </Pagination>
+      </div>
           {/* Pagination End */}
         </Col>
       </Row>

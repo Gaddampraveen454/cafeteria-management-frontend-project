@@ -8,6 +8,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
+import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
 import { ExportExcel } from 'Export';
 
@@ -16,6 +17,13 @@ const report = () => {
   const title = 'Report';
   const description = 'Ecommerce Report Page';
 
+
+
+  
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState('')
+  
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
   const checkItem = (item) => {
@@ -51,6 +59,9 @@ const report = () => {
   // useEffect(() => {
   //   dispatch(AdminReportListURL(currentUser.token))
   // }, [])
+  useEffect(() => {
+    dispatch(CompanyListURL(page, search, currentUser.token, limit))
+  }, [])
   useEffect(() => {
     if (selectValueState)
       dispatch(AdminReportListURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))

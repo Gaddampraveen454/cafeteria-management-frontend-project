@@ -82,13 +82,16 @@ const product = () => {
   const [price, setPrice] = useState("")
   const [quantity, setQuantity] = useState("")
 
-
+  const [stockQuantity,setStockQuantity]=useState("")
+  const [cgst, setCgst]=useState("")
+  const [sgst, setSgst]=useState("")
 
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState('');
   const [selectCompany, setSelectCompany] = useState('');
   const [productId, setProductId] = useState("")
   const [imageUrl, setimageUrl] = useState("")
+ 
   console.log(selectCompany && selectCompany.value,selectCategory && selectCategory.value, "selectCompanyselectCategory")
 
   const [suc, setSuc] = useState(false);
@@ -210,6 +213,9 @@ const product = () => {
     setQuantity(event.quantity)
     setProductId(event.uuid)
     setimageUrl(event.image_url)
+    setStockQuantity(event.stock_quantity)
+    setSgst(event.sgst_tax)
+    setCgst(event.cgst_tax)
 
   };
 
@@ -241,6 +247,9 @@ const product = () => {
         "price": price,
         "quantity": quantity,
         "company_uuid": selectCompany.value,
+        "stock_quantity" : stockQuantity,
+        "cgst_tax": cgst,
+        "sgst_tax": sgst,
       }
 
 
@@ -757,6 +766,37 @@ const product = () => {
                     disabled={eventType}
                   />
                 </Col>
+                <Col lg="6">
+                    <Form.Label>Stock Quantity</Form.Label>
+                    <Form.Control type="text"
+                     rows={1} 
+                     value={stockQuantity} 
+                     onChange={(e)=>{setStockQuantity(e.target.value)}}
+                     disabled={eventType}
+                     />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>C gst</Form.Label>
+                    <Form.Control type="text"
+                     rows={1} 
+                     value={cgst} 
+                     onChange={(e)=>{setCgst(e.target.value)}}
+                     disabled={eventType}
+                     />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>S gst</Form.Label>
+                    <Form.Control type="text" 
+                    rows={1} value={sgst} 
+                    onChange={(e)=>{setSgst(e.target.value)}}
+                    disabled={eventType}
+                    />
+                  </Col>
+
+
+
+
+
                 <Col lg="12">
                   {image ? null
 
