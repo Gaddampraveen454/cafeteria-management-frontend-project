@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CartListURL, deleteToCartURL, updateCartURL , ConsumerCartListURL} from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { CreateCheckOutURL,CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
-import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button,Form,InputGroup } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import Clamp from 'components/clamp/index';
 import { toast } from 'react-toastify';
@@ -218,6 +218,24 @@ const Cardcart = () => {
   // }, [checkoutnotification])
 
   const companyId = localStorage.getItem('companyId');
+
+
+
+
+  const updateCart = (event, event1) => {
+    console.log(event1,event,"jhjjgjhgjgjhg")
+  
+      const payload = {
+        "uuid" :event,
+        "quantity" : event1,
+      }
+      dispatch(updateCartURL(payload))
+      setSuc(true)
+     
+  
+ 
+   
+  }
  
   return (
     <>
@@ -240,6 +258,7 @@ const Cardcart = () => {
           <h2 className="small-title">Items</h2>
           <div className="mb-5">
             {CartData && CartData.data && CartData.data.map((item) => {
+              console.log(item,"item")
               return <>
                 <Card className="mb-2">
                   <Row className="g-0 sh-18 sh-md-14">
@@ -259,10 +278,46 @@ const Cardcart = () => {
                             </div>
                           </Col>
                           <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center" onClick={() => { updateQntevnt(item) }}>
-                            <ItemCounter 
+                            {/* <ItemCounter 
                             defVal={item.quantity} 
                             // value={item.quantity}
-                            data={updateQnt} />
+                            data={updateQnt} /> */}
+
+
+
+
+
+<InputGroup className="spinner sw-11">
+                              <InputGroup.Text id="basic-addon1">
+                                <button type="button" className="spin-down single px-2"
+                                  // onClick={updateCart(item)}
+                                  onClick={() => { updateCart(item.uuid, item.quantity-1) }}
+                                // disabled={btndisabl}
+                                >
+                                  -
+                                </button>
+                              </InputGroup.Text>
+                              <Form.Control
+                                value={item.quantity}
+                                // onInput={onInput}
+                                placeholder="Count"
+                                className="text-center"
+
+                              />
+                              <InputGroup.Text id="basic-addon2">
+                                <button type="button" className="spin-up single px-2"
+                                 onClick={() => { updateCart(item.uuid, item.quantity+1) }}
+                                  //  onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity+1:0) }}
+                                disabled={item.quantity===item.stock_quantity?true:""}
+                                >
+                                  +
+                                </button>
+                              </InputGroup.Text>
+                            </InputGroup>
+
+
+
+
                           </Col>
 
                           <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">

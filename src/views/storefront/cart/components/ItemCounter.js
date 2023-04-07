@@ -5,7 +5,7 @@ import { updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import axios from 'axios';
 
 const ItemCounter = ({ defVal = 0 , data}) => {
-  console.log(data,"dfsfassadadsad")
+  console.log(data &&  data.quantity,"dfsfassadadsad")
   const dispatch = useDispatch()
   const [value, setValue] = useState(parseInt(defVal, 10));
   const [btndisabl, setBtnDisabl]=useState(false)
@@ -74,7 +74,9 @@ useEffect(()=>{
       </InputGroup.Text>
       <Form.Control value={value} onInput={onInput} placeholder="Count" className="text-center" />
       <InputGroup.Text id="basic-addon2">
-        <button type="button" className="spin-up single px-2" onClick={spinUp}>
+        <button type="button" className="spin-up single px-2" onClick={spinUp}
+         disabled={data && data.stock_quantity===value?true:""}
+        >
           +
         </button>
       </InputGroup.Text>

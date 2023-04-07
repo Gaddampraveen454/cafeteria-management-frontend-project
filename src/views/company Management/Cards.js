@@ -51,7 +51,7 @@ const Menu = () => {
   const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
   const { width } = useWindowSize();
   const [isLgScreen, setIsLgScreen] = useState(false);
-  const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
+  const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(true);
   const [categoryID, setCategoryID] = useState("")
   const [suc, setSuc] = useState(false);
   const [value, setValue] = useState(0);
@@ -68,6 +68,7 @@ const Menu = () => {
 
   const previewStyle = {
     // height: 200,
+    
     width: 280
   };
 
@@ -77,6 +78,7 @@ const Menu = () => {
     console.log(result.data, "fsfsfsdfsdf")
     if (result) {
       setResult1(result.data);
+      // setIsOpenFiltersModal(true)
     }
   };
 
@@ -164,7 +166,7 @@ const Menu = () => {
 
 
   const addToCart = (event) => {
-    console.log(event, "jhjjgjhgjgjhg")
+    console.log(event.stock_quantity, "jhjjgjhgjgjhg")
 if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
   const payload = {
     "item_uuid": event.uuid,
@@ -486,12 +488,20 @@ const searchfunction = (type, pages) => {
                             <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                            
 {
-item.stock_quantity<=0?
+item.stock_quantity<=0  ?
 <Col style={{color:"red"}}>
  Out of Stock 
  </Col>
  :
  <div>
+ {item.stock_quantity<=5?
+  <Col style={{color:"red"}}>
+ Only {item.stock_quantity} Item Left
+ </Col>
+ :
+ null
+ }
+
  {
                             CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)!==undefined?
                           
@@ -516,6 +526,7 @@ item.stock_quantity<=0?
                               <InputGroup.Text id="basic-addon2">
                                 <button type="button" className="spin-up single px-2"
                                    onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity+1:0) }}
+                                disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid) && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity===item.stock_quantity?true:""}
                                 >
                                   +
                                 </button>
