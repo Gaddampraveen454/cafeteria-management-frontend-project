@@ -432,11 +432,20 @@ const Cardcart = () => {
                   </p>
                 </div>
                 <div className="mb-2">
-                  <p className="text-small text-muted mb-1">SALE</p>
+                  <p className="text-small text-muted mb-1">CGST(%)</p>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                              0
+                      {CartData.cgst_tax} 
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SGST(%)</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span>
+                      {CartData.sgst_tax} 
                     </span>
                   </p>
                 </div>

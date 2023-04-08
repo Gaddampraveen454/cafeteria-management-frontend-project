@@ -50,7 +50,7 @@ const Categories = () => {
 
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
-  const TotaleAmount = walletAmount>CartData.total_amount?CartData.total_amount:(CartData.total_amount - walletAmount) * 100
+  const TotaleAmount = walletAmount>CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax?CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax:(CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax - walletAmount) * 100
  
  
  console.log(TotaleAmount,"TotaleAmount")
@@ -122,7 +122,7 @@ console.log(currentUser,"currentUser")
         // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         //    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
         handler: (response) => {
-          console.log(response, "dgdghj")
+          console.log(response, "sdfsdfsfsdf")
           const payLoad = {
             "order_uuid": orderData && orderData.data && orderData.data.order_uuid,
             "transaction_uuid": orderData && orderData.data && orderData.data.transaction_id,
@@ -590,6 +590,22 @@ setSuc(false)
                   </p>
                 </div>
                 <div className="mb-2">
+                  <p className="text-small text-muted mb-1">CGST(%)</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span> {CartData.cgst_tax} 
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SGST(%)</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span>{CartData.sgst_tax} 
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
                   <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>
                     <span className="text-alternate">
@@ -601,7 +617,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount:CartData.total_amount}
+                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount:CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax}
                     </span>
                   </div>
                 </div>

@@ -250,11 +250,11 @@ useEffect(()=>{
                     <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>C gst</Form.Label>
+                    <Form.Label>CGST(%)</Form.Label>
                     <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}/>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>S gst</Form.Label>
+                    <Form.Label>SGST(%)</Form.Label>
                     <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}}/>
                   </Col>
 

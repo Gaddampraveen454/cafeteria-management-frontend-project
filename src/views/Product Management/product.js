@@ -554,8 +554,11 @@ const product = () => {
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Compnay</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
+            </Col>
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+              <div className="text-muted text-medium cursor-pointer sort">stock quantity</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Price</div>
@@ -593,8 +596,12 @@ const product = () => {
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.type}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.stock_quantity}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.price}</div>
@@ -776,7 +783,7 @@ const product = () => {
                      />
                   </Col>
                   <Col lg="6">
-                    <Form.Label>C gst</Form.Label>
+                    <Form.Label>CGST(%)</Form.Label>
                     <Form.Control type="text"
                      rows={1} 
                      value={cgst} 
@@ -785,7 +792,7 @@ const product = () => {
                      />
                   </Col>
                   <Col lg="6">
-                    <Form.Label>S gst</Form.Label>
+                    <Form.Label>SGST(%)</Form.Label>
                     <Form.Control type="text" 
                     rows={1} value={sgst} 
                     onChange={(e)=>{setSgst(e.target.value)}}
