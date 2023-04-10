@@ -418,7 +418,7 @@ const Cardcart = () => {
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                      {CartData.total_amount}
+                      {CartData.amount}
                     </span>
                   </p>
                 </div>

@@ -50,7 +50,7 @@ const Categories = () => {
 
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
-  const TotaleAmount = walletAmount>CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax?CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax:(CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax - walletAmount) * 100
+  const TotaleAmount = walletAmount>CartData.total_amount?CartData.total_amount:(CartData.total_amount - walletAmount) * 100
  
  
  console.log(TotaleAmount,"TotaleAmount")
@@ -577,7 +577,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">TOTAL</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>{CartData.total_amount}
+                      <span className="text-small text-muted">₹</span>{CartData.amount}
                     </span>
                   </p>
                 </div>
@@ -617,7 +617,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount:CartData.total_amount+CartData.cgst_tax+CartData.sgst_tax}
+                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount:CartData.total_amount}
                     </span>
                   </div>
                 </div>
