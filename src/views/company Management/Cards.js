@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
-import { CartListURL, addToCartURL,updateCartURL,deleteToCartURL,ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CartListURL, addToCartURL, updateCartURL, deleteToCartURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
@@ -41,9 +41,9 @@ const Menu = () => {
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
   const { id } = useParams();
-  console.log(id,"dsfsdfsdfsdf")
+  console.log(id, "dsfsdfsdfsdf")
 
-  
+
   const [cmpid, newid] = id.split("=")
   console.log(newid, "sdfsdsdfsdfsdfdsfsdf")
   console.log(window.location.pathname, "sdfsdfsdfsdfsdfsd")
@@ -58,7 +58,7 @@ const Menu = () => {
 
   const [open, setOpen] = React.useState(false);
   const [result1, setResult1] = useState();
-  
+
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
@@ -68,7 +68,7 @@ const Menu = () => {
 
   const previewStyle = {
     // height: 200,
-    
+
     width: 280
   };
 
@@ -114,15 +114,15 @@ const Menu = () => {
     getData()
   }, [])
   useEffect(() => {
-    if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
       dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
       setSuc(false)
-    }else if (ip){
-  //  if (ip)
-   dispatch(CartListURL(ip))
+    } else if (ip) {
+      //  if (ip)
+      dispatch(CartListURL(ip))
     }
 
- 
+
   }, [ip])
 
   useEffect(() => {
@@ -160,32 +160,31 @@ const Menu = () => {
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
-//   const dataa= ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
-//  console.log(dataa,'dataadfsdfsdf')
+  //   const dataa= ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
+  //  console.log(dataa,'dataadfsdfsdf')
 
 
 
   const addToCart = (event) => {
     console.log(event.stock_quantity, "jhjjgjhgjgjhg")
-if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
-  const payload = {
-    "item_uuid": event.uuid,
-    "quantity": 1,
-    "user_uuid" : currentUser && currentUser.data && currentUser.data.uuid
-  }
-  dispatch(addToCartURL(payload))
-  setSuc(true)
-}
-else
-{
-  const payload = {
-    "item_uuid": event.uuid,
-    "quantity": 1,
-    "ip_address": ip
-  }
-  dispatch(addToCartURL(payload))
-  setSuc(true)
-}
+    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+      const payload = {
+        "item_uuid": event.uuid,
+        "quantity": 1,
+        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid
+      }
+      dispatch(addToCartURL(payload))
+      setSuc(true)
+    }
+    else {
+      const payload = {
+        "item_uuid": event.uuid,
+        "quantity": 1,
+        "ip_address": ip
+      }
+      dispatch(addToCartURL(payload))
+      setSuc(true)
+    }
     // event.preventDefault()
     // const value = event.target.elements
     // const payload = {
@@ -201,25 +200,25 @@ else
 
   const check = CartData && CartData.data && CartData.data.every(({ uuid }) => uuid);
 
-console.log(check, "asdsdssasds");
+  console.log(check, "asdsdssasds");
 
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
         toast.success(
-          notification.message ,
+          notification.message,
           // "Successfully Added",
           {
-          position: "top-right",
-        })
-        if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+            position: "top-right",
+          })
+        if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
           dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
           setSuc(false)
-        }else{
+        } else {
           dispatch(CartListURL(ip))
           setSuc(false)
         }
-     
+
         // setTimeout(() => {
         //   // dispatch(ProductForConsumerListURL(currentUser.token))
         //   history.push(({
@@ -281,101 +280,101 @@ console.log(check, "asdsdssasds");
   const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
     return item.uuid
   })
-console.log(prod,"sdfsdfsdfsdfsdfdsf")
+  console.log(prod, "sdfsdfsdfsdfsdfdsf")
 
 
 
-const prodCart =  CartData && CartData.data && CartData.data.map((item) => {
-  return item.item_uuid
-})
-// console.log(prodCart[2],"sfgsdfsdfsfds")
+  const prodCart = CartData && CartData.data && CartData.data.map((item) => {
+    return item.item_uuid
+  })
+  // console.log(prodCart[2],"sfgsdfsdfsfds")
 
 
-// return prod.some(obj1 => {
-//   console.log(obj1,"asdasdasdas")
-// const obj2 = prodCart.find(o => o === obj1); 
-// console.log(obj2,"aasdasdasdasdasdasdasd")
-// return obj2  
-// });
+  // return prod.some(obj1 => {
+  //   console.log(obj1,"asdasdasdas")
+  // const obj2 = prodCart.find(o => o === obj1); 
+  // console.log(obj2,"aasdasdasdasdasdasdasd")
+  // return obj2  
+  // });
 
 
-// const updateCart = () => {
+  // const updateCart = () => {
 
-//   const payload = {
-//     "uuid" :data && data.uuid,
-//     "quantity" : value,
-//   } 
-//   dispatch(updateCartURL(payload))
-//   setSuc(true)
- 
-// }
-const updateCart = (event, event1) => {
-  console.log(event1,"jhjjgjhgjgjhg")
-  if(event1===0){
-    // toast.error(
-    //   // notification.message ,
-    //   "Minimum Quantity Should be 1",
-    //   {
-    //   position: "top-right",
-    // })
-    dispatch(deleteToCartURL(event.uuid))
-    setSuc(true)
-  }else{
-    const payload = {
-      "uuid" :event.uuid,
-      "quantity" : event1,
+  //   const payload = {
+  //     "uuid" :data && data.uuid,
+  //     "quantity" : value,
+  //   } 
+  //   dispatch(updateCartURL(payload))
+  //   setSuc(true)
+
+  // }
+  const updateCart = (event, event1) => {
+    console.log(event1, "jhjjgjhgjgjhg")
+    if (event1 === 0) {
+      // toast.error(
+      //   // notification.message ,
+      //   "Minimum Quantity Should be 1",
+      //   {
+      //   position: "top-right",
+      // })
+      dispatch(deleteToCartURL(event.uuid))
+      setSuc(true)
+    } else {
+      const payload = {
+        "uuid": event.uuid,
+        "quantity": event1,
+      }
+      dispatch(updateCartURL(payload))
+      setSuc(true)
+
+
     }
-    dispatch(updateCartURL(payload))
-    setSuc(true)
-   
 
   }
- 
-}
 
-useEffect(()=>{
-  const categoryId = (localStorage.getItem('categoryId'));
-  console.log(categoryId,"bgdhhgfjghhfhgfhhg")
-  setCategoryID(categoryId)
-  // setItems(getcompanyId)
-},[ProductForConsumer])
+  useEffect(() => {
+    const categoryId = (localStorage.getItem('categoryId'));
+    console.log(categoryId, "bgdhhgfjghhfhgfhhg")
+    setCategoryID(categoryId)
+    // setItems(getcompanyId)
+  }, [ProductForConsumer])
 
 
 
-const searchfunction = (type, pages) => {
-  console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
-  if (type === "search") {
-    console.log(pages, type, "ghjkfgdfgssdvbnm")
-    setSearch(pages)
-    setPage(0)
-    dispatch(ProductForConsumerListURL(id,categoryID,0, pages, currentUser.token, limit))
+  const searchfunction = (type, pages) => {
+    console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
+    if (type === "search") {
+      console.log(pages, type, "ghjkfgdfgssdvbnm")
+      setSearch(pages)
+      setPage(0)
+      dispatch(ProductForConsumerListURL(id, categoryID, 0, pages, currentUser.token, limit))
+    }
+    if (type === "prev") {
+      setPage(page - 1)
+      dispatch(ProductForConsumerListURL(id, categoryID, page - 1, search, currentUser.token, limit))
+    }
+    else if (type === "next") {
+      setPage(page + 1)
+      dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+    }
+    else if (type === "page") {
+      setPage(page)
+      dispatch(ProductForConsumerListURL(id, categoryID, page, search, currentUser.token, limit))
+    }
+    else if (type === "page+1") {
+      setPage(page + 1)
+      dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+    }
+    else if (type === "page+2") {
+      setPage(page + 2)
+      dispatch(ProductForConsumerListURL(id, categoryID, page + 2, search, currentUser.token, limit))
+    }
+    else if (type === "limit") {
+      setLimit(pages)
+      setPage(0)
+      dispatch(ProductForConsumerListURL(id, categoryID, 0, search, currentUser.token, pages))
+    }
   }
-  if (type === "prev") {
-    setPage(page - 1)
-    dispatch(ProductForConsumerListURL(id,categoryID, page - 1, search, currentUser.token, limit))
-  }
-  else if (type === "next") {
-    setPage(page + 1)
-    dispatch(ProductForConsumerListURL(id,categoryID,page + 1, search, currentUser.token, limit))
-  }
-  else if (type === "page") {
-    setPage(page)
-    dispatch(ProductForConsumerListURL(id,categoryID,page, search, currentUser.token, limit))
-  }
-  else if (type === "page+1") {
-    setPage(page + 1)
-    dispatch(ProductForConsumerListURL(id,categoryID,page + 1, search, currentUser.token, limit))
-  }
-  else if (type === "page+2") {
-    setPage(page + 2)
-    dispatch(ProductForConsumerListURL(id,categoryID,page + 2, search, currentUser.token, limit))
-  }
-  else if (type === "limit") {
-    setLimit(pages)
-    setPage(0)
-    dispatch(ProductForConsumerListURL(id,categoryID,0, search, currentUser.token, pages))
-  }
-}
 
 
 
@@ -411,7 +410,7 @@ const searchfunction = (type, pages) => {
             <NavLink to="/Cardcart">
               <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="cart" />
-                <span> Cart {CartData && CartData.count!==0 ? CartData.count :null}</span>
+                <span> Cart {CartData && CartData.count !== 0 ? CartData.count : null}</span>
               </Button>
             </NavLink>&nbsp;&nbsp;
             {/* <Dropdown xs="4"  className="ms-1 w-100 w-md-auto" align="end">
@@ -462,7 +461,7 @@ const searchfunction = (type, pages) => {
               {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
                 console.log(item, "sfsdfdsfsdfsdf")
                 return <>
-               
+
                   <Col xs="12" md="6" lg="6" xl="6">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
@@ -478,77 +477,71 @@ const searchfunction = (type, pages) => {
                             ₹{item.price}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
-{/*                          
+                          {/*                          
                           <Col xs="6" sm="4" md="4" lg="4">
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
-                         
+
                           <Col xs="6" sm="4" md="4" lg="4">
                             {/* <NavLink  to="/"> */}
                             <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                           
-{
-item.stock_quantity<=0  ?
-<Col style={{color:"red"}}>
- Out of Stock 
- </Col>
- :
- <div>
- {item.stock_quantity<=5?
-  <Col style={{color:"red"}}>
- Only {item.stock_quantity} Item Left
- </Col>
- :
- null
- }
 
- {
-                            CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)!==undefined?
-                          
-                           
-                            <InputGroup className="spinner sw-11">
-                              <InputGroup.Text id="basic-addon1">
-                                <button type="button" className="spin-down single px-2"
-                                  // onClick={updateCart(item)}
-                                  onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity-1:0) }}
-                                // disabled={btndisabl}
-                                >
-                                  -
-                                </button>
-                              </InputGroup.Text>
-                              <Form.Control
-                                value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity:0}
-                                onInput={onInput}
-                                placeholder="Count"
-                                className="text-center"
+                            {
+                              item.stock_quantity <= 0 ?
+                                <Col style={{ color: "red" }}>
+                                  Out of Stock
+                                </Col>
+                                :
+                                <div>
+                                  {item.stock_quantity <= 5 ?
+                                    <Col style={{ color: "red" }}>
+                                      Only {item.stock_quantity} Item Left
+                                    </Col>
+                                    :
+                                    null
+                                  }
 
-                              />
-                              <InputGroup.Text id="basic-addon2">
-                                <button type="button" className="spin-up single px-2"
-                                   onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity+1:0) }}
-                                disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid) && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity===item.stock_quantity?true:""}
-                                >
-                                  +
-                                </button>
-                              </InputGroup.Text>
-                            </InputGroup>
-                            :
-                            <Button variant="outline-primary"
-                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                              onClick={() => { addToCart(item) }}
-                            >
-                              <CsLineIcons icon="plus" /><span>Add</span>
-                            </Button>
-                           }
-                           
-</div>
-}
+                                  {
+                                    CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
 
 
-                          
-                           
-                           
-                        
+                                      <InputGroup className="spinner sw-11">
+                                        <InputGroup.Text id="basic-addon1">
+                                          <button type="button" className="spin-down single px-2"
+                                            // onClick={updateCart(item)}
+                                            onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                          // disabled={btndisabl}
+                                          >
+                                            -
+                                          </button>
+                                        </InputGroup.Text>
+                                        <Form.Control
+                                          value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
+                                          onInput={onInput}
+                                          placeholder="Count"
+                                          className="text-center"
+
+                                        />
+                                        <InputGroup.Text id="basic-addon2">
+                                          <button type="button" className="spin-up single px-2"
+                                            onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                                            disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
+                                          >
+                                            +
+                                          </button>
+                                        </InputGroup.Text>
+                                      </InputGroup>
+                                      :
+                                      <Button variant="outline-primary"
+                                        className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                        onClick={() => { addToCart(item) }}
+                                      >
+                                        <CsLineIcons icon="plus" /><span>Add</span>
+                                      </Button>
+                                  }
+
+                                </div>
+                            }
 
 
 
@@ -556,12 +549,18 @@ item.stock_quantity<=0  ?
 
 
 
-{
-  console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity:"0","dfsfsdf")
 
-}
- 
-                          
+
+
+
+
+
+                            {
+                              console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
+
+                            }
+
+
 
 
                             {/* <InputGroup className="spinner sw-11">
@@ -592,8 +591,8 @@ item.stock_quantity<=0  ?
                           </Col>
 
 
-                          
-                        
+
+
                         </Row>
 
                       </Card.Body>
@@ -644,27 +643,27 @@ item.stock_quantity<=0  ?
 
           {/* Pagination Start */}
           <div className="d-flex justify-content-center mt-5">
-        <Pagination>
-          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
-            <CsLineIcons icon="chevron-left" />
-          </Pagination.Prev>
-          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
-            {page + 1}
-          </Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+            <Pagination>
+              <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
+                <CsLineIcons icon="chevron-left" />
+              </Pagination.Prev>
+              <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+                {page + 1}
+              </Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-          {Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) > page + 3 &&
-            <>
-              <Pagination.Item className="shadow" >...</Pagination.Item>
-            </>
+              {Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) > page + 3 &&
+                <>
+                  <Pagination.Item className="shadow" >...</Pagination.Item>
+                </>
 
-          }
-          <Pagination.Next className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
-            <CsLineIcons icon="chevron-right" />
-          </Pagination.Next>
-        </Pagination>
-      </div>
+              }
+              <Pagination.Next className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                <CsLineIcons icon="chevron-right" />
+              </Pagination.Next>
+            </Pagination>
+          </div>
           {/* Pagination End */}
         </Col>
       </Row>

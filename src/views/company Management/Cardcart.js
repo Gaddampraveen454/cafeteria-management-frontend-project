@@ -284,7 +284,13 @@ const Cardcart = () => {
                             data={updateQnt} /> */}
 
 
-
+                            {item.stock_quantity <= 5 ?
+                                    <Col style={{ color: "red" }}>
+                                      Only {item.stock_quantity} Item Left
+                                    </Col>
+                                    :
+                                    null
+                                  }
 
 
 <InputGroup className="spinner sw-11">
@@ -293,6 +299,7 @@ const Cardcart = () => {
                                   // onClick={updateCart(item)}
                                   onClick={() => { updateCart(item.uuid, item.quantity-1) }}
                                 // disabled={btndisabl}
+                                disabled={item.quantity===1?true:""}
                                 >
                                   -
                                 </button>
