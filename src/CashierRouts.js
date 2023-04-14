@@ -20,6 +20,7 @@ const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views cashier/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
+const CashierMenu = lazy(() => import('views cashier/CreateOrder/MenuForCahier'));
 
 
 
@@ -123,12 +124,12 @@ const cashierRoutesAndMenuItems = {
       label: 'Product Management',
       icon: 'web-page',
     },
-    // {
-    //   path: `${appRoot}/addproduct`,
-    //   component: addproduct,
-    //   // label: 'Product Management',
-    //   // icon: 'user',
-    // },
+    {
+      path: `${appRoot}/cashierMenu`,
+      component: CashierMenu,
+      label: 'Create Order',
+      icon: 'user',
+    },
     {
       path: `${appRoot}/orders`,
       component: NICorders,
