@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
+import Cart from './Cart';
 
 
 
@@ -411,8 +412,8 @@ const MenuForCashier = () => {
               <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="cart" />
                 <span> Cart
-                 {/* {CartData && CartData.count !== 0 ? CartData.count : null} */}
-                 </span>
+                  {/* {CartData && CartData.count !== 0 ? CartData.count : null} */}
+                </span>
               </Button>
             </NavLink>&nbsp;&nbsp;
             {/* <Dropdown xs="4"  className="ms-1 w-100 w-md-auto" align="end">
@@ -443,11 +444,14 @@ const MenuForCashier = () => {
         {isLgScreen && (
           <Col lg="3" xl="3" className="d-none d-lg-block">
             {/* Filters Start */}
-            <Card style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }} className="mb-5">
+            <Card 
+            // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
+             className="mb-5">
               <Card.Body>
                 <Cardsdetails />
               </Card.Body>
             </Card>
+            <Cart/>
             {/* Filters End */}
           </Col>
         )}
@@ -699,6 +703,7 @@ const MenuForCashier = () => {
               />
             </Modal.Body>
           </Modal>
+
         </>
       )}
       {/* Filters Modal End */}

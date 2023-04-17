@@ -14,11 +14,14 @@ const Footer = () => {
       <div className="footer-content">
         <Container>
           <Row>
-            <Col xs="12" sm="6">
-              <p className="mb-0 text-muted text-medium">Colored Strategies 2021</p>
+            <Col xs="12" sm="4" align="center">
+              <p className="mb-0 text-muted text-medium">Developed & Maintained <br/> By 
+              <br/> Sciens Technologies</p>
             </Col>
-            <Col sm="6" className="d-none d-sm-block">
-              <Breadcrumb className="pt-0 pe-0 mb-0 float-end">
+
+            <Col xs="12" sm="4" className="d-none d-sm-block " align="center">
+            <p className="mb-0 text-muted text-medium center">© 2023 All Rights Reserved </p>
+              {/* <Breadcrumb className="pt-0 pe-0 mb-0 float-end">
                 <Breadcrumb.Item className="mb-0 text-medium" href="#/" linkProps={{ className: 'btn-link' }}>
                   Review
                 </Breadcrumb.Item>
@@ -28,7 +31,11 @@ const Footer = () => {
                 <Breadcrumb.Item className="mb-0 text-medium" href="#/" linkProps={{ className: 'btn-link' }}>
                   Docs
                 </Breadcrumb.Item>
-              </Breadcrumb>
+              </Breadcrumb> */}
+            </Col>
+            <Col xs="12" sm="4" className="d-none d-sm-block" align="center">
+            <p className="mb-0 text-muted text-medium">Branded & Market <br/> By <br/> Zeonova Tech</p>
+            
             </Col>
           </Row>
         </Container>
