@@ -61,7 +61,7 @@ if(categoryForConsumer){
   useEffect(() => {
     // if (category===!""){
       if(category){
-        dispatch(ProductForConsumerListURL(companyId,category,0))
+        dispatch(ProductForConsumerListURL(companyId,category,0,""))
       
       }
 
