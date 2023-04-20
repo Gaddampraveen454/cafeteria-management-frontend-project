@@ -485,7 +485,7 @@ const product = () => {
       </div>
 
       <Row className="mb-3">
-        <Col md="5" lg="3" xxl="2" className="mb-1">
+         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           {/* <Form.Label/> */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">

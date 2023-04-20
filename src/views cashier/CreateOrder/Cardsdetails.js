@@ -62,7 +62,7 @@ if(categoryForConsumer){
   useEffect(() => {
     // if (category===!""){
       if(category){
-        dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0))
+        dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0,""))
       
       }
 

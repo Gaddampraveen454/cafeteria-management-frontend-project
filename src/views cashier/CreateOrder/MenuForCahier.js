@@ -24,9 +24,11 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import Select from 'react-select';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from './Cart';
+
 
 
 
@@ -40,6 +42,7 @@ const MenuForCashier = () => {
   const dispatch = useDispatch()
   const history = useHistory();
   const title = 'Menu';
+  const title1 = 'Cart list';
   const description = 'Ecommerce Storefront Filters Page';
   const { id } = useParams();
   console.log(id, "dsfsdfsdfsdf")
@@ -63,6 +66,9 @@ const MenuForCashier = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
+  const [amount, setAmount]= useState("")
+  const [message, setMessage]=useState("")
+  const [category, setCategory]=useState("")
 
   // const [data, setData] = useState('No result');
   const delay = 500;
@@ -73,58 +79,35 @@ const MenuForCashier = () => {
     width: 280
   };
 
+
+
+
+  const [items, setItems] = useState([]);
+
+  const [name, setName] = useState('');
+  const [Quantity, setQuantity] = useState('');
+  const [selectPaymentType, setSelectPaymentType] = useState("");
+  const optionsPayment = [
+    { value: 'CASH', label: 'Cash ' },
+    { value: 'UPI', label: 'UPI' },
+    { value: 'CREDIT_CARD', label: 'Credit Card' },
+    { value: 'DEBID_CARD', label: 'Debit Card' }
+   
+  ];
+
+
+
+
+
   const { currentUser } = useSelector((state) => state.auth)
 
-  const handleScan = (result) => {
-    console.log(result.data, "fsfsfsdfsdf")
-    if (result) {
-      setResult1(result.data);
-      // setIsOpenFiltersModal(true)
-    }
-  };
-
-  const handleError = (error) => {
-    console.log(error);
-  };
-  useEffect(() => {
-    if (result1) {
-      const [url, compnayId] = result1.split("menu/")
-      history.push(({
-        pathname: `/menu/${compnayId}`,
-
-      }));
-      window.location.reload();
-      // <Redirect to="/somewhere/else" />
-    }
-
-  }, [result1])
 
 
 
 
 
-  const [ip, setIP] = useState('');
-  console.log(ip, "dsfsdfdsfdsfsd")
-  const getData = async () => {
-    const res = await axios.get('https://ipapi.co/json/')
-    console.log(res.data);
-    setIP(res.data.ip)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
-  useEffect(() => {
-    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
-      setSuc(false)
-    } else if (ip) {
-      //  if (ip)
-      dispatch(CartListURL(ip))
-    }
 
 
-  }, [ip])
 
   useEffect(() => {
     if (width) {
@@ -156,52 +139,16 @@ const MenuForCashier = () => {
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
   const { CartData, notification } = useSelector((state) => state.CartList)
-  // const { currentUser } = useSelector((state) => state.auth)
+
   console.log(currentUser, "currentUser")
 
-  const { IpAddressData } = useSelector((state) => state.IpAddressList);
-
-  //   const dataa= ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
-  //  console.log(dataa,'dataadfsdfsdf')
 
 
 
-  const addToCart = (event) => {
-    console.log(event.stock_quantity, "jhjjgjhgjgjhg")
-    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-      const payload = {
-        "item_uuid": event.uuid,
-        "quantity": 1,
-        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid
-      }
-      dispatch(addToCartURL(payload))
-      setSuc(true)
-    }
-    else {
-      const payload = {
-        "item_uuid": event.uuid,
-        "quantity": 1,
-        "ip_address": ip
-      }
-      dispatch(addToCartURL(payload))
-      setSuc(true)
-    }
-    // event.preventDefault()
-    // const value = event.target.elements
-    // const payload = {
-    //   "item_uuid": event.uuid,
-    //   "quantity": 1,
-    //   "ip_address": ip
-    // }
-    // dispatch(addToCartURL(payload))
-    // setSuc(true)
-    // dispatch(ProductForConsumerListURL(currentUser.token))
-  }
+
+ 
 
 
-  const check = CartData && CartData.data && CartData.data.every(({ uuid }) => uuid);
-
-  console.log(check, "asdsdssasds");
 
   useEffect(() => {
     if (suc === true) {
@@ -213,20 +160,14 @@ const MenuForCashier = () => {
             position: "top-right",
           })
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-          dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+          // dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
           setSuc(false)
         } else {
-          dispatch(CartListURL(ip))
+          // dispatch(CartListURL(ip))
           setSuc(false)
         }
 
-        // setTimeout(() => {
-        //   // dispatch(ProductForConsumerListURL(currentUser.token))
-        //   history.push(({
-        //     pathname: "/Cardcart",
-
-        //   }));
-        // }, 1000)
+      
 
       }
       else if (notification.status === false) {
@@ -236,6 +177,8 @@ const MenuForCashier = () => {
     }
 
   }, [notification])
+
+
   console.log(notification, "ProductDataProductData")
 
   const handleModel = () => {
@@ -252,10 +195,6 @@ const MenuForCashier = () => {
 
 
 
-  // useEffect(()=>{
-  //   dispatch(categoryForConsumerListURL())
-
-  // },[])
 
 
   const onInput = (event) => {
@@ -288,58 +227,22 @@ const MenuForCashier = () => {
   const prodCart = CartData && CartData.data && CartData.data.map((item) => {
     return item.item_uuid
   })
-  // console.log(prodCart[2],"sfgsdfsdfsfds")
 
 
-  // return prod.some(obj1 => {
-  //   console.log(obj1,"asdasdasdas")
-  // const obj2 = prodCart.find(o => o === obj1); 
-  // console.log(obj2,"aasdasdasdasdasdasdasd")
-  // return obj2  
-  // });
 
 
-  // const updateCart = () => {
-
-  //   const payload = {
-  //     "uuid" :data && data.uuid,
-  //     "quantity" : value,
-  //   } 
-  //   dispatch(updateCartURL(payload))
-  //   setSuc(true)
-
-  // }
-  const updateCart = (event, event1) => {
-    console.log(event1, "jhjjgjhgjgjhg")
-    if (event1 === 0) {
-      // toast.error(
-      //   // notification.message ,
-      //   "Minimum Quantity Should be 1",
-      //   {
-      //   position: "top-right",
-      // })
-      dispatch(deleteToCartURL(event.uuid))
-      setSuc(true)
-    } else {
-      const payload = {
-        "uuid": event.uuid,
-        "quantity": event1,
-      }
-      dispatch(updateCartURL(payload))
-      setSuc(true)
 
 
-    }
+  useEffect(()=>{
+    dispatch(categoryForConsumerListURL(currentUser.data.company_uuid))
+   
+  },[])
 
-  }
-
-  useEffect(() => {
-    const categoryId = (localStorage.getItem('categoryId'));
-    console.log(categoryId, "bgdhhgfjghhfhgfhhg")
-    setCategoryID(categoryId)
-    // setItems(getcompanyId)
-  }, [ProductForConsumer])
-
+  useEffect(()=>{
+if(categoryForConsumer){
+  setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
+}
+  },[categoryForConsumer])
 
 
   const searchfunction = (type, pages) => {
@@ -348,34 +251,219 @@ const MenuForCashier = () => {
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(id, categoryID, 0, pages, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, 0, pages, currentUser.token, limit))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductForConsumerListURL(id, categoryID, page - 1, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page - 1, search, currentUser.token, limit))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page + 1, search, currentUser.token, limit))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductForConsumerListURL(id, categoryID, page, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page, search, currentUser.token, limit))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page + 1, search, currentUser.token, limit))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductForConsumerListURL(id, categoryID, page + 2, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page + 2, search, currentUser.token, limit))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(id, categoryID, 0, search, currentUser.token, pages))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, 0, search, currentUser.token, pages))
     }
   }
+
+  const addToCart = (event) => {
+    console.log(event, "fsdfcvbcvbsdfsdfs")
+    const newItem = {
+      // id: items.length + 1,
+      item_uuid: event.uuid,
+      item_name: event.name,
+      quantity: event.quantity
+    };
+    setItems([...items, newItem]);
+    setName('');
+    setQuantity('');
+   
+    console.log(event.stock_quantity, "jhjjgjhgjgjhg")
+
+  }
+
+
+
+  console.log(items, "items")
+
+
+
+  const deleteItem = (id1) => {
+    console.log(id1,"sdfdfdsfds")
+    const filteredItems = items.filter(item => item.item_uuid !== id1);
+    setItems(filteredItems);
+  };
+
+
+
+  const IncrimentItem = (event , qnt) => {
+    console.log(event,"adsdsadasdasd")
+    const arr = []
+items.map((check) => {
+  if(check.item_uuid === event.uuid){
+arr.push({
+  item_name
+: 
+event.name,
+item_uuid
+: 
+// "PROD-1478CF5C",
+event.uuid,
+quantity
+: 
+check.quantity+1
+})
+  }
+  else {
+    arr.push(check)
+  }
+  setItems(arr)
+  return items;
+})
+    // setItems([...items, newItem]);
+    // const selectedItem = items.find(item => item.id === event.item_uuid);
+    // setName(selectedItem.name);
+    // setQuantity(selectedItem.value1);
+    // deleteItem(id1);
+  };
+
+  const decrimentItem = (event , qnt) => {
+    console.log(event,"adsdsadasdasd")
+    const arr = []
+items.map((check) => {
+  if(check.item_uuid === event.uuid){
+arr.push({
+  item_name
+: 
+event.name,
+item_uuid
+: 
+// "PROD-1478CF5C",
+event.uuid,
+quantity
+: 
+check.quantity-1
+})
+  }
+  else {
+    arr.push(check)
+  }
+  setItems(arr)
+  return items;
+})
+    // setItems([...items, newItem]);
+    // const selectedItem = items.find(item => item.id === event.item_uuid);
+    // setName(selectedItem.name);
+    // setQuantity(selectedItem.value1);
+    // deleteItem(id1);
+  };
+
+  const updateItem = () => {
+    const updatedItems = items.map(item => {
+      if (item.name === name && item.value === value) {
+        return item;
+      }
+      return {
+        ...item,
+        name,
+        value
+      }
+    });
+    setItems(updatedItems);
+    setName('');
+    setQuantity('');
+  };
+
+
+
+
+  const submitOrder = async (event) => {
+    
+      // event.preventDefault()
+
+      const payload = {
+        "company_uuid": currentUser.data.company_uuid,
+        "item" : items
+      }
+      
+      axios.post(`${process.env.REACT_APP_URL}/order/cashier/calculation`, payload,
+        {
+          headers: {
+            "x-auth-token": currentUser.token
+          }
+        })
+        .then((respons) => {
+          console.log(respons.data, "fffgdsfsdfdsf")
+          setAmount(respons.data)
+    
+    
+        })
+        .catch((err) => {
+          console.log(err.response.data.message,"zasdsadasd")
+         
+       
+
+
+        })
+
+
+
+
+  }
+
+useEffect(()=>{
+  submitOrder()
+},[items])
+
+const submitOrderPlased = async (event) => {
+  
+    event.preventDefault()
+    
+    const payload = {
+      "payment_type" : selectPaymentType.value,
+      "company_uuid": currentUser.data.company_uuid,
+      "item" : items
+    }
+    
+    axios.post(`${process.env.REACT_APP_URL}/order/cashier/create`, payload,
+      {
+        headers: {
+          "x-auth-token": currentUser.token
+        }
+      })
+      .then((respons) => {
+        console.log(respons.data.message, "fffgdsfsdfdsf")
+        setMessage(respons.data.message)
+
+       setOpen(true)
+  
+      })
+      .catch((err) => {
+        console.log(err.response.data,"zasdsadasd")
+        toast.error(err.response.data)
+        setSuc(false)
+
+      })
+
+
+
+}
+
+
 
 
 
@@ -396,65 +484,193 @@ const MenuForCashier = () => {
             </h1>
           </Col>
           {/* Title End */}
+          {/* <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" /> */}
 
-
-
-
-          {/* Top Buttons Start */}
-
-          <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            {/* <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-              onClick={() => setOpen(true)}>
-              <CsLineIcons icon="scanner" /><span>Scan QR Code</span>
-            </Button> */}
-            &nbsp;&nbsp;
-            <NavLink to="#">
-              <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                <CsLineIcons icon="cart" />
-                <span> Cart
-                  {/* {CartData && CartData.count !== 0 ? CartData.count : null} */}
-                </span>
-              </Button>
-            </NavLink>&nbsp;&nbsp;
-            {/* <Dropdown xs="4"  className="ms-1 w-100 w-md-auto" align="end">
-              <Dropdown.Toggle variant="outline-primary" className="w-100 w-md-auto">
-                Order: Default
-              </Dropdown.Toggle>
-              <Dropdown.Menu align="end" className="w-100 w-md-auto">
-                <Dropdown.Item>Default</Dropdown.Item>
-                <Dropdown.Item>Price Asc</Dropdown.Item>
-                <Dropdown.Item>Price Desc</Dropdown.Item>
-                <Dropdown.Item>Rating</Dropdown.Item>
-                <Dropdown.Item>Newest</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> */}
-
-          </Col>
-          {/* <Col 
+          <Row className="mb-3">
+         <Col md="5" lg="3" xxl="2" className="mb-1">
+          {/* Search Start */}
+          {/* <Form.Label/> */}
+          <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
          
-          >
-           
-          </Col> */}
-          {/* Top Buttons End */}
+            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+            <span className="search-magnifier-icon">
+              <CsLineIcons icon="search" />
+            </span>
+            <span className="search-delete-icon d-none">
+              <CsLineIcons icon="close" />
+            </span>
+          </div>
+          {/* Search End */}
+        </Col>
+
+    
+        {/* <Col lg="3">
+          <Form.Label>Category</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={productList}
+            value={categoryId}
+            onChange={setCategoryId}
+            placeholder="Select Category"
+            // disabled={eventType}
+          />
+        </Col> */}
+        <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
+         
+          {/* Length Start */}
+         
+          {/* Length End */}
+        </Col>
+      </Row>
+
+
+     
+
+        
+       
         </Row>
       </div>
       {/* Title End */}
-
+      
       <Row>
         {isLgScreen && (
           <Col lg="3" xl="3" className="d-none d-lg-block">
             {/* Filters Start */}
-            <Card 
-            // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
-             className="mb-5">
+            <Card
+              // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
+              className="mb-5">
               <Card.Body>
                 <Cardsdetails />
               </Card.Body>
             </Card>
-            <Cart/>
+            {/* <Cart 
+              item={items}
+            /> */}
             {/* Filters End */}
+            
+
+
+
+             <div className="page-title-container">
+        <Row className="g-0">
+          {/* Title Start */}
+          <Col className="col-auto mb-3 mb-sm-0 me-auto">
+            {/* <CsLineIcons icon="chevron-left" size="20" /> */}
+            <h1 className="mb-0 pb-0 display-4" id="title">
+              {title1}
+            </h1>
+          </Col>
+          {/* Title End */}
+
+
+
+
+
+      
+        </Row>
+      </div>
+            {items && items.map((item) => {
+              console.log(item, "itemcxxxvxcvxcv")
+              return <>
+              <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+            <Row className="g-0 h-100 sh-lg-9 position-relative">
+
+              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                <Row className="g-0 h-100 ">
+
+                  <Col lg="10" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.item_name}</div>
+                    
+                  </Col>
+                  
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.quantity}</div>
+                  </Col>
+
+                  
+                  <Button size="sm"
+                          className="btn-icon btn-icon-only position-absolute t-2 e-2"
+                          variant="foreground-alternate"
+                        // onClick={() => { deleteToCart(item) }}
+                        onClick={() => deleteItem(item.item_uuid)}
+                        >
+                          <CsLineIcons icon="error-hexagon" />
+                        </Button>
+                </Row>
+              </Col>
+            </Row>
+          </Card>
+             
+              </>
+
+            })}
+     
+
+
+
+
+
+          <Col xs="12" md="12" lg="12" xl="12">
+                    <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                      <Card.Body className="pb-3">
+                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                        <Row >
+                          {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                          <Col xs="8" sm="8" md="8" lg="8">
+                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                              <Clamp tag="span" clamp="2">
+                              Total Amount
+                              </Clamp>
+                            </NavLink>
+                          
+                          </Col>
+                          <Col xs="4" sm="4" md="4" lg="4">
+                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                              <Clamp tag="span" clamp="2">
+                              ₹{amount.total_amount}
+                              </Clamp>
+                            </NavLink>
+                            
+                          </Col>
+                          
+                          <Col xs="12" sm="12" md="12" lg="12">
+                      
+                          <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
+
+
+
+
+
+
+
+
+                           
+                          </Col>
+                          <br/>
+                          <br/>
+                          <Col xs="12" sm="12" md="12" lg="12">
+                          <Button className="btn-icon btn-icon-end w-100" variant="primary" 
+                  onClick={submitOrderPlased}
+                  >
+
+                <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
+              </Button>
+
+</Col>
+
+
+                        </Row>
+
+                      </Card.Body>
+                    </Card>
+                 
+                  </Col>
+
           </Col>
         )}
+
+
+
+
 
         <Col style={{ position: "sticky" }} lg="9" xl="9">
 
@@ -468,7 +684,7 @@ const MenuForCashier = () => {
                 console.log(item, "sfsdfdsfsdfsdf")
                 return <>
 
-                  <Col xs="12" md="6" lg="6" xl="6">
+                  <Col xs="12" md="4" lg="4" xl="4">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
                         {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
@@ -490,8 +706,8 @@ const MenuForCashier = () => {
 
                           <Col xs="6" sm="4" md="4" lg="4">
                             {/* <NavLink  to="/"> */}
-                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                            {/* <div>
+                            {/* <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
+                            <div>
                               {
                                 item.stock_quantity <= 0 ?
                                   <Col style={{ color: "red" }}>
@@ -508,21 +724,24 @@ const MenuForCashier = () => {
                                     }
 
                                     {
-                                      CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
+                                    items && items.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
 
 
                                         <InputGroup className="spinner sw-11">
                                           <InputGroup.Text id="basic-addon1">
                                             <button type="button" className="spin-down single px-2"
-                                              // onClick={updateCart(item)}
-                                              onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                            onClick={() => { decrimentItem(item, item.quantity-1) }}
+                                            // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
                                             // disabled={btndisabl}
+
+                                            disabled={items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity===1 ? true : ""}
+
                                             >
                                               -
                                             </button>
                                           </InputGroup.Text>
                                           <Form.Control
-                                            value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
+                                            value={ items &&  items.find(data1 => data1.item_uuid === item.uuid) ?  items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
                                             onInput={onInput}
                                             placeholder="Count"
                                             className="text-center"
@@ -530,8 +749,10 @@ const MenuForCashier = () => {
                                           />
                                           <InputGroup.Text id="basic-addon2">
                                             <button type="button" className="spin-up single px-2"
-                                              onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
-                                              disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
+                                              // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                                              // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
+                                              // onClick={() => { editItem(item) }}
+                                              onClick={() => { IncrimentItem(item, item.quantity+1) }}
                                             >
                                               +
                                             </button>
@@ -554,7 +775,7 @@ const MenuForCashier = () => {
 
 
 
-                            </div> */}
+                            </div>
 
 
 
@@ -711,25 +932,41 @@ const MenuForCashier = () => {
 
       {/* edit view popup start */}
       {/* <div> */}
-      {/* <Dialog
+      <Dialog
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{padding:"30px"}}
 
       >
 
       
         <DialogContent style={{ width: "100%", height: "100%" }}>
-          <QrReader
+          {/* <QrReader
             delay={delay}
             style={previewStyle}
             onError={handleError}
             onScan={handleScan}
-          />
+          /> */}
+  {message}
+  <br/>
+  <br/>
+  {/* <Button styele={{ width: "100%"}} onClick={() => setOpen(false)}>Close</Button> */}
+
+
+  <Col lg="12" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Button className="btn-icon btn-icon-end w-100" variant="primary" 
+                 onClick={() => setOpen(false)}
+                  >
+                <span>Close</span> <CsLineIcons icon="chevron-right" />
+              </Button>
+     </Col>
         </DialogContent>
-        <p>{result1}</p>
-      </Dialog> */}
+  
+
+        
+      </Dialog>
       {/* </div> */}
     </>
   );
