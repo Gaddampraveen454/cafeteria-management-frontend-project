@@ -66,9 +66,9 @@ const MenuForCashier = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
-  const [amount, setAmount]= useState("")
-  const [message, setMessage]=useState("")
-  const [category, setCategory]=useState("")
+  const [amount, setAmount] = useState("")
+  const [message, setMessage] = useState("")
+  const [category, setCategory] = useState("")
 
   // const [data, setData] = useState('No result');
   const delay = 500;
@@ -92,7 +92,7 @@ const MenuForCashier = () => {
     { value: 'UPI', label: 'UPI' },
     { value: 'CREDIT_CARD', label: 'Credit Card' },
     { value: 'DEBID_CARD', label: 'Debit Card' }
-   
+
   ];
 
 
@@ -146,7 +146,7 @@ const MenuForCashier = () => {
 
 
 
- 
+
 
 
 
@@ -167,7 +167,7 @@ const MenuForCashier = () => {
           setSuc(false)
         }
 
-      
+
 
       }
       else if (notification.status === false) {
@@ -233,16 +233,16 @@ const MenuForCashier = () => {
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(categoryForConsumerListURL(currentUser.data.company_uuid))
-   
-  },[])
 
-  useEffect(()=>{
-if(categoryForConsumer){
-  setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
-}
-  },[categoryForConsumer])
+  }, [])
+
+  useEffect(() => {
+    if (categoryForConsumer) {
+      setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
+    }
+  }, [categoryForConsumer])
 
 
   const searchfunction = (type, pages) => {
@@ -251,32 +251,32 @@ if(categoryForConsumer){
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, 0, pages, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page - 1, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page + 1, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page + 1, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, page + 2, search, currentUser.token, limit))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category, 0, search, currentUser.token, pages))
+      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
     }
   }
 
@@ -291,7 +291,7 @@ if(categoryForConsumer){
     setItems([...items, newItem]);
     setName('');
     setQuantity('');
-   
+
     console.log(event.stock_quantity, "jhjjgjhgjgjhg")
 
   }
@@ -303,37 +303,37 @@ if(categoryForConsumer){
 
 
   const deleteItem = (id1) => {
-    console.log(id1,"sdfdfdsfds")
+    console.log(id1, "sdfdfdsfds")
     const filteredItems = items.filter(item => item.item_uuid !== id1);
     setItems(filteredItems);
   };
 
 
 
-  const IncrimentItem = (event , qnt) => {
-    console.log(event,"adsdsadasdasd")
+  const IncrimentItem = (event, qnt) => {
+    console.log(event, "adsdsadasdasd")
     const arr = []
-items.map((check) => {
-  if(check.item_uuid === event.uuid){
-arr.push({
-  item_name
-: 
-event.name,
-item_uuid
-: 
-// "PROD-1478CF5C",
-event.uuid,
-quantity
-: 
-check.quantity+1
-})
-  }
-  else {
-    arr.push(check)
-  }
-  setItems(arr)
-  return items;
-})
+    items.map((check) => {
+      if (check.item_uuid === event.uuid) {
+        arr.push({
+          item_name
+            :
+            event.name,
+          item_uuid
+            :
+            // "PROD-1478CF5C",
+            event.uuid,
+          quantity
+            :
+            check.quantity + 1
+        })
+      }
+      else {
+        arr.push(check)
+      }
+      setItems(arr)
+      return items;
+    })
     // setItems([...items, newItem]);
     // const selectedItem = items.find(item => item.id === event.item_uuid);
     // setName(selectedItem.name);
@@ -341,30 +341,30 @@ check.quantity+1
     // deleteItem(id1);
   };
 
-  const decrimentItem = (event , qnt) => {
-    console.log(event,"adsdsadasdasd")
+  const decrimentItem = (event, qnt) => {
+    console.log(event, "adsdsadasdasd")
     const arr = []
-items.map((check) => {
-  if(check.item_uuid === event.uuid){
-arr.push({
-  item_name
-: 
-event.name,
-item_uuid
-: 
-// "PROD-1478CF5C",
-event.uuid,
-quantity
-: 
-check.quantity-1
-})
-  }
-  else {
-    arr.push(check)
-  }
-  setItems(arr)
-  return items;
-})
+    items.map((check) => {
+      if (check.item_uuid === event.uuid) {
+        arr.push({
+          item_name
+            :
+            event.name,
+          item_uuid
+            :
+            // "PROD-1478CF5C",
+            event.uuid,
+          quantity
+            :
+            check.quantity - 1
+        })
+      }
+      else {
+        arr.push(check)
+      }
+      setItems(arr)
+      return items;
+    })
     // setItems([...items, newItem]);
     // const selectedItem = items.find(item => item.id === event.item_uuid);
     // setName(selectedItem.name);
@@ -372,6 +372,54 @@ check.quantity-1
     // deleteItem(id1);
   };
 
+  const decrimentItem1 = (event, qnt) => {
+    console.log(event, "adsdsadasddf43asd")
+    const arr = []
+    items.map((check) => {
+      if (check.item_uuid === event.item_uuid
+      ) {
+        arr.push({
+          item_name: event.item_name,
+          item_uuid: event.item_uuid,
+          quantity: check.quantity - 1
+        })
+      }
+      else {
+        arr.push(check)
+      }
+      setItems(arr)
+      return items;
+    })
+    // setItems([...items, newItem]);
+    // const selectedItem = items.find(item => item.id === event.item_uuid);
+    // setName(selectedItem.name);
+    // setQuantity(selectedItem.value1);
+    // deleteItem(id1);
+  };
+
+  const IncrimentItem1 = (event, qnt) => {
+    console.log(event, "adsdsadasdasd")
+    const arr = []
+    items.map((check) => {
+      if (check.item_uuid === event.item_uuid) {
+        arr.push({
+          item_name: event.item_name,
+          item_uuid: event.item_uuid,
+          quantity: check.quantity + 1
+        })
+      }
+      else {
+        arr.push(check)
+      }
+      setItems(arr)
+      return items;
+    })
+    // setItems([...items, newItem]);
+    // const selectedItem = items.find(item => item.id === event.item_uuid);
+    // setName(selectedItem.name);
+    // setQuantity(selectedItem.value1);
+    // deleteItem(id1);
+  };
   const updateItem = () => {
     const updatedItems = items.map(item => {
       if (item.name === name && item.value === value) {
@@ -392,53 +440,53 @@ check.quantity-1
 
 
   const submitOrder = async (event) => {
-    
-      // event.preventDefault()
 
-      const payload = {
-        "company_uuid": currentUser.data.company_uuid,
-        "item" : items
-      }
-      
-      axios.post(`${process.env.REACT_APP_URL}/order/cashier/calculation`, payload,
-        {
-          headers: {
-            "x-auth-token": currentUser.token
-          }
-        })
-        .then((respons) => {
-          console.log(respons.data, "fffgdsfsdfdsf")
-          setAmount(respons.data)
-    
-    
-        })
-        .catch((err) => {
-          console.log(err.response.data.message,"zasdsadasd")
-         
-       
+    // event.preventDefault()
+
+    const payload = {
+      "company_uuid": currentUser.data.company_uuid,
+      "item": items
+    }
+
+    axios.post(`${process.env.REACT_APP_URL}/order/cashier/calculation`, payload,
+      {
+        headers: {
+          "x-auth-token": currentUser.token
+        }
+      })
+      .then((respons) => {
+        console.log(respons.data, "fffgdsfsdfdsf")
+        setAmount(respons.data)
 
 
-        })
+      })
+      .catch((err) => {
+        console.log(err.response.data.message, "zasdsadasd")
+
+
+
+
+      })
 
 
 
 
   }
 
-useEffect(()=>{
-  submitOrder()
-},[items])
+  useEffect(() => {
+    submitOrder()
+  }, [items])
 
-const submitOrderPlased = async (event) => {
-  
+  const submitOrderPlased = async (event) => {
+
     event.preventDefault()
-    
+
     const payload = {
-      "payment_type" : selectPaymentType.value,
+      "payment_type": selectPaymentType.value,
       "company_uuid": currentUser.data.company_uuid,
-      "item" : items
+      "item": items
     }
-    
+
     axios.post(`${process.env.REACT_APP_URL}/order/cashier/create`, payload,
       {
         headers: {
@@ -449,11 +497,11 @@ const submitOrderPlased = async (event) => {
         console.log(respons.data.message, "fffgdsfsdfdsf")
         setMessage(respons.data.message)
 
-       setOpen(true)
-  
+        setOpen(true)
+
       })
       .catch((err) => {
-        console.log(err.response.data,"zasdsadasd")
+        console.log(err.response.data, "zasdsadasd")
         toast.error(err.response.data)
         setSuc(false)
 
@@ -461,7 +509,7 @@ const submitOrderPlased = async (event) => {
 
 
 
-}
+  }
 
 
 
@@ -487,24 +535,24 @@ const submitOrderPlased = async (event) => {
           {/* <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" /> */}
 
           <Row className="mb-3">
-         <Col md="5" lg="3" xxl="2" className="mb-1">
-          {/* Search Start */}
-          {/* <Form.Label/> */}
-          <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-         
-            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-            <span className="search-magnifier-icon">
-              <CsLineIcons icon="search" />
-            </span>
-            <span className="search-delete-icon d-none">
-              <CsLineIcons icon="close" />
-            </span>
-          </div>
-          {/* Search End */}
-        </Col>
+            <Col md="5" lg="3" xxl="2" className="mb-1">
+              {/* Search Start */}
+              {/* <Form.Label/> */}
+              <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
-    
-        {/* <Col lg="3">
+                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                <span className="search-magnifier-icon">
+                  <CsLineIcons icon="search" />
+                </span>
+                <span className="search-delete-icon d-none">
+                  <CsLineIcons icon="close" />
+                </span>
+              </div>
+              {/* Search End */}
+            </Col>
+
+
+            {/* <Col lg="3">
           <Form.Label>Category</Form.Label>
           <Select classNamePrefix="react-select"
             options={productList}
@@ -514,26 +562,26 @@ const submitOrderPlased = async (event) => {
             // disabled={eventType}
           />
         </Col> */}
-        <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
-         
-          {/* Length Start */}
-         
-          {/* Length End */}
-        </Col>
-      </Row>
+            <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
+
+              {/* Length Start */}
+
+              {/* Length End */}
+            </Col>
+          </Row>
 
 
-     
 
-        
-       
+
+
+
         </Row>
       </div>
       {/* Title End */}
-      
+
       <Row>
         {isLgScreen && (
-          <Col lg="3" xl="3" className="d-none d-lg-block">
+          <Col lg="4" xl="4" className="d-none d-lg-block">
             {/* Filters Start */}
             <Card
               // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
@@ -546,124 +594,177 @@ const submitOrderPlased = async (event) => {
               item={items}
             /> */}
             {/* Filters End */}
-            
-
-
-
-             <div className="page-title-container">
-        <Row className="g-0">
-          {/* Title Start */}
-          <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            {/* <CsLineIcons icon="chevron-left" size="20" /> */}
-            <h1 className="mb-0 pb-0 display-4" id="title">
-              {title1}
-            </h1>
-          </Col>
-          {/* Title End */}
 
 
 
 
+            <div className="page-title-container">
+              <Row className="g-0">
+                {/* Title Start */}
+                <Col className="col-auto mb-3 mb-sm-0 me-auto">
+                  {/* <CsLineIcons icon="chevron-left" size="20" /> */}
+                  <h1 className="mb-0 pb-0 display-4" id="title">
+                    {title1}
+                  </h1>
+                </Col>
+                {/* Title End */}
 
-      
-        </Row>
-      </div>
+
+
+
+
+
+              </Row>
+            </div>
             {items && items.map((item) => {
               console.log(item, "itemcxxxvxcvxcv")
               return <>
-              <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-            <Row className="g-0 h-100 sh-lg-9 position-relative">
+                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+                  <Row className="g-0 h-100 sh-lg-9 position-relative">
 
-              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-                <Row className="g-0 h-100 ">
+                    <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                      <Row className="g-0 h-100 ">
 
-                  <Col lg="10" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.item_name}</div>
-                    
-                  </Col>
-                  
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.quantity}</div>
-                  </Col>
+                        <Col lg="7" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                          <div className="lh-1 text-alternate">{item.item_name}</div>
 
-                  
-                  <Button size="sm"
-                          className="btn-icon btn-icon-only position-absolute t-2 e-2"
+                        </Col>
+
+                        <Col lg="5" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                          {/* <div className="lh-1 text-alternate">{item.quantity}</div> */}
+                          <InputGroup className="spinner sw-11 ">
+                            <InputGroup.Text id="basic-addon1">
+                              <button type="button" className="spin-down single px-2"
+                                onClick={() => { decrimentItem1(item, item.quantity - 1) }}
+                                // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                // disabled={btndisabl}
+
+                                // disabled={items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity===1 ? true : ""}
+                                disabled={item.quantity === 1 ? true : ""}
+                              >
+                                -
+                              </button>
+                            </InputGroup.Text>
+                            <Form.Control
+                              value={item.quantity}
+                              onInput={onInput}
+                              placeholder="Count"
+                              className="text-center"
+
+                            />
+                            <InputGroup.Text id="basic-addon2">
+                              <button type="button" className="spin-up single px-2"
+                                // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                                // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
+                                // onClick={() => { editItem(item) }}
+                                onClick={() => { IncrimentItem1(item, item.quantity + 1) }}
+                              >
+                                +
+                              </button>
+                            </InputGroup.Text>
+                          </InputGroup>
+
+
+
+
+                        </Col>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <Button size="sm"
+                          className="btn-icon btn-icon-only position-absolute t-2 e-2 "
                           variant="foreground-alternate"
-                        // onClick={() => { deleteToCart(item) }}
-                        onClick={() => deleteItem(item.item_uuid)}
+                          // onClick={() => { deleteToCart(item) }}
+                          onClick={() => deleteItem(item.item_uuid)}
                         >
                           <CsLineIcons icon="error-hexagon" />
                         </Button>
-                </Row>
-              </Col>
-            </Row>
-          </Card>
-             
+                      </Row>
+                    </Col>
+                  </Row>
+                </Card>
+
               </>
 
             })}
-     
-
-
-
-
-
-          <Col xs="12" md="12" lg="12" xl="12">
-                    <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                      <Card.Body className="pb-3">
-                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
-                        <Row >
-                          {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
-                          <Col xs="8" sm="8" md="8" lg="8">
-                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                              <Clamp tag="span" clamp="2">
-                              Total Amount
-                              </Clamp>
-                            </NavLink>
-                          
-                          </Col>
-                          <Col xs="4" sm="4" md="4" lg="4">
-                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                              <Clamp tag="span" clamp="2">
-                              ₹{amount.total_amount}
-                              </Clamp>
-                            </NavLink>
-                            
-                          </Col>
-                          
-                          <Col xs="12" sm="12" md="12" lg="12">
-                      
-                          <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
 
 
 
 
 
 
+            <Col xs="12" md="12" lg="12" xl="12">
+              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                <Card.Body className="pb-3">
+                  {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                  <Row >
+                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                    <Col xs="8" sm="8" md="8" lg="8">
+                      <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                        <Clamp tag="span" clamp="2">
+                          Total Amount
+                        </Clamp>
+                      </NavLink>
+
+                    </Col>
+                    <Col xs="4" sm="4" md="4" lg="4">
+                      <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                        <Clamp tag="span" clamp="2">
+                          ₹{amount.total_amount}
+                        </Clamp>
+                      </NavLink>
+
+                    </Col>
+
+                    <Col xs="12" sm="12" md="12" lg="12">
+
+                      <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
 
 
-                           
-                          </Col>
-                          <br/>
-                          <br/>
-                          <Col xs="12" sm="12" md="12" lg="12">
-                          <Button className="btn-icon btn-icon-end w-100" variant="primary" 
-                  onClick={submitOrderPlased}
-                  >
-
-                <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
-              </Button>
-
-</Col>
 
 
-                        </Row>
 
-                      </Card.Body>
-                    </Card>
-                 
-                  </Col>
+
+
+
+
+                    </Col>
+                    <br />
+                    <br />
+                    <Col xs="12" sm="12" md="12" lg="12">
+                      <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                        onClick={submitOrderPlased}
+                      >
+
+                        <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
+                      </Button>
+
+                    </Col>
+
+
+                  </Row>
+
+                </Card.Body>
+              </Card>
+
+            </Col>
 
           </Col>
         )}
@@ -672,7 +773,7 @@ const submitOrderPlased = async (event) => {
 
 
 
-        <Col style={{ position: "sticky" }} lg="9" xl="9">
+        <Col style={{ position: "sticky" }} lg="8" xl="8">
 
           <div id="firstcolumn">
             {/* <Form className="mb-5">
@@ -690,7 +791,7 @@ const submitOrderPlased = async (event) => {
                         {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
                         <Row >
                           {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
-                          <Col xs="6" sm="8" md="8" lg="8">
+                          <Col xs="7" sm="7" md="7" lg="7">
                             <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                               <Clamp tag="span" clamp="2">
                                 {item.name}
@@ -704,7 +805,7 @@ const submitOrderPlased = async (event) => {
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
 
-                          <Col xs="6" sm="4" md="4" lg="4">
+                          <Col xs="5" sm="5" md="5" lg="5">
                             {/* <NavLink  to="/"> */}
                             {/* <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
                             <div>
@@ -724,24 +825,24 @@ const submitOrderPlased = async (event) => {
                                     }
 
                                     {
-                                    items && items.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
+                                      items && items.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
 
 
                                         <InputGroup className="spinner sw-11">
                                           <InputGroup.Text id="basic-addon1">
                                             <button type="button" className="spin-down single px-2"
-                                            onClick={() => { decrimentItem(item, item.quantity-1) }}
-                                            // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
-                                            // disabled={btndisabl}
+                                              onClick={() => { decrimentItem(item, item.quantity - 1) }}
+                                              // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                              // disabled={btndisabl}
 
-                                            disabled={items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity===1 ? true : ""}
+                                              disabled={items && items.find(data1 => data1.item_uuid === item.uuid).quantity === 1 ? true : ""}
 
                                             >
                                               -
                                             </button>
                                           </InputGroup.Text>
                                           <Form.Control
-                                            value={ items &&  items.find(data1 => data1.item_uuid === item.uuid) ?  items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
+                                            value={items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
                                             onInput={onInput}
                                             placeholder="Count"
                                             className="text-center"
@@ -752,7 +853,7 @@ const submitOrderPlased = async (event) => {
                                               // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
                                               // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
                                               // onClick={() => { editItem(item) }}
-                                              onClick={() => { IncrimentItem(item, item.quantity+1) }}
+                                              onClick={() => { IncrimentItem(item, item.quantity + 1) }}
                                             >
                                               +
                                             </button>
@@ -937,11 +1038,11 @@ const submitOrderPlased = async (event) => {
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        style={{padding:"30px"}}
+        style={{ padding: "30px" }}
 
       >
 
-      
+
         <DialogContent style={{ width: "100%", height: "100%" }}>
           {/* <QrReader
             delay={delay}
@@ -949,23 +1050,23 @@ const submitOrderPlased = async (event) => {
             onError={handleError}
             onScan={handleScan}
           /> */}
-  {message}
-  <br/>
-  <br/>
-  {/* <Button styele={{ width: "100%"}} onClick={() => setOpen(false)}>Close</Button> */}
+          {message}
+          <br />
+          <br />
+          {/* <Button styele={{ width: "100%"}} onClick={() => setOpen(false)}>Close</Button> */}
 
 
-  <Col lg="12" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <Button className="btn-icon btn-icon-end w-100" variant="primary" 
-                 onClick={() => setOpen(false)}
-                  >
-                <span>Close</span> <CsLineIcons icon="chevron-right" />
-              </Button>
-     </Col>
+          <Col lg="12" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+            <Button className="btn-icon btn-icon-end w-100" variant="primary"
+              onClick={() => setOpen(false)}
+            >
+              <span>Close</span> <CsLineIcons icon="chevron-right" />
+            </Button>
+          </Col>
         </DialogContent>
-  
 
-        
+
+
       </Dialog>
       {/* </div> */}
     </>
