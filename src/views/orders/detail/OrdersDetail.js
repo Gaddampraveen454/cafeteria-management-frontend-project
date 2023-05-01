@@ -150,13 +150,13 @@ const OrdersDetail = () => {
                               <span>12</span>
                               <span className="text-muted ms-1 me-1">x</span>
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 1.10
                               </span>
                             </Col>
                             <Col xs="6" className="d-flex flex-row align-items-end justify-content-end text-alternate">
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 13.20
                               </span>
                             </Col>
@@ -183,13 +183,13 @@ const OrdersDetail = () => {
                               <span>3</span>
                               <span className="text-muted ms-1 me-1">x</span>
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 2.75
                               </span>
                             </Col>
                             <Col xs="6" className="d-flex flex-row align-items-end justify-content-end text-alternate">
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 8.25
                               </span>
                             </Col>
@@ -216,13 +216,13 @@ const OrdersDetail = () => {
                               <span>2</span>
                               <span className="text-muted ms-1 me-1">x</span>
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 7.50
                               </span>
                             </Col>
                             <Col xs="6" className="d-flex flex-row align-items-end justify-content-end text-alternate">
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 15.00
                               </span>
                             </Col>
@@ -249,13 +249,13 @@ const OrdersDetail = () => {
                               <span>3</span>
                               <span className="text-muted ms-1 me-1">x</span>
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 6.25
                               </span>
                             </Col>
                             <Col xs="6" className="d-flex flex-row align-items-end justify-content-end text-alternate">
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 18.75
                               </span>
                             </Col>
@@ -282,13 +282,13 @@ const OrdersDetail = () => {
                               <span>3</span>
                               <span className="text-muted ms-1 me-1">x</span>
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 2.50
                               </span>
                             </Col>
                             <Col xs="6" className="d-flex flex-row align-items-end justify-content-end text-alternate">
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 7.50
                               </span>
                             </Col>
@@ -315,13 +315,13 @@ const OrdersDetail = () => {
                               <span>1</span>
                               <span className="text-muted ms-1 me-1">x</span>
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 4.50
                               </span>
                             </Col>
                             <Col xs="6" className="d-flex flex-row align-items-end justify-content-end text-alternate">
                               <span>
-                                <span className="text-small">$</span>
+                                <span className="text-small">₹</span>
                                 4.50
                               </span>
                             </Col>
@@ -339,7 +339,7 @@ const OrdersDetail = () => {
                   </Col>
                   <Col xs="auto" className="sw-13 text-end">
                     <span>
-                      <span className="text-small text-muted">$</span>
+                      <span className="text-small text-muted">₹</span>
                       285.25
                     </span>
                   </Col>
@@ -350,7 +350,7 @@ const OrdersDetail = () => {
                   </Col>
                   <Col xs="auto" className="sw-13 text-end">
                     <span>
-                      <span className="text-small text-muted">$</span>
+                      <span className="text-small text-muted">₹</span>
                       12.50
                     </span>
                   </Col>
@@ -361,7 +361,7 @@ const OrdersDetail = () => {
                   </Col>
                   <Col xs="auto" className="sw-13 text-end">
                     <span>
-                      <span className="text-small text-muted">$</span>
+                      <span className="text-small text-muted">₹</span>
                       -24.50
                     </span>
                   </Col>
@@ -372,7 +372,7 @@ const OrdersDetail = () => {
                   </Col>
                   <Col xs="auto" className="sw-13 text-end">
                     <span>
-                      <span className="text-small text-muted">$</span>
+                      <span className="text-small text-muted">₹</span>
                       321.50
                     </span>
                   </Col>

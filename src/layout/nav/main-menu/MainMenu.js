@@ -7,6 +7,10 @@ import { getMenuItems } from 'routing/helper';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { useWindowScroll } from 'hooks/useWindowScroll';
 import routesAndMenuItems from 'routes.js';
+import adminRoutesAndMenuItems from 'AdminRoutes';
+import cashierRoutesAndMenuItems from 'CashierRouts';
+import consumerRoutesAndMenuItems from 'customerRoutes';
+import defaultRoutesAndMenuItems from 'defaultRoutes';
 import { layoutShowingNavMenu } from 'layout/layoutSlice';
 import MainMenuItems from './MainMenuItems';
 import {
@@ -18,6 +22,8 @@ import {
   menuChangePinButtonEnable,
   menuChangePlacementStatus,
 } from './menuSlice';
+
+// import customerroutesAndMenuItems from 'customerRoutes';
 import { checkBehaviour, checkPlacement, isDeeplyDiffBehaviourStatus, isDeeplyDiffPlacementStatus } from './helper';
 
 const MainMenu = () => {
@@ -27,10 +33,24 @@ const MainMenu = () => {
   const scrolled = useWindowScroll();
   const { width } = useWindowSize();
 
+
+  console.log(currentUser,"currentUser")
+  let routsData=''
+if (currentUser && currentUser.data && currentUser.data.group==="admin"){
+  routsData=adminRoutesAndMenuItems.mainMenuItems
+}else if(currentUser && currentUser.data && currentUser.data.group==="cashier"){
+  routsData=cashierRoutesAndMenuItems.mainMenuItems 
+}else if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+  routsData=consumerRoutesAndMenuItems.mainMenuItems 
+}else{
+  routsData=defaultRoutesAndMenuItems.mainMenuItems
+}
+
+
   const menuItemsMemo = useMemo(
     () =>
       getMenuItems({
-        data: attrMobile && useSidebar ? routesAndMenuItems : routesAndMenuItems.mainMenuItems,
+        data: attrMobile && useSidebar ? routesAndMenuItems : routsData,
         isLogin,
         userRole: currentUser.role,
       }),

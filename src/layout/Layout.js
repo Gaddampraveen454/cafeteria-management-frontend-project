@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
         </Container>
       </main>
       <Footer />
-      <RightButtons />
+      {/* <RightButtons /> */}
     </>
   );
 };

@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import { LogOutURL } from 'auth/authSlice';
+import { useHistory } from 'react-router-dom';
 import { MENU_BEHAVIOUR } from 'constants.js';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { settingsChangeColor } from 'settings/settingsSlice';
 import IconMenuNotifications from './notifications/Notifications';
 import SearchModal from './search/SearchModal';
+
 import { menuChangeBehaviour } from './main-menu/menuSlice';
+
+
+
 
 const NavIconMenu = () => {
   const { pinButtonEnable, behaviour } = useSelector((state) => state.menu);
   const { color } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+  const history = useHistory()
 
   const onPinButtonClick = (e) => {
     e.preventDefault();
@@ -38,15 +45,31 @@ const NavIconMenu = () => {
     setShowSearchModal(true);
   };
 
+  const { isLogin, currentUser } = useSelector((state) => state.auth);
+  console.log(isLogin,currentUser,"sfdfdsfsdfsdf")
+
+
+  const redirect = () => {
+    console.log("enter1")
+    dispatch(LogOutURL())
+    history.push('/login')
+  }
+
+  const Loginredirect = () => {
+    history.push('/consumer/login',{ update: true })
+  }
+  // /consumer/login
   return (
     <>
       <ul className="list-unstyled list-inline text-center menu-icons">
-        <li className="list-inline-item">
-          <a href="#/" onClick={onSearchIconClick}>
+        {/* <li className="list-inline-item">
+          <a href="#/" 
+          onClick={onSearchIconClick}
+          >
             <CsLineIcons icon="search" size="18" />
           </a>
-        </li>
-        <li className="list-inline-item">
+        </li> */}
+        {/* <li className="list-inline-item">
           <a
             href="#/"
             id="pinButton"
@@ -62,8 +85,23 @@ const NavIconMenu = () => {
             <CsLineIcons icon="light-on" size="18" className="light" />
             <CsLineIcons icon="light-off" size="18" className="dark" />
           </a>
+        </li> */}
+        {/* <IconMenuNotifications /> */}
+        <li className="list-inline-item">
+          {currentUser&& currentUser.data ?
+          <a 
+          onClick={redirect}
+          >
+            <CsLineIcons icon="logout" size="18" /> <label style={{cursor:"pointer"}}>&nbsp;Logout</label>
+          </a>
+          :
+          <a 
+          onClick={Loginredirect}
+          >
+          <CsLineIcons icon="login" size="18" /> <label style={{cursor:"pointer"}}>&nbsp;Login</label>
+        </a>
+}
         </li>
-        <IconMenuNotifications />
       </ul>
       <SearchModal show={showSearchModal} setShow={setShowSearchModal} />
     </>

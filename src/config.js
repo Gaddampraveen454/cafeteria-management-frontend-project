@@ -7,13 +7,14 @@ export const USE_MULTI_LANGUAGE = true;
 
 // For detailed information: https://github.com/nfl/react-helmet#reference-guide
 export const REACT_HELMET_PROPS = {
-  defaultTitle: 'Acorn Admin Template',
-  titleTemplate: '%s | Acorn Admin Template',
+  defaultTitle: 'Cafeteria',
+  titleTemplate: '%s | Cafeteria',
 };
 
 export const DEFAULT_PATHS = {
   APP: '/',
   LOGIN: '/login',
+  LOGIN1: '/consumer/login',
   REGISTER: '/register',
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
@@ -33,6 +34,8 @@ export const DEFAULT_SETTINGS = {
   USE_SIDEBAR: false,
 };
 
+export const Data = localStorage.getItem('token')
+console.log(Data,"dsfdffxdfzdffdsdfdsf")
 export const DEFAULT_USER = {
   id: 1,
   name: 'Lisa Jackson',

@@ -1,4 +1,7 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {DashdoardContListURL} from "Redux/AdminRedux/DashBoard/DashCountRedux"
+import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
 import { NavLink } from 'react-router-dom';
@@ -7,9 +10,27 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import PerformanceChart from './components/PerformanceChart';
 
+
+
 const Dashboard = () => {
+  const dispatch = useDispatch()
   const title = 'Dashboard';
   const description = 'Ecommerce Dashboard Page';
+  
+  
+  const { currentUser } = useSelector((state) => state.auth)
+  const { DashboardCountData,notification } = useSelector((state) => state.AdminDashbordCountList)
+  console.log(DashboardCountData,"jsdggjjhg");
+
+  const { IpAddressData } = useSelector((state) => state.IpAddressList);
+  console.log(IpAddressData,"IpAddressData")
+
+
+useEffect(()=>{
+  dispatch(DashdoardContListURL(currentUser.token))
+  dispatch(IpAddressDataURL())
+},[])
+console.log(DashboardCountData,"jsdggjjhg");
 
   return (
     <>
@@ -47,7 +68,8 @@ const Dashboard = () => {
                 <CsLineIcons icon="dollar" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
-              <div className="text-primary cta-4">$ 315.20</div>
+              <div className="text-primary cta-4">₹
+              {DashboardCountData.total_order_amount}</div>
             </Card.Body>
           </Card>
         </Col>
@@ -58,11 +80,11 @@ const Dashboard = () => {
                 <CsLineIcons icon="cart" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">ORDERS</div>
-              <div className="text-primary cta-4">16</div>
+              <div className="text-primary cta-4">{DashboardCountData.total_order}</div>
             </Card.Body>
           </Card>
         </Col>
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -72,7 +94,7 @@ const Dashboard = () => {
               <div className="text-primary cta-4">463</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
         <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
@@ -84,7 +106,7 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -105,7 +127,7 @@ const Dashboard = () => {
               <div className="text-primary cta-4">5</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
       {/* Stats End */}
 

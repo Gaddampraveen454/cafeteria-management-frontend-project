@@ -1,15 +1,66 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { LoginURL } from '../../auth/authSlice';
+import logo from "../../Assests/images/cafe.png"
+
+
 
 const Login = () => {
   const title = 'Login';
   const description = 'Login Page';
+  const [suc, setSuc] = useState(false);
+  const { currentUser, isLogin, notification } = useSelector((state) => state.auth);
+  console.log(currentUser, isLogin, "currentUser")
+  const history = useHistory()
+  //   useEffect(()=> {
+
+
+  // if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier"){
+  //   history.push('/dashboard')
+  //   localStorage.setItem('token',currentUser)
+  // }
+  // else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
+  //   history.push('/dashboard')
+  //   localStorage.setItem('token',currentUser)
+  // }
+  //   },[])
+
+
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+
+        if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier") {
+          history.push('/dashboard')
+          localStorage.setItem('token', currentUser)
+        }
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin") {
+          history.push('/dashboard')
+          // /dashboard
+          localStorage.setItem('token', currentUser)
+        }
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),
@@ -20,6 +71,17 @@ const Login = () => {
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
+
+  const dispatch = useDispatch();
+
+  console.log(values, "values")
+  const LoginAPI = (event) => {
+    event.preventDefault()
+    dispatch(LoginURL(values));
+    setSuc(true)
+    console.log(event.target.elements, "dfghhjj")
+  }
+
 
   const leftSide = (
     <div className="min-h-100 d-flex align-items-center">
@@ -48,7 +110,8 @@ const Login = () => {
       <div className="sw-lg-50 px-5">
         <div className="sh-11">
           <NavLink to="/">
-            <div className="logo-default" />
+            {/* <div className="logo-default" /> */}
+            <img src={logo} alt="logo" style={{ width: "100px", height: "auto" }} />
           </NavLink>
         </div>
         <div className="mb-5">
@@ -62,7 +125,10 @@ const Login = () => {
           </p>
         </div>
         <div>
-          <form id="loginForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
+          <form id="loginForm" className="tooltip-end-bottom"
+            onSubmit={handleSubmit}
+          // onSubmit={handleLogin}
+          >
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
               <Form.Control type="text" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
@@ -76,9 +142,10 @@ const Login = () => {
               </NavLink>
               {errors.password && touched.password && <div className="d-block invalid-tooltip">{errors.password}</div>}
             </div>
-            <Button size="lg" type="submit">
+            <Button size="lg" type="submit" onClick={LoginAPI}>
               Login
             </Button>
+
           </form>
         </div>
       </div>

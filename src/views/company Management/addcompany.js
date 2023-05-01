@@ -1,55 +1,156 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const addCompany = () => {
+  const dispatch = useDispatch()
+  const history = useHistory();
+  const { currentUser } = useSelector((state) => state.auth)
+  const { companyData, notification } = useSelector((state) => state.companyList)
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
 
-  const [selectValueState, setSelectValueState] = useState();
-  const optionsState = [
-    { value: 'Fougasse', label: 'Fougasse' },
-    { value: 'Lefse', label: 'Lefse' },
-  ];
 
-  const [selectValueCity, setSelectValueCity] = useState();
-  const optionsCity = [
-    { value: 'Breadstick', label: 'Breadstick' },
-    { value: 'Biscotti', label: 'Biscotti' },
-  ];
 
-  const [selectValueMonth, setSelectValueMonth] = useState();
-  const optionsMonth = [
-    { value: '01', label: '01' },
-    { value: '02', label: '02' },
-    { value: '03', label: '03' },
-    { value: '04', label: '04' },
-    { value: '05', label: '05' },
-    { value: '06', label: '06' },
-    { value: '07', label: '07' },
-    { value: '08', label: '08' },
-    { value: '09', label: '09' },
-    { value: '10', label: '10' },
-    { value: '11', label: '11' },
-    { value: '12', label: '12' },
-  ];
 
-  const [selectValueYear, setSelectValueYear] = useState();
-  const optionsYear = [
-    { value: '21', label: '21' },
-    { value: '22', label: '22' },
-    { value: '23', label: '23' },
-    { value: '24', label: '24' },
-    { value: '25', label: '25' },
-    { value: '26', label: '26' },
-    { value: '27', label: '27' },
-    { value: '28', label: '28' },
-    { value: '29', label: '29' },
-    { value: '30', label: '30' },
-  ];
+
+  const initialValues = { companyName: "", walletamount: "", email: "", mobile: "", location: "", address: "" };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+
+
+
+  // const [companyName, setComapnayName] = useState("")
+  // const [walletamount, setwalletamount] = useState("")
+  // const [email, setEmail] = useState("")
+  // const [mobile, setMobile] = useState("")
+  // const [location, setLocation] = useState("")
+  // const [address, setAddress] = useState("")
+  const [suc, setSuc] = useState(false);
+
+
+  const AddCategory = () => {
+    // event.preventDefault()
+    // const value = event.target.elements
+    const payload = {
+      "company_name": formValues.companyName,
+      "email": formValues.email,
+      "mobile": formValues.mobile,
+      "wallet_amount": formValues.walletamount,
+      "location": formValues.location,
+      "address": formValues.address,
+    }
+    dispatch(companyAddURL(payload, currentUser.token))
+    setSuc(true)
+    // dispatch(CompanyListURL(currentUser.token))
+  }
+
+
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          // dispatch(CompanyListURL(currentUser.token))
+          history.push(({
+            pathname: "/Company",
+
+          }));
+        }, 1000)
+
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
+
+
+
+
+
+
+  console.log(formValues, "sdfsdfsdfsdf")
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+    const alpharegex = /^[A-Za-z].{3,15}$/
+    const numberregex = /^[0-9]{10,12}$/
+
+    if (!values.companyName) {
+      errors.companyName = "Company Name is Required";
+    }
+   else if (!values.walletamount) {
+      errors.walletamount = "Wallet Amout is Required";
+    }
+   else if (!values.mobile) {
+      errors.mobile = "Moble number is Required";
+    }
+    else if (!numberregex.test(values.mobile)) {
+      errors.mobile = "Please Enter vailid Mobile Number";
+    }
+    else if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!regex.test(values.email)) {
+      errors.email = "This is not a valid email format!";
+    }
+    else if(!values.location){
+      errors.location = "Location is required!";
+    }
+
+    else if(!values.address){
+      errors.address = "Address is required!";
+    }
+
+    else {
+      setIsSubmit(true)
+
+    }
+    return errors;
+  };
+  console.log(formValues, "initialValues")
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+
+    // setIsSubmit(true);
+    // if(isSubmit===true){
+    //   AddCategory()
+    // }
+
+  };
+  const myhandlechange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+
+  useEffect(() => {
+    if (isSubmit === true) {
+      AddCategory()
+    }
+
+  }, [formErrors])
+
+
+
+
 
   return (
     <>
@@ -72,27 +173,61 @@ const addCompany = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form
+                // onSubmit={AddCategory}
+                onSubmit={handleSubmit}
+              >
                 <Row className="g-3">
-                <Col lg="6">
+                  <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                    <Form.Control
+                      // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
+                      name="companyName"
+                      onChange={myhandlechange}
+
+                    />
+                    <p style={{color:"red"}}>{formErrors.companyName}</p>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="number"
+                    name="walletamount"
+                      // onChange={(e) => { setwalletamount(e.target.value) }}
+                      onChange={myhandlechange}
+                    />
+                    <p  style={{color:"red"}}>{formErrors.walletamount}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control
+                      type="number"
+                      //  onChange={(e)=>{setMobile(e.target.value)}}
+                      name="mobile"
+                      onChange={myhandlechange}
+                    />
+                    <p style={{color:"red"}}>{formErrors.mobile}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="text" />
+                    {/* <Form.Control type="email" onChange={(e)=>{setEmail(e.target.value)}}/> */}
+                    <Form.Control
+                      // type="email" onChange={(e)=>{setEmail(e.target.value)}}
+                      onChange={myhandlechange}
+                      name="email"
+                    />
+                    <p style={{color:"red"}}>{formErrors.email}</p>
+
+
                   </Col>
                   <Col lg="6">
                     <Form.Label>Location</Form.Label>
-                    <Form.Control as="textarea" rows={2} />
+                    <Form.Control as="textarea" rows={2}
+                    name="location"
+                      // onChange={(e) => { setLocation(e.target.value) }} 
+                      onChange={myhandlechange}
+                    />
+                      <p style={{color:"red"}}>{formErrors.location}</p>
                   </Col>
 
                   {/* <Col lg="4">
@@ -109,13 +244,20 @@ const addCompany = () => {
                   </Col> */}
                   <Col lg="6">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows={2} />
+                    <Form.Control as="textarea" rows={2} 
+                    name="address"
+                    // onChange={(e) => { setAddress(e.target.value) }}
+                    onChange={myhandlechange}
+                     />
+                       <p style={{color:"red"}}>{formErrors.address}</p>
                   </Col>
                   <Col lg="6">
                     <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                    <CsLineIcons /> <span>Submit</span>
-                    </Button>
+                      <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit"
+                      // onSubmit={handleSubmit}
+                      >
+                        <CsLineIcons /> <span>Submit</span>
+                      </Button>
                     </Col>
                   </Col>
                 </Row>
@@ -181,8 +323,8 @@ const addCompany = () => {
           {/* Payment End */}
         </Col>
         {/* <Col lg="auto" className="order-0 order-lg-1"> */}
-          {/* <h2 className="small-title">Summary</h2> */}
-          {/* <Card className="mb-5 w-100 sw-lg-35">
+        {/* <h2 className="small-title">Summary</h2> */}
+        {/* <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
               <div className="mb-3">
                 <div className="mb-2">

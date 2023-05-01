@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { NavLink,useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, } from 'Redux/AdminRedux/Cataogy/categoryRedux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const addcategory = () => {
+  const dispatch = useDispatch()
+  const history = useHistory();
   const title = 'Add Category';
   const description = 'Ecommerce Category Management Page';
-
+  // const { CategoryListURL,notification } = useSelector((state) => state.cotegoryList)
   const [selectValueState, setSelectValueState] = useState();
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
@@ -51,6 +57,50 @@ const addcategory = () => {
     { value: '30', label: '30' },
   ];
 
+  const [name, setName]=useState("")
+  const [suc,setSuc] = useState(false);
+
+  const { currentUser } = useSelector((state) => state.auth)
+  const { categoryData, notification } = useSelector((state) => state.cotegoryList)
+  // const { cashierData } = useSelector((state) => state.cashierList)
+//   const { categoryData } = useSelector((state) => state.cotegoryList)
+// useEffect(() => {
+//   dispatch(CategoryListURL(currentUser.token))
+// }, [])
+  const AddCategory = (event) => {
+    event.preventDefault()
+    const payload = {
+      "name":name,
+
+    }
+    dispatch(CategoryAddURL(payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
+    setSuc(true)
+}
+
+useEffect(() => {
+  if (suc === true) {
+    if (notification.status === true) {
+      toast.success(notification.message,{
+        position:"top-right",
+      })
+      setSuc(false)
+      setTimeout(()=>{
+        // dispatch(ProductListURL(page, search,currentUser.token,limit))
+        history.push(({
+          pathname: "/category",
+          // state : {detail : id,fullname : name, pic :image, type:"edit"},
+        }));
+      },2000)
+    }
+    else if (notification.status === false) {
+      toast.error(notification.message)
+      setSuc(false)
+    }
+  }
+
+}, [notification])
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -72,15 +122,15 @@ const addcategory = () => {
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form>
+              <Form onSubmit={AddCategory}>
                 <Row className="g-3">
                      <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
                   <Col lg="12" className='mt-4'>
                   {/* <Form.Label >hello</Form.Label> */}
-                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
                   </Col>

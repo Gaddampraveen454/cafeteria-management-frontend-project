@@ -15,6 +15,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
+    "prettier",
   ],
   parser: 'babel-eslint',
   parserOptions: {
