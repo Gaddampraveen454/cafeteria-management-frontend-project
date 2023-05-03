@@ -69,6 +69,7 @@ const MenuForCashier = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
   const [amount, setAmount] = useState("")
+  console.log(amount,"amount")
   const [message, setMessage] = useState("")
   const [category, setCategory] = useState("")
 
