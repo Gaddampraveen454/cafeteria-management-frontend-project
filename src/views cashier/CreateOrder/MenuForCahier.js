@@ -494,6 +494,7 @@ const MenuForCashier = () => {
       })
       .then((respons) => {
         console.log(respons.data.message, "fffgdsfsdfdsf")
+        setItems([])
         setMessage(respons.data.message)
         sethandleopen(false)
         setOpen(true)
