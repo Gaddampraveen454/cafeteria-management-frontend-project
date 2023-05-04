@@ -794,12 +794,9 @@ const MenuForCashier = () => {
                         </Button>
                       </Col>
                     </Row>
-
                   </Card.Body>
                 </Card>
-
               </Col>
-              : ""
             {/* } */}
           </Col>
           
