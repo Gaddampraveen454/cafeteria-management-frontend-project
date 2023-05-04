@@ -672,7 +672,7 @@ const OrderPlaced = () => {
               </Row>
             </Card>
           </Col>
-          <br />
+          <br/>
         </div>
       })}
 
@@ -711,7 +711,6 @@ const OrderPlaced = () => {
             <>
               <Pagination.Item className="shadow" >...</Pagination.Item>
             </>
-
           }
           <Pagination.Next className="shadow" disabled={Math.ceil(ConsumerOrderData && ConsumerOrderData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
@@ -719,8 +718,6 @@ const OrderPlaced = () => {
         </Pagination>
       </div>
       {/* Pagination End */}
-
-
 
       <div>
         <Dialog

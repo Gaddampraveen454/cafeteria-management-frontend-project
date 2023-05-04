@@ -700,14 +700,15 @@ const MenuForCashier = () => {
 
             })}
 
-            {handleopen === true ? 
+            {/* {handleopen === true ?  */}
             
               <Col xs="12" md="12" lg="12" xl="12">
                 <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                   <Card.Body className="pb-3">
-                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                  <Row >
+                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
                     <Row >
-                      {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
                       <Col xs="8" sm="8" md="8" lg="8">
                         <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                           <Clamp tag="span" clamp="2">
@@ -723,7 +724,60 @@ const MenuForCashier = () => {
                           </Clamp>
                         </NavLink>
 
-                      </Col>
+                      </Col> */}
+                      <div className="mb-4">
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">ITEMS</p>
+                  <p>
+                    <span className="text-alternate"> {amount.count}</span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">TOTAL</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span>
+                      {amount.amount}
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SHIPPING</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span>
+                      0
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">CGST(%)</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span>
+                      {amount.cgst_tax} 
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SGST(%)</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span>
+                      {amount.sgst_tax} 
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                  <div className="cta-2">
+                    <span>
+                      <span className="text-small text-muted cta-2">₹</span>
+                      {amount.total_amount}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
                       <Col xs="12" sm="12" md="12" lg="12">
 
@@ -746,16 +800,11 @@ const MenuForCashier = () => {
 
               </Col>
               : ""
-            }
+            {/* } */}
           </Col>
           
         )}
        
-
-
-
-
-
         <Col style={{ position: "sticky" }} lg="8" xl="8">
 
           <div id="firstcolumn">
@@ -780,7 +829,7 @@ const MenuForCashier = () => {
                                 {item.name}
                               </Clamp>
                             </NavLink>
-                            ₹{item.price}
+                            ₹{item.sellng_price}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
                           {/*                          
@@ -853,19 +902,7 @@ const MenuForCashier = () => {
 
                                   </div>
                               }
-
-
-
-
-
-
                             </div>
-
-
-
-
-
-
                             {
                               console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
 

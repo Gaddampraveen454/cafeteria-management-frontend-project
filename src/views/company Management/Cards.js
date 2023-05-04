@@ -471,7 +471,7 @@ const Menu = () => {
                                 {item.name}
                               </Clamp>
                             </NavLink>
-                            ₹{item.price}
+                            ₹{item.sellng_price}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
                           {/*                          

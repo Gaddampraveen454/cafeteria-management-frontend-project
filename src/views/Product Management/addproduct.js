@@ -130,9 +130,6 @@ const addproduct = () => {
    
 }
 
-
-
-
 useEffect(() => {
   if (suc === true) {
     if (notification.status === true) {
