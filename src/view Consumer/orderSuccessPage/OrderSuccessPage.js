@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useHistory,useLocation } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartListURL, deleteToCartURL, updateCartURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
-import { CreateCheckOutURL,CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -17,15 +17,18 @@ import axios from 'axios';
 
 const OrderSuccessPage = () => {
   const dispatch = useDispatch()
-  const history = useHistory();  
+  const history = useHistory();
   const location = useLocation();
-  console.log(location,"vvgdgfdgdgddf")
+  console.log(location, "vvgdgfdgdgddf")
   const title = 'Order Success';
   const description = 'Ecommerce Storefront Cart Page';
   const { currentUser, isLogin } = useSelector((state) => state.auth);
 
-  const companyId = localStorage.getItem('companyId');
- 
+  // const companyId = localStorage.getItem('companyId');
+  let companyId = '';
+  useEffect(() => {
+    companyId = localStorage.getItem('companyId')
+  }, [localStorage.getItem('companyId')])
 
 
 
@@ -55,14 +58,14 @@ const OrderSuccessPage = () => {
 
 
 
- 
+
   return (
     <>
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" 
-        to={`/menu/${companyId}`}
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back"
+          to={`/menu/${companyId}`}
         >
           <CsLineIcons icon="chevron-left" size="20" />
           <span className="align-middle text-medium ms-1 ">Menu</span>
@@ -74,38 +77,34 @@ const OrderSuccessPage = () => {
       {/* Title End */}
 
       <Row>
-     
-
         <Col xs="12" lg="12" className="order-0 order-lg-1">
           <h2 className="small-title">Order Placed</h2>
-          <Card 
-          // className="mb-5 w-100 sw-lg-50"
-          style={{width:"100%", height:"100%"}}
+          <Card
+            style={{ width: "100%", height: "100%", justifyContent : 'center', alignItems:'center', textAlign:'center' }}
           >
             <Card.Body>
               <div className="mb-4">
-                
-                
-                
-               
                 <div className="mb-2">
-                  {/* <p className="large-small ">Your Order has been plased successfully</p> */}
-                  <h2 className="small-title" 
-                  // style={{fontSize:"35px"}}
-                  >{location && location.state && location.state.message}</h2>
+                  <div >
+                <CsLineIcons icon="check-circle" size="45"/>
+                </div>
+                  <h3 >
+                    Order Placed Successfully
+                    </h3>
+                  <h5 
+                  >
+                    Order Id : {location && location.state && location.state.message}
+                    </h5>
                 </div>
               </div>
-              <br/>
+              <br />
               <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={handleBack}>
-               <CsLineIcons icon="chevron-left" />
-               {currentUser && currentUser.data && currentUser.data.group === "consumer"?
-               <span>Back to Order Page </span> :
-               <span>Back to Menu </span> 
-               }
+                <CsLineIcons icon="chevron-left" />
+                {currentUser && currentUser.data && currentUser.data.group === "consumer" ?
+                  <span>Back to Order Page </span> :
+                  <span>Back to Menu </span>
+                }
               </Button>
-              {/* <Button className="btn-icon btn-icon-end " variant="primary" onClick={handleBack}>
-               <CsLineIcons icon="chevron-left" /> <span>back to order Page1 </span> 
-              </Button> */}
             </Card.Body>
           </Card>
         </Col>

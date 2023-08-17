@@ -247,7 +247,19 @@ const Menu = () => {
 
   }, [window.location.pathname])
 
-
+  useEffect(() => {
+    if (window.location.pathname.startsWith('/menu')) {
+      const getcompanyId = (localStorage.getItem('companyId'));
+      if (getcompanyId) {
+        localStorage.setItem('companyId', (getcompanyId));
+      }
+      else {
+        const checkMenu = window.location.pathname.split("menu/")
+        localStorage.setItem('companyId', checkMenu[1]);
+      }
+    }
+    // localStorage.setItem('companyId', id);
+  }, [window.location.pathname]);
 
 
   // useEffect(()=>{

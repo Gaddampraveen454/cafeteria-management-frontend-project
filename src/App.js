@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 
 // import redux for auth guard
 import { useSelector } from 'react-redux';
@@ -18,17 +18,30 @@ import defaultRoutesAndMenuItems from 'defaultRoutes';
 
 const App = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-  console.log(currentUser,"fhhgfhfghfhfghfghfgh")
-  let routsData=''
-if (currentUser && currentUser.data && currentUser.data.group==="admin"){
-  routsData=adminRoutesAndMenuItems.mainMenuItems
-}else if(currentUser && currentUser.data && currentUser.data.group==="cashier"){
-  routsData=cashierRoutesAndMenuItems.mainMenuItems 
-}else if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
-  routsData=consumerRoutesAndMenuItems.mainMenuItems 
-}else{
-  routsData=defaultRoutesAndMenuItems.mainMenuItems
-}
+  console.log(currentUser, "fhhgfhfghfhfghfghfgh")
+  let routsData = ''
+  if (currentUser && currentUser.data && currentUser.data.group === "admin") {
+    routsData = adminRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === "cashier") {
+    routsData = cashierRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+    routsData = consumerRoutesAndMenuItems.mainMenuItems
+  } else {
+    routsData = defaultRoutesAndMenuItems.mainMenuItems
+  }
+
+  useEffect(() => {
+    if (!window.location.pathname.startsWith('/menu/qr')) {
+      const getcompanyId = (localStorage.getItem('companyId'));
+      if (getcompanyId) {
+        localStorage.setItem('companyId', (getcompanyId));
+      }
+      else {
+        const checkMenu = window.location.pathname.split("menu/")
+        localStorage.setItem('companyId', checkMenu[1]);
+      }
+    }
+  }, [localStorage.getItem('companyId')]);
 
   const routes = useMemo(() => getRoutes({ data: routsData, isLogin, userRole: currentUser.role }), [isLogin, currentUser]);
   if (routes) {
