@@ -177,38 +177,38 @@ const NICorders = () => {
   }
   return (
     <>
-                           {console.log(print === true && printData , print , printData , "print === true && printData")}
-                        {print === true && printData !== '' &&
-                          <iframe
-                            title="Print Frame"
-                            srcDoc={printData}
-                            onLoad={() => {
-                              const iframe = document.querySelector("iframe");
-                              // iframe.style.display = "none"; // Hide the iframe
-                              // Check if the browser supports silent printing
-                              if ("requestMediaKeySystemAccess" in navigator) {
-                                try {
-                                  // Attempt to silently print
-                                  console.log("silently print");
-                                  iframe.contentWindow.print({ silent: true });
-                                  setTimeout(() => {
-                                    setPrint(false);
-                                    setPrintData('')
-                                  }, 1000)
+      {console.log(print === true && printData, print, printData, "print === true && printData")}
+      {print === true && printData !== '' &&
+        <iframe
+          title="Print Frame"
+          srcDoc={printData}
+          onLoad={() => {
+            const iframe = document.querySelector("iframe");
+            // iframe.style.display = "none"; // Hide the iframe
+            // Check if the browser supports silent printing
+            if ("requestMediaKeySystemAccess" in navigator) {
+              try {
+                // Attempt to silently print
+                console.log("silently print");
+                iframe.contentWindow.print({ silent: true });
+                setTimeout(() => {
+                  setPrint(false);
+                  setPrintData('')
+                }, 1000)
 
-                                } catch (error) {
-                                  console.error("Error printing:", error);
-                                  setPrint(false)
-                                  setPrintData('')
-                                }
-                              } else {
-                                console.error("Silent printing is not supported in this browser.");
-                                setPrint(false)
-                                setPrintData('')
-                              }
-                            }}
-                          />
-                        }
+              } catch (error) {
+                console.error("Error printing:", error);
+                setPrint(false)
+                setPrintData('')
+              }
+            } else {
+              console.error("Silent printing is not supported in this browser.");
+              setPrint(false)
+              setPrintData('')
+            }
+          }}
+        />
+      }
       <HtmlHead title={title} description={description} />
       <div className="page-title-container">
         <Row className="g-0">
@@ -226,10 +226,10 @@ const NICorders = () => {
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            {/* <NavLink to="/addNICorder"> */}
-            <Button variant="outline-primary" onClick={addNICorder} className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+
+            {/* <Button variant="outline-primary" onClick={addNICorder} className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
               <CsLineIcons icon="plus" /> <span>Add Orders</span>
-            </Button>
+            </Button> */}
             {/* </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
@@ -316,15 +316,16 @@ const NICorders = () => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">S.No</div>
+            </Col> */}
+            <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer">Order id</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Date</div>
             </Col>
-            <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer">Order id</div>
-            </Col>
+
             <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Consumer Name </div>
             </Col>
@@ -338,7 +339,13 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer">Transaction </div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer">Status</div>
+              <div className="text-muted text-medium cursor-pointer" style={{ marginLeft: "30%" }}>Status</div>
+            </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer"> &nbsp;</div>
+            </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer"> Print</div>
             </Col>
           </Row>
         </Col>
@@ -447,18 +454,18 @@ const NICorders = () => {
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    {/* <div className="lh-1 text-alternate">{index + 1}</div> */}
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  
                     <div className="text-muted text-small d-lg-none">Name</div>
                     <div className="text-alternate">{index + 1}</div>
+                  </Col> */}
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
                   </Col>
 
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.uuid}</div>
-                  </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
                     </div>
@@ -526,6 +533,7 @@ const NICorders = () => {
                             >
                               <CsLineIcons icon="eye" />
                             </Button>
+
                           </td>
 
                         </tr>
