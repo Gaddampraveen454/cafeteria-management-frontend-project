@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
+import axios from 'axios';
+
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -56,6 +58,13 @@ const NICorders = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
+
+  // print start
+
+  const [print, setPrint] = useState(false);
+  const [printData, setPrintData] = useState('')
+
+  // print end
 
   const { currentUser } = useSelector((state) => state.auth)
   console.log(currentUser, "dsfsdfsdfssfd")
@@ -114,6 +123,25 @@ const NICorders = () => {
 
   };
 
+  const apiFun = (orderid) => {
+    axios.get(`${process.env.REACT_APP_URL}/order/list/cashier/print/${orderid}`, {
+      headers: {
+        'x-auth-token': currentUser?.token
+      }
+    })
+      .then((res) => {
+        console.log(res, "hdfhfhjdefaultdetails")
+        setPrint(true)
+        setPrintData(res.data)
+        // setdefaultdetails(res?.data)
+      })
+      .catch((err) => {
+        console.log(err, "hdfhfhjdefaultdetails")
+        setPrint(false)
+        setPrintData('')
+      })
+  }
+
 
   useEffect(() => {
     if (suc === true) {
@@ -149,6 +177,38 @@ const NICorders = () => {
   }
   return (
     <>
+                           {console.log(print === true && printData , print , printData , "print === true && printData")}
+                        {print === true && printData !== '' &&
+                          <iframe
+                            title="Print Frame"
+                            srcDoc={printData}
+                            onLoad={() => {
+                              const iframe = document.querySelector("iframe");
+                              // iframe.style.display = "none"; // Hide the iframe
+                              // Check if the browser supports silent printing
+                              if ("requestMediaKeySystemAccess" in navigator) {
+                                try {
+                                  // Attempt to silently print
+                                  console.log("silently print");
+                                  iframe.contentWindow.print({ silent: true });
+                                  setTimeout(() => {
+                                    setPrint(false);
+                                    setPrintData('')
+                                  }, 1000)
+
+                                } catch (error) {
+                                  console.error("Error printing:", error);
+                                  setPrint(false)
+                                  setPrintData('')
+                                }
+                              } else {
+                                console.error("Silent printing is not supported in this browser.");
+                                setPrint(false)
+                                setPrintData('')
+                              }
+                            }}
+                          />
+                        }
       <HtmlHead title={title} description={description} />
       <div className="page-title-container">
         <Row className="g-0">
@@ -278,7 +338,7 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer">Transaction </div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div  className="text-muted text-medium cursor-pointer">Status</div>
+              <div className="text-muted text-medium cursor-pointer">Status</div>
             </Col>
           </Row>
         </Col>
@@ -390,7 +450,7 @@ const NICorders = () => {
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     {/* <div className="lh-1 text-alternate">{index + 1}</div> */}
                     <div className="text-muted text-small d-lg-none">Name</div>
-              <div className="text-alternate">{index + 1}</div>
+                    <div className="text-alternate">{index + 1}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
@@ -418,24 +478,24 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
                   </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.order_created_by === "cashier" ? "NA" : item.transaction_uuid }</div>
+                    <div className="lh-1 text-alternate">{item.order_created_by === "cashier" ? "NA" : item.transaction_uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
                     <div className="lh-1 text-alternate">
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                      <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
-                        <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-                          {item.is_delivered === true ? "Delivered" : "Pending"}
-                        </Dropdown.Toggle>
-                      </OverlayTrigger>
-                      <Dropdown.Menu className="shadow dropdown-menu-end">
-                        <Dropdown.Item
-                          onClick={(status) => { eventHandler(item, status = true) }}>Delivered</Dropdown.Item>
-                        <Dropdown.Item onClick={(status) => { eventHandler(item, status = false) }} >Pending</Dropdown.Item>
-                        {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
-                      </Dropdown.Menu>
-                    </Dropdown>
+                      <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                          <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+                            {item.is_delivered === true ? "Delivered" : "Pending"}
+                          </Dropdown.Toggle>
+                        </OverlayTrigger>
+                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                          <Dropdown.Item
+                            onClick={(status) => { eventHandler(item, status = true) }}>Delivered</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, status = false) }} >Pending</Dropdown.Item>
+                          {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </div>
                   </Col>
 
@@ -458,11 +518,11 @@ const NICorders = () => {
                 value={ items.is_active }
                 onToggle={()=>activefunct(items)}
                  /> */}
-                 &nbsp;
+                          &nbsp;
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { viewEventHandler(item); setEventType(false) }}
-                              style={{marginLeft: '50%'}}
+                              style={{ marginLeft: '50%' }}
                             >
                               <CsLineIcons icon="eye" />
                             </Button>
@@ -472,6 +532,20 @@ const NICorders = () => {
                       </table>
                     </div>
                   </Col>
+
+                  {/* Print Start */}
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-5">
+                    <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow" onClick={() => apiFun(item?.uuid)}>
+                      <CsLineIcons icon="print" />
+                      {/* <div className="App">
+ 
+                      </div> */}
+                    </Button>
+                  </Col>
+
+                  {/* print end */}
+
+
                   {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">Non veg</div>
               </Col>
