@@ -331,7 +331,6 @@ console.log(currentUser,"currentUser")
         "user_uuid": currentUser.data.uuid,
         "company_uuid": CheckoutData.data.company_uuid,
         "paid_from_wallet": walletAmount>CartData.total_amount?CartData.total_amount:walletAmount
-
       }
       
       axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -343,10 +342,6 @@ console.log(currentUser,"currentUser")
         .then((respons) => {
           console.log(respons, "fffgdsfsdfdsf")
           if(respons.data.message!=="Checkout Success"){
-            // toast.success(respons.data.message
-            //   , {
-            //   position: "top-right",
-            // })
             history.push(({
               pathname: "/OrderSuccess",
               state: {
@@ -474,19 +469,6 @@ setSuc(false)
   // }, [notification])
   // console.log(notification, "ProductDataProductData")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -503,7 +485,7 @@ setSuc(false)
       {/* Title End */}
 
       <Row>
-        <Col xs="12" className="col-lg order-1 order-lg-0">
+        <Col xs={12} sm={12} lg={8} md={8}>
 
           {/* Payment Start */}
           <h2 className="small-title">Payment</h2>
@@ -517,52 +499,13 @@ setSuc(false)
                     <Form.Control type="number" className="w-100 sw-sm-40" onChange={(e) => setMobile(e.target.value)} />
                   </Col>
                 </Row>
-              
-
-              {/* <Row className="g-3">
-                <Col className="col-sm-auto mb-3">
-                  <Form.Label>Card Number</Form.Label>
-                  <Form.Control type="text" className="w-100 sw-sm-40" />
-                </Col>
-              </Row>
-              <Row className="g-3">
-                <Col className="col-sm-auto mb-3">
-                  <Form.Label>Name on the Card</Form.Label>
-                  <Form.Control type="text" className="w-100 sw-sm-40" />
-                </Col>
-              </Row>
-              <Row className="g-3">
-                <Col className="col-auto mb-3">
-                  <Form.Label>CCV</Form.Label>
-                  <Form.Control type="text" className="sw-9" />
-                </Col>
-                <Col className="col-auto mb-3">
-                  <Form.Label className="d-block">Expiration Date</Form.Label>
-                  <Select
-                    classNamePrefix="react-select"
-                    className="sw-9 d-inline-block me-1 text-center"
-                    options={optionsMonth}
-                    value={selectValueMonth}
-                    onChange={setSelectValueMonth}
-                    placeholder=""
-                  />
-                  <Select
-                    classNamePrefix="react-select"
-                    className="sw-9 d-inline-block"
-                    options={optionsYear}
-                    value={selectValueYear}
-                    onChange={setSelectValueYear}
-                    placeholder=""
-                  />
-                </Col>
-              </Row> */}
             </Card.Body>
           </Card>
           :
                 null}
           {/* Payment End */}
         </Col>
-        <Col lg="auto" className="order-0 order-lg-1">
+        <Col xs={12} sm={12} lg={4} md={4}>
           <h2 className="small-title">Summary</h2>
           <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
@@ -617,7 +560,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount:CartData.total_amount}
+                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2):CartData?.total_amount?.toFixed(2)}
                     </span>
                   </div>
                 </div>

@@ -26,15 +26,7 @@ import {
 } from '@mui/material';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
-
-
-
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
-
-
-
-
-
 const Menu = () => {
   const dispatch = useDispatch()
   const history = useHistory();
@@ -42,8 +34,6 @@ const Menu = () => {
   const description = 'Ecommerce Storefront Filters Page';
   const { id } = useParams();
   console.log(id, "dsfsdfsdfsdf")
-
-
   const [cmpid, newid] = id.split("=")
   console.log(newid, "sdfsdsdfsdfsdfdsfsdf")
   console.log(window.location.pathname, "sdfsdfsdfsdfsdfsd")
@@ -55,25 +45,18 @@ const Menu = () => {
   const [categoryID, setCategoryID] = useState("")
   const [suc, setSuc] = useState(false);
   const [value, setValue] = useState(0);
-
   const [open, setOpen] = React.useState(false);
   const [result1, setResult1] = useState();
-
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
-
   // const [data, setData] = useState('No result');
   const delay = 500;
-
   const previewStyle = {
     // height: 200,
-
     width: 280
   };
-
   const { currentUser } = useSelector((state) => state.auth)
-
   const handleScan = (result) => {
     console.log(result.data, "fsfsfsdfsdf")
     if (result) {
@@ -81,7 +64,6 @@ const Menu = () => {
       // setIsOpenFiltersModal(true)
     }
   };
-
   const handleError = (error) => {
     console.log(error);
   };
@@ -90,18 +72,11 @@ const Menu = () => {
       const [url, compnayId] = result1.split("menu/")
       history.push(({
         pathname: `/menu/${compnayId}`,
-
       }));
       window.location.reload();
       // <Redirect to="/somewhere/else" />
     }
-
   }, [result1])
-
-
-
-
-
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
   const getData = async () => {
@@ -109,7 +84,6 @@ const Menu = () => {
     console.log(res.data);
     setIP(res.data.ip)
   }
-
   useEffect(() => {
     getData()
   }, [])
@@ -121,10 +95,7 @@ const Menu = () => {
       //  if (ip)
       dispatch(CartListURL(ip))
     }
-
-
   }, [ip])
-
   useEffect(() => {
     if (width) {
       if (width >= lgBreakpoint) {
@@ -135,7 +106,6 @@ const Menu = () => {
     return () => { };
     // eslint-disable-next-line
   }, [width]);
-
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const [selectedItems, setSelectedItems] = useState([]);
   const checkItem = (item) => {
@@ -157,14 +127,9 @@ const Menu = () => {
   const { CartData, notification } = useSelector((state) => state.CartList)
   // const { currentUser } = useSelector((state) => state.auth)
   console.log(currentUser, "currentUser")
-
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
-
   //   const dataa= ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
   //  console.log(dataa,'dataadfsdfsdf')
-
-
-
   const addToCart = (event) => {
     console.log(event.stock_quantity, "jhjjgjhgjgjhg")
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
@@ -196,12 +161,8 @@ const Menu = () => {
     // setSuc(true)
     // dispatch(ProductForConsumerListURL(currentUser.token))
   }
-
-
   const check = CartData && CartData.data && CartData.data.every(({ uuid }) => uuid);
-
   console.log(check, "asdsdssasds");
-
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
@@ -218,25 +179,20 @@ const Menu = () => {
           dispatch(CartListURL(ip))
           setSuc(false)
         }
-
         // setTimeout(() => {
         //   // dispatch(ProductForConsumerListURL(currentUser.token))
         //   history.push(({
         //     pathname: "/Cardcart",
-
         //   }));
         // }, 1000)
-
       }
       else if (notification.status === false) {
         toast.error(notification.message)
         setSuc(false)
       }
     }
-
   }, [notification])
   console.log(notification, "ProductDataProductData")
-
   const handleModel = () => {
     setIsOpenFiltersModal(false)
   }
@@ -244,26 +200,29 @@ const Menu = () => {
     if (window.location.pathname === "/menu/qr" || window.location.pathname === "/menu/undefined") {
       toast.error("Please Scan the QR code")
     }
-
   }, [window.location.pathname])
-
-
-
-
+  useEffect(() => {
+    if (window.location.pathname.startsWith('/menu')) {
+      const getcompanyId = (localStorage.getItem('companyId'));
+      if (getcompanyId) {
+        localStorage.setItem('companyId', (getcompanyId));
+      }
+      else {
+        const checkMenu = window.location.pathname.split("menu/")
+        localStorage.setItem('companyId', checkMenu[1]);
+      }
+    }
+    // localStorage.setItem('companyId', id);
+  }, [window.location.pathname]);
   // useEffect(()=>{
   //   dispatch(categoryForConsumerListURL())
-
   // },[])
-
-
   const onInput = (event) => {
     setValue(event.target.value || 0);
   };
-
   const spinUp = () => {
     setValue(parseInt(typeof value === 'number' ? value : 0, 10) + 1);
   };
-
   const spinDown = () => {
     if (value === 1) {
       setValue(1)
@@ -271,41 +230,28 @@ const Menu = () => {
     else {
       setValue(parseInt(typeof value === 'number' ? value : 0, 10) - 1);
     }
-
   };
-
-
-
   const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
     return item.uuid
   })
   console.log(prod, "sdfsdfsdfsdfsdfdsf")
-
-
-
   const prodCart = CartData && CartData.data && CartData.data.map((item) => {
     return item.item_uuid
   })
   // console.log(prodCart[2],"sfgsdfsdfsfds")
-
-
   // return prod.some(obj1 => {
   //   console.log(obj1,"asdasdasdas")
   // const obj2 = prodCart.find(o => o === obj1); 
   // console.log(obj2,"aasdasdasdasdasdasdasd")
   // return obj2  
   // });
-
-
   // const updateCart = () => {
-
   //   const payload = {
   //     "uuid" :data && data.uuid,
   //     "quantity" : value,
   //   } 
   //   dispatch(updateCartURL(payload))
   //   setSuc(true)
-
   // }
   const updateCart = (event, event1) => {
     console.log(event1, "jhjjgjhgjgjhg")
@@ -325,20 +271,14 @@ const Menu = () => {
       }
       dispatch(updateCartURL(payload))
       setSuc(true)
-
     }
-
   }
-
   useEffect(() => {
     const categoryId = (localStorage.getItem('categoryId'));
     console.log(categoryId, "bgdhhgfjghhfhgfhhg")
     setCategoryID(categoryId)
     // setItems(getcompanyId)
   }, [ProductForConsumer])
-
-
-
   const searchfunction = (type, pages) => {
     console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
     if (type === "search") {
@@ -373,8 +313,6 @@ const Menu = () => {
       dispatch(ProductForConsumerListURL(id, categoryID, 0, search, currentUser.token, pages))
     }
   }
-
-
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -392,12 +330,7 @@ const Menu = () => {
             </h1>
           </Col>
           {/* Title End */}
-
-
-
-
           {/* Top Buttons Start */}
-
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
               onClick={() => setOpen(true)}>
@@ -422,7 +355,6 @@ const Menu = () => {
                 <Dropdown.Item>Newest</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown> */}
-
           </Col>
           {/* <Col 
          
@@ -433,7 +365,6 @@ const Menu = () => {
         </Row>
       </div>
       {/* Title End */}
-
       <Row>
         {isLgScreen && (
           <Col lg="3" xl="3" className="d-none d-lg-block">
@@ -446,9 +377,7 @@ const Menu = () => {
             {/* Filters End */}
           </Col>
         )}
-
         <Col style={{ position: "sticky" }} lg="9" xl="9">
-
           <div id="firstcolumn">
             {/* <Form className="mb-5">
               <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
@@ -458,7 +387,6 @@ const Menu = () => {
               {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
                 console.log(item, "sfsdfdsfsdfsdf")
                 return <>
-
                   <Col xs="12" md="6" lg="6" xl="6">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
@@ -478,11 +406,9 @@ const Menu = () => {
                           <Col xs="6" sm="4" md="4" lg="4">
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
-
                           <Col xs="6" sm="4" md="4" lg="4">
                             {/* <NavLink  to="/"> */}
                             <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-
                             {
                               item.stock_quantity <= 0 ?
                                 <Col style={{ color: "red" }}>
@@ -497,11 +423,8 @@ const Menu = () => {
                                     :
                                     null
                                   }
-
                                   {
                                     CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
-
-
                                       <InputGroup className="spinner sw-11">
                                         <InputGroup.Text id="basic-addon1">
                                           <button type="button" className="spin-down single px-2"
@@ -517,7 +440,6 @@ const Menu = () => {
                                           onInput={onInput}
                                           placeholder="Count"
                                           className="text-center"
-
                                         />
                                         <InputGroup.Text id="basic-addon2">
                                           <button type="button" className="spin-up single px-2"
@@ -536,30 +458,11 @@ const Menu = () => {
                                         <CsLineIcons icon="plus" /><span>Add</span>
                                       </Button>
                                   }
-
                                 </div>
                             }
-
-
-
-
-
-
-
-
-
-
-
-
-
                             {
                               console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
-
                             }
-
-
-
-
                             {/* <InputGroup className="spinner sw-11">
                               <InputGroup.Text id="basic-addon1">
                                 <button type="button" className="spin-down single px-2"
@@ -575,7 +478,6 @@ const Menu = () => {
                                 onInput={onInput}
                                 placeholder="Count"
                                 className="text-center"
-
                               />
                               <InputGroup.Text id="basic-addon2">
                                 <button type="button" className="spin-up single px-2"
@@ -586,18 +488,11 @@ const Menu = () => {
                               </InputGroup.Text>
                             </InputGroup> */}
                           </Col>
-
-
-
-
                         </Row>
-
                       </Card.Body>
                     </Card>
                     <Card.Footer>
-
                       {/* <div className="mb-2">
-
                     <Rating
                       initialRating={5}
                       readonly
@@ -610,34 +505,14 @@ const Menu = () => {
                         {/* <div className="text-muted text-overline text-small">
                       <del>$ 14.25</del>
                     </div> */}
-
                       </div>
                     </Card.Footer>
                   </Col>
                 </>
-
               })}
-
-
             </Row>
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           {/* Product Thumbnails End */}
-
-
           {/* Pagination Start */}
           <div className="d-flex justify-content-center mt-5">
             <Pagination>
@@ -649,12 +524,10 @@ const Menu = () => {
               </Pagination.Item>
               <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
               <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
-
               {Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) > page + 3 &&
                 <>
                   <Pagination.Item className="shadow" >...</Pagination.Item>
                 </>
-
               }
               <Pagination.Next className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                 <CsLineIcons icon="chevron-right" />
@@ -664,11 +537,9 @@ const Menu = () => {
           {/* Pagination End */}
         </Col>
       </Row>
-
       {/* Filters Modal Start */}
       {!isLgScreen && (
         <>
-
           <div className='settings-buttons-container'
             style={{
               marginTop: "130px",
@@ -677,7 +548,6 @@ const Menu = () => {
           >
             <Button
               style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
-
               onClick={() => setIsOpenFiltersModal(true)}
             >
               <CsLineIcons icon="menu" style={{ width: "80%", height: "auto" }} />
@@ -697,8 +567,6 @@ const Menu = () => {
         </>
       )}
       {/* Filters Modal End */}
-
-
       {/* edit view popup start */}
       {/* <div> */}
       <Dialog
@@ -706,9 +574,7 @@ const Menu = () => {
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-
       >
-
         {/* qr code start */}
         <DialogContent style={{ width: "100%", height: "100%" }}>
           <QrReader
@@ -724,5 +590,4 @@ const Menu = () => {
     </>
   );
 };
-
 export default Menu;

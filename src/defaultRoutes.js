@@ -22,10 +22,10 @@ const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
-const Checkout =lazy(()=>import('view Consumer/checkout/Checkout'))
-const Profile =lazy(()=>import('view Consumer/checkout/Profile/Profile.js'))
-const orderPlaced =lazy(()=>import('view Consumer/orders/orderPlaced'))
-const orderSuccessPage =lazy(()=>import('view Consumer/orderSuccessPage/OrderSuccessPage'))
+const Checkout = lazy(() => import('view Consumer/checkout/Checkout'))
+const Profile = lazy(() => import('view Consumer/checkout/Profile/Profile.js'))
+const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
+const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 
 
 
@@ -65,18 +65,20 @@ const settings = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-  const companyId = localStorage.getItem('companyId');
-  let compNewId = companyId===null?"qr":companyId
-  // console.log(window.location.pathname,"dfdsfdssdfdsfdsf")
-  const [url,newCompId]=window.location.pathname.split("menu/")
-  console.log(newCompId,"dfdsfdssdfdsfdsf")
-  if(newCompId!=="qr"){
-compNewId=newCompId
-  }else if(companyId!==null){
-compNewId=companyId
-  }else{
-compNewId="qr"
+const companyId = localStorage.getItem('companyId');
+let compNewId = !companyId ? "qr" : companyId
+console.log(window.location.pathname, companyId, compNewId, "dfdsfdssdfdsfdsf")
+const [url, newCompId] = window.location.pathname.split("menu/")
+console.log(newCompId, companyId, compNewId, "dfdsfdssdfdsfdsf")
+
+if (newCompId) {
+  if (newCompId !== "qr" && companyId !== null && companyId !== undefined) {
+    compNewId = newCompId
+  } else {
+    compNewId = "qr"
   }
+}
+
 
 const defaultRoutesAndMenuItems = {
   mainMenuItems: [
@@ -122,7 +124,7 @@ const defaultRoutesAndMenuItems = {
     //   label: 'Order',
     //   icon: 'shipping',
     // },
-        {
+    {
       path: `${appRoot}/Checkout`,
       component: Checkout,
       // label: 'Company Management',

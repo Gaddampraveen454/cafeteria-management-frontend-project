@@ -380,17 +380,17 @@ const settings = {
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
-let compNewId = companyId===null?"qr":companyId
-// console.log(window.location.pathname,"dfdsfdssdfdsfdsf")
+let compNewId = !companyId ?"qr":companyId
+// console.log(companyId,"dfdsfdssdfdsfdsf")
 const [url,newCompId]=window.location.pathname.split("menu/")
-console.log(newCompId,"dfdsfdssdfdsfdsf")
-if(newCompId!=="qr"){
-compNewId=newCompId
-}else if(companyId!==null){
-compNewId=companyId
-}else{
-compNewId="qr"
-}
+console.log(localStorage.getItem('companyId'),"dfdsfdssdfdsfdsf")
+// if(newCompId!=="qr"){
+// compNewId=newCompId
+// }else if(companyId!==null){
+// compNewId=companyId
+// }else{
+// compNewId="qr"
+// }
 
 const consumerRoutesAndMenuItems = {
   mainMenuItems: [

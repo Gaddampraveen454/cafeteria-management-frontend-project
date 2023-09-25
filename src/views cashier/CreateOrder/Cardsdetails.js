@@ -23,9 +23,9 @@ const Cardsdetails = ({onClose}) => {
 
   // console.log(companyId,"companyId")
 
-  useEffect(() => {
-    localStorage.setItem('companyId', (companyId));
-  }, [companyId]);
+  // useEffect(() => {
+  //   localStorage.setItem('companyId', (companyId));
+  // }, [companyId]);
 
 
   const [items, setItems] = useState();

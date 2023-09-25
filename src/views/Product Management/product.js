@@ -230,7 +230,10 @@ const product = () => {
         "price": price,
         "quantity": quantity,
         "company_uuid": selectCompany.value,
-        "image": UploadedFile
+        "image": UploadedFile,
+        "stock_quantity" : stockQuantity,
+        "cgst_tax": cgst,
+        "sgst_tax": sgst,
       }
 
 

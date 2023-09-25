@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CartListURL, deleteToCartURL, updateCartURL , ConsumerCartListURL} from 'Redux/ConsumerRedux/Cart/CartRedux';
-import { CreateCheckOutURL,CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
+import { CartListURL, deleteToCartURL, updateCartURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
-import { Row, Col, Card, Button,Form,InputGroup } from 'react-bootstrap';
+import { Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import Clamp from 'components/clamp/index';
 import { toast } from 'react-toastify';
@@ -41,9 +41,9 @@ const Cardcart = () => {
     getData()
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(IpAddressDataURL())
-  },[])
+  }, [])
 
   console.log(CartId, "Dsdfsfddsfsdfdsf")
   // useEffect(() => {
@@ -59,15 +59,15 @@ const Cardcart = () => {
 
 
   useEffect(() => {
-    if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
       dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
       setSuc(false)
-    }else if (ip) {
-   // if (ip)
-   dispatch(CartListURL(ip))
+    } else if (ip) {
+      // if (ip)
+      dispatch(CartListURL(ip))
     }
 
- 
+
   }, [ip])
 
 
@@ -111,12 +111,12 @@ const Cardcart = () => {
         setSuc(false)
         setTimeout(() => {
 
-          if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+          if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
             dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
             setSuc(false)
-          }else if (ip){
-         // if (ip)
-         dispatch(CartListURL(ip))
+          } else if (ip) {
+            // if (ip)
+            dispatch(CartListURL(ip))
           }
           // history.push(({
           //   pathname: "/Cardcart",
@@ -147,9 +147,9 @@ const Cardcart = () => {
 
   const GuestCheckOut1 = () => {
     const payload = {
-      "user_uuid" : currentUser.data.uuid
-  }
-    dispatch(CreateCheckOutURL(payload,currentUser.token))
+      "user_uuid": currentUser.data.uuid
+    }
+    dispatch(CreateCheckOutURL(payload, currentUser.token))
     setSuc(true)
   }
 
@@ -203,7 +203,7 @@ const Cardcart = () => {
   //           history.push(({
   //             pathname: "/consumer/login",
   //             // pathname: "Checkout",
-      
+
   //           }));
   //         }
   //       }, 1000)
@@ -223,20 +223,20 @@ const Cardcart = () => {
 
 
   const updateCart = (event, event1) => {
-    console.log(event1,event,"jhjjgjhgjgjhg")
-  
-      const payload = {
-        "uuid" :event,
-        "quantity" : event1,
-      }
-      dispatch(updateCartURL(payload))
-      setSuc(true)
-     
-  
- 
-   
+    console.log(event1, event, "jhjjgjhgjgjhg")
+
+    const payload = {
+      "uuid": event,
+      "quantity": event1,
+    }
+    dispatch(updateCartURL(payload))
+    setSuc(true)
+
+
+
+
   }
- 
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -253,16 +253,15 @@ const Cardcart = () => {
       {/* Title End */}
 
       <Row>
-        <Col xs="12" className="col-lg order-1 order-lg-0">
+        <Col xs={12} sm={12} lg={8} md={8} >
           {/* Items Start */}
           <h2 className="small-title">Items</h2>
           <div className="mb-5">
             {CartData && CartData.data && CartData.data.map((item) => {
-              console.log(item,"item")
+              console.log(item, "item")
               return <>
                 <Card className="mb-2">
                   <Row className="g-0 sh-18 sh-md-14">
-
                     <Col className="position-relative h-100">
                       <Card.Body>
                         <Row className="h-100">
@@ -273,33 +272,23 @@ const Cardcart = () => {
                                   {item.product_name}
                                 </Clamp>
                               </div>
-                              {/* <div className="text-muted text-small">Whole Wheat</div>
-                          <div className="mb-0 sw-19">$ 22.60</div> */}
                             </div>
                           </Col>
                           <Col xs="6" md="3" lg={4} className="pe-0 d-flex align-items-center" onClick={() => { updateQntevnt(item) }}>
-                            {/* <ItemCounter 
-                            defVal={item.quantity} 
-                            // value={item.quantity}
-                            data={updateQnt} /> */}
-
-
                             {item.stock_quantity <= 5 ?
-                                    <Col style={{ color: "red" }}>
-                                      Only {item.stock_quantity} Item Left
-                                    </Col>
-                                    :
-                                    null
-                                  }
-
-
-<InputGroup className="spinner sw-11">
+                              <Col style={{ color: "red" }}>
+                                Only {item.stock_quantity} Item Left
+                              </Col>
+                              :
+                              null
+                            }
+                            <InputGroup className="spinner sw-11">
                               <InputGroup.Text id="basic-addon1">
                                 <button type="button" className="spin-down single px-2"
                                   // onClick={updateCart(item)}
-                                  onClick={() => { updateCart(item.uuid, item.quantity-1) }}
-                                // disabled={btndisabl}
-                                disabled={item.quantity===1?true:""}
+                                  onClick={() => { updateCart(item.uuid, item.quantity - 1) }}
+                                  // disabled={btndisabl}
+                                  disabled={item.quantity === 1 ? true : ""}
                                 >
                                   -
                                 </button>
@@ -313,20 +302,15 @@ const Cardcart = () => {
                               />
                               <InputGroup.Text id="basic-addon2">
                                 <button type="button" className="spin-up single px-2"
-                                 onClick={() => { updateCart(item.uuid, item.quantity+1) }}
+                                  onClick={() => { updateCart(item.uuid, item.quantity + 1) }}
                                   //  onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity+1:0) }}
-                                disabled={item.quantity===item.stock_quantity?true:""}
+                                  disabled={item.quantity === item.stock_quantity ? true : ""}
                                 >
                                   +
                                 </button>
                               </InputGroup.Text>
                             </InputGroup>
-
-
-
-
                           </Col>
-
                           <Col xs="6" md="3" lg={4} className="d-flex justify-content-end justify-content-md-start align-items-center">
                             <div className="h6 mb-0">₹ {item.product_price}</div>
                           </Col>
@@ -343,73 +327,11 @@ const Cardcart = () => {
                   </Row>
                 </Card>
               </>
-
             })}
-
-
           </div>
-          {/* Items End */}
-
-          {/* Worth Checking Start */}
-          {/* <h2 className="small-title">Worth Checking</h2> */}
-          {/* <Row className="g-2">
-            <Col sm="6" xxl="3">
-              <Card className="w-100 sh-19 sh-sm-25 hover-img-scale-up">
-                <img src="/img/banner/cta-square-1.webp" className="card-img h-100 scale" alt="card image" />
-                <div className="card-img-overlay d-flex flex-column justify-content-between bg-transparent">
-                  <div className="d-flex flex-column h-100 justify-content-between align-items-start">
-                    <div className="cta-2 text-black w-80">Seasoned Breads</div>
-                    <Button variant="primary" className="btn-icon btn-icon-start stretched-link">
-                      <CsLineIcons icon="chevron-right" /> <span>View</span>
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-            <Col sm="6" xxl="3">
-              <Card className="w-100 sh-19 sh-sm-25 hover-img-scale-up">
-                <img src="/img/banner/cta-square-2.webp" className="card-img h-100 scale" alt="card image" />
-                <div className="card-img-overlay d-flex flex-column justify-content-between bg-transparent">
-                  <div className="d-flex flex-column h-100 justify-content-between align-items-start">
-                    <div className="cta-2 text-black w-80">Herbal and Vegan</div>
-                    <Button variant="primary" className="btn-icon btn-icon-start stretched-link">
-                      <CsLineIcons icon="chevron-right" /> <span>View</span>
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-            <Col sm="6" xxl="3">
-              <Card className="w-100 sh-19 sh-sm-25 hover-img-scale-up">
-                <img src="/img/banner/cta-square-3.webp" className="card-img h-100 scale" alt="card image" />
-                <div className="card-img-overlay d-flex flex-column justify-content-between bg-transparent">
-                  <div className="d-flex flex-column h-100 justify-content-between align-items-start">
-                    <div className="cta-2 text-black w-80">Fruit Mixed Dough</div>
-                    <Button variant="primary" className="btn-icon btn-icon-start stretched-link">
-                      <CsLineIcons icon="chevron-right" /> <span>View</span>
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-            <Col sm="6" xxl="3">
-              <Card className="w-100 sh-19 sh-sm-25 hover-img-scale-up">
-                <img src="/img/banner/cta-square-4.webp" className="card-img h-100 scale" alt="card image" />
-                <div className="card-img-overlay d-flex flex-column justify-content-between bg-transparent">
-                  <div className="d-flex flex-column h-100 justify-content-between align-items-start">
-                    <div className="cta-2 text-black w-80">Berries, Nuts and Sugar</div>
-                    <Button variant="primary" className="btn-icon btn-icon-start stretched-link">
-                      <CsLineIcons icon="chevron-right" /> <span>View</span>
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          </Row> */}
-          {/* Worth Checking End */}
         </Col>
 
-        <Col xs="12" lg="auto" className="order-0 order-lg-1">
+        <Col xs={12} sm={12} lg={4} md={4} className="order-0 order-lg-1">
           <h2 className="small-title">Cart Totals</h2>
           <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
@@ -443,7 +365,7 @@ const Cardcart = () => {
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                      {CartData.cgst_tax} 
+                      {CartData.cgst_tax}
                     </span>
                   </p>
                 </div>
@@ -452,7 +374,7 @@ const Cardcart = () => {
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>
-                      {CartData.sgst_tax} 
+                      {CartData.sgst_tax}
                     </span>
                   </p>
                 </div>

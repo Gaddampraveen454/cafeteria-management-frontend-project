@@ -307,23 +307,23 @@ const Company = () => {
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
            
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
+              <div className="text-muted text-medium cursor-pointer ">Company Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col>
           
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Contact No</div>
+              <div className="text-muted text-medium cursor-pointer ">Contact No</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Email</div>
+              <div className="text-muted text-medium cursor-pointer ">Email</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Wallet Amount</div>
+              <div className="text-muted text-medium cursor-pointer ">Wallet Amount</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer" />
+              <div className="text-muted text-medium cursor-pointer" >Company Code</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">QR Code</div>
@@ -341,31 +341,18 @@ const Company = () => {
 
 
       {companyData && companyData.data && companyData.data.map((item, index) => {
+        console.log(item, "itemitemitemitem")
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
-              {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
               <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                 <Row className="g-0 h-100 ">
-                  {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.location}</div>
                   </Col>
-                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.address}</div>
-              </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.mobile}</div>
                   </Col>
@@ -376,34 +363,12 @@ const Company = () => {
                     <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">
-                      <div className="mb-n1">
-                        {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                        <Form.Check
-                          // type="switch"
-                          //  id="quantitySwitch2" 
-                          //  value={status} 
-                          //  onChange={(e) => { setStatus(!status) }} 
-                          //  defaultChecked 
-                          type="switch"
-                          checked={item.is_active}
-                          onClick={() => { HandleCompanyStatus(item) }}
-
-                        />
-                        {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                      </div>
-                    </div>
+                    <div className="lh-1 text-alternate"> {item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">
                       <table>
                         <tr>
-                          {/* <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 /> */}
-
-
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { ViewQRCode(item) }}
@@ -420,10 +385,14 @@ const Company = () => {
                     <div className="lh-1 text-alternate">
                       <table>
                         <tr>
-                   
+                          <td>
+                          <Form.Check
+                          type="switch"
+                          checked={item.is_active}
+                          onClick={() => { HandleCompanyStatus(item) }}
 
-
-                         
+                        />
+                          </td>
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { eventHandler(item); setEventType(true) }}
