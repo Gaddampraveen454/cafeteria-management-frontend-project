@@ -60,7 +60,7 @@ const MenuForCashier = () => {
   const [suc, setSuc] = useState(false);
   const [value, setValue] = useState(0);
   const [handleopen, sethandleopen] = useState(true)
-  console.log(handleopen,"handleopencsdfvdfv")
+  console.log(handleopen, "handleopencsdfvdfv")
 
   const [open, setOpen] = React.useState(false);
   const [result1, setResult1] = useState();
@@ -69,7 +69,7 @@ const MenuForCashier = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
   const [amount, setAmount] = useState("")
-  console.log(amount,"amount")
+  console.log(amount, "amount")
   const [message, setMessage] = useState("")
   const [category, setCategory] = useState("")
 
@@ -105,7 +105,8 @@ const MenuForCashier = () => {
   const { currentUser } = useSelector((state) => state.auth)
 
 
-
+  const [print, setPrint] = useState(false);
+  const [printData, setPrintData] = useState('')
 
 
 
@@ -493,8 +494,10 @@ const MenuForCashier = () => {
         }
       })
       .then((respons) => {
-        console.log(respons.data.message, "fffgdsfsdfdsf")
+        console.log(respons, "fffgdsfsdfdsf")
         setItems([])
+        setPrint(true)
+        setPrintData(respons.data.data)
         setMessage(respons.data.message)
         sethandleopen(false)
         setOpen(true)
@@ -502,6 +505,8 @@ const MenuForCashier = () => {
       })
       .catch((err) => {
         console.log(err.response.data, "zasdsadasd")
+        setPrint(false)
+        setPrintData('')
         toast.error(err.response.data)
         setSuc(false)
 
@@ -512,7 +517,7 @@ const MenuForCashier = () => {
   // const redirect = () => {
   //   history.push({
   //      pathname: "/cashierMenu",
-    
+
   //   })
   // }
 
@@ -522,6 +527,37 @@ const MenuForCashier = () => {
 
   return (
     <>
+      {print === true && printData !== '' &&
+        <iframe
+          title="Print Frame"
+          srcDoc={printData}
+          onLoad={() => {
+            const iframe = document.querySelector("iframe");
+            // iframe.style.display = "none"; // Hide the iframe
+            // Check if the browser supports silent printing
+            if ("requestMediaKeySystemAccess" in navigator) {
+              try {
+                // Attempt to silently print
+                console.log("silently print");
+                iframe.contentWindow.print({ silent: true });
+                setTimeout(() => {
+                  setPrint(false);
+                  setPrintData('')
+                }, 1000)
+
+              } catch (error) {
+                console.error("Error printing:", error);
+                setPrint(false)
+                setPrintData('')
+              }
+            } else {
+              console.error("Silent printing is not supported in this browser.");
+              setPrint(false)
+              setPrintData('')
+            }
+          }}
+        />
+      }
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
@@ -701,10 +737,10 @@ const MenuForCashier = () => {
             })}
 
             {/* {handleopen === true ?  */}
-            
-              <Col xs="12" md="12" lg="12" xl="12">
-                <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                  <Card.Body className="pb-3">
+
+            <Col xs="12" md="12" lg="12" xl="12">
+              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                <Card.Body className="pb-3">
                   <Row >
                     {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
                     <Row >
@@ -725,83 +761,83 @@ const MenuForCashier = () => {
                         </NavLink>
 
                       </Col> */}
-                      <div className="mb-4">
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">ITEMS</p>
-                  <p>
-                    <span className="text-alternate"> {amount.count}</span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">TOTAL</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>
-                      {amount.amount}
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">SHIPPING</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>
-                      0
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">CGST(%)</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>
-                      {amount.cgst_tax} 
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">SGST(%)</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>
-                      {amount.sgst_tax} 
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                  <div className="cta-2">
-                    <span>
-                      <span className="text-small text-muted cta-2">₹</span>
-                      {amount.total_amount}
-                    </span>
-                  </div>
-                </div>
-              </div>
+                    <div className="mb-4">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">ITEMS</p>
+                        <p>
+                          <span className="text-alternate"> {amount.count}</span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">TOTAL</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.amount}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SHIPPING</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            0
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">CGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.cgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.sgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                        <div className="cta-2">
+                          <span>
+                            <span className="text-small text-muted cta-2">₹</span>
+                            {amount.total_amount}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
 
-                      <Col xs="12" sm="12" md="12" lg="12">
+                    <Col xs="12" sm="12" md="12" lg="12">
 
-                        <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
+                      <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
 
-                      </Col>
-                      <br />
-                      <br />
-                      <Col xs="12" sm="12" md="12" lg="12">
-                        <Button className="btn-icon btn-icon-end w-100" variant="primary"
-                          onClick={submitOrderPlased}
-                        >
-                          <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
+                    </Col>
+                    <br />
+                    <br />
+                    <Col xs="12" sm="12" md="12" lg="12">
+                      <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                        onClick={submitOrderPlased}
+                      >
+                        <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
             {/* } */}
           </Col>
-          
+
         )}
-       
+
         <Col style={{ position: "sticky" }} lg="8" xl="8">
 
           <div id="firstcolumn">
@@ -1052,7 +1088,7 @@ const MenuForCashier = () => {
       {/* <div> */}
       <Dialog
         open={open}
-        onClose={() => {setOpen(false);sethandleopen(false)}}
+        onClose={() => { setOpen(false); sethandleopen(false) }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{ padding: "30px" }}
@@ -1075,7 +1111,7 @@ const MenuForCashier = () => {
 
           <Col lg="12" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
             <Button className="btn-icon btn-icon-end w-100" variant="primary"
-              onClick={() =>{setOpen(false);sethandleopen(false)}}
+              onClick={() => { setOpen(false); sethandleopen(false) }}
             >
               <span>Close</span> <CsLineIcons icon="chevron-right" />
             </Button>
