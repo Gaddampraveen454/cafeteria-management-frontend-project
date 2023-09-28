@@ -86,6 +86,7 @@ const MenuForCashier = () => {
 
 
   const [items, setItems] = useState([]);
+  console.log(items, "hgdssavj");
 
   const [name, setName] = useState('');
   const [Quantity, setQuantity] = useState('');
@@ -591,6 +592,114 @@ const MenuForCashier = () => {
               </div>
               {/* Search End */}
             </Col>
+            <Col xs="12" md="7" lg="9" xxl="10">
+              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                <Card.Body className="pb-3">
+                  <Row>
+                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
+                    <Row >
+                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
+                      <Col xs="8" sm="8" md="8" lg="8">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            Total Amount
+                          </Clamp>
+                        </NavLink>
+
+                      </Col>
+                      <Col xs="4" sm="4" md="4" lg="4">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            ₹{amount.total_amount}
+                          </Clamp>
+                        </NavLink>
+
+                      </Col> */}
+
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">ITEMS</p>
+                        <p>
+                          <span className="text-alternate"> {amount.count}</span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SHIPPING</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            0
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">TOTAL</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.amount}
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+
+                      <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
+
+                    </Col>
+                    {/* <br />
+                    <br /> */}
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">CGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.cgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.sgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                        <div className="cta-2">
+                          <span>
+                            <span className="text-small text-muted cta-2">₹</span>
+                            {amount.total_amount}
+                          </span>
+                        </div>
+                      </div>
+                    </Col>
+
+
+                    
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                        onClick={submitOrderPlased}
+                      >
+                        <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
 
 
             {/* <Col lg="3">
@@ -738,101 +847,7 @@ const MenuForCashier = () => {
 
             {/* {handleopen === true ?  */}
 
-            <Col xs="12" md="12" lg="12" xl="12">
-              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                <Card.Body className="pb-3">
-                  <Row >
-                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
-                    <Row >
-                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-                      <Col xs="8" sm="8" md="8" lg="8">
-                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                          <Clamp tag="span" clamp="2">
-                            Total Amount
-                          </Clamp>
-                        </NavLink>
 
-                      </Col>
-                      <Col xs="4" sm="4" md="4" lg="4">
-                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                          <Clamp tag="span" clamp="2">
-                            ₹{amount.total_amount}
-                          </Clamp>
-                        </NavLink>
-
-                      </Col> */}
-                    <div className="mb-4">
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">ITEMS</p>
-                        <p>
-                          <span className="text-alternate"> {amount.count}</span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">TOTAL</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            {amount.amount}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">SHIPPING</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            0
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">CGST(%)</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            {amount.cgst_tax}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">SGST(%)</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            {amount.sgst_tax}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                        <div className="cta-2">
-                          <span>
-                            <span className="text-small text-muted cta-2">₹</span>
-                            {amount.total_amount}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <Col xs="12" sm="12" md="12" lg="12">
-
-                      <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
-
-                    </Col>
-                    <br />
-                    <br />
-                    <Col xs="12" sm="12" md="12" lg="12">
-                      <Button className="btn-icon btn-icon-end w-100" variant="primary"
-                        onClick={submitOrderPlased}
-                      >
-                        <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
             {/* } */}
           </Col>
 

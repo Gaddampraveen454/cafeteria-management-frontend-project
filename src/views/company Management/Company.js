@@ -33,6 +33,8 @@ const Company = () => {
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
   const [address, setAddress] = useState("")
+  const [gstin, setGstin] = useState('')
+  const [fssai, setFssai] = useState('')
   const [compnayId, setCompnayId] = useState("")
   const [suc, setSuc] = useState(false);
 
@@ -91,6 +93,8 @@ const Company = () => {
     setMobile(event.mobile)
     setLocation(event.location)
     setAddress(event.address)
+    setGstin(event.gstin)
+    setFssai(event.fssai_no)
     setCompnayId(event.uuid)
 
 
@@ -107,6 +111,8 @@ const Company = () => {
       "wallet_amount": walletamount,
       "location": location,
       "address": address,
+      "gstin": gstin,
+      "fssai_no": fssai
     }
     dispatch(compnayUpdateURL(compnayId, payload, currentUser.token))
     setSuc(true)
@@ -305,14 +311,14 @@ const Company = () => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-           
+
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer ">Company Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col>
-          
+
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer ">Contact No</div>
             </Col>
@@ -376,7 +382,7 @@ const Company = () => {
                               <CsLineIcons icon="print" />
                             </Button>
                           </td>
-                          
+
                         </tr>
                       </table>
                     </div>
@@ -386,12 +392,12 @@ const Company = () => {
                       <table>
                         <tr>
                           <td>
-                          <Form.Check
-                          type="switch"
-                          checked={item.is_active}
-                          onClick={() => { HandleCompanyStatus(item) }}
+                            <Form.Check
+                              type="switch"
+                              checked={item.is_active}
+                              onClick={() => { HandleCompanyStatus(item) }}
 
-                        />
+                            />
                           </td>
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
@@ -571,6 +577,7 @@ const Company = () => {
           <DialogContent style={{ width: "500px", height: "auto" }}>
             <Form
               onSubmit={update}
+
             >
               <Row className="g-3">
                 <Col lg="6">
@@ -599,6 +606,22 @@ const Company = () => {
                 <Col lg="6">
                   <Form.Label>Address</Form.Label>
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Gstin</Form.Label>
+                  <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Fssai No</Form.Label>
+                  <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
+                    onKeyPress={(e) => {
+                      const regex = /^[0-9\b]+$/;
+                      if (!regex.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
                 <Col lg="6">
                   <Col lg="3">
