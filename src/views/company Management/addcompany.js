@@ -209,10 +209,16 @@ const addCompany = () => {
                   <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
                     <Form.Control
-                      type="number"
+                      type="text"
                       //  onChange={(e)=>{setMobile(e.target.value)}}
-                      name="mobile"
+                      name="mobile" minLength={10} maxLength={10}
                       onChange={myhandlechange}
+                      onKeyPress={(e) => {
+                        const regex = /^[0-9\b]+$/;
+                        if (!regex.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     <p style={{ color: "red" }}>{formErrors.mobile}</p>
                   </Col>

@@ -591,7 +591,17 @@ const Company = () => {
                 </Col>
                 <Col lg="6">
                   <Form.Label>Contact No</Form.Label>
-                  <Form.Control type="number" value={mobile} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
+                  <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
+
+                          const regex = /^[0-9\b]+$/;
+
+                          if (!regex.test(e.key)) {
+
+                            e.preventDefault();
+
+                          }
+
+                        }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
                   <Form.Label>Email</Form.Label>
