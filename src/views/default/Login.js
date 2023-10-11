@@ -121,9 +121,9 @@ const Login = () => {
         </div>
         <div className="mb-5">
           <p className="h6">Please use your credentials to login.</p>
-          <p className="h6">
+          {/* <p className="h6">
             If you are not a member, please <NavLink to="/register">register</NavLink>.
-          </p>
+          </p> */}
         </div>
         <div>
           <form id="loginForm" className="tooltip-end-bottom"

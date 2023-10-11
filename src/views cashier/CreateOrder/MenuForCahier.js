@@ -63,7 +63,7 @@ const MenuForCashier = () => {
   console.log(handleopen, "handleopencsdfvdfv")
 
   const [open, setOpen] = React.useState(false);
-  const [result1, setResult1] = useState();
+  const [result, setResult] = useState(1);
 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -86,7 +86,7 @@ const MenuForCashier = () => {
 
 
   const [items, setItems] = useState([]);
-  console.log(items, "hgdssavj");
+  console.log(items, "hgdssavj"); 
 
   const [name, setName] = useState('');
   const [Quantity, setQuantity] = useState('');
@@ -143,6 +143,7 @@ const MenuForCashier = () => {
   };
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+  console.log(ProductForConsumer,'bhebfhwvefgveff')
   const { CartData, notification } = useSelector((state) => state.CartList)
 
   console.log(currentUser, "currentUser")
@@ -290,7 +291,7 @@ const MenuForCashier = () => {
       // id: items.length + 1,
       item_uuid: event.uuid,
       item_name: event.name,
-      quantity: event.quantity
+      quantity: result
     };
     setItems([...items, newItem]);
     setName('');
@@ -304,7 +305,7 @@ const MenuForCashier = () => {
 
   console.log(items, "items")
 
-
+ 
 
   const deleteItem = (id1) => {
     console.log(id1, "sdfdfdsfds")
@@ -318,6 +319,7 @@ const MenuForCashier = () => {
     console.log(event, "adsdsadasdasd")
     const arr = []
     items.map((check) => {
+      console.log(items,'bdvhcbdhgv')
       if (check.item_uuid === event.uuid) {
         arr.push({
           item_name
@@ -349,6 +351,7 @@ const MenuForCashier = () => {
     console.log(event, "adsdsadasdasd")
     const arr = []
     items.map((check) => {
+    console.log(items,'ebchevcghev')
       if (check.item_uuid === event.uuid) {
         arr.push({
           item_name
@@ -380,6 +383,7 @@ const MenuForCashier = () => {
     console.log(event, "adsdsadasddf43asd")
     const arr = []
     items.map((check) => {
+      console.log(check,'vheverrvdd')
       if (check.item_uuid === event.item_uuid
       ) {
         arr.push({
