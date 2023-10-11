@@ -86,11 +86,11 @@ const Login = () => {
   const leftSide = (
     <div className="min-h-100 d-flex align-items-center">
       <div className="w-100 w-lg-75 w-xxl-50">
-        <div>
-          {/* <div className="mb-5"> */}
-            <h3 className="display-3 text-white" style={{fontSize: "1.90em"}}> Comprehensive solution to address all your cafeteria management requirements in one place</h3>
+        {/* <div> */}
+          <div className="mb-5">
+            <h1 className='text-white'> Comprehensive solution to address all your cafeteria management requirements in one place</h1>
             {/* <h1 className="display-3 text-white">Ready for Your Project</h1> */}
-          {/* </div> */}
+          </div>
           {/* <p className="h6 text-white lh-1-5 mb-5"> */}
             {/* Dynamically target high-payoff intellectual capital for customized technologies. Objectively integrate emerging core competencies before
             process-centric communities... */}
@@ -101,7 +101,7 @@ const Login = () => {
               Learn More
             </Button>
           </div> */}
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );
