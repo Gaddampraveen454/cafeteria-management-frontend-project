@@ -24,8 +24,8 @@ const dashCountSlice = createSlice({
 export const { setDashCountData, setToast } = dashCountSlice.actions;
 
 
-export const DashdoardContListURL = (token) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/cashier/dashbaord?type=this_year`, {
+export const DashdoardContListURL = (token, year) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/cashier/dashbaord?type=${year}`, {
     headers: {
       "x-auth-token": token
     }
@@ -35,13 +35,13 @@ export const DashdoardContListURL = (token) => async (dispatch) => {
     dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log(err.response,"ersdffsdfsdfr");
-      if(err.response){
-        dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
-      }else{
+      console.log(err.response, "ersdffsdfsdfr");
+      if (err.response) {
+        dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
+      } else {
         dispatch(setToast({}))
       }
-     
+
     })
 
 };

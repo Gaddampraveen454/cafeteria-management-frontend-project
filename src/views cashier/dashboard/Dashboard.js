@@ -28,13 +28,19 @@ const Dashboard = () => {
   const { DashboardCountData,notification } = useSelector((state) => state.CashierDashbordCountList)
 console.log(currentUser,notification,"jsdggsdfsjjhg");
 
+const [selecttypedates, setSelectTypeDates] = useState('today')
+console.log(selecttypedates, 'hjbhvhvbhdhcvsdhv')
 
 useEffect(()=>{
-  dispatch(DashdoardContListURL(currentUser.token))
+  dispatch(DashdoardContListURL(currentUser.token , selecttypedates))
 },[])
 console.log(DashboardCountData,"jsdggjjhg");
 
-
+const SelectBasedonValue = (type) => {
+  console.log(type, 'hbvhehvberhfvyerf')
+  setSelectTypeDates(type);
+  dispatch(DashdoardContListURL(currentUser.token, type))
+}
 
 
 useEffect(() => {
@@ -55,6 +61,15 @@ useEffect(() => {
   }
 
 }, [notification])
+
+let toggleText = "Today";
+   if (selecttypedates === 'this_week') {
+    toggleText = 'Last Week';
+  } else if (selecttypedates === 'this_month') {
+    toggleText = 'Last Month';
+  } else if (selecttypedates === 'this_year') {
+    toggleText = 'Last Year';
+  }
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -70,19 +85,21 @@ useEffect(() => {
       {/* Title End */}
 
       {/* Stats Start */}
-      {/* <div className="d-flex">
-        <Dropdown>
+      <div className="d-flex">
+        <Dropdown onSelect={SelectBasedonValue}>
           <Dropdown.Toggle className="small-title p-0 align-top h-auto me-2" variant="link">
-            Today's
-          </Dropdown.Toggle>
+          {toggleText}
+          {/* {selecttypedates === 'today' ? 'Today' : selecttypedates === 'this_week' ? 'Last Week' : selecttypedates === 'this_month' ? 'Last Month' : selecttypedates === 'this.year' ? 'Last Year' : "Today's"} */}
+          </Dropdown.Toggle> 
           <Dropdown.Menu>
-            <Dropdown.Item>Weekly</Dropdown.Item>
-            <Dropdown.Item>Monthly</Dropdown.Item>
-            <Dropdown.Item>Yearly</Dropdown.Item>
+            <Dropdown.Item eventKey='today'>Today</Dropdown.Item>
+            <Dropdown.Item eventKey='this_week'>Last Week</Dropdown.Item>
+            <Dropdown.Item eventKey='this_month'>Last Month</Dropdown.Item>
+            <Dropdown.Item eventKey='this_year'>Last Year</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        <h2 className="small-title">Stats</h2>
-      </div> */}
+        {/* <h2 className="small-title">Stats</h2> */}
+      </div>
       <Row className="mb-5 g-2">
         <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
@@ -119,7 +136,7 @@ useEffect(() => {
             </Card.Body>
           </Card>
         </Col> */}
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -129,7 +146,7 @@ useEffect(() => {
               <div className="text-primary cta-4">17</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
         {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
