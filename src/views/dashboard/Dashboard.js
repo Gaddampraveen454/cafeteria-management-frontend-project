@@ -41,7 +41,7 @@ const Dashboard = () => {
   }
 
   let toggleText = "Today";
-   if (selecttypedates === 'this_week') {
+  if (selecttypedates === 'this_week') {
     toggleText = 'Last Week';
   } else if (selecttypedates === 'this_month') {
     toggleText = 'Last Month';
@@ -71,8 +71,8 @@ const Dashboard = () => {
         <Dropdown onSelect={SelectBasedonValue}>
           <Dropdown.Toggle className="small-title p-0 align-top h-auto me-2" variant="link">
             {toggleText}
-            {/* {selecttypedates === 'today' ? 'Today' : selecttypedates === 'this_week' ? 'Last Week' : selecttypedates === 'this_month' ? 'Last Month' : selecttypedates === 'this.year' ? 'Last Year' : "Today's"} */}
-    
+            {/* {(selecttypedates === 'today' && 'Today') || (selecttypedates === 'this_week' && 'Last Week') || (selecttypedates === 'this_month' && 'Last Month') || (selecttypedates === 'this_year' && 'Last Year')} */}
+
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item eventKey='today'>Today</Dropdown.Item>
