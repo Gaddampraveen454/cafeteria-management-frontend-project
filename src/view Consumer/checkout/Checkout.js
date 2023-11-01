@@ -7,7 +7,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
-import { IfLogedinUpdateCartURL, CartListURL,ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { IfLogedinUpdateCartURL, CartListURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { LogOutURL, LoginURL } from 'auth/authSlice';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
@@ -38,8 +38,8 @@ const Categories = () => {
   const dispatch = useDispatch()
   const history = useHistory();
   const userType = location && location.state && location.state.userType;
-  const { CartData,notification } = useSelector((state) => state.CartList)
-  console.log(CartData,"CartData")
+  const { CartData, notification } = useSelector((state) => state.CartList)
+  console.log(CartData, "CartData")
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const { WalletData } = useSelector((state) => state.WalletData);
   const { CheckoutData, checkoutnotification } = useSelector((state) => state.checkoutdata);
@@ -50,22 +50,22 @@ const Categories = () => {
 
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
-  const TotaleAmount = walletAmount>CartData.total_amount?CartData.total_amount:(CartData.total_amount - walletAmount) * 100
- 
- 
- console.log(TotaleAmount,"TotaleAmount")
-
-  const FinalAmount=CartData.total_amount<walletAmount?0:CartData.total_amount-walletAmount
-
- console.log( walletAmount>CartData.total_amount?CartData.total_amount:walletAmount,"gfhggfhgg")
-
-  console.log(walletAmount>CartData.total_amount?CartData.total_amount:TotaleAmount,"vvcbcbvbcbv")
-
-  console.log(CheckoutData,"CheckoutData")
+  const TotaleAmount = walletAmount > CartData.total_amount ? CartData.total_amount : (CartData.total_amount - walletAmount) * 100
 
 
+  console.log(TotaleAmount, "TotaleAmount")
 
-console.log(currentUser,"currentUser")
+  const FinalAmount = CartData.total_amount < walletAmount ? 0 : CartData.total_amount - walletAmount
+
+  console.log(walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount, "gfhggfhgg")
+
+  console.log(walletAmount > CartData.total_amount ? CartData.total_amount : TotaleAmount, "vvcbcbvbcbv")
+
+  console.log(CheckoutData, "CheckoutData")
+
+
+
+  console.log(currentUser, "currentUser")
 
 
   const [suc, setSuc] = useState(false);
@@ -79,25 +79,13 @@ console.log(currentUser,"currentUser")
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(IpAddressDataURL())
-  },[])
-
-
-
-
-
-
-
-
-
-
-
-
+  }, [])
 
 
   const data = "ord012356"
-  const RAZORPAY_KEY_ID = "rzp_test_S9SzVOTBYWn56h"
+  const RAZORPAY_KEY_ID = "rzp_test_SEA53JLJICNZPH"
   const RAZORPAY_KEY_SECRET = "28NnsrgmxIHGKGU6qcgBwans"
 
   const displayRazorpay = async () => {
@@ -108,16 +96,17 @@ console.log(currentUser,"currentUser")
         alert("err")
         return
       }
+      console.log(orderData, "orderData")
 
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        "amount": TotaleAmount.toString(), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": String(TotaleAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Cafeteria",
         "description": "Cafeteria",
-        "image": "https://example.com/your_logo",
+        "image": "https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=600",
         // "order_id": data.data.razorpay_id,
-        "order_id": orderData && orderData.data && orderData.data.razorpay_id,
+        "order_id": orderData?.data?.razorpay_id,
 
         // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         //    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
@@ -133,30 +122,30 @@ console.log(currentUser,"currentUser")
           }
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
-              console.log(resp.data,"ssdfsdfsdsdfsdfsdffsdfsdf")
+              console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
               // dispatch(CartListURL(IpAddressData.ip))
-              if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
+              if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
                 setSuc(false)
-              }else{
-             // if (ip)
-             dispatch(CartListURL(IpAddressData.ip))
+              } else {
+                // if (ip)
+                dispatch(CartListURL(IpAddressData.ip))
               }
-           
-             console.log(resp.data,"ssdfsdfsdsdfsdfsdffsdfsdf")
 
-             history.push(({
-              pathname: "/OrderSuccess",
-              state: {
-                message:`${resp.data.message}`
-              }
-            }));
+              console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
 
-            // dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+              history.push(({
+                pathname: "/OrderSuccess",
+                state: {
+                  message: `${resp.data.message}`
+                }
+              }));
+
+              // dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
             })
             .catch((err) => {
               // toast.success(err.response.data.message)
-              console.log(err.response.data,"sdfsdfsdffsd")
+              console.log(err.response.data, "sdfsdfsdffsd")
 
             })
 
@@ -277,15 +266,15 @@ console.log(currentUser,"currentUser")
   }
   useEffect(() => {
     if (currentUser && currentUser.data && currentUser.data.uuid) {
-      
+
       CartUpdate()
-  
+
       setTimeout(() => {
-                ConsumerCheckout()
-              }, 1500)
+        ConsumerCheckout()
+      }, 1500)
 
 
-             
+
       // ConsumerCheckout()
     } else {
 
@@ -330,9 +319,9 @@ console.log(currentUser,"currentUser")
         "checkout_uuid": CheckoutData.data.uuid,
         "user_uuid": currentUser.data.uuid,
         "company_uuid": CheckoutData.data.company_uuid,
-        "paid_from_wallet": walletAmount>CartData.total_amount?CartData.total_amount:walletAmount
+        "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
       }
-      
+
       axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
         {
           headers: {
@@ -341,30 +330,30 @@ console.log(currentUser,"currentUser")
         })
         .then((respons) => {
           console.log(respons, "fffgdsfsdfdsf")
-          if(respons.data.message!=="Checkout Success"){
+          if (respons.data.message !== "Checkout Success") {
             history.push(({
               pathname: "/OrderSuccess",
               state: {
-                message:`${respons.data.message}`
+                message: `${respons.data.message}`
               }
             }));
           }
-       
+
           setOrderData(respons.data)
-    
+
         })
         .catch((err) => {
-          console.log(err.response.data.message,"zasdsadasd")
+          console.log(err.response.data.message, "zasdsadasd")
           toast.error(err.response.data.message)
-        
-          if(err.response.data.message==="Your account has been deactivated. Please contact superadmin."){
+
+          if (err.response.data.message === "Your account has been deactivated. Please contact superadmin.") {
             setTimeout(() => {
               // console.log('Hello, World!')
               dispatch(LogOutURL())
               history.push('/dashboard')
             }, 3000);
-           
-            
+
+
           }
 
 
@@ -404,9 +393,9 @@ console.log(currentUser,"currentUser")
 
         })
         .catch((err) => {
-console.log(err.response.data,"asdasdasdasdasd")
-toast.error(err.response.data)
-setSuc(false)
+          console.log(err.response.data, "asdasdasdasdasd")
+          toast.error(err.response.data)
+          setSuc(false)
         })
       // dispatch(createOrderAsGuestURL(payload, currentUser.token))
       // setSuc(true)
@@ -448,12 +437,12 @@ setSuc(false)
   // useEffect(() => {
   //   if (suc1 === true) {
   //     if (notification.status === true) {
-       
+
   //       // toast.success(notification.message, {
   //       //   position: "top-right",
   //       // })
-        
-       
+
+
   //       setTimeout(() => {
   //         ConsumerCheckout()
   //       }, 1000)
@@ -490,19 +479,19 @@ setSuc(false)
           {/* Payment Start */}
           <h2 className="small-title">Payment</h2>
           {userType === "guest" ?
-          <Card className="mb-5">
-            <Card.Body>
-           
+            <Card className="mb-5">
+              <Card.Body>
+
                 <Row className="g-3">
                   <Col className="col-sm-auto mb-3">
                     <Form.Label>Mobile Number</Form.Label>
                     <Form.Control type="number" className="w-100 sw-sm-40" onChange={(e) => setMobile(e.target.value)} />
                   </Col>
                 </Row>
-            </Card.Body>
-          </Card>
-          :
-                null}
+              </Card.Body>
+            </Card>
+            :
+            null}
           {/* Payment End */}
         </Col>
         <Col xs={12} sm={12} lg={4} md={4}>
@@ -536,7 +525,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">CGST(%)</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span> {CartData.cgst_tax} 
+                      <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
                     </span>
                   </p>
                 </div>
@@ -552,7 +541,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount:0}
+                      <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount : 0}
                     </span>
                   </p>
                 </div>
@@ -560,7 +549,7 @@ setSuc(false)
                   <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                   <div className="cta-2">
                     <span>
-                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2):CartData?.total_amount?.toFixed(2)}
+                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
                     </span>
                   </div>
                 </div>
