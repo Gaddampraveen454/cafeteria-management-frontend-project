@@ -15,18 +15,24 @@ import cashierRoutesAndMenuItems from 'CashierRouts';
 import consumerRoutesAndMenuItems from 'customerRoutes';
 import Loading from 'components/loading/Loading';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
+// import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
+import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
 
 const App = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   console.log(currentUser, "fhhgfhfghfhfghfghfgh")
   let routsData = ''
-  if (currentUser && currentUser.data && currentUser.data.group === "admin") {
+  if (currentUser && currentUser.data && currentUser.data.group === "company") {
     routsData = adminRoutesAndMenuItems.mainMenuItems
-  } else if (currentUser && currentUser.data && currentUser.data.group === "cashier") {
+  } else if (currentUser && currentUser.data && currentUser.data.group === "store") {
     routsData = cashierRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
     routsData = consumerRoutesAndMenuItems.mainMenuItems
-  } else {
+  }
+  else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
+    routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+  }
+  else {
     routsData = defaultRoutesAndMenuItems.mainMenuItems
   }
 

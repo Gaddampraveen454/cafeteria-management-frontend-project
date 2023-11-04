@@ -37,7 +37,7 @@ export const { setCurrentUser, setToast } = authSlice.actions;
 export const LoginURL = (values) => async (dispatch) => {
 
   
-  const response = await axios.post(`${process.env.REACT_APP_URL}/user/admin/login`,values)
+  const response = await axios.post(`${process.env.REACT_APP_URL}/company/login`,values)
    .then((res) => {
     console.log(res, "sdfsdfdfgdfgdgdfsdff")
     dispatch(setCurrentUser(res.data));
