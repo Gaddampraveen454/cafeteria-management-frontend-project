@@ -5,6 +5,7 @@ import { DEFAULT_PATHS } from 'config.js';
 
 const IcafeDashboard = lazy(()=>import('viewICafeAdmin/Dashboard/dashboard'))
 const CompanyManagement = lazy(()=>import('viewICafeAdmin/CompanyManagement/companymanagement'))
+const addAdimcafeCompany = lazy(() => import('viewICafeAdmin/CompanyManagement/addAdminCompany'));
 
 // const dashboard = lazy(() => import('views/dashboard/Dashboard'));
 
@@ -79,6 +80,12 @@ const iCafeAdminRoutesAndMenuItems = {
       component: CompanyManagement,
       label: 'CompanyManagement',
       icon: 'shop',
+    },
+    {
+      path: `${appRoot}/addadmincompany`,
+      component: addAdimcafeCompany,
+      // label: 'User Management',
+      // icon: 'user',
     },
     //     {
     //   path: `${appRoot}/Company`,

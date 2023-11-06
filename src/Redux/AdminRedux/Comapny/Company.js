@@ -24,8 +24,9 @@ const companySlice = createSlice({
 export const { setCatData, setToast } = companySlice.actions;
 
 
-export const CompanyListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,{headers:{
+export const CompanyListURL = (pageNUm, search, token, limit,id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/store/list?page=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}`,
+  {headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")
@@ -33,7 +34,8 @@ export const CompanyListURL = (pageNUm, search, token, limit) => async (dispatch
 };
 
 export const companyAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/company/create`,payload,{headers:{
+    const response = await axios.post(`${process.env.REACT_APP_URL}/company/store/create`,payload,
+    {headers:{
       "x-auth-token" : token
     }})
     .then((res) => {
@@ -48,7 +50,8 @@ export const companyAddURL = (payload,token) => async (dispatch) => {
   
 
 export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/company/update/${uuid}`,payload,{headers:{
+    const response = await axios.put(`${process.env.REACT_APP_URL}/company/store/update/${uuid}`,payload,
+    {headers:{
       "x-auth-token" : token
     }}).then((res) => {
       console.log(res, "sdfsddffsdff")

@@ -71,12 +71,7 @@ const adminRoutesAndMenuItems = {
       label: 'Dashboard',
       icon: 'shop',
     },
-        {
-      path: `${appRoot}/Company`,
-      component: Company,
-      label: 'Company Management',
-      icon: 'shipping',
-    },
+    
     // {
     //   path: `${appRoot}/Cards`,
     //   component: Cards,
@@ -108,11 +103,17 @@ const adminRoutesAndMenuItems = {
       // icon: 'user',
     },
     {
-      path: `${appRoot}/executive`,
-      component: executive,
-      label: 'Front Desk Executive',
-      icon: 'laptop',
+      path: `${appRoot}/Company`,
+      component: Company,
+      label: 'Store Management',
+      icon: 'shipping',
     },
+    // {
+    //   path: `${appRoot}/executive`,
+    //   component: executive,
+    //   label: 'Front Desk Executive',
+    //   icon: 'laptop',
+    // },
     {
       path: `${appRoot}/addexecutive`,
       component: addexecutive,

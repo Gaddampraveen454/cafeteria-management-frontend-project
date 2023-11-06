@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const addCompany = () => {
+const addAdimcafeCompany = () => {
   const dispatch = useDispatch()
   const history = useHistory();
   const { currentUser } = useSelector((state) => state.auth)
@@ -17,7 +17,7 @@ const addCompany = () => {
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
 
-console.log(currentUser,"currencoma")
+
 
 
 
@@ -42,8 +42,7 @@ console.log(currentUser,"currencoma")
     // event.preventDefault()
     // const value = event.target.elements
     const payload = {
-      "company_uuid" : currentUser?.data?.uuid,
-      "store_name": formValues.companyName,
+      "company_name": formValues.companyName,
       "email": formValues.email,
       "mobile": formValues.mobile,
       "wallet_amount": formValues.walletamount,
@@ -68,7 +67,7 @@ console.log(currentUser,"currencoma")
         setTimeout(() => {
           // dispatch(CompanyListURL(currentUser.token))
           history.push(({
-            pathname: "/Company",
+            pathname: "/company_management",
 
           }));
         }, 1000)
@@ -166,9 +165,9 @@ console.log(currentUser,"currencoma")
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Company">
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/company_management">
           <CsLineIcons icon="chevron-left" size="20" />
-          <span className="align-middle text-medium ms-1">Store Management</span>
+          <span className="align-middle text-medium ms-1">Company Management</span>
         </NavLink>
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
@@ -188,7 +187,7 @@ console.log(currentUser,"currencoma")
               >
                 <Row className="g-3">
                   <Col lg="6">
-                    <Form.Label>Store Name</Form.Label>
+                    <Form.Label>Company Name</Form.Label>
                     <Form.Control
                       // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
                       name="companyName"
@@ -430,4 +429,4 @@ console.log(currentUser,"currencoma")
   );
 };
 
-export default addCompany;
+export default addAdimcafeCompany;
