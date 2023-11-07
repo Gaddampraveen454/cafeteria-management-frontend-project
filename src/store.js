@@ -40,6 +40,8 @@ import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/co
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
 import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
+import adminCategoryReducer from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import adminProductReducer from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -63,6 +65,8 @@ const persistedReducer = persistReducer(
     cotegoryList: categoryReducer,
     companymanagement: iCafeAdminCompanyReducer,
     storemanagement: iCafeAdminStoreReducer,
+    admincategory: adminCategoryReducer,
+    adminproducts: adminProductReducer,
     productList: productReducer,
     orderList: OrderReducer,
     orderListCashier: OrderReducerCashier,

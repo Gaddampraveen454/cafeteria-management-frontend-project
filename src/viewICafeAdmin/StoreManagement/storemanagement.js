@@ -327,7 +327,7 @@ const StoreManagement = () => {
                         className=""
                         name="categery"
                         options={dropdownstore}
-                        value={updateOption} // Set the selected option
+                        // value={option} // Set the selected option
                         onChange={PaginationFunn}
                         placeholder="Select Company"
                         required
