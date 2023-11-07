@@ -5,7 +5,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
-import { CompanyListURL, compnayUpdateURL, companyAddURL, CompanyStatusUpdateURL } from 'Redux/AdminRedux/Comapny/Company';
+import { ICafeAdminCompanyListURL, ICafeAdminCompnayUpdateURL, ICafeAdminCompanyStatusUpdateURL } from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
 import {
   Dialog,
   DialogActions,
@@ -69,12 +69,13 @@ const companymanagement = () => {
   const dispatch = useDispatch()
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { companyData, notification } = useSelector((state) => state.companyList)
+  const { companyData, notification } = useSelector((state) => state.companymanagement)
+  console.log(companyData, 'bsdhvsgvyuev')
 
-console.log(currentUser,"currentUserb")
+  console.log(currentUser, "currentUserb")
 
   useEffect(() => {
-    dispatch(CompanyListURL(page, search, currentUser.token, limit))
+    dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
   }, [])
 
 
@@ -114,7 +115,7 @@ console.log(currentUser,"currentUserb")
       "gstin": gstin,
       "fssai_no": fssai
     }
-    dispatch(compnayUpdateURL(compnayId, payload, currentUser.token))
+    dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
     setSuc(true)
 
   }
@@ -134,11 +135,10 @@ console.log(currentUser,"currentUserb")
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(CompanyListURL(page, search, currentUser.token, limit))
+          dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
           setOpen(false)
 
         }, 1000)
-
       }
       else if (notification.status === false) {
         toast.error(notification.message)
@@ -156,32 +156,32 @@ console.log(currentUser,"currentUserb")
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(CompanyListURL(0, pages, currentUser.token, limit))
+      dispatch(ICafeAdminCompanyListURL(0, pages, currentUser.token, limit))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(CompanyListURL(page - 1, search, currentUser.token, limit))
+      dispatch(ICafeAdminCompanyListURL(page - 1, search, currentUser.token, limit))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit))
+      dispatch(ICafeAdminCompanyListURL(page + 1, search, currentUser.token, limit))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(CompanyListURL(page, search, currentUser.token, limit))
+      dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit))
+      dispatch(ICafeAdminCompanyListURL(page + 1, search, currentUser.token, limit))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(CompanyListURL(page + 2, search, currentUser.token, limit))
+      dispatch(ICafeAdminCompanyListURL(page + 2, search, currentUser.token, limit))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(CompanyListURL(0, search, currentUser.token, pages))
+      dispatch(ICafeAdminCompanyListURL(0, search, currentUser.token, pages))
     }
   }
 
@@ -193,10 +193,10 @@ console.log(currentUser,"currentUserb")
     console.log(event, "comapnystatus")
     // if (event.is_delivered)
     const payload = {
-      "uuid": event.uuid,
+      // "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(CompanyStatusUpdateURL(payload, currentUser?.token))
+    dispatch(ICafeAdminCompanyStatusUpdateURL(payload, currentUser?.token,event.uuid))
     setSuc(true)
 
   };
@@ -593,15 +593,15 @@ console.log(currentUser,"currentUserb")
                   <Form.Label>Contact No</Form.Label>
                   <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
 
-                          const regex = /^[0-9\b]+$/;
+                    const regex = /^[0-9\b]+$/;
 
-                          if (!regex.test(e.key)) {
+                    if (!regex.test(e.key)) {
 
-                            e.preventDefault();
+                      e.preventDefault();
 
-                          }
+                    }
 
-                        }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
+                  }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
                   <Form.Label>Email</Form.Label>

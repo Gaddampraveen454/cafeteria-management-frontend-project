@@ -26,7 +26,7 @@ import CashierProductReducer from 'Redux/CashierRedux/Product/ProductRedux';
 import cashierDashbordCountReducer from 'Redux/CashierRedux/DashBoard/DashCountRedux';
 import AdminDashbordCountReducer from 'Redux/AdminRedux/DashBoard/DashCountRedux';
 import AdminReportReducer from 'Redux/AdminRedux/Reports/ReportRedux';
-import CashierReportReducer from 'Redux/CashierRedux/Reports/ReportRedux'; 
+import CashierReportReducer from 'Redux/CashierRedux/Reports/ReportRedux';
 import ProductForConsumerReducer from 'Redux/ConsumerRedux/Product/ProductRedux';
 import categoryForConsumerReducer from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import CartReducer from 'Redux/ConsumerRedux/Cart/CartRedux';
@@ -36,8 +36,10 @@ import WalletReducer from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import ConsumerOrderReducer from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import InvoiceReducer from 'Redux/AdminRedux/invoice/InvoiceRedux';
 import ActiveCompnayReducer from 'Redux/AdminRedux/Comapny/ActiveCompany';
+import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
+import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -56,28 +58,30 @@ const persistedReducer = persistReducer(
     notification: notificationReducer,
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
-    cashierList:cashierReducer,
-    consumerList:consumerReducer,
-    cotegoryList:categoryReducer,
-    productList:productReducer,
-    orderList:OrderReducer,
-    orderListCashier:OrderReducerCashier,
-    CashierConsumerList:CashierConsumerReducer,
-    CashierProductList:CashierProductReducer,
-    CashierDashbordCountList:cashierDashbordCountReducer,
-    AdminDashbordCountList:AdminDashbordCountReducer,
-    AdminReportList:AdminReportReducer,
-    CashierReportList:CashierReportReducer,
-    ProductForConsumerList:ProductForConsumerReducer,
-    categoryForConsumerList:categoryForConsumerReducer,
-    CartList:CartReducer,
-    checkoutdata:checkoutReducer,
-    IpAddressList:IpAddressReducer,
-    WalletData:WalletReducer,
-    OrderPlacedData:ConsumerOrderReducer,
-    InvoiceData:InvoiceReducer,
-    ActiveCompnayList:ActiveCompnayReducer
-    
+    cashierList: cashierReducer,
+    consumerList: consumerReducer,
+    cotegoryList: categoryReducer,
+    companymanagement: iCafeAdminCompanyReducer,
+    storemanagement: iCafeAdminStoreReducer,
+    productList: productReducer,
+    orderList: OrderReducer,
+    orderListCashier: OrderReducerCashier,
+    CashierConsumerList: CashierConsumerReducer,
+    CashierProductList: CashierProductReducer,
+    CashierDashbordCountList: cashierDashbordCountReducer,
+    AdminDashbordCountList: AdminDashbordCountReducer,
+    AdminReportList: AdminReportReducer,
+    CashierReportList: CashierReportReducer,
+    ProductForConsumerList: ProductForConsumerReducer,
+    categoryForConsumerList: categoryForConsumerReducer,
+    CartList: CartReducer,
+    checkoutdata: checkoutReducer,
+    IpAddressList: IpAddressReducer,
+    WalletData: WalletReducer,
+    OrderPlacedData: ConsumerOrderReducer,
+    InvoiceData: InvoiceReducer,
+    ActiveCompnayList: ActiveCompnayReducer
+
 
   })
 );

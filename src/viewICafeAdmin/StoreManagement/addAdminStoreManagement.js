@@ -4,24 +4,26 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import { CompanyListURL, compnayUpdateURL, IcafeAdminCompanyAddURL } from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
+import { CompanyListURL, compnayUpdateURL, IcafeAdminStoreAddURL, ICafeAdminStoreDropDownListURL } from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const addAdimcafeCompany = () => {
+const addAdminStoreManagement = () => {
   const dispatch = useDispatch()
   const history = useHistory();
+  const [option, setOption] = useState('');
   const { currentUser } = useSelector((state) => state.auth)
-  const { companyData, notification } = useSelector((state) => state.companymanagement)
-  const title = 'Add Company';
+  const { storeData, dropdownList, notification } = useSelector((state) => state.storemanagement)
+  console.log(storeData, 'bfvdhvbdfh')
+  const title = 'Add Store';
   const description = 'Ecommerce Storefront Add Details Page';
 
 
 
 
 
-  const initialValues = { companyName: "", walletamount: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
+  const initialValues = { storeName: "", walletamount: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -42,7 +44,8 @@ const addAdimcafeCompany = () => {
     // event.preventDefault()
     // const value = event.target.elements
     const payload = {
-      "company_name": formValues.companyName,
+      "company_uuid": option,
+      "store_name": formValues.storeName,
       "email": formValues.email,
       "mobile": formValues.mobile,
       "wallet_amount": formValues.walletamount,
@@ -51,7 +54,7 @@ const addAdimcafeCompany = () => {
       "gstin": formValues.gstin,
       "fssai_no": formValues.fssai_no,
     }
-    dispatch(IcafeAdminCompanyAddURL(payload, currentUser.token))
+    dispatch(IcafeAdminStoreAddURL(payload, currentUser.token))
     setSuc(true)
     // dispatch(CompanyListURL(currentUser.token))
   }
@@ -67,7 +70,7 @@ const addAdimcafeCompany = () => {
         setTimeout(() => {
           // dispatch(CompanyListURL(currentUser.token))
           history.push(({
-            pathname: "/company_management",
+            pathname: "/store_management",
 
           }));
         }, 1000)
@@ -94,8 +97,8 @@ const addAdimcafeCompany = () => {
     const alpharegex = /^[A-Za-z].{3,15}$/
     const numberregex = /^[0-9]{10,12}$/
 
-    if (!values.companyName) {
-      errors.companyName = "Company Name is Required";
+    if (!values.storeName) {
+      errors.storeName = "Store Name is Required";
     }
     else if (!values.walletamount) {
       errors.walletamount = "Wallet Amout is Required";
@@ -159,15 +162,31 @@ const addAdimcafeCompany = () => {
 
 
 
+  useEffect(() => {
+    dispatch(ICafeAdminStoreDropDownListURL())
+  }, [])
+
+  const dropdownvalues = [];
+  dropdownList.data.map((text) => {
+    console.log(text, 'dbvhdsh')
+    return dropdownvalues.push({ value: text?.uuid, label: text?.company_name })
+
+  })
+
+  const PaginationFunn = (selectedOption) => {
+    console.log(selectedOption, 'hbsdvhdhgvb')
+    setOption(selectedOption?.value);
+    // dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, selectedOption?.value))
+  }
 
   return (
     <>
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/company_management">
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/store_management">
           <CsLineIcons icon="chevron-left" size="20" />
-          <span className="align-middle text-medium ms-1">Company Management</span>
+          <span className="align-middle text-medium ms-1">Store Management</span>
         </NavLink>
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
@@ -187,15 +206,29 @@ const addAdimcafeCompany = () => {
               >
                 <Row className="g-3">
                   <Col lg="6">
-                    <Form.Label>Company Name</Form.Label>
+                    <Form.Label>Store Name</Form.Label>
                     <Form.Control
                       // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
-                      name="companyName"
+                      name="storeName"
                       onChange={myhandlechange}
 
                     />
-                    <p style={{ color: "red" }}>{formErrors.companyName}</p>
+                    <p style={{ color: "red" }}>{formErrors.storeName}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                  </Col>
+                  <Col lg='6' className="">
+                    <Form.Label> Select Company</Form.Label>
+                    <Select
+                      classNamePrefix="react-select"
+                      className=""
+                      name="selectcompany"
+                      options={dropdownvalues}
+                      // value={option} // Set the selected option
+                      onChange={PaginationFunn}
+                      // placeholder="Select Company"
+                      required
+                      style={{ borderRadius: '10px' }}
+                    />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
@@ -294,8 +327,8 @@ const addAdimcafeCompany = () => {
                     <p style={{ color: "red" }}>{formErrors.fssai_no}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
-                  <Col lg="6">
-                    <Col lg="3">
+                  <Col lg="12">
+                    <Col lg="6">
                       <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit"
                       // onSubmit={handleSubmit}
                       >
@@ -429,4 +462,4 @@ const addAdimcafeCompany = () => {
   );
 };
 
-export default addAdimcafeCompany;
+export default addAdminStoreManagement;
