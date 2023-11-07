@@ -1,38 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { NavLink,useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import {  StoreProductAddURL } from 'Redux/CashierRedux/Product/ProductRedux';
-import {StoreCategoryDropDownL} from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux'
+import {  StoreCategoryAddURL } from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CompanyDropDown } from 'Redux/AdminRedux/Comapny/Company';
-import axios from 'axios';
 
-const addproduct = () => {
-  
+const Storeaddcategory = () => {
   const dispatch = useDispatch()
   const history = useHistory();
-  const title = 'Add Product';
-  const description = 'Ecommerce Product Management Page';
-
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [search , setSearch] = useState('')
-
-  const [selectType, setSelectType] = useState();
-  const [selectCategory, setSelectCategory] = useState();
-  const [selectCompany, setSelectCompany] = useState();
-  const [UploadedFile, setUploadedFile]=useState("")
-  console.log(UploadedFile,"UploadedFile")
-
-  console.log(selectType,selectCategory,selectCompany,"sfsdfsdfsdfsdfsdf")
-  const optionsType = [
-    { value: 'veg', label: 'veg' },
-    { value: 'non-veg', label: 'non-veg' },
+  const title = 'Add Category';
+  const description = 'Ecommerce Category Management Page';
+  // const { CategoryListURL,notification } = useSelector((state) => state.cotegoryList)
+  const [selectValueState, setSelectValueState] = useState();
+  const optionsState = [
+    { value: 'Fougasse', label: 'Fougasse' },
+    { value: 'Lefse', label: 'Lefse' },
   ];
 
   const [selectValueCity, setSelectValueCity] = useState();
@@ -70,78 +56,30 @@ const addproduct = () => {
     { value: '29', label: '29' },
     { value: '30', label: '30' },
   ];
+
+  const [name, setName]=useState("")
+  const [suc,setSuc] = useState(false);
+
   const { currentUser } = useSelector((state) => state.auth)
-  const { categoryData,categoryDropdown } = useSelector((state) => state.StorecategorySlice)
-  const { companyData,companyDropData } = useSelector((state) => state.companyList)
-  const { ProductData,notification } = useSelector((state) => state.StoreproductSlice)
-  console.log(categoryDropdown,notification,"categoryDropdown")
-
-  const productList= categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) =>{return {label:item.name, value:item.uuid}})
-
-  const companyList= companyDropData && companyDropData.data && companyDropData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
-
-
-useEffect(() => {
-  dispatch(StoreCategoryDropDownL())
-  dispatch(CompanyDropDown())
-},[])
-
-
-
-
-
-
-const [suc,setSuc] = useState(false);
-const [name, setName]=useState("")
-const [price, setPrice]=useState("")
-const [quantity, setQuantity]=useState("")
-const [stockQuantity,setStockQuantity]=useState("")
-const [cgst, setCgst]=useState("")
-const [sgst, setSgst]=useState("")
-const [image, setImage] = useState(null);
-
-
-const handleImageChange = (e) => {
-  setImage(e.target.files[0]);
-};
- 
-
-
-
-
-
-
-  const AddProduct = (event) => {
+  const { categoryData, notification } = useSelector((state) => state.StorecategorySlice)
+  console.log(currentUser,"storecurrentUser")
+  // const { cashierData } = useSelector((state) => state.cashierList)
+//   const { categoryData } = useSelector((state) => state.cotegoryList)
+// useEffect(() => {
+//   dispatch(CategoryListURL(currentUser.token))
+// }, [])
+  const AddCategory = (event) => {
     event.preventDefault()
     const payload = {
-        // "name" : name,
-        // "type" : selectType && selectType.value,
-        // "category_uuid" : selectCategory && selectCategory.value,
-        // "price" : price,
-        // "quantity" : quantity,
-        // "stock_quantity" : 20,
-        // "company_uuid" : selectCompany && selectCompany.value,
-       
+        "company_uuid" : currentUser?.data?.company_uuid        ,
+        "store_uuid" : currentUser?.data?.uuid,
+        "name" : name
 
-        "name" : name,
-        "type" : selectType && selectType.value,
-        "category_uuid" : selectCategory && selectCategory.value,
-        "price" : price,
-        "quantity" : quantity,
-        "company_uuid" : selectCompany && selectCompany.value,
-        "image":UploadedFile,
-        "stock_quantity" : stockQuantity,
-        "cgst_tax": cgst,
-        "sgst_tax": sgst,
-        "store_uuid" : currentUser?.data?.uuid
     }
-    dispatch(StoreProductAddURL(payload, currentUser.token))
+    dispatch(StoreCategoryAddURL(payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
     setSuc(true)
-   
 }
-
-
-
 
 useEffect(() => {
   if (suc === true) {
@@ -153,56 +91,27 @@ useEffect(() => {
       setTimeout(()=>{
         // dispatch(ProductListURL(page, search,currentUser.token,limit))
         history.push(({
-          pathname: "/Storeproduct",
+          pathname: "/Storecategory",
           // state : {detail : id,fullname : name, pic :image, type:"edit"},
         }));
       },2000)
     }
     else if (notification.status === false) {
-      toast.error(notification?.message)
+      toast.error(notification.message)
       setSuc(false)
     }
   }
 
 }, [notification])
 
-console.log(notification,"notificationjk")
-
-const handleSubmit = () => {
-  // e.preventDefault();
-  const formData = new FormData();
-  formData.append('image', image);
-  axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
-    {
-      headers: {
-        "x-access-token": `${currentUser.token}`,
-      }
-    })
-    .then(res => {
-      console.log(res.data.image, "resp00");
-      setUploadedFile(res.data.image.filename)
-
-    })
-    .catch(err => {
-      console.log(err, "err00")
-     
-    });
-}
-
-useEffect(()=>{
-  if(image!==null){
-    handleSubmit()
-  }
- 
-},[image])
   return (
     <>
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/product">
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Storecategory">
           <CsLineIcons icon="chevron-left" size="20" />
-          <span className="align-middle text-medium ms-1">Product Management</span>
+          <span className="align-middle text-medium ms-1">Category Management</span>
         </NavLink>
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
@@ -216,70 +125,34 @@ useEffect(()=>{
           {/* <h2 className="small-title">Address</h2> */}
           <Card className="mb-5">
             <Card.Body>
-              <Form onSubmit={AddProduct}>
+              <Form onSubmit={AddCategory}>
                 <Row className="g-3">
-                <Col lg="6">
+                     <Col lg="6">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
-                  <Col lg="6">
-                    <Form.Label>Company</Form.Label>
-                    <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Category</Form.Label>
-                    <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Veg/Non Veg</Form.Label>
-
-                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setPrice(e.target.value)}}/>
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Quantity</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setQuantity(e.target.value)}}/>
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>Stock Quantity</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}/>
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>CGST(%)</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}/>
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>SGST(%)</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}}/>
-                  </Col>
-                  <Col  lg="6">
-                  <div>
-                  <Form.Label>File</Form.Label>
-                  <Form.Control type="file" onChange={handleImageChange}/>
-      {/* <input type="file" onChange={handleImageChange} /> */}
-                  </div>
-                  </Col>
-                  {/* <Col  lg="6"> */}
-                  <div>
-      {image && (
-        <div >
-          <img src={URL.createObjectURL(image)} alt="Preview" style={{width:"200px", height:"200px"}}/>
-        </div>
-      )}
-    </div>
-                  <Col lg="12">
-                    <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                  <Col lg="12" className='mt-4'>
+                  {/* <Form.Label >hello</Form.Label> */}
+                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
                     </Button>
-                    </Col>
                   </Col>
+
+                  {/* <Col lg="6">
+                    <Form.Label>Contact No</Form.Label>
+                    <Form.Control type="text" />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="text" />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Location</Form.Label>
+                    <Form.Control as="textarea" rows={2} />
+                  </Col> */}
                   {/* <Col lg="4">
                     <Form.Label>State</Form.Label>
-                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
+                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
                   </Col>
                   <Col lg="4">
                     <Form.Label>City</Form.Label>
@@ -419,4 +292,4 @@ useEffect(()=>{
   );
 };
 
-export default addproduct;
+export default Storeaddcategory;

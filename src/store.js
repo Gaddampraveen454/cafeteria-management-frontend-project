@@ -22,7 +22,7 @@ import productReducer from 'Redux/AdminRedux/Product/ProductRedux';
 import OrderReducer from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import OrderReducerCashier from 'Redux/CashierRedux/OrderRedux/OrderRedux';
 import CashierConsumerReducer from 'Redux/CashierRedux/Consumer/ConsumerRedux';
-import CashierProductReducer from 'Redux/CashierRedux/Product/ProductRedux';
+import StoreProductReducer from 'Redux/CashierRedux/Product/ProductRedux';
 import cashierDashbordCountReducer from 'Redux/CashierRedux/DashBoard/DashCountRedux';
 import AdminDashbordCountReducer from 'Redux/AdminRedux/DashBoard/DashCountRedux';
 import AdminReportReducer from 'Redux/AdminRedux/Reports/ReportRedux';
@@ -39,7 +39,11 @@ import ActiveCompnayReducer from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
+<<<<<<< Updated upstream
 import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
+=======
+import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
+>>>>>>> Stashed changes
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -58,6 +62,7 @@ const persistedReducer = persistReducer(
     notification: notificationReducer,
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
+<<<<<<< Updated upstream
     cashierList: cashierReducer,
     consumerList: consumerReducer,
     cotegoryList: categoryReducer,
@@ -82,6 +87,31 @@ const persistedReducer = persistReducer(
     InvoiceData: InvoiceReducer,
     ActiveCompnayList: ActiveCompnayReducer
 
+=======
+    cashierList:cashierReducer,
+    consumerList:consumerReducer,
+    cotegoryList:categoryReducer,
+    productList:productReducer,
+    orderList:OrderReducer,
+    orderListCashier:OrderReducerCashier,
+    CashierConsumerList:CashierConsumerReducer,
+    StoreproductSlice:StoreProductReducer,
+    CashierDashbordCountList:cashierDashbordCountReducer,
+    AdminDashbordCountList:AdminDashbordCountReducer,
+    AdminReportList:AdminReportReducer,
+    CashierReportList:CashierReportReducer,
+    ProductForConsumerList:ProductForConsumerReducer,
+    categoryForConsumerList:categoryForConsumerReducer,
+    CartList:CartReducer,
+    checkoutdata:checkoutReducer,
+    IpAddressList:IpAddressReducer,
+    WalletData:WalletReducer,
+    OrderPlacedData:ConsumerOrderReducer,
+    InvoiceData:InvoiceReducer,
+    ActiveCompnayList:ActiveCompnayReducer,
+    StorecategorySlice:StorecategoryReducer,
+    
+>>>>>>> Stashed changes
 
   })
 );
