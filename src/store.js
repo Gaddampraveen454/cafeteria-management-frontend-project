@@ -36,14 +36,13 @@ import WalletReducer from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import ConsumerOrderReducer from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import InvoiceReducer from 'Redux/AdminRedux/invoice/InvoiceRedux';
 import ActiveCompnayReducer from 'Redux/AdminRedux/Comapny/ActiveCompany';
-import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
+import iCafeAdminCompanyReducer from 'Redux/iCafeAdminRedux/CompanyManagement/companymanagement';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
-<<<<<<< Updated upstream
-import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
-=======
 import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
->>>>>>> Stashed changes
+import adminCategoryReducer from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import adminProductReducer from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
+import iCafeAdminStoreReducer from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -62,17 +61,18 @@ const persistedReducer = persistReducer(
     notification: notificationReducer,
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
-<<<<<<< Updated upstream
     cashierList: cashierReducer,
     consumerList: consumerReducer,
     cotegoryList: categoryReducer,
     companymanagement: iCafeAdminCompanyReducer,
     storemanagement: iCafeAdminStoreReducer,
+    admincategory: adminCategoryReducer,
+    adminproducts: adminProductReducer,
     productList: productReducer,
     orderList: OrderReducer,
     orderListCashier: OrderReducerCashier,
     CashierConsumerList: CashierConsumerReducer,
-    CashierProductList: CashierProductReducer,
+    StoreproductSlice: StoreProductReducer,
     CashierDashbordCountList: cashierDashbordCountReducer,
     AdminDashbordCountList: AdminDashbordCountReducer,
     AdminReportList: AdminReportReducer,
@@ -85,33 +85,8 @@ const persistedReducer = persistReducer(
     WalletData: WalletReducer,
     OrderPlacedData: ConsumerOrderReducer,
     InvoiceData: InvoiceReducer,
-    ActiveCompnayList: ActiveCompnayReducer
-
-=======
-    cashierList:cashierReducer,
-    consumerList:consumerReducer,
-    cotegoryList:categoryReducer,
-    productList:productReducer,
-    orderList:OrderReducer,
-    orderListCashier:OrderReducerCashier,
-    CashierConsumerList:CashierConsumerReducer,
-    StoreproductSlice:StoreProductReducer,
-    CashierDashbordCountList:cashierDashbordCountReducer,
-    AdminDashbordCountList:AdminDashbordCountReducer,
-    AdminReportList:AdminReportReducer,
-    CashierReportList:CashierReportReducer,
-    ProductForConsumerList:ProductForConsumerReducer,
-    categoryForConsumerList:categoryForConsumerReducer,
-    CartList:CartReducer,
-    checkoutdata:checkoutReducer,
-    IpAddressList:IpAddressReducer,
-    WalletData:WalletReducer,
-    OrderPlacedData:ConsumerOrderReducer,
-    InvoiceData:InvoiceReducer,
-    ActiveCompnayList:ActiveCompnayReducer,
-    StorecategorySlice:StorecategoryReducer,
-    
->>>>>>> Stashed changes
+    ActiveCompnayList: ActiveCompnayReducer,
+    StorecategorySlice:StorecategoryReducer
 
   })
 );

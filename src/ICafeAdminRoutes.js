@@ -8,6 +8,10 @@ const CompanyManagement = lazy(()=>import('viewICafeAdmin/CompanyManagement/comp
 const addAdimcafeCompany = lazy(() => import('viewICafeAdmin/CompanyManagement/addAdminCompany'));
 const StoreManagement = lazy(()=> import('viewICafeAdmin/StoreManagement/storemanagement'));
 const addAdminStore = lazy(()=>import('viewICafeAdmin/StoreManagement/addAdminStoreManagement'));
+const AdminCategory = lazy(()=>import('viewICafeAdmin/AdminCategoryManagement/admincategory'));
+const AdminAddCategory = lazy(()=>import('viewICafeAdmin/AdminCategoryManagement/adminaddcategory'));
+const AdminProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/productmanagement'));
+const AdminAddProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/addproductmanagement'));
 
 // const dashboard = lazy(() => import('views/dashboard/Dashboard'));
 
@@ -80,7 +84,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/company_management`,
       component: CompanyManagement,
-      label: 'CompanyManagement',
+      label: 'Company Management',
       icon: 'shop',
     },
     {
@@ -92,7 +96,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/store_management`,
       component: StoreManagement,
-      label: 'StoreManagement',
+      label: 'Store Management',
       icon: 'shop',
     },
     {
@@ -101,10 +105,34 @@ const iCafeAdminRoutesAndMenuItems = {
       // label: 'User Management',
       // icon: 'user',
     },
+    {
+      path: `${appRoot}/category_management`,
+      component: AdminCategory,
+      label: 'Category Management',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/add_category`,
+      component: AdminAddCategory,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/product_management`,
+      component: AdminProduct,
+      label: 'Product Management',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/add_product`,
+      component: AdminAddProduct,
+      // label: 'User Management',
+      // icon: 'user',
+    },
     //     {
     //   path: `${appRoot}/Company`,
     //   component: Company,
-    //   label: 'Company Management',
+    //   label: 'Company Management',AdminProduct
     //   icon: 'shipping',
     // },
     // {

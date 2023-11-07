@@ -6,7 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
-import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
+import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
 import {
     Dialog,
     DialogActions,
@@ -327,7 +327,7 @@ const StoreManagement = () => {
                         className=""
                         name="categery"
                         options={dropdownstore}
-                        value={updateOption} // Set the selected option
+                        // value={option} // Set the selected option
                         onChange={PaginationFunn}
                         placeholder="Select Company"
                         required
