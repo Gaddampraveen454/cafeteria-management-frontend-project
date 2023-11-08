@@ -25,7 +25,7 @@ export const { setDashCountData, setToast } = dashCountSlice.actions;
 
 
 export const DashdoardContListURL = (token, year) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/cashier/dashbaord?type=${year}`, {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/store/dashbaord?type=${year}`, {
     headers: {
       "x-auth-token": token
     }

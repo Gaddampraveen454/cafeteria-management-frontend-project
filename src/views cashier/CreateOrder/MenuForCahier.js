@@ -4,6 +4,7 @@ import { NavLink, useHistory, useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
+import { StoreProductListURL } from 'Redux/CashierRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import { CartListURL, addToCartURL, updateCartURL, deleteToCartURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
@@ -28,6 +29,7 @@ import Select from 'react-select';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from './Cart';
+
 
 
 
@@ -149,6 +151,7 @@ const MenuForCashier = () => {
   };
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+  const { ProductData } = useSelector((state) => state.StoreproductSlice)
   console.log(ProductForConsumer,'bhebfhwvefgveff')
   const { CartData, notification } = useSelector((state) => state.CartList)
 
@@ -227,7 +230,10 @@ const MenuForCashier = () => {
 
 
 
-  const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+  // const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+  //   return item.uuid
+  // })
+    const prod = ProductData && ProductData.data && ProductData.data.map((item) => {
     return item.uuid
   })
   console.log(prod, "sdfsdfsdfsdfsdfdsf")
@@ -262,32 +268,39 @@ const MenuForCashier = () => {
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
   }
 
@@ -874,8 +887,8 @@ const MenuForCashier = () => {
             </Form> */}
             {/* Product Thumbnails Start */}
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-              {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
-                console.log(item, "sfsdfdsfsdfsdf")
+              {ProductData && ProductData.data && ProductData.data.map((item, index) => {
+                console.log(item, "storeprod")
                 return <>
 
                   <Col xs="12" md="4" lg="4" xl="4">
@@ -890,7 +903,7 @@ const MenuForCashier = () => {
                                 {item.name}
                               </Clamp>
                             </NavLink>
-                            ₹{Math.round(item.sellng_price)}
+                            ₹{Math.round(item.price)}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
                                                    
@@ -1059,16 +1072,16 @@ const MenuForCashier = () => {
               <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                 {page + 1}
               </Pagination.Item>
-              <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-              <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-              {Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) > page + 3 &&
+              {Math.ceil(ProductData && ProductData.count / limit) > page + 3 &&
                 <>
                   <Pagination.Item className="shadow" >...</Pagination.Item>
                 </>
 
               }
-              <Pagination.Next className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+              <Pagination.Next className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                 <CsLineIcons icon="chevron-right" />
               </Pagination.Next>
             </Pagination>

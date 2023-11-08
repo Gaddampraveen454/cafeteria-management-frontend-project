@@ -31,9 +31,9 @@ console.log(currentUser,notification,"jsdggsdfsjjhg");
 const [selecttypedates, setSelectTypeDates] = useState('today')
 console.log(selecttypedates, 'hjbhvhvbhdhcvsdhv')
 
-// useEffect(()=>{
-//   dispatch(DashdoardContListURL(currentUser.token , selecttypedates))
-// },[])
+useEffect(()=>{
+  dispatch(DashdoardContListURL(currentUser.token , selecttypedates))
+},[])
 console.log(DashboardCountData,"jsdggjjhg");
 
 const SelectBasedonValue = (type) => {

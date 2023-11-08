@@ -250,6 +250,7 @@ useEffect(() => {
 
       {/* List Items Start */}
       {CashierReportData && CashierReportData.data && CashierReportData.data.map((item, index) => {
+        console.log(item,"reportitem")
       return<div key="">
       <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -267,7 +268,7 @@ useEffect(() => {
                 </NavLink>
               </Col> */}
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.company_name}</div>
+                <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.employee_name}</div>
@@ -279,7 +280,7 @@ useEffect(() => {
                 <div className="lh-1 text-alternate">{item.paid_from_wallet}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.total_amount}</div>
+                <div className="lh-1 text-alternate">{Math.round(item.total_amount)}</div>
               </Col>
               <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
