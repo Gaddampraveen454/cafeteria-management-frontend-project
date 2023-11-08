@@ -44,7 +44,7 @@ const Login = () => {
         setSuc(false)
 
         if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "store") {
-          history.push('/dashboard')
+          history.push('/Storedashboard')
           localStorage.setItem('token', currentUser)
         }
         else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "company") {

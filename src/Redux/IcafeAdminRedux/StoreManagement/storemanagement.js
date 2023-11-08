@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const iCafeAdminStoreSlice = createSlice({
-    name: 'storemanagement',
+    name: 'iCafeAdminStoreSlice',
     initialState,
     reducers: {
         setCatData(state, action) {

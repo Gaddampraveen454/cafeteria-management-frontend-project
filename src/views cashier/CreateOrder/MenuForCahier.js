@@ -90,7 +90,13 @@ const MenuForCashier = () => {
 
   const [name, setName] = useState('');
   const [Quantity, setQuantity] = useState('');
-  const [selectPaymentType, setSelectPaymentType] = useState("");
+  const [selectPaymentType, setSelectPaymentType] = useState([]);
+   let selectPaymentType1
+    if (selectPaymentType?.value === undefined) {
+      selectPaymentType1 = '';
+    } else {
+      selectPaymentType1 = selectPaymentType?.value;
+    }
   const optionsPayment = [
     { value: 'CASH', label: 'Cash ' },
     { value: 'UPI', label: 'UPI' },
@@ -452,11 +458,13 @@ const MenuForCashier = () => {
     // event.preventDefault()
 
     const payload = {
+      
+      "store_uuid" : currentUser?.data?.uuid,
       "company_uuid": currentUser.data.company_uuid,
       "item": items
     }
 
-    axios.post(`${process.env.REACT_APP_URL}/order/cashier/calculation`, payload,
+    axios.post(`${process.env.REACT_APP_URL}/order/store/calculation`, payload,
       {
         headers: {
           "x-auth-token": currentUser.token
@@ -487,12 +495,13 @@ const MenuForCashier = () => {
     event.preventDefault()
 
     const payload = {
-      "payment_type": selectPaymentType.value,
+      "payment_type": selectPaymentType1,
       "company_uuid": currentUser.data.company_uuid,
+      "store_uuid" : currentUser?.data?.uuid,
       "item": items
     }
 
-    axios.post(`${process.env.REACT_APP_URL}/order/cashier/create`, payload,
+    axios.post(`${process.env.REACT_APP_URL}/order/store/create`, payload,
       {
         headers: {
           "x-auth-token": currentUser.token
@@ -501,8 +510,8 @@ const MenuForCashier = () => {
       .then((respons) => {
         console.log(respons, "fffgdsfsdfdsf")
         setItems([])
-        setPrint(true)
-        setPrintData(respons.data.data)
+        // setPrint(true)
+        // setPrintData(respons.data.data)
         setMessage(respons.data.message)
         sethandleopen(false)
         setOpen(true)
@@ -510,8 +519,8 @@ const MenuForCashier = () => {
       })
       .catch((err) => {
         console.log(err.response.data, "zasdsadasd")
-        setPrint(false)
-        setPrintData('')
+        // setPrint(false)
+        // setPrintData('')
         toast.error(err.response.data)
         setSuc(false)
 
@@ -645,7 +654,7 @@ const MenuForCashier = () => {
                         <p>
                           <span className="text-alternate">
                             <span className="text-small text-muted">₹</span>
-                            {amount.amount}
+                            {Math.round(amount.amount)}
                           </span>
                         </p>
                       </div>
@@ -881,17 +890,17 @@ const MenuForCashier = () => {
                                 {item.name}
                               </Clamp>
                             </NavLink>
-                            ₹{item.sellng_price}
+                            ₹{Math.round(item.sellng_price)}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
-                          {/*                          
-                          <Col xs="6" sm="4" md="4" lg="4">
+                                                   
+                          {/* <Col xs="6" sm="4" md="4" lg="4">
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
 
                           <Col xs="5" sm="5" md="5" lg="5">
                             {/* <NavLink  to="/"> */}
-                            {/* <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
+                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                             <div>
                               {
                                 item.stock_quantity <= 0 ?

@@ -77,7 +77,7 @@ const updateCategory = (event) => {
   event.preventDefault()
   const value = event.target.elements
   const payload = {
-    "company_uuid" : currentUser?.data?.company_uuid        ,
+    "company_uuid" : currentUser?.data?.company_uuid,
     "store_uuid" : currentUser?.data?.uuid,
     "name":name,
   }

@@ -65,7 +65,7 @@ const ChangeEndData = e => {
 
 useEffect(() => {
   if (currentUser)
-    dispatch(CashierReportListURL(currentUser.data.company_uuid, startDate, endDate, currentUser.token))
+    dispatch(CashierReportListURL(currentUser?.data?.uuid, startDate, endDate, currentUser.token))
 }, [startDate,endDate])
 
 
