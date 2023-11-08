@@ -4,7 +4,7 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import { IcafeAdminStoreAddURL, ICafeAdminStoreDropDownListURL } from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
+import { IcafeAdminStoreAddURL, ICafeAdminStoreDropDownListURL } from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

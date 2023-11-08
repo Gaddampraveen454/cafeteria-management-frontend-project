@@ -5,12 +5,12 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductAddURL, AdminProductStoreDropDownListURL } from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductAddURL, AdminProductStoreDropDownListURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const addproductmanagement = () => {
 
@@ -28,6 +28,8 @@ const addproductmanagement = () => {
   const [selectCompany, setSelectCompany] = useState();
   const [UploadedFile, setUploadedFile] = useState("")
   console.log(UploadedFile, "UploadedFile")
+
+  const[companyOption,setComapanyOption]=useState('');
 
 
   console.log(selectType, selectCategory, selectCompany, "sfsdfsdfsdfsdfsdf")
@@ -75,7 +77,7 @@ const addproductmanagement = () => {
   const { categoryData } = useSelector((state) => state.cotegoryList)
 
   const { companyData } = useSelector((state) => state.companyList)
-  const { notification } = useSelector((state) => state.productList)
+  const { notification } = useSelector((state) => state.adminproducts)
 
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
@@ -129,21 +131,16 @@ const addproductmanagement = () => {
       "category_uuid": selectCategory && selectCategory.value,
       "price": price,
       "quantity": quantity,
-      "company_uuid": selectCompany && selectCompany.value,
+      "company_uuid": companyOption,
       "image": UploadedFile,
       "stock_quantity": stockQuantity,
       "cgst_tax": cgst,
       "sgst_tax": sgst,
       "store_uuid": option
     }
-
-
-
-
-
-
     dispatch(AdminProductAddURL(payload, currentUser.token))
     setSuc(true)
+
 
   }
 
@@ -152,14 +149,15 @@ const addproductmanagement = () => {
       if (notification.status === true) {
         toast.success(notification.message, {
           position: "top-right",
+          duration:1000
         })
         setSuc(false)
         setTimeout(() => {
           // dispatch(ProductListURL(page, search,currentUser.token,limit))
           history.push(({
-            pathname: "/product",
+            pathname: "/product_management",
             // state : {detail : id,fullname : name, pic :image, type:"edit"},
-          }));
+          }))
         }, 2000)
       }
       else if (notification.status === false) {
@@ -215,6 +213,22 @@ const addproductmanagement = () => {
     dispatch(ICafeAdminCategoryStoreDropDownListURL())
   }, [])
 
+  useEffect(() => {
+    dispatch(ICafeAdminCategoryDropDownListURL());
+}, [])
+
+  const CompanyDropDown=[];
+
+    categoryDropdown.data.map((text) => {
+        console.log(text, 'dvhgdvgbhfvbj')
+        return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+    })
+
+    const selectedCompany = (selectvalue) =>{
+        setComapanyOption(selectvalue?.value)
+        // dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue?.value , option))
+    }
+
   const dropdownValues=[];
 
   storeDropdown.data.map((text) => {
@@ -256,7 +270,7 @@ const selectdropdown = (text)=>{
                   </Col>
                   <Col lg="6">
                     <Form.Label>Company</Form.Label>
-                    <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="Select Company" />
+                    <Select classNamePrefix="react-select" options={CompanyDropDown}  onChange={selectedCompany} placeholder="Select Company" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>

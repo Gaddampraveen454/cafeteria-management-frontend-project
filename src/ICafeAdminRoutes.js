@@ -12,6 +12,8 @@ const AdminCategory = lazy(()=>import('viewICafeAdmin/AdminCategoryManagement/ad
 const AdminAddCategory = lazy(()=>import('viewICafeAdmin/AdminCategoryManagement/adminaddcategory'));
 const AdminProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/productmanagement'));
 const AdminAddProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/addproductmanagement'));
+const OrderList=lazy(()=>import('viewICafeAdmin/Order/Order'));
+const Reports = lazy(()=>import('viewICafeAdmin/Reports/adminreports'));
 
 // const dashboard = lazy(() => import('views/dashboard/Dashboard'));
 
@@ -128,6 +130,18 @@ const iCafeAdminRoutesAndMenuItems = {
       component: AdminAddProduct,
       // label: 'User Management',
       // icon: 'user',
+    },
+    {
+      path: `${appRoot}/orders`,
+      component: OrderList,
+      label: 'Order List',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/reports`,
+      component: Reports,
+      label: 'Reports',
+      icon: 'shop',
     },
     //     {
     //   path: `${appRoot}/Company`,

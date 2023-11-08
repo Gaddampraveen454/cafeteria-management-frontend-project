@@ -6,7 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
-import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
+import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
 import {
     Dialog,
     DialogActions,

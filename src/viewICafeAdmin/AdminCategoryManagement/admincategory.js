@@ -6,7 +6,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import { AdminCategoryListURL, AdminCategoryUpdateURL, AdminCategoryStatusUpdateURL, ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { AdminCategoryListURL, AdminCategoryUpdateURL, AdminCategoryStatusUpdateURL, ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 import {
     Dialog,
     DialogActions,
@@ -362,16 +362,22 @@ const category = () => {
                 {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
                 <Col>
                     <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-                        <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-medium cursor-pointer sort">Name</div>
                         </Col>
-                        <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-medium cursor-pointer sort">Category Id</div>
                         </Col>
-                        <Col xs="2" lg="3" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-medium cursor-pointer " />
+                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium cursor-pointer " >Company Name</div>
                         </Col>
-                        <Col xs="2" lg="3" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium cursor-pointer " >Store Name</div>
+                        </Col>
+                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium "/>
+                        </Col>
+                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Action</div>
                         </Col>
                         {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
@@ -406,13 +412,20 @@ const category = () => {
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-                                    <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.name}</div>
                                     </Col>
-                                    <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.uuid}</div>
                                     </Col>
-                                    <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                                    </Col>
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <div className="lh-1 text-alternate">{item?.store[0]?.store_name}</div>
+                                    </Col>
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">
                                             <div className="mb-n1">
                                                 {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
@@ -427,7 +440,7 @@ const category = () => {
                                             </div>
                                         </div>
                                     </Col>
-                                    <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">
                                             <div className="lh-1 text-alternate">
                                                 <table>

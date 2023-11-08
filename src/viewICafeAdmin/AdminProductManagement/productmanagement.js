@@ -6,21 +6,24 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
 import {
+    Autocomplete,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     Input,
+    TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const productmanagement = () => {
     const dispatch = useDispatch()
@@ -103,6 +106,11 @@ const productmanagement = () => {
 
     const [compnayId, setCompnayId] = useState('')
     const [categoryId, setCategoryId] = useState('')
+    const [option, setOption] = useState('');
+    const [comapanyOption, setComapanyOption] = useState('');
+
+    const [storeOption, setStoreOption] = useState('');
+    const [comOption, setComOption] = useState('');
 
 
     console.log(compnayId.value, categoryId.value, "dfgdfgdfgdd")
@@ -133,6 +141,8 @@ const productmanagement = () => {
     const { categoryData } = useSelector((state) => state.cotegoryList)
     const { companyData } = useSelector((state) => state.companyList)
     const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
+    const { categoryDropdown, storeDropdown, } = useSelector((state) => state.admincategory)
+    console.log(categoryDropdown, 'hdvhgsdvger')
 
     const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
@@ -142,11 +152,12 @@ const productmanagement = () => {
         dispatch(CategoryListURL(page, search, currentUser.token, limit))
     }, [])
 
-    const { ProductData, notification } = useSelector((state) => state.productList)
+    const { ProductData, notification } = useSelector((state) => state.adminproducts)
+    console.log(ProductData, 'sdvhgdgfbrf')
     useEffect(() => {
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, option))
     }, [compnayId, categoryId])
-    console.log(ProductData, "ProductDatasdfdsfdsf");
+    // console.log(ProductData, "ProductDatasdfdsfdsf");
     useEffect(() => {
         if (suc === true) {
             if (notification.status === true) {
@@ -156,7 +167,7 @@ const productmanagement = () => {
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(AdminProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+                    dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, option))
                     setOpenEditViewOpupup(false)
                     setTimeout(() => {
                         setImage(null)
@@ -210,6 +221,7 @@ const productmanagement = () => {
         setName(event.name)
         setSelectCompany({ label: event.company_name, value: event.company_uuid })
         setSelectCategory({ label: event.category_name, value: event.category_uuid })
+        setStoreOption({ label: event.store_name, value: event.store_uuid })
         setSelectType({ label: event.type, value: event.type })
         setPrice(event.price)
         setQuantity(event.quantity)
@@ -236,6 +248,7 @@ const productmanagement = () => {
                 "stock_quantity": stockQuantity,
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
+                "store_uuid": storeOption.value
             }
 
 
@@ -253,8 +266,10 @@ const productmanagement = () => {
                 "quantity": quantity,
                 "company_uuid": selectCompany.value,
                 "stock_quantity": stockQuantity,
+                // "image": UploadedFile,
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
+                "store_uuid": storeOption.value
             }
 
 
@@ -304,32 +319,32 @@ const productmanagement = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(AdminProductListURL(0, pages, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+            dispatch(AdminProductListURL(0, pages, currentUser.token, limit, comapanyOption, option))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(AdminProductListURL(page - 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+            dispatch(AdminProductListURL(page - 1, search, currentUser.token, limit, comapanyOption, option))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(AdminProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+            dispatch(AdminProductListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(AdminProductListURL(page, search, currentUser.token, limit), compnayId && compnayId.value, categoryId && categoryId.value)
+            dispatch(AdminProductListURL(page, search, currentUser.token, limit), comapanyOption, option)
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(AdminProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+            dispatch(AdminProductListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(AdminProductListURL(page + 2, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+            dispatch(AdminProductListURL(page + 2, search, currentUser.token, limit, comapanyOption, option))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(AdminProductListURL(0, search, currentUser.token, pages, compnayId && compnayId.value, categoryId && categoryId.value))
+            dispatch(AdminProductListURL(0, search, currentUser.token, pages, comapanyOption, option))
         }
     }
 
@@ -390,6 +405,47 @@ const productmanagement = () => {
 
     }, [image])
 
+    useEffect(() => {
+        dispatch(ICafeAdminCategoryDropDownListURL());
+    }, [])
+
+    const CompanyDropDown = [];
+
+    categoryDropdown.data.forEach((text) => {
+        console.log(text, 'dvhgdvgbhfvbj')
+        CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+    })
+
+
+    const [isClearable, setIsClearable] = useState(true);
+
+    const ClearFunction = () => {
+        setIsClearable((state) => !state)
+    }
+
+
+    const selectedCompany = (selectvalue) => {
+        console.log(selectvalue, 'gsdvgsdty')
+        setComapanyOption(selectvalue?.value)
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option))
+    }
+
+    const dropdownValues = [];
+
+    storeDropdown.data.map((text) => {
+        console.log(text, 'dvhgdvgbhfvbj')
+        return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
+    })
+
+    const selectdropdown = (text) => {
+        console.log(text, 'hsdbvudgsfy')
+        setOption(text?.value)
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, text?.value))
+    }
+
+    const selectStore = (select) => {
+        setStoreOption(select)
+    }
 
     return (
         <>
@@ -458,9 +514,9 @@ const productmanagement = () => {
 
                     {/* Top Buttons Start */}
                     <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
-              <CsLineIcons icon="plus" /> <span>Upload Product</span>
-            </Button> */}
+                        <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
+                            <CsLineIcons icon="plus" /> <span>Upload Product</span>
+                        </Button>
                         <NavLink to="/add_product">
                             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                                 <CsLineIcons icon="plus" /> <span>Add Product</span>
@@ -508,23 +564,46 @@ const productmanagement = () => {
                     {/* Search End */}
                 </Col>
 
-                <Col lg="3">
-                    {/* <Form.Label>Company</Form.Label> */}
-                    <Select classNamePrefix="react-select"
+                {/* <Col lg="3"> */}
+                {/* <Form.Label>Company</Form.Label> */}
+                {/* <Select classNamePrefix="react-select"
                         options={ActivcompanyList}
                         value={compnayId}
                         onChange={setCompnayId}
-                        placeholder="Select Company"
-                    // disabled={eventType}
+                        placeholder="Select Company" */}
+                {/* disabled={eventType} */}
+                {/* /> */}
+                {/* </Col> */}
+                <Col lg="3">
+                    {/* <Form.Label>Company</Form.Label> */}
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select"
+                        isClearable={isClearable}
+                        // defaultValue={colourOptions[0]}
+                        onChange={selectedCompany}
+                        name="color"
+                        border="none"
+                        options={CompanyDropDown}
                     />
                 </Col>
+                {/* <Col lg="3"> */}
+                    {/* <Autocomplete
+                    // disablePortal
+                    id="combo-box-demo"
+                    options={CompanyDropDown}
+                    onChange={selectedCompany}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Movie" />}
+                /> */}
+                {/* </Col> */}
                 <Col lg="3">
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select classNamePrefix="react-select"
-                        options={productList}
-                        value={categoryId}
-                        onChange={setCategoryId}
-                        placeholder="Select Category"
+                        options={dropdownValues}
+                        // value={categoryId}
+                        onChange={selectdropdown}
+                        placeholder="Select Store"
                     // disabled={eventType}
                     />
                 </Col>
@@ -586,8 +665,9 @@ const productmanagement = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {ProductData && ProductData.data && ProductData.data.map((item, index) => {
-                return <div key="">
+            {ProductData.data.map((item, index) => {
+                console.log(item, 'svdghvsdghf')
+                return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
 
@@ -735,11 +815,21 @@ const productmanagement = () => {
                                 <Col lg="6">
                                     <Form.Label>Company</Form.Label>
                                     <Select classNamePrefix="react-select"
-                                        options={companyList}
+                                        options={CompanyDropDown}
                                         value={selectCompany}
                                         onChange={setSelectCompany}
                                         placeholder=""
-                                        disabled={eventType}
+                                        isDisabled={eventType}
+                                    />
+                                </Col>
+                                <Col lg="6">
+                                    <Form.Label>Store</Form.Label>
+                                    <Select classNamePrefix="react-select"
+                                        options={dropdownValues}
+                                        value={storeOption}
+                                        onChange={selectStore}
+                                        placeholder=""
+                                        isDisabled={eventType}
                                     />
                                 </Col>
                                 <Col lg="6">
@@ -749,7 +839,7 @@ const productmanagement = () => {
                                         value={selectCategory}
                                         onChange={setSelectCategory}
                                         placeholder=""
-                                        disabled={eventType}
+                                        isDisabled={eventType}
                                     />
                                 </Col>
                                 <Col lg="6">
@@ -760,7 +850,7 @@ const productmanagement = () => {
                                         value={selectType}
                                         onChange={setSelectType}
                                         placeholder=""
-                                        disabled={eventType}
+                                        isDisabled={eventType}
                                     />
                                 </Col>
                                 <Col lg="6">
