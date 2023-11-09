@@ -6,7 +6,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import { AdminCategoryListURL, AdminCategoryUpdateURL, AdminCategoryStatusUpdateURL, ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { AdminCategoryListURL, AdminCategoryUpdateURL, AdminCategoryStatusUpdateURL, ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 import {
     Dialog,
     DialogActions,
@@ -17,13 +17,13 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+ 
+ 
 const category = () => {
     const dispatch = useDispatch()
     const title = 'Category Management';
     const description = 'Ecommerce Category Management Page';
-
+ 
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [selectedItems, setSelectedItems] = useState([]);
     const checkItem = (item) => {
@@ -40,49 +40,49 @@ const category = () => {
             setSelectedItems([]);
         }
     };
-
+ 
     const [open, setOpen] = React.useState(false);
     const [eventType, setEventType] = useState(false)
     const [name, setName] = useState("")
     const [categoryId, setCategoryId] = useState("")
     const [suc, setSuc] = useState(false);
-
+ 
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
     const [companyDrop, setComapnyDrop] = useState('');
     const [storeDrop, setStoreDrop] = useState('');
-
+ 
     const [companyUpdateDrop, setCompanyUpdateDrop] = useState('');
     const [storeUpdateDrop, setStoreUpdateDrop] = useState('');
-
-
+ 
+ 
     const { currentUser } = useSelector((state) => state.auth)
     console.log(currentUser, 'dvcgvdh')
     // const { cashierData } = useSelector((state) => state.cashierList)
-    const { categoryData, categoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
+    const { categoryData, categoryDropdown, storeDropdown, notification } = useSelector((state) => state.adminCategorySlice)
     console.log(categoryData, 'evhgfvgefvef')
     useEffect(() => {
         dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDrop))
     }, [])
-
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
+ 
     const eventHandler = (event) => {
         setOpen(true)
-
+ 
         console.log(event, "eventxcvvxcvv")
         setName(event.name)
         setCompanyUpdateDrop({ label: event.company[0].company_name, value: event.company[0].uuid })
         setStoreUpdateDrop({ label: event.store[0].store_name, value: event.store[0].uuid })
         setCategoryId(event.uuid)
     };
-
-
-
+ 
+ 
+ 
     const updateCategory = (event) => {
         event.preventDefault()
         const value = event.target.elements
@@ -90,17 +90,17 @@ const category = () => {
             "company_uuid": companyUpdateDrop?.value,
             "store_uuid": storeUpdateDrop?.value,
             "name": name,
-
+ 
         }
         dispatch(AdminCategoryUpdateURL(categoryId, payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
         setSuc(true)
     }
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
     useEffect(() => {
         if (suc === true) {
             if (notification.status === true) {
@@ -112,21 +112,21 @@ const category = () => {
                     dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDrop))
                     setOpen(false)
                 }, 1000)
-
+ 
             }
             else if (notification.status === false) {
                 toast.error(notification.message)
                 setSuc(false)
             }
         }
-
+ 
     }, [notification])
     console.log(notification, "ProductDataProductData")
-
+ 
     console.log(categoryData, "categoryDatacategoryData")
-
-
-
+ 
+ 
+ 
     const searchfunction = (type, pages) => {
         if (type === "search") {
             console.log(pages, "ghjkvbnm")
@@ -160,7 +160,7 @@ const category = () => {
             dispatch(AdminCategoryListURL(0, search, pages, companyDrop, storeDrop))
         }
     }
-
+ 
     const HandleCategoryStatus = (event) => {
         console.log(event, "eventxcvvxcvv")
         // if (event.is_delivered)
@@ -170,61 +170,63 @@ const category = () => {
         }
         dispatch(AdminCategoryStatusUpdateURL(payload, currentUser.token, event?.uuid))
         setSuc(true)
-
+ 
     };
-
+    const [isClearable,setIsClearable]=useState(true);
+    const [isRemove,setIsRemove]=useState(true);
+ 
     useEffect(() => {
         dispatch(ICafeAdminCategoryDropDownListURL());
     }, [])
-
+ 
     const categoryDrop = [];
-
+ 
     categoryDropdown.data.map((text) => {
         console.log(text, 'sbdvhbsdvb')
         return categoryDrop.push({ value: text?.uuid, label: text?.company_name })
     })
-
+ 
     const selectEvent = (selectedEvent) => {
         setComapnyDrop(selectedEvent?.value);
-        dispatch(AdminCategoryListURL(page, search, limit, selectedEvent?.value, storeDrop))
+        dispatch(AdminCategoryListURL(page, search, limit, selectedEvent === null  ? "" : selectedEvent?.value, storeDrop))
     }
-
+ 
     useEffect(() => {
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
     }, [])
-
+ 
     const StoreDropp = [];
-
+ 
     storeDropdown.data.map((text) => {
         console.log(text, 'hdfbhfbfb')
         return StoreDropp.push({ value: text?.uuid, label: text?.store_name })
     })
-
+ 
     const selectStoreDrop = (storeDroped) => {
         setStoreDrop(storeDroped?.value);
-        dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDroped?.value))
+        dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDroped === null ? "" : storeDroped?.value))
     }
-
-
-
+ 
+ 
+ 
     // const companyDropDown = [];
-
+ 
     // categoryDropdown.data.map((text) => {
     //     console.log(text, 'sbdvhbsdvb')
     //     return companyDropDown.push({ value: text?.uuid, label: text?.company_name })
     // })
-
+ 
     const handleUpdateDrop = (select) => {
         console.log(select, 'sbdvhbsdvjrthritb')
         setCompanyUpdateDrop(select)
     }
-
+ 
     const handleUpdateStore = (selected) => {
         setStoreUpdateDrop(selected)
     }
-
-
-
+ 
+ 
+ 
     return (
         <>
             <HtmlHead title={title} description={description} />
@@ -241,7 +243,7 @@ const category = () => {
                         </h1>
                     </Col>
                     {/* Title End */}
-
+ 
                     {/* Top Buttons Start */}
                     <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
                         <NavLink to="/add_category">
@@ -273,7 +275,7 @@ const category = () => {
                     {/* Top Buttons End */}
                 </Row>
             </div>
-
+ 
             <Row className="mb-3">
                 <Col lg="3" className="mb-1">
                     {/* Search Start */}
@@ -288,34 +290,35 @@ const category = () => {
                     </div>
                     {/* Search End */}
                 </Col>
-                <Col lg='3' className="mb-1">
-                    {/* <Form.Label>Categery</Form.Label> */}
+                <Col lg="3">
+                    {/* <Form.Label>Company</Form.Label> */}
                     <Select
-                        classNamePrefix="react-select"
-                        className=""
-                        name="categery"
-                        options={categoryDrop}
-                        // value={updateOption} // 
+                        className="basic-single"
+                        classNamePrefix="select company"
+                        isClearable={isClearable}
+                        // defaultValue={colourOptions[0]}
                         onChange={selectEvent}
-                        placeholder="Select Company"
-                        required
-                        style={{ borderRadius: '10px' }}
+                        placeholder="Select company"
+                        name="color"
+                        border="none"
+                        options={categoryDrop}
                     />
                 </Col>
-                <Col lg='3' className="mb-1">
-                    {/* <Form.Label>Categery</Form.Label> */}
+                <Col lg="3">
+                    {/* <Form.Label>Category</Form.Label> */}
                     <Select
-                        classNamePrefix="react-select"
-                        className=""
-                        name="categery"
+                     className="basic-single"
+                     classNamePrefix="select Store"
                         options={StoreDropp}
-                        // value={updateOption} // 
+                        isClearable={isRemove}
+                        // value={categoryId}
                         onChange={selectStoreDrop}
                         placeholder="Select Store"
-                        required
-                        style={{ borderRadius: '10px' }}
+                    // disabled={eventType}
                     />
                 </Col>
+               
+               
                 <Col lg="3" className="mb-1 text-end">
                     {/* Print Button Start */}
                     {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
@@ -324,7 +327,7 @@ const category = () => {
             </Button>
           </OverlayTrigger> */}
                     {/* Print Button End */}
-
+ 
                     {/* Export Dropdown Start */}
                     {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
@@ -339,7 +342,7 @@ const category = () => {
             </Dropdown.Menu>
           </Dropdown> */}
                     {/* Export Dropdown End */}
-
+ 
                     {/* Length Start */}
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
@@ -356,7 +359,7 @@ const category = () => {
                     {/* Length End */}
                 </Col>
             </Row>
-
+ 
             {/* List Header Start */}
             <Row className="g-0 mb-2 d-none d-lg-flex">
                 {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
@@ -393,9 +396,9 @@ const category = () => {
                 </Col>
             </Row>
             {/* List Header End */}
-
+ 
             {/* List Items Start */}
-            {categoryData && categoryData.data && categoryData.data.map((item, index) => {
+            {categoryData?.data?.map((item, index) => {
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -418,7 +421,7 @@ const category = () => {
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.uuid}</div>
                                     </Col>
-                                    
+                                   
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
                                     </Col>
@@ -430,11 +433,11 @@ const category = () => {
                                             <div className="mb-n1">
                                                 {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
                                                 <Form.Check
-
+ 
                                                     type="switch"
                                                     checked={item.is_active}
                                                     onClick={() => { HandleCategoryStatus(item) }}
-
+ 
                                                 />
                                                 {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
                                             </div>
@@ -500,9 +503,9 @@ const category = () => {
                     </Card>
                 </div>
             })}
-
+ 
             {/* List Items End */}
-
+ 
             {/* Pagination Start */}
             <div className="d-flex justify-content-center mt-5">
                 <Pagination>
@@ -514,12 +517,12 @@ const category = () => {
                     </Pagination.Item>
                     <Pagination.Item className="shadow" disabled={Math.ceil(categoryData && categoryData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
                     <Pagination.Item className="shadow" disabled={Math.ceil(categoryData && categoryData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
-
+ 
                     {Math.ceil(categoryData && categoryData.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
-
+ 
                     }
                     <Pagination.Next className="shadow" disabled={Math.ceil(categoryData && categoryData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                         <CsLineIcons icon="chevron-right" />
@@ -527,9 +530,9 @@ const category = () => {
                 </Pagination>
             </div>
             {/* Pagination End */}
-
-
-
+ 
+ 
+ 
             {/* edit view popup start */}
             <div>
                 <Dialog
@@ -574,7 +577,7 @@ const category = () => {
                                         className=""
                                         name="categery"
                                         options={StoreDropp}
-                                        defaultValue={storeUpdateDrop} // 
+                                        defaultValue={storeUpdateDrop} //
                                         onChange={handleUpdateStore}
                                         placeholder="Select Store"
                                         required
@@ -582,9 +585,9 @@ const category = () => {
                                         isDisabled={eventType}
                                     />
                                 </Col>
-
-
-
+ 
+ 
+ 
                                 <Col lg="6">
                                     <Col lg="3">
                                         {eventType ?
@@ -593,7 +596,7 @@ const category = () => {
                                             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
                                         }
                                     </Col>
-
+ 
                                 </Col>
                                 <Col lg="6" align="right">
                                     {/* <Col lg="3"> */}
@@ -601,18 +604,18 @@ const category = () => {
                                         Cancel
                                     </Button>
                                     {/* </Col> */}
-
+ 
                                 </Col>
                             </Row>
-
+ 
                         </Form>
-
+ 
                     </DialogContent>
-
+ 
                 </Dialog>
             </div>
         </>
     );
 };
-
+ 
 export default category;

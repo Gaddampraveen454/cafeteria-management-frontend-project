@@ -36,15 +36,15 @@ import WalletReducer from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import ConsumerOrderReducer from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import InvoiceReducer from 'Redux/AdminRedux/invoice/InvoiceRedux';
 import ActiveCompnayReducer from 'Redux/AdminRedux/Comapny/ActiveCompany';
-import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
+import iCafeAdminCompanyReducer from 'Redux/iCafeAdminRedux/CompanyManagement/companymanagement';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
 import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
-import adminCategoryReducer from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
-import adminProductReducer from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
-import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
-import AdminOrderReducer from 'Redux/IcafeAdminRedux/Orders/orderredux';
-import ICafeAdminReportReducer from 'Redux/IcafeAdminRedux/Reports/reportsredux';
+import adminCategoryReducer from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import adminProductReducer from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
+import iCafeAdminStoreReducer from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
+import AdminOrderReducer from 'Redux/iCafeAdminRedux/Orders/orderredux';
+import ICafeAdminReportReducer from 'Redux/iCafeAdminRedux/Reports/reportsredux';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -67,10 +67,10 @@ const persistedReducer = persistReducer(
     consumerList: consumerReducer,
     cotegoryList: categoryReducer,
     companymanagement: iCafeAdminCompanyReducer,
-    storemanagement: iCafeAdminStoreReducer,
+    // storemanagement: iCafeAdminStoreReducer,
     adminorder: AdminOrderReducer,
     iCafeAdminStoreSlice: iCafeAdminStoreReducer,
-    admincategory: adminCategoryReducer,
+    adminCategorySlice: adminCategoryReducer,
     adminproducts: adminProductReducer,
     admindashbord: ICafeAdminReportReducer,
     productList: productReducer,
@@ -106,3 +106,5 @@ const store = configureStore({
 });
 const persistedStore = persistStore(store);
 export { store, persistedStore };
+
+

@@ -5,12 +5,12 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductAddURL, AdminProductStoreDropDownListURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductAddURL, AdminProductStoreDropDownListURL } from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const addproductmanagement = () => {
 

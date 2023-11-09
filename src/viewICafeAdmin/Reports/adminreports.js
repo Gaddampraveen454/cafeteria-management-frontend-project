@@ -11,8 +11,8 @@ import DatePicker from 'react-datepicker';
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
 import { ExportExcel } from 'Export';
-import { ICafeAdminReportListURL } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminReportListURL } from 'Redux/iCafeAdminRedux/Reports/reportsredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const AdminReports = () => {
     const dispatch = useDispatch()

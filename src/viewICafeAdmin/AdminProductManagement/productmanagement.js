@@ -16,14 +16,14 @@ import {
     TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const productmanagement = () => {
     const dispatch = useDispatch()

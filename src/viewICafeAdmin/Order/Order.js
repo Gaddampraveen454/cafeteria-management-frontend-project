@@ -5,10 +5,10 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import moment from "moment";
-import { AdminOrderListURL } from 'Redux/IcafeAdminRedux/Orders/orderredux';
+import { AdminOrderListURL } from 'Redux/iCafeAdminRedux/Orders/orderredux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const Order = () => {
     const title = 'Orders List';
