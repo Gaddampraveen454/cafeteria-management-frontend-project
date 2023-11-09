@@ -128,7 +128,7 @@ const handleImageChange = (e) => {
         "category_uuid" : selectCategory && selectCategory.value,
         "price" : price,
         "quantity" : quantity,
-        "company_uuid" : selectCompany && selectCompany.value,
+        "company_uuid" : currentUser?.data?.company_uuid,
         "image":UploadedFile,
         "stock_quantity" : stockQuantity,
         "cgst_tax": cgst,
@@ -222,10 +222,10 @@ useEffect(()=>{
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Company</Form.Label>
                     <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
                     <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />

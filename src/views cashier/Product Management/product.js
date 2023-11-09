@@ -91,7 +91,8 @@ const product = () => {
 
 
   const [selectType, setSelectType] = useState();
-  const [selectCategory, setSelectCategory] = useState();
+  const [selectCategory, setSelectCategory] = useState([]);
+  const [selectcat , setSelectCat] = useState([])
   const [selectCompany, setSelectCompany] = useState();
   const [productId,setProductId]=useState("")
   const [UploadedFile, setUploadedFile]=useState("")
@@ -105,7 +106,19 @@ const product = () => {
 
 console.log(selectCompany,"dfgdfgdfgdd")
 
+let selectCategory1
+if (selectCategory?.value === undefined) {
+  selectCategory1 = '';
+} else {
+  selectCategory1 = selectCategory?.value;
+}
 
+let selectcat1
+if (selectcat?.value === undefined) {
+  selectcat1 = '';
+} else {
+  selectcat1 = selectcat?.value;
+}
 
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -136,9 +149,9 @@ console.log(selectCompany,"dfgdfgdfgdd")
   const { categoryDropdown } = useSelector((state) => state.StorecategorySlice)
   console.log(categoryDropdown,currentUser,"categoryDropdown")
 useEffect(()=>{
-  dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid))
+  dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,selectcat1))
   dispatch(StoreCategoryDropDownL())
-},[])
+},[selectcat1])
 console.log(ProductData,"ProductDatasdfdsfdsf");
 useEffect(() => {
   if (suc === true) {
@@ -148,7 +161,7 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser.data.uuid))
+        dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
         setOpenEditViewOpupup(false)
       },1000)
      
@@ -220,7 +233,7 @@ console.log(notification ,"ProductDataProductData")
 const eventHandler = (event) => {
   setOpenEditViewOpupup(true)
 
-  console.log(event, "sdfssdfsdfsf")
+  console.log(event, "editstore")
   setName(event.name)
   setSelectCompany({label:event.company_name, value:event.company_uuid})
   setSelectCategory({label:event.category_name, value:event.category_uuid})
@@ -228,9 +241,9 @@ const eventHandler = (event) => {
   setPrice(event.price)
   setQuantity(event.quantity)
   setStockQuantity(event.stock_quantity)
-  setCgst(event)
-  setSgst(event)
-
+  setCgst(event.cgst_tax)
+  setSgst(event.sgst_tax)
+  // setImage(event.image_url)
   setProductId(event.uuid)
 
 };
@@ -292,32 +305,32 @@ const searchfunction =(type , pages)=>{
    console.log(pages ,"ghjkvbnm")
    setSearch(pages)
    setPage(0)
-   dispatch(StoreProductListURL(0, pages,currentUser.token,limit,currentUser.data.uuid)) 
+   dispatch(StoreProductListURL(0, pages,currentUser.token,limit,currentUser.data.uuid,selectcat1)) 
   }
   if(type === "prev"){
    setPage(page-1)
-   dispatch(StoreProductListURL(page-1,search,currentUser.token,limit,currentUser.data.uuid))
+   dispatch(StoreProductListURL(page-1,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "next"){
    setPage(page+1)
-   dispatch(StoreProductListURL(page+1,search,currentUser.token,limit,currentUser.data.uuid))
+   dispatch(StoreProductListURL(page+1,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "page"){
    setPage(page)
-   dispatch(StoreProductListURL(page,search,currentUser.token,limit,currentUser.data.uuid))
+   dispatch(StoreProductListURL(page,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "page+1"){
    setPage(page+1)
-   dispatch(StoreProductListURL(page+1,search,currentUser.token,limit,currentUser.data.uuid))
+   dispatch(StoreProductListURL(page+1,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "page+2"){
    setPage(page+2)
-   dispatch(StoreProductListURL(page+2,search,currentUser.token,limit,currentUser.data.uuid))
+   dispatch(StoreProductListURL(page+2,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "limit"){
    setLimit(pages)
    setPage(0)
-   dispatch(StoreProductListURL(0,search,currentUser.token,pages,currentUser.data.uuid))
+   dispatch(StoreProductListURL(0,search,currentUser.token,pages,currentUser.data.uuid,selectcat1))
   }
  }
   return (
@@ -433,7 +446,11 @@ const searchfunction =(type , pages)=>{
           </div>
           {/* Search End */}
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+        <Col md="2" lg="2" xxl="2">
+                    {/* <Form.Label>Category</Form.Label> */}
+                    <Select classNamePrefix="react-select" options={productList} value={selectcat} onChange={setSelectCat} placeholder="Category Select" />
+                  </Col>
+        <Col md="5" lg="7" xxl="8" className="mb-1 text-end">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -641,7 +658,7 @@ const searchfunction =(type , pages)=>{
                     disabled={eventType}
                     />
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Company</Form.Label>
                     <Select classNamePrefix="react-select" 
                     options={companyList} 
@@ -650,7 +667,7 @@ const searchfunction =(type , pages)=>{
                     placeholder=""
                     disabled={eventType}
                      />
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
                     <Select classNamePrefix="react-select" 
@@ -691,15 +708,15 @@ const searchfunction =(type , pages)=>{
                   </Col>
                   <Col lg="6">
                     <Form.Label>Stock Quantity</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}/>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}  value={stockQuantity}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>CGST(%)</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}/>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}  value={cgst}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>SGST(%)</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}}/>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}} value={sgst}/>
                   </Col>
                   <Col  lg="6">
                   <div>

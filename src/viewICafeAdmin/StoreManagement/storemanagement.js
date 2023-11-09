@@ -77,7 +77,7 @@ const StoreManagement = () => {
 
     const { currentUser } = useSelector((state) => state.auth)
 
-    const { storeData, notification, dropdownList } = useSelector((state) => state.storemanagement)
+    const { storeData, notification, dropdownList } = useSelector((state) => state.iCafeAdminStoreSlice)
 
     console.log(storeData, "companyid")
 

@@ -69,6 +69,7 @@ const persistedReducer = persistReducer(
     companymanagement: iCafeAdminCompanyReducer,
     storemanagement: iCafeAdminStoreReducer,
     adminorder: AdminOrderReducer,
+    iCafeAdminStoreSlice: iCafeAdminStoreReducer,
     admincategory: adminCategoryReducer,
     adminproducts: adminProductReducer,
     admindashbord: ICafeAdminReportReducer,

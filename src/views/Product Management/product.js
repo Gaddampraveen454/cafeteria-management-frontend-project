@@ -101,8 +101,13 @@ const product = () => {
   const [search, setSearch] = useState('')
 
   const [compnayId, setCompnayId]=useState('')
-  const [categoryId , setCategoryId]=useState('')
-
+  const [categoryId , setCategoryId]=useState([])
+  let categoryId1
+  if (categoryId?.value === undefined) {
+    categoryId1 = '';
+  } else {
+    categoryId1 = categoryId?.value;
+  }
 
   console.log(compnayId.value,categoryId.value, "dfgdfgdfgdd")
 
@@ -129,7 +134,7 @@ const product = () => {
 
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { categoryData } = useSelector((state) => state.cotegoryList)
+  const { categoryData ,categoryDropdown} = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
@@ -143,7 +148,7 @@ const product = () => {
 
   const { ProductData, notification } = useSelector((state) => state.productList)
   useEffect(() => {
-    dispatch(ProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+    dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
   }, [compnayId,categoryId])
   console.log(ProductData, "ProductDatasdfdsfdsf");
   useEffect(() => {
@@ -154,7 +159,7 @@ const product = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(ProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+          dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
           setOpenEditViewOpupup(false)
           setTimeout(() => {
             setImage(null)
@@ -184,7 +189,7 @@ const product = () => {
   // // const { currentUser } = useSelector((state) => state.auth)
   // const { categoryData } = useSelector((state) => state.cotegoryList)
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
-  const productList = categoryData && categoryData.data && categoryData.data.map((item) => { return { label: item.name, value: item.uuid } })
+  const productList = categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) => { return { label: item.name, value: item.uuid } })
   // console.log(productList,"categoryDatacategoryData")
 
 
@@ -302,32 +307,32 @@ const product = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductListURL(0, pages, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductListURL(page - 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductListURL(page, search, currentUser.token, limit), compnayId && compnayId.value, categoryId && categoryId.value)
+      dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductListURL(page + 2, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data.uuid, categoryId1))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductListURL(0, search, currentUser.token, pages ,compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(0, search, currentUser.token, pages ,currentUser?.data.uuid, categoryId1))
     }
   }
 
