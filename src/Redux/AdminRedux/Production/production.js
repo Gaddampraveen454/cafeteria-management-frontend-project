@@ -23,8 +23,8 @@ const CompanyProductionSlice = createSlice({
 
 export const { setCompanyProductionData, setToast } = CompanyProductionSlice.actions;
 
-export const CompanyProductionListURL = (pageNUm, search, token, limit, companyId, categoryId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/lists?pagenum=${pageNUm}&limit=${limit}&company_slug=cogni&store_slug=new-store&category_uuid=CAT-292C60A9&search=${search}`, {
+export const CompanyProductionListURL = (pageNUm, search, token, limit, companyId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=COMP-3581F6AC'`, {
     headers: {
       "x-auth-token": token
     }

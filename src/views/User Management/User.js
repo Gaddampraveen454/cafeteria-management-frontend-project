@@ -34,12 +34,14 @@ const User = () => {
   const [openPopup, setOpenPopup] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
-  const {companyUser,notification} = useSelector((state)=>state.CompanyUser);
-  console.log(companyUser,'eghverv')
-  // const { companyUser, notification } = useSelector((state) => state.consumerList)
+  // const {companyUser,notification} = useSelector((state)=>state.userManagement);
+  // console.log(companyUser,'eghverv')
+  const { companyUser, notification } = useSelector((state) => state.comapnuserSlice)
+  console.log(companyUser,'vdghvehgfvhegvfv')
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
   const { companyData } = useSelector((state) => state.companyList)
-  // const { companyData } = useSelector((state) => state.companyList)
+  console.log(companyData,'vsdfgh')
+
  
 
   const [selectCompany, setSelectCompany] = useState(); 
@@ -56,7 +58,7 @@ const User = () => {
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
   const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
-  console.log(companyUser, "cashierDatadassadad")
+  // console.log(companyUser, "cashierDatadassadad")
 
 
   useEffect(() => {
@@ -181,7 +183,7 @@ const User = () => {
       "name": name,
       "mobile": mobile,
       "email": email,
-      "company_uuid": selectedCompany.value,
+      "company_uuid": currentUser?.data?.uuid,
       "emp_id": EmpId,
       "location": location,
       "designation":designation,
@@ -653,7 +655,7 @@ const User = () => {
                     value={selectedCompany}
                     onChange={setSelectedCompany}
                     placeholder=""
-                    disabled={eventType}
+                    isDisabled={eventType}
                   />
                   {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                 </Col>

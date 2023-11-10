@@ -18,7 +18,7 @@ const adduser = () => {
   const description = 'Ecommerce Storefront Add Details Page';
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.auth)
-  const { consumerData,notification } = useSelector((state) => state.consumerList)
+  const { companyUser, notification } = useSelector((state) => state.comapnuserSlice)
   const [selectValueState, setSelectValueState] = useState();
   console.log(selectValueState,"selectValueState")
   const [suc,setSuc] = useState(false);
@@ -63,7 +63,7 @@ useEffect(()=>{
           "name" : formValues.name,
           "mobile" : formValues.mobile,
           "email" : formValues.email,
-          "company_uuid" : selectValueState && selectValueState.value,
+          "company_uuid" : currentUser?.data?.uuid,
           "emp_id" :formValues.EmpId,
           "location" :formValues.location,
           "designation" : formValues.designation,
@@ -199,7 +199,7 @@ useEffect(() => {
                      />
                         <p style={{color:"red"}}>{formErrors.name}</p>
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
                     <Select classNamePrefix="react-select" 
                     options={companyList}
@@ -210,7 +210,7 @@ useEffect(() => {
                     //  onChange={myhandlechange}
                       />
                   
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>Employee ID</Form.Label>
                     <Form.Control type="text" 
@@ -267,7 +267,7 @@ useEffect(() => {
                     />
                      <p style={{color:"red"}}>{formErrors.per_day_amount}</p>
                   </Col>
-                  <Col lg="6">
+                  <Col lg="12">
                     <Col lg="3">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type='submit'>
                     <CsLineIcons /> <span>Submit</span>

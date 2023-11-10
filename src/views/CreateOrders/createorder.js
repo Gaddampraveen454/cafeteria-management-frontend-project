@@ -153,15 +153,15 @@ const CreateOrder = () => {
     };
     const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
     const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
-    const { ProductData } = useSelector((state) => state.StoreproductSlice)
+    // const { companyProductionData } = useSelector((state) => state.StoreproductSlice)
     // console.log(ProductForConsumer, 'bhebfhwvefgveff')
     const { CartData, notification } = useSelector((state) => state.CartList)
 
     console.log(currentUser, "currentUser")
 
 
-    // const {companyProductionData} = useSelector(({CompanyProductionSlice})=>CompanyProductionSlice);
-    // console.log(companyProductionData,'bfvherverrejb')
+    const {companyProductionData} = useSelector(({compamyProduction})=>compamyProduction);
+    console.log(companyProductionData,'bfvherverrejb')
     
     
     useEffect(()=>{
@@ -241,7 +241,7 @@ const CreateOrder = () => {
     // const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
     //   return item.uuid
     // })
-    const prod = ProductData && ProductData.data && ProductData.data.map((item) => {
+    const prod = companyProductionData && companyProductionData.data && companyProductionData.data.map((item) => {
         return item.uuid
     })
     console.log(prod, "sdfsdfsdfsdfsdfdsf")
@@ -903,7 +903,7 @@ const CreateOrder = () => {
             </Form> */}
                         {/* Product Thumbnails Start */}
                         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-                            {ProductData && ProductData.data && ProductData.data.map((item, index) => {
+                            {companyProductionData && companyProductionData.data && companyProductionData.data.map((item, index) => {
                                 console.log(item, "storeprod")
                                 return <>
 
@@ -1088,16 +1088,16 @@ const CreateOrder = () => {
                             <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                                 {page + 1}
                             </Pagination.Item>
-                            <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-                            <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+                            <Pagination.Item className="shadow" disabled={Math.ceil(companyProductionData && companyProductionData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                            <Pagination.Item className="shadow" disabled={Math.ceil(companyProductionData && companyProductionData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                            {Math.ceil(ProductData && ProductData.count / limit) > page + 3 &&
+                            {Math.ceil(companyProductionData && companyProductionData.count / limit) > page + 3 &&
                                 <>
                                     <Pagination.Item className="shadow" >...</Pagination.Item>
                                 </>
 
                             }
-                            <Pagination.Next className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                            <Pagination.Next className="shadow" disabled={Math.ceil(companyProductionData && companyProductionData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                                 <CsLineIcons icon="chevron-right" />
                             </Pagination.Next>
                         </Pagination>
