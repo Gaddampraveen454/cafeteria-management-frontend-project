@@ -20,7 +20,7 @@ import {
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL, ConsumerStatusUpdateURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { CompanyConsumerListURL, CompanyConsumerUpdateURL, CompanyConsumerBulkUploadURL, CompanyConsumerStatusUpdateURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,25 +34,29 @@ const User = () => {
   const [openPopup, setOpenPopup] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
-  const { consumerData, notification } = useSelector((state) => state.consumerList)
+  const {companyUser,notification} = useSelector((state)=>state.CompanyUser);
+  console.log(companyUser,'eghverv')
+  // const { companyUser, notification } = useSelector((state) => state.consumerList)
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
   const { companyData } = useSelector((state) => state.companyList)
   // const { companyData } = useSelector((state) => state.companyList)
-  const [selectCompany, setSelectCompany] = useState();
+ 
+
+  const [selectCompany, setSelectCompany] = useState(); 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
   console.log(selectCompany, "sfsfsdfdsfsfds")
 
   useEffect(() => {
-    dispatch(consumerListURL(page, search, currentUser.token, limit))
+    dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
   }, [])
 
 
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
   const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
-  console.log(consumerData, "cashierDatadassadad")
+  console.log(companyUser, "cashierDatadassadad")
 
 
   useEffect(() => {
@@ -186,7 +190,7 @@ const User = () => {
 
     }
 
-    dispatch(consumerUpdateURL(consmerId, payload, currentUser.token))
+    dispatch(CompanyConsumerUpdateURL(consmerId, payload, currentUser.token))
     setSuc(true)
     // dispatch(CompanyListURL(currentUser.token))
   }
@@ -200,7 +204,7 @@ const User = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(consumerListURL(page, search, currentUser.token, limit))
+          dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
           setOpenPopup(false)
         }, 1000)
 
@@ -233,7 +237,7 @@ const User = () => {
       formData.append('file', file);
       formData.append('fileName', file.name);
       formData.append('company_uuid', selectCompany && selectCompany.value);
-      dispatch(consumerBulkUploadURL(formData, currentUser.token))
+      dispatch(CompanyConsumerBulkUploadURL(formData, currentUser.token))
       setSuc(true)
     }
   }
@@ -244,32 +248,32 @@ const User = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(consumerListURL(0, pages, currentUser.token, limit))
+      dispatch(CompanyConsumerListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(consumerListURL(page - 1, search, currentUser.token, limit))
+      dispatch(CompanyConsumerListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(consumerListURL(page + 1, search, currentUser.token, limit))
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(consumerListURL(page, search, currentUser.token, limit))
+      dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(consumerListURL(page + 1, search, currentUser.token, limit))
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(consumerListURL(page + 2, search, currentUser.token, limit))
+      dispatch(CompanyConsumerListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(consumerListURL(0, search, currentUser.token, pages))
+      dispatch(CompanyConsumerListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
     }
   }
 
@@ -284,7 +288,7 @@ const User = () => {
       "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(ConsumerStatusUpdateURL(payload, currentUser.token))
+    dispatch(CompanyConsumerStatusUpdateURL(payload, currentUser.token))
     setSuc(true)
 
   };
@@ -480,8 +484,8 @@ const User = () => {
 
       {/* List Items Start */}
 
-      {consumerData && consumerData.data && consumerData.data.map((item, index) => {
-        return <div key="">
+      {companyUser?.data?.length > 0 && companyUser?.data?.map((item, index) => {
+        return <div key={index}>
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
               {/* <Col xs="auto" className="positio-relative">
@@ -597,16 +601,16 @@ const User = () => {
           <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
             {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyUser && companyUser.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyUser && companyUser.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-          {Math.ceil(consumerData && consumerData.count / limit) > page + 3 &&
+          {Math.ceil(companyUser && companyUser.count / limit) > page + 3 &&
             <>
               <Pagination.Item className="shadow" >...</Pagination.Item>
             </>
 
           }
-          <Pagination.Next className="shadow" disabled={Math.ceil(consumerData && consumerData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+          <Pagination.Next className="shadow" disabled={Math.ceil(companyUser && companyUser.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>

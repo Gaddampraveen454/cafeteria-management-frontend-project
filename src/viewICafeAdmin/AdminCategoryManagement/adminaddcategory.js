@@ -5,7 +5,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import {  AdminCategoryAddURL,  ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import {  AdminCategoryAddURL,  ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

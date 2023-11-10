@@ -5,7 +5,7 @@ import axios from 'axios';
  
 const initialState = {
     categoryData: [],
-    categoryDropdown: {},
+    AdmincategoryDropdown: {},
     storeDropdown: {},
     notification: {}
 };
@@ -18,7 +18,7 @@ const adminCategorySlice = createSlice({
             state.categoryData = action.payload;
         },
         setCategoryDropdown(state, action) {
-            state.categoryDropdown = action.payload;
+            state.AdmincategoryDropdown = action.payload;
         },
         setStoreDropdown(state, action) {
             state.storeDropdown = action.payload;

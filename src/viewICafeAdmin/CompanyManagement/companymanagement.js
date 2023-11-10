@@ -5,7 +5,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
-import { ICafeAdminCompanyListURL, ICafeAdminCompnayUpdateURL, ICafeAdminCompanyStatusUpdateURL } from 'Redux/iCafeAdminRedux/CompanyManagement/companymanagement';
+import { ICafeAdminCompanyListURL, ICafeAdminCompnayUpdateURL, ICafeAdminCompanyStatusUpdateURL } from "Redux/IcafeAdminRedux/CompanyManagement/companymanagement";
 import {
   Dialog,
   DialogActions,

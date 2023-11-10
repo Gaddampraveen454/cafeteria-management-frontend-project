@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
+import { OrderListURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const OrdersList = () => {
   const title = 'Orders List';
@@ -25,6 +27,23 @@ const OrdersList = () => {
       setSelectedItems([]);
     }
   };
+
+  // const dispatch = useDispatch('');
+
+  // const { OrderData } = useSelector(
+  //   ({ orderSlice }) => orderSlice
+  // );
+
+  // console.log(OrderData, 'hsvygdfdg')
+
+  // const { currentUser } = useSelector((state) => state.auth);
+  // console.log(currentUser, "currentUser")
+
+
+
+  // useEffect(() => {
+  //   dispatch(OrderListURL(currentUser?.token, currentUser?.data?.uuid))
+  // }, [])
 
   return (
     <>
@@ -179,7 +198,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -217,7 +236,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(2)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(2)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -255,7 +274,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(3)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(3)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -293,7 +312,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(4)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(4)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -331,7 +350,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(5)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(5)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -369,7 +388,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(6)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(6)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -407,7 +426,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(7)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(7)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -445,7 +464,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(8)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(8)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -483,7 +502,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(9)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(9)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>
@@ -521,7 +540,7 @@ const OrdersList = () => {
               </div>
             </Col>
             <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(10)} onChange={() => {}} />
+              <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(10)} onChange={() => { }} />
             </Col>
           </Row>
         </Card.Body>

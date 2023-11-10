@@ -5,10 +5,10 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import moment from "moment";
-import { AdminOrderListURL } from 'Redux/iCafeAdminRedux/Orders/orderredux';
+import { AdminOrderListURL } from "Redux/IcafeAdminRedux/Orders/orderredux";
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
 
 const Order = () => {
     const title = 'Orders List';
@@ -41,7 +41,10 @@ const Order = () => {
     const { OrderData } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
 
-    const { categoryDropdown, storeDropdown, } = useSelector((state) => state.admincategory)
+    const { AdmincategoryDropdown,storeDropdown } = useSelector(
+        ({ adminCategorySlice }) => adminCategorySlice
+      );
+    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
     useEffect(() => {
         dispatch(AdminOrderListURL(page,search,currentUser?.token,limit,comapanyOption,option));
@@ -86,18 +89,19 @@ const Order = () => {
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
     }, [])
 
-    
+    const [isClearable,setIsClearable]=useState(true);
+    const[isRemove,setIsRemove]=useState(true);
 
     const CompanyDropDown = [];
 
-    categoryDropdown.data.map((text) => {
+    AdmincategoryDropdown.data.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
     })
 
     const selectedCompany = (selectvalue) => {
         setComapanyOption(selectvalue?.value)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue?.value, option))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue=== null ? "": selectvalue?.value, option === null ? "" : option))
     }
 
     const dropdownValues = [];
@@ -109,8 +113,8 @@ const Order = () => {
 
     const selectdropdown = (text) => {
         console.log(text, 'hsdbvudgsfy')
-        setOption(text?.value)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption, text?.value))
+        setOption(text)
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption, text=== null ? '' : text?.value))
     }
 
 
@@ -185,20 +189,27 @@ const Order = () => {
                 {/* disabled={eventType} */}
                 {/* /> */}
                 {/* </Col> */}
+                
                 <Col lg="3">
                     {/* <Form.Label>Company</Form.Label> */}
-                    <Select classNamePrefix="react-select"
-                        options={CompanyDropDown}
-                        // value={compnayId}
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select company"
+                        isClearable={isClearable}
+                        // defaultValue={colourOptions[0]}
                         onChange={selectedCompany}
-                        placeholder="Select Company"
-                    // disabled={eventType}
+                        name="color"
+                        border="none"
+                        options={CompanyDropDown}
                     />
                 </Col>
                 <Col lg="3">
                     {/* <Form.Label>Category</Form.Label> */}
-                    <Select classNamePrefix="react-select"
+                    <Select
+                     className="basic-single"
+                     classNamePrefix="select Store"
                         options={dropdownValues}
+                        isClearable={isRemove}
                         // value={categoryId}
                         onChange={selectdropdown}
                         placeholder="Select Store"

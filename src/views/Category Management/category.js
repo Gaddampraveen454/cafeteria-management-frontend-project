@@ -77,6 +77,7 @@ const updateCategory = (event) => {
   event.preventDefault()
   const value = event.target.elements
   const payload = {
+    "company_uuid":currentUser?.data?.uuid,
     "name":name,
   }
   dispatch(CategoryUpdateURL(categoryId , payload, currentUser.token))
@@ -152,10 +153,10 @@ const searchfunction =(type , pages)=>{
   console.log(event, "eventxcvvxcvv")
   // if (event.is_delivered)
   const payload = {
-    "uuid" : event.uuid,
+    // "uuid" : event.uuid,
     "status" : !event.is_active
 }
-  dispatch(CategoryStatusUpdateURL(payload, currentUser.token))
+  dispatch(CategoryStatusUpdateURL(payload, currentUser.token,event?.uuid))
   setSuc(true)
   
 };

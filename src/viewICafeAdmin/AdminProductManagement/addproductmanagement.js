@@ -5,12 +5,12 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductAddURL, AdminProductStoreDropDownListURL } from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductAddURL, AdminProductStoreDropDownListURL } from "Redux/IcafeAdminRedux/ProductManagement/productmanagementredux";
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const addproductmanagement = () => {
 
@@ -84,8 +84,10 @@ const addproductmanagement = () => {
   // const { ProductData, storeDropdown } = useSelector((state) => state.adminproducts)
  
 
-  const {  categoryDropdown, storeDropdown, } = useSelector((state) => state.admincategory)
-  console.log(storeDropdown, 'hdvhgsdvger')
+  const { AdmincategoryDropdown,storeDropdown } = useSelector(
+    ({ adminCategorySlice }) => adminCategorySlice
+  );
+console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
 
   useEffect(() => {
@@ -219,7 +221,7 @@ const addproductmanagement = () => {
 
   const CompanyDropDown=[];
 
-    categoryDropdown.data.map((text) => {
+    AdmincategoryDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
     })

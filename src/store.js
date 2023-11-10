@@ -15,8 +15,6 @@ import notificationReducer from 'layout/nav/notifications/notificationSlice';
 import scrollspyReducer from 'components/scrollspy/scrollspySlice';
 import companyReducer from 'Redux/AdminRedux/Comapny/Company';
 import cashierReducer from 'Redux/AdminRedux/Cashier/CashierRedux';
-// import consumerReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
-import consumerReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import categoryReducer from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import productReducer from 'Redux/AdminRedux/Product/ProductRedux';
 import OrderReducer from 'Redux/AdminRedux/OrderRedux/OrderRedux';
@@ -36,15 +34,18 @@ import WalletReducer from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import ConsumerOrderReducer from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import InvoiceReducer from 'Redux/AdminRedux/invoice/InvoiceRedux';
 import ActiveCompnayReducer from 'Redux/AdminRedux/Comapny/ActiveCompany';
-import iCafeAdminCompanyReducer from 'Redux/iCafeAdminRedux/CompanyManagement/companymanagement';
+import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
 import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
-import adminCategoryReducer from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
-import adminProductReducer from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
-import iCafeAdminStoreReducer from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
-import AdminOrderReducer from 'Redux/iCafeAdminRedux/Orders/orderredux';
-import ICafeAdminReportReducer from 'Redux/iCafeAdminRedux/Reports/reportsredux';
+import adminCategoryReducer from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import adminProductReducer from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
+import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
+import AdminOrderReducer from 'Redux/IcafeAdminRedux/Orders/orderredux';
+import ICafeAdminReportReducer from 'Redux/IcafeAdminRedux/Reports/reportsredux';
+import iCafeAdminConsumerReducer from 'Redux/IcafeAdminRedux/ICafeAdminUserManagement/adminuserredux';
+import CompanyProductReducer from 'Redux/AdminRedux/Production/production';
+import companyUserReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -64,16 +65,19 @@ const persistedReducer = persistReducer(
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
     cashierList: cashierReducer,
-    consumerList: consumerReducer,
+    // consumerList: consumerReducer,
     cotegoryList: categoryReducer,
     companymanagement: iCafeAdminCompanyReducer,
     // storemanagement: iCafeAdminStoreReducer,
     adminorder: AdminOrderReducer,
     iCafeAdminStoreSlice: iCafeAdminStoreReducer,
+    comapnuserSlice: companyUserReducer,
     adminCategorySlice: adminCategoryReducer,
     adminproducts: adminProductReducer,
     admindashbord: ICafeAdminReportReducer,
+    iacfeadminconsumer: iCafeAdminConsumerReducer,
     productList: productReducer,
+    compamyProduction: CompanyProductReducer,
     orderList: OrderReducer,
     orderListCashier: OrderReducerCashier,
     CashierConsumerList: CashierConsumerReducer,

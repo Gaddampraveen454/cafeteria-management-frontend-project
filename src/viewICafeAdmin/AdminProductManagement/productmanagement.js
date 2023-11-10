@@ -16,14 +16,14 @@ import {
     TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/iCafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { ICafeAdminCategoryDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 const productmanagement = () => {
     const dispatch = useDispatch()
@@ -141,8 +141,11 @@ const productmanagement = () => {
     const { categoryData } = useSelector((state) => state.cotegoryList)
     const { companyData } = useSelector((state) => state.companyList)
     const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
-    const { categoryDropdown, storeDropdown, } = useSelector((state) => state.admincategory)
-    console.log(categoryDropdown, 'hdvhgsdvger')
+    const { AdmincategoryDropdown ,storeDropdown} = useSelector(
+        ({ adminCategorySlice }) => adminCategorySlice
+      );
+    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
+    
 
     const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
@@ -411,13 +414,14 @@ const productmanagement = () => {
 
     const CompanyDropDown = [];
 
-    categoryDropdown.data.forEach((text) => {
+    AdmincategoryDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
-        CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+       return  CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
     })
 
 
     const [isClearable, setIsClearable] = useState(true);
+    const [isRemove, setIsRemove] = useState(true);
 
     const ClearFunction = () => {
         setIsClearable((state) => !state)
@@ -427,20 +431,20 @@ const productmanagement = () => {
     const selectedCompany = (selectvalue) => {
         console.log(selectvalue, 'gsdvgsdty')
         setComapanyOption(selectvalue?.value)
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option))
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
     }
 
     const dropdownValues = [];
 
-    storeDropdown.data.map((text) => {
+    storeDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
     })
 
     const selectdropdown = (text) => {
         console.log(text, 'hsdbvudgsfy')
-        setOption(text?.value)
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, text?.value))
+        setOption(text)
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value))
     }
 
     const selectStore = (select) => {
@@ -578,8 +582,8 @@ const productmanagement = () => {
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
                         className="basic-single"
-                        classNamePrefix="select"
-                        isClearable={isClearable}
+                        classNamePrefix="select company"
+                        isClearable={isRemove}
                         // defaultValue={colourOptions[0]}
                         onChange={selectedCompany}
                         name="color"
@@ -588,7 +592,7 @@ const productmanagement = () => {
                     />
                 </Col>
                 {/* <Col lg="3"> */}
-                    {/* <Autocomplete
+                {/* <Autocomplete
                     // disablePortal
                     id="combo-box-demo"
                     options={CompanyDropDown}
@@ -599,12 +603,16 @@ const productmanagement = () => {
                 {/* </Col> */}
                 <Col lg="3">
                     {/* <Form.Label>Category</Form.Label> */}
-                    <Select classNamePrefix="react-select"
-                        options={dropdownValues}
-                        // value={categoryId}
+
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select Store"
+                        isClearable={isClearable}
+                        // defaultValue={colourOptions[0]}
                         onChange={selectdropdown}
-                        placeholder="Select Store"
-                    // disabled={eventType}
+                        name="color"
+                        border="none"
+                        options={dropdownValues}
                     />
                 </Col>
                 <Col md="7" lg="3" xxl="10" className="mb-1 text-end">

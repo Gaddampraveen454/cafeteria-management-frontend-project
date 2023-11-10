@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminReportListURL,ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
+import { AdminReportListURL, ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -19,11 +19,11 @@ const report = () => {
 
 
 
-  
+
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
-  
+
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
   const checkItem = (item) => {
@@ -63,11 +63,9 @@ const report = () => {
     dispatch(CompanyListURL(page, search, currentUser.token, limit))
   }, [])
   useEffect(() => {
-    if (selectValueState)
-      dispatch(AdminReportListURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
-// dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
-
-  }, [selectValueState,startDate,endDate])
+    dispatch(AdminReportListURL(page,search,currentUser?.token,limit, currentUser?.data?.uuid))
+    // dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
+}, [])
 
 
 
@@ -83,7 +81,42 @@ const report = () => {
 
   const exportfunction = async () => {
     await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
-   }
+  }
+
+  const searchfunction = (type, pages) => {
+    console.log(pages, "ghjsdfsdfkvbnm")
+    if (type === "search") {
+      console.log(pages, "ghjkvbnm")
+      setSearch(pages)
+      setPage(0)
+      dispatch(AdminReportListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    if (type === "prev") {
+      setPage(page - 1)
+      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "next") {
+      setPage(page + 1)
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "page") {
+      setPage(page)
+      dispatch(AdminReportListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "page+1") {
+      setPage(page + 1)
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "page+2") {
+      setPage(page + 2)
+      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "limit") {
+      setLimit(pages)
+      setPage(0)
+      dispatch(AdminReportListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+    }
+  }
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -134,12 +167,10 @@ const report = () => {
       </div>
 
       <Row className="mb-3">
-        <Col md="3" lg="3" xxl="3" className="mb-1">
+      <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
-          <Form.Label>Search</Form.Label>
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-        
-            <Form.Control type="text" placeholder="Search" />
+            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -149,7 +180,7 @@ const report = () => {
           </div>
           {/* Search End */}
         </Col>
-        <Col  md="3" lg="3" xxl="3"  className="mb-1">
+        {/* <Col md="3" lg="3" xxl="3" className="mb-1">
           <Form.Label>Company Name</Form.Label>
           <Select classNamePrefix="react-select"
             options={companyList}
@@ -159,19 +190,19 @@ const report = () => {
           //  name="companyName"
           //  onChange={myhandlechange}
           />
-        </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1">
+        </Col> */}
+        {/* <Col md="2" lg="2" xxl="2" className="mb-1"> */}
           {/* <div className="mb-3"> */}
-          <Form.Label>Start date</Form.Label>
+          {/* <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={startDate} onChange={ChangeStartData} />
         </Col>
         <Col md="2" lg="2" xxl="2" className="mb-1">
           <Form.Label>End date</Form.Label>
-          <Form.Control type="date" value={endDate} onChange={ChangeEndData} />
+          <Form.Control type="date" value={endDate} onChange={ChangeEndData} /> */}
           {/* </div> */}
-        </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 text-end">
-        
+        {/* </Col> */}
+        <Col md="2" lg="9" xxl="2" className="mb-1 text-end">
+
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -181,31 +212,31 @@ const report = () => {
           {/* Print Button End */}
 
           {/* Export Dropdown Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end">
+            <Dropdown.Menu className="shadow dropdown-menu-end"> */}
               {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
-              <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+              {/* <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item> */}
               {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
-            </Dropdown.Menu>
-          </Dropdown>
+            {/* </Dropdown.Menu>
+          </Dropdown> */}
           {/* Export Dropdown End */}
 
           {/* Length Start */}
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-                10 Items
+                {limit} Items
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">5 Items</Dropdown.Item>
-              <Dropdown.Item href="#">10 Items</Dropdown.Item>
-              <Dropdown.Item href="#">20 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
@@ -223,10 +254,10 @@ const report = () => {
               <div className="text-muted text-medium cursor-pointer sort">Company</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Employee Name</div>
+              <div className="text-muted text-medium cursor-pointer sort">Email</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Employee Id</div>
+              <div className="text-muted text-medium cursor-pointer sort">Mobile</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Wallet Amount</div>
@@ -235,13 +266,13 @@ const report = () => {
               <div className="text-muted text-medium cursor-pointer sort">Total Amount</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Transaction</div>
+              <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
 
             {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col> */}
-           
+
           </Row>
         </Col>
       </Row>
@@ -266,13 +297,13 @@ const report = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.company_name}</div>
+                    <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.employee_name}</div>
+                    <div className="lh-1 text-alternate">{item?.company[0]?.email}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.employee_id}</div>
+                    <div className="lh-1 text-alternate">{item?.company[0]?.mobile}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.paid_from_wallet}</div>
@@ -281,7 +312,7 @@ const report = () => {
                     <div className="lh-1 text-alternate">{item.total_amount}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+                    <div className="lh-1 text-alternate">{item?.payment_status}</div>
                   </Col>
 
                   {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -304,7 +335,7 @@ const report = () => {
                       </table>
                     </div>
                   </Col> */}
-              
+
                 </Row>
               </Col>
             </Row>
@@ -316,15 +347,22 @@ const report = () => {
       {/* Pagination Start */}
       <div className="d-flex justify-content-center mt-5">
         <Pagination>
-          <Pagination.Prev className="shadow" disabled>
+          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
           </Pagination.Prev>
-          <Pagination.Item className="shadow" active>
-            1
+          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+            {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow">2</Pagination.Item>
-          <Pagination.Item className="shadow">3</Pagination.Item>
-          <Pagination.Next className="shadow">
+          <Pagination.Item className="shadow" disabled={Math.ceil(AdminReportData && AdminReportData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(AdminReportData && AdminReportData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+
+          {Math.ceil(AdminReportData && AdminReportData.count / limit) > page + 3 &&
+            <>
+              <Pagination.Item className="shadow" >...</Pagination.Item>
+            </>
+
+          }
+          <Pagination.Next className="shadow" disabled={Math.ceil(AdminReportData && AdminReportData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>

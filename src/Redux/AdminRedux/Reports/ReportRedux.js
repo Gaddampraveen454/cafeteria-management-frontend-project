@@ -24,8 +24,8 @@ const adminReportSlice = createSlice({
 export const { setAdminReportData, setToast } = adminReportSlice.actions;
 
 
-export const AdminReportListURL = (companyId,startDate, endDate, token) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/admin?pagenum=0&limit=10&search=&company_uuid=${companyId}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, {
+export const AdminReportListURL = (page,search,token,limit,id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/company?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${id}&store_uuid=&strat_date=&end_date=`, {
     headers: {
       "x-auth-token": token
     }

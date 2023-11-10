@@ -61,6 +61,7 @@ const addcategory = () => {
   const [suc,setSuc] = useState(false);
 
   const { currentUser } = useSelector((state) => state.auth)
+  console.log(currentUser,'currentUsercurrentUser')
   const { categoryData, notification } = useSelector((state) => state.cotegoryList)
   // const { cashierData } = useSelector((state) => state.cashierList)
 //   const { categoryData } = useSelector((state) => state.cotegoryList)
@@ -70,6 +71,7 @@ const addcategory = () => {
   const AddCategory = (event) => {
     event.preventDefault()
     const payload = {
+      "company_uuid":currentUser?.data?.uuid,
       "name":name,
 
     }
@@ -128,6 +130,20 @@ useEffect(() => {
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
+                  {/* <Col lg='6' className="mb-1">
+                                        <Form.Label>Select Company</Form.Label>
+                                        <Select
+                                            classNamePrefix="react-select"
+                                            className=""
+                                            name="categery"
+                                            // options={companyDrop}
+                                            // value={updateOption} // 
+                                            // onChange={HandleChange}
+                                            placeholder="Select Company"
+                                            required
+                                            style={{ borderRadius: '10px' }}
+                                        />
+                                    </Col> */}
                   <Col lg="12" className='mt-4'>
                   {/* <Form.Label >hello</Form.Label> */}
                   <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">

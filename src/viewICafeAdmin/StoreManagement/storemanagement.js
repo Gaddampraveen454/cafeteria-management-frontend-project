@@ -6,7 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
-import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from 'Redux/iCafeAdminRedux/StoreManagement/storemanagement';
+import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from "Redux/IcafeAdminRedux/StoreManagement/storemanagement";
 import {
     Dialog,
     DialogActions,
@@ -39,8 +39,8 @@ const StoreManagement = () => {
     const [compnayId, setCompnayId] = useState("")
     const [suc, setSuc] = useState(false);
     const[isClearable,setIsClearable]=useState(true);
- 
- 
+
+
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
@@ -94,14 +94,14 @@ const StoreManagement = () => {
     }, [])
  
     const dropdownstore = [];
-    // dropdownList.data.map((text) => {
- 
-    //     return dropdownstore.push({ value: text?.uuid, label: text?.company_name })
- 
-    // })
- 
- 
- 
+    dropdownList?.data?.map((text) => {
+
+        return dropdownstore.push({ value: text?.uuid, label: text?.company_name })
+
+    })
+
+
+
     const eventHandler = (event) => {
         setOpen(true)
  
@@ -230,7 +230,7 @@ const StoreManagement = () => {
  
     console.log(CompnayIdForQR, "CompnayIdForQR")
     const ViewQRCode = (event) => {
-        console.log(event, "sfdsfsdfsdf")
+        console.log(event, "sfdsfsdfsdfcvghnh")
         setCompnayIdForQR(event.uuid)
         setQrOpen(true)
  
@@ -249,6 +249,9 @@ const StoreManagement = () => {
  
  
  
+
+
+
     const PaginationFunn = (selectedOption) => {
         console.log(selectedOption, 'hbsdvhdhgvb')
         setOption(selectedOption?.value);
@@ -339,6 +342,8 @@ const StoreManagement = () => {
                 </Col>
                
                
+                
+                
                 <Col md="2" lg="6" xxl="6" className="mb-1 text-end">
  
  
@@ -396,10 +401,10 @@ const StoreManagement = () => {
             {/* List Header End */}
  
             {/* List Items Start */}
- 
- 
- 
-            {storeData?.data?.map((item, index) => {
+
+
+
+            {storeData?.data?.length > 0 && storeData?.data?.map((item, index) => {
                 console.log(item, "itemitemitemitem")
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>

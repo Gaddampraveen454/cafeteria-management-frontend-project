@@ -5,7 +5,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { consumerListURL,consumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { consumerListURL,CompanyConsumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
@@ -70,7 +70,7 @@ useEffect(()=>{
           "per_day_amount" : formValues.per_day_amount,
       
     }
-    dispatch(consumerAddURL(payload, currentUser.token))
+    dispatch(CompanyConsumerAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
     setSuc(true)
 }

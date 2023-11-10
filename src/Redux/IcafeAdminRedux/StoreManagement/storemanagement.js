@@ -29,6 +29,7 @@ export const { setCatData, setToast, setDropdownData } = iCafeAdminStoreSlice.ac
  
  
 export const ICafeAdminStoreListURL = (pageNUm, search, token, limit, id) => async (dispatch) => {
+    console.log("Enter............")
     const response = await axios.get(`${process.env.REACT_APP_URL}/company/store/admin/list?page=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}`,
         {
             headers: {

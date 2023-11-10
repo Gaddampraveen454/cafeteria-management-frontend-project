@@ -11,8 +11,8 @@ import DatePicker from 'react-datepicker';
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
 import { ExportExcel } from 'Export';
-import { ICafeAdminReportListURL } from 'Redux/iCafeAdminRedux/Reports/reportsredux';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/iCafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminReportListURL } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
 
 const AdminReports = () => {
     const dispatch = useDispatch()
@@ -47,8 +47,8 @@ const AdminReports = () => {
     const [selectValueState, setSelectValueState] = useState("");
     console.log(selectValueState, "selectValueState")
     const { companyData } = useSelector((state) => state.companyList)
-    const[comapanyOption,setComapanyOption]=useState('')
-    const[option,setOption]=useState('');
+    const [comapanyOption, setComapanyOption] = useState('')
+    const [option, setOption] = useState('');
 
 
     console.log(companyData, "sfsdfdsfs");
@@ -92,10 +92,13 @@ const AdminReports = () => {
     //     await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
     //    }
 
-    const { categoryDropdown, storeDropdown, } = useSelector((state) => state.admincategory)
+    const { AdmincategoryDropdown,storeDropdown } = useSelector(
+        ({ adminCategorySlice }) => adminCategorySlice
+      );
+    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
     useEffect(() => {
-        dispatch(ICafeAdminReportListURL(page,search,currentUser?.token,limit,comapanyOption,option));
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -137,31 +140,35 @@ const AdminReports = () => {
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
     }, [])
 
-    
+    const [isClearable, setIsClearable] = useState(true);
+    const [isRemove, setIsRemove] = useState(true);
+
+
 
     const CompanyDropDown = [];
 
-    categoryDropdown.data.map((text) => {
+    AdmincategoryDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
     })
 
     const selectedCompany = (selectvalue) => {
         setComapanyOption(selectvalue?.value)
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue?.value, option))
+        console.log(option, "asdhsgafgsjd")
+        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
     }
 
     const dropdownValues = [];
 
-    storeDropdown.data.map((text) => {
+    storeDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
     })
 
     const selectdropdown = (text) => {
         console.log(text, 'hsdbvudgsfy')
-        setOption(text?.value)
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption, text?.value))
+        setOption(text)
+        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value))
     }
 
 
@@ -243,18 +250,24 @@ const AdminReports = () => {
                 {/* </Col> */}
                 <Col lg="3">
                     {/* <Form.Label>Company</Form.Label> */}
-                    <Select classNamePrefix="react-select"
-                        options={CompanyDropDown}
-                        // value={compnayId}
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select company"
+                        isClearable={isClearable}
+                        // defaultValue={colourOptions[0]}
                         onChange={selectedCompany}
-                        placeholder="Select Company"
-                    // disabled={eventType}
+                        name="color"
+                        border="none"
+                        options={CompanyDropDown}
                     />
                 </Col>
                 <Col lg="3">
                     {/* <Form.Label>Category</Form.Label> */}
-                    <Select classNamePrefix="react-select"
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select Store"
                         options={dropdownValues}
+                        isClearable={isRemove}
                         // value={categoryId}
                         onChange={selectdropdown}
                         placeholder="Select Store"
