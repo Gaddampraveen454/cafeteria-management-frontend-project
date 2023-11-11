@@ -549,8 +549,8 @@ const CreateOrder = () => {
             .then((respons) => {
                 console.log(respons, "fffgdsfsdfdsf")
                 setItems([])
-                // setPrint(true)
-                // setPrintData(respons.data.data)
+                setPrint(true)
+                setPrintData(respons.data.data)
                 setMessage(respons.data.message)
                 sethandleopen(false)
                 setOpen(true)
@@ -558,8 +558,8 @@ const CreateOrder = () => {
             })
             .catch((err) => {
                 console.log(err.response.data, "zasdsadasd")
-                // setPrint(false)
-                // setPrintData('')
+                setPrint(false)
+                setPrintData('')
                 toast.error(err.response.data)
                 setSuc(false)
 
@@ -573,7 +573,7 @@ const CreateOrder = () => {
 
     //   })
     // }
-    const { ProductData, StoreList } = useSelector((state) => state.productList)
+    const { ProductData, StoreList } = useSelector((state) => state.products)
 
    
 
@@ -585,7 +585,7 @@ const CreateOrder = () => {
 
     const StoreData = [];
 
-    StoreList.data.map((text) => {
+    StoreList?.data?.map((text) => {
         return StoreData.push({ label: text?.store_name, value: text?.uuid })
     }, [])
 
