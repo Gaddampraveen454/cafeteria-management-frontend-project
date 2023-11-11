@@ -5,8 +5,8 @@ import { DEFAULT_PATHS } from 'config.js';
 
 const IcafeDashboard = lazy(()=>import('viewICafeAdmin/Dashboard/dashboard'))
 const CompanyManagement = lazy(()=>import('viewICafeAdmin/CompanyManagement/companymanagement'))
-const UserManagement = lazy(()=>import('viewICafeAdmin/AdminUserManagemet/adminuser'));
-const UserAdd = lazy(()=>import('viewICafeAdmin/AdminUserManagemet/adminadduser'));
+const UserManagement = lazy(()=>import('viewICafeAdmin/AdminUserManagement/adminuser'));
+const UserAdd = lazy(()=>import('viewICafeAdmin/AdminUserManagement/adminadduser'));
 const addAdimcafeCompany = lazy(() => import('viewICafeAdmin/CompanyManagement/addAdminCompany'));
 const StoreManagement = lazy(()=> import('viewICafeAdmin/StoreManagement/storemanagement'));
 const addAdminStore = lazy(()=>import('viewICafeAdmin/StoreManagement/addAdminStoreManagement'));

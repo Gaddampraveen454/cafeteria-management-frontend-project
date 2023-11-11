@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {  AdminCategoryAddURL,  ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+ 
 const adminaddcategory = () => {
     const dispatch = useDispatch()
     const history = useHistory();
@@ -20,16 +20,16 @@ const adminaddcategory = () => {
         { value: 'Fougasse', label: 'Fougasse' },
         { value: 'Lefse', label: 'Lefse' },
     ];
-
+ 
     const [selectValueCity, setSelectValueCity] = useState();
     const optionsCity = [
         { value: 'Breadstick', label: 'Breadstick' },
         { value: 'Biscotti', label: 'Biscotti' },
     ];
-
+ 
     const [company, setCompany] = useState('');
     const [store, setStore] = useState('');
-
+ 
     const [selectValueMonth, setSelectValueMonth] = useState();
     const optionsMonth = [
         { value: '01', label: '01' },
@@ -45,7 +45,7 @@ const adminaddcategory = () => {
         { value: '11', label: '11' },
         { value: '12', label: '12' },
     ];
-
+ 
     const [selectValueYear, setSelectValueYear] = useState();
     const optionsYear = [
         { value: '21', label: '21' },
@@ -59,10 +59,10 @@ const adminaddcategory = () => {
         { value: '29', label: '29' },
         { value: '30', label: '30' },
     ];
-
+ 
     const [name, setName] = useState("")
     const [suc, setSuc] = useState(false);
-
+ 
     const { currentUser } = useSelector((state) => state.auth)
     const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.adminCategorySlice)
     console.log(storeDropdown, 'bdshvshgfvnbj')
@@ -78,13 +78,13 @@ const adminaddcategory = () => {
             "store_uuid": store,
             // "name" : "fruit"
             "name": name,
-
+ 
         }
         dispatch(AdminCategoryAddURL(payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
         setSuc(true)
     }
-
+ 
     useEffect(() => {
         if (suc === true) {
             if (notification.status === true) {
@@ -105,44 +105,44 @@ const adminaddcategory = () => {
                 setSuc(false)
             }
         }
-
+ 
     }, [notification])
-
-
+ 
+ 
     useEffect(() => {
         dispatch(ICafeAdminCategoryDropDownListURL());
-
+ 
     }, [])
-
+ 
     useEffect(() => {
-
+ 
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
     }, [])
-
+ 
     const companyDrop = [];
 
     AdmincategoryDropdown.data.map((text) => {
         return companyDrop.push({ label: text?.company_name, value: text?.uuid })
     })
-
+ 
     const HandleChange = (select) => {
         console.log(select, 'sdhvbshdbv')
         setCompany(select?.value)
     }
-
+ 
     const constStoreDrop = [];
-
+ 
     storeDropdown.data.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return constStoreDrop.push({ label: text?.store_name, value: text?.uuid })
     })
-
+ 
     const handleStore = (selectStore) => {
         console.log(selectStore, 'dvcgsavdgch')
         setStore(selectStore?.value);
     }
-
-
+ 
+ 
     return (
         <>
             <HtmlHead title={title} description={description} />
@@ -157,7 +157,7 @@ const adminaddcategory = () => {
                 </h1>
             </div>
             {/* Title End */}
-
+ 
             <Row>
                 <Col xs="12" className="col-lg order-1 order-lg-0">
                     {/* Address Start */}
@@ -177,7 +177,7 @@ const adminaddcategory = () => {
                                             className=""
                                             name="categery"
                                             options={companyDrop}
-                                            // value={updateOption} // 
+                                            // value={updateOption} //
                                             onChange={HandleChange}
                                             placeholder="Select Company"
                                             required
@@ -191,7 +191,7 @@ const adminaddcategory = () => {
                                             className=""
                                             name="categery"
                                             options={constStoreDrop}
-                                            // value={updateOption} // 
+                                            // value={updateOption} //
                                             onChange={handleStore}
                                             placeholder="Select Store"
                                             required
@@ -204,7 +204,7 @@ const adminaddcategory = () => {
                                             <CsLineIcons /> <span>Submit</span>
                                         </Button>
                                     </Col>
-
+ 
                                     {/* <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
                     <Form.Control type="text" />
@@ -238,7 +238,7 @@ const adminaddcategory = () => {
                         </Card.Body>
                     </Card>
                     {/* Address End */}
-
+ 
                     {/* Shipment Start */}
                     {/* <h2 className="small-title">Shipment</h2> */}
                     {/* <Card className="mb-5">
@@ -249,7 +249,7 @@ const adminaddcategory = () => {
             </Card.Body>
           </Card> */}
                     {/* Shipment End */}
-
+ 
                     {/* Payment Start */}
                     {/* <h2 className="small-title">Payment</h2>
           <Card className="mb-5">
@@ -358,5 +358,6 @@ const adminaddcategory = () => {
         </>
     );
 };
-
+ 
 export default adminaddcategory;
+ 

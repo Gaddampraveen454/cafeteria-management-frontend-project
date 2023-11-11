@@ -55,14 +55,12 @@ const category = () => {
  
     const [companyUpdateDrop, setCompanyUpdateDrop] = useState('');
     const [storeUpdateDrop, setStoreUpdateDrop] = useState('');
-    const[isClearable,setIsClearable]=useState(true);
-    const[isRemove,setIsRemove]=useState(true)
  
  
     const { currentUser } = useSelector((state) => state.auth)
     console.log(currentUser, 'dvcgvdh')
     // const { cashierData } = useSelector((state) => state.cashierList)
-    const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.adminCategorySlice)
+    const { categoryData, categoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
     console.log(categoryData, 'evhgfvgefvef')
     useEffect(() => {
         dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDrop))
@@ -174,21 +172,23 @@ const category = () => {
         setSuc(true)
  
     };
-
+    const [isClearable,setIsClearable]=useState(true);
+    const [isRemove,setIsRemove]=useState(true);
+ 
     useEffect(() => {
         dispatch(ICafeAdminCategoryDropDownListURL());
     }, [])
  
     const categoryDrop = [];
  
-    AdmincategoryDropdown?.data?.map((text) => {
+    categoryDropdown.data.map((text) => {
         console.log(text, 'sbdvhbsdvb')
         return categoryDrop.push({ value: text?.uuid, label: text?.company_name })
     })
  
     const selectEvent = (selectedEvent) => {
         setComapnyDrop(selectedEvent?.value);
-        dispatch(AdminCategoryListURL(page, search, limit, selectedEvent === null  ? "" : selectedEvent?.value, storeDrop === null ? "":storeDrop))
+        dispatch(AdminCategoryListURL(page, search, limit, selectedEvent === null  ? "" : selectedEvent?.value, storeDrop))
     }
  
     useEffect(() => {
@@ -197,21 +197,24 @@ const category = () => {
  
     const StoreDropp = [];
  
-    storeDropdown?.data?.map((text) => {
+    storeDropdown.data.map((text) => {
         console.log(text, 'hdfbhfbfb')
         return StoreDropp.push({ value: text?.uuid, label: text?.store_name })
     })
  
     const selectStoreDrop = (storeDroped) => {
-        setStoreDrop(storeDroped);
+        setStoreDrop(storeDroped?.value);
         dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDroped === null ? "" : storeDroped?.value))
     }
  
  
  
-   
+    // const companyDropDown = [];
  
-    
+    // categoryDropdown.data.map((text) => {
+    //     console.log(text, 'sbdvhbsdvb')
+    //     return companyDropDown.push({ value: text?.uuid, label: text?.company_name })
+    // })
  
     const handleUpdateDrop = (select) => {
         console.log(select, 'sbdvhbsdvjrthritb')
@@ -316,7 +319,6 @@ const category = () => {
                 </Col>
                
                
-                
                 <Col lg="3" className="mb-1 text-end">
                     {/* Print Button Start */}
                     {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
@@ -396,7 +398,7 @@ const category = () => {
             {/* List Header End */}
  
             {/* List Items Start */}
-            {categoryData?.data?.length && categoryData?.data?.map((item, index) => {
+            {categoryData && categoryData.data && categoryData.data.map((item, index) => {
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -617,3 +619,4 @@ const category = () => {
 };
  
 export default category;
+ 

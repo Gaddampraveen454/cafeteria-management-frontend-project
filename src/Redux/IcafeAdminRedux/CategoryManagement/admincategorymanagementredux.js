@@ -11,7 +11,7 @@ const initialState = {
 };
  
 const adminCategorySlice = createSlice({
-    name: 'adminCategorySlice',
+    name: 'admincategory',
     initialState,
     reducers: {
         setCategoryData(state, action) {
@@ -113,3 +113,4 @@ export const AdminCategoryStatusUpdateURL = (payload, token ,id) => async (dispa
 const adminCategoryReducer = adminCategorySlice.reducer;
  
 export default adminCategoryReducer;
+ 

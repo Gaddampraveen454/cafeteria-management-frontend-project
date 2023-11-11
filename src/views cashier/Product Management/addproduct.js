@@ -74,7 +74,7 @@ const addproduct = () => {
   const { categoryData,categoryDropdown } = useSelector((state) => state.StorecategorySlice)
   const { companyData,companyDropData } = useSelector((state) => state.companyList)
   const { ProductData,notification } = useSelector((state) => state.StoreproductSlice)
-  console.log(categoryDropdown,notification,"categoryDropdown")
+  console.log(categoryDropdown,notification,currentUser,"categoryDropdown")
 
   const productList= categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) =>{return {label:item.name, value:item.uuid}})
 
@@ -82,7 +82,7 @@ const addproduct = () => {
 
 
 useEffect(() => {
-  dispatch(StoreCategoryDropDownL())
+  dispatch(StoreCategoryDropDownL(currentUser?.data?.uuid))
   dispatch(CompanyDropDown())
 },[])
 

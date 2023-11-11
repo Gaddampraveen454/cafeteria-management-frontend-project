@@ -11,6 +11,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Cards.css';
+import { StoresForConsumerLIST } from 'Redux/ConsumerRedux/StoreList/storelist';
 
 const Cardsdetails = ({ onClose }) => {
   // console.log(onClose,"gfsfgsgsfgsg")
@@ -50,6 +51,7 @@ const Cardsdetails = ({ onClose }) => {
 
   useEffect(() => {
     dispatch(categoryForConsumerListURL(companyId))
+    dispatch(StoresForConsumerLIST(companyId))
     // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
   }, [])
 

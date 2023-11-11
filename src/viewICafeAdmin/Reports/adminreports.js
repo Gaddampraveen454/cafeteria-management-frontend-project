@@ -91,10 +91,10 @@ const AdminReports = () => {
     //   const exportfunction = async () => {
     //     await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
     //    }
-
-    const { AdmincategoryDropdown,storeDropdown } = useSelector(
-        (state) => state.adminCategorySlice
-      );
+    const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
+    // const { AdmincategoryDropdown,storeDropdown } = useSelector(
+    //     ({ adminCategorySlice }) => adminCategorySlice
+    //   );
     console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
     useEffect(() => {
@@ -350,7 +350,7 @@ const AdminReports = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {AdminReportData.data.map((item, index) => {
+            {AdminReportData?.data?.map((item, index) => {
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">

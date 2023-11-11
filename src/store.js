@@ -35,17 +35,19 @@ import ConsumerOrderReducer from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import InvoiceReducer from 'Redux/AdminRedux/invoice/InvoiceRedux';
 import ActiveCompnayReducer from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import iCafeAdminCompanyReducer from 'Redux/IcafeAdminRedux/CompanyManagement/companymanagement';
+
 // import persist key
 import { REDUX_PERSIST_KEY } from 'config.js';
-import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
 import adminCategoryReducer from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 import adminProductReducer from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import iCafeAdminStoreReducer from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
 import AdminOrderReducer from 'Redux/IcafeAdminRedux/Orders/orderredux';
 import ICafeAdminReportReducer from 'Redux/IcafeAdminRedux/Reports/reportsredux';
 import iCafeAdminConsumerReducer from 'Redux/IcafeAdminRedux/ICafeAdminUserManagement/adminuserredux';
+import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
 import CompanyProductReducer from 'Redux/AdminRedux/Production/production';
 import companyUserReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import StoresForConsumersReducer from 'Redux/ConsumerRedux/StoreList/storelist';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -65,17 +67,16 @@ const persistedReducer = persistReducer(
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
     cashierList: cashierReducer,
-    // consumerList: consumerReducer,
     cotegoryList: categoryReducer,
     companymanagement: iCafeAdminCompanyReducer,
-    // storemanagement: iCafeAdminStoreReducer,
+    storemanagement: iCafeAdminStoreReducer,
     adminorder: AdminOrderReducer,
     iCafeAdminStoreSlice: iCafeAdminStoreReducer,
-    comapnuserSlice: companyUserReducer,
-    adminCategorySlice: adminCategoryReducer,
+    admincategory: adminCategoryReducer,
     adminproducts: adminProductReducer,
     admindashbord: ICafeAdminReportReducer,
     iacfeadminconsumer: iCafeAdminConsumerReducer,
+    comapnuserSlice: companyUserReducer,
     productList: productReducer,
     compamyProduction: CompanyProductReducer,
     orderList: OrderReducer,
@@ -95,8 +96,8 @@ const persistedReducer = persistReducer(
     OrderPlacedData: ConsumerOrderReducer,
     InvoiceData: InvoiceReducer,
     ActiveCompnayList: ActiveCompnayReducer,
-    StorecategorySlice: StorecategoryReducer
-
+    StorecategorySlice: StorecategoryReducer,
+    StoreForConsumerSlice:StoresForConsumersReducer
   })
 );
 const store = configureStore({
