@@ -25,11 +25,12 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
-import Cardsdetails from './Cardsdetails';
+// import Cardsdetails from './Cardsdetails';
+import ProductsUserCardDetailes from './productsUserCardDetailes';
 import GreenDot from '../../Assests/images/GreenDot.png';
 
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
-const Menu = () => {
+const productsUserCards = () => {
   const dispatch = useDispatch()
   const history = useHistory();
   const title = 'Menu';
@@ -88,12 +89,12 @@ const Menu = () => {
         }));
       }
 
-      window.location.reload();
+      // window.location.reload();
     }
   }, [result1])
-  useEffect(() => {
-    dispatch(StoresForConsumerLIST(id1))
-  }, [])
+  //  useEffect(() => {
+  //   dispatch(StoresForConsumerLIST(compnayId))
+  // },[])
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
   const getData = async () => {
@@ -146,13 +147,16 @@ const Menu = () => {
 
   console.log(currentUser, "currentUser")
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
+
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
   const addToCart = (event) => {
     console.log(event.stock_quantity, "jhjjgjhgjgjhg")
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
       const payload = {
         "item_uuid": event.uuid,
         "quantity": 1,
-        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid
+        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid,
+        "store_uuid" : StoreData?.uuid
       }
       dispatch(addToCartURL(payload))
       setSuc(true)
@@ -161,7 +165,8 @@ const Menu = () => {
       const payload = {
         "item_uuid": event.uuid,
         "quantity": 1,
-        "ip_address": ip
+        "ip_address": ip,
+        "store_uuid" : StoreData?.uuid
       }
       dispatch(addToCartURL(payload))
       setSuc(true)
@@ -212,28 +217,23 @@ const Menu = () => {
   const handleModel = () => {
     setIsOpenFiltersModal(false)
   }
-
-  // useEffect(() => {
-  //   localStorage.setItem('companyId', (id1));
-  // }, [id1]);
-  
   useEffect(() => {
     if (window.location.pathname === "/menu/qr" || window.location.pathname === "/menu/undefined") {
       toast.error("Please Scan the QR code")
     }
   }, [window.location.pathname])
-  // useEffect(() => {
-  //   if (window.location.pathname.startsWith('/menu')) {
-  //     const getcompanyId = (localStorage.getItem('companyId'));
-  //     if (getcompanyId) {
-  //       localStorage.setItem('companyId', (getcompanyId));
-  //     }
-  //     else {
-  //       const checkMenu = window.location.pathname.split("menu/")
-  //       localStorage.setItem('companyId', checkMenu[1]);
-  //     }
-  //   }
-  // }, [window.location.pathname]);
+//   useEffect(() => {
+//     if (window.location.pathname.startsWith('/menu')) {
+//       const getcompanyId = (localStorage.getItem('companyId'));
+//       if (getcompanyId) {
+//         localStorage.setItem('companyId', (getcompanyId));
+//       }
+//       else {
+//         const checkMenu = window.location.pathname.split("menu/")
+//         localStorage.setItem('companyId', checkMenu[1]);
+//       }
+//     }
+//   }, [window.location.pathname]);
   // useEffect(()=>{
   //   dispatch(categoryForConsumerListURL())
   // },[])
@@ -258,9 +258,40 @@ const Menu = () => {
   const prodCart = CartData && CartData.data && CartData.data.map((item) => {
     return item.item_uuid
   })
-
-  const OrderNow = (data) => {
-    history.push(data)
+  // console.log(prodCart[2],"sfgsdfsdfsfds")
+  // return prod.some(obj1 => {
+  //   console.log(obj1,"asdasdasdas")
+  // const obj2 = prodCart.find(o => o === obj1); 
+  // console.log(obj2,"aasdasdasdasdasdasdasd")
+  // return obj2  
+  // });
+  // const updateCart = () => {
+  //   const payload = {
+  //     "uuid" :data && data.uuid,
+  //     "quantity" : value,
+  //   } 
+  //   dispatch(updateCartURL(payload))
+  //   setSuc(true)
+  // }
+  const updateCart = (event, event1) => {
+    console.log(event1, "jhjjgjhgjgjhg")
+    if (event1 === 0) {
+      // toast.error(
+      //   // notification.message ,
+      //   "Minimum Quantity Should be 1",
+      //   {
+      //   position: "top-right",
+      // })
+      dispatch(deleteToCartURL(event.uuid))
+      setSuc(true)
+    } else {
+      const payload = {
+        "uuid": event.uuid,
+        "quantity": event1,
+      }
+      dispatch(updateCartURL(payload))
+      setSuc(true)
+    }
   }
   useEffect(() => {
     const categoryId = (localStorage.getItem('categoryId'));
@@ -305,15 +336,21 @@ const Menu = () => {
   return (
     <>
       <HtmlHead title={title} description={description} />
+      {/* Title Start */}
       <div className="page-title-container">
         <Row className="g-0">
+          {/* Title Start */}
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
+            {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard"> */}
             <CsLineIcons icon="chevron-left" size="20" />
             <span className="align-middle text-medium ms-1">Home</span>
+            {/* </NavLink> */}
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
             </h1>
           </Col>
+          {/* Title End */}
+          {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
               onClick={() => setOpen(true)}>
@@ -326,36 +363,74 @@ const Menu = () => {
                 <span> Cart {CartData && CartData.count !== 0 ? CartData.count : null}</span>
               </Button>
             </NavLink>&nbsp;&nbsp;
+            {/* <Dropdown xs="4"  className="ms-1 w-100 w-md-auto" align="end">
+              <Dropdown.Toggle variant="outline-primary" className="w-100 w-md-auto">
+                Order: Default
+              </Dropdown.Toggle>
+              <Dropdown.Menu align="end" className="w-100 w-md-auto">
+                <Dropdown.Item>Default</Dropdown.Item>
+                <Dropdown.Item>Price Asc</Dropdown.Item>
+                <Dropdown.Item>Price Desc</Dropdown.Item>
+                <Dropdown.Item>Rating</Dropdown.Item>
+                <Dropdown.Item>Newest</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown> */}
           </Col>
+          {/* <Col 
+         
+          >
+           
+          </Col> */}
+          {/* Top Buttons End */}
         </Row>
       </div>
+      {/* Title End */}
       <Row>
+        {isLgScreen && (
+          <Col lg="3" xl="3" className="d-none d-lg-block">
+            {/* Filters Start */}
+            <Card style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }} className="mb-5">
+              <Card.Body>
+                {/* <Cardsdetails /> */}
+                <ProductsUserCardDetailes />
+              </Card.Body>
+            </Card>
+            {/* Filters End */}
+          </Col>
+        )}
         <Col style={{ position: "sticky" }} lg="9" xl="9">
           <div id="firstcolumn">
+            <Form className="mb-5">
+              {ProductForConsumer.data?.length <= 0 && <p className="text-large text-muted mb-2">Products Not Available</p> }
+            </Form>
+            {/* Product Thumbnails Start */}
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-              {StoreForConsumer && StoreForConsumer.data && StoreForConsumer.data.map((item, index) => {
+              {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
                 console.log(item, "sfsdfdsfsdfsdf")
                 return <>
                   <Col xs="12" md="6" lg="6" xl="6">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
+                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
                         <Row >
+                          {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
                           <Col xs="6" sm="8" md="8" lg="8">
-                            {/* <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading"> */}
-                            <Clamp tag="span" clamp="2">
-                              {item.store_name}
-                            </Clamp>
-                            {/* </NavLink> */}
+                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                              <Clamp tag="span" clamp="2">
+                                {item.name}
+                              </Clamp>
+                            </NavLink>
+                            ₹{item.sellng_price}
                           </Col>
+                          {/* <Col> &nbsp;</Col> */}
+                          {/*                          
                           <Col xs="6" sm="4" md="4" lg="4">
-                            <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                            <Button variant="outline-primary"
-                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                              onClick={() => { OrderNow(`/products/store/${item?.slug}`) }}
-                            >
-                              <span>Order Now</span>
-                            </Button>
-                            {/* {
+                          <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                         </Col> */}
+                          <Col xs="6" sm="4" md="4" lg="4">
+                            {/* <NavLink  to="/"> */}
+                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                            {
                               item.stock_quantity <= 0 ?
                                 <Col style={{ color: "red" }}>
                                   Out of Stock
@@ -405,7 +480,34 @@ const Menu = () => {
                                       </Button>
                                   }
                                 </div>
-                            } */}
+                            }
+                            {
+                              console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
+                            }
+                            {/* <InputGroup className="spinner sw-11">
+                              <InputGroup.Text id="basic-addon1">
+                                <button type="button" className="spin-down single px-2"
+                                  // onClick={updateCart(item)}
+                                  onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity-1:0) }}
+                                // disabled={btndisabl}
+                                >
+                                  -
+                                </button>
+                              </InputGroup.Text>
+                              <Form.Control
+                                value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity:0}
+                                onInput={onInput}
+                                placeholder="Count"
+                                className="text-center"
+                              />
+                              <InputGroup.Text id="basic-addon2">
+                                <button type="button" className="spin-up single px-2"
+                                   onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity+1:0) }}
+                                >
+                                  +
+                                </button>
+                              </InputGroup.Text>
+                            </InputGroup> */}
                           </Col>
                         </Row>
                       </Card.Body>
@@ -459,7 +561,7 @@ const Menu = () => {
 
       </Row>
       {/* Filters Modal Start */}
-      {/* {!isLgScreen && (
+      {!isLgScreen && (
         <>
           <div className='settings-buttons-container'
             style={{
@@ -480,13 +582,13 @@ const Menu = () => {
               <Modal.Title as="div">Menu</Modal.Title>
             </Modal.Header>
             <Modal.Body >
-              <Cardsdetails
+              <ProductsUserCardDetailes
                 onClose={handleModel}
               />
             </Modal.Body>
           </Modal>
         </>
-      )} */}
+      )}
       {/* Filters Modal End */}
       {/* edit view popup start */}
       {/* <div> */}
@@ -511,4 +613,4 @@ const Menu = () => {
     </>
   );
 };
-export default Menu;
+export default productsUserCards;

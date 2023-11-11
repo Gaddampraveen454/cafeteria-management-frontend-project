@@ -22,8 +22,8 @@
 // //   home: lazy(() => import('views/storefront/home/Home')),
 // //   filters: lazy(() => import('views/storefront/filters/Filters')),
 // //   categories: lazy(() => import('views/storefront/categories/Categories')),
-  
-  
+
+
 // // };
 // // const shipping = lazy(() => import('views/shipping/Shipping'));
 // // const discount = lazy(() => import('views/discount/Discount'));
@@ -56,7 +56,7 @@
 // //         { path: '/home', label: 'menu.home', component: storefront.home },
 // //         { path: '/filters', label: 'menu.filters', component: storefront.filters },
 // //         { path: '/categories', label: 'menu.categories', component: storefront.categories },
-    
+
 // //       ],
 // //     },
 // //   ],
@@ -338,10 +338,13 @@ const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
-const Checkout =lazy(()=>import('view Consumer/checkout/Checkout'))
-const Profile =lazy(()=>import('view Consumer/checkout/Profile/Profile.js'))
-const orderPlaced =lazy(()=>import('view Consumer/orders/orderPlaced'))
-const orderSuccessPage =lazy(()=>import('view Consumer/orderSuccessPage/OrderSuccessPage'))
+const Checkout = lazy(() => import('view Consumer/checkout/Checkout'))
+const Profile = lazy(() => import('view Consumer/checkout/Profile/Profile.js'))
+const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
+const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
+
+
+const productsCards = lazy(() => import('views/company Management/productsUserCards')); 
 
 
 
@@ -380,10 +383,10 @@ const settings = {
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
-let compNewId = !companyId ?"qr":companyId
+let compNewId = !companyId ? "qr" : companyId
 // console.log(companyId,"dfdsfdssdfdsfdsf")
-const [url,newCompId]=window.location.pathname.split("menu/")
-console.log(localStorage.getItem('companyId'),"dfdsfdssdfdsfdsf")
+const [url, newCompId] = window.location.pathname.split("menu/")
+console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
 // if(newCompId!=="qr"){
 // compNewId=newCompId
 // }else if(companyId!==null){
@@ -398,7 +401,7 @@ const consumerRoutesAndMenuItems = {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/menu/${compNewId}`,
+      to: `${appRoot}/menu/company/${compNewId}`,
     },
     // {
     //   path: `${appRoot}/dashboard`,
@@ -413,13 +416,17 @@ const consumerRoutesAndMenuItems = {
       icon: 'user',
     },
     {
-      path: `${appRoot}/menu/:id`,
+      path: `${appRoot}/menu/:id/:id1`,
       component: Cards,
       // label: 'Menu',
       // icon: 'shipping',
     },
     {
-      path: `${appRoot}/menu/${compNewId}`,
+      path: `${appRoot}/products/:id/:id1`,
+      component: productsCards,
+    },
+    {
+      path: `${appRoot}/menu/company/${compNewId}`,
       // component: Cards,
       label: 'Menu',
       icon: 'shipping',
@@ -436,7 +443,7 @@ const consumerRoutesAndMenuItems = {
       label: 'Order',
       icon: 'shipping',
     },
-        {
+    {
       path: `${appRoot}/Checkout`,
       component: Checkout,
       // label: 'Company Management',

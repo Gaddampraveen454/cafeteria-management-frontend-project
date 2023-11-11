@@ -36,18 +36,18 @@ const App = () => {
     routsData = defaultRoutesAndMenuItems.mainMenuItems
   }
 
-  useEffect(() => {
-    if (!window.location.pathname.startsWith('/menu/qr')) {
-      const getcompanyId = (localStorage.getItem('companyId'));
-      if (getcompanyId) {
-        localStorage.setItem('companyId', (getcompanyId));
-      }
-      else {
-        const checkMenu = window.location.pathname.split("menu/")
-        localStorage.setItem('companyId', checkMenu[1]);
-      }
-    }
-  }, [localStorage.getItem('companyId')]);
+  // useEffect(() => {
+  //   if (!window.location.pathname.startsWith('/menu/qr')) {
+  //     const getcompanyId = (localStorage.getItem('companyId'));
+  //     if (getcompanyId) {
+  //       localStorage.setItem('companyId', (getcompanyId));
+  //     }
+  //     else {
+  //       const checkMenu = window.location.pathname.split("menu/")
+  //       localStorage.setItem('companyId', checkMenu[1]);
+  //     }
+  //   }
+  // }, [localStorage.getItem('companyId')]);
 
   const routes = useMemo(() => getRoutes({ data: routsData, isLogin, userRole: currentUser.role }), [isLogin, currentUser]);
   if (routes) {

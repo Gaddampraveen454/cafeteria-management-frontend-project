@@ -113,7 +113,7 @@ const Categories = () => {
         handler: (response) => {
           console.log(response, "sdfsdfsfsdf")
           const payLoad = {
-            "order_uuid": orderData && orderData.data && orderData.data.order_uuid,
+            // "order_uuid": orderData && orderData.data && orderData.data.order_uuid,
             "transaction_uuid": orderData && orderData.data && orderData.data.transaction_id,
             "payment_status": "paid",
             "razorpay_order_id": response.razorpay_order_id,

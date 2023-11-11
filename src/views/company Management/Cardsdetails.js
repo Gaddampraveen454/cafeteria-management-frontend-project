@@ -17,17 +17,14 @@ const Cardsdetails = ({ onClose }) => {
   // console.log(onClose,"gfsfgsgsfgsg")
   const dispatch = useDispatch()
   const [suc, setSuc] = useState(false);
-  const { id } = useParams();
-  console.log(id, "asdadadasd")
+  const { id, id1 } = useParams();
+  console.log(id, id1, "asdadadasd")
   const [companyId, setCompanyId] = useState(id)
 
-  // const [cmpid,companyId]=id.split("=")
 
-  // console.log(companyId,"companyId")
-
-  useEffect(() => {
-    localStorage.setItem('companyId', (companyId));
-  }, [companyId]);
+  // useEffect(() => {
+  //   localStorage.setItem('companyId', (id1));
+  // }, [id1]);
 
 
   const [items, setItems] = useState();
@@ -50,8 +47,8 @@ const Cardsdetails = ({ onClose }) => {
   console.log(categoryForConsumer, "sdfsdfsdfsdfsd")
 
   useEffect(() => {
-    dispatch(categoryForConsumerListURL(companyId))
-    dispatch(StoresForConsumerLIST(companyId))
+    // dispatch(categoryForConsumerListURL(id1))
+    dispatch(StoresForConsumerLIST(id1))
     // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
   }, [])
 

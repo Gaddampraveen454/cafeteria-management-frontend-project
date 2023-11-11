@@ -45,7 +45,7 @@ const OrderSuccessPage = () => {
     }
     else {
       history.push(({
-        pathname: `/menu/${companyId}`,
+        pathname: `/menu/company/${companyId}`,
         // pathname: "Checkout",
 
       }));

@@ -28,6 +28,7 @@ const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 
 
+const productsCards = lazy(() => import('views/company Management/productsUserCards')); 
 
 
 
@@ -68,16 +69,16 @@ const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEF
 const companyId = localStorage.getItem('companyId');
 let compNewId = !companyId ? "qr" : companyId
 console.log(window.location.pathname, companyId, compNewId, "dfdsfdssdfdsfdsf")
-const [url, newCompId] = window.location.pathname.split("menu/")
-console.log(newCompId, companyId, compNewId, "dfdsfdssdfdsfdsf")
+// const [url, newCompId] = window.location.pathname.split("menu/")
+// console.log(newCompId, companyId, compNewId, "dfdsfdssdfdsfdsf")
 
-if (newCompId) {
-  if (newCompId !== "qr" && companyId !== null && companyId !== undefined) {
-    compNewId = newCompId
-  } else {
-    compNewId = "qr"
-  }
-}
+// if (newCompId) {
+//   if (newCompId !== "qr" && companyId !== null && companyId !== undefined) {
+//     compNewId = newCompId
+//   } else {
+//     compNewId = "qr"
+//   }
+// }
 
 
 const defaultRoutesAndMenuItems = {
@@ -86,7 +87,7 @@ const defaultRoutesAndMenuItems = {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/menu/${compNewId}`,
+      to: `${appRoot}/menu/company/${compNewId}`,
     },
     // {
     //   path: `${appRoot}/dashboard`,
@@ -101,13 +102,19 @@ const defaultRoutesAndMenuItems = {
     //   icon: 'user',
     // },
     {
-      path: `${appRoot}/menu/:id`,
+      path: `${appRoot}/menu/:id/:id1`,
       component: Cards,
       // label: 'Menu',
       // icon: 'shipping',
     },
+
     {
-      path: `${appRoot}/menu/${compNewId}`,
+      path: `${appRoot}/products/:id/:id1`,
+      component: productsCards,
+    },
+    
+    {
+      path: `${appRoot}/menu/company/${compNewId}`,
       // component: Cards,
       label: 'Menu',
       icon: 'cupcake',
