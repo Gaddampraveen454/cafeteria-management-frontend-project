@@ -27,9 +27,11 @@ import {
     Input,
 } from '@mui/material';
 import Select from 'react-select';
+import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import Cardsdetails from '../../views cashier/CreateOrder/Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from '../../views cashier/CreateOrder/Cart';
+
 
 
 
@@ -158,15 +160,15 @@ const CreateOrder = () => {
     const { CartData, notification } = useSelector((state) => state.CartList)
 
     console.log(currentUser, "currentUser")
+    const [selectStore, setSelectStore] = useState('');
+
+    const { companyProductionData } = useSelector(({ compamyProduction }) => compamyProduction);
+    console.log(companyProductionData, 'bfvherverrejb')
 
 
-    const {companyProductionData} = useSelector(({compamyProduction})=>compamyProduction);
-    console.log(companyProductionData,'bfvherverrejb')
-    
-    
-    useEffect(()=>{
-        dispatch(CompanyProductionListURL(page,search,currentUser?.token,limit,currentUser?.data?.uuid,''));
-    },[])
+    useEffect(() => {
+        dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '',selectStore));
+    }, [])
 
 
 
@@ -277,38 +279,38 @@ const CreateOrder = () => {
             setSearch(pages)
             setPage(0)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
         if (type === "prev") {
             setPage(page - 1)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
         else if (type === "next") {
             setPage(page + 1)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
         else if (type === "page") {
             setPage(page)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
         else if (type === "page+1") {
             setPage(page + 1)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
         else if (type === "page+2") {
             setPage(page + 2)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
         }
     }
 
@@ -563,8 +565,27 @@ const CreateOrder = () => {
 
     //   })
     // }
+    const { ProductData, StoreList } = useSelector((state) => state.productList)
+
+   
 
 
+
+    useEffect(() => {
+        dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+    }, [])
+
+    const StoreData = [];
+
+    StoreList.data.map((text) => {
+        return StoreData.push({ label: text?.store_name, value: text?.uuid })
+    }, [])
+
+    const handleEvent = (event) => {
+        console.log(event, 'hvdhdf')
+        setSelectStore(event?.value)
+        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "" ,event?.value))
+    }
 
 
 
@@ -773,15 +794,17 @@ const CreateOrder = () => {
 
             <Row>
                 {isLgScreen && (
-                    <Col lg="4" xl="4" className="d-none d-lg-block">
+                    <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
                         {/* Filters Start */}
-                        <Card
-                            // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
-                            className="mb-5">
-                            <Card.Body>
-                                {/* <Cardsdetails /> */}
-                            </Card.Body>
-                        </Card>
+                        {/* <Card */}
+                        {/* // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
+                            className="mb-5"> */}
+                        <Form.Label>Store</Form.Label>
+                        <Select  className='mb-4' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
+                        {/* <Card.Body> */}
+                        {/* <Cardsdetails /> */}
+                        {/* </Card.Body> */}
+                        {/* </Card> */}
                         {/* <Cart 
               item={items}
             /> */}
@@ -793,6 +816,7 @@ const CreateOrder = () => {
                         <div className="page-title-container">
                             <Row className="g-0">
                                 {/* Title Start */}
+
                                 <Col className="col-auto mb-3 mb-sm-0 me-auto">
                                     {/* <CsLineIcons icon="chevron-left" size="20" /> */}
                                     <h1 className="mb-0 pb-0 display-4" id="title">

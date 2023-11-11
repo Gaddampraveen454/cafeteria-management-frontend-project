@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const adminReportSlice = createSlice({
-  name: 'dashbord',
+  name: 'AdminReportList',
   initialState,
   reducers: {
     setAdminReportData(state, action) {

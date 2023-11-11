@@ -64,7 +64,7 @@ const adminaddcategory = () => {
     const [suc, setSuc] = useState(false);
 
     const { currentUser } = useSelector((state) => state.auth)
-    const { categoryData, categoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
+    const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.adminCategorySlice)
     console.log(storeDropdown, 'bdshvshgfvnbj')
     // const { cashierData } = useSelector((state) => state.cashierList)
     //   const { categoryData } = useSelector((state) => state.cotegoryList)
@@ -121,7 +121,7 @@ const adminaddcategory = () => {
 
     const companyDrop = [];
 
-    categoryDropdown.data.map((text) => {
+    AdmincategoryDropdown.data.map((text) => {
         return companyDrop.push({ label: text?.company_name, value: text?.uuid })
     })
 

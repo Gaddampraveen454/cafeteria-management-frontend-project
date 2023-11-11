@@ -93,7 +93,7 @@ const AdminReports = () => {
     //    }
 
     const { AdmincategoryDropdown,storeDropdown } = useSelector(
-        ({ adminCategorySlice }) => adminCategorySlice
+        (state) => state.adminCategorySlice
       );
     console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 

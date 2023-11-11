@@ -150,9 +150,9 @@ const AdminUser = () => {
   console.log(selectedCompany, "selectedCompany")
 
   const [suc, setSuc] = useState(false);
-  // const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
+  
   const { AdmincategoryDropdown } = useSelector(
-    ({ adminCategorySlice }) => adminCategorySlice
+    (state) => state.adminCategorySlice
   );
 console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
