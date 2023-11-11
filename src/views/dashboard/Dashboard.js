@@ -28,7 +28,7 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    dispatch(DashdoardAdminContListURL(currentUser.token, selecttypedates))
+    dispatch(DashdoardAdminContListURL(currentUser?.token, selecttypedates))
     dispatch(IpAddressDataURL())
   }, [])
   // console.log(DashboardCountData,"jsdggjjhg");
@@ -37,7 +37,7 @@ const Dashboard = () => {
   const SelectBasedonValue = (type) => {
     console.log(type, 'hbvhehvberhfvyerf')
     setSelectTypeDates(type);
-    dispatch(DashdoardAdminContListURL(currentUser.token, type))
+    dispatch(DashdoardAdminContListURL(currentUser?.token, type))
   }
 
   let toggleText = "Today";
