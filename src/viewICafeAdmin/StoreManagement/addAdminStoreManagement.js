@@ -14,7 +14,7 @@ const addAdminStoreManagement = () => {
   const history = useHistory();
   const [option, setOption] = useState('');
   const { currentUser } = useSelector((state) => state.auth)
-  const { storeData, dropdownList, notification } = useSelector((state) => state.storemanagement)
+  const { storeData, dropdownList, notification } = useSelector((state) => state.iCafeAdminStoreSlice)
   console.log(storeData, 'bfvdhvbdfh')
   const title = 'Add Store';
   const description = 'Ecommerce Storefront Add Details Page';

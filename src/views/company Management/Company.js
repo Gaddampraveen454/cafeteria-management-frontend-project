@@ -194,10 +194,10 @@ console.log(currentUser,"companyid")
     console.log(event, "eventxcvvxcvv")
     // if (event.is_delivered)
     const payload = {
-      "uuid": event.uuid,
+      // "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(CompanyStatusUpdateURL(payload, currentUser.token))
+    dispatch(CompanyStatusUpdateURL(payload, currentUser.token,event?.uuid))
     setSuc(true)
 
   };
@@ -213,7 +213,7 @@ console.log(currentUser,"companyid")
 
 
   }
-  console.log(`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`, "sdfsdfsdfsfd")
+  console.log(`${process.env.REACT_APP_WEB_APP_URL}/menu/store/${CompnayIdForQR}`, "sdfsdfsdfsfd")
   const handleDownload = () => {
     window.print();
     //   const printContents = document.getElementById('printablediv').innerHTML;
@@ -685,7 +685,7 @@ console.log(currentUser,"companyid")
               <QRCode
                 size={300}
                 // style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                value={`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`}
+                value={`${process.env.REACT_APP_WEB_APP_URL}/menu/store/${CompnayIdForQR}`}
                 viewBox='0 0 556 556'
               />
             </div>

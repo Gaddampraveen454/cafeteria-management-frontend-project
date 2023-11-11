@@ -77,7 +77,7 @@ const addproductmanagement = () => {
   const { categoryData } = useSelector((state) => state.cotegoryList)
 
   const { companyData } = useSelector((state) => state.companyList)
-  const { notification } = useSelector((state) => state.adminproducts)
+  const { ProductData, notification } = useSelector((state) => state.adminproducts)
 
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 

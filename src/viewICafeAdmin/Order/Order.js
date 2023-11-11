@@ -38,7 +38,7 @@ const Order = () => {
     const[option,setOption]=useState('');
     const { currentUser } = useSelector((state) => state.auth);
     console.log(currentUser,'bdvgsvf')
-    const { OrderData } = useSelector((state) => state.adminorder)
+    const { OrderData,notification } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
 
     const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)

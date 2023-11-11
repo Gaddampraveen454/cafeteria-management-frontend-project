@@ -398,7 +398,7 @@ const category = () => {
             {/* List Header End */}
  
             {/* List Items Start */}
-            {categoryData && categoryData.data && categoryData.data.map((item, index) => {
+            {categoryData?.data?.length > 0 && categoryData?.data?.map((item, index) => {
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">

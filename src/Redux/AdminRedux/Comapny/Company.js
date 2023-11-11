@@ -77,8 +77,8 @@ export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
       })
    
   };
-  export const CompanyStatusUpdateURL = (payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/company/change/status`, payload, {
+  export const CompanyStatusUpdateURL = (payload, token,id) => async (dispatch) => {
+    const response = await axios.put(`${process.env.REACT_APP_URL}/company/status/update/${id}`, payload, {
       headers: {
         "x-auth-token": token
       }
