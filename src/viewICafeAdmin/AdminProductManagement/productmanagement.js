@@ -91,9 +91,23 @@ const productmanagement = () => {
 
     const [selectType, setSelectType] = useState();
     const [selectCategory, setSelectCategory] = useState('');
-    const [selectCompany, setSelectCompany] = useState('');
+    const [selectCompany, setSelectCompany] = useState([]);
+    const [ selectStore1 , setSelectStore] = useState([])
     const [productId, setProductId] = useState("")
     const [imageUrl, setimageUrl] = useState("")
+     let selectCompany1
+    if (selectCompany?.value === undefined) {
+        selectCompany1 = '';
+    } else {
+        selectCompany1 = selectCompany?.value;
+    }
+
+       let selectStores
+    if (selectStore1?.value === undefined) {
+        selectStores = '';
+    } else {
+        selectStores = selectStore1?.value;
+    }
 
     console.log(selectCompany && selectCompany.value, selectCategory && selectCategory.value, "selectCompanyselectCategory")
 
@@ -247,7 +261,7 @@ const productmanagement = () => {
                 "category_uuid": selectCategory.value,
                 "price": price,
                 "quantity": quantity,
-                "company_uuid": selectCompany.value,
+                "company_uuid": selectCompany1,
                 "image": UploadedFile,
                 "stock_quantity": stockQuantity,
                 "cgst_tax": cgst,
@@ -268,7 +282,7 @@ const productmanagement = () => {
                 "category_uuid": selectCategory.value,
                 "price": price,
                 "quantity": quantity,
-                "company_uuid": selectCompany.value,
+                "company_uuid": selectCompany1,
                 "stock_quantity": stockQuantity,
                 // "image": UploadedFile,
                 "cgst_tax": cgst,
@@ -309,7 +323,8 @@ const productmanagement = () => {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('fileName', file.name);
-            formData.append('company_uuid', selectCompany && selectCompany.value);
+            formData.append('company_uuid', selectCompany1);
+            formData.append('store_uuid', selectStores);
             dispatch(AdminProductBulkUplodURL(formData, currentUser.token))
             setSuc(true)
         }
@@ -469,10 +484,14 @@ const productmanagement = () => {
                         <CsLineIcons icon="close" />
                     </DialogActions>
                     <DialogContentText >
-                        <Form.Label>Select Company</Form.Label>
+                        {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                        <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+                        <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={setSelectCompany} placeholder="Select Company" />
+                        {/* <Form.Label>Select Company</Form.Label> */}
+                        {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                        <Select classNamePrefix="react-select" options={dropdownValues} value={selectStore1} onChange={setSelectStore} placeholder="Select Stores" className="mt-3" />
                     </DialogContentText><br />
+
 
                     <DialogContentText >
                         <input type="file" onChange={handleChange} className="form-control" />
@@ -674,7 +693,8 @@ const productmanagement = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {ProductData?.data?.map((item, index) => {
+            { ProductData?.data?.length > 0 &&ProductData && ProductData?.data && ProductData?.data?.map((item, index) => {
+            // {ProductData?.data?.map((item, index) => {
                 console.log(item, 'svdghvsdghf')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>

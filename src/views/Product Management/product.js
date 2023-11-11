@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { CompanyProductionListURL } from 'Redux/AdminRedux/Production/production';
 
 const product = () => {
   const dispatch = useDispatch()
@@ -147,12 +148,14 @@ const product = () => {
     dispatch(CategoryListURL(page, search, currentUser.token, limit))
   }, [])
 
-  const { ProductData, StoreList, notification } = useSelector((state) => state.productList)
+  const {  StoreList, notification } = useSelector((state) => state.products)
+  const { companyProductionData } = useSelector((state) => state.compamyProduction)
   console.log(StoreList, 'gdfhvjghdfj')
   useEffect(() => {
-    dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+    // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+     dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
   }, [compnayId, categoryId])
-  console.log(ProductData, "ProductDatasdfdsfdsf");
+  console.log(companyProductionData, "ProductDatasdfdsfdsf");
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
@@ -161,7 +164,8 @@ const product = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+          // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+           dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
           setOpenEditViewOpupup(false)
           setTimeout(() => {
             setImage(null)
@@ -213,7 +217,7 @@ const product = () => {
 
   const StoreData=[];
 
-  StoreList.data.map((text) => {
+  StoreList?.data?.map((text) => {
     return StoreData.push({ label: text?.store_name, value: text?.uuid })
   },[])
 
@@ -331,32 +335,39 @@ const product = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      // dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      // dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid ,categoryId1))
+      // dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid ,categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId1))
+      // dispatch(ProductListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
     }
   }
 
@@ -611,7 +622,8 @@ const product = () => {
       {/* List Header End */}
 
       {/* List Items Start */}
-      {ProductData && ProductData.data && ProductData.data.map((item, index) => {
+      { companyProductionData?.data?.length > 0 &&companyProductionData && companyProductionData?.data && companyProductionData?.data?.map((item, index) => {
+      // {ProductData && ProductData.data && ProductData.data.map((item, index) => {
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -715,16 +727,16 @@ const product = () => {
           <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
             {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyProductionData && companyProductionData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyProductionData && companyProductionData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-          {Math.ceil(ProductData && ProductData.count / limit) > page + 3 &&
+          {Math.ceil(companyProductionData && companyProductionData.count / limit) > page + 3 &&
             <>
               <Pagination.Item className="shadow" >...</Pagination.Item>
             </>
 
           }
-          <Pagination.Next className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+          <Pagination.Next className="shadow" disabled={Math.ceil(companyProductionData && companyProductionData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>

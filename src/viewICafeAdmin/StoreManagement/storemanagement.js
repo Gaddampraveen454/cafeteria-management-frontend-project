@@ -236,7 +236,7 @@ const StoreManagement = () => {
  
  
     }
-    console.log(`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`, "sdfsdfsdfsfd")
+    console.log(`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`, "sdfsdfsdfsfd")
     const handleDownload = () => {
         window.print();
         //   const printContents = document.getElementById('printablediv').innerHTML;
