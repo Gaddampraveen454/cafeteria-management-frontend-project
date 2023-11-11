@@ -10,6 +10,7 @@ import { Row, Col, Button, Form } from 'react-bootstrap';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { StoreProductListURL } from 'Redux/CashierRedux/Product/ProductRedux';
 
 const Cardsdetails = ({onClose}) => {
   // console.log(onClose,"gfsfgsgsfgsg")
@@ -18,7 +19,9 @@ const Cardsdetails = ({onClose}) => {
   const { id } = useParams();
   console.log(id,"asdadadasd")
   const [companyId , setCompanyId]=useState(id)
-
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState('')
   // const [cmpid,companyId]=id.split("=")
 
   // console.log(companyId,"companyId")
@@ -64,8 +67,8 @@ if(categoryForConsumer){
   useEffect(() => {
     // if (category===!""){
       if(category){
-        dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0,""))
-      
+        // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0,""))
+        dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
       }
 
   }, [category])

@@ -523,8 +523,8 @@ const MenuForCashier = () => {
       .then((respons) => {
         console.log(respons, "fffgdsfsdfdsf")
         setItems([])
-        // setPrint(true)
-        // setPrintData(respons.data.data)
+        setPrint(true)
+        setPrintData(respons.data.data)
         setMessage(respons.data.message)
         sethandleopen(false)
         setOpen(true)
@@ -532,8 +532,8 @@ const MenuForCashier = () => {
       })
       .catch((err) => {
         console.log(err.response.data, "zasdsadasd")
-        // setPrint(false)
-        // setPrintData('')
+        setPrint(false)
+        setPrintData('')
         toast.error(err.response.data)
         setSuc(false)
 

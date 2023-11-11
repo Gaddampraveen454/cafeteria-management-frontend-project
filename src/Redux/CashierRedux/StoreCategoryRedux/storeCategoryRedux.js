@@ -37,11 +37,12 @@ export const StoreCategoryListURL = (pageNUm, search, token, limit,cmpid,strid) 
   dispatch(setCategoryData(response.data));
 };
 
-export const StoreCategoryDropDownL = (token) => async (dispatch) => {
-    const response = await axios.get(`${process.env.REACT_APP_URL}/category/dropdown/list`,
-    {headers:{
-      "x-auth-token" : token
-    }});
+export const StoreCategoryDropDownL = (storid) => async (dispatch) => {
+    const response = await axios.get(`${process.env.REACT_APP_URL}/category/dropdown/list?store_uuid=${storid}`,
+    // {headers:{
+    //   "x-auth-token" : token
+    // }}
+    );
     console.log(response.data.data, "dropdown")
     dispatch(setCategoryDropDownData(response.data));
   };

@@ -141,9 +141,10 @@ const productmanagement = () => {
     const { categoryData } = useSelector((state) => state.cotegoryList)
     const { companyData } = useSelector((state) => state.companyList)
     const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
-    const { AdmincategoryDropdown ,storeDropdown} = useSelector(
-        ({ adminCategorySlice }) => adminCategorySlice
-      );
+    // const { AdmincategoryDropdown ,storeDropdown} = useSelector(
+    //     ({ adminCategorySlice }) => adminCategorySlice
+    //   );
+    const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
     console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
     
 
@@ -673,7 +674,7 @@ const productmanagement = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {ProductData.data.map((item, index) => {
+            {ProductData?.data?.map((item, index) => {
                 console.log(item, 'svdghvsdghf')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>

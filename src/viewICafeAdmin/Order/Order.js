@@ -41,9 +41,10 @@ const Order = () => {
     const { OrderData } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
 
-    const { AdmincategoryDropdown,storeDropdown } = useSelector(
-        ({ adminCategorySlice }) => adminCategorySlice
-      );
+    const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
+    // const { AdmincategoryDropdown,storeDropdown } = useSelector(
+    //     ({ adminCategorySlice }) => adminCategorySlice
+    //   );
     console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
     useEffect(() => {
@@ -278,7 +279,7 @@ const Order = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {OrderData.data.map((text, index) => {
+            {OrderData?.data?.map((text, index) => {
                 console.log(text, 'bsdhbhf')
                 return (
                     <Card className="mb-2" key={index}>

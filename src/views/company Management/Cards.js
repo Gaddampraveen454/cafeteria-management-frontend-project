@@ -6,6 +6,7 @@ import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import { CartListURL, addToCartURL, updateCartURL, deleteToCartURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
+import { StoresForConsumerLIST } from 'Redux/ConsumerRedux/StoreList/storelist';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
@@ -26,6 +27,7 @@ import {
 } from '@mui/material';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
+
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
 const Menu = () => {
   const dispatch = useDispatch()
@@ -67,6 +69,8 @@ const Menu = () => {
   const handleError = (error) => {
     console.log(error);
   };
+
+ 
   useEffect(() => {
     if (result1) {
       const [url, compnayId] = result1.split("menu/")
@@ -77,6 +81,9 @@ const Menu = () => {
       // <Redirect to="/somewhere/else" />
     }
   }, [result1])
+  //  useEffect(() => {
+  //   dispatch(StoresForConsumerLIST(compnayId))
+  // },[])
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
   const getData = async () => {
@@ -122,6 +129,7 @@ const Menu = () => {
       setSelectedItems([]);
     }
   };
+  const {StoreForConsumer} = useSelector((state) => state.StoreForConsumerSlice)
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
   const { CartData, notification } = useSelector((state) => state.CartList)
@@ -377,6 +385,88 @@ const Menu = () => {
             {/* Filters End */}
           </Col>
         )}
+
+<Col style={{ position: "sticky" }} lg="9" xl="9">
+          <div id="firstcolumn">
+            {/* <Form className="mb-5">
+              <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
+            </Form> */}
+            {/* Product Thumbnails Start */}
+            <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+              {StoreForConsumer && StoreForConsumer.data && StoreForConsumer.data.map((item, index) => {
+                console.log(item, "STORE")
+                return <>
+                  <Col xs="12" md="6" lg="6" xl="6">
+                    <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                      <Card.Body className="pb-3">
+                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                        <Row >
+                          {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                          <Col xs="6" sm="8" md="8" lg="8">
+                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                              <Clamp tag="span" clamp="2">
+                                {item.store_name}
+                              </Clamp>
+                            </NavLink>
+                            {item.location}
+                          </Col>
+                          {/* <Col> &nbsp;</Col> */}
+                          {/*                          
+                          <Col xs="6" sm="4" md="4" lg="4">
+                          <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                         </Col> */}
+            
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                    <Card.Footer>
+                      {/* <div className="mb-2">
+                    <Rating
+                      initialRating={5}
+                      readonly
+                      emptySymbol={<i className="cs-star text-primary" />}
+                      fullSymbol={<i className="cs-star-full text-primary" />}
+                    />
+                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
+                  </div> */}
+                      <div className="card-text">
+                        {/* <div className="text-muted text-overline text-small">
+                      <del>$ 14.25</del>
+                    </div> */}
+                      </div>
+                    </Card.Footer>
+                  </Col>
+                </>
+              })}
+            </Row>
+          </div>
+          {/* Product Thumbnails End */}
+          {/* Pagination Start */}
+          <div className="d-flex justify-content-center mt-5">
+            <Pagination>
+              <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
+                <CsLineIcons icon="chevron-left" />
+              </Pagination.Prev>
+              <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+                {page + 1}
+              </Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(StoreForConsumer && StoreForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(StoreForConsumer && StoreForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+              {Math.ceil(StoreForConsumer && StoreForConsumer.count / limit) > page + 3 &&
+                <>
+                  <Pagination.Item className="shadow" >...</Pagination.Item>
+                </>
+              }
+              <Pagination.Next className="shadow" disabled={Math.ceil(StoreForConsumer && StoreForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                <CsLineIcons icon="chevron-right" />
+              </Pagination.Next>
+            </Pagination>
+          </div>
+          {/* Pagination End */}
+        </Col>
+
+
+
         <Col style={{ position: "sticky" }} lg="9" xl="9">
           <div id="firstcolumn">
             {/* <Form className="mb-5">
@@ -536,6 +626,8 @@ const Menu = () => {
           </div>
           {/* Pagination End */}
         </Col>
+
+
       </Row>
       {/* Filters Modal Start */}
       {!isLgScreen && (

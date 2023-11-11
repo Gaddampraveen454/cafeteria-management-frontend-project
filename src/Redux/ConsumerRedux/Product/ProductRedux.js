@@ -25,7 +25,7 @@ export const { setProductForConsumer, setToast } = ProductForConsumerSlice.actio
 
 
 export const ProductForConsumerListURL = (companyId, catagory,page,search, token, limit,compnayId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/lists?pagenum=${page}&limit=10&company_uuid=${companyId}&category_uuid=${catagory}&search=${search}`, {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/lists?pagenum=0&limit=10&company_slug=cogni&store_slug=new-store&category_uuid=CAT-292C60A9&search=`, {
     // headers: {
     //   "x-auth-token": token
     // }

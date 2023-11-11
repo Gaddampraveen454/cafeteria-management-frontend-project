@@ -48,10 +48,10 @@ const MainMenu = () => {
     routsData = cashierRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
     routsData = consumerRoutesAndMenuItems.mainMenuItems
-  }
-   else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
     routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
-  } 
+  }
+ 
   else {
     routsData = defaultRoutesAndMenuItems.mainMenuItems
   }
