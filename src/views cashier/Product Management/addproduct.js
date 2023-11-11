@@ -5,9 +5,12 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductListURL, ProductAddURL, ProductUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import {  StoreProductAddURL } from 'Redux/CashierRedux/Product/ProductRedux';
+import {StoreCategoryDropDownL} from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CompanyDropDown } from 'Redux/AdminRedux/Comapny/Company';
+import axios from 'axios';
 
 const addproduct = () => {
   
@@ -23,7 +26,8 @@ const addproduct = () => {
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState();
   const [selectCompany, setSelectCompany] = useState();
-
+  const [UploadedFile, setUploadedFile]=useState("")
+  console.log(UploadedFile,"UploadedFile")
 
   console.log(selectType,selectCategory,selectCompany,"sfsdfsdfsdfsdfsdf")
   const optionsType = [
@@ -67,27 +71,41 @@ const addproduct = () => {
     { value: '30', label: '30' },
   ];
   const { currentUser } = useSelector((state) => state.auth)
-  const { categoryData } = useSelector((state) => state.cotegoryList)
-  const { companyData } = useSelector((state) => state.companyList)
-  const { ProductData,notification } = useSelector((state) => state.productList)
-  
+  const { categoryData,categoryDropdown } = useSelector((state) => state.StorecategorySlice)
+  const { companyData,companyDropData } = useSelector((state) => state.companyList)
+  const { ProductData,notification } = useSelector((state) => state.StoreproductSlice)
+  console.log(categoryDropdown,notification,"categoryDropdown")
 
-  const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
+  const productList= categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) =>{return {label:item.name, value:item.uuid}})
 
-  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
-
-
+  const companyList= companyDropData && companyDropData.data && companyDropData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
 
+useEffect(() => {
+  dispatch(StoreCategoryDropDownL())
+  dispatch(CompanyDropDown())
+},[])
 
 
 
 
-  const [suc,setSuc] = useState(false);
-  const [name, setName]=useState("")
-  const [price, setPrice]=useState("")
-  const [quantity, setQuantity]=useState("")
+
+
+const [suc,setSuc] = useState(false);
+const [name, setName]=useState("")
+const [price, setPrice]=useState("")
+const [quantity, setQuantity]=useState("")
+const [stockQuantity,setStockQuantity]=useState("")
+const [cgst, setCgst]=useState("")
+const [sgst, setSgst]=useState("")
+const [image, setImage] = useState(null);
+
+
+const handleImageChange = (e) => {
+  setImage(e.target.files[0]);
+};
  
+
 
 
 
@@ -96,14 +114,28 @@ const addproduct = () => {
   const AddProduct = (event) => {
     event.preventDefault()
     const payload = {
+        // "name" : name,
+        // "type" : selectType && selectType.value,
+        // "category_uuid" : selectCategory && selectCategory.value,
+        // "price" : price,
+        // "quantity" : quantity,
+        // "stock_quantity" : 20,
+        // "company_uuid" : selectCompany && selectCompany.value,
+       
+
         "name" : name,
         "type" : selectType && selectType.value,
         "category_uuid" : selectCategory && selectCategory.value,
         "price" : price,
         "quantity" : quantity,
-        "company_uuid" : selectCompany && selectCompany.value,
+        "company_uuid" : currentUser?.data?.company_uuid,
+        "image":UploadedFile,
+        "stock_quantity" : stockQuantity,
+        "cgst_tax": cgst,
+        "sgst_tax": sgst,
+        "store_uuid" : currentUser?.data?.uuid
     }
-    dispatch(ProductAddURL(payload, currentUser.token))
+    dispatch(StoreProductAddURL(payload, currentUser.token))
     setSuc(true)
    
 }
@@ -121,18 +153,48 @@ useEffect(() => {
       setTimeout(()=>{
         // dispatch(ProductListURL(page, search,currentUser.token,limit))
         history.push(({
-          pathname: "/product",
+          pathname: "/Storeproduct",
           // state : {detail : id,fullname : name, pic :image, type:"edit"},
         }));
       },2000)
     }
     else if (notification.status === false) {
-      toast.error(notification.message)
+      toast.error(notification?.message)
       setSuc(false)
     }
   }
 
 }, [notification])
+
+console.log(notification,"notificationjk")
+
+const handleSubmit = () => {
+  // e.preventDefault();
+  const formData = new FormData();
+  formData.append('image', image);
+  axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+    {
+      headers: {
+        "x-access-token": `${currentUser.token}`,
+      }
+    })
+    .then(res => {
+      console.log(res.data.image, "resp00");
+      setUploadedFile(res.data.image.filename)
+
+    })
+    .catch(err => {
+      console.log(err, "err00")
+     
+    });
+}
+
+useEffect(()=>{
+  if(image!==null){
+    handleSubmit()
+  }
+ 
+},[image])
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -160,10 +222,10 @@ useEffect(() => {
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Company</Form.Label>
                     <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
                     <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />
@@ -181,6 +243,33 @@ useEffect(() => {
                     <Form.Label>Quantity</Form.Label>
                     <Form.Control type="text" rows={1}  onChange={(e)=>{setQuantity(e.target.value)}}/>
                   </Col>
+                  <Col lg="6">
+                    <Form.Label>Stock Quantity</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>CGST(%)</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>SGST(%)</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}}/>
+                  </Col>
+                  <Col  lg="6">
+                  <div>
+                  <Form.Label>File</Form.Label>
+                  <Form.Control type="file" onChange={handleImageChange}/>
+      {/* <input type="file" onChange={handleImageChange} /> */}
+                  </div>
+                  </Col>
+                  {/* <Col  lg="6"> */}
+                  <div>
+      {image && (
+        <div >
+          <img src={URL.createObjectURL(image)} alt="Preview" style={{width:"200px", height:"200px"}}/>
+        </div>
+      )}
+    </div>
                   <Col lg="12">
                     <Col lg="3">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">

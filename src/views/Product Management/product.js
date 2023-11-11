@@ -14,7 +14,7 @@ import {
   Input,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductBulkUplodURL, ProductStatusUpdateURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductBulkUplodURL, ProductStatusUpdateURL, ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
@@ -82,17 +82,17 @@ const product = () => {
   const [price, setPrice] = useState("")
   const [quantity, setQuantity] = useState("")
 
-  const [stockQuantity,setStockQuantity]=useState("")
-  const [cgst, setCgst]=useState("")
-  const [sgst, setSgst]=useState("")
+  const [stockQuantity, setStockQuantity] = useState("")
+  const [cgst, setCgst] = useState("")
+  const [sgst, setSgst] = useState("")
 
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState('');
   const [selectCompany, setSelectCompany] = useState('');
   const [productId, setProductId] = useState("")
   const [imageUrl, setimageUrl] = useState("")
- 
-  console.log(selectCompany && selectCompany.value,selectCategory && selectCategory.value, "selectCompanyselectCategory")
+
+  console.log(selectCompany && selectCompany.value, selectCategory && selectCategory.value, "selectCompanyselectCategory")
 
   const [suc, setSuc] = useState(false);
 
@@ -100,11 +100,16 @@ const product = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
-  const [compnayId, setCompnayId]=useState('')
-  const [categoryId , setCategoryId]=useState('')
+  const [compnayId, setCompnayId] = useState('')
+  const [categoryId, setCategoryId] = useState([])
+  let categoryId1
+  if (categoryId?.value === undefined) {
+    categoryId1 = '';
+  } else {
+    categoryId1 = categoryId?.value;
+  }
 
-
-  console.log(compnayId.value,categoryId.value, "dfgdfgdfgdd")
+  console.log(compnayId.value, categoryId.value, "dfgdfgdfgdd")
 
   const [UploadedFile, setUploadedFile] = useState()
   const [image, setImage] = useState(null);
@@ -127,9 +132,10 @@ const product = () => {
     }
   };
 
-
+  //  const {StoreList} = useSelector((state)=>state.)
   const { currentUser } = useSelector((state) => state.auth)
-  const { categoryData } = useSelector((state) => state.cotegoryList)
+  console.log(currentUser,'djhfvghdb')
+  const { categoryData, categoryDropdown } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
@@ -138,13 +144,14 @@ const product = () => {
   useEffect(() => {
 
     dispatch(ActiveCompnyURL(currentUser.token))
-    dispatch(CategoryListURL(page, search,currentUser.token,limit))
+    dispatch(CategoryListURL(page, search, currentUser.token, limit))
   }, [])
 
-  const { ProductData, notification } = useSelector((state) => state.productList)
+  const { ProductData, StoreList, notification } = useSelector((state) => state.productList)
+  console.log(StoreList, 'gdfhvjghdfj')
   useEffect(() => {
-    dispatch(ProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
-  }, [compnayId,categoryId])
+    dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
+  }, [compnayId, categoryId])
   console.log(ProductData, "ProductDatasdfdsfdsf");
   useEffect(() => {
     if (suc === true) {
@@ -154,7 +161,7 @@ const product = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(ProductListURL(page, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+          dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
           setOpenEditViewOpupup(false)
           setTimeout(() => {
             setImage(null)
@@ -177,14 +184,16 @@ const product = () => {
 
 
 
-
+  useEffect(() => {
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+  }, [])
 
 
 
   // // const { currentUser } = useSelector((state) => state.auth)
   // const { categoryData } = useSelector((state) => state.cotegoryList)
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
-  const productList = categoryData && categoryData.data && categoryData.data.map((item) => { return { label: item.name, value: item.uuid } })
+  const productList = categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) => { return { label: item.name, value: item.uuid } })
   // console.log(productList,"categoryDatacategoryData")
 
 
@@ -194,7 +203,24 @@ const product = () => {
 
 
 
+  const [selectStore, setSelectStore] = useState('');
 
+
+
+  useEffect(() => {
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+  }, [])
+
+  const StoreData=[];
+
+  StoreList.data.map((text) => {
+    return StoreData.push({ label: text?.store_name, value: text?.uuid })
+  },[])
+
+  const handleEvent = (event) => {
+    console.log(event, 'hvdhdf')
+    setSelectStore(event)
+  }
 
 
 
@@ -209,6 +235,7 @@ const product = () => {
     setSelectCompany({ label: event.company_name, value: event.company_uuid })
     setSelectCategory({ label: event.category_name, value: event.category_uuid })
     setSelectType({ label: event.type, value: event.type })
+    setSelectStore({label:event?.store_name,value:event?.store_uuid})
     setPrice(event.price)
     setQuantity(event.quantity)
     setProductId(event.uuid)
@@ -229,11 +256,12 @@ const product = () => {
         "category_uuid": selectCategory.value,
         "price": price,
         "quantity": quantity,
-        "company_uuid": selectCompany.value,
+        "company_uuid":  currentUser?.data?.uuid,
         "image": UploadedFile,
-        "stock_quantity" : stockQuantity,
+        "stock_quantity": stockQuantity,
         "cgst_tax": cgst,
         "sgst_tax": sgst,
+        "store_uuid":selectStore?.value
       }
 
 
@@ -249,10 +277,11 @@ const product = () => {
         "category_uuid": selectCategory.value,
         "price": price,
         "quantity": quantity,
-        "company_uuid": selectCompany.value,
-        "stock_quantity" : stockQuantity,
+        "company_uuid":  currentUser?.data?.uuid,
+        "stock_quantity": stockQuantity,
         "cgst_tax": cgst,
         "sgst_tax": sgst,
+        "store_uuid":selectStore?.value
       }
 
 
@@ -302,32 +331,32 @@ const product = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductListURL(0, pages, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductListURL(page - 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductListURL(page, search, currentUser.token, limit), compnayId && compnayId.value, categoryId && categoryId.value)
+      dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductListURL(page + 2, search, currentUser.token, limit, compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid ,categoryId1))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductListURL(0, search, currentUser.token, pages ,compnayId && compnayId.value, categoryId && categoryId.value))
+      dispatch(ProductListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId1))
     }
   }
 
@@ -488,11 +517,11 @@ const product = () => {
       </div>
 
       <Row className="mb-3">
-         <Col md="5" lg="3" xxl="2" className="mb-1">
+        <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           {/* <Form.Label/> */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-         
+
             <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
@@ -511,7 +540,7 @@ const product = () => {
             value={compnayId}
             onChange={setCompnayId}
             placeholder="Select Company"
-            // disabled={eventType}
+          // disabled={eventType}
           />
         </Col>
         <Col lg="3">
@@ -521,11 +550,11 @@ const product = () => {
             value={categoryId}
             onChange={setCategoryId}
             placeholder="Select Category"
-            // disabled={eventType}
+          // disabled={eventType}
           />
         </Col>
         <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
-         
+
           {/* Length Start */}
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
@@ -728,12 +757,22 @@ const product = () => {
                     disabled={eventType}
                   />
                 </Col>
-                <Col lg="6">
+                {/* <Col lg="6">
                   <Form.Label>Company</Form.Label>
                   <Select classNamePrefix="react-select"
                     options={companyList}
                     value={selectCompany}
                     onChange={setSelectCompany}
+                    placeholder=""
+                    disabled={eventType}
+                  />
+                </Col> */}
+                <Col lg="6">
+                  <Form.Label>Store</Form.Label>
+                  <Select classNamePrefix="react-select"
+                    options={StoreData}
+                    value={selectStore}
+                    onChange={handleEvent}
                     placeholder=""
                     disabled={eventType}
                   />
@@ -777,31 +816,31 @@ const product = () => {
                   />
                 </Col>
                 <Col lg="6">
-                    <Form.Label>Stock Quantity</Form.Label>
-                    <Form.Control type="text"
-                     rows={1} 
-                     value={stockQuantity} 
-                     onChange={(e)=>{setStockQuantity(e.target.value)}}
-                     disabled={eventType}
-                     />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>CGST(%)</Form.Label>
-                    <Form.Control type="text"
-                     rows={1} 
-                     value={cgst} 
-                     onChange={(e)=>{setCgst(e.target.value)}}
-                     disabled={eventType}
-                     />
-                  </Col>
-                  <Col lg="6">
-                    <Form.Label>SGST(%)</Form.Label>
-                    <Form.Control type="text" 
-                    rows={1} value={sgst} 
-                    onChange={(e)=>{setSgst(e.target.value)}}
+                  <Form.Label>Stock Quantity</Form.Label>
+                  <Form.Control type="text"
+                    rows={1}
+                    value={stockQuantity}
+                    onChange={(e) => { setStockQuantity(e.target.value) }}
                     disabled={eventType}
-                    />
-                  </Col>
+                  />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>CGST(%)</Form.Label>
+                  <Form.Control type="text"
+                    rows={1}
+                    value={cgst}
+                    onChange={(e) => { setCgst(e.target.value) }}
+                    disabled={eventType}
+                  />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>SGST(%)</Form.Label>
+                  <Form.Control type="text"
+                    rows={1} value={sgst}
+                    onChange={(e) => { setSgst(e.target.value) }}
+                    disabled={eventType}
+                  />
+                </Col>
 
 
 

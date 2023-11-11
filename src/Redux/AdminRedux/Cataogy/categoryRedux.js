@@ -25,7 +25,7 @@ export const { setCategoryData, setToast } = categorySlice.actions;
 
 
 export const CategoryListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/category/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,{headers:{
+  const response = await axios.get(`${process.env.REACT_APP_URL}/category/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=&store_uuid=`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")
@@ -33,7 +33,7 @@ export const CategoryListURL = (pageNUm, search, token, limit) => async (dispatc
 };
 
 export const CategoryAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/category/create`,payload,{headers:{
+    const response = await axios.post(`${process.env.REACT_APP_URL}/category/create/company`,payload,{headers:{
       "x-auth-token" : token
     }}) .then((res) => {
       console.log(res, "sdfsdfsdff")
@@ -46,7 +46,7 @@ export const CategoryAddURL = (payload,token) => async (dispatch) => {
   };
 
 export const CategoryUpdateURL = (uuid,payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/category/update/${uuid}`,payload,{headers:{
+    const response = await axios.put(`${process.env.REACT_APP_URL}/category/company/update/${uuid}`,payload,{headers:{
       "x-auth-token" : token
     }}) .then((res) => {
       console.log(res, "sdfsdfsdff")
@@ -59,8 +59,8 @@ export const CategoryUpdateURL = (uuid,payload, token) => async (dispatch) => {
    
   };
 
-  export const  CategoryStatusUpdateURL = (payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/category/change/status`, payload, {
+  export const  CategoryStatusUpdateURL = (payload, token,id) => async (dispatch) => {
+    const response = await axios.put(`${process.env.REACT_APP_URL}/category/status/update/${id}`, payload, {
       headers: {
         "x-auth-token": token
       }

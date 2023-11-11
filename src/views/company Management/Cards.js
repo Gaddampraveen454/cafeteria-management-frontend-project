@@ -125,11 +125,9 @@ const Menu = () => {
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
   const { CartData, notification } = useSelector((state) => state.CartList)
-  // const { currentUser } = useSelector((state) => state.auth)
+
   console.log(currentUser, "currentUser")
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
-  //   const dataa= ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.filter((elm)=>CartData.data.some(elm2=>elm2.item_uuid=== elm.uuid))
-  //  console.log(dataa,'dataadfsdfsdf')
   const addToCart = (event) => {
     console.log(event.stock_quantity, "jhjjgjhgjgjhg")
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {

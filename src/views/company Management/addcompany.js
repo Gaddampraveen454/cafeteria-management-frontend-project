@@ -17,7 +17,7 @@ const addCompany = () => {
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
 
-
+console.log(currentUser,"currencoma")
 
 
 
@@ -42,7 +42,8 @@ const addCompany = () => {
     // event.preventDefault()
     // const value = event.target.elements
     const payload = {
-      "company_name": formValues.companyName,
+      "company_uuid" : currentUser?.data?.uuid,
+      "store_name": formValues.companyName,
       "email": formValues.email,
       "mobile": formValues.mobile,
       "wallet_amount": formValues.walletamount,
@@ -167,7 +168,7 @@ const addCompany = () => {
       <div className="page-title-container">
         <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Company">
           <CsLineIcons icon="chevron-left" size="20" />
-          <span className="align-middle text-medium ms-1">Company Management</span>
+          <span className="align-middle text-medium ms-1">Store Management</span>
         </NavLink>
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
@@ -187,7 +188,7 @@ const addCompany = () => {
               >
                 <Row className="g-3">
                   <Col lg="6">
-                    <Form.Label>Company Name</Form.Label>
+                    <Form.Label>Store Name</Form.Label>
                     <Form.Control
                       // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
                       name="companyName"

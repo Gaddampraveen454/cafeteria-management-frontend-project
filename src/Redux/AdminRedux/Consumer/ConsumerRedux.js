@@ -4,16 +4,16 @@ import axios from 'axios';
 
 
 const initialState = {
-  consumerData: [],
+  companyUser: [],
   notification: {}
 };
 
-const consumerSlice = createSlice({
-  name: 'consumer',
+const comapnuserSlice = createSlice({
+  name: 'userManagement',
   initialState,
   reducers: {
-    setConsumerData(state, action) {
-      state.consumerData = action.payload;
+    setCompanyUser(state, action) {
+      state.companyUser = action.payload;
     },
     setToast(state, action) {
       state.notification = action.payload;
@@ -21,19 +21,19 @@ const consumerSlice = createSlice({
   },
 });
 
-export const { setConsumerData , setToast} = consumerSlice.actions;
+export const { setCompanyUser , setToast} = comapnuserSlice.actions;
 
 
-export const consumerListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/user/consumer/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,{headers:{
+export const CompanyConsumerListURL = (pageNUm, search, token, limit,id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/user/company/consumer/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}`,{headers:{
     "x-auth-token" : token
   }});
-  console.log(response.data.data, "dfghj")
-  dispatch(setConsumerData(response.data));
+  console.log(response.data, "dfghjhjvbhjebgu")
+  dispatch(setCompanyUser(response.data));
 };
 
-export const consumerAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/user/create/consumer`,payload,{headers:{
+export const CompanyConsumerAddURL = (payload,token) => async (dispatch) => {
+    const response = await axios.post(`${process.env.REACT_APP_URL}/user/create/company/consumer`,payload,{headers:{
       "x-auth-token" : token
     }}).then((res) => {
       console.log(res, "sdfsdfszvzxxczxcdff")
@@ -46,7 +46,7 @@ export const consumerAddURL = (payload,token) => async (dispatch) => {
   };
 
 
-  export const consumerBulkUploadURL = (payload,token) => async (dispatch) => {
+  export const CompanyConsumerBulkUploadURL = (payload,token) => async (dispatch) => {
     const response = await axios.post(`${process.env.REACT_APP_URL}/user/upload/bulk`,payload,{headers:{
       "x-auth-token" : token
     }}).then((res) => {
@@ -60,8 +60,8 @@ export const consumerAddURL = (payload,token) => async (dispatch) => {
     })
   };
 
-export const consumerUpdateURL = (uuid,payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/user/update/consumer/${uuid}`,payload,{headers:{
+export const CompanyConsumerUpdateURL = (uuid,payload, token) => async (dispatch) => {
+    const response = await axios.put(`${process.env.REACT_APP_URL}/user/update/company/consumer/${uuid}`,payload,{headers:{
       "x-auth-token" : token
     }}).then((res) => {
       console.log(res, "sfsdsdfsdf")
@@ -74,7 +74,7 @@ export const consumerUpdateURL = (uuid,payload, token) => async (dispatch) => {
    
   };
 
-  export const ConsumerStatusUpdateURL = (payload, token) => async (dispatch) => {
+  export const CompanyConsumerStatusUpdateURL = (payload, token) => async (dispatch) => {
     const response = await axios.put(`${process.env.REACT_APP_URL}/user/change/consumer/status`, payload, {
       headers: {
         "x-auth-token": token
@@ -90,6 +90,6 @@ export const consumerUpdateURL = (uuid,payload, token) => async (dispatch) => {
       })
  
   };
-const consumerReducer = consumerSlice.reducer;
+const companyUserReducer = comapnuserSlice.reducer;
 
-export default consumerReducer;
+export default companyUserReducer;

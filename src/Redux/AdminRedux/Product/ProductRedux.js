@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   ProductData: [],
+  StoreList:{},
   notification: {}
 };
 
@@ -15,23 +16,43 @@ const productSlice = createSlice({
     setProductData(state, action) {
       state.ProductData = action.payload;
     },
+    setStoreList(state, action) {
+      state.StoreList = action.payload;
+    },
     setToast(state, action) {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setProductData, setToast } = productSlice.actions;
+export const { setProductData, setStoreList,setToast } = productSlice.actions;
 
 
 export const ProductListURL = (pageNUm, search, token, limit, companyId, categoryId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${companyId}&category_uuid=${categoryId}`, {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${companyId}&category_uuid=${categoryId}&store_uuid=`, {
     headers: {
       "x-auth-token": token
     }
   }).then((res) => {
     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
     dispatch(setProductData(res.data));
+  })
+    .catch((err) => {
+      console.log("err");
+    })
+  //   console.log(response.data.data, "dfghj")
+  //   dispatch(setProductData(response.data)); /company/get/order/stores?company_uuid=COMP-3581F6AC'
+};
+
+
+export const ProductStoreListURL = (token,id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/get/order/stores?company_uuid=${id}`, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+    dispatch(setStoreList(res.data));
   })
     .catch((err) => {
       console.log("err");

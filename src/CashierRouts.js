@@ -14,14 +14,15 @@ const addexecutive = lazy(() => import('views/Front Desk Executive/addexecutive'
 const category = lazy(() => import('views/Category Management/category'));
 const addcategory = lazy(() => import('views/Category Management/addcategory'));
 const product = lazy(() => import('views cashier/Product Management/product'));
-const addproduct = lazy(() => import('views/Product Management/addproduct'));
+const addproduct = lazy(() => import('views cashier/Product Management/addproduct'));
 const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views cashier/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
 const CashierMenu = lazy(() => import('views cashier/CreateOrder/MenuForCahier'));
-
+const Storecategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryList'));
+const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryAdd'));
 
 
 const products = {
@@ -62,12 +63,12 @@ const cashierRoutesAndMenuItems = {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/dashboard`,
+      to: `${appRoot}/Storedashboard`,
     },
     {
-      path: `${appRoot}/dashboard`,
+      path: `${appRoot}/Storedashboard`,
       component: dashboard,
-      label: 'Dashboard-Cashier',
+      label: 'Store-Dashboard',
       icon: 'shop',
     },
     //     {
@@ -76,18 +77,25 @@ const cashierRoutesAndMenuItems = {
     //   label: 'Company Management',
     //   icon: 'shipping',
     // },
-    // {
-    //   path: `${appRoot}/addcompany`,
-    //   component: addcompany,
-    //   // label: 'User Management',
-    //   // icon: 'user',
-    // },
+  
     {
-      path: `${appRoot}/User`,
-      component: User,
-      label: 'User Management',
+      path: `${appRoot}/Storecategory`,
+      component: Storecategory,
+      label: 'Category Management',
       icon: 'user',
     },
+      {
+      path: `${appRoot}/Storeaddcatagory`,
+      component: Storeaddcategory,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    // {
+    //   path: `${appRoot}/User`,
+    //   component: User,
+    //   label: 'User Management',
+    //   icon: 'user',
+    // },
     // {
     //   path: `${appRoot}/adduser`,
     //   component: adduser,
@@ -119,10 +127,16 @@ const cashierRoutesAndMenuItems = {
     //   // icon: 'user',
     // },
     {
-      path: `${appRoot}/product`,
+      path: `${appRoot}/Storeproduct`,
       component: product,
       label: 'Product Management',
       icon: 'web-page',
+    },
+     {
+      path: `${appRoot}/Storeaddproduct`,
+      component: addproduct,
+      // label: 'Product Management',
+      // icon: 'web-page',
     },
     {
       path: `${appRoot}/cashierMenu`,

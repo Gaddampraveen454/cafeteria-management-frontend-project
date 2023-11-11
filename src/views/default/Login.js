@@ -43,12 +43,17 @@ const Login = () => {
         })
         setSuc(false)
 
-        if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier") {
-          history.push('/dashboard')
+        if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "store") {
+          history.push('/Storedashboard')
           localStorage.setItem('token', currentUser)
         }
-        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin") {
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "company") {
           history.push('/dashboard')
+          // /dashboard
+          localStorage.setItem('token', currentUser)
+        }
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "icafe_admin") {
+          history.push('/icafe_dashboard')
           // /dashboard
           localStorage.setItem('token', currentUser)
         }

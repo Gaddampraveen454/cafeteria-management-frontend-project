@@ -8,8 +8,8 @@ const initialState = {
   notification: {}
 };
 
-const productSlice = createSlice({
-  name: 'products',
+const StoreproductSlice = createSlice({
+  name: 'StoreproductSlice',
   initialState,
   reducers: {
     setProductData(state, action) {
@@ -21,11 +21,11 @@ const productSlice = createSlice({
   },
 });
 
-export const { setProductData, setToast } = productSlice.actions;
+export const { setProductData, setToast } = StoreproductSlice.actions;
 
 
-export const ProductListURL = (pageNUm, search, token, limit,compnayId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/cashier/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${compnayId}`, {
+export const StoreProductListURL = (pageNUm, search, token, limit,storId,catId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/store/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&store_uuid=${storId}&category_uuid=${catId}`, {
     headers: {
       "x-auth-token": token
     }
@@ -40,7 +40,7 @@ export const ProductListURL = (pageNUm, search, token, limit,compnayId) => async
   //   dispatch(setProductData(response.data));
 };
 
-export const ProductAddURL = (payload, token) => async (dispatch) => {
+export const StoreProductAddURL = (payload, token) => async (dispatch) => {
   const response = await axios.post(`${process.env.REACT_APP_URL}/product/create`, payload, {
     headers: {
       "x-auth-token": token
@@ -56,7 +56,8 @@ export const ProductAddURL = (payload, token) => async (dispatch) => {
     })
 
 };
-export const ProductBulkUplodURL = (payload, token) => async (dispatch) => {
+
+export const StoreProductBulkUplodURL = (payload, token) => async (dispatch) => {
   const response = await axios.post(`${process.env.REACT_APP_URL}/product/upload/bulk`, payload, {
     headers: {
       "x-auth-token": token
@@ -74,7 +75,7 @@ export const ProductBulkUplodURL = (payload, token) => async (dispatch) => {
 
 };
 
-export const ProductUpdateURL = (uuid, payload, token) => async (dispatch) => {
+export const StoreProductUpdateURL = (uuid, payload, token) => async (dispatch) => {
   const response = await axios.put(`${process.env.REACT_APP_URL}/product/update/${uuid}`, payload, {
     headers: {
       "x-auth-token": token
@@ -91,6 +92,6 @@ export const ProductUpdateURL = (uuid, payload, token) => async (dispatch) => {
   // console.log(response, "sdfsfsdfs")
 
 };
-const CashierProductReducer = productSlice.reducer;
+const StoreProductReducer = StoreproductSlice.reducer;
 
-export default CashierProductReducer;
+export default StoreProductReducer;
