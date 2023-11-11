@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   categoryData: [],
+  createList:{},
   notification: {}
 };
 
@@ -15,13 +16,16 @@ const categorySlice = createSlice({
     setCategoryData(state, action) {
       state.categoryData = action.payload;
     },
+    setCreateList(state, action) {
+      state.createList = action.payload;
+    },
     setToast(state, action) {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setCategoryData, setToast } = categorySlice.actions;
+export const { setCategoryData, setCreateList,setToast } = categorySlice.actions;
 
 
 export const CategoryListURL = (pageNUm, search, token, limit) => async (dispatch) => {
@@ -30,6 +34,12 @@ export const CategoryListURL = (pageNUm, search, token, limit) => async (dispatc
   }});
   console.log(response.data.data, "dfghj")
   dispatch(setCategoryData(response.data));
+};
+
+export const CategorycreateList = (id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/category/company/dropdown/list?company_uuid=${id}`)
+  console.log(response.data.data, "dfghj")
+  dispatch(setCreateList(response.data));
 };
 
 export const CategoryAddURL = (payload,token) => async (dispatch) => {

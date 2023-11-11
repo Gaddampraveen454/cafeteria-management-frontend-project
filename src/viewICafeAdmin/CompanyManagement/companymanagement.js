@@ -207,7 +207,7 @@ const companymanagement = () => {
   console.log(CompnayIdForQR, "CompnayIdForQR")
   const ViewQRCode = (event) => {
     console.log(event, "sfdsfsdfsdf")
-    setCompnayIdForQR(event.uuid)
+    setCompnayIdForQR(event.slug)
     setQrOpen(true)
 
 

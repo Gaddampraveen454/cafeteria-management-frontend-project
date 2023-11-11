@@ -208,12 +208,12 @@ console.log(currentUser,"companyid")
   console.log(CompnayIdForQR, "CompnayIdForQR")
   const ViewQRCode = (event) => {
     console.log(event, "sfdsfsdfsdf")
-    setCompnayIdForQR(event.uuid)
+    setCompnayIdForQR(event.slug)
     setQrOpen(true)
 
 
   }
-  console.log(`${process.env.REACT_APP_WEB_APP_URL}/menu/store/${CompnayIdForQR}`, "sdfsdfsdfsfd")
+  console.log(`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`, "sdfsdfsdfsfd")
   const handleDownload = () => {
     window.print();
     //   const printContents = document.getElementById('printablediv').innerHTML;
@@ -685,7 +685,7 @@ console.log(currentUser,"companyid")
               <QRCode
                 size={300}
                 // style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                value={`${process.env.REACT_APP_WEB_APP_URL}/menu/store/${CompnayIdForQR}`}
+                value={`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`}
                 viewBox='0 0 556 556'
               />
             </div>
