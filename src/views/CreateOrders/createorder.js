@@ -27,10 +27,12 @@ import {
     Input,
 } from '@mui/material';
 import Select from 'react-select';
+import { CategorycreateList } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
-import Cardsdetails from '../../views cashier/CreateOrder/Cardsdetails';
+import Cardsdetails from './cardDetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from '../../views cashier/CreateOrder/Cart';
+
 
 
 
@@ -170,7 +172,13 @@ const CreateOrder = () => {
         dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '',selectStore));
     }, [])
 
+    
+    const { createList } = useSelector((state) => state.cotegoryList)
+    console.log(createList,'svdghdsv')
 
+    useEffect(()=>{
+        dispatch(CategorycreateList(currentUser?.data?.uuid))
+       },[])
 
 
 
@@ -794,17 +802,19 @@ const CreateOrder = () => {
 
             <Row>
                 {isLgScreen && (
+                    
                     <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
                         {/* Filters Start */}
-                        {/* <Card */}
-                        {/* // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }}
-                            className="mb-5"> */}
-                        <Form.Label>Store</Form.Label>
-                        <Select  className='mb-4' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
-                        {/* <Card.Body> */}
-                        {/* <Cardsdetails /> */}
-                        {/* </Card.Body> */}
-                        {/* </Card> */}
+                        <Select  className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
+                        <Card
+                        style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
+                            className="mb-5"> 
+                        {/* <Form.Label>Store</Form.Label> */}
+                       
+                        <Card.Body>
+                        <Cardsdetails />
+                        </Card.Body>
+                        </Card>
                         {/* <Cart 
               item={items}
             /> */}
