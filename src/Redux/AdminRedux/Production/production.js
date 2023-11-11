@@ -24,7 +24,7 @@ const CompanyProductionSlice = createSlice({
 export const { setCompanyProductionData, setToast } = CompanyProductionSlice.actions;
 
 export const CompanyProductionListURL = (pageNUm, search, token, limit, companyId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=COMP-3581F6AC'`, {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${companyId}`, {
     headers: {
       "x-auth-token": token
     }
