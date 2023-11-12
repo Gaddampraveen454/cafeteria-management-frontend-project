@@ -92,8 +92,8 @@ export const OrderUpdateURL = (uuid, payload, token) => async (dispatch) => {
 
 };
 
-export const OrderStatusUpdateURL = (payload, token) => async (dispatch) => {
-  const response = await axios.put(`${process.env.REACT_APP_URL}/order/admin/update/status`, payload, {
+export const CompanyOrderStatusUpdateURL = (payload, token) => async (dispatch) => {
+  const response = await axios.put(`${process.env.REACT_APP_URL}/order/status/update`, payload, {
     headers: {
       "x-auth-token": token
     }

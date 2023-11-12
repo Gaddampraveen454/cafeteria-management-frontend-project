@@ -6,6 +6,7 @@ import axios from 'axios';
 const initialState = {
   categoryData: [],
   createList:{},
+  categorylist:{},
   notification: {}
 };
 
@@ -19,13 +20,17 @@ const categorySlice = createSlice({
     setCreateList(state, action) {
       state.createList = action.payload;
     },
+    setcategorylist(state, action) {
+      state.categorylist = action.payload;
+    },
+    // categorylist
     setToast(state, action) {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setCategoryData, setCreateList,setToast } = categorySlice.actions;
+export const { setCategoryData, setCreateList,setToast ,setcategorylist} = categorySlice.actions;
 
 
 export const CategoryListURL = (pageNUm, search, token, limit) => async (dispatch) => {
@@ -41,6 +46,13 @@ export const CategorycreateList = (id) => async (dispatch) => {
   console.log(response.data.data, "dfghj")
   dispatch(setCreateList(response.data));
 };
+
+export const Categotylist = (companyid,storeid) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/category/lists?company_uuid=${companyid}&store_uuid=${storeid}`)
+  console.log(response.data.data, "dfghj")
+  dispatch(setcategorylist(response.data));
+};
+// setcategorylist
 
 export const CategoryAddURL = (payload,token) => async (dispatch) => {
     const response = await axios.post(`${process.env.REACT_APP_URL}/category/create/company`,payload,{headers:{
