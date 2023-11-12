@@ -103,6 +103,9 @@ const product = () => {
   const [limit, setLimit] = useState(10);
   const [search , setSearch] = useState('')
 
+  const handleClear = () => {
+    setSelectCat([]);
+  };
 
 console.log(selectCompany,"dfgdfgdfgdd")
 
@@ -150,7 +153,7 @@ if (selectcat?.value === undefined) {
   console.log(categoryDropdown,currentUser,"categoryDropdown")
 useEffect(()=>{
   dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,selectcat1))
-  dispatch(StoreCategoryDropDownL())
+  dispatch(StoreCategoryDropDownL(currentUser?.data?.uuid))
 },[selectcat1])
 console.log(ProductData,"ProductDatasdfdsfdsf");
 useEffect(() => {
@@ -291,7 +294,8 @@ toast.error("Please Select File")
   const formData = new FormData();
   formData.append('file', file);
   formData.append('fileName', file.name);
-  formData.append('company_uuid',selectCompany && selectCompany.value);
+  formData.append('company_uuid',currentUser?.data?.company_uuid);
+  formData.append('store_uuid', currentUser?.data?.uuid)
   dispatch(StoreProductBulkUplodURL(formData, currentUser.token))
   setSuc(true)
 }
@@ -347,9 +351,9 @@ const searchfunction =(type , pages)=>{
         </DialogTitle> */}
         <DialogContent style={{width:"500px" ,height:"200px"}}>
           <DialogContentText >
-          <Form.Label>Select Company</Form.Label>
+          {/* <Form.Label>Select Company</Form.Label> */}
           {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-          <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+          {/* <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" /> */}
           </DialogContentText><br />
 
           <DialogContentText >
@@ -397,11 +401,11 @@ const searchfunction =(type , pages)=>{
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-          {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
-          // onClick={() => setOpen(true)}
+          <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" 
+          onClick={() => setOpen(true)}
           >
             <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
-            </Button> */}
+            </Button>
             <NavLink to="/Storeaddproduct">
             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
             <CsLineIcons icon="plus" /> <span>Add Product</span>
@@ -448,7 +452,18 @@ const searchfunction =(type , pages)=>{
         </Col>
         <Col md="2" lg="2" xxl="2">
                     {/* <Form.Label>Category</Form.Label> */}
-                    <Select classNamePrefix="react-select" options={productList} value={selectcat} onChange={setSelectCat} placeholder="Category Select" />
+                    <Select 
+                    classNamePrefix="react-select"
+                     options={productList} 
+                    value={selectcat} 
+                    onChange={setSelectCat}  
+                     components={{
+        ClearIndicator: () => (
+          <button type="button" onClick={handleClear}>
+          Cancel
+        </button>
+        ),
+      }} placeholder="Category Select" />
                   </Col>
         <Col md="5" lg="7" xxl="8" className="mb-1 text-end">
           {/* Print Button Start */}

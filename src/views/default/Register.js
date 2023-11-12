@@ -1,28 +1,91 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React ,{ useEffect,useState } from 'react';
+import { NavLink , useHistory,useLocation} from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ConsumerSignUpURL } from 'auth/ConsumerAuthSlice';
 import logo from "../../Assests/images/cafe.png"
+
 
 const Register = () => {
   const title = 'Register';
   const description = 'Register Page';
 
+  const [suc,setSuc] = useState(false);
+  const { currentUser, isLogin,notification } = useSelector((state) => state.auth);
+  console.log(currentUser,isLogin,notification,"currentUdfddsfsdfdser")
+  const history = useHistory()
+  const location = useLocation();
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email().required('Email is required'),
-    password: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
-    terms: Yup.bool().required().oneOf([true], 'Terms must be accepted'),
+    // mobile: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
+    mobile: Yup.string()
+    .matches(/^[0-9]{10}$/, 'Invalid mobile number') // Assumes a 10-digit mobile number
+    .required('Mobile number is required'),
+
+    // terms: Yup.bool().required().oneOf([true], 'Terms must be accepted'),
   });
-  const initialValues = { name: '', email: '', password: '', terms: false };
+  const initialValues = { name: '', email: '', mobile: '' };
   const onSubmit = (values) => console.log('submit form', values);
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
+  const dispatch = useDispatch();
+console.log(values,"bad")
+  const consumerRegister = (event) => {
+    event.preventDefault()
+    dispatch(ConsumerSignUpURL(values));
+    setSuc(true)
+  }
+
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message,{
+          position:"top-right",
+        })
+        setSuc(false)
+        // setTimeout(() => {
+        //   // dispatch(ProductListURL(page, search,currentUser.token,limit))
+        //   history.push(({
+        //     pathname: "/product",
+        //     // state : {detail : id,fullname : name, pic :image, type:"edit"},
+        //   }));
+        // }, 2000)
+        // if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
+        //   // history.push('/dashboard')
+        //   history.push(({
+        //     // pathname: "/consumer/login",
+        //     pathname: "/Checkout",
+        //     state:{
+        //       userType:"consumer"
+        //     }
+          
+        //   }));
+        //   localStorage.setItem('token',currentUser)
+        // }
+        // else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
+        //   history.push('/dashboard')
+        //   localStorage.setItem('token',currentUser)
+        // }
+       
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+  
+  }, [notification,currentUser])
+
 
   const leftSide = (
     <div className="min-h-100 d-flex align-items-center">
@@ -77,13 +140,18 @@ const Register = () => {
               <Form.Control type="text" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
               {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
             </div>
-            <div className="mb-3 filled form-group tooltip-end-top">
-              <CsLineIcons icon="lock-off" />
-              <Form.Control type="password" name="password" onChange={handleChange} value={values.password} placeholder="Password" />
-              {errors.password && touched.password && <div className="d-block invalid-tooltip">{errors.password}</div>}
+             <div className="mb-3 filled form-group tooltip-end-top">
+              <CsLineIcons icon="mobile" />
+              <Form.Control type="mobile" name="mobile" onChange={handleChange} value={values.mobile} placeholder="mobile" />
+              {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
             </div>
+            {/* <div className="mb-3 filled form-group tooltip-end-top">
+              <CsLineIcons icon="lock-off" />
+              <Form.Control type="mobile" name="mobile" onChange={handleChange} value={values.mobile} placeholder="Password" />
+              {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
+            </div> */}
             <div className="mb-3 position-relative form-group">
-              <div className="form-check">
+              {/* <div className="form-check">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={handleChange} value={values.terms} />
                 <label className="form-check-label">
                   I have read and accept the{' '}
@@ -92,9 +160,9 @@ const Register = () => {
                   </NavLink>
                 </label>
                 {errors.terms && touched.terms && <div className="d-block invalid-tooltip">{errors.terms}</div>}
-              </div>
+              </div> */}
             </div>
-            <Button size="lg" type="submit">
+            <Button size="lg" type="submit" onClick={consumerRegister}>
               Signup
             </Button>
           </form>

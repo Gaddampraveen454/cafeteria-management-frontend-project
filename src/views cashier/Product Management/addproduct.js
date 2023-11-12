@@ -200,7 +200,7 @@ useEffect(()=>{
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/product">
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Storeproduct">
           <CsLineIcons icon="chevron-left" size="20" />
           <span className="align-middle text-medium ms-1">Product Management</span>
         </NavLink>

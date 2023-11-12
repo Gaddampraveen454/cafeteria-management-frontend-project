@@ -56,6 +56,51 @@ export const ConsumerLoginURL = (values) => async (dispatch) => {
   // dispatch(setCurrentUser(response.data));
 };
 
+export const ConsumerSignUpURL = (values) => async (dispatch) => {
+
+  
+  const response = await axios.post(`${process.env.REACT_APP_URL}/user/signup`,values) 
+  .then((res) => {
+    console.log(res, "sdfsdfdfgdfgdgdfsdff")
+    dispatch(setCurrentUser(res.data));
+    console.log(localStorage.getItem('token'), JSON.stringify(res))
+    dispatch(setToast({ status: true, message: res.data.message }))
+  })
+  .catch((err) => {
+    console.log(err.response, "dfgfsdfsfdsfsdhj")
+    dispatch(setToast({ status: false,
+       message:err && err.response? err && err.response.data.message:"Something went wrong"
+       }))
+
+  })
+  // console.log(response, "dfghj")
+  // console.log(localStorage.getItem('token'), JSON.stringify(response))
+  // dispatch(setCurrentUser(response.data));
+};
+
+export const OtpVerify = (values) => async (dispatch) => {
+
+  
+  const response = await axios.post(`${process.env.REACT_APP_URL}/user/login/otp/verify`,values) 
+  .then((res) => {
+    console.log(res, "sdfsdfdfgdfgdgdfsdff")
+    dispatch(setCurrentUser(res.data));
+    console.log(localStorage.getItem('token'), JSON.stringify(res))
+    dispatch(setToast({ status: true, message: res.data.message }))
+  })
+  .catch((err) => {
+    console.log(err.response, "dfgfsdfsfdsfsdhj")
+    dispatch(setToast({ status: false,
+       message:err && err.response? err && err.response.data.message:"Something went wrong"
+       }))
+
+  })
+  // console.log(response, "dfghj")
+  // console.log(localStorage.getItem('token'), JSON.stringify(response))
+  // dispatch(setCurrentUser(response.data));
+};
+
+
 export const LogOutURL = () => async (dispatch) => {
   // const history = useHistory()
   console.log("enter")
