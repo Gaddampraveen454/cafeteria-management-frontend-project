@@ -57,10 +57,17 @@ const Menu = () => {
   };
   const { currentUser } = useSelector((state) => state.auth)
   const handleScan = (result) => {
-    console.log(result.data, "fsfsfsdfsdf")
+    const Compuuid = result?.data?.split("menu/company/")
+    const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+    const routeStartPath = slugRoute?.replace("/menu/", "")
+
+    console.log(routeStartPath, "routeStartPath")
+
+    if (routeStartPath?.startsWith("company")) {
+      localStorage.setItem('companyId', Compuuid[1]);
+    }
     if (result) {
       setResult1(result.data);
-      // setIsOpenFiltersModal(true)
     }
   };
   const handleError = (error) => {
@@ -68,27 +75,25 @@ const Menu = () => {
   };
 
 
+
   useEffect(() => {
     console.log(result1, "result1")
     if (result1) {
-      // const [url, compnayId] = result1.split("menu/")
+
+      const Compuuid = result1.split("menu/company/")
       const slugRoute = result1?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
       const routeStartPath = slugRoute?.replace("/menu/", "")
-      console.log(routeStartPath, "routeStartPath")
       if (routeStartPath?.startsWith("store")) {
         history.push(({
-          // pathname: `/menu/${compnayId}`,
           pathname: `${slugRoute}`,
         }));
       }
       else {
         history.push(({
-          // pathname: `/menu/${compnayId}`,
           pathname: `${slugRoute}`,
         }));
       }
-
-      window.location.reload();
+      window.location.reload(false);
     }
   }, [result1])
   useEffect(() => {
@@ -216,7 +221,7 @@ const Menu = () => {
   // useEffect(() => {
   //   localStorage.setItem('companyId', (id1));
   // }, [id1]);
-  
+
   useEffect(() => {
     if (window.location.pathname === "/menu/qr" || window.location.pathname === "/menu/undefined") {
       toast.error("Please Scan the QR code")
@@ -230,7 +235,8 @@ const Menu = () => {
   //     }
   //     else {
   //       const checkMenu = window.location.pathname.split("menu/")
-  //       localStorage.setItem('companyId', checkMenu[1]);
+  //       console.log(checkMenu, "checkMenu")
+  //       localStorage.setItem('companyId', checkMenu[2]);
   //     }
   //   }
   // }, [window.location.pathname]);
@@ -262,6 +268,11 @@ const Menu = () => {
   const OrderNow = (data) => {
     history.push(data)
   }
+
+  const disableStore = (data) => {
+    toast.warning("Selected Store Currently Not accepting Orders")
+  }
+
   useEffect(() => {
     const categoryId = (localStorage.getItem('categoryId'));
     console.log(categoryId, "bgdhhgfjghhfhgfhhg")
@@ -347,79 +358,33 @@ const Menu = () => {
                             </Clamp>
                             {/* </NavLink> */}
                           </Col>
+                          {item?.is_active === false ?
                           <Col xs="6" sm="4" md="4" lg="4">
                             <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                             <Button variant="outline-primary"
                               className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                              onClick={() => { OrderNow(`/products/store/${item?.slug}`) }}
+                              onClick={() => { disableStore()}}
+                              disabled={item?.is_active === false}
                             >
                               <span>Order Now</span>
                             </Button>
-                            {/* {
-                              item.stock_quantity <= 0 ?
-                                <Col style={{ color: "red" }}>
-                                  Out of Stock
-                                </Col>
-                                :
-                                <div>
-                                  {item.stock_quantity <= 5 ?
-                                    <Col style={{ color: "red" }}>
-                                      Only {item.stock_quantity} Item Left
-                                    </Col>
-                                    :
-                                    null
-                                  }
-                                  {
-                                    CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
-                                      <InputGroup className="spinner sw-11">
-                                        <InputGroup.Text id="basic-addon1">
-                                          <button type="button" className="spin-down single px-2"
-                                            // onClick={updateCart(item)}
-                                            onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
-                                          // disabled={btndisabl}
-                                          >
-                                            -
-                                          </button>
-                                        </InputGroup.Text>
-                                        <Form.Control
-                                          value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
-                                          onInput={onInput}
-                                          placeholder="Count"
-                                          className="text-center"
-                                        />
-                                        <InputGroup.Text id="basic-addon2">
-                                          <button type="button" className="spin-up single px-2"
-                                            onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
-                                            disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
-                                          >
-                                            +
-                                          </button>
-                                        </InputGroup.Text>
-                                      </InputGroup>
-                                      :
-                                      <Button variant="outline-primary"
-                                        className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                                        onClick={() => { addToCart(item) }}
-                                      >
-                                        <CsLineIcons icon="plus" /><span>Add</span>
-                                      </Button>
-                                  }
-                                </div>
-                            } */}
                           </Col>
+                          :
+                          <Col xs="6" sm="4" md="4" lg="4">
+                          <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                          <Button variant="outline-primary"
+                            className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                            disabled={item?.is_active === false}
+                            onClick={() => { OrderNow(`/products/store/${item?.slug}`) }}
+                          >
+                            <span>Order Now</span>
+                          </Button>
+                        </Col>
+                          }
                         </Row>
                       </Card.Body>
                     </Card>
                     <Card.Footer>
-                      {/* <div className="mb-2">
-                    <Rating
-                      initialRating={5}
-                      readonly
-                      emptySymbol={<i className="cs-star text-primary" />}
-                      fullSymbol={<i className="cs-star-full text-primary" />}
-                    />
-                    <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
-                  </div> */}
                       <div className="card-text">
                         {/* <div className="text-muted text-overline text-small">
                       <del>$ 14.25</del>

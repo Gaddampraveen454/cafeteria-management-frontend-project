@@ -384,7 +384,7 @@ const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEF
 
 const companyId = localStorage.getItem('companyId');
 let compNewId = !companyId ? "qr" : companyId
-// console.log(companyId,"dfdsfdssdfdsfdsf")
+console.log(companyId,"dfdsfdssdfdsfdsf")
 const [url, newCompId] = window.location.pathname.split("menu/")
 console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
 // if(newCompId!=="qr"){

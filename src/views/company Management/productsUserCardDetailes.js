@@ -55,13 +55,12 @@ const productsUserCardDetailes = ({ onClose }) => {
 
 
     useEffect(() => {
-        console.log("Enter>>>>>>>>>>>>>>>>>>>>>>>")
         axios.get(`${process.env.REACT_APP_URL}/company/store/slug/${id1}`)
             .then((res) => {
-                console.log("dgvhgsdfj", res?.data?.company_slug)
+                console.log("dgvhgsdfj", res?.data)
                 localStorage.setItem("storeDatiles", JSON.stringify(res.data))
-                localStorage.setItem("companyId", res?.data?.company_slug);
-                dispatch(categoryForConsumerListURL(res.data?.company_uuid))
+                localStorage.setItem('companyId', res?.data?.company_slug ? res?.data?.company_slug : "");
+                dispatch(categoryForConsumerListURL(res.data?.company_uuid, res?.data?.uuid))
             })
             .catch((err) => {
                 console.log("Err")
