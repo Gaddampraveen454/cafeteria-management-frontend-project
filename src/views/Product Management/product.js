@@ -92,6 +92,8 @@ const product = () => {
   const [selectCompany, setSelectCompany] = useState('');
   const [productId, setProductId] = useState("")
   const [imageUrl, setimageUrl] = useState("")
+  const[store,setStore] = useState('');
+  const[StoreUpload,setStoreUpload]=useState('');
 
   console.log(selectCompany && selectCompany.value, selectCategory && selectCategory.value, "selectCompanyselectCategory")
 
@@ -153,7 +155,7 @@ const product = () => {
   console.log(StoreList, 'gdfhvjghdfj')
   useEffect(() => {
     // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-     dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+     dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
   }, [compnayId, categoryId])
   console.log(companyProductionData, "ProductDatasdfdsfdsf");
   useEffect(() => {
@@ -165,7 +167,7 @@ const product = () => {
         setSuc(false)
         setTimeout(() => {
           // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-           dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+           dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
           setOpenEditViewOpupup(false)
           setTimeout(() => {
             setImage(null)
@@ -196,6 +198,7 @@ const product = () => {
 
   // // const { currentUser } = useSelector((state) => state.auth)
   // const { categoryData } = useSelector((state) => state.cotegoryList)
+  const Catogery = categoryData && categoryData.data && categoryData.data.map((item) => { return { label: item.name, value: item.uuid } })
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
   const productList = categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) => { return { label: item.name, value: item.uuid } })
   // console.log(productList,"categoryDatacategoryData")
@@ -226,6 +229,32 @@ const product = () => {
     setSelectStore(event)
   }
 
+  const companyStore = [];
+
+  StoreList?.data?.map((text) => {
+    return companyStore.push({ label: text?.store_name, value: text?.uuid })
+    
+  },[])
+
+
+  const handleStore= (text) =>{
+    console.log(text,'hbvhjdahbhjfv')
+    setStore(text?.value)
+    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,text?.value))
+  }
+
+
+  const uploadStore = [];
+
+  StoreList?.data?.map((text) => {
+    return uploadStore.push({ label: text?.store_name, value: text?.uuid })
+    
+  },[])
+
+  const uploadHandle = (text )=>{
+  console.log(text,'sdghvghsdv')
+  setStoreUpload(text?.value)
+  }
 
 
 
@@ -321,8 +350,9 @@ const product = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('fileName', file.name);
-      formData.append('company_uuid', selectCompany && selectCompany.value);
-      dispatch(ProductBulkUplodURL(formData, currentUser.token))
+      formData.append('company_uuid',currentUser?.data?.uuid)
+      formData.append('store_uuid', StoreUpload);
+      dispatch(ProductBulkUplodURL(formData, currentUser?.token))
       setSuc(true)
     }
   }
@@ -336,38 +366,38 @@ const product = () => {
       setSearch(pages)
       setPage(0)
       // dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
     }
     if (type === "prev") {
       setPage(page - 1)
       // dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
     }
     else if (type === "next") {
       setPage(page + 1)
       // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid,categoryId,store))
     }
     else if (type === "page") {
       setPage(page)
       // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
     }
     else if (type === "page+1") {
       setPage(page + 1)
       // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
     }
     else if (type === "page+2") {
       setPage(page + 2)
       // dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid ,categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
       // dispatch(ProductListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",categoryId1))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
     }
   }
 
@@ -426,6 +456,11 @@ const product = () => {
 
   }, [image])
 
+  const handleChangeCategory=(text)=>{
+    setCategoryId(text?.value)
+    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, text?.value,store))
+  }
+
 
   return (
     <>
@@ -444,9 +479,9 @@ const product = () => {
             <CsLineIcons icon="close" />
           </DialogActions>
           <DialogContentText >
-            <Form.Label>Select Company</Form.Label>
+            <Form.Label>Select Store</Form.Label>
             {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-            <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+            <Select classNamePrefix="react-select" options={uploadStore}onChange={uploadHandle} placeholder="" />
           </DialogContentText><br />
 
           <DialogContentText >
@@ -547,19 +582,19 @@ const product = () => {
         <Col lg="3">
           {/* <Form.Label>Company</Form.Label> */}
           <Select classNamePrefix="react-select"
-            options={ActivcompanyList}
-            value={compnayId}
-            onChange={setCompnayId}
-            placeholder="Select Company"
+            options={companyStore}
+            // value={compnayId}
+            onChange={handleStore}
+            placeholder="Select Store"
           // disabled={eventType}
           />
         </Col>
         <Col lg="3">
           {/* <Form.Label>Category</Form.Label> */}
           <Select classNamePrefix="react-select"
-            options={productList}
-            value={categoryId}
-            onChange={setCategoryId}
+            options={Catogery}
+            // value={categoryId}
+            onChange={handleChangeCategory}
             placeholder="Select Category"
           // disabled={eventType}
           />
@@ -792,7 +827,7 @@ const product = () => {
                 <Col lg="6">
                   <Form.Label>Category</Form.Label>
                   <Select classNamePrefix="react-select"
-                    options={productList}
+                    options={Catogery}
                     value={selectCategory}
                     onChange={setSelectCategory}
                     placeholder=""
