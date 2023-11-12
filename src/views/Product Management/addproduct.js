@@ -75,7 +75,7 @@ const addproduct = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
-  const { ProductData, StoreList, notification } = useSelector((state) => state.productList)
+  const {  StoreList, notification } = useSelector((state) => state.products)
   console.log(StoreList, 'sdgvhdsv')
 
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
@@ -242,7 +242,7 @@ const addproduct = () => {
                     <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="Select Company" />
                   </Col> */}
                   <Col lg="6">
-                    <Form.Label>Store</Form.Label>
+                    <Form.Label> Select Store</Form.Label>
                     <Select classNamePrefix="react-select" options={storeData} onChange={handleEvent} placeholder="Select Store" />
                   </Col>
                   <Col lg="6">

@@ -238,7 +238,7 @@ const User = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('fileName', file.name);
-      formData.append('company_uuid', selectCompany && selectCompany.value);
+      // formData.append('company_uuid', selectCompany && selectCompany.value);
       dispatch(CompanyConsumerBulkUploadURL(formData, currentUser.token))
       setSuc(true)
     }
@@ -307,13 +307,13 @@ const User = () => {
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-        <DialogContent style={{ width: "500px", height: "200px" }}>
-          <DialogContentText >
+        <DialogContent style={{ width: "500px", height: "100px" }}>
+          {/* <DialogContentText > */}
 
-            <Form.Label>Select Company</Form.Label>
+            {/* <Form.Label>Select Company</Form.Label> */}
             {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-            <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
-          </DialogContentText><br />
+            {/* <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" /> */}
+          {/* </DialogContentText><br /> */}
 
           <DialogContentText >
             <input type="file" onChange={handleChange} className="form-control" />
