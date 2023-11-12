@@ -364,6 +364,7 @@ const Menu = () => {
                             <Button variant="outline-primary"
                               className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
                               onClick={() => { disableStore()}}
+                              disabled={item?.is_active === false}
                             >
                               <span>Order Now</span>
                             </Button>
@@ -373,6 +374,7 @@ const Menu = () => {
                           <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                           <Button variant="outline-primary"
                             className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                            disabled={item?.is_active === false}
                             onClick={() => { OrderNow(`/products/store/${item?.slug}`) }}
                           >
                             <span>Order Now</span>
