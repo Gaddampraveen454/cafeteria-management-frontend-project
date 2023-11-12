@@ -118,7 +118,7 @@ const OrderPlaced = () => {
       "order_uuid": event.uuid,
       "order_status": !event.is_delivered
     }
-    dispatch(OrderStatusUpdateURL(payload, currentUser.token))
+    // dispatch(OrderStatusUpdateURL(payload, currentUser.token))
     setSuc(true)
 
 

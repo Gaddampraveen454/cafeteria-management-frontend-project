@@ -27,7 +27,7 @@ import {
     Input,
 } from '@mui/material';
 import Select from 'react-select';
-import { CategorycreateList } from 'Redux/AdminRedux/Cataogy/categoryRedux';
+import { CategorycreateList, Categotylist } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import Cardsdetails from './cardDetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
@@ -119,6 +119,10 @@ const CreateOrder = () => {
 
     const { currentUser } = useSelector((state) => state.auth)
 
+    const { categorylist } = useSelector((state) => state.cotegoryList)
+
+    console.log(categorylist, "bhdfbgdhbjfkhj")
+
 
     const [print, setPrint] = useState(false);
     const [printData, setPrintData] = useState('')
@@ -169,16 +173,16 @@ const CreateOrder = () => {
 
 
     useEffect(() => {
-        dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '',selectStore));
+        dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '', selectStore));
     }, [])
 
-    
-    const { createList } = useSelector((state) => state.cotegoryList)
-    console.log(createList,'svdghdsv')
 
-    useEffect(()=>{
+    const { createList } = useSelector((state) => state.cotegoryList)
+    console.log(createList, 'svdghdsv')
+
+    useEffect(() => {
         dispatch(CategorycreateList(currentUser?.data?.uuid))
-       },[])
+    }, [])
 
 
 
@@ -287,38 +291,38 @@ const CreateOrder = () => {
             setSearch(pages)
             setPage(0)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
         if (type === "prev") {
             setPage(page - 1)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
         else if (type === "next") {
             setPage(page + 1)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
         else if (type === "page") {
             setPage(page)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
         else if (type === "page+1") {
             setPage(page + 1)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
         else if (type === "page+2") {
             setPage(page + 2)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
-            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "",selectStore))
+            dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", selectStore))
         }
     }
 
@@ -575,7 +579,7 @@ const CreateOrder = () => {
     // }
     const { ProductData, StoreList } = useSelector((state) => state.products)
 
-   
+
 
 
 
@@ -589,10 +593,20 @@ const CreateOrder = () => {
         return StoreData.push({ label: text?.store_name, value: text?.uuid })
     }, [])
 
+    const closeFunction = () => {
+        handleModel()
+    }
+
     const handleEvent = (event) => {
         console.log(event, 'hvdhdf')
         setSelectStore(event?.value)
-        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "" ,event?.value))
+        // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))
+        dispatch(Categotylist(currentUser?.data?.uuid, event?.value))
+    }
+
+    const CategorySelect = (event) => {
+        console.log(event)
+        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore))
     }
 
 
@@ -802,18 +816,38 @@ const CreateOrder = () => {
 
             <Row>
                 {isLgScreen && (
-                    
+
                     <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
                         {/* Filters Start */}
-                        <Select  className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
+                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
                         <Card
-                        style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
-                            className="mb-5"> 
-                        {/* <Form.Label>Store</Form.Label> */}
-                       
-                        <Card.Body>
-                        <Cardsdetails />
-                        </Card.Body>
+                            style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
+                            className="mb-5">
+                            {/* <Form.Label>Store</Form.Label> */}
+
+                            <Card.Body>
+                                <Cardsdetails />
+                                {/* <Form>
+                                    {categorylist ?
+                                        <div>
+                                            {categorylist && categorylist.data && categorylist.data.map((item) => {
+                                                return <>
+                                                    <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
+                                                        onClick={() => { setCategory(item.uuid); closeFunction() }}
+                                                    >
+                                                        <div onClick={CategorySelect(item)}>
+                                                            {item.name}
+                                                        </div>
+                                                    </label>
+                                                </>
+                                            })}
+                                        </div>
+
+                                        :
+                                        null
+                                    }
+                                </Form> */}
+                            </Card.Body>
                         </Card>
                         {/* <Cart 
               item={items}
@@ -1138,40 +1172,63 @@ const CreateOrder = () => {
                     </div>
                     {/* Pagination End */}
                 </Col>
-            </Row>
+            </Row >
 
             {/* Filters Modal Start */}
-            {!isLgScreen && (
-                <>
+            {
+                !isLgScreen && (
+                    <>
 
-                    <div className='settings-buttons-container'
-                        style={{
-                            marginTop: "130px",
-                            marginRight: "20px",
-                        }}
-                    >
-                        <Button
-                            style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
-
-                            onClick={() => setIsOpenFiltersModal(true)}
+                        <div className='settings-buttons-container'
+                            style={{
+                                marginTop: "130px",
+                                marginRight: "20px",
+                            }}
                         >
-                            <CsLineIcons icon="menu" style={{ width: "80%", height: "auto" }} />
-                            <h6>Menu</h6>
-                        </Button>
-                    </div>
-                    <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
-                        <Modal.Header closeButton>
-                            <Modal.Title as="div">Menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body >
-                            <Cardsdetails
-                                onClose={handleModel}
-                            />
-                        </Modal.Body>
-                    </Modal>
+                            <Button
+                                style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
 
-                </>
-            )}
+                                onClick={() => setIsOpenFiltersModal(true)}
+                            >
+                                <CsLineIcons icon="menu" style={{ width: "80%", height: "auto" }} />
+                                <h6>Menu</h6>
+                            </Button>
+                        </div>
+                        <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
+                            <Modal.Header closeButton>
+                                <Modal.Title as="div">Menu</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body >
+                                <Cardsdetails
+                                    onClose={handleModel}
+                                />
+                                {/* <Form>
+                                    {categorylist ?
+                                        <div>
+                                            {categorylist && categorylist.data && categorylist.data.map((item) => {
+                                                return <>
+                                                    <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
+                                                        onClick={() => { setCategory(item.uuid); closeFunction() }}
+                                                    // onClick={closeFunction}
+                                                    >
+                                                        <div onClick={CategorySelect(item)}>
+                                                            {item.name}
+                                                        </div>
+                                                    </label>
+                                                </>
+                                            })}
+                                        </div>
+
+                                        :
+                                        null
+                                    }
+                                </Form> */}
+                            </Modal.Body>
+                        </Modal>
+
+                    </>
+                )
+            }
             {/* Filters Modal End */}
 
 
