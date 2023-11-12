@@ -28,7 +28,7 @@ const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 
 
-const productsCards = lazy(() => import('views/company Management/productsUserCards')); 
+const productsCards = lazy(() => import('views/company Management/productsUserCards'));
 
 
 
@@ -67,8 +67,9 @@ const settings = {
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
+console.log(companyId, "companyId")
 let compNewId = !companyId ? "qr" : companyId
-console.log(window.location.pathname, companyId, compNewId, "dfdsfdssdfdsfdsf")
+// console.log(window.location.pathname, companyId, compNewId, "dfdsfdssdfdsfdsf")
 // const [url, newCompId] = window.location.pathname.split("menu/")
 // console.log(newCompId, companyId, compNewId, "dfdsfdssdfdsfdsf")
 
@@ -112,7 +113,7 @@ const defaultRoutesAndMenuItems = {
       path: `${appRoot}/products/:id/:id1`,
       component: productsCards,
     },
-    
+
     {
       path: `${appRoot}/menu/company/${compNewId}`,
       // component: Cards,
