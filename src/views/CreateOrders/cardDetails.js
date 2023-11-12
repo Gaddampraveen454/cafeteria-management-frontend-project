@@ -102,7 +102,7 @@ const Cardsdetails = ({ onClose, selectStore }) => {
           {/* <p className="text-large text-muted mb-2">Menu</p> */}
           {categorylist ?
             <div>
-              {categorylist && categorylist.data && categorylist.data.map((item) => {
+              {categorylist.data?.length > 0 && categorylist && categorylist.data && categorylist.data.map((item) => {
                 console.log(item,"itemitemitem6456")
                 return <>
                   {/* <a href="#firstcolumn"> */}

@@ -172,9 +172,9 @@ const CreateOrder = () => {
     console.log(companyProductionData, 'bfvherverrejb')
 
 
-    useEffect(() => {
-        dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '', selectStore));
-    }, [])
+    // useEffect(() => {
+    //     dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '', selectStore));
+    // }, [])
 
 
     const { createList } = useSelector((state) => state.cotegoryList)
@@ -601,7 +601,7 @@ const CreateOrder = () => {
         console.log(event, 'hvdhdf')
         setSelectStore(event?.value)
         // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))
-        dispatch(Categotylist(currentUser?.data?.uuid, event?.value))
+        dispatch(Categotylist(currentUser?.data?.uuid === undefined ? "" : currentUser?.data?.uuid, event?.value === undefined ? "" : event?.value))
     }
 
     const CategorySelect = (event) => {
@@ -971,7 +971,7 @@ const CreateOrder = () => {
             </Form> */}
                         {/* Product Thumbnails Start */}
                         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-                            {companyProductionData && companyProductionData.data && companyProductionData.data.map((item, index) => {
+                            {companyProductionData.data.length > 0 && companyProductionData && companyProductionData.data && companyProductionData.data.map((item, index) => {
                                 console.log(item, "storeprod")
                                 return <>
 
