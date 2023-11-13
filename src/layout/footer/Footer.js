@@ -12,10 +12,10 @@ const Footer = () => {
   return (
     <footer>
       <div className="footer-content">
-        <Container>
-          <Row>
+        <Container className='mt-3'>
+          <Row >
           {/* align="center" */}
-            <Col xs="12" sm="4"  >
+            <Col xs="12" sm="4" >
               <p className="mb-0 text-muted text-medium">Developed & Maintained  By Sciens Technologies</p>
             </Col>
             {/* className="d-none d-sm-block" */}
@@ -35,7 +35,7 @@ const Footer = () => {
             </Col>
             {/* className="d-none d-sm-block" */}
             <Col xs="12" sm="4"  >
-            <p className="mb-0 text-muted text-medium">Branded & Market  By  Zeonova Tech</p>
+            <p className="mb-0 text-muted text-medium">Branded & Market  By  Zeonova Tech</p>  
             </Col>
           </Row>
         </Container>

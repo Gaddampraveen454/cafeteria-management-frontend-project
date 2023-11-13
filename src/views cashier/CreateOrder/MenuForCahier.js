@@ -4,6 +4,7 @@ import { NavLink, useHistory, useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
+import { StoreProductListURL } from 'Redux/CashierRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import { CartListURL, addToCartURL, updateCartURL, deleteToCartURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
@@ -28,6 +29,7 @@ import Select from 'react-select';
 import Cardsdetails from './Cardsdetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from './Cart';
+
 
 
 
@@ -63,7 +65,7 @@ const MenuForCashier = () => {
   console.log(handleopen, "handleopencsdfvdfv")
 
   const [open, setOpen] = React.useState(false);
-  const [result1, setResult1] = useState();
+  const [result, setResult] = useState(1);
 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -86,10 +88,17 @@ const MenuForCashier = () => {
 
 
   const [items, setItems] = useState([]);
+  console.log(items, "hgdssavj"); 
 
   const [name, setName] = useState('');
   const [Quantity, setQuantity] = useState('');
-  const [selectPaymentType, setSelectPaymentType] = useState("");
+  const [selectPaymentType, setSelectPaymentType] = useState([]);
+   let selectPaymentType1
+    if (selectPaymentType?.value === undefined) {
+      selectPaymentType1 = '';
+    } else {
+      selectPaymentType1 = selectPaymentType?.value;
+    }
   const optionsPayment = [
     { value: 'CASH', label: 'Cash ' },
     { value: 'UPI', label: 'UPI' },
@@ -142,6 +151,8 @@ const MenuForCashier = () => {
   };
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+  const { ProductData } = useSelector((state) => state.StoreproductSlice)
+  console.log(ProductForConsumer,'bhebfhwvefgveff')
   const { CartData, notification } = useSelector((state) => state.CartList)
 
   console.log(currentUser, "currentUser")
@@ -219,7 +230,10 @@ const MenuForCashier = () => {
 
 
 
-  const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+  // const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+  //   return item.uuid
+  // })
+    const prod = ProductData && ProductData.data && ProductData.data.map((item) => {
     return item.uuid
   })
   console.log(prod, "sdfsdfsdfsdfsdfdsf")
@@ -254,32 +268,39 @@ const MenuForCashier = () => {
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
+      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
     }
   }
 
@@ -289,7 +310,7 @@ const MenuForCashier = () => {
       // id: items.length + 1,
       item_uuid: event.uuid,
       item_name: event.name,
-      quantity: event.quantity
+      quantity: result
     };
     setItems([...items, newItem]);
     setName('');
@@ -303,7 +324,7 @@ const MenuForCashier = () => {
 
   console.log(items, "items")
 
-
+ 
 
   const deleteItem = (id1) => {
     console.log(id1, "sdfdfdsfds")
@@ -317,6 +338,7 @@ const MenuForCashier = () => {
     console.log(event, "adsdsadasdasd")
     const arr = []
     items.map((check) => {
+      console.log(items,'bdvhcbdhgv')
       if (check.item_uuid === event.uuid) {
         arr.push({
           item_name
@@ -348,6 +370,7 @@ const MenuForCashier = () => {
     console.log(event, "adsdsadasdasd")
     const arr = []
     items.map((check) => {
+    console.log(items,'ebchevcghev')
       if (check.item_uuid === event.uuid) {
         arr.push({
           item_name
@@ -379,6 +402,7 @@ const MenuForCashier = () => {
     console.log(event, "adsdsadasddf43asd")
     const arr = []
     items.map((check) => {
+      console.log(check,'vheverrvdd')
       if (check.item_uuid === event.item_uuid
       ) {
         arr.push({
@@ -447,11 +471,13 @@ const MenuForCashier = () => {
     // event.preventDefault()
 
     const payload = {
+      
+      "store_uuid" : currentUser?.data?.uuid,
       "company_uuid": currentUser.data.company_uuid,
       "item": items
     }
 
-    axios.post(`${process.env.REACT_APP_URL}/order/cashier/calculation`, payload,
+    axios.post(`${process.env.REACT_APP_URL}/order/store/calculation`, payload,
       {
         headers: {
           "x-auth-token": currentUser.token
@@ -482,12 +508,13 @@ const MenuForCashier = () => {
     event.preventDefault()
 
     const payload = {
-      "payment_type": selectPaymentType.value,
+      "payment_type": selectPaymentType1,
       "company_uuid": currentUser.data.company_uuid,
+      "store_uuid" : currentUser?.data?.uuid,
       "item": items
     }
 
-    axios.post(`${process.env.REACT_APP_URL}/order/cashier/create`, payload,
+    axios.post(`${process.env.REACT_APP_URL}/order/store/create`, payload,
       {
         headers: {
           "x-auth-token": currentUser.token
@@ -590,6 +617,114 @@ const MenuForCashier = () => {
                 </span>
               </div>
               {/* Search End */}
+            </Col>
+            <Col xs="12" md="7" lg="9" xxl="10">
+              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                <Card.Body className="pb-3">
+                  <Row>
+                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
+                    <Row >
+                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
+                      <Col xs="8" sm="8" md="8" lg="8">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            Total Amount
+                          </Clamp>
+                        </NavLink>
+
+                      </Col>
+                      <Col xs="4" sm="4" md="4" lg="4">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            ₹{amount.total_amount}
+                          </Clamp>
+                        </NavLink>
+
+                      </Col> */}
+
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">ITEMS</p>
+                        <p>
+                          <span className="text-alternate"> {amount.count}</span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SHIPPING</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            0
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">TOTAL</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {Math.round(amount.amount)}
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+
+                      <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
+
+                    </Col>
+                    {/* <br />
+                    <br /> */}
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">CGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.cgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>
+                            {amount.sgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                    </Col>
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                        <div className="cta-2">
+                          <span>
+                            <span className="text-small text-muted cta-2">₹</span>
+                            {amount.total_amount}
+                          </span>
+                        </div>
+                      </div>
+                    </Col>
+
+
+                    
+                    <Col xs="12" sm="12" md="12" lg="3">
+                      <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                        onClick={submitOrderPlased}
+                      >
+                        <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
             </Col>
 
 
@@ -738,101 +873,7 @@ const MenuForCashier = () => {
 
             {/* {handleopen === true ?  */}
 
-            <Col xs="12" md="12" lg="12" xl="12">
-              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                <Card.Body className="pb-3">
-                  <Row >
-                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
-                    <Row >
-                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-                      <Col xs="8" sm="8" md="8" lg="8">
-                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                          <Clamp tag="span" clamp="2">
-                            Total Amount
-                          </Clamp>
-                        </NavLink>
 
-                      </Col>
-                      <Col xs="4" sm="4" md="4" lg="4">
-                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                          <Clamp tag="span" clamp="2">
-                            ₹{amount.total_amount}
-                          </Clamp>
-                        </NavLink>
-
-                      </Col> */}
-                    <div className="mb-4">
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">ITEMS</p>
-                        <p>
-                          <span className="text-alternate"> {amount.count}</span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">TOTAL</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            {amount.amount}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">SHIPPING</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            0
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">CGST(%)</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            {amount.cgst_tax}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">SGST(%)</p>
-                        <p>
-                          <span className="text-alternate">
-                            <span className="text-small text-muted">₹</span>
-                            {amount.sgst_tax}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                        <div className="cta-2">
-                          <span>
-                            <span className="text-small text-muted cta-2">₹</span>
-                            {amount.total_amount}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <Col xs="12" sm="12" md="12" lg="12">
-
-                      <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
-
-                    </Col>
-                    <br />
-                    <br />
-                    <Col xs="12" sm="12" md="12" lg="12">
-                      <Button className="btn-icon btn-icon-end w-100" variant="primary"
-                        onClick={submitOrderPlased}
-                      >
-                        <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
             {/* } */}
           </Col>
 
@@ -846,8 +887,8 @@ const MenuForCashier = () => {
             </Form> */}
             {/* Product Thumbnails Start */}
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-              {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
-                console.log(item, "sfsdfdsfsdfsdf")
+              {ProductData && ProductData.data && ProductData.data.map((item, index) => {
+                console.log(item, "storeprod")
                 return <>
 
                   <Col xs="12" md="4" lg="4" xl="4">
@@ -862,17 +903,17 @@ const MenuForCashier = () => {
                                 {item.name}
                               </Clamp>
                             </NavLink>
-                            ₹{item.sellng_price}
+                            ₹{Math.round(item.price)}
                           </Col>
                           {/* <Col> &nbsp;</Col> */}
-                          {/*                          
-                          <Col xs="6" sm="4" md="4" lg="4">
+                                                   
+                          {/* <Col xs="6" sm="4" md="4" lg="4">
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
 
                           <Col xs="5" sm="5" md="5" lg="5">
                             {/* <NavLink  to="/"> */}
-                            {/* <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
+                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                             <div>
                               {
                                 item.stock_quantity <= 0 ?
@@ -1031,16 +1072,16 @@ const MenuForCashier = () => {
               <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                 {page + 1}
               </Pagination.Item>
-              <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-              <Pagination.Item className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+              <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-              {Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) > page + 3 &&
+              {Math.ceil(ProductData && ProductData.count / limit) > page + 3 &&
                 <>
                   <Pagination.Item className="shadow" >...</Pagination.Item>
                 </>
 
               }
-              <Pagination.Next className="shadow" disabled={Math.ceil(ProductForConsumer && ProductForConsumer.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+              <Pagination.Next className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                 <CsLineIcons icon="chevron-right" />
               </Pagination.Next>
             </Pagination>

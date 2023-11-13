@@ -20,7 +20,7 @@ import {
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { consumerListURL, consumerAddURL, consumerUpdateURL, consumerBulkUploadURL ,ConsumerStatusUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { CompanyConsumerListURL, CompanyConsumerUpdateURL, CompanyConsumerBulkUploadURL, CompanyConsumerStatusUpdateURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,33 +34,39 @@ const User = () => {
   const [openPopup, setOpenPopup] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const { currentUser } = useSelector((state) => state.auth)
-  const { consumerData, notification } = useSelector((state) => state.consumerList)
+  // const {companyUser,notification} = useSelector((state)=>state.userManagement);
+  // console.log(companyUser,'eghverv')
+  const { companyUser, notification } = useSelector((state) => state.comapnuserSlice)
+  console.log(companyUser,'vdghvehgfvhegvfv')
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
   const { companyData } = useSelector((state) => state.companyList)
-  // const { companyData } = useSelector((state) => state.companyList)
-  const [selectCompany, setSelectCompany] = useState();
+  console.log(companyData,'vsdfgh')
+
+ 
+
+  const [selectCompany, setSelectCompany] = useState(); 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [search , setSearch] = useState('')
-  console.log(selectCompany,"sfsfsdfdsfsfds")
+  const [search, setSearch] = useState('')
+  console.log(selectCompany, "sfsfsdfdsfsfds")
 
   useEffect(() => {
-    dispatch(consumerListURL(page, search,currentUser.token,limit))
+    dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
   }, [])
 
 
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
   const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
-  
-  console.log(consumerData, "cashierDatadassadad")
+
+  // console.log(companyUser, "cashierDatadassadad")
 
 
-useEffect(()=>{
+  useEffect(() => {
 
-  dispatch(ActiveCompnyURL(currentUser.token))
-},[])
+    dispatch(ActiveCompnyURL(currentUser.token))
+  }, [])
 
-  console.log(ActiveCompnayData,"sfsdfdssdfsffs");
+  console.log(ActiveCompnayData, "sfsdfdssdfsffs");
 
   const [selectValueState, setSelectValueState] = useState();
   const optionsState = [
@@ -140,7 +146,9 @@ useEffect(()=>{
   const [email, setEmail] = useState("")
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
-  const [WalletAmount, setWalletAmount]=useState("")
+  const [dayAmount,setDayAmount]= useState('')
+  const [designation, setDesignation] = useState("")
+  const [WalletAmount, setWalletAmount] = useState("")
   const [EmpId, setEmpId] = useState("")
   const [consmerId, setConsumerId] = useState("")
   const [selectedCompany, setSelectedCompany] = useState();
@@ -160,6 +168,8 @@ useEffect(()=>{
     setSelectedCompany({ label: event.company_name, value: event.company_uuid })
     setEmpId(event.emp_id)
     setLocation(event.location)
+    setDesignation(event.designation)
+    setDayAmount(event.per_day_amount)
     setWalletAmount(event.wallet_amount)
     setConsumerId(event.uuid)
 
@@ -173,13 +183,16 @@ useEffect(()=>{
       "name": name,
       "mobile": mobile,
       "email": email,
-      "company_uuid": selectedCompany.value,
+      "company_uuid": currentUser?.data?.uuid,
       "emp_id": EmpId,
       "location": location,
+      "designation":designation,
+      "per_day_amount":dayAmount,
+
 
     }
 
-    dispatch(consumerUpdateURL(consmerId, payload, currentUser.token))
+    dispatch(CompanyConsumerUpdateURL(consmerId, payload, currentUser.token))
     setSuc(true)
     // dispatch(CompanyListURL(currentUser.token))
   }
@@ -193,7 +206,7 @@ useEffect(()=>{
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(consumerListURL(page, search,currentUser.token,limit))
+          dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
           setOpenPopup(false)
         }, 1000)
 
@@ -219,68 +232,68 @@ useEffect(()=>{
     if (!file) {
       console.log("zxczxczxcz")
       toast.error("Please Select File")
-        }
-        else{
+    }
+    else {
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name);
-    formData.append('company_uuid',selectCompany && selectCompany.value);
-    dispatch(consumerBulkUploadURL(formData, currentUser.token))
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fileName', file.name);
+      // formData.append('company_uuid', selectCompany && selectCompany.value);
+      dispatch(CompanyConsumerBulkUploadURL(formData, currentUser.token))
+      setSuc(true)
+    }
+  }
+
+
+  const searchfunction = (type, pages) => {
+    if (type === "search") {
+      console.log(pages, "ghjkvbnm")
+      setSearch(pages)
+      setPage(0)
+      dispatch(CompanyConsumerListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    if (type === "prev") {
+      setPage(page - 1)
+      dispatch(CompanyConsumerListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "next") {
+      setPage(page + 1)
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "page") {
+      setPage(page)
+      dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "page+1") {
+      setPage(page + 1)
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "page+2") {
+      setPage(page + 2)
+      dispatch(CompanyConsumerListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+    }
+    else if (type === "limit") {
+      setLimit(pages)
+      setPage(0)
+      dispatch(CompanyConsumerListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+    }
+  }
+
+
+
+
+
+  const HandleUserStatus = (event) => {
+    console.log(event, "eventxcvadsdavxcvv")
+    // if (event.is_delivered)
+    const payload = {
+      "uuid": event.uuid,
+      "status": !event.is_active
+    }
+    dispatch(CompanyConsumerStatusUpdateURL(payload, currentUser.token))
     setSuc(true)
-  }
-}
 
-
-const searchfunction =(type , pages)=>{
-  if(type === "search"){
-   console.log(pages ,"ghjkvbnm")
-   setSearch(pages)
-   setPage(0)
-   dispatch(consumerListURL(0, pages,currentUser.token,limit)) 
-  }
-  if(type === "prev"){
-   setPage(page-1)
-   dispatch(consumerListURL(page-1,search,currentUser.token,limit))
-  }
-  else if(type === "next"){
-   setPage(page+1)
-   dispatch(consumerListURL(page+1,search,currentUser.token,limit))
-  }
-  else if(type === "page"){
-   setPage(page)
-   dispatch(consumerListURL(page,search,currentUser.token,limit))
-  }
-  else if(type === "page+1"){
-   setPage(page+1)
-   dispatch(consumerListURL(page+1,search,currentUser.token,limit))
-  }
-  else if(type === "page+2"){
-   setPage(page+2)
-   dispatch(consumerListURL(page+2,search,currentUser.token,limit))
-  }
-  else if(type === "limit"){
-   setLimit(pages)
-   setPage(0)
-   dispatch(consumerListURL(0,search,currentUser.token,pages))
-  }
- }
-
-
-
-
-
- const HandleUserStatus = (event) => {
-  console.log(event, "eventxcvadsdavxcvv")
-  // if (event.is_delivered)
-  const payload = {
-    "uuid" : event.uuid,
-    "status" : !event.is_active
-}
-  dispatch(ConsumerStatusUpdateURL(payload, currentUser.token))
-  setSuc(true)
-  
-};
+  };
 
   return (
     <>
@@ -294,13 +307,13 @@ const searchfunction =(type , pages)=>{
           Hello India
           {"Use Google's location service?"}
         </DialogTitle> */}
-        <DialogContent style={{ width: "500px", height: "200px" }}>
-          <DialogContentText >
+        <DialogContent style={{ width: "500px", height: "100px" }}>
+          {/* <DialogContentText > */}
 
-            <Form.Label>Select Company</Form.Label>
-          {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-          <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
-          </DialogContentText><br />
+            {/* <Form.Label>Select Company</Form.Label> */}
+            {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+            {/* <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" /> */}
+          {/* </DialogContentText><br /> */}
 
           <DialogContentText >
             <input type="file" onChange={handleChange} className="form-control" />
@@ -386,7 +399,7 @@ const searchfunction =(type , pages)=>{
         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-          <Form.Control type="text" onChange={(event)=>searchfunction("search" , event.target.value)} placeholder="Search" />
+            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -424,13 +437,13 @@ const searchfunction =(type , pages)=>{
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-              {limit} Items
+                {limit} Items
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-            <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
-              <Dropdown.Item onClick={()=>searchfunction("limit", 10)}>10 Items</Dropdown.Item>
-              <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {/* Length End */}
@@ -473,8 +486,8 @@ const searchfunction =(type , pages)=>{
 
       {/* List Items Start */}
 
-      {consumerData && consumerData.data && consumerData.data.map((item, index) => {
-        return <div key="">
+      {companyUser?.data?.length > 0 && companyUser?.data?.map((item, index) => {
+        return <div key={index}>
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
               {/* <Col xs="auto" className="positio-relative">
@@ -512,13 +525,13 @@ const searchfunction =(type , pages)=>{
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
                         {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                        <Form.Check 
-                        // type="switch" 
-                        // id="quantitySwitch2" 
-                        // defaultChecked 
-                           type="switch"
-                           checked={item.is_active} 
-                           onClick={() => { HandleUserStatus(item) }}
+                        <Form.Check
+                          // type="switch" 
+                          // id="quantitySwitch2" 
+                          // defaultChecked 
+                          type="switch"
+                          checked={item.is_active}
+                          onClick={() => { HandleUserStatus(item) }}
 
 
                         />
@@ -584,22 +597,22 @@ const searchfunction =(type , pages)=>{
       {/* Pagination Start */}
       <div className="d-flex justify-content-center mt-5">
         <Pagination>
-          <Pagination.Prev className="shadow" disabled={page===0} onClick={()=>searchfunction("prev")}>
+          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
           </Pagination.Prev>
-          <Pagination.Item className="shadow" active onClick={()=>searchfunction("page")} >
-            {page+1}
+          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+            {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count/limit)<= page+1} onClick={()=>searchfunction("page+1",page+1)}>{page+2}</Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count/limit)<= page+2} onClick={()=>searchfunction("page+2",page+2)}>{page+3}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyUser && companyUser.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(companyUser && companyUser.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-          {Math.ceil(consumerData && consumerData.count/limit) > page+3 &&
-          <>
-          <Pagination.Item className="shadow" >...</Pagination.Item>
-           </>
+          {Math.ceil(companyUser && companyUser.count / limit) > page + 3 &&
+            <>
+              <Pagination.Item className="shadow" >...</Pagination.Item>
+            </>
 
-        }
-          <Pagination.Next className="shadow" disabled={Math.ceil(consumerData && consumerData.count/limit)<= page+1} onClick={()=>searchfunction("next")}>
+          }
+          <Pagination.Next className="shadow" disabled={Math.ceil(companyUser && companyUser.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>
@@ -642,7 +655,7 @@ const searchfunction =(type , pages)=>{
                     value={selectedCompany}
                     onChange={setSelectedCompany}
                     placeholder=""
-                    disabled={eventType}
+                    isDisabled={eventType}
                   />
                   {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                 </Col>
@@ -673,12 +686,25 @@ const searchfunction =(type , pages)=>{
                     onChange={(e) => { setEmpId(e.target.value) }}
                     disabled={eventType} />
                 </Col>
-
                 <Col lg="6">
                   <Form.Label>Location</Form.Label>
                   <Form.Control type="text"
                     value={location}
                     onChange={(e) => { setLocation(e.target.value) }}
+                    disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Designation</Form.Label>
+                  <Form.Control type="text"
+                    value={designation}
+                    onChange={(e) => { setDesignation(e.target.value) }}
+                    disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Per Day Amount</Form.Label>
+                  <Form.Control type="text"
+                    value={dayAmount}
+                    onChange={(e) => { setDayAmount(e.target.value) }}
                     disabled={eventType} />
                 </Col>
                 <Col lg="12">

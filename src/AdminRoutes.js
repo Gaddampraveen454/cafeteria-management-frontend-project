@@ -19,7 +19,8 @@ const NICorders = lazy(() => import('views/NICorders/NICorders'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
-const adddetails = lazy(() => import('views/Add details/adddetails'));
+const adddetails = lazy(() => import('views/Add details/adddetails')); 
+const CreateOrder= lazy(()=>import('views/CreateOrders/createorder'));
 
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
@@ -71,12 +72,7 @@ const adminRoutesAndMenuItems = {
       label: 'Dashboard',
       icon: 'shop',
     },
-        {
-      path: `${appRoot}/Company`,
-      component: Company,
-      label: 'Company Management',
-      icon: 'shipping',
-    },
+    
     // {
     //   path: `${appRoot}/Cards`,
     //   component: Cards,
@@ -108,11 +104,17 @@ const adminRoutesAndMenuItems = {
       // icon: 'user',
     },
     {
-      path: `${appRoot}/executive`,
-      component: executive,
-      label: 'Front Desk Executive',
-      icon: 'laptop',
+      path: `${appRoot}/Company`,
+      component: Company,
+      label: 'Store Management',
+      icon: 'shipping',
     },
+    // {
+    //   path: `${appRoot}/executive`,
+    //   component: executive,
+    //   label: 'Front Desk Executive',
+    //   icon: 'laptop',
+    // },
     {
       path: `${appRoot}/addexecutive`,
       component: addexecutive,
@@ -142,6 +144,12 @@ const adminRoutesAndMenuItems = {
       component: addproduct,
       // label: 'Product Management',
       // icon: 'user',
+    },
+    {
+      path: `${appRoot}/create_order`,
+      component: CreateOrder,
+      label: 'Create Order',
+      icon: 'user',
     },
     {
       path: `${appRoot}/orders`,

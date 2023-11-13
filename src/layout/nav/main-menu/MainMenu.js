@@ -9,9 +9,12 @@ import { useWindowScroll } from 'hooks/useWindowScroll';
 import routesAndMenuItems from 'routes.js';
 import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
+import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
+// import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
 import consumerRoutesAndMenuItems from 'customerRoutes';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import { layoutShowingNavMenu } from 'layout/layoutSlice';
+import companyReducer from 'Redux/AdminRedux/Comapny/Company';
 import MainMenuItems from './MainMenuItems';
 import {
   menuChangeAttrMenuAnimate,
@@ -26,6 +29,9 @@ import {
 // import customerroutesAndMenuItems from 'customerRoutes';
 import { checkBehaviour, checkPlacement, isDeeplyDiffBehaviourStatus, isDeeplyDiffPlacementStatus } from './helper';
 
+
+
+
 const MainMenu = () => {
   const dispatch = useDispatch();
   const { placement, behaviour, placementStatus, behaviourStatus, attrMobile, breakpoints, useSidebar } = useSelector((state) => state.menu);
@@ -34,17 +40,21 @@ const MainMenu = () => {
   const { width } = useWindowSize();
 
 
-  console.log(currentUser,"currentUser")
-  let routsData=''
-if (currentUser && currentUser.data && currentUser.data.group==="admin"){
-  routsData=adminRoutesAndMenuItems.mainMenuItems
-}else if(currentUser && currentUser.data && currentUser.data.group==="cashier"){
-  routsData=cashierRoutesAndMenuItems.mainMenuItems 
-}else if(currentUser && currentUser.data && currentUser.data.group==="consumer"){
-  routsData=consumerRoutesAndMenuItems.mainMenuItems 
-}else{
-  routsData=defaultRoutesAndMenuItems.mainMenuItems
-}
+  console.log(currentUser, "currentUser")
+  let routsData = ''
+  if(currentUser && currentUser.data && currentUser.data.group === "company") {
+    routsData = adminRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === "store") {
+    routsData = cashierRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+    routsData = consumerRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
+    routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+  }
+ 
+  else {
+    routsData = defaultRoutesAndMenuItems.mainMenuItems
+  }
 
 
   const menuItemsMemo = useMemo(
@@ -94,7 +104,7 @@ if (currentUser && currentUser.data && currentUser.data.group==="admin"){
       dispatch(menuChangeCollapseAll(true));
       dispatch(menuChangeAttrMenuAnimate('hidden'));
     }
-    return () => {};
+    return () => { };
     // eslint-disable-next-line
   }, [attrMobile]);
 
@@ -108,7 +118,7 @@ if (currentUser && currentUser.data && currentUser.data.group==="admin"){
         dispatch(menuChangeAttrMenuAnimate(''));
       }
     }
-    return () => {};
+    return () => { };
     // eslint-disable-next-line
   }, [scrolled]);
 
@@ -126,7 +136,7 @@ if (currentUser && currentUser.data && currentUser.data.group==="admin"){
         }
       }
       // eslint-disable-next-line
-  }, [behaviourStatus,placementStatus,breakpoints]);
+    }, [behaviourStatus, placementStatus, breakpoints]);
 
   useEffect(() => {
     if (width && placement && behaviour && breakpoints) {

@@ -17,11 +17,11 @@ const addCompany = () => {
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
 
+console.log(currentUser,"currencoma")
 
 
 
-
-  const initialValues = { companyName: "", walletamount: "", email: "", mobile: "", location: "", address: "" };
+  const initialValues = { companyName: "", walletamount: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -42,12 +42,15 @@ const addCompany = () => {
     // event.preventDefault()
     // const value = event.target.elements
     const payload = {
-      "company_name": formValues.companyName,
+      "company_uuid" : currentUser?.data?.uuid,
+      "store_name": formValues.companyName,
       "email": formValues.email,
       "mobile": formValues.mobile,
       "wallet_amount": formValues.walletamount,
       "location": formValues.location,
       "address": formValues.address,
+      "gstin": formValues.gstin,
+      "fssai_no": formValues.fssai_no,
     }
     dispatch(companyAddURL(payload, currentUser.token))
     setSuc(true)
@@ -95,10 +98,10 @@ const addCompany = () => {
     if (!values.companyName) {
       errors.companyName = "Company Name is Required";
     }
-   else if (!values.walletamount) {
+    else if (!values.walletamount) {
       errors.walletamount = "Wallet Amout is Required";
     }
-   else if (!values.mobile) {
+    else if (!values.mobile) {
       errors.mobile = "Moble number is Required";
     }
     else if (!numberregex.test(values.mobile)) {
@@ -109,12 +112,18 @@ const addCompany = () => {
     } else if (!regex.test(values.email)) {
       errors.email = "This is not a valid email format!";
     }
-    else if(!values.location){
+    else if (!values.location) {
       errors.location = "Location is required!";
     }
 
-    else if(!values.address){
+    else if (!values.address) {
       errors.address = "Address is required!";
+    }
+    else if (!values.gstin) {
+      errors.gstin = 'Gstin is required';
+    }
+    else if (!values.fssai_no) {
+      errors.fssai_no = 'Fassi Number is required';
     }
 
     else {
@@ -159,7 +168,7 @@ const addCompany = () => {
       <div className="page-title-container">
         <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Company">
           <CsLineIcons icon="chevron-left" size="20" />
-          <span className="align-middle text-medium ms-1">Company Management</span>
+          <span className="align-middle text-medium ms-1">Store Management</span>
         </NavLink>
         <h1 className="mb-0 pb-0 display-4" id="title">
           {title}
@@ -179,34 +188,40 @@ const addCompany = () => {
               >
                 <Row className="g-3">
                   <Col lg="6">
-                    <Form.Label>Company Name</Form.Label>
+                    <Form.Label>Store Name</Form.Label>
                     <Form.Control
                       // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
                       name="companyName"
                       onChange={myhandlechange}
 
                     />
-                    <p style={{color:"red"}}>{formErrors.companyName}</p>
+                    <p style={{ color: "red" }}>{formErrors.companyName}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
                     <Form.Control type="number"
-                    name="walletamount"
+                      name="walletamount"
                       // onChange={(e) => { setwalletamount(e.target.value) }}
                       onChange={myhandlechange}
                     />
-                    <p  style={{color:"red"}}>{formErrors.walletamount}</p>
+                    <p style={{ color: "red" }}>{formErrors.walletamount}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
                     <Form.Control
-                      type="number"
+                      type="text"
                       //  onChange={(e)=>{setMobile(e.target.value)}}
-                      name="mobile"
+                      name="mobile" minLength={10} maxLength={10}
                       onChange={myhandlechange}
+                      onKeyPress={(e) => {
+                        const regex = /^[0-9\b]+$/;
+                        if (!regex.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
-                    <p style={{color:"red"}}>{formErrors.mobile}</p>
+                    <p style={{ color: "red" }}>{formErrors.mobile}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email</Form.Label>
@@ -216,18 +231,18 @@ const addCompany = () => {
                       onChange={myhandlechange}
                       name="email"
                     />
-                    <p style={{color:"red"}}>{formErrors.email}</p>
+                    <p style={{ color: "red" }}>{formErrors.email}</p>
 
 
                   </Col>
                   <Col lg="6">
                     <Form.Label>Location</Form.Label>
                     <Form.Control as="textarea" rows={2}
-                    name="location"
+                      name="location"
                       // onChange={(e) => { setLocation(e.target.value) }} 
                       onChange={myhandlechange}
                     />
-                      <p style={{color:"red"}}>{formErrors.location}</p>
+                    <p style={{ color: "red" }}>{formErrors.location}</p>
                   </Col>
 
                   {/* <Col lg="4">
@@ -244,12 +259,41 @@ const addCompany = () => {
                   </Col> */}
                   <Col lg="6">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows={2} 
-                    name="address"
-                    // onChange={(e) => { setAddress(e.target.value) }}
-                    onChange={myhandlechange}
-                     />
-                       <p style={{color:"red"}}>{formErrors.address}</p>
+                    <Form.Control as="textarea" rows={2}
+                      name="address"
+                      // onChange={(e) => { setAddress(e.target.value) }}
+                      onChange={myhandlechange}
+                    />
+                    <p style={{ color: "red" }}>{formErrors.address}</p>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Gstin</Form.Label>
+                    <Form.Control
+                      // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
+                      type="text"
+                      name="gstin"
+                      onChange={myhandlechange}
+
+                    />
+                    <p style={{ color: "red" }}>{formErrors.gstin}</p>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Fssai No </Form.Label>
+                    <Form.Control
+                      type="text"
+                      //  onChange={(e) => { setComapnayName(e.target.value) }} 
+                      name="fssai_no"
+                      onChange={myhandlechange}
+                      onKeyPress={(e) => {
+                        const regex = /^[0-9\b]+$/;
+                        if (!regex.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                    <p style={{ color: "red" }}>{formErrors.fssai_no}</p>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
                     <Col lg="3">

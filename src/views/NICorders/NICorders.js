@@ -5,7 +5,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
-import { OrderListURL, OrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
+import { OrderListURL, CompanyOrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -55,7 +55,7 @@ const NICorders = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { OrderData, notification } = useSelector((state) => state.orderList)
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
 
@@ -66,32 +66,32 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages))
+      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
     }
   }
 
@@ -102,13 +102,13 @@ const NICorders = () => {
 
 
   const eventHandler = (event, status) => {
-    console.log(event,status, "eventxzdsdcvvxcvv")
+    console.log(event, status, "eventxzdsdcvvxcvv")
     // if (event.is_delivered)
     const payload = {
-      "order_uuid" : event.uuid,
-      "order_status" : status
-  }
-    dispatch(OrderStatusUpdateURL(payload, currentUser.token))
+      "order_uuid": event?.uuid,
+      "status": status
+    }
+    dispatch(CompanyOrderStatusUpdateURL(payload, currentUser.token))
     setSuc(true)
 
 
@@ -125,7 +125,7 @@ const NICorders = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit))
+          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
           // setOpen(false)
 
         }, 1000)
@@ -309,13 +309,13 @@ const NICorders = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                 
+
                     <div className="lh-1 text-alternate">{index + 1}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
                   </Col>
-                 
+
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
@@ -343,20 +343,24 @@ const NICorders = () => {
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
-                  
+
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
-              <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-              {item.is_delivered===true?"Delivered":"Pending"}
-              </Dropdown.Toggle>
-            </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item
-              onClick={(status) => { eventHandler(item,status=true)}}>Delivered</Dropdown.Item>
-              <Dropdown.Item onClick={(status) => { eventHandler(item,status=false)}} >Pending</Dropdown.Item>
-              {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
-            </Dropdown.Menu>
-          </Dropdown>
+                      <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                        <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+                          {item.order_status ? item.order_status : "Pending"}
+                        </Dropdown.Toggle>
+                      </OverlayTrigger>
+                      <Dropdown.Menu className="shadow dropdown-menu-end">
+                        <Dropdown.Item
+                          onClick={(status) => { eventHandler(item, "Pending") }}>Pending</Dropdown.Item>
+                        <Dropdown.Item onClick={(status) => { eventHandler(item, "Accepted") }} >Accepted</Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
+                        <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
+                        <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
+                        {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </Col>
 
 
@@ -386,7 +390,7 @@ const NICorders = () => {
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>
-                        
+
                         </tr>
                       </table>
                     </div>
@@ -529,7 +533,7 @@ const NICorders = () => {
                         <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                           <div className="lh-1 text-alternate">{item.price}</div>
                         </Col>
-{/* 
+                        {/* 
                         <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                          
                           <Form.Check

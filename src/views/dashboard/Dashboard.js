@@ -1,6 +1,6 @@
-import React,{ useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {DashdoardContListURL} from "Redux/AdminRedux/DashBoard/DashCountRedux"
+import { DashdoardAdminContListURL } from "Redux/AdminRedux/DashBoard/DashCountRedux"
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
@@ -13,25 +13,45 @@ import PerformanceChart from './components/PerformanceChart';
 
 
 const Dashboard = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const title = 'Dashboard';
   const description = 'Ecommerce Dashboard Page';
-  
-  
+
+  const [selecttypedates, setSelectTypeDates] = useState('today')
+  console.log(selecttypedates, 'hjbhvhvbhdhcvsdhv')
   const { currentUser } = useSelector((state) => state.auth)
-  const { DashboardCountData,notification } = useSelector((state) => state.AdminDashbordCountList)
-  console.log(DashboardCountData,"jsdggjjhg");
+  const { DashboardCountData, notification } = useSelector((state) => state.AdminDashbordCountList)
+  console.log(DashboardCountData, "jsdggjjhg");
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
-  console.log(IpAddressData,"IpAddressData")
+  console.log(IpAddressData, "IpAddressData")
 
 
-useEffect(()=>{
-  dispatch(DashdoardContListURL(currentUser.token))
-  dispatch(IpAddressDataURL())
-},[])
-console.log(DashboardCountData,"jsdggjjhg");
+  useEffect(() => {
+    dispatch(DashdoardAdminContListURL(currentUser?.token, selecttypedates))
+    dispatch(IpAddressDataURL())
+  }, [])
+  // console.log(DashboardCountData,"jsdggjjhg");
 
+  // const [selectedOption, setSelectedOption] = useState('Today');
+  const SelectBasedonValue = (type) => {
+    console.log(type, 'hbvhehvberhfvyerf')
+    setSelectTypeDates(type);
+    dispatch(DashdoardAdminContListURL(currentUser?.token, type))
+  }
+
+  let toggleText = "Today";
+  if (selecttypedates === 'this_week') {
+    toggleText = 'Last Week';
+  } else if (selecttypedates === 'this_month') {
+    toggleText = 'Last Month';
+  } else if (selecttypedates === 'this_year') {
+    toggleText = 'Last Year';
+  }
+
+  // const SelectBasedonValue = (eventKey) => {
+
+  // };
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -47,19 +67,22 @@ console.log(DashboardCountData,"jsdggjjhg");
       {/* Title End */}
 
       {/* Stats Start */}
-      {/* <div className="d-flex">
-        <Dropdown>
+      <div className="d-flex">
+        <Dropdown onSelect={SelectBasedonValue}>
           <Dropdown.Toggle className="small-title p-0 align-top h-auto me-2" variant="link">
-            Today's
+            {toggleText}
+            {/* {(selecttypedates === 'today' && 'Today') || (selecttypedates === 'this_week' && 'Last Week') || (selecttypedates === 'this_month' && 'Last Month') || (selecttypedates === 'this_year' && 'Last Year')} */}
+
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>Weekly</Dropdown.Item>
-            <Dropdown.Item>Monthly</Dropdown.Item>
-            <Dropdown.Item>Yearly</Dropdown.Item>
+            <Dropdown.Item eventKey='today'>Today</Dropdown.Item>
+            <Dropdown.Item eventKey='this_week'>Last Week</Dropdown.Item>
+            <Dropdown.Item eventKey='this_month'>Last Month</Dropdown.Item>
+            <Dropdown.Item eventKey='this_year'>Last Year</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        <h2 className="small-title">Stats</h2>
-      </div> */}
+        {/* <h2 className="small-title">Stats</h2> */}
+      </div>
       <Row className="mb-5 g-2">
         <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
@@ -69,7 +92,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
               <div className="text-primary cta-4">₹
-              {DashboardCountData.total_order_amount}</div>
+                {DashboardCountData.total_order_amount}</div>
             </Card.Body>
           </Card>
         </Col>
@@ -95,7 +118,7 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card.Body>
           </Card>
         </Col> */}
-        <Col xs="6" md="4" lg="2">
+        {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
@@ -105,7 +128,7 @@ console.log(DashboardCountData,"jsdggjjhg");
               <div className="text-primary cta-4">17</div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
         {/* <Col xs="6" md="4" lg="2">
           <Card className="h-100 hover-scale-up cursor-pointer">
             <Card.Body className="d-flex flex-column align-items-center">
@@ -304,9 +327,9 @@ console.log(DashboardCountData,"jsdggjjhg");
 
       {/* <Row>
         <Col xs="12" className="col-xxl"> */}
-          {/* <Row> */}
-            {/* Activity Start */}
-            {/* <Col xxl="6" className="mb-5">
+      {/* <Row> */}
+      {/* Activity Start */}
+      {/* <Col xxl="6" className="mb-5">
               <h2 className="small-title">Activity</h2>
               <Card className="sh-35">
                 <Card.Body className="scroll-out">
@@ -525,10 +548,10 @@ console.log(DashboardCountData,"jsdggjjhg");
                 </Card.Body>
               </Card>
             </Col> */}
-            {/* Activity End */}
+      {/* Activity End */}
 
-            {/* Recent Reviews Start */}
-            {/* <Col xxl="6" className="mb-5">
+      {/* Recent Reviews Start */}
+      {/* <Col xxl="6" className="mb-5">
               <h2 className="small-title">Recent Reviews</h2>
               <Card className="sh-35">
                 <Card.Body className="scroll-out">
@@ -656,10 +679,10 @@ console.log(DashboardCountData,"jsdggjjhg");
               </Card>
             </Col>
             Recent Reviews End */}
-          {/* </Row>
+      {/* </Row>
         </Col>  */}
-        {/* Tips Start */}
-        {/* <Col xs="12" xxl="auto" className="mb-5">
+      {/* Tips Start */}
+      {/* <Col xs="12" xxl="auto" className="mb-5">
           <h2 className="small-title">Tips</h2>
           <Card className="h-100-card sw-xxl-40">
             <Card.Body className="d-flex flex-column justify-content-between align-items-start">
@@ -679,12 +702,12 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card.Body>
           </Card>
         </Col> */}
-        {/* Tips End */}
+      {/* Tips End */}
       {/* </Row> */}
 
       {/* <Row className="gx-4 gy-5"> */}
-        {/* Top Selling Items Start */}
-        {/* <Col xl="6">
+      {/* Top Selling Items Start */}
+      {/* <Col xl="6">
           <h2 className="small-title">Top Selling Items</h2>
           <div className="mb-n2">
             <Card className="mb-2">
@@ -785,10 +808,10 @@ console.log(DashboardCountData,"jsdggjjhg");
             </Card>
           </div>
         </Col> */}
-        {/* Top Selling Items End */}
+      {/* Top Selling Items End */}
 
-        {/* Top Search Terms Start */}
-        {/* <Col xl="6">
+      {/* Top Search Terms Start */}
+      {/* <Col xl="6">
           <h2 className="small-title">Top Search Terms</h2>
           <Card className="sh-35 h-xl-100-card">
             <Card.Body className="h-100 scroll-out">
@@ -895,8 +918,8 @@ console.log(DashboardCountData,"jsdggjjhg");
               </OverlayScrollbarsComponent>
             </Card.Body>
           </Card> */}
-        {/* </Col> */}
-        {/* Top Search Terms End */}
+      {/* </Col> */}
+      {/* Top Search Terms End */}
       {/* </Row> */}
     </>
   );

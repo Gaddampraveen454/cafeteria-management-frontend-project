@@ -15,27 +15,43 @@ const companySlice = createSlice({
     setCatData(state, action) {
       state.companyData = action.payload;
     },
+    setComDropDown(state, action) {
+      state.companyDropData = action.payload;
+    },
     setToast(state, action) {
       state.notification = action.payload;
     }
   },
 });
 
-export const { setCatData, setToast } = companySlice.actions;
+export const { setCatData,setComDropDown, setToast } = companySlice.actions;
 
 
-export const CompanyListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,{headers:{
+export const CompanyListURL = (pageNUm, search, token, limit,id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/store/list?page=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}`,
+  {headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")
   dispatch(setCatData(response.data));
 };
 
+export const CompanyDropDown = (token) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/dropdown/list`,
+  // {headers:{
+  //   "x-auth-token" : token
+  // }}
+  );
+  console.log(response.data.data, "dfghj")
+  dispatch(setComDropDown(response.data));
+};
+
 export const companyAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/company/create`,payload,{headers:{
+    const response = await axios.post(`${process.env.REACT_APP_URL}/company/store/create`,payload,
+    {headers:{
       "x-auth-token" : token
-    }})
+    }}
+    )
     .then((res) => {
       console.log(res, "sdfsdfsdff")
       dispatch(setToast({ status: true, message: res.data.message }))
@@ -48,7 +64,8 @@ export const companyAddURL = (payload,token) => async (dispatch) => {
   
 
 export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/company/update/${uuid}`,payload,{headers:{
+    const response = await axios.put(`${process.env.REACT_APP_URL}/company/store/update/${uuid}`,payload,
+    {headers:{
       "x-auth-token" : token
     }}).then((res) => {
       console.log(res, "sdfsddffsdff")
@@ -60,8 +77,8 @@ export const compnayUpdateURL = (uuid,payload, token) => async (dispatch) => {
       })
    
   };
-  export const CompanyStatusUpdateURL = (payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/company/change/status`, payload, {
+  export const CompanyStatusUpdateURL = (payload, token,id) => async (dispatch) => {
+    const response = await axios.put(`${process.env.REACT_APP_URL}/company/status/update/${id}`, payload, {
       headers: {
         "x-auth-token": token
       }

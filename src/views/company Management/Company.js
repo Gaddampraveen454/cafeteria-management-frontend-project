@@ -19,8 +19,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import QRCode from "react-qr-code";
 
 const Company = () => {
-  const title = 'Company Management';
-  const description = 'Ecommerce Company Management Page';
+  const title = 'Store Management';
+  const description = 'Ecommerce Store Management Page';
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
@@ -33,6 +33,8 @@ const Company = () => {
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
   const [address, setAddress] = useState("")
+  const [gstin, setGstin] = useState('')
+  const [fssai, setFssai] = useState('')
   const [compnayId, setCompnayId] = useState("")
   const [suc, setSuc] = useState(false);
 
@@ -69,10 +71,10 @@ const Company = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { companyData, notification } = useSelector((state) => state.companyList)
 
-
+console.log(currentUser,"companyid")
 
   useEffect(() => {
-    dispatch(CompanyListURL(page, search, currentUser.token, limit))
+    dispatch(CompanyListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
   }, [])
 
 
@@ -84,13 +86,15 @@ const Company = () => {
   const eventHandler = (event) => {
     setOpen(true)
 
-    console.log(event, "eventxcvvxcvv")
-    setComapnayName(event.company_name)
+    console.log(event, "jkjh")
+    setComapnayName(event.store_name)
     setwalletamount(event.wallet_amount)
     setEmail(event.email)
     setMobile(event.mobile)
     setLocation(event.location)
     setAddress(event.address)
+    setGstin(event.gstin)
+    setFssai(event.fssai_no)
     setCompnayId(event.uuid)
 
 
@@ -101,12 +105,15 @@ const Company = () => {
     event.preventDefault()
     const value = event.target.elements
     const payload = {
-      "company_name": companyName,
+      "company_uuid" : currentUser?.data?.uuid,
+      "store_name": companyName,
       "email": email,
       "mobile": mobile,
       "wallet_amount": walletamount,
       "location": location,
       "address": address,
+      "gstin": gstin,
+      "fssai_no": fssai
     }
     dispatch(compnayUpdateURL(compnayId, payload, currentUser.token))
     setSuc(true)
@@ -128,7 +135,7 @@ const Company = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(CompanyListURL(page, search, currentUser.token, limit))
+          dispatch(CompanyListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
           setOpen(false)
 
         }, 1000)
@@ -150,27 +157,27 @@ const Company = () => {
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(CompanyListURL(0, pages, currentUser.token, limit))
+      dispatch(CompanyListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(CompanyListURL(page - 1, search, currentUser.token, limit))
+      dispatch(CompanyListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit))
+      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(CompanyListURL(page, search, currentUser.token, limit))
+      dispatch(CompanyListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit))
+      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(CompanyListURL(page + 2, search, currentUser.token, limit))
+      dispatch(CompanyListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
@@ -187,10 +194,10 @@ const Company = () => {
     console.log(event, "eventxcvvxcvv")
     // if (event.is_delivered)
     const payload = {
-      "uuid": event.uuid,
+      // "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(CompanyStatusUpdateURL(payload, currentUser.token))
+    dispatch(CompanyStatusUpdateURL(payload, currentUser.token,event?.uuid))
     setSuc(true)
 
   };
@@ -201,12 +208,12 @@ const Company = () => {
   console.log(CompnayIdForQR, "CompnayIdForQR")
   const ViewQRCode = (event) => {
     console.log(event, "sfdsfsdfsdf")
-    setCompnayIdForQR(event.uuid)
+    setCompnayIdForQR(event.slug)
     setQrOpen(true)
 
 
   }
-  console.log(`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`, "sdfsdfsdfsfd")
+  console.log(`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`, "sdfsdfsdfsfd")
   const handleDownload = () => {
     window.print();
     //   const printContents = document.getElementById('printablediv').innerHTML;
@@ -238,7 +245,7 @@ const Company = () => {
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <NavLink to="/addcompany">
               <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                <CsLineIcons icon="plus" /> <span>Add Company</span>
+                <CsLineIcons icon="plus" /> <span>Add Store</span>
               </Button>
             </NavLink>
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
@@ -305,14 +312,14 @@ const Company = () => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-           
+
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer ">Company Name</div>
+              <div className="text-muted text-medium cursor-pointer ">Store Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col>
-          
+
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer ">Contact No</div>
             </Col>
@@ -348,7 +355,7 @@ const Company = () => {
               <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                 <Row className="g-0 h-100 ">
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.company_name}</div>
+                    <div className="lh-1 text-alternate">{item.store_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.location}</div>
@@ -376,7 +383,7 @@ const Company = () => {
                               <CsLineIcons icon="print" />
                             </Button>
                           </td>
-                          
+
                         </tr>
                       </table>
                     </div>
@@ -386,12 +393,12 @@ const Company = () => {
                       <table>
                         <tr>
                           <td>
-                          <Form.Check
-                          type="switch"
-                          checked={item.is_active}
-                          onClick={() => { HandleCompanyStatus(item) }}
+                            <Form.Check
+                              type="switch"
+                              checked={item.is_active}
+                              onClick={() => { HandleCompanyStatus(item) }}
 
-                        />
+                            />
                           </td>
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
@@ -571,10 +578,11 @@ const Company = () => {
           <DialogContent style={{ width: "500px", height: "auto" }}>
             <Form
               onSubmit={update}
+
             >
               <Row className="g-3">
                 <Col lg="6">
-                  <Form.Label>Company Name</Form.Label>
+                  <Form.Label>Store Name</Form.Label>
                   <Form.Control type="text" value={companyName} onChange={(e) => { setComapnayName(e.target.value) }} disabled={eventType} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
@@ -584,7 +592,17 @@ const Company = () => {
                 </Col>
                 <Col lg="6">
                   <Form.Label>Contact No</Form.Label>
-                  <Form.Control type="number" value={mobile} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
+                  <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
+
+                          const regex = /^[0-9\b]+$/;
+
+                          if (!regex.test(e.key)) {
+
+                            e.preventDefault();
+
+                          }
+
+                        }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
                   <Form.Label>Email</Form.Label>
@@ -599,6 +617,22 @@ const Company = () => {
                 <Col lg="6">
                   <Form.Label>Address</Form.Label>
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Gstin</Form.Label>
+                  <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Fssai No</Form.Label>
+                  <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
+                    onKeyPress={(e) => {
+                      const regex = /^[0-9\b]+$/;
+                      if (!regex.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }} />
+                  {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
                 <Col lg="6">
                   <Col lg="3">
@@ -651,7 +685,7 @@ const Company = () => {
               <QRCode
                 size={300}
                 // style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                value={`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`}
+                value={`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`}
                 viewBox='0 0 556 556'
               />
             </div>

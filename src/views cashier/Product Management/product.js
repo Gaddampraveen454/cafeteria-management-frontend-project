@@ -14,9 +14,11 @@ import {
   Input,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProductListURL, ProductAddURL, ProductUpdateURL,ProductBulkUplodURL } from 'Redux/CashierRedux/Product/ProductRedux';
+import {StoreCategoryDropDownL} from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux'
+import { StoreProductListURL, ProductAddURL, StoreProductUpdateURL,StoreProductBulkUplodURL } from 'Redux/CashierRedux/Product/ProductRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const product = () => {
   const dispatch = useDispatch()
@@ -77,14 +79,24 @@ const product = () => {
   const [name, setName]=useState("")
   const [price, setPrice]=useState("")
   const [quantity, setQuantity]=useState("")
- 
+  const [stockQuantity,setStockQuantity]=useState("")
+  const [cgst, setCgst]=useState("")
+  const [sgst, setSgst]=useState("")
+  const [image, setImage] = useState(null);
+  
+  
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
 
   const [selectType, setSelectType] = useState();
-  const [selectCategory, setSelectCategory] = useState();
+  const [selectCategory, setSelectCategory] = useState([]);
+  const [selectcat , setSelectCat] = useState([])
   const [selectCompany, setSelectCompany] = useState();
   const [productId,setProductId]=useState("")
-
+  const [UploadedFile, setUploadedFile]=useState("")
+  console.log(UploadedFile,"UploadedFile")
   const [suc,setSuc] = useState(false);
 
   const [page, setPage] = useState(0);
@@ -94,7 +106,19 @@ const product = () => {
 
 console.log(selectCompany,"dfgdfgdfgdd")
 
+let selectCategory1
+if (selectCategory?.value === undefined) {
+  selectCategory1 = '';
+} else {
+  selectCategory1 = selectCategory?.value;
+}
 
+let selectcat1
+if (selectcat?.value === undefined) {
+  selectcat1 = '';
+} else {
+  selectcat1 = selectcat?.value;
+}
 
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -117,14 +141,17 @@ console.log(selectCompany,"dfgdfgdfgdd")
 
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData } = useSelector((state) => state.cotegoryList)
-  const { companyData } = useSelector((state) => state.companyList)
+  const { companyData ,companyDropData} = useSelector((state) => state.companyList)
 
 
 
-  const { ProductData, notification } = useSelector((state) => state.CashierProductList)
+  const { ProductData, notification } = useSelector((state) => state.StoreproductSlice)
+  const { categoryDropdown } = useSelector((state) => state.StorecategorySlice)
+  console.log(categoryDropdown,currentUser,"categoryDropdown")
 useEffect(()=>{
-  dispatch(ProductListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
-},[])
+  dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,selectcat1))
+  dispatch(StoreCategoryDropDownL())
+},[selectcat1])
 console.log(ProductData,"ProductDatasdfdsfdsf");
 useEffect(() => {
   if (suc === true) {
@@ -134,7 +161,7 @@ useEffect(() => {
       })
       setSuc(false)
       setTimeout(()=>{
-        dispatch(ProductListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
+        dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
         setOpenEditViewOpupup(false)
       },1000)
      
@@ -159,8 +186,8 @@ console.log(notification ,"ProductDataProductData")
 
   // // const { currentUser } = useSelector((state) => state.auth)
   // const { categoryData } = useSelector((state) => state.cotegoryList)
-  const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
-  const productList= categoryData && categoryData.data && categoryData.data.map((item) =>{return {label:item.name, value:item.uuid}})
+  const companyList= companyDropData && companyDropData.data && companyDropData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  const productList= categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) =>{return {label:item.name, value:item.uuid}})
   // console.log(productList,"categoryDatacategoryData")
 
 
@@ -168,7 +195,33 @@ console.log(notification ,"ProductDataProductData")
  
   // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
-
+  const handleSubmit1 = () => {
+    // e.preventDefault();
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+  
+      })
+      .catch(err => {
+        console.log(err, "err00")
+       
+      });
+  }
+  
+  useEffect(()=>{
+    if(image!==null){
+      handleSubmit1()
+    }
+   
+  },[image])
 
  
 
@@ -180,13 +233,17 @@ console.log(notification ,"ProductDataProductData")
 const eventHandler = (event) => {
   setOpenEditViewOpupup(true)
 
-  console.log(event, "sdfssdfsdfsf")
+  console.log(event, "editstore")
   setName(event.name)
   setSelectCompany({label:event.company_name, value:event.company_uuid})
   setSelectCategory({label:event.category_name, value:event.category_uuid})
   setSelectType({label:event.type, value:event.type})
   setPrice(event.price)
   setQuantity(event.quantity)
+  setStockQuantity(event.stock_quantity)
+  setCgst(event.cgst_tax)
+  setSgst(event.sgst_tax)
+  // setImage(event.image_url)
   setProductId(event.uuid)
 
 };
@@ -201,8 +258,13 @@ const updateProduct = (event) => {
     "price" : price,
     "quantity" : quantity,
     "company_uuid" : selectCompany.value,
+    "image":UploadedFile,
+    "stock_quantity" : stockQuantity,
+    "cgst_tax": cgst,
+    "sgst_tax": sgst,
+    "store_uuid" : currentUser?.data?.uuid
   }
-  dispatch(ProductUpdateURL(productId, payload, currentUser.token))
+  dispatch(StoreProductUpdateURL(productId, payload, currentUser.token))
   // dispatch(CompanyListURL(currentUser.token))
   setSuc(true)
 
@@ -230,7 +292,7 @@ toast.error("Please Select File")
   formData.append('file', file);
   formData.append('fileName', file.name);
   formData.append('company_uuid',selectCompany && selectCompany.value);
-  dispatch(ProductBulkUplodURL(formData, currentUser.token))
+  dispatch(StoreProductBulkUplodURL(formData, currentUser.token))
   setSuc(true)
 }
 }
@@ -243,32 +305,32 @@ const searchfunction =(type , pages)=>{
    console.log(pages ,"ghjkvbnm")
    setSearch(pages)
    setPage(0)
-   dispatch(ProductListURL(0, pages,currentUser.token,limit,currentUser.data.company_uuid)) 
+   dispatch(StoreProductListURL(0, pages,currentUser.token,limit,currentUser.data.uuid,selectcat1)) 
   }
   if(type === "prev"){
    setPage(page-1)
-   dispatch(ProductListURL(page-1,search,currentUser.token,limit,currentUser.data.company_uuid))
+   dispatch(StoreProductListURL(page-1,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "next"){
    setPage(page+1)
-   dispatch(ProductListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
+   dispatch(StoreProductListURL(page+1,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "page"){
    setPage(page)
-   dispatch(ProductListURL(page,search,currentUser.token,limit,currentUser.data.company_uuid))
+   dispatch(StoreProductListURL(page,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "page+1"){
    setPage(page+1)
-   dispatch(ProductListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
+   dispatch(StoreProductListURL(page+1,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "page+2"){
    setPage(page+2)
-   dispatch(ProductListURL(page+2,search,currentUser.token,limit,currentUser.data.company_uuid))
+   dispatch(StoreProductListURL(page+2,search,currentUser.token,limit,currentUser.data.uuid,selectcat1))
   }
   else if(type === "limit"){
    setLimit(pages)
    setPage(0)
-   dispatch(ProductListURL(0,search,currentUser.token,pages,currentUser.data.company_uuid))
+   dispatch(StoreProductListURL(0,search,currentUser.token,pages,currentUser.data.uuid,selectcat1))
   }
  }
   return (
@@ -340,11 +402,11 @@ const searchfunction =(type , pages)=>{
           >
             <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
             </Button> */}
-            {/* <NavLink to="/addproduct"> */}
-            {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+            <NavLink to="/Storeaddproduct">
+            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
             <CsLineIcons icon="plus" /> <span>Add Product</span>
-            </Button> */}
-            {/* </NavLink> */}
+            </Button>
+            </NavLink>
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
             </Button>
@@ -384,7 +446,11 @@ const searchfunction =(type , pages)=>{
           </div>
           {/* Search End */}
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+        <Col md="2" lg="2" xxl="2">
+                    {/* <Form.Label>Category</Form.Label> */}
+                    <Select classNamePrefix="react-select" options={productList} value={selectcat} onChange={setSelectCat} placeholder="Category Select" />
+                  </Col>
+        <Col md="5" lg="7" xxl="8" className="mb-1 text-end">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -504,11 +570,11 @@ const searchfunction =(type , pages)=>{
                  </Button>
                   </td>
                   <td>
-                  {/* <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
-                  // onClick={() => { eventHandler(item); setEventType(false) }}
+                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2"
+                  onClick={() => { eventHandler(item); setEventType(false) }}
                   >
                  <CsLineIcons icon="edit-square" />
-                 </Button> */}
+                 </Button>
                   </td>
               
                 </tr>
@@ -592,7 +658,7 @@ const searchfunction =(type , pages)=>{
                     disabled={eventType}
                     />
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Company</Form.Label>
                     <Select classNamePrefix="react-select" 
                     options={companyList} 
@@ -601,7 +667,7 @@ const searchfunction =(type , pages)=>{
                     placeholder=""
                     disabled={eventType}
                      />
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
                     <Select classNamePrefix="react-select" 
@@ -640,6 +706,32 @@ const searchfunction =(type , pages)=>{
                     disabled={eventType}
                     />
                   </Col>
+                  <Col lg="6">
+                    <Form.Label>Stock Quantity</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}  value={stockQuantity}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>CGST(%)</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}  value={cgst}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>SGST(%)</Form.Label>
+                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}} value={sgst}/>
+                  </Col>
+                  <Col  lg="6">
+                  <div>
+                  <Form.Label>File</Form.Label>
+                  <Form.Control type="file" onChange={handleImageChange}/>
+      {/* <input type="file" onChange={handleImageChange} /> */}
+                  </div>
+                  </Col>
+                  <div>
+      {image && (
+        <div >
+          <img src={URL.createObjectURL(image)} alt="Preview" style={{width:"200px", height:"200px"}}/>
+        </div>
+      )}
+    </div>
                   {/* <Col lg="12">
                     <Col lg="3">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
