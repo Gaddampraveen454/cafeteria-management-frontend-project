@@ -1,5 +1,5 @@
-import React ,{ useEffect,useState } from 'react';
-import { NavLink , useHistory,useLocation} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -17,49 +17,60 @@ const Register = () => {
   const title = 'Register';
   const description = 'Register Page';
 
-  const [suc,setSuc] = useState(false);
-  const { currentUser, isLogin,notification } = useSelector((state) => state.auth);
-  console.log(currentUser,isLogin,notification,"currentUdfddsfsdfdser")
+  const [suc, setSuc] = useState(false);
+  const { currentUser, isLogin, notification } = useSelector((state) => state.auth);
+  console.log(currentUser, isLogin, notification, "currentUdfddsfsdfdser")
   const history = useHistory()
   const location = useLocation();
+
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email().required('Email is required'),
     // mobile: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
     mobile: Yup.string()
-    .matches(/^[0-9]{10}$/, 'Invalid mobile number') // Assumes a 10-digit mobile number
-    .required('Mobile number is required'),
+      .matches(/^[0-9]{10}$/, 'Invalid mobile number') // Assumes a 10-digit mobile number
+      .required('Mobile number is required'),
 
     // terms: Yup.bool().required().oneOf([true], 'Terms must be accepted'),
   });
   const initialValues = { name: '', email: '', mobile: '' };
-  const onSubmit = (values) => console.log('submit form', values);
+
+  const [namevalue, setNameValue] = useState('');
+  const [mobilevalue, setMobileValue] = useState('');
+  const [emailvalue, setEmailValue] = useState('');
+
+
+  const onSubmit = (values) => {
+    values.preventDefault()
+
+    const payload = {
+      "mobile": mobilevalue,
+      "email": emailvalue,
+      "name": namevalue
+    }
+    dispatch(ConsumerSignUpURL(payload));
+    setSuc(true)
+  }
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
-  const dispatch = useDispatch();
-console.log(values,"bad")
-  const consumerRegister = (event) => {
-    event.preventDefault()
-    dispatch(ConsumerSignUpURL(values));
-    setSuc(true)
-  }
+
 
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
-        toast.success(notification.message,{
-          position:"top-right",
+        toast.success(notification.message, {
+          position: "top-right",
         })
-        setSuc(false)
-        // setTimeout(() => {
-        //   // dispatch(ProductListURL(page, search,currentUser.token,limit))
-        //   history.push(({
-        //     pathname: "/product",
-        //     // state : {detail : id,fullname : name, pic :image, type:"edit"},
-        //   }));
-        // }, 2000)
+        // setSuc(false)
+        setTimeout(() => {
+          history.push(({
+            pathname: "/otp-verification",
+            // state : {detail : id,fullname : name, pic :image, type:"edit"},
+          }));
+        }, 2000)
         // if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
         //   // history.push('/dashboard')
         //   history.push(({
@@ -68,7 +79,7 @@ console.log(values,"bad")
         //     state:{
         //       userType:"consumer"
         //     }
-          
+
         //   }));
         //   localStorage.setItem('token',currentUser)
         // }
@@ -76,15 +87,15 @@ console.log(values,"bad")
         //   history.push('/dashboard')
         //   localStorage.setItem('token',currentUser)
         // }
-       
+
       }
       else if (notification.status === false) {
         toast.error(notification.message)
         setSuc(false)
       }
     }
-  
-  }, [notification,currentUser])
+
+  }, [notification, currentUser])
 
 
   const leftSide = (
@@ -115,7 +126,7 @@ console.log(values,"bad")
         <div className="sh-11">
           <NavLink to="/">
             {/* <div className="logo-default" /> */}
-            <img src={logo} alt="logo"  style={{width:"100px", height:"auto"}}/>
+            <img src={logo} alt="logo" style={{ width: "100px", height: "auto" }} />
           </NavLink>
         </div>
         <div className="mb-5">
@@ -129,20 +140,20 @@ console.log(values,"bad")
           </p>
         </div>
         <div>
-          <form id="registerForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
+          <form id="registerForm" className="tooltip-end-bottom" onSubmit={onSubmit}>
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="user" />
-              <Form.Control type="text" name="name" placeholder="Name" value={values.name} onChange={handleChange} />
+              <Form.Control type="text" name="name" placeholder="Name" value={namevalue} onChange={(e) => setNameValue(e.target.value)} />
               {errors.name && touched.name && <div className="d-block invalid-tooltip">{errors.name}</div>}
             </div>
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
-              <Form.Control type="text" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
+              <Form.Control type="text" name="email" placeholder="Email" value={emailvalue} onChange={(e) => setEmailValue(e.target.value)} />
               {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
             </div>
-             <div className="mb-3 filled form-group tooltip-end-top">
+            <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="mobile" />
-              <Form.Control type="mobile" name="mobile" onChange={handleChange} value={values.mobile} placeholder="mobile" />
+              <Form.Control type="mobile" name="mobile" value={mobilevalue} onChange={(e) => setMobileValue(e.target.value)} placeholder="mobile" />
               {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
             </div>
             {/* <div className="mb-3 filled form-group tooltip-end-top">
@@ -162,7 +173,7 @@ console.log(values,"bad")
                 {errors.terms && touched.terms && <div className="d-block invalid-tooltip">{errors.terms}</div>}
               </div> */}
             </div>
-            <Button size="lg" type="submit" onClick={consumerRegister}>
+            <Button size="lg" type="submit">
               Signup
             </Button>
           </form>

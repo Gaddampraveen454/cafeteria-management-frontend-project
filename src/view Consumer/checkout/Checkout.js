@@ -37,13 +37,16 @@ const Categories = () => {
   const location = useLocation();
   const dispatch = useDispatch()
   const history = useHistory();
-  const userType = location && location.state && location.state.userType;
   const { CartData, notification } = useSelector((state) => state.CartList)
   console.log(CartData, "CartData")
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const { WalletData } = useSelector((state) => state.WalletData);
   const { CheckoutData, checkoutnotification } = useSelector((state) => state.checkoutdata);
   // const { OrderData } = useSelector((state) => state.checkoutdata);
+
+  const userType = currentUser && currentUser?.data?.group === "consumer" ? currentUser?.data?.group : location && location.state && location.state.userType;
+
+
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
   const [orderData, setOrderData] = useState([])
@@ -73,7 +76,7 @@ const Categories = () => {
 
   useEffect(() => {
     if (currentUser && currentUser.data) {
-      dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+      dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
 
@@ -151,9 +154,9 @@ const Categories = () => {
 
         },
         "prefill": {
-          "name": currentUser.name,
-          "email": currentUser.email,
-          "contact": currentUser.mobile
+          "name": currentUser.data?.name,
+          "email": currentUser.data?.email,
+          "contact": currentUser.data?.mobile
         },
         // config: {
         //   display: {
@@ -239,7 +242,7 @@ const Categories = () => {
         "user_uuid": currentUser.data.uuid,
         "ip_address": IpAddressData.ip
       }
-      dispatch(IfLogedinUpdateCartURL(payload, currentUser.token))
+      dispatch(IfLogedinUpdateCartURL(payload, currentUser.data?.token))
     }
 
 
@@ -249,7 +252,7 @@ const Categories = () => {
     const payload = {
       "user_uuid": currentUser.data.uuid
     }
-    dispatch(CreateCheckOutURL(payload, currentUser.token))
+    dispatch(CreateCheckOutURL(payload, currentUser.data?.token))
     // setSuc(true)
   }
 
@@ -325,7 +328,7 @@ const Categories = () => {
       axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
         {
           headers: {
-            "x-auth-token": currentUser.token
+            "x-auth-token": currentUser.data?.token
           }
         })
         .then((respons) => {
@@ -383,7 +386,7 @@ const Categories = () => {
       axios.post(`${process.env.REACT_APP_URL}/order/create/guest`, payload,
         {
           headers: {
-            "x-auth-token": currentUser.token
+            "x-auth-token": currentUser.data?.token
           }
         })
         .then((respons) => {

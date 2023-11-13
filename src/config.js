@@ -14,8 +14,10 @@ export const REACT_HELMET_PROPS = {
 export const DEFAULT_PATHS = {
   APP: '/',
   LOGIN: '/login',
-  LOGIN1: '/consumer/login',
+  // LOGIN1: '/consumer/login',
+  CHECKWITHMOBILELOGIN: '/consumer/login',
   REGISTER: '/register',
+  OTPVERIFICATION : '/otp-verification',
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
   USER_WELCOME: '/dashboards/default',
