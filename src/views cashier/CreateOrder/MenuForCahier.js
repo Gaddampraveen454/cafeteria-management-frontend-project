@@ -113,7 +113,7 @@ const MenuForCashier = () => {
 
   const { currentUser } = useSelector((state) => state.auth)
 
-
+console.log(currentUser,"currentUserhj")
   const [print, setPrint] = useState(false);
   const [printData, setPrintData] = useState('')
 
@@ -250,7 +250,7 @@ const MenuForCashier = () => {
 
 
   useEffect(() => {
-    dispatch(categoryForConsumerListURL())
+    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid,currentUser?.data?.uuid))
 
     // currentUser.data.company_uuid
   }, [])
