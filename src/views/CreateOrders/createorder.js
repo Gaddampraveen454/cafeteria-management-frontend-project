@@ -121,7 +121,7 @@ const CreateOrder = () => {
 
     const { categorylist } = useSelector((state) => state.cotegoryList)
 
-    console.log(categorylist, "bhdfbgdhbjfkhj")
+    console.log(categorylist,currentUser, "bhdfbgdhbjfkhj")
 
 
     const [print, setPrint] = useState(false);
@@ -273,10 +273,10 @@ const CreateOrder = () => {
 
 
     useEffect(() => {
-        dispatch(categoryForConsumerListURL())
+        dispatch(categoryForConsumerListURL(currentUser?.data?.uuid,selectStore))
 
         // currentUser.data.company_uuid
-    }, [])
+    }, [selectStore])
 
     useEffect(() => {
         if (categoryForConsumer) {
