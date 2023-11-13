@@ -167,6 +167,7 @@ const CreateOrder = () => {
 
     console.log(currentUser, "currentUser")
     const [selectStore, setSelectStore] = useState('');
+    const [companyuuid,setcompanyuuid] = useState('')
 
     const { companyProductionData } = useSelector(({ compamyProduction }) => compamyProduction);
     console.log(companyProductionData, 'bfvherverrejb')
@@ -180,9 +181,9 @@ const CreateOrder = () => {
     const { createList } = useSelector((state) => state.cotegoryList)
     console.log(createList, 'svdghdsv')
 
-    useEffect(() => {
-        dispatch(CategorycreateList(currentUser?.data?.uuid))
-    }, [])
+    // useEffect(() => {
+    //     dispatch(CategorycreateList(currentUser?.data?.uuid))
+    // }, [])
 
 
 
@@ -590,7 +591,8 @@ const CreateOrder = () => {
     const StoreData = [];
 
     StoreList?.data?.map((text) => {
-        return StoreData.push({ label: text?.store_name, value: text?.uuid })
+        console.log(text,"texttexttexttexttext567567")
+        return StoreData.push({ label: text?.store_name, value: text?.uuid ,company_uuid: text?.company_uuid})
     }, [])
 
     const closeFunction = () => {
@@ -598,15 +600,16 @@ const CreateOrder = () => {
     }
 
     const handleEvent = (event) => {
-        console.log(event, 'hvdhdf')
+        console.log(event?.company_uuid, 'hvdhdf')
         setSelectStore(event?.value)
+        setcompanyuuid(event?.company_uuid)
         // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))
-        dispatch(Categotylist(currentUser?.data?.uuid === undefined ? "" : currentUser?.data?.uuid, event?.value === undefined ? "" : event?.value))
+        dispatch(Categotylist(event?.company_uuid === undefined ? "" :event?.company_uuid, event?.value === undefined ? "" : event?.value))
     }
 
     const CategorySelect = (event) => {
         console.log(event)
-        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore))
+        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore === undefined ? "" :selectStore))
     }
 
 
@@ -826,7 +829,7 @@ const CreateOrder = () => {
                             {/* <Form.Label>Store</Form.Label> */}
 
                             <Card.Body>
-                                <Cardsdetails />
+                                <Cardsdetails selectStore={selectStore}  companyuuid={companyuuid}/>
                                 {/* <Form>
                                     {categorylist ?
                                         <div>
@@ -971,7 +974,7 @@ const CreateOrder = () => {
             </Form> */}
                         {/* Product Thumbnails Start */}
                         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-                            {companyProductionData.data.length > 0 && companyProductionData && companyProductionData.data && companyProductionData.data.map((item, index) => {
+                            {companyProductionData?.data?.length > 0 && companyProductionData && companyProductionData.data && companyProductionData?.data?.map((item, index) => {
                                 console.log(item, "storeprod")
                                 return <>
 
@@ -984,10 +987,10 @@ const CreateOrder = () => {
                                                     <Col xs="7" sm="7" md="7" lg="7">
                                                         <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                                                             <Clamp tag="span" clamp="2">
-                                                                {item.name}
+                                                                {item?.name}
                                                             </Clamp>
                                                         </NavLink>
-                                                        ₹{Math.round(item.price)}
+                                                        ₹{Math.round(item?.price)}
                                                     </Col>
                                                     {/* <Col> &nbsp;</Col> */}
 
@@ -997,7 +1000,7 @@ const CreateOrder = () => {
 
                                                     <Col xs="5" sm="5" md="5" lg="5">
                                                         {/* <NavLink  to="/"> */}
-                                                        <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                                                        <img src={item?.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                                                         <div>
                                                             {
                                                                 item.stock_quantity <= 0 ?
@@ -1008,14 +1011,14 @@ const CreateOrder = () => {
                                                                     <div>
                                                                         {item.stock_quantity <= 5 ?
                                                                             <Col style={{ color: "red" }}>
-                                                                                Only {item.stock_quantity} Item Left
+                                                                                Only {item?.stock_quantity} Item Left
                                                                             </Col>
                                                                             :
                                                                             null
                                                                         }
 
                                                                         {
-                                                                            items && items.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
+                                                                            items && items.find(data1 => data1?.item_uuid === item.uuid) !== undefined ?
 
 
                                                                                 <InputGroup className="spinner sw-11">
@@ -1025,14 +1028,14 @@ const CreateOrder = () => {
                                                                                             // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
                                                                                             // disabled={btndisabl}
 
-                                                                                            disabled={items && items.find(data1 => data1.item_uuid === item.uuid).quantity === 1 ? true : ""}
+                                                                                            disabled={items && items.find(data1 => data1?.item_uuid === item?.uuid).quantity === 1 ? true : ""}
 
                                                                                         >
                                                                                             -
                                                                                         </button>
                                                                                     </InputGroup.Text>
                                                                                     <Form.Control
-                                                                                        value={items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
+                                                                                        value={items && items.find(data1 => data1?.item_uuid === item?.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
                                                                                         onInput={onInput}
                                                                                         placeholder="Count"
                                                                                         className="text-center"

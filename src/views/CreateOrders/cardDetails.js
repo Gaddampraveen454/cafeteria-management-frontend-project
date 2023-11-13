@@ -13,8 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CategorycreateList } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { CompanyProductionListURL } from 'Redux/AdminRedux/Production/production';
 
-const Cardsdetails = ({ onClose, selectStore }) => {
-  // console.log(onClose,"gfsfgsgsfgsg")
+const Cardsdetails = ({ onClose, selectStore ,companyuuid}) => {
+  console.log(companyuuid,"gfsfgsgs76567567fgsg")
   const dispatch = useDispatch()
   const [suc, setSuc] = useState(false);
   const { id } = useParams();
@@ -55,7 +55,7 @@ const Cardsdetails = ({ onClose, selectStore }) => {
   console.log(createList, "currentUser")
 
   useEffect(() => {
-    dispatch(CategorycreateList(currentUser?.data?.uuid))
+    dispatch(CategorycreateList(companyuuid === undefined ? "" :companyuuid))
   }, [])
 
   //   useEffect(()=>{
@@ -84,12 +84,12 @@ const Cardsdetails = ({ onClose, selectStore }) => {
     onClose()
   }
 
-  const Handlechangeproducts =(categoryid ,storeid) =>{
+  const Handlechangeproducts = (categoryid) => {
 
-    console.log(categoryid ,storeid ,"sfghfghdfgdfghjd567547hy")
+    console.log(categoryid, "sfghfghdfgdfghjd567547hy")
 
-    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", currentUser?.data?.uuid,categoryid, storeid));
-    
+    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? "" : companyuuid, categoryid=== undefined ? "" :categoryid, selectStore === undefined ? "" : selectStore));
+
   }
 
 
@@ -103,14 +103,15 @@ const Cardsdetails = ({ onClose, selectStore }) => {
           {categorylist ?
             <div>
               {categorylist.data?.length > 0 && categorylist && categorylist.data && categorylist.data.map((item) => {
-                console.log(item,"itemitemitem6456")
+                console.log(item, "itemitemitem6456")
                 return <>
                   {/* <a href="#firstcolumn"> */}
                   <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
                     onClick={() => {
                       //  setCategory(item.uuid); 
-                      Handlechangeproducts(item.uuid, item.store_uuid)
-                       closeFunction() }}
+                      Handlechangeproducts(item.uuid)
+                      closeFunction()
+                    }}
                   // onClick={closeFunction}
                   >
                     <div>
