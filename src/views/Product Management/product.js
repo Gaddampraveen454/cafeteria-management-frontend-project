@@ -563,7 +563,7 @@ const product = () => {
       </div>
 
       <Row className="mb-3">
-        <Col md="5" lg="3" xxl="2" className="mb-1">
+        <Col md="3" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           {/* <Form.Label/> */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -579,7 +579,7 @@ const product = () => {
           {/* Search End */}
         </Col>
 
-        <Col lg="3">
+        <Col md="3" lg="3">
           {/* <Form.Label>Company</Form.Label> */}
           <Select classNamePrefix="react-select"
             options={companyStore}
@@ -589,7 +589,7 @@ const product = () => {
           // disabled={eventType}
           />
         </Col>
-        <Col lg="3">
+        <Col  md="3" lg="3">
           {/* <Form.Label>Category</Form.Label> */}
           <Select classNamePrefix="react-select"
             options={Catogery}
@@ -599,9 +599,9 @@ const product = () => {
           // disabled={eventType}
           />
         </Col>
-        <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
+        <Col md="3" lg="3"  className="mb-1 text-end">
 
-          {/* Length Start */}
+       
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
@@ -614,7 +614,7 @@ const product = () => {
               <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          {/* Length End */}
+        
         </Col>
       </Row>
 

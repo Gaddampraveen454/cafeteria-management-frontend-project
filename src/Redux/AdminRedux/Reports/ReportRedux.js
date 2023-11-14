@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   AdminReportData: [],
+  reportstorelist:[],
   notification: {}
 };
 
@@ -15,17 +16,21 @@ const adminReportSlice = createSlice({
     setAdminReportData(state, action) {
       state.AdminReportData = action.payload;
     },
+    setreportstorelist(state, action) {
+      state.reportstorelist = action.payload;
+    },
+    // setCatData
     setToast(state, action) {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setAdminReportData, setToast } = adminReportSlice.actions;
+export const { setAdminReportData,setreportstorelist, setToast } = adminReportSlice.actions;
 
 
-export const AdminReportListURL = (page,search,token,limit,id) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/company?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${id}&store_uuid=&strat_date=&end_date=`, {
+export const AdminReportListURL = (page, search, token, limit, id,storeid) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/company?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${id}&store_uuid=${storeid}&strat_date=&end_date=`, {
     headers: {
       "x-auth-token": token
     }
@@ -38,7 +43,18 @@ export const AdminReportListURL = (page,search,token,limit,id) => async (dispatc
     })
 
 };
-export const ExportAdminReportURL = (companyId,startDate, endDate, token) => async (dispatch) => {
+
+export const ReportstorelistApi = (pageNUm, search, token, limit, id) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/store/list?page=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}`,
+    {
+      headers: {
+        "x-auth-token": token
+      }
+    });
+  console.log(response, "dfggfhdfghfghhj")
+  dispatch(setreportstorelist(response.data));
+};
+export const ExportAdminReportURL = (companyId, startDate, endDate, token) => async (dispatch) => {
   const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${companyId}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, {
     headers: {
       "x-auth-token": token

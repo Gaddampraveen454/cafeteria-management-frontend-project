@@ -121,7 +121,7 @@ const CreateOrder = () => {
 
     const { categorylist } = useSelector((state) => state.cotegoryList)
 
-    console.log(categorylist,currentUser, "bhdfbgdhbjfkhj")
+    console.log(categorylist, currentUser, "bhdfbgdhbjfkhj")
 
 
     const [print, setPrint] = useState(false);
@@ -167,7 +167,7 @@ const CreateOrder = () => {
 
     console.log(currentUser, "currentUser")
     const [selectStore, setSelectStore] = useState('');
-    const [companyuuid,setcompanyuuid] = useState('')
+    const [companyuuid, setcompanyuuid] = useState('')
 
     const { companyProductionData } = useSelector(({ compamyProduction }) => compamyProduction);
     console.log(companyProductionData, 'bfvherverrejb')
@@ -273,7 +273,7 @@ const CreateOrder = () => {
 
 
     useEffect(() => {
-        dispatch(categoryForConsumerListURL(currentUser?.data?.uuid,selectStore))
+        dispatch(categoryForConsumerListURL(currentUser?.data?.uuid, selectStore))
 
         // currentUser.data.company_uuid
     }, [selectStore])
@@ -582,6 +582,9 @@ const CreateOrder = () => {
 
 
 
+    const [storename11, setstorename11] = useState()
+    
+
 
 
     useEffect(() => {
@@ -591,25 +594,31 @@ const CreateOrder = () => {
     const StoreData = [];
 
     StoreList?.data?.map((text) => {
-        console.log(text,"texttexttexttexttext567567")
-        return StoreData.push({ label: text?.store_name, value: text?.uuid ,company_uuid: text?.company_uuid})
+        console.log(text, "texttexttexttexttext567567")
+
+        return StoreData.push({ label: text?.store_name, value: text?.uuid, company_uuid: text?.company_uuid })
     }, [])
 
     const closeFunction = () => {
         handleModel()
     }
 
+    const [storenamevalue222, setstorenamevalue222] = useState()
+    console.log(storenamevalue222, "storenamevalue22255")
+
     const handleEvent = (event) => {
-        console.log(event?.company_uuid, 'hvdhdf')
+        console.log(event, 'hvdhdf')
+        // storeid:event?.value
+        setstorenamevalue222(event?.label)
         setSelectStore(event?.value)
         setcompanyuuid(event?.company_uuid)
         // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))
-        dispatch(Categotylist(event?.company_uuid === undefined ? "" :event?.company_uuid, event?.value === undefined ? "" : event?.value))
+        dispatch(Categotylist(event?.company_uuid === undefined ? "" : event?.company_uuid, event?.value === undefined ? "" : event?.value))
     }
 
     const CategorySelect = (event) => {
         console.log(event)
-        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore === undefined ? "" :selectStore))
+        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore === undefined ? "" : selectStore))
     }
 
 
@@ -822,14 +831,14 @@ const CreateOrder = () => {
 
                     <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
                         {/* Filters Start */}
-                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
+                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent}   placeholder="Select Store" />
                         <Card
                             style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
                             className="mb-5">
                             {/* <Form.Label>Store</Form.Label> */}
 
                             <Card.Body>
-                                <Cardsdetails selectStore={selectStore}  companyuuid={companyuuid}/>
+                                <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
                                 {/* <Form>
                                     {categorylist ?
                                         <div>
