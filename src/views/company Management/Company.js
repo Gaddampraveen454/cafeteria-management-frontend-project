@@ -71,9 +71,12 @@ const Company = () => {
   const dispatch = useDispatch()
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { companyData, notification } = useSelector((state) => state.companyList)
+  // const { companyData, notification } = useSelector((state) => state.companyList)
+  const { companyData ,notification} = useSelector((state) => state.company)
 
-  console.log(currentUser, "companyid")
+  // companyData
+
+  console.log(companyData, "companyDatacompanyData")
 
   useEffect(() => {
     dispatch(CompanyListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))

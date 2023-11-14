@@ -166,19 +166,25 @@ const CreateOrder = () => {
     const { CartData, notification } = useSelector((state) => state.CartList)
     const { ProductData, StoreList } = useSelector((state) => state.products)
 
-    console.log(currentUser, "currentUser")
+    console.log(StoreList?.data?.length > 0 && StoreList?.data[0]?.uuid, "currentUsercurrentUsercurrentUser")
 
     const { companyProductionData } = useSelector(({ compamyProduction }) => compamyProduction);
 
-    const [selectStore, setSelectStore] = useState(StoreList?.data[0]?.uuid);
+    const [selectStore, setSelectStore] = useState('');
     const [companyuuid, setcompanyuuid] = useState(currentUser?.data?.uuid)
+
+    useEffect(() => {
+        if (StoreList) {
+            setSelectStore(StoreList && StoreList.data && StoreList.data[0] && StoreList.data[0].uuid)
+        }
+    }, [StoreList])
 
     console.log(selectStore, 'bfvherverrejb')
 
 
-    // useEffect(() => {
-    //     dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '', selectStore));
-    // }, [])
+    useEffect(() => {
+        dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '', selectStore));
+    }, [])
 
 
     const { createList } = useSelector((state) => state.cotegoryList)
@@ -823,7 +829,7 @@ const CreateOrder = () => {
 
                     <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
                         {/* Filters Start */}
-                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data[0]?.store_name} />
+                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
                         <Card
                             style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
                             className="mb-5">

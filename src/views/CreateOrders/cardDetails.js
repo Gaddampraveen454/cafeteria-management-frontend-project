@@ -55,7 +55,7 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   console.log(currentUser, "currentUser")
 
   useEffect(() => {
-    dispatch(CategorycreateList(companyuuid === undefined ? "" : companyuuid))
+    dispatch(CategorycreateList(currentUser?.data?.uuid))
   }, [])
 
   //   useEffect(()=>{
@@ -84,10 +84,18 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
     onClose()
   }
 
-  const [categoryuuid, setCategoryuuid] = useState(categorylist?.data[0]?.uuid);
+  const [categoryuuid, setCategoryuuid] = useState('');
+  console.log(categoryuuid, "ghdsjhgch")
 
   useEffect(() => {
-    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? currentUser?.data?.uuid : companyuuid, categoryuuid, selectStore === undefined ? "" : selectStore));
+    if (categorylist) {
+      setCategoryuuid(categorylist && categorylist.data && categorylist.data[0] && categorylist.data[0].uuid)
+    }
+  }, [categorylist])
+
+
+  useEffect(() => {
+    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", currentUser?.data?.uuid, categoryuuid || "CAT-423624E7", selectStore === undefined ? "" : selectStore));
   }, [])
 
   const Handlechangeproducts = (categoryid) => {
