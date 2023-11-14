@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   consumerData: [],
-  companyData01:{},
+  companyData:{},
   notification:{}
 };
 
@@ -14,7 +14,7 @@ const companySlice = createSlice({
   initialState,
   reducers: {
     setCatData(state, action) {
-      state.companyData01 = action.payload;
+      state.companyData = action.payload;
     },
     setComDropDown(state, action) {
       state.companyDropData = action.payload;

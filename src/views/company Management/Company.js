@@ -221,7 +221,7 @@ const Company = () => {
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(CompanyListURL(0, search, currentUser.token, pages))
+      dispatch(CompanyListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
     }
   }
 

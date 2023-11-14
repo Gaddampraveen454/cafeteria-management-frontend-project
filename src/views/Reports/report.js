@@ -60,6 +60,8 @@ const report = () => {
 
   // companyData
 
+  const [storeid, setStoreId] = useState('');
+
   const StoreData = [];
 
   reportstorelist?.data?.map((text) => {
@@ -68,6 +70,7 @@ const report = () => {
 
   const Handlereportstore = (event) => {
     console.log(event?.value, "eventeventevent")
+    setStoreId(event?.value)
     dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value))
 
   }
@@ -79,7 +82,7 @@ const report = () => {
     dispatch(ReportstorelistApi(page, search, currentUser.token, limit, currentUser?.data?.uuid))
   }, [])
   useEffect(() => {
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, ""))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeid))
     // dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
   }, [])
 
@@ -105,32 +108,32 @@ const report = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeid))
     }
   }
   return (

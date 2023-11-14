@@ -1,6 +1,6 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {CashierReportListURL} from "Redux/CashierRedux/Reports/ReportRedux"
+import { CashierReportListURL } from "Redux/CashierRedux/Reports/ReportRedux"
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -33,40 +33,80 @@ const report = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectValueState, setSelectValueState] = useState("");
+
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState('')
+
   console.log(selectValueState, "selectValueState")
   // const { companyData } = useSelector((state) => state.companyList)
 
   // const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { CashierReportData,notification } = useSelector((state) => state.CashierReportList)
-console.log(currentUser,CashierReportData,"currentUser");
+  const { CashierReportData, notification } = useSelector((state) => state.CashierReportList)
+  console.log(CashierReportData, "currentUser");
+
+  const searchfunction = (type, pages) => {
+    console.log(pages, "ghjsdfsdfkvbnm")
+    if (type === "search") {
+      console.log(pages, "ghjkvbnm")
+      setSearch(pages)
+      setPage(0)
+      dispatch(CashierReportListURL(0, limit, pages, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+    }
+    if (type === "prev") {
+      setPage(page - 1)
+      dispatch(CashierReportListURL(page - 1, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+    }
+    else if (type === "next") {
+      setPage(page + 1)
+      dispatch(CashierReportListURL(page + 1, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+    }
+    else if (type === "page") {
+      setPage(page)
+      dispatch(CashierReportListURL(page, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+    }
+    else if (type === "page+1") {
+      setPage(page + 1)
+      dispatch(CashierReportListURL(page + 1, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+    }
+    else if (type === "page+2") {
+      setPage(page + 2)
+      dispatch(CashierReportListURL(page + 2, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+    }
+    else if (type === "limit") {
+      setLimit(pages)
+      setPage(0)
+      dispatch(CashierReportListURL(0, pages, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token,))
+    }
+  }
 
 
-const ChangeStartData = e => {
-  console.log("ChangeStartData: ", e.target.value);
-  setStartDate(e.target.value);
-};
-const ChangeEndData = e => {
-  console.log("ChangeStartData: ", e.target.value);
-  setEndDate(e.target.value);
-};
+  const ChangeStartData = e => {
+    console.log("ChangeStartData: ", e.target.value);
+    setStartDate(e.target.value);
+  };
+  const ChangeEndData = e => {
+    console.log("ChangeStartData: ", e.target.value);
+    setEndDate(e.target.value);
+  };
 
 
   const exportfunction = async () => {
     await ExportExcel(`/report/list/cashier/export?pagenum=0&limit=10&search=&company_uuid=${currentUser.data.company_uuid}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
-   }
+  }
 
 
-// useEffect(()=>{
-//   dispatch(CashierReportListURL(currentUser.token))
-// },[])
-// console.log(CashierReportData,"dffdgdff");
+  // useEffect(()=>{
+  //   dispatch(CashierReportListURL(currentUser.token))
+  // },[])
+  // console.log(CashierReportData,"dffdgdff");
 
-useEffect(() => {
-  if (currentUser)
-    dispatch(CashierReportListURL(currentUser?.data?.uuid, startDate, endDate, currentUser.token))
-}, [startDate,endDate])
+  useEffect(() => {
+    if (currentUser)
+      dispatch(CashierReportListURL(page, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+  }, [startDate, endDate])
 
 
 
@@ -119,13 +159,13 @@ useEffect(() => {
         </Row>
       </div>
 
-      
+
       <Row className="mb-3">
         <Col md="3" lg="3" xxl="3" className="mb-1">
           {/* Search Start */}
           <Form.Label>Search</Form.Label>
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-        
+
             <Form.Control type="text" placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
@@ -158,7 +198,7 @@ useEffect(() => {
           {/* </div> */}
         </Col>
         <Col md="5" lg="5" xxl="5" className="mb-1 text-end">
-        
+
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -224,7 +264,7 @@ useEffect(() => {
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction</div>
             </Col>
-            
+
             {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col> */}
@@ -250,43 +290,43 @@ useEffect(() => {
 
       {/* List Items Start */}
       {CashierReportData && CashierReportData.data && CashierReportData.data.map((item, index) => {
-        console.log(item,"reportitem")
-      return<div key="">
-      <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          {/* <Col xs="auto" className="positio-relative">
+        console.log(item, "reportitem")
+        return <div key="">
+          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+            <Row className="g-0 h-100 sh-lg-9 position-relative">
+              {/* <Col xs="auto" className="positio-relative">
             <NavLink to="/products/detail">
               <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
             </NavLink>
           </Col> */}
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
+              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                <Row className="g-0 h-100 ">
+                  {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
                 <NavLink to="/products/detail">
                   Anpan
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.employee_name}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.employee_id}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.paid_from_wallet}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{Math.round(item.total_amount)}</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
-              </Col>
-             
-              {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.employee_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.employee_id}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.paid_from_wallet}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{Math.round(item.total_amount)}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+                  </Col>
+
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                 <div className="lh-1 text-alternate">
               <table>
                 <tr>
@@ -306,30 +346,39 @@ useEffect(() => {
               </table>
                 </div>
               </Col> */}
-             
+
+                </Row>
+              </Col>
             </Row>
-          </Col>
-        </Row>
-      </Card></div>})}
+          </Card></div>
+      })}
 
       {/* List Items End */}
 
       {/* Pagination Start */}
       <div className="d-flex justify-content-center mt-5">
         <Pagination>
-          <Pagination.Prev className="shadow" disabled>
+          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
           </Pagination.Prev>
-          <Pagination.Item className="shadow" active>
-            1
+          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+            {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow">2</Pagination.Item>
-          <Pagination.Item className="shadow">3</Pagination.Item>
-          <Pagination.Next className="shadow">
+          <Pagination.Item className="shadow" disabled={Math.ceil(CashierReportData?.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(CashierReportData?.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+
+          {Math.ceil(CashierReportData?.count / limit) > page + 3 &&
+            <>
+              <Pagination.Item className="shadow" >...</Pagination.Item>
+            </>
+
+          }
+          <Pagination.Next className="shadow" disabled={Math.ceil(CashierReportData?.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>
       </div>
+      {/* Pagination End */}
       {/* Pagination End */}
     </>
   );

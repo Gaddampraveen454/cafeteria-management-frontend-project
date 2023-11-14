@@ -1,7 +1,7 @@
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Rating from 'react-rating';
-import { useDispatch,useSelector } from 'react-redux';
-import { NavLink, useHistory,useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
@@ -12,13 +12,13 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StoreProductListURL } from 'Redux/CashierRedux/Product/ProductRedux';
 
-const Cardsdetails = ({onClose}) => {
+const Cardsdetails = ({ onClose }) => {
   // console.log(onClose,"gfsfgsgsfgsg")
   const dispatch = useDispatch()
   const [suc, setSuc] = useState(false);
   const { id } = useParams();
-  console.log(id,"asdadadasd")
-  const [companyId , setCompanyId]=useState(id)
+  console.log(id, "asdadadasd")
+  const [companyId, setCompanyId] = useState(id)
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
@@ -32,48 +32,48 @@ const Cardsdetails = ({onClose}) => {
 
 
   const [items, setItems] = useState();
-console.log(items,"itemsitemsitems")
-  useEffect(()=>{
+  console.log(items, "itemsitemsitems")
+  useEffect(() => {
     const getcompanyId = (localStorage.getItem('companyId'));
     setItems(getcompanyId)
-  },[])
+  }, [])
 
 
   const [open, setOpen] = React.useState(false);
-  const [category, setCategory]=useState("")
+  const [category, setCategory] = useState("")
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem('categoryId', (category));
-  },[category])
+  }, [category])
 
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
-  console.log(currentUser.data.company_uuid,"currentUser")
+  console.log(currentUser.data.company_uuid, "currentUser")
 
-  useEffect(()=>{
-    dispatch(categoryForConsumerListURL(currentUser.data.company_uuid))
+  useEffect(() => {
+    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser?.data?.uuid))
 
     // currentUser.data.company_uuid
     // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
-  },[])
+  }, [])
 
-  useEffect(()=>{
-if(categoryForConsumer){
-  setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
-}
-  },[categoryForConsumer])
+  useEffect(() => {
+    if (categoryForConsumer) {
+      setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
+    }
+  }, [categoryForConsumer])
 
   useEffect(() => {
     // if (category===!""){
-      if(category){
-        // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0,""))
-        dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-      }
+    if (category) {
+      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0,""))
+      dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    }
 
   }, [category])
 
-  const closeFunction =()=>{
+  const closeFunction = () => {
     onClose()
   }
 
@@ -83,38 +83,38 @@ if(categoryForConsumer){
   return (
     <>
       <div>
-      <Form  className="mb-5">
-        {/* <p className="text-large text-muted mb-2">Menu</p> */}
-        {categoryForConsumer?
-        <div>
-        {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item)=>{
-          return<>
-          {/* <a href="#firstcolumn"> */}
-        <label   style={{cursor:"pointer"}} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left" 
-        onClick={()=>{setCategory(item.uuid);closeFunction()}} 
-        // onClick={closeFunction}
-        >
-          <div>
-          {item.name}
-          </div>
-          </label>
-          {/* </a> */}
-          {/* <br /> */}
-          </>
-        })}
-        </div>
-         
-  :
-  null
-        }
-        
-        {/* <Form.Check  label="Happy New Year 2023 Combos" />
+        <Form className="mb-5">
+          {/* <p className="text-large text-muted mb-2">Menu</p> */}
+          {categoryForConsumer ?
+            <div>
+              {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item) => {
+                return <>
+                  {/* <a href="#firstcolumn"> */}
+                  <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
+                    onClick={() => { setCategory(item.uuid); closeFunction() }}
+                  // onClick={closeFunction}
+                  >
+                    <div>
+                      {item.name}
+                    </div>
+                  </label>
+                  {/* </a> */}
+                  {/* <br /> */}
+                </>
+              })}
+            </div>
+
+            :
+            null
+          }
+
+          {/* <Form.Check  label="Happy New Year 2023 Combos" />
         <Form.Check  label="No Added Sugar" />
         <Form.Check  label="100 ml Ice creams" />
         <Form.Check  label="500 ml Ice creams" />
         <Form.Check  label="750 ml Ice creams" />
         <Form.Check  label="Kulfi" /> */}
-      </Form>
+        </Form>
       </div>
       {/* <Form className="mb-5">
         <p className="text-small text-muted mb-2">CATEGORY</p>
