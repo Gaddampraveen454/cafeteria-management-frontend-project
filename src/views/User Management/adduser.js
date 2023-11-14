@@ -7,7 +7,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { consumerListURL,CompanyConsumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
-import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
+// import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -45,10 +45,10 @@ const adduser = () => {
   
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
-useEffect(()=>{
+// useEffect(()=>{
 
-  dispatch(ActiveCompnyURL(currentUser.token))
-},[])
+//   dispatch(ActiveCompnyURL(currentUser.token))
+// },[])
   console.log(ActiveCompnayData,"sfsdfdssdfsffs");
  
   const companyList= ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})

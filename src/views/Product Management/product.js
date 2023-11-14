@@ -15,8 +15,8 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductBulkUplodURL, ProductStatusUpdateURL, ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
-import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
-import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
+// import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
+import { CategoryListURL, CategorycreateList, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -87,13 +87,15 @@ const product = () => {
   const [cgst, setCgst] = useState("")
   const [sgst, setSgst] = useState("")
 
+  const [descriptionvalue, setDescription] = useState('')
+
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState('');
   const [selectCompany, setSelectCompany] = useState('');
   const [productId, setProductId] = useState("")
   const [imageUrl, setimageUrl] = useState("")
-  const[store,setStore] = useState('');
-  const[StoreUpload,setStoreUpload]=useState('');
+  const [store, setStore] = useState('');
+  const [StoreUpload, setStoreUpload] = useState('');
 
   console.log(selectCompany && selectCompany.value, selectCategory && selectCategory.value, "selectCompanyselectCategory")
 
@@ -137,25 +139,27 @@ const product = () => {
 
   //  const {StoreList} = useSelector((state)=>state.)
   const { currentUser } = useSelector((state) => state.auth)
-  console.log(currentUser,'djhfvghdb')
-  const { categoryData, categoryDropdown } = useSelector((state) => state.cotegoryList)
+  console.log(currentUser, 'djhfvghdb')
+  const { categoryData, categoryDropdown, createList } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
+
+  console.log(createList, "createList")
 
   const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
   useEffect(() => {
 
-    dispatch(ActiveCompnyURL(currentUser.token))
-    dispatch(CategoryListURL(page, search, currentUser.token, limit))
+    // dispatch(ActiveCompnyURL(currentUser.token))
+    dispatch(CategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, store))
   }, [])
 
-  const {  StoreList, notification } = useSelector((state) => state.products)
+  const { StoreList, notification } = useSelector((state) => state.products)
   const { companyProductionData } = useSelector((state) => state.compamyProduction)
   console.log(StoreList, 'gdfhvjghdfj')
   useEffect(() => {
     // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-     dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
   }, [compnayId, categoryId])
   console.log(companyProductionData, "ProductDatasdfdsfdsf");
   useEffect(() => {
@@ -167,7 +171,7 @@ const product = () => {
         setSuc(false)
         setTimeout(() => {
           // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-           dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+          dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
           setOpenEditViewOpupup(false)
           setTimeout(() => {
             setImage(null)
@@ -194,11 +198,15 @@ const product = () => {
     dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
   }, [])
 
+  useEffect(() => {
+    dispatch(CategorycreateList(currentUser?.data?.uuid))
+  }, [])
+
 
 
   // // const { currentUser } = useSelector((state) => state.auth)
   // const { categoryData } = useSelector((state) => state.cotegoryList)
-  const Catogery = categoryData && categoryData.data && categoryData.data.map((item) => { return { label: item.name, value: item.uuid } })
+  const Catogery = createList && createList.data && createList.data.map((item) => { return { label: item.name, value: item.uuid } })
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
   const productList = categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) => { return { label: item.name, value: item.uuid } })
   // console.log(productList,"categoryDatacategoryData")
@@ -214,15 +222,15 @@ const product = () => {
 
 
 
-  useEffect(() => {
-    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+  // }, [])
 
-  const StoreData=[];
+  const StoreData = [];
 
   StoreList?.data?.map((text) => {
     return StoreData.push({ label: text?.store_name, value: text?.uuid })
-  },[])
+  }, [])
 
   const handleEvent = (event) => {
     console.log(event, 'hvdhdf')
@@ -233,14 +241,14 @@ const product = () => {
 
   StoreList?.data?.map((text) => {
     return companyStore.push({ label: text?.store_name, value: text?.uuid })
-    
-  },[])
+
+  }, [])
 
 
-  const handleStore= (text) =>{
-    console.log(text,'hbvhjdahbhjfv')
+  const handleStore = (text) => {
+    console.log(text, 'hbvhjdahbhjfv')
     setStore(text?.value)
-    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,text?.value))
+    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, text?.value))
   }
 
 
@@ -248,12 +256,12 @@ const product = () => {
 
   StoreList?.data?.map((text) => {
     return uploadStore.push({ label: text?.store_name, value: text?.uuid })
-    
-  },[])
 
-  const uploadHandle = (text )=>{
-  console.log(text,'sdghvghsdv')
-  setStoreUpload(text?.value)
+  }, [])
+
+  const uploadHandle = (text) => {
+    console.log(text, 'sdghvghsdv')
+    setStoreUpload(text?.value)
   }
 
 
@@ -268,7 +276,7 @@ const product = () => {
     setSelectCompany({ label: event.company_name, value: event.company_uuid })
     setSelectCategory({ label: event.category_name, value: event.category_uuid })
     setSelectType({ label: event.type, value: event.type })
-    setSelectStore({label:event?.store_name,value:event?.store_uuid})
+    setSelectStore({ label: event?.store_name, value: event?.store_uuid })
     setPrice(event.price)
     setQuantity(event.quantity)
     setProductId(event.uuid)
@@ -276,6 +284,7 @@ const product = () => {
     setStockQuantity(event.stock_quantity)
     setSgst(event.sgst_tax)
     setCgst(event.cgst_tax)
+    setDescription(event?.description)
 
   };
 
@@ -289,12 +298,13 @@ const product = () => {
         "category_uuid": selectCategory.value,
         "price": price,
         "quantity": quantity,
-        "company_uuid":  currentUser?.data?.uuid,
+        "company_uuid": currentUser?.data?.uuid,
         "image": UploadedFile,
         "stock_quantity": stockQuantity,
         "cgst_tax": cgst,
         "sgst_tax": sgst,
-        "store_uuid":selectStore?.value
+        "store_uuid": selectStore?.value,
+        "description": descriptionvalue
       }
 
 
@@ -310,11 +320,12 @@ const product = () => {
         "category_uuid": selectCategory.value,
         "price": price,
         "quantity": quantity,
-        "company_uuid":  currentUser?.data?.uuid,
+        "company_uuid": currentUser?.data?.uuid,
         "stock_quantity": stockQuantity,
         "cgst_tax": cgst,
         "sgst_tax": sgst,
-        "store_uuid":selectStore?.value
+        "store_uuid": selectStore?.value,
+        "description": descriptionvalue
       }
 
 
@@ -350,7 +361,7 @@ const product = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('fileName', file.name);
-      formData.append('company_uuid',currentUser?.data?.uuid)
+      formData.append('company_uuid', currentUser?.data?.uuid)
       formData.append('store_uuid', StoreUpload);
       dispatch(ProductBulkUplodURL(formData, currentUser?.token))
       setSuc(true)
@@ -366,38 +377,38 @@ const product = () => {
       setSearch(pages)
       setPage(0)
       // dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     if (type === "prev") {
       setPage(page - 1)
       // dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-       dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "next") {
       setPage(page + 1)
       // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid,categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "page") {
       setPage(page)
       // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "page+1") {
       setPage(page + 1)
       // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "page+2") {
       setPage(page + 2)
       // dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid ,categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
       // dispatch(ProductListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId,store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
   }
 
@@ -456,9 +467,9 @@ const product = () => {
 
   }, [image])
 
-  const handleChangeCategory=(text)=>{
+  const handleChangeCategory = (text) => {
     setCategoryId(text?.value)
-    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, text?.value,store))
+    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, text?.value, store))
   }
 
 
@@ -481,7 +492,7 @@ const product = () => {
           <DialogContentText >
             <Form.Label>Select Store</Form.Label>
             {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-            <Select classNamePrefix="react-select" options={uploadStore}onChange={uploadHandle} placeholder="" />
+            <Select classNamePrefix="react-select" options={uploadStore} onChange={uploadHandle} placeholder="" />
           </DialogContentText><br />
 
           <DialogContentText >
@@ -630,7 +641,7 @@ const product = () => {
               <div className="text-muted text-medium cursor-pointer sort">Category</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Compnay</div>
+              <div className="text-muted text-medium cursor-pointer sort">Store</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
@@ -657,8 +668,9 @@ const product = () => {
       {/* List Header End */}
 
       {/* List Items Start */}
-      { companyProductionData?.data?.length > 0 &&companyProductionData && companyProductionData?.data && companyProductionData?.data?.map((item, index) => {
-      // {ProductData && ProductData.data && ProductData.data.map((item, index) => {
+      {companyProductionData?.data?.length > 0 && companyProductionData && companyProductionData?.data && companyProductionData?.data?.map((item, index) => {
+        // {ProductData && ProductData.data && ProductData.data.map((item, index) => {
+        console.log(item, "hgdsfgsjhasj")
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -673,7 +685,7 @@ const product = () => {
                     <div className="lh-1 text-alternate">{item.category_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.company_name}</div>
+                    <div className="lh-1 text-alternate">{item.store_name}</div>
                   </Col>
 
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -888,7 +900,14 @@ const product = () => {
                     disabled={eventType}
                   />
                 </Col>
-
+                <Col lg="6">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control type="text"
+                    rows={1} value={descriptionvalue}
+                    onChange={(e) => { setDescription(e.target.value) }}
+                    disabled={eventType}
+                  />
+                </Col>
 
 
 

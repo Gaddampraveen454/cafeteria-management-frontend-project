@@ -6,7 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
-import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
+// import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -75,15 +75,15 @@ const addproduct = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
-  const {  StoreList, notification } = useSelector((state) => state.products)
+  const { StoreList, notification } = useSelector((state) => state.products)
   console.log(StoreList, 'sdgvhdsv')
 
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    dispatch(ActiveCompnyURL(currentUser.token))
-  }, [])
+  //   dispatch(ActiveCompnyURL(currentUser.token))
+  // }, [])
   console.log(ActiveCompnayData, "sfsdfdssdfsffs");
 
   const companyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
@@ -121,6 +121,7 @@ const addproduct = () => {
   const [stockQuantity, setStockQuantity] = useState("")
   const [cgst, setCgst] = useState("")
   const [sgst, setSgst] = useState("")
+  const [descriptionvalue, setDescription] = useState("")
 
 
 
@@ -140,6 +141,7 @@ const addproduct = () => {
       "stock_quantity": stockQuantity,
       "cgst_tax": cgst,
       "sgst_tax": sgst,
+      "description": descriptionvalue,
     }
     dispatch(ProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -273,6 +275,10 @@ const addproduct = () => {
                   <Col lg="6">
                     <Form.Label>SGST(%)</Form.Label>
                     <Form.Control type="text" rows={1} onChange={(e) => { setSgst(e.target.value) }} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control type="text" rows={1} onChange={(e) => { setDescription(e.target.value) }} />
                   </Col>
                   <Col lg="6">
                     <div>

@@ -21,7 +21,7 @@ import {
 // import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { CompanyConsumerListURL, CompanyConsumerUpdateURL, CompanyConsumerBulkUploadURL, CompanyConsumerStatusUpdateURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
-import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
+// import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -61,10 +61,10 @@ const User = () => {
   // console.log(companyUser, "cashierDatadassadad")
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    dispatch(ActiveCompnyURL(currentUser.token))
-  }, [])
+  //   dispatch(ActiveCompnyURL(currentUser.token))
+  // }, [])
 
   console.log(ActiveCompnayData, "sfsdfdssdfsffs");
 

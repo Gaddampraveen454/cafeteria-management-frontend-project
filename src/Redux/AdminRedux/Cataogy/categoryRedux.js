@@ -33,8 +33,8 @@ const categorySlice = createSlice({
 export const { setCategoryData, setCreateList,setToast ,setcategorylist} = categorySlice.actions;
 
 
-export const CategoryListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/category/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=&store_uuid=`,{headers:{
+export const CategoryListURL = (pageNUm, search, token, limit, companyuuid, storeuuid) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/category/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${companyuuid}&store_uuid=${storeuuid}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")

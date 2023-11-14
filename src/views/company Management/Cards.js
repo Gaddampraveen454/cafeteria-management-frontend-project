@@ -61,7 +61,7 @@ const Menu = () => {
     const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
     const routeStartPath = slugRoute?.replace("/menu/", "")
 
-    console.log(routeStartPath, "routeStartPath")
+    console.log(Compuuid, "routeStartPath")
 
     if (routeStartPath?.startsWith("company")) {
       localStorage.setItem('companyId', Compuuid[1]);

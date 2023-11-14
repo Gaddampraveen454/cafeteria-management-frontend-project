@@ -121,7 +121,7 @@ const CreateOrder = () => {
 
     const { categorylist } = useSelector((state) => state.cotegoryList)
 
-    console.log(categorylist,currentUser, "bhdfbgdhbjfkhj")
+    console.log(categorylist, currentUser, "bhdfbgdhbjfkhj")
 
 
     const [print, setPrint] = useState(false);
@@ -164,13 +164,16 @@ const CreateOrder = () => {
     // const { companyProductionData } = useSelector((state) => state.StoreproductSlice)
     // console.log(ProductForConsumer, 'bhebfhwvefgveff')
     const { CartData, notification } = useSelector((state) => state.CartList)
+    const { ProductData, StoreList } = useSelector((state) => state.products)
 
     console.log(currentUser, "currentUser")
-    const [selectStore, setSelectStore] = useState('');
-    const [companyuuid,setcompanyuuid] = useState('')
 
     const { companyProductionData } = useSelector(({ compamyProduction }) => compamyProduction);
-    console.log(companyProductionData, 'bfvherverrejb')
+
+    const [selectStore, setSelectStore] = useState(StoreList?.data[0]?.uuid);
+    const [companyuuid, setcompanyuuid] = useState(currentUser?.data?.uuid)
+
+    console.log(selectStore, 'bfvherverrejb')
 
 
     // useEffect(() => {
@@ -269,14 +272,6 @@ const CreateOrder = () => {
 
 
 
-
-
-
-    useEffect(() => {
-        dispatch(categoryForConsumerListURL(currentUser?.data?.uuid,selectStore))
-
-        // currentUser.data.company_uuid
-    }, [selectStore])
 
     useEffect(() => {
         if (categoryForConsumer) {
@@ -578,10 +573,11 @@ const CreateOrder = () => {
 
     //   })
     // }
-    const { ProductData, StoreList } = useSelector((state) => state.products)
 
-
-
+    useEffect(() => {
+        dispatch(categoryForConsumerListURL(currentUser?.data?.uuid, selectStore))
+        dispatch(Categotylist(currentUser?.data?.uuid, selectStore))
+    }, [selectStore])
 
 
     useEffect(() => {
@@ -591,8 +587,8 @@ const CreateOrder = () => {
     const StoreData = [];
 
     StoreList?.data?.map((text) => {
-        console.log(text,"texttexttexttexttext567567")
-        return StoreData.push({ label: text?.store_name, value: text?.uuid ,company_uuid: text?.company_uuid})
+        console.log(text, "texttexttexttexttext567567")
+        return StoreData.push({ label: text?.store_name, value: text?.uuid, company_uuid: text?.company_uuid })
     }, [])
 
     const closeFunction = () => {
@@ -604,12 +600,12 @@ const CreateOrder = () => {
         setSelectStore(event?.value)
         setcompanyuuid(event?.company_uuid)
         // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))
-        dispatch(Categotylist(event?.company_uuid === undefined ? "" :event?.company_uuid, event?.value === undefined ? "" : event?.value))
+        dispatch(Categotylist(event?.company_uuid === undefined ? "" : event?.company_uuid, event?.value === undefined ? "" : event?.value))
     }
 
     const CategorySelect = (event) => {
         console.log(event)
-        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore === undefined ? "" :selectStore))
+        dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, event?.uuid, selectStore === undefined ? "" : selectStore))
     }
 
 
@@ -822,34 +818,15 @@ const CreateOrder = () => {
 
                     <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
                         {/* Filters Start */}
-                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder="Select Store" />
+                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data[0]?.store_name} />
                         <Card
                             style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
                             className="mb-5">
                             {/* <Form.Label>Store</Form.Label> */}
 
                             <Card.Body>
-                                <Cardsdetails selectStore={selectStore}  companyuuid={companyuuid}/>
-                                {/* <Form>
-                                    {categorylist ?
-                                        <div>
-                                            {categorylist && categorylist.data && categorylist.data.map((item) => {
-                                                return <>
-                                                    <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
-                                                        onClick={() => { setCategory(item.uuid); closeFunction() }}
-                                                    >
-                                                        <div onClick={CategorySelect(item)}>
-                                                            {item.name}
-                                                        </div>
-                                                    </label>
-                                                </>
-                                            })}
-                                        </div>
+                                <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
 
-                                        :
-                                        null
-                                    }
-                                </Form> */}
                             </Card.Body>
                         </Card>
                         {/* <Cart 

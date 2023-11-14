@@ -13,8 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CategorycreateList } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { CompanyProductionListURL } from 'Redux/AdminRedux/Production/production';
 
-const Cardsdetails = ({ onClose, selectStore ,companyuuid}) => {
-  console.log(companyuuid,"gfsfgsgs76567567fgsg")
+const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
+  console.log(selectStore, "gfsfgsgs76567567fgsg")
   const dispatch = useDispatch()
   const [suc, setSuc] = useState(false);
   const { id } = useParams();
@@ -52,10 +52,10 @@ const Cardsdetails = ({ onClose, selectStore ,companyuuid}) => {
   const { currentUser } = useSelector((state) => state.auth)
   const { createList } = useSelector((state) => state.cotegoryList)
   //   const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
-  console.log(createList, "currentUser")
+  console.log(currentUser, "currentUser")
 
   useEffect(() => {
-    dispatch(CategorycreateList(companyuuid === undefined ? "" :companyuuid))
+    dispatch(CategorycreateList(companyuuid === undefined ? "" : companyuuid))
   }, [])
 
   //   useEffect(()=>{
@@ -84,11 +84,17 @@ const Cardsdetails = ({ onClose, selectStore ,companyuuid}) => {
     onClose()
   }
 
-  const Handlechangeproducts = (categoryid) => {
+  const [categoryuuid, setCategoryuuid] = useState(categorylist?.data[0]?.uuid);
 
+  useEffect(() => {
+    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? currentUser?.data?.uuid : companyuuid, categoryuuid, selectStore === undefined ? "" : selectStore));
+  }, [])
+
+  const Handlechangeproducts = (categoryid) => {
+    setCategoryuuid(categoryid)
     console.log(categoryid, "sfghfghdfgdfghjd567547hy")
 
-    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? "" : companyuuid, categoryid=== undefined ? "" :categoryid, selectStore === undefined ? "" : selectStore));
+    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? "" : companyuuid, categoryid === undefined ? "" : categoryid, selectStore === undefined ? "" : selectStore));
 
   }
 

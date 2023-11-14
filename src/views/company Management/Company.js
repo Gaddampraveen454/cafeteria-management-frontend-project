@@ -5,6 +5,7 @@ import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, Ove
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
+import axios from 'axios';
 import { CompanyListURL, compnayUpdateURL, companyAddURL, CompanyStatusUpdateURL } from 'Redux/AdminRedux/Comapny/Company';
 import {
   Dialog,
@@ -35,6 +36,7 @@ const Company = () => {
   const [address, setAddress] = useState("")
   const [gstin, setGstin] = useState('')
   const [fssai, setFssai] = useState('')
+  const [logo, setLogo] = useState('');
   const [compnayId, setCompnayId] = useState("")
   const [suc, setSuc] = useState(false);
 
@@ -71,15 +73,51 @@ const Company = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { companyData, notification } = useSelector((state) => state.companyList)
 
-console.log(currentUser,"companyid")
+  console.log(currentUser, "companyid")
 
   useEffect(() => {
-    dispatch(CompanyListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+    dispatch(CompanyListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
   }, [])
 
 
   console.log(companyData, "currentUsersdffscurrentUser")
 
+
+  const [UploadedFile, setUploadedFile] = useState()
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+
+  const handleUpdateImage = () => {
+
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+
+      })
+      .catch(err => {
+        console.log(err, "err00")
+
+      });
+  }
+
+  useEffect(() => {
+    if (image !== null) {
+      handleUpdateImage()
+    }
+
+  }, [image])
 
 
 
@@ -96,7 +134,7 @@ console.log(currentUser,"companyid")
     setGstin(event.gstin)
     setFssai(event.fssai_no)
     setCompnayId(event.uuid)
-
+    setLogo(event?.logo)
 
   };
 
@@ -105,7 +143,7 @@ console.log(currentUser,"companyid")
     event.preventDefault()
     const value = event.target.elements
     const payload = {
-      "company_uuid" : currentUser?.data?.uuid,
+      "company_uuid": currentUser?.data?.uuid,
       "store_name": companyName,
       "email": email,
       "mobile": mobile,
@@ -113,7 +151,8 @@ console.log(currentUser,"companyid")
       "location": location,
       "address": address,
       "gstin": gstin,
-      "fssai_no": fssai
+      "fssai_no": fssai,
+      "logo": UploadedFile
     }
     dispatch(compnayUpdateURL(compnayId, payload, currentUser.token))
     setSuc(true)
@@ -135,7 +174,7 @@ console.log(currentUser,"companyid")
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(CompanyListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+          dispatch(CompanyListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
           setOpen(false)
 
         }, 1000)
@@ -157,27 +196,27 @@ console.log(currentUser,"companyid")
       console.log(pages, type, "ghjkfgdfgssdvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(CompanyListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(CompanyListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(CompanyListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(CompanyListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
@@ -197,7 +236,7 @@ console.log(currentUser,"companyid")
       // "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(CompanyStatusUpdateURL(payload, currentUser.token,event?.uuid))
+    dispatch(CompanyStatusUpdateURL(payload, currentUser.token, event?.uuid))
     setSuc(true)
 
   };
@@ -594,15 +633,15 @@ console.log(currentUser,"companyid")
                   <Form.Label>Contact No</Form.Label>
                   <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
 
-                          const regex = /^[0-9\b]+$/;
+                    const regex = /^[0-9\b]+$/;
 
-                          if (!regex.test(e.key)) {
+                    if (!regex.test(e.key)) {
 
-                            e.preventDefault();
+                      e.preventDefault();
 
-                          }
+                    }
 
-                        }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
+                  }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
                   <Form.Label>Email</Form.Label>
@@ -633,6 +672,15 @@ console.log(currentUser,"companyid")
                       }
                     }} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Logo</Form.Label><br />
+                  {eventType === false &&
+                    <Form.Control type="file" onChange={handleImageChange} />
+                  }
+                </Col>
+                <Col lg="6">
+                  <img src={logo} alt="logo" crossOrigin='anonymous' style={{ width: "100px", height: "100px" }} />
                 </Col>
                 <Col lg="6">
                   <Col lg="3">

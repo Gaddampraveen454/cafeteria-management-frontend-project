@@ -219,6 +219,8 @@ const Cardcart = () => {
 
   const companyId = localStorage.getItem('companyId');
 
+  console.log(companyId, "fvhjdsgfhj")
+
 
 
 

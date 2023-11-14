@@ -4,6 +4,7 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import axios from "axios";
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -14,10 +15,10 @@ const addCompany = () => {
   const history = useHistory();
   const { currentUser } = useSelector((state) => state.auth)
   const { companyData, notification } = useSelector((state) => state.companyList)
-  const title = 'Add Company';
+  const title = 'Add Store';
   const description = 'Ecommerce Storefront Add Details Page';
 
-console.log(currentUser,"currencoma")
+  console.log(currentUser, "currencoma")
 
 
 
@@ -36,21 +37,57 @@ console.log(currentUser,"currencoma")
   // const [location, setLocation] = useState("")
   // const [address, setAddress] = useState("")
   const [suc, setSuc] = useState(false);
+  const [UploadedFile, setUploadedFile] = useState()
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+
+  const handleUpdateImage = () => {
+
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+
+      })
+      .catch(err => {
+        console.log(err, "err00")
+
+      });
+  }
+
+  useEffect(() => {
+    if (image !== null) {
+      handleUpdateImage()
+    }
+
+  }, [image])
 
 
   const AddCategory = () => {
     // event.preventDefault()
     // const value = event.target.elements
     const payload = {
-      "company_uuid" : currentUser?.data?.uuid,
+      "company_uuid": currentUser?.data?.uuid,
       "store_name": formValues.companyName,
       "email": formValues.email,
       "mobile": formValues.mobile,
-      "wallet_amount": formValues.walletamount,
+      "wallet_amount": 0,
       "location": formValues.location,
       "address": formValues.address,
       "gstin": formValues.gstin,
       "fssai_no": formValues.fssai_no,
+      "logo" : UploadedFile
     }
     dispatch(companyAddURL(payload, currentUser.token))
     setSuc(true)
@@ -198,7 +235,7 @@ console.log(currentUser,"currencoma")
                     <p style={{ color: "red" }}>{formErrors.companyName}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
                     <Form.Control type="number"
                       name="walletamount"
@@ -206,7 +243,7 @@ console.log(currentUser,"currencoma")
                       onChange={myhandlechange}
                     />
                     <p style={{ color: "red" }}>{formErrors.walletamount}</p>
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
                     <Form.Control
@@ -236,13 +273,15 @@ console.log(currentUser,"currencoma")
 
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Location</Form.Label>
-                    <Form.Control as="textarea" rows={2}
-                      name="location"
-                      // onChange={(e) => { setLocation(e.target.value) }} 
+                    <Form.Label>GSTIN</Form.Label>
+                    <Form.Control
+                      // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
+                      type="text"
+                      name="gstin"
                       onChange={myhandlechange}
                     />
-                    <p style={{ color: "red" }}>{formErrors.location}</p>
+                    <p style={{ color: "red" }}>{formErrors.gstin}</p>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
 
                   {/* <Col lg="4">
@@ -267,19 +306,17 @@ console.log(currentUser,"currencoma")
                     <p style={{ color: "red" }}>{formErrors.address}</p>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Gstin</Form.Label>
-                    <Form.Control
-                      // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
-                      type="text"
-                      name="gstin"
+                    <Form.Label>Location</Form.Label>
+                    <Form.Control as="textarea" rows={2}
+                      name="location"
+                      // onChange={(e) => { setLocation(e.target.value) }} 
                       onChange={myhandlechange}
-
                     />
-                    <p style={{ color: "red" }}>{formErrors.gstin}</p>
-                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                    <p style={{ color: "red" }}>{formErrors.location}</p>
                   </Col>
+
                   <Col lg="6">
-                    <Form.Label>Fssai No </Form.Label>
+                    <Form.Label>FSSAI NO </Form.Label>
                     <Form.Control
                       type="text"
                       //  onChange={(e) => { setComapnayName(e.target.value) }} 
@@ -291,6 +328,16 @@ console.log(currentUser,"currencoma")
                           e.preventDefault();
                         }
                       }}
+                    />
+                    <p style={{ color: "red" }}>{formErrors.fssai_no}</p>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Logo </Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="file"
+                      onChange={handleImageChange}
                     />
                     <p style={{ color: "red" }}>{formErrors.fssai_no}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
