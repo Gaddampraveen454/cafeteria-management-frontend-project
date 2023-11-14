@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   consumerData: [],
+  companyData01:{},
   notification:{}
 };
 
@@ -13,7 +14,7 @@ const companySlice = createSlice({
   initialState,
   reducers: {
     setCatData(state, action) {
-      state.companyData = action.payload;
+      state.companyData01 = action.payload;
     },
     setComDropDown(state, action) {
       state.companyDropData = action.payload;
@@ -32,7 +33,7 @@ export const CompanyListURL = (pageNUm, search, token, limit,id) => async (dispa
   {headers:{
     "x-auth-token" : token
   }});
-  console.log(response.data.data, "dfghj")
+  console.log(response, "dfggfhdfghfghhj")
   dispatch(setCatData(response.data));
 };
 

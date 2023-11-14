@@ -595,8 +595,13 @@ const CreateOrder = () => {
         handleModel()
     }
 
+    const [storenamevalue222, setstorenamevalue222] = useState()
+    console.log(storenamevalue222, "storenamevalue22255")
+
     const handleEvent = (event) => {
-        console.log(event?.company_uuid, 'hvdhdf')
+        console.log(event, 'hvdhdf')
+        // storeid:event?.value
+        setstorenamevalue222(event?.label)
         setSelectStore(event?.value)
         setcompanyuuid(event?.company_uuid)
         // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))

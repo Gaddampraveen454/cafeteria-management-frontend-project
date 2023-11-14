@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminReportListURL, ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
+import { AdminReportListURL, ReportstorelistApi, ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
+// import DatePicker from "react-multi-date-picker"
 import DatePicker from 'react-datepicker';
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
@@ -52,20 +53,35 @@ const report = () => {
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { AdminReportData, notification } = useSelector((state) => state.AdminReportList)
-  console.log(AdminReportData, "jsdggjjhg");
+  const { AdminReportData, notification, reportstorelist } = useSelector((state) => state.AdminReportList)
+  console.log(reportstorelist, "reportstorelistreportstorelist");
 
+  // const { companyData01 } = useSelector((state) => state.company)
+
+  // companyData
+
+  const StoreData = [];
+
+  reportstorelist?.data?.map((text) => {
+    return StoreData.push({ label: text?.store_name, value: text?.uuid })
+  }, [])
+
+  const Handlereportstore = (event) => {
+    console.log(event?.value, "eventeventevent")
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value))
+
+  }
 
   // useEffect(() => {
   //   dispatch(AdminReportListURL(currentUser.token))
   // }, [])
   useEffect(() => {
-    dispatch(CompanyListURL(page, search, currentUser.token, limit))
+    dispatch(ReportstorelistApi(page, search, currentUser.token, limit, currentUser?.data?.uuid))
   }, [])
   useEffect(() => {
-    dispatch(AdminReportListURL(page,search,currentUser?.token,limit, currentUser?.data?.uuid))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, ""))
     // dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
-}, [])
+  }, [])
 
 
 
@@ -89,32 +105,32 @@ const report = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(AdminReportListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(AdminReportListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(AdminReportListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+      dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
     }
   }
   return (
@@ -167,7 +183,7 @@ const report = () => {
       </div>
 
       <Row className="mb-3">
-      <Col md="5" lg="3" xxl="2" className="mb-1">
+        <Col md="5" lg="5" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
             <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
@@ -179,6 +195,17 @@ const report = () => {
             </span>
           </div>
           {/* Search End */}
+        </Col>
+
+        <Col md="3" lg="3" className="mb-1">
+          {/* <Form.Label>Company</Form.Label> */}
+          <Select classNamePrefix="react-select"
+            options={StoreData}
+            // value={compnayId}
+            onChange={Handlereportstore}
+            placeholder="Select Store"
+          // disabled={eventType}
+          />
         </Col>
         {/* <Col md="3" lg="3" xxl="3" className="mb-1">
           <Form.Label>Company Name</Form.Label>
@@ -192,16 +219,16 @@ const report = () => {
           />
         </Col> */}
         {/* <Col md="2" lg="2" xxl="2" className="mb-1"> */}
-          {/* <div className="mb-3"> */}
-          {/* <Form.Label>Start date</Form.Label>
+        {/* <div className="mb-3"> */}
+        {/* <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={startDate} onChange={ChangeStartData} />
         </Col>
         <Col md="2" lg="2" xxl="2" className="mb-1">
           <Form.Label>End date</Form.Label>
           <Form.Control type="date" value={endDate} onChange={ChangeEndData} /> */}
-          {/* </div> */}
+        {/* </div> */}
         {/* </Col> */}
-        <Col md="2" lg="9" xxl="2" className="mb-1 text-end">
+        <Col md="4" lg="4" xxl="2" className="mb-1 text-end" style={{ marginLeft: "41%" }}>
 
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
@@ -219,10 +246,10 @@ const report = () => {
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end"> */}
-              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
-              {/* <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item> */}
-              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
-            {/* </Dropdown.Menu>
+          {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+          {/* <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item> */}
+          {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+          {/* </Dropdown.Menu>
           </Dropdown> */}
           {/* Export Dropdown End */}
 
