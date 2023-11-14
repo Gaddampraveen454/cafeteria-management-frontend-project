@@ -68,7 +68,7 @@ const Cardsdetails = ({ onClose }) => {
     // if (category===!""){
     if (category) {
       // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid,category,0,""))
-      dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+      dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, category))
     }
 
   }, [category])

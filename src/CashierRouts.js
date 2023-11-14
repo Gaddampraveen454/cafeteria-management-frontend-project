@@ -24,6 +24,8 @@ const CashierMenu = lazy(() => import('views cashier/CreateOrder/MenuForCahier')
 const Storecategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryList'));
 const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryAdd'));
 
+const Changepassword = lazy(() => import('views cashier/ChangePassword/changepassword'))
+
 
 const products = {
   list: lazy(() => import('views/products/list/ProductsList')),
@@ -77,14 +79,14 @@ const cashierRoutesAndMenuItems = {
     //   label: 'Company Management',
     //   icon: 'shipping',
     // },
-  
+
     {
       path: `${appRoot}/Storecategory`,
       component: Storecategory,
       label: 'Category Management',
       icon: 'user',
     },
-      {
+    {
       path: `${appRoot}/Storeaddcatagory`,
       component: Storeaddcategory,
       // label: 'User Management',
@@ -132,7 +134,7 @@ const cashierRoutesAndMenuItems = {
       label: 'Product Management',
       icon: 'web-page',
     },
-     {
+    {
       path: `${appRoot}/Storeaddproduct`,
       component: addproduct,
       // label: 'Product Management',
@@ -161,6 +163,12 @@ const cashierRoutesAndMenuItems = {
       component: report,
       label: 'Report',
       icon: 'news',
+    },
+    {
+      path: `${appRoot}/changepassword`,
+      component: Changepassword,
+      label: 'Change Password',
+      icon: 'lock-off',
     },
     // {
     //   path: `${appRoot}/addreport`,

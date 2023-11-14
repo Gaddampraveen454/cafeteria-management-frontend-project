@@ -155,7 +155,7 @@ console.log(currentUser,"currentUserhj")
   console.log(ProductForConsumer,'bhebfhwvefgveff')
   const { CartData, notification } = useSelector((state) => state.CartList)
 
-  console.log(currentUser, "currentUser")
+  console.log(categoryForConsumer, "categoryForConsumer")
 
 
 
