@@ -469,17 +469,18 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
               <div className="text-muted text-medium cursor-pointer sort">Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Employee ID</div>
+              <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
+            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+              <div className="text-muted text-medium cursor-pointer sort">Employee ID</div>
+            </Col> */}
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Phone No</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
-            </Col>
+            
             {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col> */}
@@ -497,6 +498,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
       {/* List Items Start */}
 
       { consumerData?.data?.length > 0 &&consumerData && consumerData?.data && consumerData?.data?.map((item, index) => {
+        console.log(item,'dbfvhjbdfhvb')
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -517,7 +519,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                     <div className="lh-1 text-alternate">{item.name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.emp_id}</div>
+                    <div className="lh-1 text-alternate">{item?.company_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.email}</div>
@@ -525,9 +527,9 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.mobile}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
-                  </Col>
+                  </Col> */}
                   {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">{item.location}</div>
                   </Col> */}

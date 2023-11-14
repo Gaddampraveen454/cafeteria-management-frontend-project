@@ -25,7 +25,7 @@ export const { setCatData, setToast } = iCafeAdmincompanySlice.actions;
 
 
 export const ICafeAdminCompanyListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?page=${pageNUm}&limit=${limit}&search=${search}`,
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,
   {headers:{
     "x-auth-token" : token
   }});

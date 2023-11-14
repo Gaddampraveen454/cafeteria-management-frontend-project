@@ -60,8 +60,8 @@ const category = () => {
     const { currentUser } = useSelector((state) => state.auth)
     console.log(currentUser, 'dvcgvdh')
     // const { cashierData } = useSelector((state) => state.cashierList)
-    const { categoryData, categoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
-    console.log(categoryData, 'evhgfvgefvef')
+    const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
+    console.log(AdmincategoryDropdown, 'evhgfvgefvef')
     useEffect(() => {
         dispatch(AdminCategoryListURL(page, search, limit, companyDrop, storeDrop))
     }, [])
@@ -181,7 +181,7 @@ const category = () => {
  
     const categoryDrop = [];
  
-    categoryDropdown.data.map((text) => {
+    AdmincategoryDropdown?.data?.map((text) => {
         console.log(text, 'sbdvhbsdvb')
         return categoryDrop.push({ value: text?.uuid, label: text?.company_name })
     })
@@ -197,7 +197,7 @@ const category = () => {
  
     const StoreDropp = [];
  
-    storeDropdown.data.map((text) => {
+    storeDropdown?.data?.map((text) => {
         console.log(text, 'hdfbhfbfb')
         return StoreDropp.push({ value: text?.uuid, label: text?.store_name })
     })
@@ -211,7 +211,7 @@ const category = () => {
  
     // const companyDropDown = [];
  
-    // categoryDropdown.data.map((text) => {
+    // AdmincategoryDropdown.data.map((text) => {
     //     console.log(text, 'sbdvhbsdvb')
     //     return companyDropDown.push({ value: text?.uuid, label: text?.company_name })
     // })
@@ -234,7 +234,7 @@ const category = () => {
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="category_management">
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
                             <CsLineIcons icon="chevron-left" size="20" />
                             <span className="align-middle text-medium ms-1">Home</span>
                         </NavLink>

@@ -28,7 +28,7 @@ import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/Categor
 const productmanagement = () => {
     const dispatch = useDispatch()
     const title = 'Product Management';
-    const description = 'Ecommerce Product Management Page';
+    // const description = 'Ecommerce Product Management Page';
 
     const [selectValueState, setSelectValueState] = useState();
     const optionsState = [
@@ -86,6 +86,7 @@ const productmanagement = () => {
     const [quantity, setQuantity] = useState("")
 
     const [stockQuantity, setStockQuantity] = useState("")
+    const[description,setDescription]=useState('');
     const [cgst, setCgst] = useState("")
     const [sgst, setSgst] = useState("")
 
@@ -246,6 +247,7 @@ const productmanagement = () => {
         setProductId(event.uuid)
         setimageUrl(event.image_url)
         setStockQuantity(event.stock_quantity)
+        setDescription(event.description)
         setSgst(event.sgst_tax)
         setCgst(event.cgst_tax)
 
@@ -266,7 +268,8 @@ const productmanagement = () => {
                 "stock_quantity": stockQuantity,
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
-                "store_uuid": storeOption.value
+                "store_uuid": storeOption.value,
+                "description":description
             }
 
 
@@ -287,7 +290,8 @@ const productmanagement = () => {
                 // "image": UploadedFile,
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
-                "store_uuid": storeOption.value
+                "store_uuid": storeOption.value,
+                "description":description
             }
 
 
@@ -521,12 +525,12 @@ const productmanagement = () => {
                     </Row>
                 </DialogActions>
             </Dialog>
-            <HtmlHead title={title} description={description} />
+            <HtmlHead title={title}  />
             <div className="page-title-container">
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/product_management">
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
                             <CsLineIcons icon="chevron-left" size="20" />
                             <span className="align-middle text-medium ms-1">Home</span>
                         </NavLink>
@@ -925,7 +929,15 @@ const productmanagement = () => {
                                         disabled={eventType}
                                     />
                                 </Col>
-
+                                <Col lg="6">
+                                    <Form.Label>Description</Form.Label>
+                                    <Form.Control type="text"
+                                        rows={1}
+                                        value={description}
+                                        onChange={(e) => { setDescription(e.target.value) }}
+                                        disabled={eventType}
+                                    />
+                                </Col>
 
 
 

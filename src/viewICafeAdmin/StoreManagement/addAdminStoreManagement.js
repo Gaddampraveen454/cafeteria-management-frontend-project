@@ -4,6 +4,7 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import axios from 'axios';
 import { IcafeAdminStoreAddURL, ICafeAdminStoreDropDownListURL } from 'Redux/IcafeAdminRedux/StoreManagement/storemanagement';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -19,6 +20,8 @@ const addAdminStoreManagement = () => {
   const title = 'Add Store';
   const description = 'Ecommerce Storefront Add Details Page';
 
+  const [UploadedFile, setUploadedFile] = useState("")
+  console.log(UploadedFile, "UploadedFile")
 
 
 
@@ -39,6 +42,45 @@ const addAdminStoreManagement = () => {
   // const [address, setAddress] = useState("")
   const [suc, setSuc] = useState(false);
 
+  const [image, setImage] = useState(null);
+
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+
+
+
+  const handleSubmited = () => {
+    // e.preventDefault();
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+
+      })
+      .catch(err => {
+        console.log(err, "err00")
+
+      });
+  }
+
+  useEffect(() => {
+    if (image !== null) {
+      handleSubmited()
+    }
+
+  }, [image])
+
+
 
   const AddCategory = () => {
     // event.preventDefault()
@@ -48,11 +90,12 @@ const addAdminStoreManagement = () => {
       "store_name": formValues.storeName,
       "email": formValues.email,
       "mobile": formValues.mobile,
-      "wallet_amount": formValues.walletamount,
+      "wallet_amount": ((formValues.walletamount > 0) ? formValues.walletamount : 0) ,
       "location": formValues.location,
       "address": formValues.address,
       "gstin": formValues.gstin,
       "fssai_no": formValues.fssai_no,
+      "logo":UploadedFile
     }
     dispatch(IcafeAdminStoreAddURL(payload, currentUser.token))
     setSuc(true)
@@ -205,18 +248,7 @@ const addAdminStoreManagement = () => {
                 onSubmit={handleSubmit}
               >
                 <Row className="g-3">
-                  <Col lg="6">
-                    <Form.Label>Store Name</Form.Label>
-                    <Form.Control
-                      // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
-                      name="storeName"
-                      onChange={myhandlechange}
-
-                    />
-                    <p style={{ color: "red" }}>{formErrors.storeName}</p>
-                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                  </Col>
-                  <Col lg='6' className="">
+                <Col lg='6' className="">
                     <Form.Label> Select Company</Form.Label>
                     <Select
                       classNamePrefix="react-select"
@@ -229,11 +261,25 @@ const addAdminStoreManagement = () => {
                       required
                       style={{ borderRadius: '10px' }}
                     />
+                     </Col>
+                  <Col lg="6">
+                    <Form.Label>Store Name</Form.Label>
+                    <Form.Control
+                      // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
+                      name="storeName"
+                      onChange={myhandlechange}
+
+                    />
+                    <p style={{ color: "red" }}>{formErrors.storeName}</p>
+                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
+                  
+                 
                   <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
                     <Form.Control type="number"
                       name="walletamount"
+                      
                       // onChange={(e) => { setwalletamount(e.target.value) }}
                       onChange={myhandlechange}
                     />
@@ -299,7 +345,7 @@ const addAdminStoreManagement = () => {
                     <p style={{ color: "red" }}>{formErrors.address}</p>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Gstin</Form.Label>
+                    <Form.Label>GSTIN</Form.Label>
                     <Form.Control
                       // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
                       type="text"
@@ -311,7 +357,7 @@ const addAdminStoreManagement = () => {
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Fssai No </Form.Label>
+                    <Form.Label>FSSAI NO</Form.Label>
                     <Form.Control
                       type="text"
                       //  onChange={(e) => { setComapnayName(e.target.value) }} 
@@ -326,6 +372,13 @@ const addAdminStoreManagement = () => {
                     />
                     <p style={{ color: "red" }}>{formErrors.fssai_no}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                  </Col>
+                  <Col lg="6">
+                    <div>
+                      <Form.Label>Logo</Form.Label>
+                      <Form.Control type="file" onChange={handleImageChange} />
+                      {/* <input type="file" onChange={handleImageChange} /> */}
+                    </div>
                   </Col>
                   <Col lg="12">
                     <Col lg="6">

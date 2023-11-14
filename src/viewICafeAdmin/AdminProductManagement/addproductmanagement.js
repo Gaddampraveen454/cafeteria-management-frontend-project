@@ -17,7 +17,7 @@ const addproductmanagement = () => {
   const dispatch = useDispatch()
   const history = useHistory();
   const title = 'Add Product';
-  const description = 'Ecommerce Product Management Page';
+  // const description = 'Ecommerce Product Management Page';
 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -29,7 +29,7 @@ const addproductmanagement = () => {
   const [UploadedFile, setUploadedFile] = useState("")
   console.log(UploadedFile, "UploadedFile")
 
-  const[companyOption,setComapanyOption]=useState('');
+  const [companyOption, setComapanyOption] = useState('');
 
 
   console.log(selectType, selectCategory, selectCompany, "sfsdfsdfsdfsdfsdf")
@@ -82,12 +82,10 @@ const addproductmanagement = () => {
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
   // const { ProductData, storeDropdown } = useSelector((state) => state.adminproducts)
- 
 
-  const { AdmincategoryDropdown,storeDropdown } = useSelector(
-    ({ adminCategorySlice }) => adminCategorySlice
-  );
-console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
+
+  const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory);
+  console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
 
   useEffect(() => {
@@ -117,9 +115,10 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
   const [price, setPrice] = useState("")
   const [quantity, setQuantity] = useState("")
   const [stockQuantity, setStockQuantity] = useState("")
+  const [description, setDescription] = useState("")
   const [cgst, setCgst] = useState("")
   const [sgst, setSgst] = useState("")
-  const[option,setOption]=useState('');
+  const [option, setOption] = useState('');
 
 
 
@@ -138,7 +137,8 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
       "stock_quantity": stockQuantity,
       "cgst_tax": cgst,
       "sgst_tax": sgst,
-      "store_uuid": option
+      "store_uuid": option,
+      "description":description
     }
     dispatch(AdminProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -151,7 +151,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
       if (notification.status === true) {
         toast.success(notification.message, {
           position: "top-right",
-          duration:1000
+          duration: 1000
         })
         setSuc(false)
         setTimeout(() => {
@@ -217,35 +217,35 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
   useEffect(() => {
     dispatch(ICafeAdminCategoryDropDownListURL());
-}, [])
+  }, [])
 
-  const CompanyDropDown=[];
+  const CompanyDropDown = [];
 
-    AdmincategoryDropdown?.data?.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
-        return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
-    })
+  AdmincategoryDropdown?.data?.map((text) => {
+    console.log(text, 'dvhgdvgbhfvbj')
+    return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+  })
 
-    const selectedCompany = (selectvalue) =>{
-        setComapanyOption(selectvalue?.value)
-        // dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue?.value , option))
-    }
+  const selectedCompany = (selectvalue) => {
+    setComapanyOption(selectvalue?.value)
+    // dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue?.value , option))
+  }
 
-  const dropdownValues=[];
+  const dropdownValues = [];
 
-  storeDropdown.data.map((text) => {
+  storeDropdown?.data?.map((text) => {
     console.log(text, 'dvhgdvgbhfvbj')
     return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
-})
+  })
 
-const selectdropdown = (text)=>{
-  console.log(text,'hsdbvudgsfy')
-  setOption(text?.value)
-}
+  const selectdropdown = (text) => {
+    console.log(text, 'hsdbvudgsfy')
+    setOption(text?.value)
+  }
 
   return (
     <>
-      <HtmlHead title={title} description={description} />
+      <HtmlHead title={title} />
       {/* Title Start */}
       <div className="page-title-container">
         <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/product_management">
@@ -272,7 +272,7 @@ const selectdropdown = (text)=>{
                   </Col>
                   <Col lg="6">
                     <Form.Label>Company</Form.Label>
-                    <Select classNamePrefix="react-select" options={CompanyDropDown}  onChange={selectedCompany} placeholder="Select Company" />
+                    <Select classNamePrefix="react-select" options={CompanyDropDown} onChange={selectedCompany} placeholder="Select Company" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
@@ -286,7 +286,7 @@ const selectdropdown = (text)=>{
                   <Col lg="6">
                     <Form.Label>Store</Form.Label>
 
-                    <Select classNamePrefix="react-select" options={dropdownValues}  onChange={selectdropdown} placeholder="" />
+                    <Select classNamePrefix="react-select" options={dropdownValues} onChange={selectdropdown} placeholder="" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Price</Form.Label>
@@ -307,6 +307,10 @@ const selectdropdown = (text)=>{
                   <Col lg="6">
                     <Form.Label>SGST(%)</Form.Label>
                     <Form.Control type="text" rows={1} onChange={(e) => { setSgst(e.target.value) }} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control type="text" rows={1} onChange={(e) => { setDescription(e.target.value) }} />
                   </Col>
                   <Col lg="6">
                     <div>
