@@ -72,7 +72,7 @@ const Company = () => {
 
   const { currentUser } = useSelector((state) => state.auth)
   // const { companyData, notification } = useSelector((state) => state.companyList)
-  const { companyData ,notification} = useSelector((state) => state.company)
+  const { companyData, notification } = useSelector((state) => state.companyList)
 
   // companyData
 
