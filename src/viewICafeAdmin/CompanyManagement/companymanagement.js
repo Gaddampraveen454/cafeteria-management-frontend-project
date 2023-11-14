@@ -348,10 +348,14 @@ const companymanagement = () => {
 
       {companyData && companyData.data && companyData.data.map((item, index) => {
         console.log(item, "itemitemitemitem")
-        return <div key="">
-          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
+        return (
+          <>
+         
+          
+          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} key="">
             <Row className="g-0 h-100 sh-lg-9 position-relative">
               <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+             
                 <Row className="g-0 h-100 ">
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
@@ -437,106 +441,17 @@ const companymanagement = () => {
                 <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
               </Col> */}
                 </Row>
+                
               </Col>
             </Row>
           </Card>
-        </div>
-      })}
+         
+        </>
+     ) })}
 
 
 
-      {/* <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-        <Row className="g-0 h-100 sh-lg-9 position-relative">
-          <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col>
-          <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-            <Row className="g-0 h-100 ">
-              <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">ABCD</div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">Yousufguda</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">Ayyappa Society</div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">9897654323</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">sciens2023@gmail.com</div>
-              </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">₹ 250</div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" />
-                  <Form.Check type="switch" id="quantitySwitch2"  defaultChecked />
-                  <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" />
-                </div>
-                </div>
-              </Col>
-              <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-              <div className="lh-1 text-alternate">
-              <table>
-                <tr>
-                <ToggleButton
-                value={ items.is_active }
-                onToggle={()=>activefunct(items)}
-                 />
-                  <td>
-                  <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                  <CsLineIcons icon="eye" />                  
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="EDIT" variant="outline-success"  className="btn px-2 py-2">
-                 <CsLineIcons icon="edit-square" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
-                 <CsLineIcons icon="check" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
-                 <CsLineIcons icon="close" />
-                 </Button>
-                  </td>
-                  <td>
-                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
-                 <CsLineIcons icon="bin" />
-                 </Button>
-                  </td>
-                </tr>
-              </table>
-              </div>
-            </Col>
-              <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
-                <Badge bg="outline-primary">SALE</Badge>
-              </Col>
-              <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
-                <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Card> */}
-
-      {/* List Items End */}
-
+      
       {/* Pagination Start */}
 
       <div className="d-flex justify-content-center mt-5">

@@ -6,6 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
+import axios from 'axios';
 import { ICafeAdminStoreListURL, ICafeAdminStoreUpdateURL, ICafeAdminStoreStatusUpdateURL, ICafeAdminStoreDropDownListURL } from "Redux/IcafeAdminRedux/StoreManagement/storemanagement";
 import {
     Dialog,
@@ -48,8 +49,9 @@ const StoreManagement = () => {
     const [companyvalue, setCompanyvalue] = useState('')
     console.log(companyvalue, "companyvalue")
     const [updateOption, setUpdateOption] = useState('')
- 
- 
+    const [imageUrl, setimageUrl] = useState("")
+    const [UploadedFile, setUploadedFile] = useState()
+    const [image, setImage] = useState(null);
     // console.log(page,limit,search,"sdsasfasasdasd")
     const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
     const [qrOpen, setQrOpen] = useState(false)
@@ -112,6 +114,7 @@ const StoreManagement = () => {
         setwalletamount(event.wallet_amount)
         setEmail(event.email)
         setMobile(event.mobile)
+        setimageUrl(event.logo)
         setLocation(event.location)
         setAddress(event.address)
         setGstin(event.gstin)
@@ -125,6 +128,7 @@ const StoreManagement = () => {
     const update = (event) => {
         event.preventDefault()
         const value = event.target.elements
+        if (UploadedFile) {
         const payload = {
             "company_uuid": updateOption?.value,
             "store_name": companyName,
@@ -134,12 +138,89 @@ const StoreManagement = () => {
             "location": location,
             "address": address,
             "gstin": gstin,
-            "fssai_no": fssai
+            "fssai_no": fssai,
+            "logo":UploadedFile
         }
         dispatch(ICafeAdminStoreUpdateURL(compnayId, payload, currentUser.token))
         setSuc(true)
  
     }
+    else{
+        const payload = {
+            "company_uuid": updateOption?.value,
+            "store_name": companyName,
+            "email": email,
+            "mobile": mobile,
+            "wallet_amount": walletamount,
+            "location": location,
+            "address": address,
+            "gstin": gstin,
+            "fssai_no": fssai,
+            // "logo":UploadedFile
+        }
+        dispatch(ICafeAdminStoreUpdateURL(compnayId, payload, currentUser.token))
+        setSuc(true)
+ 
+    
+    }
+}
+
+
+
+
+
+
+
+    // const updateProduct = (event) => {
+    //     event.preventDefault()
+    //     if (UploadedFile) {
+    //         const payload = {
+    //             "name": name,
+    //             "type": selectType.value,
+    //             "category_uuid": selectCategory.value,
+    //             "price": price,
+    //             "quantity": quantity,
+    //             "company_uuid": selectCompany1,
+    //             "image": UploadedFile,
+    //             "stock_quantity": stockQuantity,
+    //             "cgst_tax": cgst,
+    //             "sgst_tax": sgst,
+    //             "store_uuid": storeOption.value
+    //         }
+
+
+    //         dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
+
+    //         // dispatch(CompanyListURL(currentUser.token))
+    //         setSuc(true)
+
+    //     } else {
+    //         const payload = {
+    //             "name": name,
+    //             "type": selectType.value,
+    //             "category_uuid": selectCategory.value,
+    //             "price": price,
+    //             "quantity": quantity,
+    //             "company_uuid": selectCompany1,
+    //             "stock_quantity": stockQuantity,
+    //             // "image": UploadedFile,
+    //             "cgst_tax": cgst,
+    //             "sgst_tax": sgst,
+    //             "store_uuid": storeOption.value
+    //         }
+
+
+    //         dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
+    //         // dispatch(CompanyListURL(currentUser.token))
+    //         setSuc(true)
+
+
+    //     }
+
+
+
+    // }
+
  
  
  
@@ -263,6 +344,40 @@ const StoreManagement = () => {
         setUpdateOption(selectedOption);
         // dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, selectedOption?.value))
     }
+
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
+
+    const handleUpdateImage = () => {
+
+        const formData = new FormData();
+        formData.append('image', image);
+        axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+            {
+                headers: {
+                    "x-access-token": `${currentUser.token}`,
+                }
+            })
+            .then(res => {
+                console.log(res.data.image, "resp00");
+                setUploadedFile(res.data.image.filename)
+
+            })
+            .catch(err => {
+                console.log(err, "err00")
+
+            });
+    }
+
+    useEffect(() => {
+        if (image !== null) {
+            handleUpdateImage()
+        }
+
+    }, [image])
+
     return (
         <>
             <HtmlHead title={title} description={description} />
@@ -270,7 +385,7 @@ const StoreManagement = () => {
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/store_management">
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
                             <CsLineIcons icon="chevron-left" size="20" />
                             <span className="align-middle text-medium ms-1">Home</span>
                         </NavLink>
@@ -374,6 +489,9 @@ const StoreManagement = () => {
                             <div className="text-muted text-medium cursor-pointer ">Store Name</div>
                         </Col>
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium cursor-pointer ">Company Name</div>
+                        </Col>
+                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Location</div>
                         </Col>
  
@@ -383,12 +501,12 @@ const StoreManagement = () => {
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer ">Email</div>
                         </Col>
-                        <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+                        {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer ">Wallet Amount</div>
                         </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer" >Company Code</div>
-                        </Col>
+                        </Col> */}
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">QR Code</div>
                         </Col>
@@ -415,6 +533,9 @@ const StoreManagement = () => {
                                         <div className="lh-1 text-alternate">{item.store_name}</div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                                    </Col>
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.location}</div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -423,12 +544,12 @@ const StoreManagement = () => {
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.email}</div>
                                     </Col>
-                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                                    {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                                         <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
-                                    </Col>
-                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                                    </Col> */}
+                                    {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                                         <div className="lh-1 text-alternate"> {item.uuid}</div>
-                                    </Col>
+                                    </Col> */}
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                                         <div className="lh-1 text-alternate">
                                             <table>
@@ -707,6 +828,44 @@ const StoreManagement = () => {
                                         }} />
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
+                                <Col lg="12">
+                                    {image ? null
+
+                                        :
+                                        <img src={imageUrl} alt="product image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
+                                    }
+
+                                </Col>
+                                {/* <Col lg="12">
+                    <Col lg="3">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                    <CsLineIcons /> <span>Submit</span>
+                    </Button>
+                    </Col>
+                  </Col> */}
+
+
+                                {eventType ?
+                                    null
+                                    :
+                                    <Col lg="12">
+                                        <div>
+                                            {image && (
+                                                <div >
+                                                    <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} crossOrigin='anonymous' />
+                                                </div>
+                                            )}
+                                            {/* <input type="file" onChange={handleImageChange} /> */}
+                                            <Form.Control type="file" onChange={handleImageChange} />
+
+                                        </div>
+                                    </Col>
+
+
+                                }
+
+
+
                                 <Col lg="6">
                                     <Col lg="3">
                                         {eventType ?

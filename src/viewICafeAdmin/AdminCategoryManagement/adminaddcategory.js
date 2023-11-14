@@ -64,7 +64,7 @@ const adminaddcategory = () => {
     const [suc, setSuc] = useState(false);
  
     const { currentUser } = useSelector((state) => state.auth)
-    const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.adminCategorySlice)
+    const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
     console.log(storeDropdown, 'bdshvshgfvnbj')
     // const { cashierData } = useSelector((state) => state.cashierList)
     //   const { categoryData } = useSelector((state) => state.cotegoryList)

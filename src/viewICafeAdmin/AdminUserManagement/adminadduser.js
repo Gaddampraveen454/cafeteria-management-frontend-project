@@ -23,9 +23,7 @@ const adminadduser = () => {
   console.log(selectValueState,"selectValueState")
   const [suc,setSuc] = useState(false);
 
-  const { AdmincategoryDropdown } = useSelector(
-    (state) =>state.adminCategorySlice
-  );
+  const { AdmincategoryDropdown } = useSelector((state)=>state.admincategory)
 console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
 
