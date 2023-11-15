@@ -29,6 +29,9 @@ const Cardcart = () => {
   const [suc, setSuc] = useState(false);
 
 
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
+
+
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
   const getData = async () => {
@@ -64,7 +67,7 @@ const Cardcart = () => {
       setSuc(false)
     } else if (ip) {
       // if (ip)
-      dispatch(CartListURL(ip))
+      dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
     }
 
 
@@ -116,7 +119,7 @@ const Cardcart = () => {
             setSuc(false)
           } else if (ip) {
             // if (ip)
-            dispatch(CartListURL(ip))
+            dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
           }
           // history.push(({
           //   pathname: "/Cardcart",

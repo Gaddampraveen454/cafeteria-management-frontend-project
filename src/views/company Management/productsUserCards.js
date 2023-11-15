@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { NavLink, useHistory, useParams, Redirect } from 'react-router-dom';
+import { NavLink, useHistory, useParams, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
@@ -35,8 +35,9 @@ const productsUserCards = () => {
     const history = useHistory();
     const title = 'Menu';
     const description = 'Ecommerce Storefront Filters Page';
+    const location = useLocation('');
+    console.log(location, "locationlocation")
     const { id, id1 } = useParams();
-    console.log(id, id1, "dsfsdfsdfsdf")
     const { themeValues } = useSelector((state) => state.settings);
     const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
     const { width } = useWindowSize();
@@ -57,6 +58,7 @@ const productsUserCards = () => {
         width: 280
     };
     const { currentUser } = useSelector((state) => state.auth)
+    const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
     const handleScan = (result) => {
 
         const Compuuid = result?.data.split("menu/company/")
@@ -119,7 +121,7 @@ const productsUserCards = () => {
             setSuc(false)
         } else if (ip) {
             //  if (ip)
-            dispatch(CartListURL(ip))
+            dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, 10))
         }
     }, [ip])
     useEffect(() => {
@@ -155,18 +157,20 @@ const productsUserCards = () => {
     const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
     const { CartData, notification } = useSelector((state) => state.CartList)
 
+    console.log(CartData, "fgdsjhfdshkj")
+
     console.log(currentUser, "currentUser")
     const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
-    const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
     const addToCart = (event) => {
-        console.log(event.stock_quantity, "jhjjgjhgjgjhg")
+        console.log(event, "jhjjgjhgjgjhg")
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
             const payload = {
                 "item_uuid": event.uuid,
                 "quantity": 1,
                 "user_uuid": currentUser && currentUser.data && currentUser.data.uuid,
-                "store_uuid": StoreData?.uuid
+                "store_uuid": StoreData?.uuid,
+                "company_uuid": event?.company_uuid
             }
             dispatch(addToCartURL(payload))
             setSuc(true)
@@ -176,7 +180,8 @@ const productsUserCards = () => {
                 "item_uuid": event.uuid,
                 "quantity": 1,
                 "ip_address": ip,
-                "store_uuid": StoreData?.uuid
+                "store_uuid": StoreData?.uuid,
+                "company_uuid": event?.company_uuid
             }
             dispatch(addToCartURL(payload))
             setSuc(true)
@@ -207,7 +212,7 @@ const productsUserCards = () => {
                     dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
                     setSuc(false)
                 } else {
-                    dispatch(CartListURL(ip))
+                    dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
                     setSuc(false)
                 }
                 // setTimeout(() => {
@@ -315,33 +320,31 @@ const productsUserCards = () => {
             console.log(pages, type, "ghjkfgdfgssdvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(ProductForConsumerListURL(id, categoryID, 0, pages, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, categoryID, 0, pages, currentUser.token, limit, id1))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(ProductForConsumerListURL(id, categoryID, page - 1, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, categoryID, page - 1, search, currentUser.token, limit, id1))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit, id1))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ProductForConsumerListURL(id, categoryID, page, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, categoryID, page, search, currentUser.token, limit, id1))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit, id1))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(ProductForConsumerListURL(id, categoryID, page + 2, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, categoryID, page + 2, search, currentUser.token, limit, id1))
         }
-        else if (type === "limit") {
-            setLimit(pages)
-            setPage(0)
-            dispatch(ProductForConsumerListURL(id, categoryID, 0, search, currentUser.token, pages))
-        }
+    }
+    const Back = () => {
+        history.goBack()
     }
     return (
         <>
@@ -351,10 +354,10 @@ const productsUserCards = () => {
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard"> */}
-                        <CsLineIcons icon="chevron-left" size="20" />
-                        <span className="align-middle text-medium ms-1">Home</span>
-                        {/* </NavLink> */}
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="" onClick={Back}>
+                            <CsLineIcons icon="chevron-left" size="20" />
+                            <span className="align-middle text-medium ms-1">Home</span>
+                        </NavLink>
                         <h1 className="mb-0 pb-0 display-4" id="title">
                             {title}
                         </h1>
@@ -396,6 +399,12 @@ const productsUserCards = () => {
             </div>
             {/* Title End */}
             <Row>
+                <Col>
+                    <img src={location?.state?.logo} alt="" style={{ width: "100px", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                    <p>{location?.state?.store_name}</p>
+                </Col>
+            </Row>
+            <Row>
                 {isLgScreen && (
                     <Col lg="3" xl="3" className="d-none d-lg-block">
                         {/* Filters Start */}
@@ -408,8 +417,26 @@ const productsUserCards = () => {
                         {/* Filters End */}
                     </Col>
                 )}
+
                 <Col style={{ position: "sticky" }} lg="9" xl="9">
                     <div id="firstcolumn">
+                        {/* <Form.Label/> */}
+                        <Row>
+                            <Col lg="6" xl="6">
+                                <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                    <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                    <span className="search-magnifier-icon">
+                                        <CsLineIcons icon="search" />
+                                    </span>
+                                    <span className="search-delete-icon d-none">
+                                        <CsLineIcons icon="close" />
+                                    </span>
+                                </div>
+                            </Col>
+                        </Row>
+
+                        {/* Search End */}
                         <Form className="mb-5">
                             {ProductForConsumer.data?.length <= 0 && <p className="text-large text-muted mb-2">Products Not Available</p>}
                         </Form>

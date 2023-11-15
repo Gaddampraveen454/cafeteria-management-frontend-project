@@ -24,8 +24,8 @@ const CartSlice = createSlice({
 export const { setCartData, setToast } = CartSlice.actions;
 
 
-export const CartListURL = (ip, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?ip_address=${ip}`,{headers:{
+export const CartListURL = (ip, companyid, search, token, limit) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?ip_address=${ip}&company_uuid=${companyid}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfgcvvcvcvbchj")

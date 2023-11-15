@@ -34,21 +34,21 @@ const Order = () => {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
-    const[comapanyOption,setComapanyOption]=useState('')
-    const[option,setOption]=useState('');
+    const [comapanyOption, setComapanyOption] = useState('')
+    const [option, setOption] = useState('');
     const { currentUser } = useSelector((state) => state.auth);
-    console.log(currentUser,'bdvgsvf')
-    const { OrderData,notification } = useSelector((state) => state.adminorder)
+    console.log(currentUser, 'bdvgsvf')
+    const { OrderData, notification } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
 
     const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
     // const { AdmincategoryDropdown,storeDropdown } = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
-    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
+    console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
     useEffect(() => {
-        dispatch(AdminOrderListURL(page,search,currentUser?.token,limit,comapanyOption,option));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -90,32 +90,37 @@ const Order = () => {
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
     }, [])
 
-    const [isClearable,setIsClearable]=useState(true);
-    const[isRemove,setIsRemove]=useState(true);
+    const [isClearable, setIsClearable] = useState(true);
+    const [isRemove, setIsRemove] = useState(true);
 
     const CompanyDropDown = [];
 
-    AdmincategoryDropdown.data.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
-        return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
-    })
+    if (AdmincategoryDropdown?.data?.length > 0) {
+        AdmincategoryDropdown.data.map((text) => {
+            console.log(text, 'dvhgdvgbhfvbj')
+            return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+        })
+    }
 
     const selectedCompany = (selectvalue) => {
         setComapanyOption(selectvalue?.value)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue=== null ? "": selectvalue?.value, option === null ? "" : option))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
     }
 
     const dropdownValues = [];
 
-    storeDropdown.data.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
-        return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
-    })
+    if (storeDropdown?.data?.length > 0) {
+        storeDropdown.data.map((text) => {
+            console.log(text, 'dvhgdvgbhfvbj')
+            return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
+        })
+    }
+
 
     const selectdropdown = (text) => {
         console.log(text, 'hsdbvudgsfy')
         setOption(text)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption, text=== null ? '' : text?.value))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? '' : text?.value))
     }
 
 
@@ -190,7 +195,7 @@ const Order = () => {
                 {/* disabled={eventType} */}
                 {/* /> */}
                 {/* </Col> */}
-                
+
                 <Col lg="3">
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
@@ -207,8 +212,8 @@ const Order = () => {
                 <Col lg="3">
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select
-                     className="basic-single"
-                     classNamePrefix="select Store"
+                        className="basic-single"
+                        classNamePrefix="select Store"
                         options={dropdownValues}
                         isClearable={isRemove}
                         // value={categoryId}

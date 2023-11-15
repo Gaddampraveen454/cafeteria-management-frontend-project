@@ -132,10 +132,13 @@ const adminaddcategory = () => {
  
     const constStoreDrop = [];
  
-    storeDropdown.data.map((text) => {
+    if(storeDropdown?.data?.length > 0){
+      storeDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return constStoreDrop.push({ label: text?.store_name, value: text?.uuid })
     })
+    }
+   
  
     const handleStore = (selectStore) => {
         console.log(selectStore, 'dvcgsavdgch')

@@ -66,6 +66,17 @@ const Login = () => {
             })
     }
 
+    const [check, setCheck] = useState(false)
+
+    const change = () => {
+        if (check === false) {
+            setCheck(true)
+        }
+        else {
+            setCheck(false)
+        }
+    }
+
     const Signupfunction = (e) => {
         e.preventDefault()
 
@@ -74,23 +85,27 @@ const Login = () => {
             "email": emailvalue,
             "name": namevalue
         }
+        if (check === true) {
+            axios.post(`${process.env.REACT_APP_URL}/user/signup`, payLoad)
+                .then((res) => {
+                    console.log(res, "gjdsfjdsh")
+                    toast.success(res?.data?.message)
+                    setTimeout(() => {
+                        history.push({
+                            pathname: "/otp-verification",
+                            state: res?.data?.data
+                        })
+                    }, 2000)
 
-        axios.post(`${process.env.REACT_APP_URL}/user/signup`, payLoad)
-            .then((res) => {
-                console.log(res, "gjdsfjdsh")
-                toast.success(res?.data?.message)
-                setTimeout(() => {
-                    history.push({
-                        pathname: "/otp-verification",
-                        state: res?.data?.data
-                    })
-                }, 2000)
-
-            })
-            .catch((err) => {
-                console.log(err)
-                toast.error(err?.response?.data?.message)
-            })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast.error(err?.response?.data?.message)
+                })
+        }
+        else {
+            toast.error("Please Select Terms and Conditions!")
+        }
     }
 
 
@@ -220,6 +235,16 @@ const Login = () => {
                                     <CsLineIcons icon="email" />
                                     <Form.Control type="text" name="email" placeholder="Email" value={emailvalue} onChange={(e) => setEmailValue(e.target.value)} />
                                     {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
+                                </div>
+
+                                <div className="form-check mb-4">
+                                    <input type="checkbox" className="form-check-input" name="terms" checked={check === true} onClick={change} />
+                                    <label className="form-check-label">
+                                        I have read and accept the{' '}
+                                        <NavLink to="/" target="_blank">
+                                            terms and conditions.
+                                        </NavLink>
+                                    </label>
                                 </div>
                             </>
                         }

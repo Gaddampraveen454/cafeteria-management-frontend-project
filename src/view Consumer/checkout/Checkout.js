@@ -80,6 +80,9 @@ const Categories = () => {
     }
   }, [])
 
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
+
+
 
 
   useEffect(() => {
@@ -250,7 +253,8 @@ const Categories = () => {
   }
   const ConsumerCheckout = () => {
     const payload = {
-      "user_uuid": currentUser.data.uuid
+      "user_uuid": currentUser.data.uuid,
+      "compan_uuid": StoreData?.company_uuid
     }
     dispatch(CreateCheckOutURL(payload, currentUser.data?.token))
     // setSuc(true)
@@ -557,7 +561,7 @@ const Categories = () => {
                   </div>
                 </div>
               </div>
-              <div className="form-check mb-4">
+              {/* <div className="form-check mb-4">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={(e) => console.log(e.target.value, "DSfsdfsdfsdfsdf")} />
                 <label className="form-check-label">
                   I have read and accept the{' '}
@@ -565,7 +569,7 @@ const Categories = () => {
                     terms and conditions.
                   </NavLink>
                 </label>
-              </div>
+              </div> */}
               <Button className="btn-icon btn-icon-end w-100" variant="primary"
                 onClick={submitOrder}
               // onClick={displayRazorpay}

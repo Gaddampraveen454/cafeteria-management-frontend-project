@@ -265,9 +265,9 @@ const report = () => {
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-          <Dropdown.Item href="#">Copy</Dropdown.Item>
+          {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
           <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
-          <Dropdown.Item href="#">Cvs</Dropdown.Item>
+          {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
            </Dropdown.Menu> 
           </Dropdown> 
           {/* Export Dropdown End */}

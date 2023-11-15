@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
+import axios from 'axios'
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
@@ -150,8 +151,61 @@ const NICorders = () => {
 
   };
 
+  const [print, setPrint] = useState(false);
+  const [printData, setPrintData] = useState('')
+
+  const PrintFunction = (orderid) => {
+    axios.get(`${process.env.REACT_APP_URL}/order/list/cashier/print/${orderid}`, {
+      headers: {
+        'x-auth-token': currentUser?.token
+      }
+    })
+      .then((res) => {
+        console.log(res, "hdfhfhjdefaultdetails")
+        setPrint(true)
+        setPrintData(res.data)
+        // setdefaultdetails(res?.data)
+      })
+      .catch((err) => {
+        console.log(err, "hdfhfhjdefaultdetails")
+        setPrint(false)
+        setPrintData('')
+      })
+  }
+
   return (
     <>
+      {print === true && printData !== '' &&
+        <iframe
+          title="Print Frame"
+          srcDoc={printData}
+          onLoad={() => {
+            const iframe = document.querySelector("iframe");
+            // iframe.style.display = "none"; // Hide the iframe
+            // Check if the browser supports silent printing
+            if ("requestMediaKeySystemAccess" in navigator) {
+              try {
+                // Attempt to silently print
+                console.log("silently print");
+                iframe.contentWindow.print({ silent: true });
+                setTimeout(() => {
+                  setPrint(false);
+                  setPrintData('')
+                }, 1000)
+
+              } catch (error) {
+                console.error("Error printing:", error);
+                setPrint(false)
+                setPrintData('')
+              }
+            } else {
+              console.error("Silent printing is not supported in this browser.");
+              setPrint(false)
+              setPrintData('')
+            }
+          }}
+        />
+      }
       <HtmlHead title={title} description={description} />
       <div className="page-title-container">
         <Row className="g-0">
@@ -390,6 +444,11 @@ const NICorders = () => {
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>
+                          <td>
+                            <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow" onClick={() => PrintFunction(item?.uuid)}>
+                              <CsLineIcons icon="print" />
+                            </Button>
+                          </td>
 
                         </tr>
                       </table>
@@ -419,8 +478,8 @@ const NICorders = () => {
                 </Row>
               </Col>
             </Row>
-          </Card>
-        </div>
+          </Card >
+        </div >
       })}
 
       {/* List Items End */}

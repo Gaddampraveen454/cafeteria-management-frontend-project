@@ -63,7 +63,6 @@ const Cardsdetails = ({ onClose }) => {
 
     if (category) {
       dispatch(ProductForConsumerListURL(companyId, category, 0, ""))
-
     }
 
   }, [category])

@@ -74,6 +74,7 @@ const Menu = () => {
     console.log(error);
   };
 
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
 
 
   useEffect(() => {
@@ -115,7 +116,7 @@ const Menu = () => {
       setSuc(false)
     } else if (ip) {
       //  if (ip)
-      dispatch(CartListURL(ip))
+      dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
     }
   }, [ip])
   useEffect(() => {
@@ -157,7 +158,7 @@ const Menu = () => {
       const payload = {
         "item_uuid": event.uuid,
         "quantity": 1,
-        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid
+        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid,
       }
       dispatch(addToCartURL(payload))
       setSuc(true)
@@ -197,7 +198,7 @@ const Menu = () => {
           dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
           setSuc(false)
         } else {
-          dispatch(CartListURL(ip))
+          dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
           setSuc(false)
         }
         // setTimeout(() => {
@@ -265,8 +266,12 @@ const Menu = () => {
     return item.item_uuid
   })
 
-  const OrderNow = (data) => {
-    history.push(data)
+  const OrderNow = (data, values) => {
+    console.log(data, values, "dghxcsjdgcsh")
+    history.push({
+      pathname: data,
+      state: values
+    })
   }
 
   const disableStore = (data) => {
@@ -319,8 +324,8 @@ const Menu = () => {
       <div className="page-title-container">
         <Row className="g-0">
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            <CsLineIcons icon="chevron-left" size="20" />
-            <span className="align-middle text-medium ms-1">Home</span>
+            {/* <CsLineIcons icon="chevron-left" size="20" /> */}
+            {/* <span className="align-middle text-medium ms-1">Home</span> */}
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
             </h1>
@@ -359,27 +364,27 @@ const Menu = () => {
                             {/* </NavLink> */}
                           </Col>
                           {item?.is_active === false ?
-                          <Col xs="6" sm="4" md="4" lg="4">
-                            <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                            <Button variant="outline-primary"
-                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                              onClick={() => { disableStore()}}
-                              disabled={item?.is_active === false}
-                            >
-                              <span>Order Now</span>
-                            </Button>
-                          </Col>
-                          :
-                          <Col xs="6" sm="4" md="4" lg="4">
-                          <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                          <Button variant="outline-primary"
-                            className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                            disabled={item?.is_active === false}
-                            onClick={() => { OrderNow(`/products/store/${item?.slug}`) }}
-                          >
-                            <span>Order Now</span>
-                          </Button>
-                        </Col>
+                            <Col xs="6" sm="4" md="4" lg="4">
+                              <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                              <Button variant="outline-primary"
+                                className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                onClick={() => { disableStore() }}
+                                disabled={item?.is_active === false}
+                              >
+                                <span>Order Now</span>
+                              </Button>
+                            </Col>
+                            :
+                            <Col xs="6" sm="4" md="4" lg="4">
+                              <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                              <Button variant="outline-primary"
+                                className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                disabled={item?.is_active === false}
+                                onClick={() => { OrderNow(`/products/store/${item?.slug}`, item) }}
+                              >
+                                <span>Order Now</span>
+                              </Button>
+                            </Col>
                           }
                         </Row>
                       </Card.Body>
