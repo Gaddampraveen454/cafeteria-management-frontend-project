@@ -23,6 +23,7 @@ import CashierConsumerReducer from 'Redux/CashierRedux/Consumer/ConsumerRedux';
 import StoreProductReducer from 'Redux/CashierRedux/Product/ProductRedux';
 import cashierDashbordCountReducer from 'Redux/CashierRedux/DashBoard/DashCountRedux';
 import AdminDashbordCountReducer from 'Redux/AdminRedux/DashBoard/DashCountRedux';
+// import AdminDashbordCountReducer from 'Redux/AdminRedux/DashBoard/DashCountRedux';
 import AdminReportReducer from 'Redux/AdminRedux/Reports/ReportRedux';
 import CashierReportReducer from 'Redux/CashierRedux/Reports/ReportRedux';
 import ProductForConsumerReducer from 'Redux/ConsumerRedux/Product/ProductRedux';

@@ -155,6 +155,8 @@ const productsUserCards = () => {
     const { StoreForConsumer } = useSelector((state) => state.StoreForConsumerSlice)
     const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
     const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+
+    console.log(ProductForConsumer,"ProductForConsumer453")
     const { CartData, notification } = useSelector((state) => state.CartList)
 
     console.log(CartData, "fgdsjhfdshkj")
@@ -266,7 +268,7 @@ const productsUserCards = () => {
             setValue(parseInt(typeof value === 'number' ? value : 0, 10) - 1);
         }
     };
-    const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+    const prod =ProductForConsumer.data.length > 0 && ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
         return item.uuid
     })
     console.log(prod, "sdfsdfsdfsdfsdfdsf")
