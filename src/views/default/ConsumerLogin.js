@@ -64,31 +64,6 @@ const Login = () => {
   
   }, [notification,currentUser])
 
-
-//   useEffect(()=> {
-
-// if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
-//   // history.push('/dashboard')
-//   history.push(({
-//     // pathname: "/consumer/login",
-//     pathname: "/Checkout",
-//     state:{
-//       userType:"consumer"
-//     }
-  
-//   }));
-//   localStorage.setItem('token',currentUser)
-// }
-// else if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin"){
-//   history.push('/dashboard')
-//   localStorage.setItem('token',currentUser)
-// }
-//   },[currentUser])
-
-
-  
-
-
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),
     password: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
@@ -124,6 +99,8 @@ const Login = () => {
       }));
 }
     }
+
+    // const signupCheck
 
 
   
@@ -167,7 +144,7 @@ const Login = () => {
         <div className="mb-5">
           <p className="h6">Please use your credentials to login.</p>
           <p className="h6">
-            If you are not a member, please <NavLink to="/register">register</NavLink>.
+            If you are not a member, please <NavLink to="/register"><label style={{color : 'blueviolet'}}>register</label></NavLink>.
           </p>
         </div>
         <div>
