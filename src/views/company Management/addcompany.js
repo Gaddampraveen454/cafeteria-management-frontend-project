@@ -22,7 +22,7 @@ const addCompany = () => {
 
 
 
-  const initialValues = { companyName: "", walletamount: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
+  const initialValues = { companyName: "",  email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -82,7 +82,7 @@ const addCompany = () => {
       "store_name": formValues.companyName,
       "email": formValues.email,
       "mobile": formValues.mobile,
-      "wallet_amount": 0,
+      // "wallet_amount": 0,
       "location": formValues.location,
       "address": formValues.address,
       "gstin": formValues.gstin,
@@ -135,9 +135,9 @@ const addCompany = () => {
     if (!values.companyName) {
       errors.companyName = "Company Name is Required";
     }
-    else if (!values.walletamount) {
-      errors.walletamount = "Wallet Amout is Required";
-    }
+    // else if (!values.walletamount) {
+    //   errors.walletamount = "Wallet Amout is Required";
+    // }
     else if (!values.mobile) {
       errors.mobile = "Moble number is Required";
     }

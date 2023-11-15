@@ -471,9 +471,9 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Employee ID</div>
-            </Col> */}
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+              <div className="text-muted text-medium cursor-pointer sort">Designation</div>
+            </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
             </Col>
@@ -516,16 +516,19 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.name}</div>
+                    <div className="lh-1 text-alternate">{item?.name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item?.company_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.email}</div>
+                    <div className="lh-1 text-alternate">{item?.designation}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.mobile}</div>
+                    <div className="lh-1 text-alternate">{item?.email}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item?.mobile}</div>
                   </Col>
                   {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
