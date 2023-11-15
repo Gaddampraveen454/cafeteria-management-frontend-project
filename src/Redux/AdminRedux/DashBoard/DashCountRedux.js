@@ -4,16 +4,16 @@ import axios from 'axios';
 
 
 const initialState = {
-  DashboardCountData: [],
+  DashCountData: [],
   notification: {}
 };
 
 const dashCountSlice = createSlice({
-  name: 'dashbord',
+  name: 'companydashbord',
   initialState,
   reducers: {
     setDashCountData(state, action) {
-      state.DashboardCountData = action.payload;
+      state.DashCountData = action.payload;
     },
     setToast(state, action) {
       state.notification = action.payload;
@@ -25,12 +25,12 @@ export const { setDashCountData, setToast } = dashCountSlice.actions;
 
 
 export const DashdoardAdminContListURL = (token, typeofvalue) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/admin/dashbaord?type=${typeofvalue}`, {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/company/dashbaord?type=${typeofvalue}`, {
     headers: {
       "x-auth-token": token
     }
   }).then((res) => {
-    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+    console.log(res, "sdfsdfs665dsdfsdfsdfsdfff")
     dispatch(setDashCountData(res.data));
   })
     .catch((err) => {

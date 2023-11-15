@@ -147,6 +147,8 @@ const Menu = () => {
   const { StoreForConsumer } = useSelector((state) => state.StoreForConsumerSlice)
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+
+  console.log(ProductForConsumer,"ProductForConsumer545")
   const { CartData, notification } = useSelector((state) => state.CartList)
 
   console.log(currentUser, "currentUser")
@@ -260,10 +262,12 @@ const Menu = () => {
   const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
     return item.uuid
   })
+  // length
   console.log(prod, "sdfsdfsdfsdfsdfdsf")
   const prodCart = CartData && CartData.data && CartData.data.map((item) => {
     return item.item_uuid
   })
+
 
   const OrderNow = (data) => {
     history.push(data)
@@ -328,7 +332,7 @@ const Menu = () => {
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
               onClick={() => setOpen(true)}>
-              <CsLineIcons icon="scanner" /><span>Scan QR Code</span>
+              <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
             </Button>
             &nbsp;&nbsp;
             <NavLink to="/Cardcart">

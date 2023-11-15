@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DashdoardAdminContListURL } from "Redux/AdminRedux/DashBoard/DashCountRedux"
+import { DashdoardAdminContListURL } from 'Redux/AdminRedux/DashBoard/DashCountRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
@@ -21,7 +21,7 @@ const IcafeDashboard = () => {
   console.log(selecttypedates, 'hjbhvhvbhdhcvsdhv')
   const { currentUser } = useSelector((state) => state.auth)
   const { DashboardCountData, notification } = useSelector((state) => state.AdminDashbordCountList)
-  console.log(DashboardCountData, "jsdggjjhg");
+  console.log(DashboardCountData, "jsdgg5654jjhg");
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   console.log(IpAddressData, "IpAddressData")
@@ -92,7 +92,9 @@ const IcafeDashboard = () => {
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
               <div className="text-primary cta-4">₹
-                {DashboardCountData.total_order_amount}</div>
+                {DashboardCountData.total_order_amount}
+               
+              </div>
             </Card.Body>
           </Card>
         </Col>
@@ -103,7 +105,10 @@ const IcafeDashboard = () => {
                 <CsLineIcons icon="cart" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">ORDERS</div>
-              <div className="text-primary cta-4">{DashboardCountData.total_order}</div>
+              <div className="text-primary cta-4">
+                {DashboardCountData.total_order}
+               
+              </div>
             </Card.Body>
           </Card>
         </Col>

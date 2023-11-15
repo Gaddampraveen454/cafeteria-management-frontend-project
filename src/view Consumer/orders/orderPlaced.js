@@ -63,8 +63,9 @@ const OrderPlaced = () => {
   console.log(InvoiceData, "InvoiceData")
 
   useEffect(() => {
+    
     if (currentUser.data) {
-      dispatch(ConsumerOrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
 
   }, [])

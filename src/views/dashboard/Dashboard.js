@@ -92,7 +92,8 @@ const Dashboard = () => {
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
               <div className="text-primary cta-4">₹
-                {DashboardCountData.total_order_amount}</div>
+                {/* {DashboardCountData.total_order_amount} */}
+                </div>
             </Card.Body>
           </Card>
         </Col>
@@ -103,7 +104,9 @@ const Dashboard = () => {
                 <CsLineIcons icon="cart" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">ORDERS</div>
-              <div className="text-primary cta-4">{DashboardCountData.total_order}</div>
+              <div className="text-primary cta-4">
+                {/* {DashboardCountData.total_order} */}
+              </div>
             </Card.Body>
           </Card>
         </Col>
