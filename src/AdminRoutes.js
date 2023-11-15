@@ -21,6 +21,7 @@ const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails')); 
 const CreateOrder= lazy(()=>import('views/CreateOrders/createorder'));
+const changepassword = lazy(()=> import ('views/ChangePassword/changepassword'))
 
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
@@ -169,6 +170,14 @@ const adminRoutesAndMenuItems = {
       label: 'Report',
       icon: 'news',
     },
+     {
+      path: `${appRoot}/changepassword`,
+      component: changepassword,
+      label: 'Change Password',
+      icon: 'news',
+    },
+    // changepassword
+
     {
       path: `${appRoot}/addreport`,
       component: addreport,
