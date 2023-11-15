@@ -11,7 +11,8 @@ import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
-import { ExportExcel } from 'Export';
+// import { ExportExcel } from 'Export'
+import { ExportExcel } from 'views/ExportData';
 
 const report = () => {
   const dispatch = useDispatch()
@@ -92,8 +93,6 @@ const report = () => {
   }, [])
 
 
-
-
   const ChangeStartData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setStartDate(e.target.value);
@@ -106,9 +105,9 @@ const report = () => {
   };
  
   const exportfunction = async () => {
-    await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
+    await ExportExcel(`/report/date/wise/company?start_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
   }
-
+  // /report/date/wise/company?start_date=2023-11-13&end_date=2023-11-14%27
   const searchfunction = (type, pages) => {
     console.log(pages, "ghjsdfsdfkvbnm")
     if (type === "search") {
@@ -259,18 +258,18 @@ const report = () => {
           {/* Print Button End */}
 
           {/* Export Dropdown Start */}
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end"> */}
-          {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
-          {/* <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item> */}
-          {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
-          {/* </Dropdown.Menu>
-          </Dropdown> */}
+            <Dropdown.Menu className="shadow dropdown-menu-end">
+          <Dropdown.Item href="#">Copy</Dropdown.Item>
+          <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+          <Dropdown.Item href="#">Cvs</Dropdown.Item>
+           </Dropdown.Menu> 
+          </Dropdown> 
           {/* Export Dropdown End */}
 
           {/* Length Start */}
