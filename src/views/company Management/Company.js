@@ -29,7 +29,7 @@ const Company = () => {
   const [open, setOpen] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const [companyName, setComapnayName] = useState("")
-  const [walletamount, setwalletamount] = useState("")
+  // const [walletamount, setwalletamount] = useState("")
   const [email, setEmail] = useState("")
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
@@ -129,7 +129,7 @@ const Company = () => {
 
     console.log(event, "jkjh")
     setComapnayName(event.store_name)
-    setwalletamount(event.wallet_amount)
+    // setwalletamount(event.wallet_amount)
     setEmail(event.email)
     setMobile(event.mobile)
     setLocation(event.location)
@@ -150,7 +150,7 @@ const Company = () => {
       "store_name": companyName,
       "email": email,
       "mobile": mobile,
-      "wallet_amount": walletamount,
+      // "wallet_amount": walletamount,
       "location": location,
       "address": address,
       "gstin": gstin,
@@ -368,9 +368,9 @@ const Company = () => {
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer ">Email</div>
             </Col>
-            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+            {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer ">Wallet Amount</div>
-            </Col>
+            </Col> */}
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer" >Company Code</div>
             </Col>
@@ -408,9 +408,9 @@ const Company = () => {
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.email}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
-                  </Col>
+                  </Col> */}
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate"> {item.uuid}</div>
                   </Col>
@@ -628,10 +628,10 @@ const Company = () => {
                   <Form.Control type="text" value={companyName} onChange={(e) => { setComapnayName(e.target.value) }} disabled={eventType} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
-                <Col lg="6">
+                {/* <Col lg="6">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
-                </Col>
+                </Col> */}
                 <Col lg="6">
                   <Form.Label>Contact No</Form.Label>
                   <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
@@ -676,13 +676,13 @@ const Company = () => {
                     }} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
-                <Col lg="6">
+                <Col lg="12">
                   <Form.Label>Logo</Form.Label><br />
                   {eventType === false &&
                     <Form.Control type="file" onChange={handleImageChange} />
                   }
                 </Col>
-                <Col lg="6">
+                <Col lg="12">
                   <img src={logo} alt="logo" crossOrigin='anonymous' style={{ width: "100px", height: "100px" }} />
                 </Col>
                 <Col lg="6">
