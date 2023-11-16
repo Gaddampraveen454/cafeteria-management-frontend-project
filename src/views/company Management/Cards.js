@@ -112,7 +112,7 @@ const Menu = () => {
   }, [])
   useEffect(() => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
       setSuc(false)
     } else if (ip) {
       //  if (ip)
@@ -149,7 +149,7 @@ const Menu = () => {
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
 
-  console.log(ProductForConsumer,"ProductForConsumer545")
+  console.log(ProductForConsumer, "ProductForConsumer545")
   const { CartData, notification } = useSelector((state) => state.CartList)
 
   console.log(currentUser, "currentUser")
@@ -197,7 +197,7 @@ const Menu = () => {
             position: "top-right",
           })
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-          dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+          dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
           setSuc(false)
         } else {
           dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))

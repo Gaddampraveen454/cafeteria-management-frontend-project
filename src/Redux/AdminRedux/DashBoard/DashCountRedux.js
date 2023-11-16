@@ -25,7 +25,7 @@ export const { setDashCountData, setToast } = dashCountSlice.actions;
 
 
 export const DashdoardAdminContListURL = (token, typeofvalue) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/company/dashbaord?type=${typeofvalue}`, {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/admin/dashbaord?type=${typeofvalue}`, {
     headers: {
       "x-auth-token": token
     }

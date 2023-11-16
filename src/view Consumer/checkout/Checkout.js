@@ -265,9 +265,10 @@ const Categories = () => {
   const GuestCheckOut = () => {
 
     const payload = {
-      "ip_address": IpAddressData.ip
+      "ip_address": IpAddressData.ip,
+      "compan_uuid": StoreData?.company_uuid
     }
-    dispatch(CreateCheckOutGuestURL(payload,))
+    dispatch(CreateCheckOutGuestURL(payload, currentUser?.token))
     // setSuc(true)
 
   }

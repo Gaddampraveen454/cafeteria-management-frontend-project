@@ -32,8 +32,8 @@ export const CartListURL = (ip, companyid, search, token, limit) => async (dispa
   dispatch(setCartData(response.data));
 };
 
-export const ConsumerCartListURL = (uuid, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?user_uuid=${uuid}`,{headers:{
+export const ConsumerCartListURL = (uuid, search, token, limit, companyId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?user_uuid=${uuid}&company_uuid=${companyId}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfgcvvcvcvbchj")

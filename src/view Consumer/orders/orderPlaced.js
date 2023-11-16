@@ -63,7 +63,7 @@ const OrderPlaced = () => {
   console.log(InvoiceData, "InvoiceData")
 
   useEffect(() => {
-    
+
     if (currentUser.data) {
       dispatch(ConsumerOrderListURL(page, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
@@ -236,43 +236,43 @@ const OrderPlaced = () => {
     async function getpdf(id) {
       try {
         await axios.get(`${process.env.REACT_APP_URL}/order/invoice/${id}`
-          )
+        )
           .then((res) => {
             if (res.data) {
               dt = res.data;
-              console.log(dt,"SDsadasdasda")
+              console.log(dt, "SDsadasdasda")
               fetch(`data:application/pdf;base64,${dt}`).then(response => {
                 response.blob().then(blob => {
-                    // Creating new object of PDF file
-                    const fileURL = window.URL.createObjectURL(blob);
-                    // Setting various property values
-                    const alink = document.createElement('a');
-                    alink.href = fileURL;
-                    alink.download = 'Invoice.pdf';
-                    alink.click();
+                  // Creating new object of PDF file
+                  const fileURL = window.URL.createObjectURL(blob);
+                  // Setting various property values
+                  const alink = document.createElement('a');
+                  alink.href = fileURL;
+                  alink.download = 'Invoice.pdf';
+                  alink.click();
                 })
-            })
-            
+              })
+
               // setLoader(false);
             }
           });
 
-      //   handlePdfOpen();
-         
-      //   await fetch(`data:application/pdf;base64,${dt}`)
-      //     .then((res) => res.blob())
-      //     .then((blob) => {
-      //       url = window.URL.createObjectURL(blob);
-      //     });
-      //   const iframe = document.querySelector("#pdf");
-      //   iframe.setAttribute("src", url);
+        //   handlePdfOpen();
+
+        //   await fetch(`data:application/pdf;base64,${dt}`)
+        //     .then((res) => res.blob())
+        //     .then((blob) => {
+        //       url = window.URL.createObjectURL(blob);
+        //     });
+        //   const iframe = document.querySelector("#pdf");
+        //   iframe.setAttribute("src", url);
 
 
-      //   // const onButtonClick = () => {
-      //     // using Java Script method to get PDF file
-         
-      // // }
-        
+        //   // const onButtonClick = () => {
+        //     // using Java Script method to get PDF file
+
+        // // }
+
       } catch (error) {
         failurePdfOpen();
       }
@@ -283,26 +283,26 @@ const OrderPlaced = () => {
 
 
 
-//   const handleDownload = () => {
-//     window.print();
+  //   const handleDownload = () => {
+  //     window.print();
 
-//   };
+  //   };
 
 
-//   const onButtonClick = (e) => {
-//     // using Java Script method to get PDF file
-//     fetch(`${process.env.REACT_APP_URL}/order/invoice/${e.uuid}`).then(response => {
-//         response.data.blob().then(blob => {
-//             // Creating new object of PDF file
-//             const fileURL = window.URL.createObjectURL(blob);
-//             // Setting various property values
-//             const alink = document.createElement('a');
-//             alink.href = fileURL;
-//             alink.download = 'SamplePDF.pdf';
-//             alink.click();
-//         })
-//     })
-// }
+  //   const onButtonClick = (e) => {
+  //     // using Java Script method to get PDF file
+  //     fetch(`${process.env.REACT_APP_URL}/order/invoice/${e.uuid}`).then(response => {
+  //         response.data.blob().then(blob => {
+  //             // Creating new object of PDF file
+  //             const fileURL = window.URL.createObjectURL(blob);
+  //             // Setting various property values
+  //             const alink = document.createElement('a');
+  //             alink.href = fileURL;
+  //             alink.download = 'SamplePDF.pdf';
+  //             alink.click();
+  //         })
+  //     })
+  // }
 
   return (
     <>
@@ -598,7 +598,7 @@ const OrderPlaced = () => {
                                 <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Price</div>
                               </Col>
                               <Col xs="auto" lg="12">
-                                <div className="lh-1 text-alternate">{item.total_amount}</div>
+                                <div className="lh-1 text-alternate">{item.amount}</div>
                               </Col>
                             </Row>
                           </Col>
@@ -673,7 +673,7 @@ const OrderPlaced = () => {
               </Row>
             </Card>
           </Col>
-          <br/>
+          <br />
         </div>
       })}
 
@@ -727,7 +727,7 @@ const OrderPlaced = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           fullWidth
-          // width="lg"
+        // width="lg"
 
         >
           {/* <DialogTitle id="alert-dialog-title">
@@ -739,13 +739,13 @@ const OrderPlaced = () => {
           >
 
             {/* List Header Start */}
-            <Row 
-            className="g-0 mb-2 d-none d-lg-flex"
+            <Row
+              className="g-0 mb-2 d-none d-lg-flex"
             >
               {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
               <Col>
-                <Row 
-                className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100"
+                <Row
+                  className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100"
                 >
                   <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">S.No</div>
@@ -798,7 +798,7 @@ const OrderPlaced = () => {
                           <Row className="gx-2 align-items-center">
                             <Col lg="12" className="col">
                               <Row className="g-0">
-                                <Col xs="6"  className="d-lg-none">
+                                <Col xs="6" className="d-lg-none">
                                   <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Name</div>
                                 </Col>
                                 <Col xs="6" lg="12">
@@ -898,7 +898,7 @@ const OrderPlaced = () => {
         </Button>
         <DialogContent >
           <iframe src="" className="pdfiframe" id="pdf" title="myFrame"
-          
+
             style={{ width: "100%", height: "100%" }}
 
           />

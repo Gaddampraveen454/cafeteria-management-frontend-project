@@ -117,7 +117,7 @@ const productsUserCards = () => {
     }, [])
     useEffect(() => {
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
             setSuc(false)
         } else if (ip) {
             //  if (ip)
@@ -156,7 +156,7 @@ const productsUserCards = () => {
     const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
     const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
 
-    console.log(ProductForConsumer,"ProductForConsumer453")
+    console.log(ProductForConsumer, "ProductForConsumer453")
     const { CartData, notification } = useSelector((state) => state.CartList)
 
     console.log(CartData, "fgdsjhfdshkj")
@@ -211,7 +211,7 @@ const productsUserCards = () => {
                         position: "top-right",
                     })
                 if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-                    dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+                    dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
                     setSuc(false)
                 } else {
                     dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
@@ -268,7 +268,7 @@ const productsUserCards = () => {
             setValue(parseInt(typeof value === 'number' ? value : 0, 10) - 1);
         }
     };
-    const prod =ProductForConsumer.data.length > 0 && ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+    const prod = ProductForConsumer?.data?.length > 0 && ProductForConsumer && ProductForConsumer?.data && ProductForConsumer?.data?.map((item) => {
         return item.uuid
     })
     console.log(prod, "sdfsdfsdfsdfsdfdsf")

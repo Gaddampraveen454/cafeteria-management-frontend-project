@@ -20,8 +20,8 @@ const IcafeDashboard = () => {
   const [selecttypedates, setSelectTypeDates] = useState('today')
   console.log(selecttypedates, 'hjbhvhvbhdhcvsdhv')
   const { currentUser } = useSelector((state) => state.auth)
-  const { DashboardCountData, notification } = useSelector((state) => state.AdminDashbordCountList)
-  console.log(DashboardCountData, "jsdgg5654jjhg");
+  const { DashCountData, notification } = useSelector((state) => state.AdminDashbordCountList)
+  console.log(DashCountData, "jsdgg5654jjhg");
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   console.log(IpAddressData, "IpAddressData")
@@ -92,8 +92,8 @@ const IcafeDashboard = () => {
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
               <div className="text-primary cta-4">₹
-                {DashboardCountData.total_order_amount}
-               
+                {DashCountData?.total_order_amount}
+
               </div>
             </Card.Body>
           </Card>
@@ -106,8 +106,8 @@ const IcafeDashboard = () => {
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">ORDERS</div>
               <div className="text-primary cta-4">
-                {DashboardCountData.total_order}
-               
+                {DashCountData?.total_order}
+
               </div>
             </Card.Body>
           </Card>
