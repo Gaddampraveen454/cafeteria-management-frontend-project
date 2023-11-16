@@ -115,7 +115,7 @@ const NICorders = () => {
     // if (event.is_delivered)
     const payload = {
       "order_uuid": event.uuid,
-      "order_status": status
+      "status": status
     }
     dispatch(OrderStatusUpdateCashierURL(payload, currentUser.token))
     setSuc(true)
@@ -493,13 +493,17 @@ const NICorders = () => {
                       <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                           <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-                            {item.is_delivered === true ? "Delivered" : "Pending"}
+                            {item.order_status ? item.order_status : "Pending"}
                           </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
                           <Dropdown.Item
-                            onClick={(status) => { eventHandler(item, status = true) }}>Delivered</Dropdown.Item>
-                          <Dropdown.Item onClick={(status) => { eventHandler(item, status = false) }} >Pending</Dropdown.Item>
+                            onClick={(status) => { eventHandler(item, "Pending") }}>Pending</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Accepted") }} >Accepted</Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
                           {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
                         </Dropdown.Menu>
                       </Dropdown>
