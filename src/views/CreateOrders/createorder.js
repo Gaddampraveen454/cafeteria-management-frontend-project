@@ -98,13 +98,14 @@ const CreateOrder = () => {
 
     const [name, setName] = useState('');
     const [Quantity, setQuantity] = useState('');
-    const [selectPaymentType, setSelectPaymentType] = useState([]);
+    const [selectPaymentType, setSelectPaymentType] = useState({value:"CASH",label: 'Cash'});
     let selectPaymentType1
     if (selectPaymentType?.value === undefined) {
         selectPaymentType1 = '';
     } else {
         selectPaymentType1 = selectPaymentType?.value;
     }
+    console.log(selectPaymentType1,"selectPaymentType1")
     const optionsPayment = [
         { value: 'CASH', label: 'Cash ' },
         { value: 'UPI', label: 'UPI' },
@@ -664,190 +665,16 @@ const CreateOrder = () => {
                         <CsLineIcons icon="chevron-left" size="20" />
                         <span className="align-middle text-medium ms-1">Home</span>
                         {/* </NavLink> */}
-                        <h1 className="mb-0 pb-0 display-4" id="title">
+                        <h1 className="mb-0 pb-0 display-4 mt-3" id="title">
                             {title}
                         </h1>
                     </Col>
                     {/* Title End */}
                     {/* <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" /> */}
 
-                    <Row className="mb-3">
-                        <Col md="5" lg="3" xxl="2" className="mb-1">
-                            {/* Search Start */}
-                            {/* <Form.Label/> */}
-                            <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-
-                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                                <span className="search-magnifier-icon">
-                                    <CsLineIcons icon="search" />
-                                </span>
-                                <span className="search-delete-icon d-none">
-                                    <CsLineIcons icon="close" />
-                                </span>
-                            </div>
-                            {/* Search End */}
-                        </Col>
-                        <Col xs="12" md="7" lg="9" xxl="10">
-                            <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                                <Card.Body className="pb-3">
-                                    <Row>
-                                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
-                    <Row >
-                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
-                      <Col xs="8" sm="8" md="8" lg="8">
-                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                          <Clamp tag="span" clamp="2">
-                            Total Amount
-                          </Clamp>
-                        </NavLink>
-
-                      </Col>
-                      <Col xs="4" sm="4" md="4" lg="4">
-                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                          <Clamp tag="span" clamp="2">
-                            ₹{amount.total_amount}
-                          </Clamp>
-                        </NavLink>
-
-                      </Col> */}
-
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <div className="mb-2">
-                                                <p className="text-small text-muted mb-1">ITEMS</p>
-                                                <p>
-                                                    <span className="text-alternate"> {amount.count}</span>
-                                                </p>
-                                            </div>
-                                        </Col>
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <div className="mb-2">
-                                                <p className="text-small text-muted mb-1">SHIPPING</p>
-                                                <p>
-                                                    <span className="text-alternate">
-                                                        <span className="text-small text-muted">₹</span>
-                                                        0
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </Col>
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <div className="mb-2">
-                                                <p className="text-small text-muted mb-1">TOTAL</p>
-                                                <p>
-                                                    <span className="text-alternate">
-                                                        <span className="text-small text-muted">₹</span>
-                                                        {Math.round(amount.amount)}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </Col>
-                                        <Col xs="12" sm="12" md="12" lg="3">
-
-                                            <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
-
-                                        </Col>
-                                        {/* <br />
-                    <br /> */}
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <div className="mb-2">
-                                                <p className="text-small text-muted mb-1">CGST(%)</p>
-                                                <p>
-                                                    <span className="text-alternate">
-                                                        <span className="text-small text-muted">₹</span>
-                                                        {amount.cgst_tax}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </Col>
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <div className="mb-2">
-                                                <p className="text-small text-muted mb-1">SGST(%)</p>
-                                                <p>
-                                                    <span className="text-alternate">
-                                                        <span className="text-small text-muted">₹</span>
-                                                        {amount.sgst_tax}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </Col>
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <div className="mb-2">
-                                                <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                                                <div className="cta-2">
-                                                    <span>
-                                                        <span className="text-small text-muted cta-2">₹</span>
-                                                        {amount.total_amount}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </Col>
-
-
-
-                                        <Col xs="12" sm="12" md="12" lg="3">
-                                            <Button className="btn-icon btn-icon-end w-100" variant="primary"
-                                                onClick={submitOrderPlased}
-                                            >
-                                                <span>Proceed to checkout</span> <CsLineIcons icon="chevron-right" />
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-
-                        {/* <Col lg="3">
-          <Form.Label>Category</Form.Label>
-          <Select classNamePrefix="react-select"
-            options={productList}
-            value={categoryId}
-            onChange={setCategoryId}
-            placeholder="Select Category"
-            // disabled={eventType}
-          />
-        </Col> */}
-                        <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
-
-                            {/* Length Start */}
-
-                            {/* Length End */}
-                        </Col>
-                    </Row>
-
-
-
-
-
-
-                </Row>
-            </div>
-            {/* Title End */}
-
-            <Row>
-                {isLgScreen && (
-
-                    <Col lg="4" xl="4" className="d-none d-lg-block mb-1" >
-                        {/* Filters Start */}
-                        <Select className='mb-5' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
-                        <Card
-                            style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
-                            className="mb-5">
-                            {/* <Form.Label>Store</Form.Label> */}
-
-                            <Card.Body>
-                                <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
-
-                            </Card.Body>
-                        </Card>
-                        {/* <Cart 
-              item={items}
-            /> */}
-                        {/* Filters End */}
-
-
-
-
+                    <Row className="mb-3 mt-4">
+                        
+                        <Col xs="12" md="6" lg="6">
                         <div className="page-title-container">
                             <Row className="g-0">
                                 {/* Title Start */}
@@ -861,15 +688,24 @@ const CreateOrder = () => {
                                 {/* Title End */}
                             </Row>
                         </div>
-                        {items && items.map((item) => {
+
+                             
+                       
+
+                        <Card className="hover-scale-up cursor-pointer sh-26">
+                                <Card.Body >
+                                    <Row>
+                                        {items.length !== 0 ?
+<>
+<div style={{overflowY:"auto",height:"250px"}}>
+                                    {items && items.map((item) => {
                             console.log(item, "itemcxxxvxcvxcv")
                             return <>
-                                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-                                    <Row className="g-0 h-100 sh-lg-9 position-relative">
+                                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} style={{border:"1px solid #ed6789"}} >
+                                    <Row className="g-0 h-100 sh-lg-9 position-relative" >
 
                                         <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                                             <Row className="g-0 h-100 ">
-
                                                 <Col lg="7" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                                     <div className="lh-1 text-alternate">{item.item_name}</div>
 
@@ -939,12 +775,272 @@ const CreateOrder = () => {
                                                     <CsLineIcons icon="error-hexagon" />
                                                 </Button>
                                             </Row>
+
                                         </Col>
                                     </Row>
                                 </Card>
                             </>
 
                         })}
+                             </div>
+                        </>
+                        :
+                        <h1>cart is empty</h1>
+                    }
+                                   
+                                        </Row>
+                                        </Card.Body>
+                                        </Card>
+
+                        {/* {items && items.map((item) => {
+                            console.log(item, "itemcxxxvxcvxcv")
+                            return <>
+                                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} >
+                                    <Row className="g-0 h-100 sh-lg-9 position-relative" >
+
+                                        <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                                            <Row className="g-0 h-100 ">
+                                                <Col lg="7" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                                    <div className="lh-1 text-alternate">{item.item_name}</div>
+
+                                                </Col>
+
+                                                <Col lg="5" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                                 
+                                                    <InputGroup className="spinner sw-11 ">
+                                                        <InputGroup.Text id="basic-addon1">
+                                                            <button type="button" className="spin-down single px-2"
+                                                                onClick={() => { decrimentItem1(item, item.quantity - 1) }}
+                                                                
+                                                                disabled={item.quantity === 1 ? true : ""}
+                                                            >
+                                                                -
+                                                            </button>
+                                                        </InputGroup.Text>
+                                                        <Form.Control
+                                                            value={item.quantity}
+                                                            onInput={onInput}
+                                                            placeholder="Count"
+                                                            className="text-center"
+
+                                                        />
+                                                        <InputGroup.Text id="basic-addon2">
+                                                            <button type="button" className="spin-up single px-2"
+                                                              
+                                                                onClick={() => { IncrimentItem1(item, item.quantity + 1) }}
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </InputGroup.Text>
+                                                    </InputGroup>
+
+                                                </Col>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <Button size="sm"
+                                                    className="btn-icon btn-icon-only position-absolute t-2 e-2 "
+                                                    variant="foreground-alternate"
+                                                  
+                                                    onClick={() => deleteItem(item.item_uuid)}
+                                                >
+                                                    <CsLineIcons icon="error-hexagon" />
+                                                </Button>
+                                            </Row>
+
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            </>
+
+                        })} */}
+                   
+                        </Col>
+                        <Col xs="12" md="6" lg="6" style={{marginTop:"3%"}}>
+                            <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                                <Card.Body className="pb-3">
+                                    <Row>
+                                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
+                    <Row >
+                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
+                      <Col xs="8" sm="8" md="8" lg="8">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            Total Amount
+                          </Clamp>
+                        </NavLink>
+
+                      </Col>
+                      <Col xs="4" sm="4" md="4" lg="4">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            ₹{amount.total_amount}
+                          </Clamp>
+                        </NavLink>
+
+                      </Col> */}
+
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">TOTAL ITEMS</p>
+                                                <p>
+                                                    <span className="text-alternate"> {amount?.details?.length}</span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        {/* <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SHIPPING</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        0
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col> */}
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SUB TOTAL</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        {Math.round(amount.amount)}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">CGST(%)</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        {amount.cgst_tax}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SGST(%)</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        {amount.sgst_tax}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                        <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SELECT PAYMENT</p>
+                                            <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
+                                            </div>
+                                        </Col>
+                                        {/* <br />
+                    <br /> */}
+                                        
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                                                <div className="cta-2">
+                                                    <span>
+                                                        <span className="text-small text-muted cta-2">₹</span>
+                                                        {amount.total_amount}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Col>
+
+
+
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                        <div className="mt-2">
+                                            <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                                                onClick={submitOrderPlased}
+                                            >
+                                                <span>PLACE ORDER</span> <CsLineIcons icon="chevron-right" />
+                                            </Button>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+
+
+                        {/* <Col lg="3">
+          <Form.Label>Category</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={productList}
+            value={categoryId}
+            onChange={setCategoryId}
+            placeholder="Select Category"
+            // disabled={eventType}
+          />
+        </Col> */}
+                        {/* <Col md="7" lg="3" xxl="10" className="mb-1 text-end"> */}
+
+                            {/* Length Start */}
+
+                            {/* Length End */}
+                        {/* </Col> */}
+                    </Row>
+
+
+
+
+
+
+                </Row>
+            </div>
+            {/* Title End */}
+
+            <Row>
+           
+
+                {isLgScreen && (
+
+                    <Col xs="12" lg="3" xl="3" className="d-none d-lg-block" >
+                        {/* Filters Start */}
+                        <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                        <Card
+                            style={{ position: "scroll", zIndex: "1", width: "100%", height: "auto" }}
+                            className="mb-5">
+                            {/* <Form.Label>Store</Form.Label> */}
+
+                            <Card.Body>
+                                <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
+
+                            </Card.Body>
+                        </Card>
+                        {/* <Cart 
+              item={items}
+            /> */}
+                        {/* Filters End */}
+
+
+
+
+                       
 
                         {/* {handleopen === true ?  */}
 
@@ -954,8 +1050,30 @@ const CreateOrder = () => {
 
                 )}
 
-                <Col style={{ position: "sticky" }} lg="8" xl="8">
 
+                        {/* <Col md="5" lg="3"  className="mb-1"> */}
+                            {/* Search Start */}
+                            {/* <Form.Label/> */}
+                           
+                            {/* Search End */}
+                        {/* </Col> */}
+
+                <Col xs="12" lg="9" xl="9">
+                    <Row className='mb-3'>
+                    <Col xs="12" lg="6" xl="6">
+                        <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                <span className="search-magnifier-icon">
+                    <CsLineIcons icon="search" />
+                </span>
+                <span className="search-delete-icon d-none">
+                    <CsLineIcons icon="close" />
+                </span>
+                </div>
+                        </Col>
+                    </Row>
+                
                     <div id="firstcolumn">
                         {/* <Form className="mb-5">
               <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
@@ -966,7 +1084,7 @@ const CreateOrder = () => {
                                 console.log(item, "storeprod")
                                 return <>
 
-                                    <Col xs="12" md="4" lg="4" xl="4">
+                                    <Col xs="12" md="3" lg="3" xl="3">
                                         <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                                             <Card.Body className="pb-3">
                                                 {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
@@ -1138,8 +1256,16 @@ const CreateOrder = () => {
                     {/* Product Thumbnails End */}
 
 
-                    {/* Pagination Start */}
-                    <div className="d-flex justify-content-center mt-5">
+                    
+                </Col>
+            </Row >
+
+
+
+            <Row>
+                <Col xs="12" md="12">
+                {/* Pagination Start */}
+                <div className="d-flex justify-content-center mt-5">
                         <Pagination>
                             <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                                 <CsLineIcons icon="chevron-left" />
@@ -1163,7 +1289,7 @@ const CreateOrder = () => {
                     </div>
                     {/* Pagination End */}
                 </Col>
-            </Row >
+            </Row>
 
             {/* Filters Modal Start */}
             {

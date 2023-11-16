@@ -329,9 +329,9 @@ const Menu = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             {/* <CsLineIcons icon="chevron-left" size="20" /> */}
             {/* <span className="align-middle text-medium ms-1">Home</span> */}
-            <h1 className="mb-0 pb-0 display-4" id="title">
+            {/* <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
-            </h1>
+            </h1> */}
           </Col>
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
@@ -349,26 +349,30 @@ const Menu = () => {
         </Row>
       </div>
       <Row>
-        <Col style={{ position: "sticky" }} lg="9" xl="9">
+        <Col style={{ position: "sticky" }} lg="12" xl="12">
           <div id="firstcolumn">
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
               {StoreForConsumer && StoreForConsumer.data && StoreForConsumer.data.map((item, index) => {
                 console.log(item, "sfsdfdsfsdfsdf")
                 return <>
-                  <Col xs="12" md="6" lg="6" xl="6">
+                  <Col xs="12" md="4" lg="4" xl="4">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
                         <Row >
-                          <Col xs="6" sm="8" md="8" lg="8">
+                          <Col xs="6" sm="6" md="6" lg="6">
+                          <img src={item?.logo} alt="GreenDot" style={{ width: "100%", height: "auto" }}  crossOrigin="anonymous" />
                             {/* <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading"> */}
-                            <Clamp tag="span" clamp="2">
-                              {item.store_name}
-                            </Clamp>
+                          
                             {/* </NavLink> */}
                           </Col>
                           {item?.is_active === false ?
-                            <Col xs="6" sm="4" md="4" lg="4">
-                              <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                           <Col xs="6" sm="6" md="6" lg="6">
+                            <p style={{fontSize:"16px",fontWeight:"800"}}>{item.store_name}</p>
+                                {/* <Clamp tag="span" clamp="2"> */}
+                              
+                            {/* </Clamp> */}
+                            <br/>
+
                               <Button variant="outline-primary"
                                 className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
                                 onClick={() => { disableStore() }}
@@ -378,8 +382,13 @@ const Menu = () => {
                               </Button>
                             </Col>
                             :
-                            <Col xs="6" sm="4" md="4" lg="4">
-                              <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                            <Col xs="6" sm="6" md="6" lg="6">
+                                <p style={{fontSize:"16px",fontWeight:"800"}}>{item.store_name}</p>
+                               {/* <Clamp tag="span" clamp="2"> */}
+                              {/* {item.store_name} */}
+                            {/* </Clamp> */}
+                            <br/>
+                              {/* <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
                               <Button variant="outline-primary"
                                 className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
                                 disabled={item?.is_active === false}
@@ -405,8 +414,16 @@ const Menu = () => {
             </Row>
           </div>
           {/* Product Thumbnails End */}
-          {/* Pagination Start */}
-          <div className="d-flex justify-content-center mt-5">
+         
+          {/* Pagination End */}
+        </Col>
+
+
+      </Row>
+      {/* <Row>
+        <Col xs="12" lg="12" xl="12">
+        
+         <div className="d-flex justify-content-center mt-5">
             <Pagination>
               <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                 <CsLineIcons icon="chevron-left" />
@@ -426,11 +443,8 @@ const Menu = () => {
               </Pagination.Next>
             </Pagination>
           </div>
-          {/* Pagination End */}
         </Col>
-
-
-      </Row>
+      </Row> */}
       {/* Filters Modal Start */}
       {/* {!isLgScreen && (
         <>
