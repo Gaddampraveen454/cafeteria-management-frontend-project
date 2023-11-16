@@ -1,7 +1,8 @@
-import React, { useState,useEffect } from 'react';
-import { NavLink,useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
+import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +15,7 @@ const addcategory = () => {
   const history = useHistory();
   const title = 'Add Category';
   const description = 'Ecommerce Category Management Page';
-  // const { CategoryListURL,notification } = useSelector((state) => state.cotegoryList)
+  const { StoreList } = useSelector((state) => state.products)
   const [selectValueState, setSelectValueState] = useState();
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
@@ -57,51 +58,70 @@ const addcategory = () => {
     { value: '30', label: '30' },
   ];
 
-  const [name, setName]=useState("")
-  const [suc,setSuc] = useState(false);
+  const [name, setName] = useState("")
+  const [suc, setSuc] = useState(false);
 
   const { currentUser } = useSelector((state) => state.auth)
-  console.log(currentUser,'currentUsercurrentUser')
+  console.log(currentUser, 'currentUsercurrentUser')
   const { categoryData, notification } = useSelector((state) => state.cotegoryList)
   // const { cashierData } = useSelector((state) => state.cashierList)
-//   const { categoryData } = useSelector((state) => state.cotegoryList)
-// useEffect(() => {
-//   dispatch(CategoryListURL(currentUser.token))
-// }, [])
+  //   const { categoryData } = useSelector((state) => state.cotegoryList)
+  // useEffect(() => {
+  //   dispatch(CategoryListURL(currentUser.token))
+  // }, [])
+
+  useEffect(() => {
+    ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid)
+  }, [])
+
+  const StoreUUid = []
+  if (StoreList?.data?.length > 0) {
+    StoreList?.data?.map((text) => {
+      return StoreUUid.push({ label: text?.store_name, value: text?.uuid })
+    }, [])
+  }
+
+  const [storeuuid, setStoreUUID] = useState('');
+
+  const SelectStoreName = (event) => {
+    console.log(event)
+    setStoreUUID(event)
+  }
+
   const AddCategory = (event) => {
     event.preventDefault()
     const payload = {
-      "company_uuid":currentUser?.data?.uuid,
-      "name":name,
-
+      "company_uuid": currentUser?.data?.uuid,
+      "name": name,
+      "store_uuid": storeuuid?.value,
     }
     dispatch(CategoryAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
     setSuc(true)
-}
-
-useEffect(() => {
-  if (suc === true) {
-    if (notification.status === true) {
-      toast.success(notification.message,{
-        position:"top-right",
-      })
-      setSuc(false)
-      setTimeout(()=>{
-        // dispatch(ProductListURL(page, search,currentUser.token,limit))
-        history.push(({
-          pathname: "/category",
-          // state : {detail : id,fullname : name, pic :image, type:"edit"},
-        }));
-      },2000)
-    }
-    else if (notification.status === false) {
-      toast.error(notification.message)
-      setSuc(false)
-    }
   }
 
-}, [notification])
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          // dispatch(ProductListURL(page, search,currentUser.token,limit))
+          history.push(({
+            pathname: "/category",
+            // state : {detail : id,fullname : name, pic :image, type:"edit"},
+          }));
+        }, 2000)
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [notification])
 
   return (
     <>
@@ -126,28 +146,28 @@ useEffect(() => {
             <Card.Body>
               <Form onSubmit={AddCategory}>
                 <Row className="g-3">
-                     <Col lg="6">
+                  <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
+                    <Form.Control type="text" onChange={(e) => { setName(e.target.value) }} />
                   </Col>
-                  {/* <Col lg='6' className="mb-1">
-                                        <Form.Label>Select Company</Form.Label>
-                                        <Select
-                                            classNamePrefix="react-select"
-                                            className=""
-                                            name="categery"
-                                            // options={companyDrop}
-                                            // value={updateOption} // 
-                                            // onChange={HandleChange}
-                                            placeholder="Select Company"
-                                            required
-                                            style={{ borderRadius: '10px' }}
-                                        />
-                                    </Col> */}
+                  <Col lg='6' className="mb-1">
+                    <Form.Label>Select Store</Form.Label>
+                    <Select
+                      classNamePrefix="react-select"
+                      className=""
+                      name="categery"
+                      options={StoreUUid}
+                      value={storeuuid}
+                      onChange={SelectStoreName}
+                      placeholder="Select Store"
+                      required
+                      style={{ borderRadius: '10px' }}
+                    />
+                  </Col>
                   <Col lg="12" className='mt-4'>
-                  {/* <Form.Label >hello</Form.Label> */}
-                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
-                    <CsLineIcons /> <span>Submit</span>
+                    {/* <Form.Label >hello</Form.Label> */}
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                      <CsLineIcons /> <span>Submit</span>
                     </Button>
                   </Col>
 
@@ -242,8 +262,8 @@ useEffect(() => {
           {/* Payment End */}
         </Col>
         {/* <Col lg="auto" className="order-0 order-lg-1"> */}
-          {/* <h2 className="small-title">Summary</h2> */}
-          {/* <Card className="mb-5 w-100 sw-lg-35">
+        {/* <h2 className="small-title">Summary</h2> */}
+        {/* <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
               <div className="mb-3">
                 <div className="mb-2">
