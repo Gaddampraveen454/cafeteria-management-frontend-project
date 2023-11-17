@@ -4,7 +4,7 @@ import { NavLink, useHistory, useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
-import { StoreProductListURL } from 'Redux/CashierRedux/Product/ProductRedux';
+import { StoreProductListURL, StoreProductsList } from 'Redux/CashierRedux/Product/ProductRedux';
 import { categoryForConsumerListURL } from 'Redux/ConsumerRedux/Category/CategoryRedux';
 import { CartListURL, addToCartURL, updateCartURL, deleteToCartURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
 import Rating from 'react-rating';
@@ -88,17 +88,17 @@ const MenuForCashier = () => {
 
 
   const [items, setItems] = useState([]);
-  console.log(items, "hgdssavj"); 
+  console.log(items, "hgdssavj");
 
   const [name, setName] = useState('');
   const [Quantity, setQuantity] = useState('');
   const [selectPaymentType, setSelectPaymentType] = useState([]);
-   let selectPaymentType1
-    if (selectPaymentType?.value === undefined) {
-      selectPaymentType1 = '';
-    } else {
-      selectPaymentType1 = selectPaymentType?.value;
-    }
+  let selectPaymentType1
+  if (selectPaymentType?.value === undefined) {
+    selectPaymentType1 = '';
+  } else {
+    selectPaymentType1 = selectPaymentType?.value;
+  }
   const optionsPayment = [
     { value: 'CASH', label: 'Cash ' },
     { value: 'UPI', label: 'UPI' },
@@ -113,7 +113,7 @@ const MenuForCashier = () => {
 
   const { currentUser } = useSelector((state) => state.auth)
 
-console.log(currentUser,"currentUserhj")
+  console.log(currentUser, "currentUserhj")
   const [print, setPrint] = useState(false);
   const [printData, setPrintData] = useState('')
 
@@ -151,8 +151,8 @@ console.log(currentUser,"currentUserhj")
   };
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
-  const { ProductData } = useSelector((state) => state.StoreproductSlice)
-  console.log(ProductForConsumer,'bhebfhwvefgveff')
+  const { storeProductsList } = useSelector((state) => state.StoreproductSlice)
+  console.log(ProductForConsumer, 'bhebfhwvefgveff')
   const { CartData, notification } = useSelector((state) => state.CartList)
 
   console.log(categoryForConsumer, "categoryForConsumer")
@@ -233,10 +233,10 @@ console.log(currentUser,"currentUserhj")
   // const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
   //   return item.uuid
   // })
-    const prod = ProductData && ProductData.data && ProductData.data.map((item) => {
-    return item.uuid
-  })
-  console.log(prod, "sdfsdfsdfsdfsdfdsf")
+  // const prod = ProductData && ProductData.data && ProductData.data.map((item) => {
+  //   return item.uuid
+  // })
+  // console.log(prod, "sdfsdfsdfsdfsdfdsf")
 
 
 
@@ -250,7 +250,7 @@ console.log(currentUser,"currentUserhj")
 
 
   useEffect(() => {
-    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid,currentUser?.data?.uuid))
+    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser?.data?.uuid))
 
     // currentUser.data.company_uuid
   }, [])
@@ -261,6 +261,10 @@ console.log(currentUser,"currentUserhj")
     }
   }, [categoryForConsumer])
 
+  useEffect(() => {
+    dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, search))
+  }, [])
+
 
   const searchfunction = (type, pages) => {
     console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
@@ -269,39 +273,39 @@ console.log(currentUser,"currentUserhj")
       setSearch(pages)
       setPage(0)
       // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
+      dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, pages))
     }
-    if (type === "prev") {
-      setPage(page - 1)
-      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-    }
-    else if (type === "next") {
-      setPage(page + 1)
-      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-    }
-    else if (type === "page") {
-      setPage(page)
-      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-    }
-    else if (type === "page+1") {
-      setPage(page + 1)
-      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-    }
-    else if (type === "page+2") {
-      setPage(page + 2)
-      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-    }
-    else if (type === "limit") {
-      setLimit(pages)
-      setPage(0)
-      // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
-      dispatch(StoreProductListURL(page, search,currentUser.token,limit,currentUser?.data?.uuid,""))
-    }
+    // if (type === "prev") {
+    //   setPage(page - 1)
+    //   // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page - 1, search, currentUser.token, limit))
+    //   dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    // }
+    // else if (type === "next") {
+    //   setPage(page + 1)
+    //   // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+    //   dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    // }
+    // else if (type === "page") {
+    //   setPage(page)
+    //   // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page, search, currentUser.token, limit))
+    //   dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    // }
+    // else if (type === "page+1") {
+    //   setPage(page + 1)
+    //   // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 1, search, currentUser.token, limit))
+    //   dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    // }
+    // else if (type === "page+2") {
+    //   setPage(page + 2)
+    //   // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, page + 2, search, currentUser.token, limit))
+    //   dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    // }
+    // else if (type === "limit") {
+    //   setLimit(pages)
+    //   setPage(0)
+    //   // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, search, currentUser.token, pages))
+    //   dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, ""))
+    // }
   }
 
   const addToCart = (event) => {
@@ -324,7 +328,7 @@ console.log(currentUser,"currentUserhj")
 
   console.log(items, "items")
 
- 
+
 
   const deleteItem = (id1) => {
     console.log(id1, "sdfdfdsfds")
@@ -338,7 +342,7 @@ console.log(currentUser,"currentUserhj")
     console.log(event, "adsdsadasdasd")
     const arr = []
     items.map((check) => {
-      console.log(items,'bdvhcbdhgv')
+      console.log(items, 'bdvhcbdhgv')
       if (check.item_uuid === event.uuid) {
         arr.push({
           item_name
@@ -370,7 +374,7 @@ console.log(currentUser,"currentUserhj")
     console.log(event, "adsdsadasdasd")
     const arr = []
     items.map((check) => {
-    console.log(items,'ebchevcghev')
+      console.log(items, 'ebchevcghev')
       if (check.item_uuid === event.uuid) {
         arr.push({
           item_name
@@ -402,7 +406,7 @@ console.log(currentUser,"currentUserhj")
     console.log(event, "adsdsadasddf43asd")
     const arr = []
     items.map((check) => {
-      console.log(check,'vheverrvdd')
+      console.log(check, 'vheverrvdd')
       if (check.item_uuid === event.item_uuid
       ) {
         arr.push({
@@ -471,8 +475,8 @@ console.log(currentUser,"currentUserhj")
     // event.preventDefault()
 
     const payload = {
-      
-      "store_uuid" : currentUser?.data?.uuid,
+
+      "store_uuid": currentUser?.data?.uuid,
       "company_uuid": currentUser.data.company_uuid,
       "item": items
     }
@@ -510,7 +514,7 @@ console.log(currentUser,"currentUserhj")
     const payload = {
       "payment_type": selectPaymentType1,
       "company_uuid": currentUser.data.company_uuid,
-      "store_uuid" : currentUser?.data?.uuid,
+      "store_uuid": currentUser?.data?.uuid,
       "item": items
     }
 
@@ -714,7 +718,7 @@ console.log(currentUser,"currentUserhj")
                     </Col>
 
 
-                    
+
                     <Col xs="12" sm="12" md="12" lg="3">
                       <Button className="btn-icon btn-icon-end w-100" variant="primary"
                         onClick={submitOrderPlased}
@@ -886,106 +890,122 @@ console.log(currentUser,"currentUserhj")
               <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
             </Form> */}
             {/* Product Thumbnails Start */}
-            <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-              {ProductData && ProductData.data && ProductData.data.map((item, index) => {
-                console.log(item, "storeprod")
-                return <>
+            {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((text, ind) => {
+              return (
+                <>
+                  <Col key={ind} style={{ cursor: 'pointer' }}>
+                    <p
+                      id={text.name}
+                      style={{
+                        fontSize: '24px',
+                        color: '#000',
+                        fontWeight: '700',
+                        marginBottom: '5px',
+                        fontFamily: "proxima-nova,sans-serif"
+                      }}
+                    >
+                      {text.name}
+                    </p>
+                    <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+                      {storeProductsList && storeProductsList.data && storeProductsList.data.map((item, index) => {
+                        console.log(item, "storeprod")
+                        return <>
+                          {item.category_uuid === text.uuid && (
+                            <Col xs="12" md="4" lg="4" xl="4">
+                              <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                                <Card.Body className="pb-3">
+                                  {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                                  <Row >
+                                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                                    <Col xs="7" sm="7" md="7" lg="7">
+                                      <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                                        <Clamp tag="span" clamp="2">
+                                          {item.name}
+                                        </Clamp>
+                                      </NavLink>
+                                      ₹{Math.round(item.price)}
+                                    </Col>
+                                    {/* <Col> &nbsp;</Col> */}
 
-                  <Col xs="12" md="4" lg="4" xl="4">
-                    <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                      <Card.Body className="pb-3">
-                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
-                        <Row >
-                          {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
-                          <Col xs="7" sm="7" md="7" lg="7">
-                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                              <Clamp tag="span" clamp="2">
-                                {item.name}
-                              </Clamp>
-                            </NavLink>
-                            ₹{Math.round(item.price)}
-                          </Col>
-                          {/* <Col> &nbsp;</Col> */}
-                                                   
-                          {/* <Col xs="6" sm="4" md="4" lg="4">
+                                    {/* <Col xs="6" sm="4" md="4" lg="4">
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
 
-                          <Col xs="5" sm="5" md="5" lg="5">
-                            {/* <NavLink  to="/"> */}
-                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                            <div>
-                              {
-                                item.stock_quantity <= 0 ?
-                                  <Col style={{ color: "red" }}>
-                                    Out of Stock
-                                  </Col>
-                                  :
-                                  <div>
-                                    {item.stock_quantity <= 5 ?
-                                      <Col style={{ color: "red" }}>
-                                        Only {item.stock_quantity} Item Left
-                                      </Col>
-                                      :
-                                      null
-                                    }
+                                    <Col xs="5" sm="5" md="5" lg="5">
+                                      {/* <NavLink  to="/"> */}
+                                      <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                                      <div>
+                                        {
+                                          item.stock_quantity <= 0 ?
+                                            <Col style={{ color: "red" }}>
+                                              Out of Stock
+                                            </Col>
+                                            :
+                                            <div>
+                                              {item.stock_quantity <= 5 ?
+                                                <Col style={{ color: "red" }}>
+                                                  Only {item.stock_quantity} Item Left
+                                                </Col>
+                                                :
+                                                null
+                                              }
 
-                                    {
-                                      items && items.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
-
-
-                                        <InputGroup className="spinner sw-11">
-                                          <InputGroup.Text id="basic-addon1">
-                                            <button type="button" className="spin-down single px-2"
-                                              onClick={() => { decrimentItem(item, item.quantity - 1) }}
-                                              // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
-                                              // disabled={btndisabl}
-
-                                              disabled={items && items.find(data1 => data1.item_uuid === item.uuid).quantity === 1 ? true : ""}
-
-                                            >
-                                              -
-                                            </button>
-                                          </InputGroup.Text>
-                                          <Form.Control
-                                            value={items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
-                                            onInput={onInput}
-                                            placeholder="Count"
-                                            className="text-center"
-
-                                          />
-                                          <InputGroup.Text id="basic-addon2">
-                                            <button type="button" className="spin-up single px-2"
-                                              // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
-                                              // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
-                                              // onClick={() => { editItem(item) }}
-                                              onClick={() => { IncrimentItem(item, item.quantity + 1) }}
-                                            >
-                                              +
-                                            </button>
-                                          </InputGroup.Text>
-                                        </InputGroup>
-                                        :
-                                        <Button variant="outline-primary"
-                                          className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                                          onClick={() => { addToCart(item) }}
-                                        >
-                                          <CsLineIcons icon="plus" /><span>Add</span>
-                                        </Button>
-                                    }
-
-                                  </div>
-                              }
-                            </div>
-                            {
-                              console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
-
-                            }
+                                              {
+                                                items && items.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
 
 
+                                                  <InputGroup className="spinner sw-11">
+                                                    <InputGroup.Text id="basic-addon1">
+                                                      <button type="button" className="spin-down single px-2"
+                                                        onClick={() => { decrimentItem(item, item.quantity - 1) }}
+                                                        // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                                        // disabled={btndisabl}
+
+                                                        // disabled={items && items.find(data1 => data1.item_uuid === item.uuid).quantity === 1 ? true : ""}
+
+                                                      >
+                                                        -
+                                                      </button>
+                                                    </InputGroup.Text>
+                                                    <Form.Control
+                                                      value={items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
+                                                      onInput={onInput}
+                                                      placeholder="Count"
+                                                      className="text-center"
+
+                                                    />
+                                                    <InputGroup.Text id="basic-addon2">
+                                                      <button type="button" className="spin-up single px-2"
+                                                        // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                                                        // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
+                                                        // onClick={() => { editItem(item) }}
+                                                        onClick={() => { IncrimentItem(item, item.quantity + 1) }}
+                                                      >
+                                                        +
+                                                      </button>
+                                                    </InputGroup.Text>
+                                                  </InputGroup>
+                                                  :
+                                                  <Button variant="outline-primary"
+                                                    className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                                    onClick={() => { addToCart(item) }}
+                                                  >
+                                                    <CsLineIcons icon="plus" /><span>Add</span>
+                                                  </Button>
+                                              }
+
+                                            </div>
+                                        }
+                                      </div>
+                                      {
+                                        console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
+
+                                      }
 
 
-                            {/* <InputGroup className="spinner sw-11">
+
+
+                                      {/* <InputGroup className="spinner sw-11">
                               <InputGroup.Text id="basic-addon1">
                                 <button type="button" className="spin-down single px-2"
                                   // onClick={updateCart(item)}
@@ -1010,18 +1030,18 @@ console.log(currentUser,"currentUserhj")
                                 </button>
                               </InputGroup.Text>
                             </InputGroup> */}
-                          </Col>
+                                    </Col>
 
 
 
 
-                        </Row>
+                                  </Row>
 
-                      </Card.Body>
-                    </Card>
-                    <Card.Footer>
+                                </Card.Body>
+                              </Card>
+                              <Card.Footer>
 
-                      {/* <div className="mb-2">
+                                {/* <div className="mb-2">
 
                     <Rating
                       initialRating={5}
@@ -1031,20 +1051,25 @@ console.log(currentUser,"currentUserhj")
                     />
                     <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
                   </div> */}
-                      <div className="card-text">
-                        {/* <div className="text-muted text-overline text-small">
+                                <div className="card-text">
+                                  {/* <div className="text-muted text-overline text-small">
                       <del>$ 14.25</del>
                     </div> */}
 
-                      </div>
-                    </Card.Footer>
+                                </div>
+                              </Card.Footer>
+                            </Col>
+                          )}
+                        </>
+
+                      })}
+
+
+                    </Row>
                   </Col>
                 </>
-
-              })}
-
-
-            </Row>
+              )
+            })}
           </div>
 
 
@@ -1064,7 +1089,7 @@ console.log(currentUser,"currentUserhj")
 
 
           {/* Pagination Start */}
-          <div className="d-flex justify-content-center mt-5">
+          {/* <div className="d-flex justify-content-center mt-5">
             <Pagination>
               <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                 <CsLineIcons icon="chevron-left" />
@@ -1085,7 +1110,7 @@ console.log(currentUser,"currentUserhj")
                 <CsLineIcons icon="chevron-right" />
               </Pagination.Next>
             </Pagination>
-          </div>
+          </div> */}
           {/* Pagination End */}
         </Col>
       </Row>

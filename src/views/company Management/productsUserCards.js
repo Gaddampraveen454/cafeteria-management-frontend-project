@@ -422,8 +422,8 @@ const productsUserCards = () => {
                         <Card style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }} className="mb-5">
                             <Card.Body>
                                 {/* <Cardsdetails /> */}
-                                {/* <ProductsUserCardDetailes /> */}
-                                {categoryForConsumer ?
+                                <ProductsUserCardDetailes />
+                                {/* {categoryForConsumer ?
                                     <div>
                                         {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item) => {
                                             return <>
@@ -438,19 +438,12 @@ const productsUserCards = () => {
                                                 >
                                                     <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: 'rgb(72 72 72/1)', lineHeight: "1.25rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
                                                 </a>
-                                                {/* <label style={{ cursor: "pointer" }} title className={`form-check-label mb-3 d-flex justify-content-left align-items-left ${category === item.uuid ? 'selectedCategory' : ''}`}
-                                        onClick={() => { setCategory(item.uuid); closeFunction() }}
-                                    >
-                                        <div>
-                                            {item.name}
-                                        </div>
-                                    </label> */}
                                             </>
                                         })}
                                     </div>
                                     :
                                     null
-                                }
+                                } */}
                             </Card.Body>
                         </Card>
                         {/* Filters End */}

@@ -309,9 +309,9 @@ const category = () => {
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Store Name</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            {/* <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">User Name</div>
-            </Col>
+            </Col> */}
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Category Id</div>
             </Col>
@@ -338,6 +338,7 @@ const category = () => {
       {/* List Items Start */}
       {categoryData && categoryData.data && categoryData.data.map((item, index) => {
         return <div key="">
+          {console.log(item, "hgsdcfdhsxdajh")}
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
               {/* <Col xs="auto" className="positio-relative">
@@ -359,9 +360,9 @@ const category = () => {
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.store[0]?.store_name}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.users[0]?.name}</div>
-                  </Col>
+                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.users ? item.users[0]?.name : ""}</div>
+                  </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>

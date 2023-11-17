@@ -11,7 +11,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CategorycreateList } from 'Redux/AdminRedux/Cataogy/categoryRedux';
-import { CompanyProductionListURL } from 'Redux/AdminRedux/Production/production';
+import { CompanyProductionListURL, CompanyProductsList } from 'Redux/AdminRedux/Production/production';
 
 const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   console.log(selectStore, "gfsfgsgs76567567fgsg")
@@ -87,22 +87,23 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   const [categoryuuid, setCategoryuuid] = useState('');
   console.log(categoryuuid, "ghdsjhgch")
 
-  useEffect(() => {
-    if (categorylist) {
-      setCategoryuuid(categorylist && categorylist.data && categorylist.data[0] && categorylist.data[0].uuid)
-    }
-  }, [categorylist])
+  // useEffect(() => {
+  //   if (categorylist) {
+  //     setCategoryuuid(categorylist && categorylist.data && categorylist.data[0] && categorylist.data[0].uuid)
+  //   }
+  // }, [categorylist])
 
 
   useEffect(() => {
-    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", currentUser?.data?.uuid, categoryuuid || "CAT-423624E7", selectStore === undefined ? "" : selectStore));
+    // dispatch(CompanyProductionListURL("", "", currentUser?.token, "", currentUser?.data?.uuid, categoryuuid || "CAT-423624E7", selectStore === undefined ? "" : selectStore));
+    dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore === undefined ? "" : selectStore, ""))
   }, [])
 
   const Handlechangeproducts = (categoryid) => {
     setCategoryuuid(categoryid)
     console.log(categoryid, "sfghfghdfgdfghjd567547hy")
 
-    dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? "" : companyuuid, categoryid === undefined ? "" : categoryid, selectStore === undefined ? "" : selectStore));
+    // dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? "" : companyuuid, categoryid === undefined ? "" : categoryid, selectStore === undefined ? "" : selectStore));
 
   }
 
@@ -119,21 +120,27 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
               {categorylist.data?.length > 0 && categorylist && categorylist.data && categorylist.data.map((item) => {
                 console.log(item, "itemitemitem6456")
                 return <>
-                  {/* <a href="#firstcolumn"> */}
-                  <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
+                  <a
+                    className="text-alternate mb-2"
+                    href={`#${item.name}`}
                     onClick={() => {
-                      //  setCategory(item.uuid); 
+                      Handlechangeproducts(item.uuid);
+                      closeFunction()
+                    }}
+                  >
+                    <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: 'rgb(72 72 72/1)', lineHeight: "1.25rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
+                  </a>
+                  {/* <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
+                    onClick={() => {
                       Handlechangeproducts(item.uuid)
                       closeFunction()
                     }}
-                  // onClick={closeFunction}
                   >
                     <div>
                       {item.name}
                     </div>
-                  </label>
-                  {/* </a> */}
-                  {/* <br /> */}
+                  </label> */}
+
                 </>
               })}
             </div>

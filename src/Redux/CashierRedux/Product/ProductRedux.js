@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   ProductData: [],
+  storeProductsList: {},
   CreateProductData: [],
   notification: {}
 };
@@ -16,6 +17,9 @@ const StoreproductSlice = createSlice({
     setProductData(state, action) {
       state.ProductData = action.payload;
     },
+    setStoreProductsList(state, action) {
+      state.storeProductsList = action.payload;
+    },
     setCraeteProductData(state, action) {
       state.CreateProductData = action.payload
     },
@@ -25,10 +29,10 @@ const StoreproductSlice = createSlice({
   },
 });
 
-export const { setProductData, setToast } = StoreproductSlice.actions;
+export const { setProductData, setStoreProductsList, setToast } = StoreproductSlice.actions;
 
 
-export const StoreProductListURL = (pageNUm, search, token, limit,storId,catId) => async (dispatch) => {
+export const StoreProductListURL = (pageNUm, search, token, limit, storId, catId) => async (dispatch) => {
   const response = await axios.get(`${process.env.REACT_APP_URL}/product/store/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&store_uuid=${storId}&category_uuid=${catId}`, {
     headers: {
       "x-auth-token": token
@@ -36,6 +40,22 @@ export const StoreProductListURL = (pageNUm, search, token, limit,storId,catId) 
   }).then((res) => {
     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
     dispatch(setProductData(res.data));
+  })
+    .catch((err) => {
+      console.log("err");
+    })
+  //   console.log(response.data.data, "dfghj")
+  //   dispatch(setProductData(response.data));
+};
+
+export const StoreProductsList = (token, StoreId, search) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/store/order/list?search=${search}&store_uuid=${StoreId}`, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+    dispatch(setStoreProductsList(res.data));
   })
     .catch((err) => {
       console.log("err");
@@ -71,7 +91,7 @@ export const StoreProductAddURL = (payload, token) => async (dispatch) => {
       dispatch(setToast({ status: true, message: res.data.message }))
     })
     .catch((err) => {
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
 
@@ -83,15 +103,15 @@ export const StoreProductBulkUplodURL = (payload, token) => async (dispatch) => 
       "x-auth-token": token
     }
   })
-  .then((res) => {
-    console.log(res, "xcvxxvxcvxcvxv")
-    dispatch(setToast({ status: true, message:res && res.data && res.data.message?res.data.message: " file Uploaded successfully"  }))
-  })
-  .catch((err) => {
-    console.log(err.response,"sdfsdfsdfs")
-    dispatch(setToast({ status: false, message: err && err.response && err.response.data &&  err.response.data.message ? err.response.data.message:"Something went wrong" }))
+    .then((res) => {
+      console.log(res, "xcvxxvxcvxcvxv")
+      dispatch(setToast({ status: true, message: res && res.data && res.data.message ? res.data.message : " file Uploaded successfully" }))
+    })
+    .catch((err) => {
+      console.log(err.response, "sdfsdfsdfs")
+      dispatch(setToast({ status: false, message: err && err.response && err.response.data && err.response.data.message ? err.response.data.message : "Something went wrong" }))
 
-  })
+    })
 
 };
 
@@ -105,8 +125,8 @@ export const StoreProductUpdateURL = (uuid, payload, token) => async (dispatch) 
     dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log(err && err.response,"hjgjghgjhghj")
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      console.log(err && err.response, "hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
   // console.log(response, "sdfsfsdfs")
