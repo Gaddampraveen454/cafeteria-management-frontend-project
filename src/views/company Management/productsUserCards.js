@@ -38,6 +38,7 @@ const productsUserCards = () => {
     const location = useLocation('');
     console.log(location, "locationlocation")
     const { id, id1 } = useParams();
+    console.log( id, id1,"ghg")
     const { themeValues } = useSelector((state) => state.settings);
     const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
     const { width } = useWindowSize();
