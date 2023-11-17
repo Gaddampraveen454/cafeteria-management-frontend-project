@@ -1084,7 +1084,7 @@ const CreateOrder = () => {
                                 console.log(item, "storeprod")
                                 return <>
 
-                                    <Col xs="12" md="3" lg="3" xl="3">
+                                    <Col xs="12" md="4" lg="4" xl="4">
                                         <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                                             <Card.Body className="pb-3">
                                                 {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
