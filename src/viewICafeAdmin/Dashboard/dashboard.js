@@ -107,7 +107,6 @@ const IcafeDashboard = () => {
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">ORDERS</div>
               <div className="text-primary cta-4">
                 {DashCountData?.total_order}
-
               </div>
             </Card.Body>
           </Card>

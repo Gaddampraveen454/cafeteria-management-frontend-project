@@ -269,13 +269,13 @@ const Order = () => {
                     <div className="text-muted text-small cursor-pointer sort">ID</div>
                 </Col>
                 <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">NAME</div>
+                    <div className="text-muted text-small cursor-pointer sort">COMPANY NAME</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">PURCHASE</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">DATE</div>
+                    <div className="text-muted text-small cursor-pointer sort">ORDER DATE</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">STATUS</div>
@@ -300,6 +300,7 @@ const Order = () => {
                                     <div className="text-muted text-small d-md-none">Name</div>
                                     <div className="text-alternate">{text?.companies[0]?.company_name}</div>
                                 </Col>
+                                
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
                                     <div className="text-muted text-small d-md-none">Purchase</div>
                                     <div className="text-alternate">
@@ -311,7 +312,7 @@ const Order = () => {
                                 </Col>
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
                                     <div className="text-muted text-small d-md-none">Date</div>
-                                    <div className="text-alternate"> {moment(text?.updatedAt).format("YYYY-MM-DD")}</div>
+                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:MM:SS")}</div>
                                 </Col>
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
                                     <div className="text-muted text-small d-md-none">Status</div>

@@ -323,7 +323,7 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer">Order id</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer">Date</div>
+              <div className="text-muted text-medium cursor-pointer">Order Date</div>
             </Col>
 
             <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -463,7 +463,7 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:MM:SS')}</div>
                   </Col>
 
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">

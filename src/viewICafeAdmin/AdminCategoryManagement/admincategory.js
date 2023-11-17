@@ -51,6 +51,7 @@ const category = () => {
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
     const [companyDrop, setComapnyDrop] = useState('');
+    console.log(companyDrop,'gvfhgrwegfv')
     const [storeDrop, setStoreDrop] = useState('');
  
     const [companyUpdateDrop, setCompanyUpdateDrop] = useState('');
