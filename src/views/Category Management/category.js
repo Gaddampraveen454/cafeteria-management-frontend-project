@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import Select from 'react-select';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
@@ -44,6 +45,7 @@ const category = () => {
   const [eventType, setEventType] = useState(false)
   const [name, setName] = useState("")
   const [categoryId, setCategoryId] = useState("")
+  const [StoreId, setStoreId] = useState("")
   const [suc, setSuc] = useState(false);
 
   const [page, setPage] = useState(0);
@@ -52,6 +54,8 @@ const category = () => {
 
 
   const { currentUser } = useSelector((state) => state.auth)
+  const { StoreList } = useSelector((state) => state.products)
+
   console.log(currentUser, "gdsfjdssssssssssfk")
   // const { cashierData } = useSelector((state) => state.cashierList)
   const { categoryData, notification } = useSelector((state) => state.cotegoryList)
@@ -62,6 +66,7 @@ const category = () => {
 
 
 
+  const [storeuuid, setStoreUUID] = useState('');
 
 
   const eventHandler = (event) => {
@@ -70,8 +75,22 @@ const category = () => {
     console.log(event, "eventxcvvxcvv")
     setName(event.name)
     setCategoryId(event.uuid)
+    setStoreUUID({ label: event?.store[0]?.store_name, value: event?.store_uuid })
   };
 
+
+  const StoreUUid = []
+  if (StoreList?.data?.length > 0) {
+    StoreList?.data?.map((text) => {
+      return StoreUUid.push({ label: text?.store_name, value: text?.uuid })
+    }, [])
+  }
+
+
+  const SelectStoreName = (event) => {
+    console.log(event)
+    setStoreUUID(event)
+  }
 
 
   const updateCategory = (event) => {
@@ -80,14 +99,19 @@ const category = () => {
     const payload = {
       "company_uuid": currentUser?.data?.uuid,
       "name": name,
+      "store_uuid": storeuuid?.value,
     }
     dispatch(CategoryUpdateURL(categoryId, payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
     setSuc(true)
   }
 
+  const [StoreUUID, setStoreUUIDvalue] = useState('');
 
-
+  const SelectStoreNamevalue = (event) => {
+    setStoreUUIDvalue(event)
+    dispatch(CategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.group === "company" ? currentUser?.data?.uuid : "", event?.value))
+  }
 
 
   useEffect(() => {
@@ -224,6 +248,15 @@ const category = () => {
           </div>
           {/* Search End */}
         </Col>
+        <Col md="2" lg="2" xxl="2">
+          {/* <Form.Label>Category</Form.Label> */}
+          <Select
+            classNamePrefix="react-select"
+            options={StoreUUid}
+            value={StoreUUID}
+            onChange={SelectStoreNamevalue}
+            placeholder="Select Store" />
+        </Col>
         <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
@@ -270,16 +303,22 @@ const category = () => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-            <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Name</div>
             </Col>
-            <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Store Name</div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">User Name</div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Category Id</div>
             </Col>
-            <Col xs="2" lg="3" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer " />
             </Col>
-            <Col xs="2" lg="3" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
             {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
@@ -314,13 +353,19 @@ const category = () => {
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-                  <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.name}</div>
                   </Col>
-                  <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.store[0]?.store_name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.users[0]?.name}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
-                  <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
                       <div className="mb-n1">
                         {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
@@ -335,7 +380,7 @@ const category = () => {
                       </div>
                     </div>
                   </Col>
-                  <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
                       <div className="lh-1 text-alternate">
                         <table>
@@ -447,7 +492,10 @@ const category = () => {
                   <Form.Control type="text" value={name} onChange={(e) => { setName(e.target.value) }} disabled={eventType} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectedCompany} onChange={setSelectedCompany} placeholder="" /> */}
                 </Col>
-
+                <Col lg="12">
+                  <Form.Label>Select Store</Form.Label>
+                  <Select classNamePrefix="react-select" options={StoreUUid} defaultValue={StoreId} value={storeuuid} onChange={SelectStoreName} placeholder="" isDisabled={eventType} />
+                </Col>
 
 
                 <Col lg="6">
