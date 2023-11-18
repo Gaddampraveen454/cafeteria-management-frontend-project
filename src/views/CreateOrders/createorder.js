@@ -32,6 +32,7 @@ import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import Cardsdetails from './cardDetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from '../../views cashier/CreateOrder/Cart';
+import './createorder.css'
 
 
 
@@ -624,6 +625,60 @@ const CreateOrder = () => {
 
 
 
+    const [isNavbarFixed, setIsNavbarFixed] = useState(false);
+    const [prevScrollY, setPrevScrollY] = useState(0);
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        const navbar = document.getElementById("nav-section");
+        const navOffset = navbar.offsetTop;
+        const currentScrollY = window.scrollY;
+  
+        if (currentScrollY > navOffset && currentScrollY > prevScrollY) {
+          setIsNavbarFixed(true);
+        } else {
+          setIsNavbarFixed(false);
+        }
+  
+        setPrevScrollY(currentScrollY);
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+  
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, [prevScrollY]);
+
+
+    const [isNavbarFixed1, setIsNavbarFixed1] = useState(false);
+    const [prevScrollY1, setPrevScrollY1] = useState(0);
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        const navbar1 = document.getElementById("nav-section1");
+        const navOffset = navbar1.offsetTop;
+        const currentScrollY = window.scrollY;
+  
+        if (currentScrollY > navOffset && currentScrollY > prevScrollY) {
+          setIsNavbarFixed(true);
+        } else {
+          setIsNavbarFixed(false);
+        }
+  
+        setPrevScrollY1(currentScrollY);
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+  
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, [prevScrollY1]);
+
+
     return (
         <>
             {print === true && printData !== '' &&
@@ -1019,21 +1074,86 @@ const CreateOrder = () => {
             <Row>
 
 
+
+
+
+
+
+
+
+          
+            {/* <div style={{position:"fixed",zIndex:"1000",top:"0"}}>            */}
+<Row id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}>
+{/* <div id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}> */}
+            <div className='nav'>
+                        
+    <Col xs="12" md="3" lg="3" style={{width:"20%"}}>
+    <Select  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
+    </Col>
+    &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
+    <Col xs="12" md="3" lg="3">
+
+    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                <span className="search-magnifier-icon">
+                                    <CsLineIcons icon="search" />
+                                </span>
+                                <span className="search-delete-icon d-none">
+                                    <CsLineIcons icon="close" />
+                                </span>
+                          
+                            </div>
+    </Col>
+    <Col xs="12" md="6" >
+    &nbsp;
+    </Col>
+
+    </div>
+{/* </div> */}
+    
+</Row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 {isLgScreen && (
+
+
 
                     <Col xs="12" lg="3" xl="3"  >
                         {/* Filters Start */}
-                        <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
-                        <Card
-                            // style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" ,marginTop:"0px"}}
-                            className="mb-5">
-                            {/* <Form.Label>Store</Form.Label> */}
-
+                        <div>
+                        <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
+                        <div className='nav1'>
+                        
+                        {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
+                             
+                                <Card className="mb-5">
                             <Card.Body>
                                 <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
-
                             </Card.Body>
                         </Card>
+                        </div>
+                                {/* </div> */}
+                            {/* </div>
+                        </div> */}
+                        {/* </div> */}
+                       
                         {/* <Cart 
               item={items}
             /> */}
@@ -1048,7 +1168,11 @@ const CreateOrder = () => {
 
 
                         {/* } */}
+                        </div>
+                          </div>
                     </Col>
+                   
+                 
 
                 )}
 
@@ -1061,8 +1185,9 @@ const CreateOrder = () => {
                 {/* </Col> */}
 
                 <Col xs="12" lg="9" xl="9">
-                    <Row className='mb-3'>
+                    {/* <Row className='mb-3'>
                         <Col xs="12" lg="6" xl="6">
+                       
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
                                 <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
@@ -1072,9 +1197,10 @@ const CreateOrder = () => {
                                 <span className="search-delete-icon d-none">
                                     <CsLineIcons icon="close" />
                                 </span>
+                          
                             </div>
                         </Col>
-                    </Row>
+                    </Row> */}
 
                     <div id="firstcolumn">
                         {/* <Form className="mb-5">
