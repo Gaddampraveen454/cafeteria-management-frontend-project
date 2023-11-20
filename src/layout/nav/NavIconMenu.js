@@ -5,6 +5,7 @@ import { LogOutURL } from 'auth/authSlice';
 import { useHistory } from 'react-router-dom';
 import { MENU_BEHAVIOUR } from 'constants.js';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { Button } from 'react-bootstrap';
 import { settingsChangeColor } from 'settings/settingsSlice';
 import IconMenuNotifications from './notifications/Notifications';
 import SearchModal from './search/SearchModal';
@@ -46,7 +47,7 @@ const NavIconMenu = () => {
   };
 
   const { isLogin, currentUser } = useSelector((state) => state.auth);
-  console.log(isLogin,currentUser,"sfdfdsfsdfsdf")
+  console.log(isLogin, currentUser, "sfdfdsfsdfsdf")
 
 
   const redirect = () => {
@@ -56,11 +57,15 @@ const NavIconMenu = () => {
   }
 
   const Loginredirect = () => {
-    history.push('/consumer/login',{ update: true })
+    history.push('/consumer/login', { update: true })
   }
   // /consumer/login
   return (
     <>
+      {currentUser?.data?.group === "company" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
+      {currentUser?.data?.group === "store" && <Button>{currentUser?.data?.store_name?.toUpperCase()}</Button>}
+      {currentUser?.data?.group === "icafe_admin" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
+    
       <ul className="list-unstyled list-inline text-center menu-icons">
         {/* <li className="list-inline-item">
           <a href="#/" 
@@ -87,20 +92,22 @@ const NavIconMenu = () => {
           </a>
         </li> */}
         {/* <IconMenuNotifications /> */}
+        {/* {currentUser?.data?.group === "company" && currentUser?.data?.company_name}
+        {currentUser?.data?.group === "company" && currentUser?.data?.company_name} */}
         <li className="list-inline-item">
-          {currentUser&& currentUser.data ?
-          <a 
-          onClick={redirect}
-          >
-            <CsLineIcons icon="logout" size="18" /> <label style={{cursor:"pointer"}}>&nbsp;Logout</label>
-          </a>
-          :
-          <a 
-          onClick={Loginredirect}
-          >
-          <CsLineIcons icon="login" size="18" /> <label style={{cursor:"pointer"}}>&nbsp;Login</label>
-        </a>
-}
+          {currentUser && currentUser.data ?
+            <a
+              onClick={redirect}
+            >
+              <CsLineIcons icon="logout" size="18" /> <label style={{ cursor: "pointer" }}>&nbsp;Logout</label>
+            </a>
+            :
+            <a
+              onClick={Loginredirect}
+            >
+              <CsLineIcons icon="login" size="18" /> <label style={{ cursor: "pointer" }}>&nbsp;Login</label>
+            </a>
+          }
         </li>
       </ul>
       <SearchModal show={showSearchModal} setShow={setShowSearchModal} />

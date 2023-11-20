@@ -5,7 +5,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import {  AdminCategoryAddURL,  ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import {  AdminCategoryAddURL,  ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, ICafeAdminCategoryStoreDropDownList} from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
  
@@ -64,8 +64,8 @@ const adminaddcategory = () => {
     const [suc, setSuc] = useState(false);
  
     const { currentUser } = useSelector((state) => state.auth)
-    const { categoryData, AdmincategoryDropdown, storeDropdown, notification } = useSelector((state) => state.admincategory)
-    console.log(storeDropdown, 'bdshvshgfvnbj')
+    const { categoryData, AdmincategoryDropdown, storeDropdown,storeDropdownByCompanyId, notification } = useSelector((state) => state.admincategory)
+    console.log(storeDropdownByCompanyId, 'bdshvshgfvnbj')
     // const { cashierData } = useSelector((state) => state.cashierList)
     //   const { categoryData } = useSelector((state) => state.cotegoryList)
     // useEffect(() => {
@@ -116,7 +116,7 @@ const adminaddcategory = () => {
  
     useEffect(() => {
  
-        dispatch(ICafeAdminCategoryStoreDropDownListURL());
+        dispatch(ICafeAdminCategoryStoreDropDownList());
     }, [])
  
     const companyDrop = [];
@@ -128,12 +128,13 @@ const adminaddcategory = () => {
     const HandleChange = (select) => {
         console.log(select, 'sdhvbshdbv')
         setCompany(select?.value)
+        dispatch(ICafeAdminCategoryStoreDropDownList(select?.value));
     }
  
     const constStoreDrop = [];
  
-    if(storeDropdown?.data?.length > 0){
-      storeDropdown?.data?.map((text) => {
+    if(storeDropdownByCompanyId?.data?.length > 0){
+      storeDropdownByCompanyId?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return constStoreDrop.push({ label: text?.store_name, value: text?.uuid })
     })

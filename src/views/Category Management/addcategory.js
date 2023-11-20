@@ -70,10 +70,6 @@ const addcategory = () => {
   //   dispatch(CategoryListURL(currentUser.token))
   // }, [])
 
-  useEffect(() => {
-    ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid)
-  }, [])
-
   const StoreUUid = []
   if (StoreList?.data?.length > 0) {
     StoreList?.data?.map((text) => {
@@ -87,6 +83,10 @@ const addcategory = () => {
     console.log(event)
     setStoreUUID(event)
   }
+
+  useEffect(() => {
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+  }, [])
 
   const AddCategory = (event) => {
     event.preventDefault()
@@ -146,10 +146,6 @@ const addcategory = () => {
             <Card.Body>
               <Form onSubmit={AddCategory}>
                 <Row className="g-3">
-                  <Col lg="6">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" onChange={(e) => { setName(e.target.value) }} />
-                  </Col>
                   <Col lg='6' className="mb-1">
                     <Form.Label>Select Store</Form.Label>
                     <Select
@@ -163,6 +159,10 @@ const addcategory = () => {
                       required
                       style={{ borderRadius: '10px' }}
                     />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="text" onChange={(e) => { setName(e.target.value) }} />
                   </Col>
                   <Col lg="12" className='mt-4'>
                     {/* <Form.Label >hello</Form.Label> */}
