@@ -24,8 +24,8 @@ const iCafeAdminReportSlice = createSlice({
 export const { setAdminReportData, setToast } = iCafeAdminReportSlice.actions;
 
 
-export const ICafeAdminReportListURL = (pagNum,search,token,limit,comapnyId,storeId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/admin?pagenum=${pagNum}&limit=${limit}&search=${search}&company_uuid=${comapnyId}&store_uuid=${storeId}&user_uuid=&strat_date=&end_date=`, {
+export const ICafeAdminReportListURL = (pagNum, search, token, limit, comapnyId, storeId, startdate, enddate) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/admin?pagenum=${pagNum}&limit=${limit}&search=${search}&company_uuid=${comapnyId}&store_uuid=${storeId}&user_uuid=&start_date=${startdate}&end_date=${enddate}`, {
     headers: {
       "x-auth-token": token
     }
@@ -38,8 +38,8 @@ export const ICafeAdminReportListURL = (pagNum,search,token,limit,comapnyId,stor
     })
 
 };
-export const ICafeExportAdminReportURL = (companyId,startDate, endDate, token) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${companyId}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, {
+export const ICafeExportAdminReportURL = (companyId, startDate, endDate, token) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${companyId}&user_uuid=&start_date=${startDate}&end_date=${endDate}`, {
     headers: {
       "x-auth-token": token
     }

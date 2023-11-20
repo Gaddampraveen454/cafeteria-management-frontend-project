@@ -12,7 +12,7 @@ import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
 import { ExportExcel } from 'Export';
 import { ICafeAdminReportListURL } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
-import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, ICafeAdminCategoryStoreDropDownList } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
 
 const AdminReports = () => {
     const dispatch = useDispatch()
@@ -48,6 +48,7 @@ const AdminReports = () => {
     console.log(selectValueState, "selectValueState")
     const { companyData } = useSelector((state) => state.companyList)
     const [comapanyOption, setComapanyOption] = useState('')
+    const [companyOption1, setCompanyOption1] = useState('')
     const [option, setOption] = useState('');
 
 
@@ -79,26 +80,25 @@ const AdminReports = () => {
     // }, [])
 
 
-    //   const ChangeStartData = e => {
-    //     console.log("ChangeStartData: ", e.target.value);
-    //     setStartDate(e.target.value);
-    //   };
-    //   const ChangeEndData = e => {
-    //     console.log("ChangeStartData: ", e.target.value);
-    //     setEndDate(e.target.value);
-    //   };
+    const ChangeStartData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setStartDate(e.target.value);
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, e?.target?.value, endDate));
+    };
+    const ChangeEndData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setEndDate(e.target.value);
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, e?.target?.value));
+    };
 
-    //   const exportfunction = async () => {
-    //     await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
-    //    }
-    const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
+    const { AdmincategoryDropdown, storeDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
     // const { AdmincategoryDropdown,storeDropdown } = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
-    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
+    console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
     useEffect(() => {
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option));
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -106,32 +106,32 @@ const AdminReports = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(ICafeAdminReportListURL(0, pages, currentUser.token, limit, comapanyOption, option))
+            dispatch(ICafeAdminReportListURL(0, pages, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(ICafeAdminReportListURL(page - 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(ICafeAdminReportListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ICafeAdminReportListURL(page, search, currentUser.token, limit), comapanyOption, option)
+            dispatch(ICafeAdminReportListURL(page, search, currentUser.token, limit), comapanyOption, option, startDate, endDate)
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(ICafeAdminReportListURL(page + 2, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(ICafeAdminReportListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(ICafeAdminReportListURL(0, search, currentUser.token, pages, comapanyOption, option))
+            dispatch(ICafeAdminReportListURL(0, search, currentUser.token, pages, comapanyOption, option, startDate, endDate))
         }
     }
 
@@ -154,9 +154,20 @@ const AdminReports = () => {
 
     const selectedCompany = (selectvalue) => {
         setComapanyOption(selectvalue?.value)
+        setCompanyOption1(selectvalue)
+        setOption("")
         console.log(option, "asdhsgafgsjd")
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
+        dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
+        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option, startDate, endDate))
     }
+
+    const StoreDropp = [];
+
+    storeDropdownByCompanyId?.data?.map((text) => {
+        console.log(text, 'hdfbhfbfb')
+        return StoreDropp.push({ value: text?.uuid, label: text?.store_name })
+    })
+
 
     const dropdownValues = [];
 
@@ -168,7 +179,15 @@ const AdminReports = () => {
     const selectdropdown = (text) => {
         console.log(text, 'hsdbvudgsfy')
         setOption(text)
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value))
+        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value, startDate, endDate))
+    }
+
+    useEffect(() => {
+        dispatch(ICafeAdminCategoryStoreDropDownList(""));
+    }, [])
+
+    const exportfunction = async () => {
+        await ExportExcel(`/report/date/wise/admin?start_date=${startDate}&end_date=${endDate}&company_uuid=${comapanyOption}&store_uuid=${option === null ? "" : option}`, "Report", currentUser.token)
     }
 
 
@@ -255,6 +274,7 @@ const AdminReports = () => {
                         classNamePrefix="select company"
                         isClearable={isClearable}
                         // defaultValue={colourOptions[0]}
+                        value={companyOption1}
                         onChange={selectedCompany}
                         name="color"
                         border="none"
@@ -266,7 +286,7 @@ const AdminReports = () => {
                     <Select
                         className="basic-single"
                         classNamePrefix="select Store"
-                        options={dropdownValues}
+                        options={StoreDropp}
                         isClearable={isRemove}
                         // value={categoryId}
                         onChange={selectdropdown}
@@ -274,7 +294,17 @@ const AdminReports = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col lg="3" className="mb-1 text-end">
+                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                    {/* <div className="mb-3"> */}
+                    <Form.Label>Start date</Form.Label>
+                    <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
+                </Col>
+                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                    <Form.Label>End date</Form.Label>
+                    <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
+                    {/* </div> */}
+                </Col>
+                {/* <Col lg="3" className="mb-1 text-end"> */}
                     {/* Print Button Start */}
                     {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
                         <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -283,19 +313,24 @@ const AdminReports = () => {
                     </OverlayTrigger> */}
                     {/* Print Button End */}
 
+
+                {/* </Col> */}
+            </Row>
+            <Row>
+                <Col xs="12" md="12" style={{display:"flex",justifyContent:"end",alignItems:"center",marginBottom:"25px"}} >
                     {/* Export Dropdown Start */}
-                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
                             </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
-                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
+                            {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+                            <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+                            {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
                         </Dropdown.Menu>
-                    </Dropdown> */}
+                    </Dropdown>
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}
@@ -312,6 +347,7 @@ const AdminReports = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                     {/* Length End */}
+
                 </Col>
             </Row>
 

@@ -29,7 +29,8 @@ export const { setCategoryData,setCategoryDropDownData, setToast } = Storecatego
 
 
 export const StoreCategoryListURL = (pageNUm, search, token, limit,cmpid,strid) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/category/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${cmpid}&store_uuid=${strid}`,
+  // `/category/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${cmpid}&store_uuid=${strid}`,
+  const response = await axios.get(`${process.env.REACT_APP_URL}/category/store/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${cmpid}&store_uuid=${strid}`,
   {headers:{
     "x-auth-token" : token
   }});
@@ -38,7 +39,8 @@ export const StoreCategoryListURL = (pageNUm, search, token, limit,cmpid,strid) 
 };
 
 export const StoreCategoryDropDownL = (storid) => async (dispatch) => {
-    const response = await axios.get(`${process.env.REACT_APP_URL}/category/dropdown/list?store_uuid=${storid}`,
+    const response = await axios.get(`${process.env.REACT_APP_URL}/category/store/dropdown/list?store_uuid=${storid}`,
+    // const response = await axios.get(`${process.env.REACT_APP_URL}/category/dropdown/list?store_uuid=${storid}`,
     // {headers:{
     //   "x-auth-token" : token
     // }}
