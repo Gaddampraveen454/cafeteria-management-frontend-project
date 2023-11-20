@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -26,6 +26,7 @@ const category = () => {
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
+  const history = useHistory('')
   const checkItem = (item) => {
     if (selectedItems.includes(item)) {
       setSelectedItems(selectedItems.filter((x) => x !== item));
@@ -185,6 +186,11 @@ const category = () => {
     setSuc(true)
 
   };
+
+  const AddCategoryfunction = () => {
+    history.push('/addcategory')
+  }
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -204,11 +210,11 @@ const category = () => {
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            <NavLink to="/addcategory">
-              <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                <CsLineIcons icon="plus" /> <span>Add Category</span>
-              </Button>
-            </NavLink>
+            {/* <NavLink to="/addcategory"> */}
+            <Button onClick={AddCategoryfunction} variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+              <CsLineIcons icon="plus" /> <span>Add Category</span>
+            </Button>
+            {/* </NavLink> */}
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
             </Button>

@@ -918,6 +918,16 @@ const MenuForCashier = () => {
                                   <Row >
                                     {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
                                     <Col xs="7" sm="7" md="7" lg="7">
+                                      <Clamp tag="span" clamp="2">
+                                        {item?.type === "veg" &&
+                                          <img src="https://stage-couponportal.mistaeats.com/img/profile/profile-17.jpg" alt="" style={{ width: "15px" }} />
+                                        }
+                                      </Clamp>
+                                      <Clamp tag="span" clamp="2">
+                                        {item?.type === "non-veg" &&
+                                          <img src="https://stage-couponportal.mistaeats.com/img/profile/non-veg.png" alt="" style={{ width: "17px" }} />
+                                        }
+                                      </Clamp>
                                       <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                                         <Clamp tag="span" clamp="2">
                                           {item.name}
@@ -958,10 +968,10 @@ const MenuForCashier = () => {
                                                     <InputGroup.Text id="basic-addon1">
                                                       <button type="button" className="spin-down single px-2"
                                                         onClick={() => { decrimentItem(item, item.quantity - 1) }}
-                                                        // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
-                                                        // disabled={btndisabl}
+                                                      // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                                      // disabled={btndisabl}
 
-                                                        // disabled={items && items.find(data1 => data1.item_uuid === item.uuid).quantity === 1 ? true : ""}
+                                                      disabled={items && items.find(data1 => data1.item_uuid === item.uuid).quantity === 1 ? true : ""}
 
                                                       >
                                                         -

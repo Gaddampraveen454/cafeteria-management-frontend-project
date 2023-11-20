@@ -627,7 +627,7 @@ const productsUserCards = () => {
                     </div>
                     {/* Product Thumbnails End */}
                     {/* Pagination Start */}
-                    <div className="d-flex justify-content-center mt-5">
+                    {/* <div className="d-flex justify-content-center mt-5">
                         <Pagination>
                             <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                                 <CsLineIcons icon="chevron-left" />
@@ -646,7 +646,7 @@ const productsUserCards = () => {
                                 <CsLineIcons icon="chevron-right" />
                             </Pagination.Next>
                         </Pagination>
-                    </div>
+                    </div> */}
                     {/* Pagination End */}
                 </Col>
 
