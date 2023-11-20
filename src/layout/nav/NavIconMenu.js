@@ -65,6 +65,7 @@ const NavIconMenu = () => {
       {currentUser?.data?.group === "company" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
       {currentUser?.data?.group === "store" && <Button>{currentUser?.data?.store_name?.toUpperCase()}</Button>}
       {currentUser?.data?.group === "icafe_admin" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
+    
       <ul className="list-unstyled list-inline text-center menu-icons">
         {/* <li className="list-inline-item">
           <a href="#/" 

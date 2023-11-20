@@ -361,16 +361,16 @@ const category = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.name}</div>
+                    <div className="lh-1 text-alternate">{item?.name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.store[0]?.store_name}</div>
+                    <div className="lh-1 text-alternate">{item?.store[0]?.store_name}</div>
                   </Col>
                   {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.users ? item.users[0]?.name : ""}</div>
                   </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.uuid}</div>
+                    <div className="lh-1 text-alternate">{item?.uuid}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
@@ -379,7 +379,7 @@ const category = () => {
                         <Form.Check
 
                           type="switch"
-                          checked={item.is_active}
+                          checked={item?.is_active}
                           onClick={() => { HandleCategoryStatus(item) }}
 
                         />
