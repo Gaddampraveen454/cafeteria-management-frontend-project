@@ -37,6 +37,9 @@ export const getMes = (setTokenFound, pubnub) => {
 
 // const messaging = getMessaging(app1);
 
+const userdata1 = JSON.parse(localStorage.getItem("user"));
+console.log(messaging,"messaging")
+
 getToken(messaging, { vapidKey: 'BAHPDorxKjVssgWH3dYIWXIhbGB0xL3U7od9UUMftsFhh0qZZnH6t1iQ9V8vEFVN0UjwTX2lw2AXdkufy7p2ZbY' }).then((currentToken) => {
     if (currentToken) {
       setTokenFound(true);
@@ -44,17 +47,17 @@ getToken(messaging, { vapidKey: 'BAHPDorxKjVssgWH3dYIWXIhbGB0xL3U7od9UUMftsFhh0q
     // Send the token to your server and update the UI if necessary
       let userdata = JSON.parse(localStorage.getItem("user"));
       userdata = userdata != null ? userdata : false;
-      if (userdata && userdata && userdata.uuid){
+      if (userdata && userdata && userdata?.data?.uuid){
         const config1 = {
           method: 'post',
           url: `${process.env.REACT_APP_URL}/firebase/save`,
           data: {
             firebasetoken: currentToken,   
             device_type: "web",
-            user_uuid: userdata.uuid
+            user_uuid: userdata?.data?.uuid
           },
           headers: {
-            'x-auth-token': userdata.token
+            'x-auth-token': userdata?.token
           }
         };
         axios(config1).then((resp) => {

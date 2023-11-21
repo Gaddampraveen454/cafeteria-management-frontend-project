@@ -103,7 +103,7 @@ const report = () => {
     setEndDate(e.target.value);
     dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, startDate, e.target.value))
   };
- 
+
   const exportfunction = async () => {
     await ExportExcel(`/report/date/wise/company?start_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
   }
@@ -265,11 +265,11 @@ const report = () => {
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-          {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
-          <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
-          {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
-           </Dropdown.Menu> 
-          </Dropdown> 
+              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+            </Dropdown.Menu>
+          </Dropdown>
           {/* Export Dropdown End */}
 
           {/* Length Start */}
@@ -297,7 +297,7 @@ const report = () => {
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Company</div>
+              <div className="text-muted text-medium cursor-pointer sort">Store</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Email</div>
@@ -343,7 +343,7 @@ const report = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                    <div className="lh-1 text-alternate">{item?.stores[0]?.store_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item?.company[0]?.email}</div>

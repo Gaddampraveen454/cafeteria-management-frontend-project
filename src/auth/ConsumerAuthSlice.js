@@ -43,6 +43,7 @@ export const ConsumerLoginURL = (values) => async (dispatch) => {
       dispatch(setCurrentUser(res.data));
       console.log(localStorage.getItem('token'), JSON.stringify(res))
       dispatch(setToast({ status: true, message: res.data.message }))
+      localStorage.setItem("user", JSON.stringify(res.data));
     })
     .catch((err) => {
       console.log(err.response, "dfgfsdfsfdsfsdhj")

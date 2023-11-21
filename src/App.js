@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 
 // import redux for auth guard
 import { useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import Layout from 'layout/Layout';
 import RouteIdentifier from 'routing/components/RouteIdentifier';
 import { getRoutes } from 'routing/helper';
 import routesAndMenuItems from 'routes.js';
+import { toast } from 'react-toastify';
 import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import consumerRoutesAndMenuItems from 'customerRoutes';
@@ -17,9 +18,9 @@ import Loading from 'components/loading/Loading';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
 // import { getMes } from 'firebase';
-// import { getMes } from 'firebase';
 
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
+import { getMes, onMessageListener } from './firebase';
 
 
 const App = () => {
@@ -38,6 +39,34 @@ const App = () => {
   else {
     routsData = defaultRoutesAndMenuItems.mainMenuItems
   }
+
+  const [isTokenFound, setTokenFound] = useState(false);
+
+  console.log(isTokenFound, "isTokenFound")
+
+  const checkSafari = () => {
+    return /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window[`${"safari"}`] || (typeof safari !== 'undefined' && window[`${"safari"}`].pushNotification));
+  }
+
+  useEffect(() => {
+    if (!checkSafari())
+      // requestPermission();
+      getMes(setTokenFound);
+
+  }, []);
+
+  useEffect(() => {
+    if (!checkSafari()) {
+      onMessageListener()
+        .then((message) => {
+          toast.success(message.notification.title, message.notification.body)
+
+        })
+        .catch((err) => {
+          toast.error(JSON.stringify(err))
+        });
+    }
+  });
 
   // useEffect(() => {
   //   if (!window.location.pathname.startsWith('/menu/qr')) {
