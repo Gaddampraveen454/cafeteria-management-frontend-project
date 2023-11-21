@@ -1,0 +1,13 @@
+
+#nav-section.fixed-nav{
+    position:sticky;
+     top:10%; 
+     /* width:19%; */
+    z-index: 1000;
+  }
+
+  #nav-section1.fixed-nav1{
+    position:fixed;
+     top:27%; 
+     width:25.5%;
+  }
