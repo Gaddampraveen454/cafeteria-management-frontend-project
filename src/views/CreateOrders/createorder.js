@@ -172,7 +172,7 @@ const CreateOrder = () => {
 
     const { companyProductionData, companyProductsList } = useSelector(({ compamyProduction }) => compamyProduction);
 
-    const [selectStore, setSelectStore] = useState(StoreList?.data[0]?.uuid);
+    const [selectStore, setSelectStore] = useState(StoreList?.data?.length > 0 && StoreList?.data[0]?.uuid);
     const [companyuuid, setcompanyuuid] = useState(currentUser?.data?.uuid)
 
     useEffect(() => {
@@ -679,6 +679,35 @@ const CreateOrder = () => {
     }, [prevScrollY1]);
 
 
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+          const nav = document.querySelector('nav');
+          const navDiv = document.querySelector('nav div');
+          const scrollPosition = window.scrollY;
+    
+          if (scrollPosition >= 300) {
+            nav.classList.add('fixed-header');
+            navDiv.classList.add('visible-title');
+          } else {
+            nav.classList.remove('fixed-header');
+            navDiv.classList.remove('visible-title');
+          }
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+    
+        // Cleanup the event listener on component unmount
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, []);
+
+
+
+
+
     return (
         <>
             {print === true && printData !== '' &&
@@ -1078,22 +1107,40 @@ const CreateOrder = () => {
 
 
 
-
+            {/* <header>
+    <div className="header-banner">
+        <h1>Visit Finland</h1>
+    </div>
+    <div className="clear">we</div>
+    <nav>
+        <div className="site-title">Finland</div>
+        <ul>
+            <li><a href="/archive">Archive</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>  */}
+  
 
 
           
-            {/* <div style={{position:"fixed",zIndex:"1000",top:"0"}}>            */}
-<Row id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}>
-{/* <div id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}> */}
-            <div className='nav'>
-                        
-    <Col xs="12" md="3" lg="3" style={{width:"20%"}}>
-    <Select  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
+                    {/* <Row >
+                    <div id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}>
+                                <div className='nav'>
+                              
+                                <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
+                        <div className='nav1'> 
+                        <Col xs="12" md="3" >
+    &nbsp;
     </Col>
-    &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
-    <Col xs="12" md="3" lg="3">
+                        <Col xs="12" md="3" lg="3" style={{width:"20%"}}>
+                        <Select  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
+                        </Col>
+                        &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
+                        <Col xs="12" md="6">
 
-    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                        <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
                                 <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
                                 <span className="search-magnifier-icon">
@@ -1105,14 +1152,16 @@ const CreateOrder = () => {
                           
                             </div>
     </Col>
-    <Col xs="12" md="6" >
+    <Col xs="12" md="3" >
     &nbsp;
     </Col>
-
     </div>
-{/* </div> */}
+    </div>
+    </div>
+    </div>
+   
     
-</Row>
+</Row> */}
 
 
 
@@ -1138,12 +1187,49 @@ const CreateOrder = () => {
                     <Col xs="12" lg="3" xl="3"  >
                         {/* Filters Start */}
                         <div>
+                      
+
+
                         <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
                         <div className='nav1'>
-                        
+
+            <Row>
+            
+                <Col xs="12" md="12" lg="12" className='mb-3' style={{marginTop:"40px"}}>
+
+
+                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                    <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                    <span className="search-magnifier-icon">
+                    <CsLineIcons icon="search" />
+                    </span>
+                    <span className="search-delete-icon d-none">
+                    <CsLineIcons icon="close" />
+                    </span>
+                    </div>
+                </Col>
+
+            </Row>
+
+
+                        {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
+                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                <span className="search-magnifier-icon">
+                                    <CsLineIcons icon="search" />
+                                </span>
+                                <span className="search-delete-icon d-none">
+                                    <CsLineIcons icon="close" />
+                                </span>
+                            </div> */}
+
+                       
+
+                        <Select className="mb-4"  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
+
                         {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
                              
-                                <Card className="mb-5">
+                                <Card>
                             <Card.Body>
                                 <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
                             </Card.Body>
