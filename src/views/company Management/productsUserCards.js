@@ -419,7 +419,23 @@ const productsUserCards = () => {
                 {isLgScreen && (
                     <Col lg="3" xl="3" className="d-none d-lg-block">
                         {/* Filters Start */}
-                        <Card style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }} className="mb-5">
+                      <div style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" ,marginTop:"3.7%"}} >
+<Row>
+    <Col>
+    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container shadow bg-foreground w-100 mb-3">
+
+<Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+<span className="search-magnifier-icon">
+    <CsLineIcons icon="search" />
+</span>
+<span className="search-delete-icon d-none">
+    <CsLineIcons icon="close" />
+</span>
+</div>
+    </Col>
+</Row>
+
+<Card className="mb-5">
                             <Card.Body>
                                 {/* <Cardsdetails /> */}
                                 <ProductsUserCardDetailes />
@@ -446,6 +462,8 @@ const productsUserCards = () => {
                                 } */}
                             </Card.Body>
                         </Card>
+                      </div>
+                       
                         {/* Filters End */}
                     </Col>
                 )}
@@ -453,7 +471,7 @@ const productsUserCards = () => {
                 <Col style={{ position: "sticky" }} lg="9" xl="9">
                     <div id="firstcolumn">
                         {/* <Form.Label/> */}
-                        <Row>
+                        {/* <Row>
                             <Col lg="6" xl="6">
                                 <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
@@ -466,7 +484,7 @@ const productsUserCards = () => {
                                     </span>
                                 </div>
                             </Col>
-                        </Row>
+                        </Row> */}
 
                         {/* Search End */}
                         <Form className="mb-5">
@@ -482,7 +500,7 @@ const productsUserCards = () => {
                                             style={{
                                                 fontSize: '24px',
                                                 color: '#000',
-                                                fontWeight: '700',
+                                                fontWeight: '500',
                                                 marginBottom: '5px',
                                                 fontFamily: "proxima-nova,sans-serif"
                                             }}
