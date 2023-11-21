@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.3cff40eb.js",
+    "main.js": "/static/js/main.a808552e.js",
     "static/js/1510.a44843a2.chunk.js": "/static/js/1510.a44843a2.chunk.js",
     "static/js/3922.e3d44c17.chunk.js": "/static/js/3922.e3d44c17.chunk.js",
     "static/js/3814.0f1db0a6.chunk.js": "/static/js/3814.0f1db0a6.chunk.js",
@@ -107,7 +107,7 @@
     "static/js/5011.6d9e1f4f.chunk.js": "/static/js/5011.6d9e1f4f.chunk.js",
     "static/js/9074.f07aeb0c.chunk.js": "/static/js/9074.f07aeb0c.chunk.js",
     "static/js/9315.59d330f1.chunk.js": "/static/js/9315.59d330f1.chunk.js",
-    "static/js/3243.9d0a7c41.chunk.js": "/static/js/3243.9d0a7c41.chunk.js",
+    "static/js/3243.2affdf70.chunk.js": "/static/js/3243.2affdf70.chunk.js",
     "static/js/4163.e2718b8e.chunk.js": "/static/js/4163.e2718b8e.chunk.js",
     "static/js/9869.f45d2d2f.chunk.js": "/static/js/9869.f45d2d2f.chunk.js",
     "static/js/8307.8bbf32c5.chunk.js": "/static/js/8307.8bbf32c5.chunk.js",
@@ -150,6 +150,6 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/js/main.3cff40eb.js"
+    "static/js/main.a808552e.js"
   ]
 }
