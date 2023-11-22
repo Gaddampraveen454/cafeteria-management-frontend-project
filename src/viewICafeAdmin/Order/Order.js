@@ -265,11 +265,14 @@ const Order = () => {
 
             {/* List Header Start */}
             <Row className="g-0 h-100 align-content-center d-none d-lg-flex ps-5 pe-5 mb-2 custom-sort">
-                <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                <Col md="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-small cursor-pointer sort">ID</div>
                 </Col>
                 <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">COMPANY NAME</div>
+                </Col>
+                <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer sort">STORE NAME</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">PURCHASE</div>
@@ -277,7 +280,7 @@ const Order = () => {
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">ORDER DATE</div>
                 </Col>
-                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">STATUS</div>
                 </Col>
             </Row>
@@ -290,7 +293,7 @@ const Order = () => {
                     <Card className="mb-2" key={index}>
                         <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(1)}>
-                                <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
+                                <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">Id</div>
                                     <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
                                         {index + 1}
@@ -299,6 +302,10 @@ const Order = () => {
                                 <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                     <div className="text-muted text-small d-md-none">Name</div>
                                     <div className="text-alternate">{text?.companies[0]?.company_name}</div>
+                                </Col>
+                                <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Name</div>
+                                    <div className="text-alternate">{text?.stores?.length > 0 ? text?.stores[0]?.store_name : ""}</div>
                                 </Col>
                                 
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
@@ -314,7 +321,7 @@ const Order = () => {
                                     <div className="text-muted text-small d-md-none">Date</div>
                                     <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:MM:SS")}</div>
                                 </Col>
-                                <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
                                     <div className="text-muted text-small d-md-none">Status</div>
                                     <div>
                                         <Badge bg="outline-primary">{text?.payment_status}</Badge>

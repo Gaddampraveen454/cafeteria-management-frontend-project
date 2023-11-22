@@ -298,6 +298,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
     dispatch(ICafeAdminCategoryDropDownListURL());
 }, [])
 
+
   const CompanyDropDown = [];
 
   AdmincategoryDropdown?.data?.map((text) => {
@@ -670,7 +671,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                     value={selectedCompany}
                     onChange={setSelectedCompany}
                     placeholder=""
-                    disabled={eventType}
+                    isabled={eventType}
                   />
                   {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                 </Col>
