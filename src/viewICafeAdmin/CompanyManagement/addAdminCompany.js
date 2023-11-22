@@ -4,6 +4,7 @@ import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import axios from 'axios';
 import { IcafeAdminCompanyAddURL } from "Redux/IcafeAdminRedux/CompanyManagement/companymanagement";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -18,7 +19,8 @@ const addAdimcafeCompany = () => {
   const description = 'Ecommerce Storefront Add Details Page';
 
 
-
+  const [UploadedFile, setUploadedFile] = useState("")
+  console.log(UploadedFile, "UploadedFile")
 
 
   const initialValues = { companyName: "", walletamount: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
@@ -37,6 +39,45 @@ const addAdimcafeCompany = () => {
   // const [address, setAddress] = useState("")
   const [suc, setSuc] = useState(false);
 
+  const [image, setImage] = useState(null);
+
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+
+
+
+  const handleSubmited = () => {
+    // e.preventDefault();
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+
+      })
+      .catch(err => {
+        console.log(err, "err00")
+
+      });
+  }
+
+  useEffect(() => {
+    if (image !== null) {
+      handleSubmited()
+    }
+
+  }, [image])
+
+
 
   const AddCategory = () => {
     // event.preventDefault()
@@ -50,6 +91,7 @@ const addAdimcafeCompany = () => {
       "address": formValues.address,
       "gstin": formValues.gstin,
       "fssai_no": formValues.fssai_no,
+      "logo":UploadedFile
     }
     dispatch(IcafeAdminCompanyAddURL(payload, currentUser.token))
     setSuc(true)
@@ -295,6 +337,13 @@ const addAdimcafeCompany = () => {
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
+                    <div>
+                      <Form.Label>Logo</Form.Label>
+                      <Form.Control type="file" onChange={handleImageChange} />
+                      {/* <input type="file" onChange={handleImageChange} /> */}
+                    </div>
+                  </Col>
+                  <Col lg="12">
                     <Col lg="3">
                       <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit"
                       // onSubmit={handleSubmit}

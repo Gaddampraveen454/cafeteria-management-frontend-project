@@ -10,6 +10,7 @@ import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedu
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 
 const adminadduser = () => {
@@ -76,6 +77,9 @@ useEffect(()=>{
     setSuc(true)
 }
 
+useEffect(()=>{
+ dispatch(ICafeAdminCategoryDropDownListURL())
+},[])
 
 
 

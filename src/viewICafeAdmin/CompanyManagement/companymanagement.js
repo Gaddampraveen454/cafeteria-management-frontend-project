@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -43,7 +44,9 @@ const companymanagement = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
-
+  const [imageUrl, setimageUrl] = useState("")
+  const [UploadedFile, setUploadedFile] = useState()
+  const [image, setImage] = useState(null);
   // console.log(page,limit,search,"sdsasfasasdasd")
   const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
   const [qrOpen, setQrOpen] = useState(false)
@@ -97,6 +100,7 @@ const companymanagement = () => {
     setGstin(event.gstin)
     setFssai(event.fssai_no)
     setCompnayId(event.uuid)
+    setimageUrl(event.logo)
 
 
   };
@@ -113,7 +117,8 @@ const companymanagement = () => {
       "location": location,
       "address": address,
       "gstin": gstin,
-      "fssai_no": fssai
+      "fssai_no": fssai,
+      "logo":UploadedFile
     }
     dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
     setSuc(true)
@@ -222,6 +227,40 @@ const companymanagement = () => {
     //  document.body.innerHTML = originalContents; 
 
   };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+};
+
+
+const handleUpdateImage = () => {
+
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+        {
+            headers: {
+                "x-access-token": `${currentUser.token}`,
+            }
+        })
+        .then(res => {
+            console.log(res.data.image, "resp00");
+            setUploadedFile(res.data.image.filename)
+
+        })
+        .catch(err => {
+            console.log(err, "err00")
+
+        });
+}
+
+useEffect(() => {
+    if (image !== null) {
+        handleUpdateImage()
+    }
+
+}, [image])
+
 
   return (
     <>
@@ -548,6 +587,43 @@ const companymanagement = () => {
                     }} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
+                <Col lg="12">
+                                    {image ? null
+
+                                        :
+                                        <img src={imageUrl} alt="product image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
+                                    }
+
+                                </Col>
+                                {/* <Col lg="12">
+                    <Col lg="3">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                    <CsLineIcons /> <span>Submit</span>
+                    </Button>
+                    </Col>
+                  </Col> */}
+
+
+                                {eventType ?
+                                    null
+                                    :
+                                    <Col lg="12">
+                                        <div>
+                                            {image && (
+                                                <div >
+                                                    <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} crossOrigin='anonymous' />
+                                                </div>
+                                            )}
+                                            {/* <input type="file" onChange={handleImageChange} /> */}
+                                            <Form.Control type="file" onChange={handleImageChange} />
+
+                                        </div>
+                                    </Col>
+
+
+                                }
+
+
                 <Col lg="6">
                   <Col lg="3">
                     {eventType ?

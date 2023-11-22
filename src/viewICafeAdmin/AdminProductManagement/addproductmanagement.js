@@ -5,7 +5,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductAddURL, AdminProductStoreDropDownListURL } from "Redux/IcafeAdminRedux/ProductManagement/productmanagementredux";
+import { AdminProductAddURL, AdminProductCategoryDropDownListURL, AdminProductStoreDropDownList, AdminProductStoreDropDownListURL } from "Redux/IcafeAdminRedux/ProductManagement/productmanagementredux";
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -76,6 +76,7 @@ const addproductmanagement = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData } = useSelector((state) => state.cotegoryList)
 
+
   const { companyData } = useSelector((state) => state.companyList)
   const { ProductData, notification } = useSelector((state) => state.adminproducts)
 
@@ -87,19 +88,21 @@ const addproductmanagement = () => {
   const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory);
   console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
+  const{categoryList,storeList}=useSelector((state)=>state.adminproducts);
+  console.log(categoryList,'hsdvghdghfhgfdav');
 
   useEffect(() => {
 
     dispatch(ActiveCompnyURL(currentUser.token))
   }, [])
-  console.log(ActiveCompnayData, "sfsdfdssdfsffs");
+  console.log(currentUser, "sfsdfdssdfsffs");
 
   const companyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
 
 
 
-  const productList = categoryData && categoryData.data && categoryData.data.map((item) => { return { label: item.name, value: item.uuid } })
+  const productList = categoryList && categoryList?.data && categoryList?.data?.map((item) => { return { label: item.name, value: item.uuid } })
 
   // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
@@ -119,6 +122,7 @@ const addproductmanagement = () => {
   const [cgst, setCgst] = useState("")
   const [sgst, setSgst] = useState("")
   const [option, setOption] = useState('');
+  const [cate,setCate]=useState('');
 
 
 
@@ -170,7 +174,10 @@ const addproductmanagement = () => {
 
   }, [notification])
 
-
+useEffect(()=>{
+  dispatch(AdminProductCategoryDropDownListURL(companyOption,option))
+  dispatch(AdminProductStoreDropDownList(companyOption))
+},[])
 
 
   const [image, setImage] = useState(null);
@@ -225,15 +232,18 @@ const addproductmanagement = () => {
     console.log(text, 'dvhgdvgbhfvbj')
     return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
   })
+  console.log(CompanyDropDown,'hjwbeghevwf')
 
   const selectedCompany = (selectvalue) => {
     setComapanyOption(selectvalue?.value)
+    dispatch(AdminProductStoreDropDownList(selectvalue?.value))
+    dispatch(AdminProductCategoryDropDownListURL(selectvalue?.value,option))
     // dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue?.value , option))
   }
 
   const dropdownValues = [];
 
-  storeDropdown?.data?.map((text) => {
+  storeList?.data?.map((text) => {
     console.log(text, 'dvhgdvgbhfvbj')
     return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
   })
@@ -241,7 +251,13 @@ const addproductmanagement = () => {
   const selectdropdown = (text) => {
     console.log(text, 'hsdbvudgsfy')
     setOption(text?.value)
+    dispatch(AdminProductCategoryDropDownListURL(companyOption,text?.value))
   }
+
+    
+
+
+
 
   return (
     <>
@@ -275,6 +291,11 @@ const addproductmanagement = () => {
                     <Select classNamePrefix="react-select" options={CompanyDropDown} onChange={selectedCompany} placeholder="Select Company" />
                   </Col>
                   <Col lg="6">
+                    <Form.Label>Store</Form.Label>
+
+                    <Select classNamePrefix="react-select" options={dropdownValues} onChange={selectdropdown} placeholder="" />
+                  </Col>
+                  <Col lg="6">
                     <Form.Label>Category</Form.Label>
                     <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />
                   </Col>
@@ -283,11 +304,7 @@ const addproductmanagement = () => {
 
                     <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
                   </Col>
-                  <Col lg="6">
-                    <Form.Label>Store</Form.Label>
-
-                    <Select classNamePrefix="react-select" options={dropdownValues} onChange={selectdropdown} placeholder="" />
-                  </Col>
+                  
                   <Col lg="6">
                     <Form.Label>Price</Form.Label>
                     <Form.Control type="text" onChange={(e) => { setPrice(e.target.value) }} />
