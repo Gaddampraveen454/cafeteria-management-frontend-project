@@ -64,6 +64,13 @@ const settings = {
   general: lazy(() => import('views/settings/general/General')),
 };
 
+const FooterRoutes = {
+  terms: lazy(() => import('views/default/footer/TermsConditions')),
+  refund: lazy(() => import('views/default/footer/RefundReturn')),
+  ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+
+}
+
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
@@ -144,7 +151,18 @@ const defaultRoutesAndMenuItems = {
       // label: 'Company Management',
       // icon: 'shipping',
     },
-
+    {
+      path: `${appRoot}/termsconditions`,
+      component: FooterRoutes.terms
+    },
+    {
+      path: `${appRoot}/refund`,
+      component: FooterRoutes.refund
+    },
+    {
+      path: `${appRoot}/shippingpolicy`,
+      component: FooterRoutes.ShippingPolicy
+    }
 
 
 

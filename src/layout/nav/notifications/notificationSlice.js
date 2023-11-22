@@ -23,10 +23,25 @@ const notificationSlice = createSlice({
 
 export const { notificationsLoading, notificationsLoaded } = notificationSlice.actions;
 
-export const fetchNotifications = () => async (dispatch) => {
+// export const fetchNotifications = () => async (dispatch) => {
+//   dispatch(notificationsLoading());
+//   const response = await axios.get(`${SERVICE_URL}/notifications`);
+//   dispatch(notificationsLoaded(response.data));
+// };
+
+export const fetchNotifications = (page, limit,token, uuid) => async (dispatch) => {
   dispatch(notificationsLoading());
-  const response = await axios.get(`${SERVICE_URL}/notifications`);
-  dispatch(notificationsLoaded(response.data));
+  const response = await axios.get(`${process.env.REACT_APP_URL}/notification/consumer/list?page=${page}&limit=${limit}&user_uuid=${uuid}`,{
+    headers: {
+      "x-auth-token": token
+    }
+  })
+  .then((res) => {
+    dispatch(notificationsLoaded(response.data));
+  })
+  .catch((err) => {
+    // dispatch(notificationsLoaded(err.data));
+  })
 };
 
 const notificationReducer = notificationSlice.reducer;

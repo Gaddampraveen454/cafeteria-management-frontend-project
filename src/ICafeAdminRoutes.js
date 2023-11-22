@@ -18,6 +18,13 @@ const OrderList=lazy(()=>import('viewICafeAdmin/Order/Order'));
 const Reports = lazy(()=>import('viewICafeAdmin/Reports/adminreports'));
 
 
+const FooterRoutes = {
+  terms: lazy(() => import('views/default/footer/TermsConditions')),
+  refund: lazy(() => import('views/default/footer/RefundReturn')),
+  ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+
+}
+
 // const dashboard = lazy(() => import('views/dashboard/Dashboard'));
 
 // const Company = lazy(() => import('views/company Management/Company'));
@@ -158,6 +165,18 @@ const iCafeAdminRoutesAndMenuItems = {
       label: 'Reports',
       icon: 'shop',
     },
+    {
+      path: `${appRoot}/termsconditions`,
+      component: FooterRoutes.terms
+    },
+    {
+      path: `${appRoot}/refund`,
+      component: FooterRoutes.refund
+    },
+    {
+      path: `${appRoot}/shippingpolicy`,
+      component: FooterRoutes.ShippingPolicy
+    }
     //     {
     //   path: `${appRoot}/Company`,
     //   component: Company,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -25,6 +25,8 @@ const OrderPlaced = () => {
   const dispatch = useDispatch()
   const title = 'Orders';
   const description = 'Ecommerce Orders Page';
+
+  const history = useHistory('')
   const [status, setStatus] = useState(false)
   const [eventType, setEventType] = useState(false)
   const [suc, setSuc] = useState(false);
@@ -160,12 +162,14 @@ const OrderPlaced = () => {
 
 
   const viewEventHandler = (event) => {
-    setOpen(true)
+    // setOpen(true)
 
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
-
-
+    history.push({
+      pathname: '/OrderView',
+      state: event
+    })
   };
 
 
@@ -451,9 +455,11 @@ const OrderPlaced = () => {
       {/* List Header End */}
 
       {/* List Items Start */}
-      {ConsumerOrderData && ConsumerOrderData.data && ConsumerOrderData.data.map((item, index) => {
+
+      {ConsumerOrderData && ConsumerOrderData.data?.length > 0 && ConsumerOrderData && ConsumerOrderData.data && ConsumerOrderData.data.map((item, index) => {
         return <div key="">
           {console.log(item, "dffdfdfdfsssfsdfsdf")}
+          
           {/* <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
        
@@ -720,6 +726,8 @@ const OrderPlaced = () => {
       </div>
       {/* Pagination End */}
 
+
+      {/* OrderView Popup not using */}
       <div>
         <Dialog
           open={open}
