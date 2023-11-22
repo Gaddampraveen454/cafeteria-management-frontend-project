@@ -1302,7 +1302,7 @@ const CreateOrder = () => {
                                             style={{
                                                 fontSize: '24px',
                                                 color: '#000',
-                                                fontWeight: '700',
+                                                fontWeight: '500',
                                                 marginBottom: '5px',
                                                 fontFamily: "proxima-nova,sans-serif"
                                             }}
