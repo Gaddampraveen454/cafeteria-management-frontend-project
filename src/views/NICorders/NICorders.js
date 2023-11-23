@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import axios from 'axios'
@@ -47,6 +47,8 @@ const NICorders = () => {
       setSelectedItems([]);
     }
   };
+
+  const history = useHistory('')
 
 
   const [page, setPage] = useState(0);
@@ -147,6 +149,10 @@ const NICorders = () => {
 
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
+    history.push({
+      pathname: '/companyViewOrder',
+      state: event
+    })
 
 
   };
@@ -373,7 +379,7 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{index + 1}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:MM:SS')}</div>
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
 
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">

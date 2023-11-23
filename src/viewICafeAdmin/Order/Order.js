@@ -319,7 +319,7 @@ const Order = () => {
                                 </Col>
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
                                     <div className="text-muted text-small d-md-none">Date</div>
-                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:MM:SS")}</div>
+                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
                                 </Col>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
                                     <div className="text-muted text-small d-md-none">Status</div>

@@ -6,6 +6,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import Select from 'react-select';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
+import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import {
   Dialog,
@@ -62,6 +63,7 @@ const category = () => {
   const { categoryData, notification } = useSelector((state) => state.cotegoryList)
   useEffect(() => {
     dispatch(CategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.group === "company" ? currentUser?.data?.uuid : "", ""))
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
   }, [])
 
 

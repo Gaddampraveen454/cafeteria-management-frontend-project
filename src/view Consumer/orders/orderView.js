@@ -5,247 +5,358 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { ConsumerOrderView } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
+import { ConsumerOrderView, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Rating from 'react-rating-stars-component';
 
 const UserOrderView = () => {
-    const dispatch = useDispatch()
-    const history = useHistory();
-    const title = 'Order View';
-    const description = 'Ecommerce Category Management Page';
+  const dispatch = useDispatch()
+  const history = useHistory();
+  const title = 'Order View';
+  const description = 'Ecommerce Category Management Page';
 
-    const location = useLocation('')
-    console.log(location, "11111111111111")
+  const location = useLocation('')
+  console.log(location, "11111111111111")
 
-    const optionsState = [
-        { value: 'Fougasse', label: 'Fougasse' },
-        { value: 'Lefse', label: 'Lefse' },
-    ];
+  const optionsState = [
+    { value: 'Fougasse', label: 'Fougasse' },
+    { value: 'Lefse', label: 'Lefse' },
+  ];
 
-    const [selectValueCity, setSelectValueCity] = useState();
-    const optionsCity = [
-        { value: 'Breadstick', label: 'Breadstick' },
-        { value: 'Biscotti', label: 'Biscotti' },
-    ];
+  const [selectValueCity, setSelectValueCity] = useState();
+  const optionsCity = [
+    { value: 'Breadstick', label: 'Breadstick' },
+    { value: 'Biscotti', label: 'Biscotti' },
+  ];
 
-    const [selectValueMonth, setSelectValueMonth] = useState();
-    const optionsMonth = [
-        { value: '01', label: '01' },
-        { value: '02', label: '02' },
-        { value: '03', label: '03' },
-        { value: '04', label: '04' },
-        { value: '05', label: '05' },
-        { value: '06', label: '06' },
-        { value: '07', label: '07' },
-        { value: '08', label: '08' },
-        { value: '09', label: '09' },
-        { value: '10', label: '10' },
-        { value: '11', label: '11' },
-        { value: '12', label: '12' },
-    ];
+  const [selectValueMonth, setSelectValueMonth] = useState();
+  const optionsMonth = [
+    { value: '01', label: '01' },
+    { value: '02', label: '02' },
+    { value: '03', label: '03' },
+    { value: '04', label: '04' },
+    { value: '05', label: '05' },
+    { value: '06', label: '06' },
+    { value: '07', label: '07' },
+    { value: '08', label: '08' },
+    { value: '09', label: '09' },
+    { value: '10', label: '10' },
+    { value: '11', label: '11' },
+    { value: '12', label: '12' },
+  ];
 
-    const [selectValueYear, setSelectValueYear] = useState();
-    const optionsYear = [
-        { value: '21', label: '21' },
-        { value: '22', label: '22' },
-        { value: '23', label: '23' },
-        { value: '24', label: '24' },
-        { value: '25', label: '25' },
-        { value: '26', label: '26' },
-        { value: '27', label: '27' },
-        { value: '28', label: '28' },
-        { value: '29', label: '29' },
-        { value: '30', label: '30' },
-    ];
+  const [selectValueYear, setSelectValueYear] = useState();
+  const optionsYear = [
+    { value: '21', label: '21' },
+    { value: '22', label: '22' },
+    { value: '23', label: '23' },
+    { value: '24', label: '24' },
+    { value: '25', label: '25' },
+    { value: '26', label: '26' },
+    { value: '27', label: '27' },
+    { value: '28', label: '28' },
+    { value: '29', label: '29' },
+    { value: '30', label: '30' },
+  ];
 
 
-    const { currentUser } = useSelector((state) => state.auth)
+  const { currentUser } = useSelector((state) => state.auth)
 
-    const { OrderView } = useSelector((state) => state.OrderPlacedData)
-    console.log(OrderView, "ConsumerOrderView")
+  const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
+  console.log(consumerfeedback, "ConsumerOrderView")
 
-    const OrderViewFunction = () => {
-        dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.uuid))
+  const [ratingValue, setRating] = React.useState(location?.state?.event?.feedbacks[0]?.rating);
+  const [success, setSuccess] = useState(false);
+
+  const OrderViewFunction = () => {
+    dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid))
+  }
+
+  useEffect(() => {
+    OrderViewFunction()
+  }, [])
+
+  const handleRatingChange = (newRating) => {
+    console.log(newRating, "fgdghhhghfhgf")
+    setRating(newRating);
+  };
+
+  const ConsumerRatingApi = (event) => {
+    event?.preventDefault()
+    const value = event?.target?.elements;
+    console.log(value, "ghdfvcshbjbsdjhj")
+    const payload = {
+      "user_uuid": currentUser?.data?.uuid,
+      "order_uuid": location?.state?.event?.uuid,
+      "rating": ratingValue,
+      "review": value?.review?.value
     }
+    dispatch(ConsumerFeedback(currentUser?.data?.token, payload))
+    setSuccess(true)
+  }
 
-    useEffect(() => {
-        OrderViewFunction()
-    }, [])
+  useEffect(() => {
+    if (success === true) {
+      if (notification?.status === true) {
+        toast.success(notification?.message, {
+          position: "top-right",
+        })
+      }
+      else if (notification?.status === false) {
+        toast.error(notification?.message, {
+          position: "top-right",
+        })
+      }
+    }
+  }, [notification])
 
 
-    return (
-        <>
-            <HtmlHead title={title} description={description} />
-            {/* Title Start */}
-            <div className="page-title-container">
-                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Order">
-                    <CsLineIcons icon="chevron-left" size="20" />
-                    <span className="align-middle text-medium ms-1">order List</span>
-                </NavLink>
-                <h1 className="mb-0 pb-0 display-4" id="title">
-                    {title}
-                </h1>
-            </div>
-            {/* Title End */}
+  return (
+    <>
+      <HtmlHead title={title} description={description} />
+      {/* Title Start */}
+      <div className="page-title-container">
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Order">
+          <CsLineIcons icon="chevron-left" size="20" />
+          <span className="align-middle text-medium ms-1">order List</span>
+        </NavLink>
+        <h1 className="mb-0 pb-0 display-4" id="title">
+          {title}
+        </h1>
+      </div>
+      {/* Title End */}
 
-            <Row>
-                <Col xs="12" className="col-lg order-1 order-lg-0">
-                    {/* Address Start */}
-                    {/* <h2 className="small-title">Address</h2> */}
-                    <Card className="mb-5">
-                        <Card.Body>
-                            <Form>
-                                {/* <Row className="g-3">
-                                    <Col lg="6">
-                                        <Form.Label>Product Name</Form.Label>
-                                        <Form.Control type="text" disabled value={ConsumerOrderView} />
+      <Row>
+        <Col xs="12" className="col-lg order-1 order-lg-0">
+          {/* Address Start */}
+          {/* <h2 className="small-title">Address</h2> */}
+          <Card className="mb-5">
+            <Card.Body>
+              <Form>
+                <Row className="g-3">
+                  <Col lg="6">
+                    <Form.Label>Payment Status</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.payment_status} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Amount</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.amount} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Order Created By</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.amount} />
+                  </Col>
+
+                  <Col lg="6">
+                    <Form.Label>Online Payment</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.online_payment} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Paid From Wallet</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.paid_from_wallet} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Payment Type</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>SGST Tax</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.sgst_tax} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>CGST Tax</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.cgst_tax} />
+                  </Col>
+                </Row>
+
+              </Form>
+            </Card.Body>
+          </Card>
+
+          <Row>
+            <Col xs="12" className="col-lg order-1 order-lg-0">
+              {location?.state?.type === "Rating" &&
+                <Card className="mb-5">
+                  <Card.Body>
+                    <Form onSubmit={ConsumerRatingApi}>
+                      <h3>Feedback : </h3>
+                      <Row className="g-3">
+                        <Col lg="6">
+                          <Form.Label>Rating</Form.Label>
+                          {location?.state?.event?.feedbacks?.length === 1 ?
+                            <Rating
+                              count={5}
+                              value={ratingValue}
+                              onChange={handleRatingChange}
+                              size={35}
+                              activeColor="#ffd700"
+                              edit={false}
+                            />
+                            :
+                            <Rating
+                              count={5}
+                              value={ratingValue}
+                              onChange={handleRatingChange}
+                              size={35}
+                              activeColor="#ffd700"
+                            />
+                          }
+                        </Col>
+                      </Row>
+                      <Row className="g-3">
+                        <Col lg="6">
+                          <Form.Label>Review</Form.Label>
+                          <Form.Control as="textarea" name="review" rows={3} disabled={location?.state?.event?.feedbacks?.length === 1} defaultValue={location?.state?.event?.feedbacks[0]?.review} />
+                        </Col>
+                      </Row>
+                      {location?.state?.event?.feedbacks?.length !== 1 &&
+                        <Row className="mt-3">
+                          <Col lg="6">
+                            <Button variant="outline-primary" type='submit'>Submit</Button>
+                          </Col>
+                        </Row>
+                      }
+                    </Form>
+                  </Card.Body>
+                </Card>
+              }
+            </Col>
+          </Row>
+
+          <Card>
+            <Card.Body>
+              <Form>
+                {/* List Header Start */}
+                <Row className="g-0 mb-2 d-none d-lg-flex">
+                  <Col>
+                    <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
+                      <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">S.No</div>
+                      </Col>
+                      <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
+                      </Col>
+                      <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                      </Col>
+                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
+                      </Col>
+                      <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">Price</div>
+                      </Col>
+
+                    </Row>
+                  </Col>
+                </Row>
+                {/* List Header End */}
+
+                {/* List Items Start */}
+                {OrderView?.data?.details?.length > 0 && OrderView?.data?.details.map((item, index) => {
+                  return <div key="">
+                    {console.log(item, "fghfghfghh")}
+                    <Card className='mb-2'>
+                      <Row className="g-0 h-100 sh-lg-9 position-relative">
+
+                        <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                          <Row className="g-0 h-100 ">
+                            <Col lg="1">
+                              <Row className="gx-2 align-items-center ">
+
+                                <Col lg="12" className="col">
+                                  <Row className="p-0 mb-2 d-none d-lg-flex">
+                                    <Col xs="auto" lg="12" >
+                                      <div className="lh-1 text-alternate  mt-2">{index + 1}</div>
                                     </Col>
-                                    <Col lg="6">
-                                        <Form.Label>Quantity</Form.Label>
-                                        <Form.Control type="text" />
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col lg="4">
+                              <Row className="gx-2 align-items-center">
+                                <Col lg="12" className="col">
+                                  <Row className="g-0">
+                                    <Col xs="6" className="d-lg-none">
+                                      <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Name</div>
                                     </Col>
-                                    <Col lg="6">
-                                        <Form.Label>Price</Form.Label>
-                                        <Form.Control type="text" />
+                                    <Col xs="6" lg="12">
+                                      <div className="lh-1 text-alternate mt-2 ">{item.name}</div>
                                     </Col>
-
-                                    <Col lg="6">
-                                        <Form.Label>Product Id</Form.Label>
-                                        <Form.Control type="text" />
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col lg="4">
+                              <Row className="gx-2 align-items-center">
+                                <Col lg="12" className="col">
+                                  <Row className="g-0">
+                                    <Col className="d-lg-none">
+                                      <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Product Id</div>
                                     </Col>
-                                </Row> */}
-
-                                {/* List Header Start */}
-                                <Row className="g-0 mb-2 d-none d-lg-flex">
-                                    <Col>
-                                        <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-                                            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">S.No</div>
-                                            </Col>
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
-                                            </Col>
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
-                                            </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
-                                            </Col>
-                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Price</div>
-                                            </Col>
-
-                                        </Row>
+                                    <Col xs="auto" lg="12">
+                                      <div className="lh-1 text-alternate  mt-2">{item.uuid}</div>
                                     </Col>
-                                </Row>
-                                {/* List Header End */}
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col lg="2">
+                              <Row className="gx-2 align-items-center">
+                                <Col lg="12" className="col">
+                                  <Row className="g-0">
+                                    <Col className="d-lg-none">
+                                      <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Quantity</div>
+                                    </Col>
+                                    <Col xs="auto" lg="12">
+                                      <div className="lh-1 text-alternate  mt-2">{item.quantity}</div>
+                                    </Col>
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col lg="1">
+                              <Row className="gx-2 align-items-center">
+                                <Col lg="12" className="col">
+                                  <Row className="g-0">
+                                    <Col className="d-lg-none">
+                                      <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Price</div>
+                                    </Col>
+                                    <Col xs="auto" lg="12">
+                                      <div className="lh-1 text-alternate  mt-2">{item.price}</div>
+                                    </Col>
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
 
-                                {/* List Items Start */}
-                                {OrderView?.data?.details?.length > 0 && OrderView?.data?.details.map((item, index) => {
-                                    return <div key="">
-                                        {console.log(item, "fghfghfghh")}
-                                        <Card className='mb-2'>
-                                            <Row className="g-0 h-100 sh-lg-9 position-relative">
-
-                                                <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-                                                    <Row className="g-0 h-100 ">
-                                                        <Col lg="1">
-                                                            <Row className="gx-2 align-items-center ">
-
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="p-0 mb-2 d-none d-lg-flex">
-                                                                        <Col xs="auto" lg="12" >
-                                                                            <div className="lh-1 text-alternate  mt-2">{index + 1}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="4">
-                                                            <Row className="gx-2 align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col xs="6" className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Name</div>
-                                                                        </Col>
-                                                                        <Col xs="6" lg="12">
-                                                                            <div className="lh-1 text-alternate mt-2 ">{item.name}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="4">
-                                                            <Row className="gx-2 align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Product Id</div>
-                                                                        </Col>
-                                                                        <Col xs="auto" lg="12">
-                                                                            <div className="lh-1 text-alternate  mt-2">{item.uuid}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="2">
-                                                            <Row className="gx-2 align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Quantity</div>
-                                                                        </Col>
-                                                                        <Col xs="auto" lg="12">
-                                                                            <div className="lh-1 text-alternate  mt-2">{item.quantity}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="1">
-                                                            <Row className="gx-2 align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Price</div>
-                                                                        </Col>
-                                                                        <Col xs="auto" lg="12">
-                                                                            <div className="lh-1 text-alternate  mt-2">{item.price}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        </Card>
-
-                                    </div>
-                                })}
-
-                                {/* List Items End */}
-                            </Form>
-                        </Card.Body>
+                          </Row>
+                        </Col>
+                      </Row>
                     </Card>
-                    {/* Address End */}
 
-                    {/* Shipment Start */}
-                    {/* <h2 className="small-title">Shipment</h2> */}
-                    {/* <Card className="mb-5">
+                  </div>
+                })}
+
+                {/* List Items End */}
+              </Form>
+            </Card.Body>
+          </Card>
+          {/* Address End */}
+
+          {/* Shipment Start */}
+          {/* <h2 className="small-title">Shipment</h2> */}
+          {/* <Card className="mb-5">
             <Card.Body>
               <Form.Label>Options</Form.Label>
               <Form.Check type="radio" label="Free standard delivery" id="shipmentRadio1" name="shipmentRadio" />
               <Form.Check type="radio" label="Same day delivery for $12.00" id="shipmentRadio2" name="shipmentRadio" />
             </Card.Body>
           </Card> */}
-                    {/* Shipment End */}
+          {/* Shipment End */}
 
-                    {/* Payment Start */}
-                    {/* <h2 className="small-title">Payment</h2>
+          {/* Payment Start */}
+          {/* <h2 className="small-title">Payment</h2>
           <Card className="mb-5">
             <Card.Body>
               <Row className="g-3">
@@ -287,11 +398,11 @@ const UserOrderView = () => {
               </Row>
             </Card.Body>
           </Card> */}
-                    {/* Payment End */}
-                </Col>
-                {/* <Col lg="auto" className="order-0 order-lg-1"> */}
-                {/* <h2 className="small-title">Summary</h2> */}
-                {/* <Card className="mb-5 w-100 sw-lg-35">
+          {/* Payment End */}
+        </Col>
+        {/* <Col lg="auto" className="order-0 order-lg-1"> */}
+        {/* <h2 className="small-title">Summary</h2> */}
+        {/* <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
               <div className="mb-3">
                 <div className="mb-2">
@@ -347,10 +458,10 @@ const UserOrderView = () => {
               </Button>
             </Card.Body>
           </Card> */}
-                {/* </Col> */}
-            </Row>
-        </>
-    );
+        {/* </Col> */}
+      </Row >
+    </>
+  );
 };
 
 export default UserOrderView;

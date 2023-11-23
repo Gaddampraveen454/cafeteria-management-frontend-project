@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 
 // import redux for auth guard
-import { useSelector , useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // import layout
 import Layout from 'layout/Layout';
@@ -58,8 +58,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchNotifications(0, 5, currentUser && currentUser?.data?.token, currentUser && currentUser?.data?.uuid))
-  }, [])
+    if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+      dispatch(fetchNotifications(0, 5, currentUser && currentUser?.data?.token, currentUser && currentUser?.data?.uuid))
+    }
+  }, [currentUser])
 
   useEffect(() => {
     if (!checkSafari()) {
