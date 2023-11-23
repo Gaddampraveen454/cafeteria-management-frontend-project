@@ -537,14 +537,14 @@ const Categories = () => {
                     </span>
                   </p>
                 </div>
-                {/* <div className="mb-2">
+                <div className="mb-2">
                   <p className="text-small text-muted mb-1">SGST(%)</p>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span>{CartData.sgst_tax} 
                     </span>
                   </p>
-                </div> */}
+                </div>
                 <div className="mb-2">
                   <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>

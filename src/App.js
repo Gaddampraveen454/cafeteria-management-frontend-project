@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 
 // import redux for auth guard
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
 
 // import layout
 import Layout from 'layout/Layout';
@@ -17,6 +17,7 @@ import consumerRoutesAndMenuItems from 'customerRoutes';
 import Loading from 'components/loading/Loading';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
+import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
 // import { getMes } from 'firebase';
 
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
@@ -41,6 +42,7 @@ const App = () => {
   }
 
   const [isTokenFound, setTokenFound] = useState(false);
+  const dispatch = useDispatch();
 
   console.log(isTokenFound, "isTokenFound")
 
@@ -54,6 +56,10 @@ const App = () => {
       getMes(setTokenFound);
 
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchNotifications(0, 5, currentUser && currentUser?.data?.token, currentUser && currentUser?.data?.uuid))
+  }, [])
 
   useEffect(() => {
     if (!checkSafari()) {

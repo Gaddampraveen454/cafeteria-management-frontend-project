@@ -42,7 +42,7 @@ console.log(ConsumerData,"ConsumerData")
   },[])
   useEffect(() => {
     if (currentUser && currentUser.data) {
-      dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+      dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
 

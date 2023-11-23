@@ -29,6 +29,7 @@ const adminaddcategory = () => {
  
     const [company, setCompany] = useState('');
     const [store, setStore] = useState('');
+    const [store1, setStore1] = useState('');
  
     const [selectValueMonth, setSelectValueMonth] = useState();
     const optionsMonth = [
@@ -127,6 +128,7 @@ const adminaddcategory = () => {
  
     const HandleChange = (select) => {
         console.log(select, 'sdhvbshdbv')
+        setStore1('')
         setCompany(select?.value)
         dispatch(ICafeAdminCategoryStoreDropDownList(select?.value));
     }
@@ -143,6 +145,7 @@ const adminaddcategory = () => {
  
     const handleStore = (selectStore) => {
         console.log(selectStore, 'dvcgsavdgch')
+        setStore1(selectStore)
         setStore(selectStore?.value);
     }
  
@@ -195,7 +198,7 @@ const adminaddcategory = () => {
                                             className=""
                                             name="categery"
                                             options={constStoreDrop}
-                                            // value={updateOption} //
+                                            value={store1}
                                             onChange={handleStore}
                                             placeholder="Select Store"
                                             required
