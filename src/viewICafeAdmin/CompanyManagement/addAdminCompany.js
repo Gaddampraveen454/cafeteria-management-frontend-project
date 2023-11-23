@@ -17,7 +17,7 @@ const addAdimcafeCompany = () => {
   const { companyData, notification } = useSelector((state) => state.companymanagement)
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
-
+  const url ="https://cmsapi.scienstechnologies.com/product/images/";
 
   const [UploadedFile, setUploadedFile] = useState("")
   console.log(UploadedFile, "UploadedFile")

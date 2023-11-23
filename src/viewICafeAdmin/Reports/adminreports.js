@@ -294,12 +294,12 @@ const AdminReports = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                <Col md="3" lg="3" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
                     <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
                 </Col>
-                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                <Col md="3" lg="3" xxl="2" className="mt-1" style={{ marginTop: "-2%" }}>
                     <Form.Label>End date</Form.Label>
                     <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
                     {/* </div> */}
@@ -315,11 +315,11 @@ const AdminReports = () => {
 
 
                 {/* </Col> */}
-            </Row>
-            <Row>
-                <Col xs="12" md="12" style={{display:"flex",justifyContent:"end",alignItems:"center",marginBottom:"25px"}} >
+            
+            
+                <Col xs="12" md="9"  style={{display:"flex",justifyContent:"end",alignItems:"center",marginBottom:"15px"}} >
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
@@ -334,8 +334,8 @@ const AdminReports = () => {
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                        <OverlayTrigger  delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                                 {limit} Items
                             </Dropdown.Toggle>
@@ -360,7 +360,7 @@ const AdminReports = () => {
                             <div className="text-muted text-medium cursor-pointer sort">Company</div>
                         </Col>
                         <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                            <div className="text-muted text-medium cursor-pointer sort">Item Name</div>
+                            <div className="text-muted text-medium cursor-pointer sort">Store Name</div>
                         </Col>
 
                         <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -387,6 +387,7 @@ const AdminReports = () => {
 
             {/* List Items Start */}
             {AdminReportData?.data?.map((item, index) => {
+                console.log(item,'hjdvbhjbfver')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -407,7 +408,7 @@ const AdminReports = () => {
                                         <div className="lh-1 text-alternate">{item?.companies[0]?.company_name}</div>
                                     </Col>
                                     <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item?.details[0]?.name}</div>
+                                        <div className="lh-1 text-alternate">{item?.store[0]?.store_name}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item?.details[0]?.type}</div>

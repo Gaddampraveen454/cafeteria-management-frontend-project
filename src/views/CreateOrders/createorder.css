@@ -13,6 +13,11 @@
   }
 
 
+  .selected-category{
+    /* color: #e92d62 !important; */
+    color:red !important
+  }
+
   /* resets */
 /* body { margin:0px; padding:0px; } */
 

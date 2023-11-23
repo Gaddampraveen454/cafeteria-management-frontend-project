@@ -30,7 +30,7 @@ const StoreManagement = () => {
     const [open, setOpen] = React.useState(false);
     const [eventType, setEventType] = useState(false)
     const [companyName, setComapnayName] = useState("")
-    const [walletamount, setwalletamount] = useState("")
+    // const [walletamount, setwalletamount] = useState("")
     const [email, setEmail] = useState("")
     const [mobile, setMobile] = useState("")
     const [location, setLocation] = useState("")
@@ -111,7 +111,7 @@ const StoreManagement = () => {
         setUpdateOption({ label: event?.company[0]?.company_name, value: event?.company[0]?.uuid })
         setCompanyvalue(event)
         setComapnayName(event.store_name)
-        setwalletamount(event.wallet_amount)
+        // setwalletamount(event.wallet_amount)
         setEmail(event.email)
         setMobile(event.mobile)
         setimageUrl(event.logo)
@@ -134,7 +134,7 @@ const StoreManagement = () => {
                 "store_name": companyName,
                 "email": email,
                 "mobile": mobile,
-                "wallet_amount": walletamount,
+                // "wallet_amount": walletamount,
                 "location": location,
                 "address": address,
                 "gstin": gstin,
@@ -151,7 +151,7 @@ const StoreManagement = () => {
                 "store_name": companyName,
                 "email": email,
                 "mobile": mobile,
-                "wallet_amount": walletamount,
+                // "wallet_amount": walletamount,
                 "location": location,
                 "address": address,
                 "gstin": gstin,
@@ -164,71 +164,6 @@ const StoreManagement = () => {
 
         }
     }
-
-
-
-
-
-
-
-    // const updateProduct = (event) => {
-    //     event.preventDefault()
-    //     if (UploadedFile) {
-    //         const payload = {
-    //             "name": name,
-    //             "type": selectType.value,
-    //             "category_uuid": selectCategory.value,
-    //             "price": price,
-    //             "quantity": quantity,
-    //             "company_uuid": selectCompany1,
-    //             "image": UploadedFile,
-    //             "stock_quantity": stockQuantity,
-    //             "cgst_tax": cgst,
-    //             "sgst_tax": sgst,
-    //             "store_uuid": storeOption.value
-    //         }
-
-
-    //         dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
-
-    //         // dispatch(CompanyListURL(currentUser.token))
-    //         setSuc(true)
-
-    //     } else {
-    //         const payload = {
-    //             "name": name,
-    //             "type": selectType.value,
-    //             "category_uuid": selectCategory.value,
-    //             "price": price,
-    //             "quantity": quantity,
-    //             "company_uuid": selectCompany1,
-    //             "stock_quantity": stockQuantity,
-    //             // "image": UploadedFile,
-    //             "cgst_tax": cgst,
-    //             "sgst_tax": sgst,
-    //             "store_uuid": storeOption.value
-    //         }
-
-
-    //         dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
-    //         // dispatch(CompanyListURL(currentUser.token))
-    //         setSuc(true)
-
-
-    //     }
-
-
-
-    // }
-
-
-
-
-
-
-
-
-
 
 
     useEffect(() => {
@@ -781,10 +716,10 @@ const StoreManagement = () => {
                                         isDisabled={eventType}
                                     />
                                 </Col>
-                                <Col lg="6">
+                                {/* <Col lg="6">
                                     <Form.Label>Wallet Amount</Form.Label>
                                     <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
-                                </Col>
+                                </Col> */}
                                 <Col lg="6">
                                     <Form.Label>Contact No</Form.Label>
                                     <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
@@ -818,7 +753,7 @@ const StoreManagement = () => {
                                     <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
-                                <Col lg="12">
+                                <Col lg="6">
                                     <Form.Label>Fssai No</Form.Label>
                                     <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
                                         onKeyPress={(e) => {
@@ -830,6 +765,7 @@ const StoreManagement = () => {
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
                                 <Col lg="12">
+                                <h6>Logo</h6>
                                     {image ? null
 
                                         :

@@ -45,7 +45,7 @@ const companymanagement = () => {
   const [search, setSearch] = useState('')
 
   const [imageUrl, setimageUrl] = useState("")
-  const [UploadedFile, setUploadedFile] = useState()
+  const [UploadedFile, setUploadedFile] = useState('')
   const [image, setImage] = useState(null);
   // console.log(page,limit,search,"sdsasfasasdasd")
   const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
@@ -106,26 +106,68 @@ const companymanagement = () => {
   };
 
 
+  // const update = (event) => {
+  //   event.preventDefault()
+  //   const value = event.target.elements
+  //   const payload = {
+  //     "company_name": companyName,
+  //     "email": email,
+  //     "mobile": mobile,
+  //     "wallet_amount": walletamount,
+  //     "location": location,
+  //     "address": address,
+  //     "gstin": gstin,
+  //     "fssai_no": fssai,
+  //     "logo":UploadedFile
+  //   }
+  //   dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
+  //   setSuc(true)
+
+  // }
+
+
+
   const update = (event) => {
     event.preventDefault()
     const value = event.target.elements
-    const payload = {
-      "company_name": companyName,
-      "email": email,
-      "mobile": mobile,
-      "wallet_amount": walletamount,
-      "location": location,
-      "address": address,
-      "gstin": gstin,
-      "fssai_no": fssai,
-      "logo":UploadedFile
+    if (UploadedFile) {
+
+      const payload = {
+        "company_name": companyName,
+        "email": email,
+        "mobile": mobile,
+        "wallet_amount": walletamount,
+        "location": location,
+        "address": address,
+        "gstin": gstin,
+        "fssai_no": fssai,
+        "logo": UploadedFile
+
+      }
+      dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
+      setSuc(true)
+
     }
-    dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
-    setSuc(true)
+    else {
 
+      const payload = {
+        "company_name": companyName,
+        "email": email,
+        "mobile": mobile,
+        "wallet_amount": walletamount,
+        "location": location,
+        "address": address,
+        "gstin": gstin,
+        "fssai_no": fssai,
+        // "logo":UploadedFile
+
+      }
+      dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
+      setSuc(true)
+
+
+    }
   }
-
-
 
 
 
@@ -201,7 +243,7 @@ const companymanagement = () => {
       // "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(ICafeAdminCompanyStatusUpdateURL(payload, currentUser?.token,event.uuid))
+    dispatch(ICafeAdminCompanyStatusUpdateURL(payload, currentUser?.token, event.uuid))
     setSuc(true)
 
   };
@@ -229,37 +271,38 @@ const companymanagement = () => {
   };
 
   const handleImageChange = (e) => {
+    console.log(e, 'dhdfbvghf')
     setImage(e.target.files[0]);
-};
+  };
 
-
-const handleUpdateImage = () => {
+  const url = "https://cmsapi.scienstechnologies.com/product/images/";
+  const handleUpdateImage = () => {
 
     const formData = new FormData();
     formData.append('image', image);
     axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
-        {
-            headers: {
-                "x-access-token": `${currentUser.token}`,
-            }
-        })
-        .then(res => {
-            console.log(res.data.image, "resp00");
-            setUploadedFile(res.data.image.filename)
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
 
-        })
-        .catch(err => {
-            console.log(err, "err00")
+      })
+      .catch(err => {
+        console.log(err, "err00")
 
-        });
-}
+      });
+  }
 
-useEffect(() => {
+  useEffect(() => {
     if (image !== null) {
-        handleUpdateImage()
+      handleUpdateImage()
     }
 
-}, [image])
+  }, [image])
 
 
   return (
@@ -389,72 +432,72 @@ useEffect(() => {
         console.log(item, "itemitemitemitem")
         return (
           <>
-         
-          
-          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} key="">
-            <Row className="g-0 h-100 sh-lg-9 position-relative">
-              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-             
-                <Row className="g-0 h-100 ">
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.company_name}</div>
-                  </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.location}</div>
-                  </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.mobile}</div>
-                  </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.email}</div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate"> {item.uuid}</div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">
-                      <table>
-                        <tr>
-                          <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                              onClick={() => { ViewQRCode(item) }}
-                            >
-                              <CsLineIcons icon="print" />
-                            </Button>
-                          </td>
 
-                        </tr>
-                      </table>
-                    </div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">
-                      <table>
-                        <tr>
-                          <td>
-                            <Form.Check
-                              type="switch"
-                              checked={item.is_active}
-                              onClick={() => { HandleCompanyStatus(item) }}
 
-                            />
-                          </td>
-                          <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                              onClick={() => { eventHandler(item); setEventType(true) }}
-                            >
-                              <CsLineIcons icon="eye" />
-                            </Button>
-                          </td>
-                          <td>
-                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
-                              <CsLineIcons icon="edit-square" />
-                            </Button>
-                          </td>
-                          {/* <td>
+            <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} key="">
+              <Row className="g-0 h-100 sh-lg-9 position-relative">
+                <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+
+                  <Row className="g-0 h-100 ">
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.company_name}</div>
+                    </Col>
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.location}</div>
+                    </Col>
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.mobile}</div>
+                    </Col>
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.email}</div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate"> {item.uuid}</div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate">
+                        <table>
+                          <tr>
+                            <td>
+                              <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                onClick={() => { ViewQRCode(item) }}
+                              >
+                                <CsLineIcons icon="print" />
+                              </Button>
+                            </td>
+
+                          </tr>
+                        </table>
+                      </div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate">
+                        <table>
+                          <tr>
+                            <td>
+                              <Form.Check
+                                type="switch"
+                                checked={item.is_active}
+                                onClick={() => { HandleCompanyStatus(item) }}
+
+                              />
+                            </td>
+                            <td>
+                              <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                onClick={() => { eventHandler(item); setEventType(true) }}
+                              >
+                                <CsLineIcons icon="eye" />
+                              </Button>
+                            </td>
+                            <td>
+                              <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
+                                <CsLineIcons icon="edit-square" />
+                              </Button>
+                            </td>
+                            {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
                  <CsLineIcons icon="check" />
                  </Button>
@@ -464,33 +507,34 @@ useEffect(() => {
                  <CsLineIcons icon="close" />
                  </Button>
                   </td> */}
-                          {/* <td>
+                            {/* <td>
                   <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
                  <CsLineIcons icon="bin" />
                  </Button>
                   </td> */}
-                        </tr>
-                      </table>
-                    </div>
-                  </Col>
-                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                          </tr>
+                        </table>
+                      </div>
+                    </Col>
+                    {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
                 <Badge bg="outline-primary">SALE</Badge>
               </Col> */}
-                  {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
+                    {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
                 <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
               </Col> */}
-                </Row>
-                
-              </Col>
-            </Row>
-          </Card>
-         
-        </>
-     ) })}
+                  </Row>
+
+                </Col>
+              </Row>
+            </Card>
+
+          </>
+        )
+      })}
 
 
 
-      
+
       {/* Pagination Start */}
 
       <div className="d-flex justify-content-center mt-5">
@@ -588,14 +632,15 @@ useEffect(() => {
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
                 <Col lg="12">
-                                    {image ? null
+                  <h6>Logo</h6>
+                  {image ? null
 
-                                        :
-                                        <img src={imageUrl} alt="product image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
-                                    }
+                    :
+                    <img src={imageUrl} alt="company image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
+                  }
 
-                                </Col>
-                                {/* <Col lg="12">
+                </Col>
+                {/* <Col lg="12">
                     <Col lg="3">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
                     <CsLineIcons /> <span>Submit</span>
@@ -604,24 +649,24 @@ useEffect(() => {
                   </Col> */}
 
 
-                                {eventType ?
-                                    null
-                                    :
-                                    <Col lg="12">
-                                        <div>
-                                            {image && (
-                                                <div >
-                                                    <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} crossOrigin='anonymous' />
-                                                </div>
-                                            )}
-                                            {/* <input type="file" onChange={handleImageChange} /> */}
-                                            <Form.Control type="file" onChange={handleImageChange} />
+                {eventType ?
+                  null
+                  :
+                  <Col lg="12">
+                    <div>
+                      {image && (
+                        <div >
+                          <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} crossOrigin='anonymous' />
+                        </div>
+                      )}
+                      {/* <input type="file" onChange={handleImageChange} /> */}
+                      <Form.Control type="file" onChange={handleImageChange} />
 
-                                        </div>
-                                    </Col>
+                    </div>
+                  </Col>
 
 
-                                }
+                }
 
 
                 <Col lg="6">
