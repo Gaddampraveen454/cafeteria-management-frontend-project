@@ -380,6 +380,13 @@ const addAdminStoreManagement = () => {
                       {/* <input type="file" onChange={handleImageChange} /> */}
                     </div>
                   </Col>
+                  <div>
+                    {image && (
+                      <div >
+                        <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} />
+                      </div>
+                    )}
+                  </div>
                   <Col lg="12">
                     <Col lg="6">
                       <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit"

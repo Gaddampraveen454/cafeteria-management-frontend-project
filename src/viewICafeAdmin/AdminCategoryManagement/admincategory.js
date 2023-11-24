@@ -311,6 +311,12 @@ const category = () => {
                         name="color"
                         border="none"
                         options={categoryDrop}
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
                 <Col lg="3">
@@ -323,7 +329,13 @@ const category = () => {
                         value={storeDrop1}
                         onChange={selectStoreDrop}
                         placeholder="Select Store"
-                    // disabled={eventType}
+                        // disabled={eventType}
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
 

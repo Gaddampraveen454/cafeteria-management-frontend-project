@@ -383,12 +383,19 @@ const StoreManagement = () => {
                         className="basic-single"
                         classNamePrefix="select company"
                         isClearable={isClearable}
+                        // borderRadius="10px"
                         // defaultValue={colourOptions[0]}
                         onChange={PaginationFunn}
                         placeholder="Select company"
                         name="color"
                         border="none"
                         options={dropdownstore}
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
 
@@ -749,12 +756,12 @@ const StoreManagement = () => {
                                     <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                                 </Col>
                                 <Col lg="6">
-                                    <Form.Label>Gstin</Form.Label>
+                                    <Form.Label>GSTIN</Form.Label>
                                     <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
                                 <Col lg="6">
-                                    <Form.Label>Fssai No</Form.Label>
+                                    <Form.Label>FSSAI NO</Form.Label>
                                     <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
                                         onKeyPress={(e) => {
                                             const regex = /^[0-9\b]+$/;
@@ -765,7 +772,7 @@ const StoreManagement = () => {
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
                                 <Col lg="12">
-                                <h6>Logo</h6>
+                                    <h6>Logo</h6>
                                     {image ? null
 
                                         :
@@ -797,12 +804,7 @@ const StoreManagement = () => {
 
                                         </div>
                                     </Col>
-
-
                                 }
-
-
-
                                 <Col lg="6">
                                     <Col lg="3">
                                         {eventType ?
