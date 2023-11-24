@@ -671,7 +671,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                     value={selectedCompany}
                     onChange={setSelectedCompany}
                     placeholder=""
-                    isabled={eventType}
+                    isDisabled={eventType}
                   />
                   {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                 </Col>
@@ -723,13 +723,13 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                     onChange={(e) => { setDayAmount(e.target.value) }}
                     disabled={eventType} />
                 </Col>
-                <Col lg="12">
+                {/* <Col lg="12">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text"
                     value={WalletAmount}
                     // onChange={(e) => { setLocation(e.target.value) }}
-                    disabled />
-                </Col>
+                    disabled={eventType} />
+                </Col> */}
                 {/* <Col lg="6">
                   <Form.Label>Location</Form.Label>
                   <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />

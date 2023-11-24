@@ -6,6 +6,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import moment from "moment";
 import { AdminOrderListURL } from "Redux/IcafeAdminRedux/Orders/orderredux";
+import { AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
@@ -36,12 +37,14 @@ const Order = () => {
     const [search, setSearch] = useState('')
     const [comapanyOption, setComapanyOption] = useState('')
     const [option, setOption] = useState('');
+    const [option1, setOption1] = useState('');
     const { currentUser } = useSelector((state) => state.auth);
     console.log(currentUser, 'bdvgsvf')
     const { OrderData, notification } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
 
     const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
+    const { storeList } = useSelector((state) => state.adminproducts)
     // const { AdmincategoryDropdown,storeDropdown } = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
@@ -88,6 +91,7 @@ const Order = () => {
     useEffect(() => {
         dispatch(ICafeAdminCategoryDropDownListURL());
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
+        dispatch(AdminProductStoreDropDownList(''))
     }, [])
 
     const [isClearable, setIsClearable] = useState(true);
@@ -103,9 +107,21 @@ const Order = () => {
     }
 
     const selectedCompany = (selectvalue) => {
+        console.log(option, "selectvalue")
         setComapanyOption(selectvalue?.value)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
+        dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option))
     }
+
+    const StoredropdownValues = [];
+
+    if (storeList?.data?.length > 0) {
+        storeList?.data?.map((text) => {
+            console.log(text, 'dvhgdvgbhfvbj')
+            return StoredropdownValues.push({ label: text?.store_name, value: text?.uuid })
+        })
+    }
+
 
     const dropdownValues = [];
 
@@ -118,9 +134,9 @@ const Order = () => {
 
 
     const selectdropdown = (text) => {
-        console.log(text, 'hsdbvudgsfy')
-        setOption(text)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? '' : text?.value))
+        setOption(text?.value)
+        setOption1(text)
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value))
     }
 
 
@@ -207,6 +223,7 @@ const Order = () => {
                         name="color"
                         border="none"
                         options={CompanyDropDown}
+                        placeholder="Select Company"
                     />
                 </Col>
                 <Col lg="3">
@@ -214,7 +231,7 @@ const Order = () => {
                     <Select
                         className="basic-single"
                         classNamePrefix="select Store"
-                        options={dropdownValues}
+                        options={StoredropdownValues}
                         isClearable={isRemove}
                         // value={categoryId}
                         onChange={selectdropdown}
@@ -307,7 +324,7 @@ const Order = () => {
                                     <div className="text-muted text-small d-md-none">Name</div>
                                     <div className="text-alternate">{text?.stores?.length > 0 ? text?.stores[0]?.store_name : ""}</div>
                                 </Col>
-                                
+
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
                                     <div className="text-muted text-small d-md-none">Purchase</div>
                                     <div className="text-alternate">
