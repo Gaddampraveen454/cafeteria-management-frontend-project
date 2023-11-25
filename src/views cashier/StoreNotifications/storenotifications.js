@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import axios from 'axios'
@@ -47,6 +47,8 @@ const CompanyNotifications = () => {
             setSelectedItems([]);
         }
     };
+
+    const { id } = useParams();
 
 
     const [page, setPage] = useState(0);
@@ -231,28 +233,29 @@ const CompanyNotifications = () => {
                     {console.log(item, "dffdfdfdfsssfsdfsdf")}
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
+                            <NavLink to={`/Storevieworder/${item?.link}`}>
+                                <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                                    <Row className="g-0 h-100 ">
 
-                            <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-                                <Row className="g-0 h-100 ">
+                                        <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
 
-                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                            <div className="lh-1 text-alternate">{index + 1}</div>
+                                        </Col>
+                                        <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                            <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD-MM-YYYY')}</div>
+                                        </Col>
 
-                                        <div className="lh-1 text-alternate">{index + 1}</div>
-                                    </Col>
-                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD-MM-YYYY')}</div>
-                                    </Col>
+                                        <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                            <div className="lh-1 text-alternate">{item.title}</div>
+                                        </Col>
+                                        <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                            <div className="lh-1 text-alternate">{item.message}
+                                            </div>
+                                        </Col>
 
-                                    <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.title}</div>
-                                    </Col>
-                                    <Col lg="4" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.message}
-                                        </div>
-                                    </Col>
-                           
-                                </Row>
-                            </Col>
+                                    </Row>
+                                </Col>
+                            </NavLink>
                         </Row>
                     </Card >
                 </div >

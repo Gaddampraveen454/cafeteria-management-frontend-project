@@ -171,6 +171,11 @@ const Login = () => {
 
 
 
+    const EmployeeLogin = () => {
+        history.push({
+            pathname: '/employee/login'
+        })
+    }
 
 
     const leftSide = (
@@ -256,7 +261,10 @@ const Login = () => {
                             <Button size="lg" type="submit" className="mb-2" onClick={CheckWithMobile}>
                                 Login
                             </Button>
-                        }
+                        }&nbsp;
+                        <Button size="lg" type="submit" className="mb-2" onClick={EmployeeLogin}>
+                            Employee
+                        </Button>
                         <Button size="lg"
                             // type="submit" 
                             onClick={Guest}

@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
 
-const CompanyOrderView = () => {
+const StoreOrderView = () => {
     const dispatch = useDispatch()
     const history = useHistory();
     const title = 'Order View';
@@ -378,4 +378,4 @@ const CompanyOrderView = () => {
     );
 };
 
-export default CompanyOrderView;
+export default StoreOrderView;

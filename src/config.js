@@ -16,6 +16,7 @@ export const DEFAULT_PATHS = {
   LOGIN: '/login',
   // LOGIN1: '/consumer/login',
   CHECKWITHMOBILELOGIN: '/consumer/login',
+  EMPLOYEELOGIN: '/employee/login',
   REGISTER: '/register',
   OTPVERIFICATION : '/otp-verification',
   FORGOT_PASSWORD: '/forgot-password',

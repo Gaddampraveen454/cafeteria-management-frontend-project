@@ -221,7 +221,7 @@ useEffect(() => {
                       <p style={{color:"red"}}>{formErrors.EmpId}</p>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>designation</Form.Label>
+                    <Form.Label>Designation</Form.Label>
                     <Form.Control type="text"
                       // onChange={(e)=>{setEmail(e.target.value)}}
                       name="designation"
@@ -259,7 +259,7 @@ useEffect(() => {
                      <p style={{color:"red"}}>{formErrors.location}</p>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Per day amount</Form.Label>
+                    <Form.Label>Per Day Amount</Form.Label>
                     <Form.Control type="number"
                     // onChange={(e)=>{setLocation(e.target.value)}}
                     name="per_day_amount"

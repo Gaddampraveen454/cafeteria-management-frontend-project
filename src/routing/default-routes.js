@@ -5,6 +5,7 @@ const NotFound = lazy(() => import('views/default/NotFound'));
 const Login = lazy(() => import('views/default/Login'));
 // const ConsumerLogin = lazy(() => import('views/default/ConsumerLogin'));
 const checkwithmobile = lazy(() => import('views/default/Checkwithmobile'));
+const EmployeeLogin = lazy(() => import('views/default/EmployeeLogin'));
 const ForgotPassword = lazy(() => import('views/default/ForgotPassword'));
 const Register = lazy(() => import('views/default/Register'));
 const OtpVerification = lazy(() => import('views/default/OtpVerification'));
@@ -26,6 +27,7 @@ const defaultRoutes = [
   { path: DEFAULT_PATHS.LOGIN, exact: true, component: Login },
   // { path: DEFAULT_PATHS.LOGIN1, exact: true, component: ConsumerLogin },
   { path: DEFAULT_PATHS.CHECKWITHMOBILELOGIN, exact: true, component: checkwithmobile },
+  { path: DEFAULT_PATHS.EMPLOYEELOGIN, exact: true, component: EmployeeLogin },
   { path: DEFAULT_PATHS.REGISTER, exact: true, component: Register },
   { path: DEFAULT_PATHS.FORGOT_PASSWORD, exact: true, component: ForgotPassword },
   { path: DEFAULT_PATHS.OTPVERIFICATION, exact: true, component: OtpVerification },

@@ -29,17 +29,18 @@ const Profile = () => {
   };
 
 
-const [ConsumerData, setConsumerData]=useState()
-console.log(ConsumerData,"ConsumerData")
+  const [ConsumerData, setConsumerData] = useState()
+  console.log(ConsumerData, "ConsumerData")
   const { currentUser } = useSelector((state) => state.auth)
+  console.log(currentUser, "currentUser")
   const { WalletData } = useSelector((state) => state.WalletData);
-  console.log(WalletData,"WalletData")
-  useEffect(()=>{
-    if(currentUser.data){
+  console.log(WalletData, "WalletData")
+  useEffect(() => {
+    if (currentUser.data) {
       setConsumerData(currentUser.data)
     }
 
-  },[])
+  }, [])
   useEffect(() => {
     if (currentUser && currentUser.data) {
       dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
@@ -93,10 +94,10 @@ console.log(ConsumerData,"ConsumerData")
                   <div className="sw-6 sh-6 mb-3 d-inline-block bg-primary d-flex justify-content-center align-items-center rounded-xl">
                     <div className="text-white">BC</div>
                   </div>
-                  <div className="h5 mb-1">{ConsumerData?ConsumerData.name:"Guest"}</div>
+                  <div className="h5 mb-1">{ConsumerData ? ConsumerData.name : "Guest"}</div>
                   <div className="text-muted">
                     {/* <CsLineIcons icon="pin" className="me-1" /> */}
-                    <span className="align-middle">{ConsumerData?ConsumerData.emp_id:""}</span>
+                    <span className="align-middle">{ConsumerData ? ConsumerData.emp_id : ""}</span>
                   </div>
                 </div>
                 <div className="d-flex flex-row justify-content-between w-100 w-sm-50 w-xl-100">
@@ -173,7 +174,7 @@ console.log(ConsumerData,"ConsumerData")
                       <CsLineIcons icon="user" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.name:"Guest"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.name : "Guest"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -181,7 +182,7 @@ console.log(ConsumerData,"ConsumerData")
                       <CsLineIcons icon="pin" size="17" className="text-primary" />
                     </div> */}
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.location:"No location"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.location : "No location"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -189,7 +190,7 @@ console.log(ConsumerData,"ConsumerData")
                       <CsLineIcons icon="phone" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.mobile:"Guest"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.mobile : "Guest"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -197,7 +198,7 @@ console.log(ConsumerData,"ConsumerData")
                       <CsLineIcons icon="email" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.email:"guest@gmail.com"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.email : "guest@gmail.com"}</Col>
                 </Row>
               </div>
               {/* <div className="mb-5">
