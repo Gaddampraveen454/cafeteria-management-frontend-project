@@ -653,6 +653,12 @@ const productmanagement = () => {
                         border="none"
                         options={CompanyDropDown}
                         placeholder='Select Company'
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
                 {/* <Col lg="3"> */}
@@ -676,8 +682,14 @@ const productmanagement = () => {
                         onChange={selectdropdown}
                         name="color"
                         border="none"
+                        placeholder='Select Store'
                         options={dropdownValues}
-                        placeholder="Select Store"
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
                 <Col md="7" lg="3" xxl="10" className="mb-1 text-end">

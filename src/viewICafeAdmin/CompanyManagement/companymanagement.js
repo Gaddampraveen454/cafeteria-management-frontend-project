@@ -45,8 +45,12 @@ const companymanagement = () => {
   const [search, setSearch] = useState('')
 
   const [imageUrl, setimageUrl] = useState("")
+  console.log(imageUrl,'dtrdtrdtrdfty')
   const [UploadedFile, setUploadedFile] = useState('')
   const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState();
+
+  console.log(image,"image45634rthyft")
   // console.log(page,limit,search,"sdsasfasasdasd")
   const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
   const [qrOpen, setQrOpen] = useState(false)
@@ -77,9 +81,7 @@ const companymanagement = () => {
 
   console.log(currentUser, "currentUserb")
 
-  useEffect(() => {
-    dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
-  }, [])
+ 
 
 
   console.log(companyData, "currentUsersdffscurrentUser")
@@ -90,7 +92,7 @@ const companymanagement = () => {
   const eventHandler = (event) => {
     setOpen(true)
 
-    console.log(event, "eventxcvvxcvv")
+    console.log(event, "eventxcvvxcvv5667")
     setComapnayName(event.company_name)
     setwalletamount(event.wallet_amount)
     setEmail(event.email)
@@ -100,7 +102,7 @@ const companymanagement = () => {
     setGstin(event.gstin)
     setFssai(event.fssai_no)
     setCompnayId(event.uuid)
-    setimageUrl(event.logo)
+    setimageUrl(event?.logo)
 
 
   };
@@ -124,14 +126,47 @@ const companymanagement = () => {
   //   setSuc(true)
 
   // }
+  const handleImageChange = (e) => {
+    console.log(e, 'dhdfbvghf')
+    setImage(e.target.files[0]);
+    setImage1(e.target.files[0])
+  };
 
+  const url = "https://cmsapi.scienstechnologies.com/product/images/";
+  const handleUpdateImage = () => {
+
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+
+      })
+      .catch(err => {
+        console.log(err, "err00")
+
+      });
+  }
+
+  useEffect(() => {
+    if (image !== null) {
+      handleUpdateImage()
+    }
+
+  }, [image])
 
 
   const update = (event) => {
     event.preventDefault()
     const value = event.target.elements
-    if (UploadedFile) {
 
+    if (UploadedFile) {
       const payload = {
         "company_name": companyName,
         "email": email,
@@ -146,6 +181,7 @@ const companymanagement = () => {
       }
       dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
       setSuc(true)
+
 
     }
     else {
@@ -164,38 +200,19 @@ const companymanagement = () => {
       }
       dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
       setSuc(true)
-
-
     }
   }
 
 
-
-
-
-
   useEffect(() => {
-    if (suc === true) {
-      if (notification.status === true) {
-        toast.success(notification.message, {
-          position: "top-right",
-        })
-        setSuc(false)
-        setTimeout(() => {
-          dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
-          setOpen(false)
+    dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
+  }, [])
 
-        }, 1000)
-      }
-      else if (notification.status === false) {
-        toast.error(notification.message)
-        setSuc(false)
-      }
-    }
 
-  }, [notification])
-  console.log(notification, "ProductDataProductData")
 
+
+
+ 
 
   const searchfunction = (type, pages) => {
     console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
@@ -270,40 +287,29 @@ const companymanagement = () => {
 
   };
 
-  const handleImageChange = (e) => {
-    console.log(e, 'dhdfbvghf')
-    setImage(e.target.files[0]);
-  };
-
-  const url = "https://cmsapi.scienstechnologies.com/product/images/";
-  const handleUpdateImage = () => {
-
-    const formData = new FormData();
-    formData.append('image', image);
-    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
-      {
-        headers: {
-          "x-access-token": `${currentUser.token}`,
-        }
-      })
-      .then(res => {
-        console.log(res.data.image, "resp00");
-        setUploadedFile(res.data.image.filename)
-
-      })
-      .catch(err => {
-        console.log(err, "err00")
-
-      });
-  }
+  
 
   useEffect(() => {
-    if (image !== null) {
-      handleUpdateImage()
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
+          setOpen(false)
+
+        }, 1000)
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
     }
 
-  }, [image])
-
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
 
   return (
     <>
@@ -616,12 +622,12 @@ const companymanagement = () => {
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
-                  <Form.Label>Gstin</Form.Label>
+                  <Form.Label>GSTIN</Form.Label>
                   <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
                 <Col lg="6">
-                  <Form.Label>Fssai No</Form.Label>
+                  <Form.Label>FSSAI NO</Form.Label>
                   <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
                     onKeyPress={(e) => {
                       const regex = /^[0-9\b]+$/;

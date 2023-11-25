@@ -308,7 +308,7 @@ const addAdimcafeCompany = () => {
                     <p style={{ color: "red" }}>{formErrors.address}</p>
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Gstin</Form.Label>
+                    <Form.Label>GSTIN</Form.Label>
                     <Form.Control
                       // type="text" onChange={(e) => { setComapnayName(e.target.value) }} 
                       type="text"
@@ -320,7 +320,7 @@ const addAdimcafeCompany = () => {
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                   </Col>
                   <Col lg="6">
-                    <Form.Label>Fssai No </Form.Label>
+                    <Form.Label>FSSAI NO </Form.Label>
                     <Form.Control
                       type="text"
                       //  onChange={(e) => { setComapnayName(e.target.value) }} 
@@ -343,6 +343,13 @@ const addAdimcafeCompany = () => {
                       {/* <input type="file" onChange={handleImageChange} /> */}
                     </div>
                   </Col>
+                  <div>
+                    {image && (
+                      <div >
+                        <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} />
+                      </div>
+                    )}
+                  </div>
                   <Col lg="12">
                     <Col lg="3">
                       <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit"

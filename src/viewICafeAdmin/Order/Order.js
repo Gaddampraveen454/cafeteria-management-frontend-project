@@ -223,7 +223,13 @@ const Order = () => {
                         name="color"
                         border="none"
                         options={CompanyDropDown}
-                        placeholder="Select Company"
+                        placeholder='Select Company'
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
                 <Col lg="3">
@@ -236,6 +242,12 @@ const Order = () => {
                         // value={categoryId}
                         onChange={selectdropdown}
                         placeholder="Select Store"
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     // disabled={eventType}
                     />
                 </Col>

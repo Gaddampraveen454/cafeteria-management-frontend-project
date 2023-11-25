@@ -309,7 +309,7 @@ const report = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                    <div className="lh-1 text-alternate">{item?.company?.length > 0 ? item?.company[0]?.company_name : ""}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.employee_name}</div>
