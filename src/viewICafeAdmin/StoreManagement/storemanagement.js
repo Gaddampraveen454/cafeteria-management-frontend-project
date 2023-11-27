@@ -176,7 +176,9 @@ const StoreManagement = () => {
                 setTimeout(() => {
                     dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, option))
                     setOpen(false)
-
+                    setTimeout(() => {
+                        setImage(null)
+                    }, 1000)
                 }, 1000)
 
             }

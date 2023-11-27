@@ -45,12 +45,12 @@ const companymanagement = () => {
   const [search, setSearch] = useState('')
 
   const [imageUrl, setimageUrl] = useState("")
-  console.log(imageUrl,'dtrdtrdtrdfty')
+  console.log(imageUrl, 'dtrdtrdtrdfty')
   const [UploadedFile, setUploadedFile] = useState('')
   const [image, setImage] = useState(null);
   const [image1, setImage1] = useState();
 
-  console.log(image,"image45634rthyft")
+  console.log(image, "image45634rthyft")
   // console.log(page,limit,search,"sdsasfasasdasd")
   const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
   const [qrOpen, setQrOpen] = useState(false)
@@ -81,7 +81,7 @@ const companymanagement = () => {
 
   console.log(currentUser, "currentUserb")
 
- 
+
 
 
   console.log(companyData, "currentUsersdffscurrentUser")
@@ -212,7 +212,7 @@ const companymanagement = () => {
 
 
 
- 
+
 
   const searchfunction = (type, pages) => {
     console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
@@ -287,7 +287,7 @@ const companymanagement = () => {
 
   };
 
-  
+
 
   useEffect(() => {
     if (suc === true) {
@@ -299,12 +299,16 @@ const companymanagement = () => {
         setTimeout(() => {
           dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
           setOpen(false)
+          setTimeout(() => {
+            setImage(null)
+          }, 1000)
 
         }, 1000)
       }
       else if (notification.status === false) {
         toast.error(notification.message)
         setSuc(false)
+
       }
     }
 
