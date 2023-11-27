@@ -6,6 +6,7 @@ import axios from 'axios';
 const initialState = {
   ConsumerOrderData: [],
   OrderView: {},
+  consumerfeedback: {},
   notification: {}
 };
 
@@ -19,13 +20,16 @@ const consumerOrderSlice = createSlice({
     setConsumerOrderView(state, action) {
       state.OrderView = action.payload;
     },
+    setConsumerFeedback(state, action) {
+      state.consumerfeedback = action.payload;
+    },
     setToast(state, action) {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setConsumerOrderData, setConsumerOrderView, setToast } = consumerOrderSlice.actions;
+export const { setConsumerOrderData, setConsumerOrderView, setConsumerFeedback, setToast } = consumerOrderSlice.actions;
 
 
 export const ConsumerOrderListURL = (pageNUm, search, token, limit, consumerId) => async (dispatch) => {
@@ -54,6 +58,23 @@ export const ConsumerOrderView = (token, OrderId) => async (dispatch) => {
   })
     .catch((err) => {
       console.log("err");
+    })
+
+};
+
+export const ConsumerFeedback = (token, payload) => async (dispatch) => {
+  const response = await axios.post(`${process.env.REACT_APP_URL}/feedback/create`, payload, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+    dispatch(setConsumerFeedback(res.data));
+    dispatch(setToast({ status: true, message: res.data.message }))
+  })
+    .catch((err) => {
+      console.log("err");
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
     })
 
 };

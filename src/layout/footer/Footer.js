@@ -14,13 +14,14 @@ const Footer = () => {
       <div className="footer-content">
         <Container className='mt-3'>
           <Row >
-          {/* align="center" */}
-            <Col xs="12" sm="4" >
+            {/* align="center" */}
+            {/* <Col xs="12" sm="4" >
               <p className="mb-0 text-muted text-medium">Developed & Maintained  By Sciens Technologies</p>
-            </Col>
+            </Col> */}
             {/* className="d-none d-sm-block" */}
             <Col xs="12" sm="4"  >
-            <p className="mb-0 text-muted text-medium center">© 2023 All Rights Reserved </p>
+              {/* <p className="mb-0 text-muted text-medium center">© 2023 All Rights Reserved </p> */}
+              <p className="mb-0 text-muted text-medium center"><a href='/termsconditions' target='_blank'>Terms and Conditions</a></p>
               {/* <Breadcrumb className="pt-0 pe-0 mb-0 float-end">
                 <Breadcrumb.Item className="mb-0 text-medium" href="#/" linkProps={{ className: 'btn-link' }}>
                   Review
@@ -35,7 +36,11 @@ const Footer = () => {
             </Col>
             {/* className="d-none d-sm-block" */}
             <Col xs="12" sm="4"  >
-            <p className="mb-0 text-muted text-medium">Branded & Market  By  Zeonova Tech</p>  
+              <p className="mb-0 text-muted text-medium"><a href='/refund' target='_blank'>Refund Policy</a></p>
+            </Col>
+            <Col xs="12" sm="4"  >
+              {/* <p className="mb-0 text-muted text-medium">Branded & Market  By  Zeonova Tech</p> */}
+              <p className="mb-0 text-muted text-medium"><a href='/shippingpolicy' target='_blank'>Shipping policy</a></p>
             </Col>
           </Row>
         </Container>

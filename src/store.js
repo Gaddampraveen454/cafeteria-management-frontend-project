@@ -50,6 +50,8 @@ import StorecategoryReducer from 'Redux/CashierRedux/StoreCategoryRedux/storeCat
 import CompanyProductReducer from 'Redux/AdminRedux/Production/production';
 import companyUserReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import StoresForConsumersReducer from 'Redux/ConsumerRedux/StoreList/storelist';
+import companyNotificationReducer from 'Redux/AdminRedux/Companynotifications/companynotificationsRedux';
+import storeNotificationReducer from 'Redux/CashierRedux/StoreNotifications/storenotifications';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -100,7 +102,9 @@ const persistedReducer = persistReducer(
     InvoiceData: InvoiceReducer,
     ActiveCompnayList: ActiveCompnayReducer,
     StorecategorySlice: StorecategoryReducer,
-    StoreForConsumerSlice: StoresForConsumersReducer
+    StoreForConsumerSlice: StoresForConsumersReducer,
+    companyNotify: companyNotificationReducer,
+    storeNotify: storeNotificationReducer
   })
 );
 const store = configureStore({

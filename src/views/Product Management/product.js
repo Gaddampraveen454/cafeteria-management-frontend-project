@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductBulkUplodURL, ProductStatusUpdateURL, ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { AdminProductCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 // import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategorycreateList, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
@@ -95,6 +96,7 @@ const product = () => {
   const [productId, setProductId] = useState("")
   const [imageUrl, setimageUrl] = useState("")
   const [store, setStore] = useState('');
+  const [store1, setStore1] = useState('');
   const [StoreUpload, setStoreUpload] = useState('');
 
   console.log(selectCompany && selectCompany.value, selectCategory && selectCategory.value, "selectCompanyselectCategory")
@@ -107,6 +109,8 @@ const product = () => {
 
   const [compnayId, setCompnayId] = useState('')
   const [categoryId, setCategoryId] = useState([])
+  const [categoryId123, setCategoryId123] = useState([])
+
   let categoryId1
   if (categoryId?.value === undefined) {
     categoryId1 = '';
@@ -152,11 +156,14 @@ const product = () => {
 
     // dispatch(ActiveCompnyURL(currentUser.token))
     dispatch(CategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, store))
+    dispatch(AdminProductCategoryDropDownListURL(currentUser?.data?.uuid, store))
   }, [])
 
   const { StoreList, notification } = useSelector((state) => state.products)
   const { companyProductionData } = useSelector((state) => state.compamyProduction)
-  console.log(StoreList, 'gdfhvjghdfj')
+  const { categoryList } = useSelector((state) => state.adminproducts)
+
+  console.log(categoryList, 'categoryList')
   useEffect(() => {
     // dispatch(ProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
     dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
@@ -235,6 +242,7 @@ const product = () => {
   const handleEvent = (event) => {
     console.log(event, 'hvdhdf')
     setSelectStore(event)
+    dispatch(AdminProductCategoryDropDownListURL(currentUser?.data?.uuid, event?.value))
   }
 
   const companyStore = [];
@@ -244,11 +252,28 @@ const product = () => {
 
   }, [])
 
+  const CategoryUUid = []
+
+  if (categoryList?.data?.length > 0) {
+    categoryList?.data?.map((item) => {
+      return CategoryUUid?.push({ label: item?.name , value: item?.uuid})
+    })
+  }
+
+  const handleChangeCategory = (text) => {
+    setCategoryId(text?.value)
+    setCategoryId123(text)
+    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, text?.value, store))
+  }
+
 
   const handleStore = (text) => {
     console.log(text, 'hbvhjdahbhjfv')
     setStore(text?.value)
+    setStore1(text)
+    setCategoryId123('')
     dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, text?.value))
+    dispatch(AdminProductCategoryDropDownListURL(currentUser?.data?.uuid, text?.value))
   }
 
 
@@ -467,10 +492,6 @@ const product = () => {
 
   }, [image])
 
-  const handleChangeCategory = (text) => {
-    setCategoryId(text?.value)
-    dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, text?.value, store))
-  }
 
 
   return (
@@ -594,25 +615,25 @@ const product = () => {
           {/* <Form.Label>Company</Form.Label> */}
           <Select classNamePrefix="react-select"
             options={companyStore}
-            // value={compnayId}
+            value={store1}
             onChange={handleStore}
             placeholder="Select Store"
           // disabled={eventType}
           />
         </Col>
-        <Col  md="3" lg="3">
+        <Col md="3" lg="3">
           {/* <Form.Label>Category</Form.Label> */}
           <Select classNamePrefix="react-select"
-            options={Catogery}
-            // value={categoryId}
+            options={CategoryUUid}
+            value={categoryId123}
             onChange={handleChangeCategory}
             placeholder="Select Category"
           // disabled={eventType}
           />
         </Col>
-        <Col md="3" lg="3"  className="mb-1 text-end">
+        <Col md="3" lg="3" className="mb-1 text-end">
 
-       
+
           <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
@@ -625,7 +646,7 @@ const product = () => {
               <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        
+
         </Col>
       </Row>
 
@@ -839,7 +860,7 @@ const product = () => {
                 <Col lg="6">
                   <Form.Label>Category</Form.Label>
                   <Select classNamePrefix="react-select"
-                    options={Catogery}
+                    options={CategoryUUid}
                     value={selectCategory}
                     onChange={setSelectCategory}
                     placeholder=""

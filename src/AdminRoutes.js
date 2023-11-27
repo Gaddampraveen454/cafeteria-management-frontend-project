@@ -16,12 +16,14 @@ const addcategory = lazy(() => import('views/Category Management/addcategory'));
 const product = lazy(() => import('views/Product Management/product'));
 const addproduct = lazy(() => import('views/Product Management/addproduct'));
 const NICorders = lazy(() => import('views/NICorders/NICorders'));
+const Viewordercompany = lazy(() => import('views/NICorders/Viewordercmpy'))
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
-const adddetails = lazy(() => import('views/Add details/adddetails')); 
-const CreateOrder= lazy(()=>import('views/CreateOrders/createorder'));
-const changepassword = lazy(()=> import ('views/ChangePassword/changepassword'))
+const adddetails = lazy(() => import('views/Add details/adddetails'));
+const CreateOrder = lazy(() => import('views/CreateOrders/createorder'));
+const changepassword = lazy(() => import('views/ChangePassword/changepassword'))
+const CompanyNotifications = lazy(() => import('views/CompanyNotifications/companynotifications'))
 
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
@@ -80,7 +82,7 @@ const adminRoutesAndMenuItems = {
       label: 'Dashboard',
       icon: 'shop',
     },
-    
+
     // {
     //   path: `${appRoot}/Cards`,
     //   component: Cards,
@@ -166,6 +168,10 @@ const adminRoutesAndMenuItems = {
       icon: 'wallet',
     },
     {
+      path: `${appRoot}/companyViewOrder`,
+      component: Viewordercompany,
+    },
+    {
       path: `${appRoot}/addNICorder`,
       component: addNICorder,
       // label: 'Orders',
@@ -177,14 +183,19 @@ const adminRoutesAndMenuItems = {
       label: 'Report',
       icon: 'news',
     },
-     {
+    {
       path: `${appRoot}/changepassword`,
       component: changepassword,
       label: 'Change Password',
       icon: 'news',
     },
     // changepassword
-
+    {
+      path: `${appRoot}/companynotifications`,
+      component: CompanyNotifications,
+      label: 'Notifications',
+      icon: 'news',
+    },
     {
       path: `${appRoot}/addreport`,
       component: addreport,

@@ -25,6 +25,7 @@ const addproductmanagement = () => {
 
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState();
+
   const [selectCompany, setSelectCompany] = useState();
   const [UploadedFile, setUploadedFile] = useState("")
   console.log(UploadedFile, "UploadedFile")
@@ -88,8 +89,8 @@ const addproductmanagement = () => {
   const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory);
   console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
-  const{categoryList,storeList}=useSelector((state)=>state.adminproducts);
-  console.log(categoryList,'hsdvghdghfhgfdav');
+  const { categoryList, storeList } = useSelector((state) => state.adminproducts);
+  console.log(categoryList, 'hsdvghdghfhgfdav');
 
   useEffect(() => {
 
@@ -99,10 +100,6 @@ const addproductmanagement = () => {
 
   const companyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
-
-
-
-  const productList = categoryList && categoryList?.data && categoryList?.data?.map((item) => { return { label: item.name, value: item.uuid } })
 
   // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
@@ -122,7 +119,8 @@ const addproductmanagement = () => {
   const [cgst, setCgst] = useState("")
   const [sgst, setSgst] = useState("")
   const [option, setOption] = useState('');
-  const [cate,setCate]=useState('');
+  const [option1, setOption1] = useState('');
+  const [cate, setCate] = useState('');
 
 
 
@@ -142,7 +140,7 @@ const addproductmanagement = () => {
       "cgst_tax": cgst,
       "sgst_tax": sgst,
       "store_uuid": option,
-      "description":description
+      "description": description
     }
     dispatch(AdminProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -174,10 +172,10 @@ const addproductmanagement = () => {
 
   }, [notification])
 
-useEffect(()=>{
-  dispatch(AdminProductCategoryDropDownListURL(companyOption,option))
-  dispatch(AdminProductStoreDropDownList(companyOption))
-},[])
+  useEffect(() => {
+    dispatch(AdminProductCategoryDropDownListURL(companyOption, option))
+    dispatch(AdminProductStoreDropDownList(companyOption))
+  }, [])
 
 
   const [image, setImage] = useState(null);
@@ -232,12 +230,14 @@ useEffect(()=>{
     console.log(text, 'dvhgdvgbhfvbj')
     return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
   })
-  console.log(CompanyDropDown,'hjwbeghevwf')
+  console.log(CompanyDropDown, 'hjwbeghevwf')
 
   const selectedCompany = (selectvalue) => {
     setComapanyOption(selectvalue?.value)
+    setOption1('')
+    setSelectCategory('')
     dispatch(AdminProductStoreDropDownList(selectvalue?.value))
-    dispatch(AdminProductCategoryDropDownListURL(selectvalue?.value,option))
+    dispatch(AdminProductCategoryDropDownListURL(selectvalue?.value, option))
     // dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue?.value , option))
   }
 
@@ -251,10 +251,24 @@ useEffect(()=>{
   const selectdropdown = (text) => {
     console.log(text, 'hsdbvudgsfy')
     setOption(text?.value)
-    dispatch(AdminProductCategoryDropDownListURL(companyOption,text?.value))
+    setOption1(text)
+    setSelectCategory('')
+    dispatch(AdminProductCategoryDropDownListURL(companyOption, text?.value))
   }
 
-    
+  const CategoryDropdown = []
+
+  if (categoryList?.data?.length > 0) {
+    categoryList?.data?.map((item) => {
+      return CategoryDropdown?.push({ label: item.name, value: item.uuid })
+    })
+  }
+
+  const selectCategoryfunction = (value) => {
+    setSelectCategory(value)
+  }
+
+
 
 
 
@@ -293,18 +307,18 @@ useEffect(()=>{
                   <Col lg="6">
                     <Form.Label>Store</Form.Label>
 
-                    <Select classNamePrefix="react-select" options={dropdownValues} onChange={selectdropdown} placeholder="" />
+                    <Select classNamePrefix="react-select" options={dropdownValues} value={option1} onChange={selectdropdown} placeholder="Select Store" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
-                    <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />
+                    <Select classNamePrefix="react-select" options={CategoryDropdown} value={selectCategory} onChange={selectCategoryfunction} placeholder="Select Category" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Veg/Non Veg</Form.Label>
 
-                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="" />
+                    <Select classNamePrefix="react-select" options={optionsType} value={selectType} onChange={setSelectType} placeholder="Select" />
                   </Col>
-                  
+
                   <Col lg="6">
                     <Form.Label>Price</Form.Label>
                     <Form.Control type="text" onChange={(e) => { setPrice(e.target.value) }} />

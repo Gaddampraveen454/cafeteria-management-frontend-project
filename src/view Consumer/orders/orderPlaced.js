@@ -161,14 +161,17 @@ const OrderPlaced = () => {
 
 
 
-  const viewEventHandler = (event) => {
+  const viewEventHandler = (event, type) => {
     // setOpen(true)
 
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
     history.push({
       pathname: '/OrderView',
-      state: event
+      state: {
+        event,
+        type
+      }
     })
   };
 
@@ -459,7 +462,7 @@ const OrderPlaced = () => {
       {ConsumerOrderData && ConsumerOrderData.data?.length > 0 && ConsumerOrderData && ConsumerOrderData.data && ConsumerOrderData.data.map((item, index) => {
         return <div key="">
           {console.log(item, "dffdfdfdfsssfsdfsdf")}
-          
+
           {/* <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
        
@@ -649,9 +652,13 @@ const OrderPlaced = () => {
                               </Col>
                               <Col xs="auto" lg="12">
                                 <div className="sh-4 d-flex align-items-center text-alternate justify-content-lg-end">
-
+                                  <Button title="Rating" variant="outline-primary" className="btn px-2 py-2"
+                                    onClick={() => viewEventHandler(item, "Rating")}
+                                  >
+                                    Rating
+                                  </Button>
                                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                    onClick={() => { viewEventHandler(item); setEventType(false) }}
+                                    onClick={() => { viewEventHandler(item, "View"); setEventType(false) }}
                                   >
                                     <CsLineIcons icon="eye" />
                                   </Button>

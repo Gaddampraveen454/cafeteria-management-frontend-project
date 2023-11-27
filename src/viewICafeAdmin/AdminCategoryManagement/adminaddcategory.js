@@ -117,7 +117,7 @@ const adminaddcategory = () => {
  
     useEffect(() => {
  
-        dispatch(ICafeAdminCategoryStoreDropDownList());
+        dispatch(ICafeAdminCategoryStoreDropDownList(company));
     }, [])
  
     const companyDrop = [];

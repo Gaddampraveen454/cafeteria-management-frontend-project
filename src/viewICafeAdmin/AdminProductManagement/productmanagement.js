@@ -456,13 +456,13 @@ const productmanagement = () => {
 
 
     const selectedCompany = (selectvalue) => {
-        console.log(selectvalue, 'gsdvgsdty')
+        console.log(selectvalue, 'selectvalue')
         setComapanyOption(selectvalue?.value)
         setCompany1(selectvalue);
         setStore1('');
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminProductListURL(page, search, currentUser?.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
-        dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue?.value, ""))
+        dispatch(AdminProductListURL(page, search, currentUser?.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
     }
 
     const dropdownValues = [];
@@ -473,14 +473,40 @@ const productmanagement = () => {
     })
 
     const selectdropdown = (text) => {
-        console.log(text, 'hsdbvudgsfy')
-        setOption(text)
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value))
-        dispatch(CategoryListURL(page, search, currentUser.token, limit, '', text?.value))
+        console.log(comapanyOption, 'hsdbvudgsfy')
+        setOption(text?.value)
+        setStore1(text);
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
     }
 
-    const selectStore = (select) => {
-        setStoreOption(select)
+    const CategoryDropdown = []
+
+    if (categoryList?.data?.length > 0) {
+        categoryList?.data?.map((item) => {
+            return CategoryDropdown?.push({ label: item.name, value: item.uuid })
+        })
+    }
+
+    const selectCategoryfunction = (value) => {
+        setSelectCategory(value)
+    }
+
+    // update functions 
+
+    const UpdateSelectCompany = (selectvalue) => {
+        console.log(selectvalue, 'selectvalue')
+        setSelectCompany(selectvalue)
+        setStoreOption('')
+        setSelectCategory('')
+        dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
+    }
+
+    const UpdateselectStore = (text) => {
+        setStoreOption(text)
+        setSelectCategory('')
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
     }
 
     return (
@@ -502,7 +528,7 @@ const productmanagement = () => {
                     <DialogContentText >
                         {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                        <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={setSelectCompany} placeholder="Select Company" />
+                        <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={UpdateSelectCompany} placeholder="Select Company" />
                         {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                         <Select classNamePrefix="react-select" options={dropdownValues} value={selectStore1} onChange={setSelectStore} placeholder="Select Stores" className="mt-3" />
@@ -627,6 +653,7 @@ const productmanagement = () => {
                         border="none"
                         options={CompanyDropDown}
                         placeholder='Select Company'
+                    
                         styles={{
                             control: provided => ({
                                 ...provided,
@@ -656,7 +683,7 @@ const productmanagement = () => {
                         onChange={selectdropdown}
                         name="color"
                         border="none"
-                        placeholder='Select Store'
+                        // placeholder='Select Store'
                         options={dropdownValues}
                         styles={{
                             control: provided => ({
@@ -664,6 +691,7 @@ const productmanagement = () => {
                                 borderRadius: '12px',
                             }),
                         }}
+                        placeholder="Select Store"
                     />
                 </Col>
                 <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
@@ -877,7 +905,7 @@ const productmanagement = () => {
                                     <Select classNamePrefix="react-select"
                                         options={CompanyDropDown}
                                         value={selectCompany}
-                                        onChange={setSelectCompany}
+                                        onChange={UpdateSelectCompany}
                                         placeholder=""
                                         isDisabled={eventType}
                                     />
@@ -887,7 +915,7 @@ const productmanagement = () => {
                                     <Select classNamePrefix="react-select"
                                         options={dropdownValues}
                                         value={storeOption}
-                                        onChange={selectStore}
+                                        onChange={UpdateselectStore}
                                         placeholder=""
                                         isDisabled={eventType}
                                     />
@@ -895,9 +923,9 @@ const productmanagement = () => {
                                 <Col lg="6">
                                     <Form.Label>Category</Form.Label>
                                     <Select classNamePrefix="react-select"
-                                        options={productList}
+                                        options={CategoryDropdown}
                                         value={selectCategory}
-                                        onChange={setSelectCategory}
+                                        onChange={selectCategoryfunction}
                                         placeholder=""
                                         isDisabled={eventType}
                                     />

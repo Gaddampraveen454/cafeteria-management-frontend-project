@@ -38,7 +38,7 @@ const productsUserCards = () => {
     const location = useLocation('');
     console.log(location, "locationlocation")
     const { id, id1 } = useParams();
-    console.log( id, id1,"ghg")
+    console.log(id, id1, "ghg")
     const { themeValues } = useSelector((state) => state.settings);
     const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
     const { width } = useWindowSize();
@@ -419,27 +419,27 @@ const productsUserCards = () => {
                 {isLgScreen && (
                     <Col lg="3" xl="3" className="d-none d-lg-block">
                         {/* Filters Start */}
-                      <div style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" ,marginTop:"3.7%"}} >
-<Row>
-    <Col>
-    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container shadow bg-foreground w-100 mb-3">
+                        <div style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto", marginTop: "3.7%" }} >
+                            <Row>
+                                <Col>
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container shadow bg-foreground w-100 mb-3">
 
-<Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-<span className="search-magnifier-icon">
-    <CsLineIcons icon="search" />
-</span>
-<span className="search-delete-icon d-none">
-    <CsLineIcons icon="close" />
-</span>
-</div>
-    </Col>
-</Row>
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
+                            </Row>
 
-<Card className="mb-5">
-                            <Card.Body>
-                                {/* <Cardsdetails /> */}
-                                <ProductsUserCardDetailes />
-                                {/* {categoryForConsumer ?
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    {/* <Cardsdetails /> */}
+                                    <ProductsUserCardDetailes />
+                                    {/* {categoryForConsumer ?
                                     <div>
                                         {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item) => {
                                             return <>
@@ -460,10 +460,10 @@ const productsUserCards = () => {
                                     :
                                     null
                                 } */}
-                            </Card.Body>
-                        </Card>
-                      </div>
-                       
+                                </Card.Body>
+                            </Card>
+                        </div>
+
                         {/* Filters End */}
                     </Col>
                 )}

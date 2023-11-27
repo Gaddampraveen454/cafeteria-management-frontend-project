@@ -463,7 +463,7 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:MM:SS')}</div>
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
 
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">

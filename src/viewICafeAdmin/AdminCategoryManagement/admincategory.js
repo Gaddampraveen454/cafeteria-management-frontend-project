@@ -227,6 +227,7 @@ const category = () => {
     const handleUpdateDrop = (select) => {
         console.log(select, 'sbdvhbsdvjrthritb')
         setCompanyUpdateDrop(select)
+        dispatch(ICafeAdminCategoryStoreDropDownList(select === null ? "" : select?.value));
     }
 
     const handleUpdateStore = (selected) => {

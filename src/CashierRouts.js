@@ -26,6 +26,8 @@ const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/Stor
 
 const Changepassword = lazy(() => import('views cashier/ChangePassword/changepassword'))
 
+const StoreNotifications = lazy(() => import('views cashier/StoreNotifications/storenotifications'))
+
 
 const products = {
   list: lazy(() => import('views/products/list/ProductsList')),
@@ -176,6 +178,12 @@ const cashierRoutesAndMenuItems = {
       component: Changepassword,
       label: 'Change Password',
       icon: 'lock-off',
+    },
+    {
+      path: `${appRoot}/storenotifications`,
+      component: StoreNotifications,
+      label: 'Notifications',
+      icon: 'news'
     },
     {
       path: `${appRoot}/termsconditions`,

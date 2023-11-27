@@ -118,7 +118,7 @@ const AdminReports = () => {
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ICafeAdminReportListURL(page, search, currentUser.token, limit), comapanyOption, option, startDate, endDate)
+            dispatch(ICafeAdminReportListURL(page, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
@@ -153,12 +153,13 @@ const AdminReports = () => {
     })
 
     const selectedCompany = (selectvalue) => {
+        console.log(selectvalue, "hdsfgsj")
         setComapanyOption(selectvalue?.value)
         setCompanyOption1(selectvalue)
         setOption("")
         console.log(option, "asdhsgafgsjd")
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option, startDate, endDate))
+        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option, startDate, endDate))
     }
 
     const StoreDropp = [];
@@ -178,7 +179,7 @@ const AdminReports = () => {
 
     const selectdropdown = (text) => {
         console.log(text, 'hsdbvudgsfy')
-        setOption(text)
+        setOption(text?.value)
         dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value, startDate, endDate))
     }
 
@@ -318,19 +319,19 @@ const AdminReports = () => {
                     {/* </div> */}
                 </Col>
                 {/* <Col lg="3" className="mb-1 text-end"> */}
-                    {/* Print Button Start */}
-                    {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
+                {/* Print Button Start */}
+                {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
                         <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
                             <CsLineIcons icon="print" />
                         </Button>
                     </OverlayTrigger> */}
-                    {/* Print Button End */}
+                {/* Print Button End */}
 
 
                 {/* </Col> */}
-            
-            
-                <Col xs="12" md="9"  style={{display:"flex",justifyContent:"end",alignItems:"center",marginBottom:"15px"}} >
+
+
+                <Col xs="12" md="9" style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "15px" }} >
                     {/* Export Dropdown Start */}
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
@@ -348,7 +349,7 @@ const AdminReports = () => {
 
                     {/* Length Start */}
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
-                        <OverlayTrigger  delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                                 {limit} Items
                             </Dropdown.Toggle>
@@ -400,7 +401,7 @@ const AdminReports = () => {
 
             {/* List Items Start */}
             {AdminReportData?.data?.map((item, index) => {
-                console.log(item,'hjdvbhjbfver')
+                console.log(item, 'hjdvbhjbfver')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
