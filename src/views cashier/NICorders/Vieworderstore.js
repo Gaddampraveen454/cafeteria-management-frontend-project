@@ -75,6 +75,13 @@ const StoreOrderView = () => {
         OrderViewFunction()
     }, [])
 
+    const [ratingValue, setRating] = React.useState(location?.state?.feedbacks[0]?.rating);
+
+    const handleRatingChange = (newRating) => {
+        console.log(newRating, "fgdghhhghfhgf")
+        setRating(newRating);
+    };
+
 
     return (
         <>
@@ -137,6 +144,42 @@ const StoreOrderView = () => {
                             </Form>
                         </Card.Body>
                     </Card>
+
+                    <Row>
+                        <Col xs="12" className="col-lg order-1 order-lg-0">
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    <Form>
+                                        <h3>Feedback : </h3>
+                                        <Row className="g-3">
+                                            <Col lg="6">
+                                                <Form.Label>Rating</Form.Label>
+                                                <Rating
+                                                    count={5}
+                                                    defaultValue={location?.state?.feedbacks[0]?.rating}
+                                                    value={ratingValue}
+                                                    onChange={handleRatingChange}
+                                                    size={35}
+                                                    activeColor="#ffd700"
+                                                    edit={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        <Row className="g-3">
+                                            <Col lg="6">
+                                                {location?.state?.feedbacks?.length === 1 &&
+                                                    <>
+                                                        <Form.Label>Review</Form.Label>
+                                                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={location?.state?.feedbacks[0]?.review} />
+                                                    </>
+                                                }
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
 
                     <Card>
                         <Card.Body>

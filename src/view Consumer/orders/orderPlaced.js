@@ -441,10 +441,10 @@ const OrderPlaced = () => {
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Price</div>
             </Col>
-            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
-            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -613,7 +613,7 @@ const OrderPlaced = () => {
                           </Col>
                         </Row>
                       </Col>
-                      <Col lg="2">
+                      <Col lg="1">
                         <Row className="gx-2 align-items-center">
                           <Col lg="12" className="col">
                             <Row className="g-0">
@@ -642,7 +642,7 @@ const OrderPlaced = () => {
                           </Col>
                         </Row>
                       </Col>
-                      <Col lg="1">
+                      <Col lg="2">
                         <Row className="gx-2 align-items-center">
 
                           <Col lg="12" className="col">

@@ -113,7 +113,7 @@ const Profile = () => {
                 </div>
               </div>
               <div className="mb-5">
-                {/* <Row className="g-0 align-items-center mb-2">
+                <Row className="g-0 align-items-center mb-2">
                   <Col xs="auto">
                     <div className="border border-primary sw-5 sh-5 rounded-xl d-flex justify-content-center align-items-center">
                       <CsLineIcons icon="credit-card" className="text-primary" />
@@ -129,7 +129,7 @@ const Profile = () => {
                       </Col>
                     </Row>
                   </Col>
-                </Row> */}
+                </Row>
 
                 {/* <Row className="g-0 align-items-center mb-2">
                   <Col xs="auto">
@@ -178,9 +178,9 @@ const Profile = () => {
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
-                    {/* <div className="sw-3 me-1">
+                    <div className="sw-3 me-1">
                       <CsLineIcons icon="pin" size="17" className="text-primary" />
-                    </div> */}
+                    </div>
                   </Col>
                   <Col className="text-alternate">{ConsumerData ? ConsumerData.location : "No location"}</Col>
                 </Row>
