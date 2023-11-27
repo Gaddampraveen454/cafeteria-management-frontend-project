@@ -256,7 +256,7 @@ const product = () => {
 
   if (categoryList?.data?.length > 0) {
     categoryList?.data?.map((item) => {
-      return CategoryUUid?.push({ label: item?.name , value: item?.uuid})
+      return CategoryUUid?.push({ label: item?.name, value: item?.uuid })
     })
   }
 
@@ -402,17 +402,17 @@ const product = () => {
       setSearch(pages)
       setPage(0)
       // dispatch(ProductListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
+      dispatch(CompanyProductionListURL(page, pages, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     if (type === "prev") {
       setPage(page - 1)
       // dispatch(ProductListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
+      dispatch(CompanyProductionListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "next") {
       setPage(page + 1)
       // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
+      dispatch(CompanyProductionListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "page") {
       setPage(page)
@@ -422,18 +422,18 @@ const product = () => {
     else if (type === "page+1") {
       setPage(page + 1)
       // dispatch(ProductListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
+      dispatch(CompanyProductionListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "page+2") {
       setPage(page + 2)
       // dispatch(ProductListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid ,categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
+      dispatch(CompanyProductionListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
       // dispatch(ProductListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId1))
-      dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, categoryId, store))
+      dispatch(CompanyProductionListURL(page, search, currentUser.token, pages, currentUser?.data?.uuid, categoryId, store))
     }
   }
 

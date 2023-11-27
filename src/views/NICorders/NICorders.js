@@ -150,7 +150,7 @@ const NICorders = () => {
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
     history.push({
-      pathname: '/companyViewOrder',
+      pathname: `/companyViewOrder/${event?.uuid}`,
       state: event
     })
 

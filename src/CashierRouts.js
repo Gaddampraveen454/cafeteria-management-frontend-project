@@ -16,6 +16,7 @@ const addcategory = lazy(() => import('views/Category Management/addcategory'));
 const product = lazy(() => import('views cashier/Product Management/product'));
 const addproduct = lazy(() => import('views cashier/Product Management/addproduct'));
 const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
+const ViewOrder = lazy(() => import('views cashier/NICorders/Vieworderstore'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views cashier/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
@@ -160,6 +161,10 @@ const cashierRoutesAndMenuItems = {
       component: NICorders,
       label: 'Orders',
       icon: 'wallet',
+    },
+    {
+      path: `${appRoot}/Storevieworder/:id`,
+      component: ViewOrder
     },
     // {
     //   path: `${appRoot}/addNICorder`,

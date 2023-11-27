@@ -148,16 +148,13 @@ const AdminReports = () => {
     const CompanyDropDown = [];
 
     AdmincategoryDropdown?.data?.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
         return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
     })
 
     const selectedCompany = (selectvalue) => {
-        console.log(selectvalue, "hdsfgsj")
         setComapanyOption(selectvalue?.value)
         setCompanyOption1(selectvalue)
         setOption("")
-        console.log(option, "asdhsgafgsjd")
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
         // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option, startDate, endDate))
     }
@@ -165,7 +162,6 @@ const AdminReports = () => {
     const StoreDropp = [];
 
     storeDropdownByCompanyId?.data?.map((text) => {
-        console.log(text, 'hdfbhfbfb')
         return StoreDropp.push({ value: text?.uuid, label: text?.store_name })
     })
 
@@ -173,14 +169,12 @@ const AdminReports = () => {
     const dropdownValues = [];
 
     storeDropdown?.data?.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
         return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
     })
 
     const selectdropdown = (text) => {
-        console.log(text, 'hsdbvudgsfy')
         setOption(text?.value)
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value, startDate, endDate))
+        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
     }
 
     useEffect(() => {

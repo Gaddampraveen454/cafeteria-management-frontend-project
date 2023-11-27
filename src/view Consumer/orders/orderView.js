@@ -205,10 +205,12 @@ const UserOrderView = () => {
                         </Col>
                       </Row>
                       <Row className="g-3">
-                        <Col lg="6">
-                          <Form.Label>Review</Form.Label>
-                          <Form.Control as="textarea" name="review" rows={3} disabled={location?.state?.event?.feedbacks?.length === 1} defaultValue={location?.state?.event?.feedbacks[0]?.review} />
-                        </Col>
+                        {ratingValue <= 3 &&
+                          <Col lg="6">
+                            <Form.Label>Review</Form.Label>
+                            <Form.Control as="textarea" name="review" rows={3} disabled={location?.state?.event?.feedbacks?.length === 1} defaultValue={location?.state?.event?.feedbacks[0]?.review} />
+                          </Col>
+                        }
                       </Row>
                       {location?.state?.event?.feedbacks?.length !== 1 &&
                         <Row className="mt-3">

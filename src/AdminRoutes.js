@@ -168,7 +168,7 @@ const adminRoutesAndMenuItems = {
       icon: 'wallet',
     },
     {
-      path: `${appRoot}/companyViewOrder`,
+      path: `${appRoot}/companyViewOrder/:id`,
       component: Viewordercompany,
     },
     {

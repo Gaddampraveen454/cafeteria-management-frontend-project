@@ -653,7 +653,6 @@ const productmanagement = () => {
                         border="none"
                         options={CompanyDropDown}
                         placeholder='Select Company'
-                    
                         styles={{
                             control: provided => ({
                                 ...provided,

@@ -167,9 +167,14 @@ const NICorders = () => {
 
 
   const viewEventHandler = (event) => {
-    setOpen(true)
+    // setOpen(true)
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
+
+    history.push({
+      pathname: `/Storevieworder/${event?.uuid}`,
+      state: event
+    })
   };
 
   const addNICorder = () => {

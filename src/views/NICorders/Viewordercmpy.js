@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { NavLink, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -16,8 +16,10 @@ const CompanyOrderView = () => {
     const title = 'Order View';
     const description = 'Ecommerce Category Management Page';
 
+    const { id } = useParams();
+
     const location = useLocation('')
-    console.log(location, "11111111111111")
+    console.log(location, "dghsfjdsgfdhgjhf")
 
     const optionsState = [
         { value: 'Fougasse', label: 'Fougasse' },
@@ -64,14 +66,21 @@ const CompanyOrderView = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView } = useSelector((state) => state.OrderPlacedData)
-    
+
     const OrderViewFunction = () => {
-        dispatch(ConsumerOrderView(currentUser?.token, location?.state?.uuid))
+        dispatch(ConsumerOrderView(currentUser?.token, location?.state?.uuid || id))
     }
 
     useEffect(() => {
         OrderViewFunction()
     }, [])
+
+    const [ratingValue, setRating] = React.useState(location?.state?.feedbacks[0]?.rating);
+
+    const handleRatingChange = (newRating) => {
+        console.log(newRating, "fgdghhhghfhgf")
+        setRating(newRating);
+    };
 
 
     return (
@@ -135,6 +144,42 @@ const CompanyOrderView = () => {
                             </Form>
                         </Card.Body>
                     </Card>
+
+                    <Row>
+                        <Col xs="12" className="col-lg order-1 order-lg-0">
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    <Form>
+                                        <h3>Feedback : </h3>
+                                        <Row className="g-3">
+                                            <Col lg="6">
+                                                <Form.Label>Rating</Form.Label>
+                                                <Rating
+                                                    count={5}
+                                                    defaultValue={location?.state?.feedbacks[0]?.rating}
+                                                    value={ratingValue}
+                                                    onChange={handleRatingChange}
+                                                    size={35}
+                                                    activeColor="#ffd700"
+                                                    edit={false}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        <Row className="g-3">
+                                            <Col lg="6">
+                                                {location?.state?.feedbacks?.length === 1 &&
+                                                    <>
+                                                        <Form.Label>Review</Form.Label>
+                                                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={location?.state?.feedbacks[0]?.review} />
+                                                    </>
+                                                }
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
 
                     <Card>
                         <Card.Body>
