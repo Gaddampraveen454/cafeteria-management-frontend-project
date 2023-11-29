@@ -1,16 +1,20 @@
 
-  #nav-section.fixed-nav{
+  /* #nav-section.fixed-nav{
     position:sticky;
      top:10%; 
-     /* width:19%; */
-    z-index: 1000;
-  }
-
-  #nav-section1.fixed-nav1{
-    position:fixed;
-     top:27%; 
      width:19%;
-  }
+    z-index: 1000;
+  } */
+.sidebar{
+    position:fixed;
+    top:18%; 
+    width:19%;
+}
+  /* #nav-section1.fixed-nav1{
+    position:fixed;
+     top:14%; 
+     width:19%;
+  } */
 
 
   .selected-category{

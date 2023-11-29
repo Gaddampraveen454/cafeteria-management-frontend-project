@@ -13,13 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CategorycreateList } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { CompanyProductionListURL, CompanyProductsList } from 'Redux/AdminRedux/Production/production';
 
-const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
-  console.log(selectStore, "gfsfgsgs76567567fgsg")
-  const dispatch = useDispatch()
+const Cardsdetails = ({ handleClose, onClose, selectStore, companyuuid }) => {
+  console.log(selectStore, 'gfsfgsgs76567567fgsg');
+  const dispatch = useDispatch();
   const [suc, setSuc] = useState(false);
   const { id } = useParams();
-  console.log(id, "asdadadasd")
-  const [companyId, setCompanyId] = useState(id)
+  console.log(id, 'asdadadasd');
+  const [companyId, setCompanyId] = useState(id);
 
   // const [cmpid,companyId]=id.split("=")
 
@@ -29,35 +29,33 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   //   localStorage.setItem('companyId', (companyId));
   // }, [companyId]);
 
-  const { categorylist } = useSelector((state) => state.cotegoryList)
+  const { categorylist } = useSelector((state) => state.cotegoryList);
 
-  console.log(categorylist, "bhdfbgdhbjfkhj")
-
+  console.log(categorylist, 'bhdfbgdhbjfkhj');
 
   const [items, setItems] = useState();
-  console.log(items, "itemsitemsitems")
+  console.log(items, 'itemsitemsitems');
   useEffect(() => {
-    const getcompanyId = (localStorage.getItem('companyId'));
-    setItems(getcompanyId)
-  }, [])
-
+    const getcompanyId = localStorage.getItem('companyId');
+    setItems(getcompanyId);
+  }, []);
 
   const [open, setOpen] = React.useState(false);
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState('');
   const [categoryuuid, setCategoryuuid] = useState('');
-  console.log(categoryuuid, "ghdsjhgch")
+  console.log(categoryuuid, 'ghdsjhgch');
   useEffect(() => {
-    localStorage.setItem('categoryId', (category));
-  }, [category])
+    localStorage.setItem('categoryId', category);
+  }, [category]);
 
-  const { currentUser } = useSelector((state) => state.auth)
-  const { createList } = useSelector((state) => state.cotegoryList)
+  const { currentUser } = useSelector((state) => state.auth);
+  const { createList } = useSelector((state) => state.cotegoryList);
   //   const { ProductForConsumer, notification } = useSelector((state) => state.ProductForConsumerList)
-  console.log(currentUser, "currentUser")
+  console.log(currentUser, 'currentUser');
 
   useEffect(() => {
-    dispatch(CategorycreateList(currentUser?.data?.uuid))
-  }, [])
+    dispatch(CategorycreateList(currentUser?.data?.uuid));
+  }, []);
   const [selectedCategory, setSelectedCategory] = useState(null);
   // useEffect(() => {
   //   if (categoryForConsumer) {
@@ -88,10 +86,10 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   //   }, [category])
 
   const closeFunction = () => {
-    onClose()
-  }
-
-
+    setTimeout(() => {
+      onClose();
+    }, 1000);
+  };
 
   // useEffect(() => {
   //   if (categorylist) {
@@ -99,27 +97,23 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   //   }
   // }, [categorylist])
 
-
   useEffect(() => {
     // dispatch(CompanyProductionListURL("", "", currentUser?.token, "", currentUser?.data?.uuid, categoryuuid || "CAT-423624E7", selectStore === undefined ? "" : selectStore));
-    dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore === undefined ? "" : selectStore, "", ""))
-  }, [])
+    dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore === undefined ? '' : selectStore, '', ''));
+  }, []);
 
   const Handlechangeproducts = (categoryid) => {
-    setCategoryuuid(categoryid)
-    console.log(categoryid, "sfghfghdfgdfghjd567547hy")
+    setCategoryuuid(categoryid);
+    console.log(categoryid, 'sfghfghdfgdfghjd567547hy');
 
     // dispatch(CompanyProductionListURL("", "", currentUser?.token, "", companyuuid === undefined ? "" : companyuuid, categoryid === undefined ? "" : categoryid, selectStore === undefined ? "" : selectStore));
-
-  }
+  };
 
   useEffect(() => {
     if (categorylist) {
-      setSelectedCategory(categorylist && categorylist.data && categorylist.data[0] && categorylist.data[0].uuid)
+      setSelectedCategory(categorylist && categorylist.data && categorylist.data[0] && categorylist.data[0].uuid);
     }
-  }, [categorylist])
-
-
+  }, [categorylist]);
 
   return (
     <>
@@ -129,17 +123,15 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
             <div>
               {categorylist?.data?.length > 0 &&
                 categorylist?.data?.map((item) => {
-
                   return (
                     <a
                       key={item?.uuid}
-
                       className={`text-alternate mb-2 ${selectedCategory === item?.uuid ? 'selected-category' : ''}`}
                       href={`#${item?.name}`}
                       onClick={() => {
                         Handlechangeproducts(item?.uuid);
-                        setSelectedCategory(item?.uuid)
-                        console.log(item?.uuid, 'vcghefvhgevfghr')
+                        setSelectedCategory(item?.uuid);
+                        console.log(item?.uuid, 'vcghefvhgevfghr');
                         closeFunction();
                       }}
                       style={{
@@ -151,22 +143,16 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
                         fontFamily: 'proxima-nova, sans-serif',
                       }}
                     >
-                      <p>{item?.name}</p>
-
+                      <p onClick={handleClose}>{item?.name}</p>
                     </a>
-
-                  )
+                  );
                 })}
-
             </div>
           ) : null}
         </Form>
       </div>
-
     </>
-
   );
 };
 
 export default Cardsdetails;
-
