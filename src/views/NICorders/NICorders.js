@@ -3,9 +3,11 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import axios from 'axios'
+import Select from 'react-select';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
+import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import { OrderListURL, CompanyOrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -55,10 +57,15 @@ const NICorders = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
+  const [storeuuid, setStoreUUID] = useState('');
+  const [storeuuid1, setStoreUUID1] = useState('');
+
   const { currentUser } = useSelector((state) => state.auth)
   const { OrderData, notification } = useSelector((state) => state.orderList)
+  const { StoreList } = useSelector((state) => state.products)
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
 
@@ -69,36 +76,49 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
+      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid))
     }
   }
 
+  const StoreUUid = []
+  if (StoreList?.data?.length > 0) {
+    StoreList?.data?.map((text) => {
+      return StoreUUid.push({ label: text?.store_name, value: text?.uuid })
+    }, [])
+  }
 
+
+  const SelectStoreNamevalue = (event) => {
+    console.log(event)
+    setStoreUUID(event?.value)
+    setStoreUUID1(event)
+    dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, storeuuid))
+  }
 
 
 
@@ -272,6 +292,15 @@ const NICorders = () => {
             </span>
           </div>
           {/* Search End */}
+        </Col>
+        <Col md="2" lg="2" xxl="2">
+          {/* <Form.Label>Category</Form.Label> */}
+          <Select
+            classNamePrefix="react-select"
+            options={StoreUUid}
+            value={storeuuid1}
+            onChange={SelectStoreNamevalue}
+            placeholder="Select Store" />
         </Col>
         <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
           {/* Print Button Start */}

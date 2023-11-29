@@ -166,7 +166,7 @@ const App = () => {
           setShow(true)
           alert("order Recieved")
         });
-        socket.emit('newOrder', { company_uuid: currentUserUuid });
+        socket.emit('newOrder');
       });
 
       // Clean up the socket connection when the component unmounts

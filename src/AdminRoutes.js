@@ -16,6 +16,7 @@ const addcategory = lazy(() => import('views/Category Management/addcategory'));
 const product = lazy(() => import('views/Product Management/product'));
 const addproduct = lazy(() => import('views/Product Management/addproduct'));
 const NICorders = lazy(() => import('views/NICorders/NICorders'));
+const PendingOrder = lazy(() => import('views/NICorders/PendingOrder'));
 const Viewordercompany = lazy(() => import('views/NICorders/Viewordercmpy'))
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
@@ -165,6 +166,12 @@ const adminRoutesAndMenuItems = {
       path: `${appRoot}/orders`,
       component: NICorders,
       label: 'Orders',
+      icon: 'wallet',
+    },
+    {
+      path: `${appRoot}/Pendingorders`,
+      component: PendingOrder,
+      label: 'Pending List',
       icon: 'wallet',
     },
     {

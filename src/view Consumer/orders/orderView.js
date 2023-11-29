@@ -141,14 +141,10 @@ const UserOrderView = () => {
                     <Form.Label>Payment Status</Form.Label>
                     <Form.Control type="text" disabled value={OrderView?.data?.payment_status} />
                   </Col>
-                  <Col lg="6">
-                    <Form.Label>Amount</Form.Label>
-                    <Form.Control type="text" disabled value={OrderView?.data?.amount} />
-                  </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Order Created By</Form.Label>
                     <Form.Control type="text" disabled value={OrderView?.data?.amount} />
-                  </Col>
+                  </Col> */}
 
                   <Col lg="6">
                     <Form.Label>Online Payment</Form.Label>
@@ -158,10 +154,10 @@ const UserOrderView = () => {
                     <Form.Label>Paid From Wallet</Form.Label>
                     <Form.Control type="text" disabled value={OrderView?.data?.paid_from_wallet} />
                   </Col>
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Payment Type</Form.Label>
                     <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
-                  </Col>
+                  </Col> */}
                   <Col lg="6">
                     <Form.Label>SGST Tax</Form.Label>
                     <Form.Control type="text" disabled value={OrderView?.data?.sgst_tax} />
@@ -169,6 +165,10 @@ const UserOrderView = () => {
                   <Col lg="6">
                     <Form.Label>CGST Tax</Form.Label>
                     <Form.Control type="text" disabled value={OrderView?.data?.cgst_tax} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Total Amount</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.amount} />
                   </Col>
                 </Row>
 
