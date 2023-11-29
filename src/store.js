@@ -52,6 +52,7 @@ import companyUserReducer from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import StoresForConsumersReducer from 'Redux/ConsumerRedux/StoreList/storelist';
 import companyNotificationReducer from 'Redux/AdminRedux/Companynotifications/companynotificationsRedux';
 import storeNotificationReducer from 'Redux/CashierRedux/StoreNotifications/storenotifications';
+import notificationUserReducer from 'Redux/ConsumerRedux/NotificationRedux/notification';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -68,6 +69,7 @@ const persistedReducer = persistReducer(
     auth: authReducer,
     menu: menuReducer,
     notification: notificationReducer,
+    Usernotification: notificationUserReducer,
     scrollspy: scrollspyReducer,
     companyList: companyReducer,
     cashierList: cashierReducer,

@@ -14,6 +14,7 @@ import { LogOutURL, LoginURL } from 'auth/authSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 
 
@@ -140,12 +141,35 @@ const Categories = () => {
 
               console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
 
-              history.push(({
-                pathname: "/OrderSuccess",
-                state: {
-                  message: `${resp.data.message}`
-                }
-              }));
+              const host = 'https://cmsapi.scienstechnologies.com'; // Replace with your server host
+
+              const queryParams = { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
+
+              const socket = io(host, {
+                path: '/pathToConnection',
+                transports: ['websocket'],
+                upgrade: false,
+                query: queryParams,
+                reconnection: true,
+                rejectUnauthorized: false
+              });
+
+              socket.on('connect', () => {
+                console.log('Connected to the server');
+
+                // socket.on('orderNotification', (value) => {
+                //   console.log(value, 'Order placed');
+                  history.push(({
+                    pathname: "/OrderSuccess",
+                    state: {
+                      message: `${resp.data.message}`
+                    }
+                  }));
+                // })
+                socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
+              });
+
+
 
               // dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
             })
@@ -541,7 +565,7 @@ const Categories = () => {
                   <p className="text-small text-muted mb-1">SGST(%)</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>{CartData.sgst_tax} 
+                      <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
                     </span>
                   </p>
                 </div>

@@ -10,6 +10,7 @@ import { StoresForConsumerLIST } from 'Redux/ConsumerRedux/StoreList/storelist';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
+import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
@@ -78,6 +79,20 @@ const productsUserCards = () => {
     const handleError = (error) => {
         console.log(error);
     };
+
+    const [vegtype, setVegType] = useState("");
+
+    const optionsVegType = [
+        { value: "", label: 'ALL' },
+        { value: 'veg', label: 'VEG' },
+        { value: 'non-veg', label: 'NON-VEG' },
+    ];
+
+    const SelectVegFunction = (type) => {
+        console.log(type, "gsdhfgkdshkfjh")
+        setVegType(type?.value)
+        dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1, type?.value))
+    }
 
 
     useEffect(() => {
@@ -323,27 +338,27 @@ const productsUserCards = () => {
             console.log(pages, type, "ghjkfgdfgssdvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(ProductForConsumerListURL(id, "", 0, pages, currentUser.token, limit, id1))
+            dispatch(ProductForConsumerListURL(id, "", 0, pages, currentUser.token, limit, id1, vegtype))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(ProductForConsumerListURL(id, "", page - 1, search, currentUser.token, limit, id1))
+            dispatch(ProductForConsumerListURL(id, "", page - 1, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(ProductForConsumerListURL(id, "", page + 1, search, currentUser.token, limit, id1))
+            dispatch(ProductForConsumerListURL(id, "", page + 1, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1))
+            dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(ProductForConsumerListURL(id, "", page + 1, search, currentUser.token, limit, id1))
+            dispatch(ProductForConsumerListURL(id, "", page + 1, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(ProductForConsumerListURL(id, "", page + 2, search, currentUser.token, limit, id1))
+            dispatch(ProductForConsumerListURL(id, "", page + 2, search, currentUser.token, limit, id1, vegtype))
         }
     }
     const Back = () => {
@@ -434,6 +449,11 @@ const productsUserCards = () => {
                                     </div>
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col>
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                            </Row>
 
                             <Card className="mb-5">
                                 <Card.Body>
@@ -519,6 +539,20 @@ const productsUserCards = () => {
                                                                     <Row >
                                                                         {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
                                                                         <Col xs="6" sm="8" md="8" lg="8">
+                                                                            <Clamp tag="span" clamp="2">
+                                                                                {item?.type === 'veg' && (
+                                                                                    <img
+                                                                                        src="https://stage-couponportal.mistaeats.com/img/profile/profile-17.jpg"
+                                                                                        alt=""
+                                                                                        style={{ width: '15px' }}
+                                                                                    />
+                                                                                )}
+                                                                            </Clamp>
+                                                                            <Clamp tag="span" clamp="2">
+                                                                                {item?.type === 'non-veg' && (
+                                                                                    <img src="https://stage-couponportal.mistaeats.com/img/profile/non-veg.png" alt="" style={{ width: '17px' }} />
+                                                                                )}
+                                                                            </Clamp>
                                                                             <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                                                                                 <Clamp tag="span" clamp="2">
                                                                                     {item.name}

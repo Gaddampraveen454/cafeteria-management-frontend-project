@@ -54,9 +54,9 @@ const Profile = () => {
         <Row className="g-0">
           {/* Title Start */}
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/customers">
+            <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/">
               <CsLineIcons icon="chevron-left" size="13" />
-              <span className="align-middle text-small ms-1">Customers</span>
+              <span className="align-middle text-small ms-1">Back</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
@@ -176,14 +176,14 @@ const Profile = () => {
                   </Col>
                   <Col className="text-alternate">{ConsumerData ? ConsumerData.name : "Guest"}</Col>
                 </Row>
-                <Row className="g-0 mb-2">
+                {/* <Row className="g-0 mb-2">
                   <Col xs="auto">
                     <div className="sw-3 me-1">
                       <CsLineIcons icon="pin" size="17" className="text-primary" />
                     </div>
                   </Col>
                   <Col className="text-alternate">{ConsumerData ? ConsumerData.location : "No location"}</Col>
-                </Row>
+                </Row> */}
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
                     <div className="sw-3 me-1">

@@ -329,6 +329,9 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Token No </div>
+            </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Store Name </div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -386,6 +389,9 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.token_no}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item && item.stores && item.stores[0] && item.stores[0].store_name}
                     </div>
                   </Col>
@@ -411,7 +417,7 @@ const NICorders = () => {
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.order_created_by}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
 
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -446,7 +452,7 @@ const NICorders = () => {
               </Col> */}
 
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">
+                    <div className="lh-1 text-alternate" style={{ marginLeft: "25px" }}>
                       <table>
                         <tr>
                           {/* <ToggleButton

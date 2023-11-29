@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { NavLink, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -15,6 +15,8 @@ const UserOrderView = () => {
   const history = useHistory();
   const title = 'Order View';
   const description = 'Ecommerce Category Management Page';
+
+  const { id } = useParams();
 
   const location = useLocation('')
   console.log(location, "11111111111111")
@@ -70,7 +72,7 @@ const UserOrderView = () => {
   const [success, setSuccess] = useState(false);
 
   const OrderViewFunction = () => {
-    dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid))
+    dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id))
   }
 
   useEffect(() => {
@@ -88,7 +90,7 @@ const UserOrderView = () => {
     console.log(value, "ghdfvcshbjbsdjhj")
     const payload = {
       "user_uuid": currentUser?.data?.uuid,
-      "order_uuid": location?.state?.event?.uuid,
+      "order_uuid": location?.state?.event?.uuid || id,
       "rating": ratingValue,
       "review": value?.review?.value
     }

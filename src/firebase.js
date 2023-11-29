@@ -46,6 +46,7 @@ getToken(messaging, { vapidKey: 'BAHPDorxKjVssgWH3dYIWXIhbGB0xL3U7od9UUMftsFhh0q
 
     // Send the token to your server and update the UI if necessary
       let userdata = JSON.parse(localStorage.getItem("user"));
+      console.log(userdata,"ghdsfgsjshd")
       userdata = userdata != null ? userdata : false;
       if (userdata && userdata && userdata?.data?.uuid){
         const config1 = {
@@ -56,9 +57,9 @@ getToken(messaging, { vapidKey: 'BAHPDorxKjVssgWH3dYIWXIhbGB0xL3U7od9UUMftsFhh0q
             device_type: "web",
             user_uuid: userdata?.data?.uuid
           },
-          headers: {
-            'x-auth-token': userdata?.token
-          }
+          // headers: {
+          //   'x-auth-token': userdata?.token
+          // }
         };
         axios(config1).then((resp) => {
           console.log(resp)

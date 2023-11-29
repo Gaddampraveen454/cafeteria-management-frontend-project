@@ -44,7 +44,7 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
 
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = useState("")
- const [categoryuuid, setCategoryuuid] = useState('');
+  const [categoryuuid, setCategoryuuid] = useState('');
   console.log(categoryuuid, "ghdsjhgch")
   useEffect(() => {
     localStorage.setItem('categoryId', (category));
@@ -63,7 +63,7 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
   //   if (categoryForConsumer) {
   //       setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
   //   }
-// }, [categoryForConsumer])
+  // }, [categoryForConsumer])
 
   //   useEffect(()=>{
   //     dispatch(categoryForConsumerListURL(currentUser.data.company_uuid))
@@ -91,7 +91,7 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
     onClose()
   }
 
- 
+
 
   // useEffect(() => {
   //   if (categorylist) {
@@ -102,7 +102,7 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
 
   useEffect(() => {
     // dispatch(CompanyProductionListURL("", "", currentUser?.token, "", currentUser?.data?.uuid, categoryuuid || "CAT-423624E7", selectStore === undefined ? "" : selectStore));
-    dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore === undefined ? "" : selectStore, ""))
+    dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore === undefined ? "" : selectStore, "", ""))
   }, [])
 
   const Handlechangeproducts = (categoryid) => {
@@ -113,52 +113,58 @@ const Cardsdetails = ({ onClose, selectStore, companyuuid }) => {
 
   }
 
+  useEffect(() => {
+    if (categorylist) {
+      setSelectedCategory(categorylist && categorylist.data && categorylist.data[0] && categorylist.data[0].uuid)
+    }
+  }, [categorylist])
 
 
 
   return (
     <>
       <div>
-      <Form className="mb-5">
-        {categorylist ? (
-          <div>
-            {categorylist?.data?.length > 0 &&
-              categorylist?.data?.map((item) =>{
-                
-               return (
-                <a
-                  key={item?.uuid}
-                 
-                  className={`text-alternate mb-2 ${selectedCategory === item?.uuid ? 'selected-category' : ''}`}
-                  href={`#${item?.name}`}
-                  onClick={() => {
-                    Handlechangeproducts(item?.uuid);
-                    setSelectedCategory(item?.uuid)
-                    console.log(item?.uuid,'vcghefvhgevfghr')
-                    closeFunction();
-                  }}
-                  style={{
-                    marginBottom: '15px',
-                    fontWeight: '500',
-                    fontSize: '1rem',
-                    color: selectedCategory === item?.uuid  ? 'red' : 'rgb(72 72 72/1)',
-                    lineHeight: '0.8rem',
-                    fontFamily: 'proxima-nova, sans-serif',
-                  }}
-                >
-                  <p>{item?.name}</p>
-                  
-                </a>
-              
-              )})}
+        <Form className="mb-5">
+          {categorylist ? (
+            <div>
+              {categorylist?.data?.length > 0 &&
+                categorylist?.data?.map((item) => {
 
-          </div>
-        ) : null}
-      </Form>
-    </div>
-    
+                  return (
+                    <a
+                      key={item?.uuid}
+
+                      className={`text-alternate mb-2 ${selectedCategory === item?.uuid ? 'selected-category' : ''}`}
+                      href={`#${item?.name}`}
+                      onClick={() => {
+                        Handlechangeproducts(item?.uuid);
+                        setSelectedCategory(item?.uuid)
+                        console.log(item?.uuid, 'vcghefvhgevfghr')
+                        closeFunction();
+                      }}
+                      style={{
+                        marginBottom: '15px',
+                        fontWeight: '500',
+                        fontSize: '1rem',
+                        color: selectedCategory === item?.uuid ? 'red' : 'rgb(72 72 72/1)',
+                        lineHeight: '0.8rem',
+                        fontFamily: 'proxima-nova, sans-serif',
+                      }}
+                    >
+                      <p>{item?.name}</p>
+
+                    </a>
+
+                  )
+                })}
+
+            </div>
+          ) : null}
+        </Form>
+      </div>
+
     </>
-    
+
   );
 };
 
