@@ -143,7 +143,9 @@ const Categories = () => {
 
               const host = 'https://cmsapi.scienstechnologies.com'; // Replace with your server host
 
-              const queryParams = { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
+              // const queryParams = { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
+              const queryParams = { transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
+
 
               const socket = io(host, {
                 path: '/pathToConnection',
@@ -156,18 +158,28 @@ const Categories = () => {
 
               socket.on('connect', () => {
                 console.log('Connected to the server');
+                // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
+                socket.emit('newOrder');
+
 
                 // socket.on('orderNotification', (value) => {
                 //   console.log(value, 'Order placed');
+                setTimeout(() => {
                   history.push(({
                     pathname: "/OrderSuccess",
                     state: {
                       message: `${resp.data.message}`
                     }
                   }));
+                }, 1000)
                 // })
-                socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
               });
+
+              return () => {
+                if (socket) {
+                  socket.disconnect();
+                }
+              };
 
 
 

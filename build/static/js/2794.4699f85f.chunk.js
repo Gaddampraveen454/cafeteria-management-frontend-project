@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkacorn_react=self.webpackChunkacorn_react||[]).push([[2794],{92794:function(e,n,r){r.r(n);r(47313);var a=r(46417);n.default=function(){return(0,a.jsx)(a.Fragment,{children:"This is HomePage."})}}}]);

@@ -128,7 +128,7 @@ const StoreOrderView = () => {
                                         <Form.Control type="text" disabled value={OrderView?.data?.paid_from_wallet} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Payment Type</Form.Label>
+                                        <Form.Label>Payment Mode</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
                                     </Col>
                                     <Col lg="6">

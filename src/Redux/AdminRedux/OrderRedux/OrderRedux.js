@@ -24,8 +24,8 @@ const orderSlice = createSlice({
 export const { setOrderData, setToast } = orderSlice.actions;
 
 
-export const OrderListURL = (pageNUm, search, token, limit,id) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/order/list/company?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}`, {
+export const OrderListURL = (pageNUm, search, token, limit, id, storeid, status) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/order/list/company?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${id}&store_uuid=${storeid}&order_status=${status || ''}`, {
     headers: {
       "x-auth-token": token
     }
@@ -51,7 +51,7 @@ export const OrderAddURL = (payload, token) => async (dispatch) => {
       dispatch(setToast({ status: true, message: res.data.message }))
     })
     .catch((err) => {
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
 
@@ -84,8 +84,8 @@ export const OrderUpdateURL = (uuid, payload, token) => async (dispatch) => {
     dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log(err && err.response,"hjgjghgjhghj")
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      console.log(err && err.response, "hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
   // console.log(response, "sdfsfsdfs")
@@ -102,8 +102,8 @@ export const CompanyOrderStatusUpdateURL = (payload, token) => async (dispatch) 
     dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log(err && err.response,"hjgjghgjhghj")
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      console.log(err && err.response, "hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
   // console.log(response, "sdfsfsdfs")
