@@ -743,7 +743,7 @@ const MenuForCashier = () => {
                           options={optionsPayment}
                           value={selectPaymentType}
                           onChange={setSelectPaymentType}
-                          placeholder="select Payment Type"
+                          placeholder="select Payment Mode"
                         />
                       </div>
                     </Col>

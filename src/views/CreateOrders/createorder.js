@@ -1053,7 +1053,7 @@ const CreateOrder = () => {
                                         <Col xs="12" sm="6" md="6" lg="6">
                                             <div className="mb-2">
                                                 <p className="text-small text-muted mb-1">SELECT PAYMENT</p>
-                                                <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Type" />
+                                                <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Mode" />
                                             </div>
                                         </Col>
                                         {/* <br />

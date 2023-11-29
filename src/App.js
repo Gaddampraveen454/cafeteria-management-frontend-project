@@ -2,6 +2,7 @@ import React, { useMemo, useEffect, useState, useRef } from 'react';
 
 // import redux for auth guard
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 // import layout
 import Layout from 'layout/Layout';
@@ -51,6 +52,8 @@ const App = () => {
 
   const [isTokenFound, setTokenFound] = useState(false);
   const dispatch = useDispatch();
+
+  const history = useHistory('');
 
   console.log(isTokenFound, "isTokenFound")
 
@@ -218,6 +221,12 @@ const App = () => {
     return arr;
   }
 
+  const RedirectToPendingList = () => {
+    history.push({
+      pathname: "/Pendingorders"
+    })
+  }
+
   const UpdateOrderStatus = (orderId, status) => {
     const payload = {
       "order_uuid": orderId,
@@ -234,7 +243,7 @@ const App = () => {
       console.log('Before:', recievedData);
       const afterAccept = removeObjectWithId([...recievedData], orderId);
       console.log('After:', afterAccept);
-      if(afterAccept?.length <= 0){
+      if (afterAccept?.length <= 0) {
         setShow(false);
       }
       setRecievedData(prevData => afterAccept);
@@ -298,6 +307,9 @@ const App = () => {
                   })}
 
                   {/* <button type='button' onClick={AudioFunction}>Play</button> */}
+                </Col>
+                <Col>
+                  <Button variant="outlined" onClick={RedirectToPendingList}>View More Pending Orders</Button>
                 </Col>
               </Row>
             </div>
