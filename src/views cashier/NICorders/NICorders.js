@@ -115,7 +115,7 @@ const NICorders = () => {
     // if (event.is_delivered)
     const payload = {
       "order_uuid": event.uuid,
-      "order_status": status
+      "status": status
     }
     dispatch(OrderStatusUpdateCashierURL(payload, currentUser.token))
     setSuc(true)
@@ -167,9 +167,14 @@ const NICorders = () => {
 
 
   const viewEventHandler = (event) => {
-    setOpen(true)
+    // setOpen(true)
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
+
+    history.push({
+      pathname: `/Storevieworder/${event?.uuid}`,
+      state: event
+    })
   };
 
   const addNICorder = () => {
@@ -323,10 +328,13 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer">Order id</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer">Date</div>
+              <div className="text-muted text-medium cursor-pointer">Order Date</div>
+            </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer">Token No</div>
             </Col>
 
-            <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Consumer Name </div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -463,10 +471,13 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate"> {item.token_no}</div>
                   </Col>
 
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
                     </div>
                   </Col>
@@ -479,7 +490,7 @@ const NICorders = () => {
               </Col> */}
 
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.total_amount}</div>
+                    <div className="lh-1 text-alternate">{item.amount}</div>
                   </Col>
                   {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
@@ -493,13 +504,17 @@ const NICorders = () => {
                       <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                           <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-                            {item.is_delivered === true ? "Delivered" : "Pending"}
+                            {item.order_status ? item.order_status : "Pending"}
                           </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
                           <Dropdown.Item
-                            onClick={(status) => { eventHandler(item, status = true) }}>Delivered</Dropdown.Item>
-                          <Dropdown.Item onClick={(status) => { eventHandler(item, status = false) }} >Pending</Dropdown.Item>
+                            onClick={(status) => { eventHandler(item, "Pending") }}>Pending</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Accepted") }} >Accepted</Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
                           {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
                         </Dropdown.Menu>
                       </Dropdown>

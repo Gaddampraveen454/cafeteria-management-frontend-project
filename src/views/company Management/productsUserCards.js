@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { NavLink, useHistory, useParams, Redirect } from 'react-router-dom';
+import { NavLink, useHistory, useParams, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { ProductForConsumerListURL } from 'Redux/ConsumerRedux/Product/ProductRedux';
@@ -10,6 +10,7 @@ import { StoresForConsumerLIST } from 'Redux/ConsumerRedux/StoreList/storelist';
 import Rating from 'react-rating';
 import Clamp from 'components/clamp';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Modal, InputGroup } from 'react-bootstrap';
+import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
@@ -35,8 +36,10 @@ const productsUserCards = () => {
     const history = useHistory();
     const title = 'Menu';
     const description = 'Ecommerce Storefront Filters Page';
+    const location = useLocation('');
+    console.log(location, "locationlocation")
     const { id, id1 } = useParams();
-    console.log(id, id1, "dsfsdfsdfsdf")
+    console.log(id, id1, "ghg")
     const { themeValues } = useSelector((state) => state.settings);
     const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
     const { width } = useWindowSize();
@@ -57,6 +60,7 @@ const productsUserCards = () => {
         width: 280
     };
     const { currentUser } = useSelector((state) => state.auth)
+    const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
     const handleScan = (result) => {
 
         const Compuuid = result?.data.split("menu/company/")
@@ -75,6 +79,20 @@ const productsUserCards = () => {
     const handleError = (error) => {
         console.log(error);
     };
+
+    const [vegtype, setVegType] = useState("");
+
+    const optionsVegType = [
+        { value: "", label: 'ALL' },
+        { value: 'veg', label: 'VEG' },
+        { value: 'non-veg', label: 'NON-VEG' },
+    ];
+
+    const SelectVegFunction = (type) => {
+        console.log(type, "gsdhfgkdshkfjh")
+        setVegType(type?.value)
+        dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1, type?.value))
+    }
 
 
     useEffect(() => {
@@ -115,11 +133,11 @@ const productsUserCards = () => {
     }, [])
     useEffect(() => {
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
             setSuc(false)
         } else if (ip) {
             //  if (ip)
-            dispatch(CartListURL(ip))
+            dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, 10))
         }
     }, [ip])
     useEffect(() => {
@@ -153,20 +171,24 @@ const productsUserCards = () => {
     const { StoreForConsumer } = useSelector((state) => state.StoreForConsumerSlice)
     const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
     const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+
+    console.log(ProductForConsumer, "ProductForConsumer453")
     const { CartData, notification } = useSelector((state) => state.CartList)
+
+    console.log(CartData, "fgdsjhfdshkj")
 
     console.log(currentUser, "currentUser")
     const { IpAddressData } = useSelector((state) => state.IpAddressList);
 
-    const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
     const addToCart = (event) => {
-        console.log(event.stock_quantity, "jhjjgjhgjgjhg")
+        console.log(event, "jhjjgjhgjgjhg")
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
             const payload = {
                 "item_uuid": event.uuid,
                 "quantity": 1,
                 "user_uuid": currentUser && currentUser.data && currentUser.data.uuid,
-                "store_uuid": StoreData?.uuid
+                "store_uuid": StoreData?.uuid,
+                "company_uuid": event?.company_uuid
             }
             dispatch(addToCartURL(payload))
             setSuc(true)
@@ -176,7 +198,8 @@ const productsUserCards = () => {
                 "item_uuid": event.uuid,
                 "quantity": 1,
                 "ip_address": ip,
-                "store_uuid": StoreData?.uuid
+                "store_uuid": StoreData?.uuid,
+                "company_uuid": event?.company_uuid
             }
             dispatch(addToCartURL(payload))
             setSuc(true)
@@ -204,10 +227,10 @@ const productsUserCards = () => {
                         position: "top-right",
                     })
                 if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-                    dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+                    dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
                     setSuc(false)
                 } else {
-                    dispatch(CartListURL(ip))
+                    dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
                     setSuc(false)
                 }
                 // setTimeout(() => {
@@ -261,7 +284,7 @@ const productsUserCards = () => {
             setValue(parseInt(typeof value === 'number' ? value : 0, 10) - 1);
         }
     };
-    const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
+    const prod = ProductForConsumer?.data?.length > 0 && ProductForConsumer && ProductForConsumer?.data && ProductForConsumer?.data?.map((item) => {
         return item.uuid
     })
     console.log(prod, "sdfsdfsdfsdfsdfdsf")
@@ -315,34 +338,40 @@ const productsUserCards = () => {
             console.log(pages, type, "ghjkfgdfgssdvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(ProductForConsumerListURL(id, categoryID, 0, pages, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, "", 0, pages, currentUser.token, limit, id1, vegtype))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(ProductForConsumerListURL(id, categoryID, page - 1, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, "", page - 1, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, "", page + 1, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ProductForConsumerListURL(id, categoryID, page, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(ProductForConsumerListURL(id, categoryID, page + 1, search, currentUser.token, limit))
+            dispatch(ProductForConsumerListURL(id, "", page + 1, search, currentUser.token, limit, id1, vegtype))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(ProductForConsumerListURL(id, categoryID, page + 2, search, currentUser.token, limit))
-        }
-        else if (type === "limit") {
-            setLimit(pages)
-            setPage(0)
-            dispatch(ProductForConsumerListURL(id, categoryID, 0, search, currentUser.token, pages))
+            dispatch(ProductForConsumerListURL(id, "", page + 2, search, currentUser.token, limit, id1, vegtype))
         }
     }
+    const Back = () => {
+        history.goBack()
+    }
+    const [category, setCategory] = useState("")
+
+    useEffect(() => {
+        if (categoryForConsumer) {
+            setCategory(categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
+        }
+    }, [categoryForConsumer])
+
     return (
         <>
             <HtmlHead title={title} description={description} />
@@ -351,10 +380,10 @@ const productsUserCards = () => {
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard"> */}
-                        <CsLineIcons icon="chevron-left" size="20" />
-                        <span className="align-middle text-medium ms-1">Home</span>
-                        {/* </NavLink> */}
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="" onClick={Back}>
+                            <CsLineIcons icon="chevron-left" size="20" />
+                            <span className="align-middle text-medium ms-1">Home</span>
+                        </NavLink>
                         <h1 className="mb-0 pb-0 display-4" id="title">
                             {title}
                         </h1>
@@ -396,105 +425,204 @@ const productsUserCards = () => {
             </div>
             {/* Title End */}
             <Row>
+                <Col>
+                    <img src={location?.state?.logo} alt="" style={{ width: "100px", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                    <p>{location?.state?.store_name}</p>
+                </Col>
+            </Row>
+            <Row>
                 {isLgScreen && (
                     <Col lg="3" xl="3" className="d-none d-lg-block">
                         {/* Filters Start */}
-                        <Card style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto" }} className="mb-5">
-                            <Card.Body>
-                                {/* <Cardsdetails /> */}
-                                <ProductsUserCardDetailes />
-                            </Card.Body>
-                        </Card>
+                        <div style={{ position: "fixed", zIndex: "1", width: "18%", height: "auto", marginTop: "3.7%" }} >
+                            <Row>
+                                <Col>
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container shadow bg-foreground w-100 mb-3">
+
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                            </Row>
+
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    {/* <Cardsdetails /> */}
+                                    <ProductsUserCardDetailes />
+                                    {/* {categoryForConsumer ?
+                                    <div>
+                                        {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item) => {
+                                            return <>
+                                                {console.log(item, "hjdgshfkjhfks")}
+                                                <a
+                                                    className="text-alternate mb-2"
+                                                    href={`#${item.name}`}
+                                                    onClick={() => {
+                                                        setCategory(item.uuid);
+                                                        // closeFunction()
+                                                    }}
+                                                >
+                                                    <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: 'rgb(72 72 72/1)', lineHeight: "1.25rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
+                                                </a>
+                                            </>
+                                        })}
+                                    </div>
+                                    :
+                                    null
+                                } */}
+                                </Card.Body>
+                            </Card>
+                        </div>
+
                         {/* Filters End */}
                     </Col>
                 )}
+
                 <Col style={{ position: "sticky" }} lg="9" xl="9">
                     <div id="firstcolumn">
+                        {/* <Form.Label/> */}
+                        {/* <Row>
+                            <Col lg="6" xl="6">
+                                <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                    <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                    <span className="search-magnifier-icon">
+                                        <CsLineIcons icon="search" />
+                                    </span>
+                                    <span className="search-delete-icon d-none">
+                                        <CsLineIcons icon="close" />
+                                    </span>
+                                </div>
+                            </Col>
+                        </Row> */}
+
+                        {/* Search End */}
                         <Form className="mb-5">
                             {ProductForConsumer.data?.length <= 0 && <p className="text-large text-muted mb-2">Products Not Available</p>}
                         </Form>
                         {/* Product Thumbnails Start */}
-                        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
-                            {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
-                                console.log(item, "sfsdfdsfsdfsdf")
-                                return <>
-                                    <Col xs="12" md="6" lg="6" xl="6">
-                                        <Card className="h-100 hover-scale-up cursor-pointer sh-26">
-                                            <Card.Body className="pb-3">
-                                                {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
-                                                <Row >
-                                                    {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
-                                                    <Col xs="6" sm="8" md="8" lg="8">
-                                                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
-                                                            <Clamp tag="span" clamp="2">
-                                                                {item.name}
-                                                            </Clamp>
-                                                        </NavLink>
-                                                        ₹{item.sellng_price}
-                                                    </Col>
-                                                    {/* <Col> &nbsp;</Col> */}
-                                                    {/*                          
+                        {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((items, ind) => {
+                            return (
+                                <>
+                                    <Col key={ind} style={{ cursor: 'pointer' }}>
+                                        <p
+                                            id={items.name}
+                                            style={{
+                                                fontSize: '24px',
+                                                color: '#000',
+                                                fontWeight: '500',
+                                                marginBottom: '5px',
+                                                fontFamily: "proxima-nova,sans-serif"
+                                            }}
+                                        >
+                                            {items.name}
+                                        </p>
+                                        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
+                                            {ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item, index) => {
+                                                console.log(items, "sfsdfdsfsdfsdf")
+                                                return <>
+                                                    {item.category_uuid === items.uuid && (
+                                                        <Col xs="12" md="6" lg="6" xl="6">
+                                                            <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                                                                <Card.Body className="pb-3">
+                                                                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" /> */}
+                                                                    <Row >
+                                                                        {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
+                                                                        <Col xs="6" sm="8" md="8" lg="8">
+                                                                            <Clamp tag="span" clamp="2">
+                                                                                {item?.type === 'veg' && (
+                                                                                    <img
+                                                                                        src="https://stage-couponportal.mistaeats.com/img/profile/profile-17.jpg"
+                                                                                        alt=""
+                                                                                        style={{ width: '15px' }}
+                                                                                    />
+                                                                                )}
+                                                                            </Clamp>
+                                                                            <Clamp tag="span" clamp="2">
+                                                                                {item?.type === 'non-veg' && (
+                                                                                    <img src="https://stage-couponportal.mistaeats.com/img/profile/non-veg.png" alt="" style={{ width: '17px' }} />
+                                                                                )}
+                                                                            </Clamp>
+                                                                            <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                                                                                <Clamp tag="span" clamp="2">
+                                                                                    {item.name}
+                                                                                </Clamp>
+                                                                            </NavLink>
+                                                                            ₹{item.sellng_price}
+                                                                        </Col>
+                                                                        {/* <Col> &nbsp;</Col> */}
+                                                                        {/*                          
                           <Col xs="6" sm="4" md="4" lg="4">
                           <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                          </Col> */}
-                                                    <Col xs="6" sm="4" md="4" lg="4">
-                                                        {/* <NavLink  to="/"> */}
-                                                        <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                                                        {
-                                                            item.stock_quantity <= 0 ?
-                                                                <Col style={{ color: "red" }}>
-                                                                    Out of Stock
-                                                                </Col>
-                                                                :
-                                                                <div>
-                                                                    {item.stock_quantity <= 5 ?
-                                                                        <Col style={{ color: "red" }}>
-                                                                            Only {item.stock_quantity} Item Left
-                                                                        </Col>
-                                                                        :
-                                                                        null
-                                                                    }
-                                                                    {
-                                                                        CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
-                                                                            <InputGroup className="spinner sw-11">
-                                                                                <InputGroup.Text id="basic-addon1">
-                                                                                    <button type="button" className="spin-down single px-2"
-                                                                                        // onClick={updateCart(item)}
-                                                                                        onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
-                                                                                    // disabled={btndisabl}
-                                                                                    >
-                                                                                        -
-                                                                                    </button>
-                                                                                </InputGroup.Text>
-                                                                                <Form.Control
-                                                                                    value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
-                                                                                    onInput={onInput}
-                                                                                    placeholder="Count"
-                                                                                    className="text-center"
-                                                                                />
-                                                                                <InputGroup.Text id="basic-addon2">
-                                                                                    <button type="button" className="spin-up single px-2"
-                                                                                        onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
-                                                                                        disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
-                                                                                    >
-                                                                                        +
-                                                                                    </button>
-                                                                                </InputGroup.Text>
-                                                                            </InputGroup>
-                                                                            :
-                                                                            <Button variant="outline-primary"
-                                                                                className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                                                                                onClick={() => { addToCart(item) }}
-                                                                            >
-                                                                                <CsLineIcons icon="plus" /><span>Add</span>
-                                                                            </Button>
-                                                                    }
-                                                                </div>
-                                                        }
-                                                        {
-                                                            console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
-                                                        }
-                                                        {/* <InputGroup className="spinner sw-11">
+                                                                        <Col xs="6" sm="4" md="4" lg="4">
+                                                                            {/* <NavLink  to="/"> */}
+                                                                            <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
+                                                                            {
+                                                                                item.stock_quantity <= 0 ?
+                                                                                    <Col style={{ color: "red" }}>
+                                                                                        Out of Stock
+                                                                                    </Col>
+                                                                                    :
+                                                                                    <div>
+                                                                                        {item.stock_quantity <= 5 ?
+                                                                                            <Col style={{ color: "red" }}>
+                                                                                                Only {item.stock_quantity} Item Left
+                                                                                            </Col>
+                                                                                            :
+                                                                                            null
+                                                                                        }
+                                                                                        {
+                                                                                            CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) !== undefined ?
+                                                                                                <InputGroup className="spinner sw-11">
+                                                                                                    <InputGroup.Text id="basic-addon1">
+                                                                                                        <button type="button" className="spin-down single px-2"
+                                                                                                            // onClick={updateCart(item)}
+                                                                                                            onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                                                                                        // disabled={btndisabl}
+                                                                                                        >
+                                                                                                            -
+                                                                                                        </button>
+                                                                                                    </InputGroup.Text>
+                                                                                                    <Form.Control
+                                                                                                        value={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : 0}
+                                                                                                        onInput={onInput}
+                                                                                                        placeholder="Count"
+                                                                                                        className="text-center"
+                                                                                                    />
+                                                                                                    <InputGroup.Text id="basic-addon2">
+                                                                                                        <button type="button" className="spin-up single px-2"
+                                                                                                            onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                                                                                                            disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === items.stock_quantity ? true : ""}
+                                                                                                        >
+                                                                                                            +
+                                                                                                        </button>
+                                                                                                    </InputGroup.Text>
+                                                                                                </InputGroup>
+                                                                                                :
+                                                                                                <Button variant="outline-primary"
+                                                                                                    className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                                                                                    onClick={() => { addToCart(item) }}
+                                                                                                >
+                                                                                                    <CsLineIcons icon="plus" /><span>Add</span>
+                                                                                                </Button>
+                                                                                        }
+                                                                                    </div>
+                                                                            }
+                                                                            {
+                                                                                console.log(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity : "0", "dfsfsdf")
+                                                                            }
+                                                                            {/* <InputGroup className="spinner sw-11">
                               <InputGroup.Text id="basic-addon1">
                                 <button type="button" className="spin-down single px-2"
                                   // onClick={updateCart(item)}
@@ -518,12 +646,12 @@ const productsUserCards = () => {
                                 </button>
                               </InputGroup.Text>
                             </InputGroup> */}
-                                                    </Col>
-                                                </Row>
-                                            </Card.Body>
-                                        </Card>
-                                        <Card.Footer>
-                                            {/* <div className="mb-2">
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Card.Body>
+                                                            </Card>
+                                                            <Card.Footer>
+                                                                {/* <div className="mb-2">
                     <Rating
                       initialRating={5}
                       readonly
@@ -532,20 +660,26 @@ const productsUserCards = () => {
                     />
                     <div className="text-muted d-inline-block text-small align-text-top ms-1">(22)</div>
                   </div> */}
-                                            <div className="card-text">
-                                                {/* <div className="text-muted text-overline text-small">
+                                                                <div className="card-text">
+                                                                    {/* <div className="text-muted text-overline text-small">
                       <del>$ 14.25</del>
                     </div> */}
-                                            </div>
-                                        </Card.Footer>
+                                                                </div>
+                                                            </Card.Footer>
+                                                        </Col>
+                                                    )}
+                                                </>
+                                            })}
+                                        </Row>
                                     </Col>
                                 </>
-                            })}
-                        </Row>
+                            )
+                        })}
+
                     </div>
                     {/* Product Thumbnails End */}
                     {/* Pagination Start */}
-                    <div className="d-flex justify-content-center mt-5">
+                    {/* <div className="d-flex justify-content-center mt-5">
                         <Pagination>
                             <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                                 <CsLineIcons icon="chevron-left" />
@@ -564,7 +698,7 @@ const productsUserCards = () => {
                                 <CsLineIcons icon="chevron-right" />
                             </Pagination.Next>
                         </Pagination>
-                    </div>
+                    </div> */}
                     {/* Pagination End */}
                 </Col>
 

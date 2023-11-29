@@ -341,10 +341,12 @@ const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 const Checkout = lazy(() => import('view Consumer/checkout/Checkout'))
 const Profile = lazy(() => import('view Consumer/checkout/Profile/Profile.js'))
 const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
+const OrderPlacedView = lazy(() => import('view Consumer/orders/orderView'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
+const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 
 
-const productsCards = lazy(() => import('views/company Management/productsUserCards')); 
+const productsCards = lazy(() => import('views/company Management/productsUserCards'));
 
 
 
@@ -380,11 +382,18 @@ const settings = {
   general: lazy(() => import('views/settings/general/General')),
 };
 
+const FooterRoutes = {
+  terms: lazy(() => import('views/default/footer/TermsConditions')),
+  refund: lazy(() => import('views/default/footer/RefundReturn')),
+  ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+
+}
+
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
 let compNewId = !companyId ? "qr" : companyId
-console.log(companyId,"dfdsfdssdfdsfdsf")
+console.log(companyId, "dfdsfdssdfdsfdsf")
 const [url, newCompId] = window.location.pathname.split("menu/")
 console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
 // if(newCompId!=="qr"){
@@ -444,6 +453,10 @@ const consumerRoutesAndMenuItems = {
       icon: 'shipping',
     },
     {
+      path: `${appRoot}/OrderView/:id`,
+      component: OrderPlacedView,
+    },
+    {
       path: `${appRoot}/Checkout`,
       component: Checkout,
       // label: 'Company Management',
@@ -455,6 +468,24 @@ const consumerRoutesAndMenuItems = {
       // label: 'Company Management',
       // icon: 'shipping',
     },
+    {
+      path: `${appRoot}/usernotification`,
+      component: notification,
+      label: 'Notifications',
+      icon: 'news',
+    },
+    {
+      path: `${appRoot}/termsconditions`,
+      component: FooterRoutes.terms
+    },
+    {
+      path: `${appRoot}/refund`,
+      component: FooterRoutes.refund
+    },
+    {
+      path: `${appRoot}/shippingpolicy`,
+      component: FooterRoutes.ShippingPolicy
+    }
 
     // {
     //   path: `${appRoot}/addcompany`,

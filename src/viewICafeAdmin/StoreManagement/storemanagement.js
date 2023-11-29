@@ -19,18 +19,18 @@ import {
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QRCode from "react-qr-code";
- 
+
 const StoreManagement = () => {
     const title = 'Store Management';
     const description = 'Ecommerce Store Management Page';
- 
+
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [selectedItems, setSelectedItems] = useState([]);
     const [status, setStatus] = useState(false)
     const [open, setOpen] = React.useState(false);
     const [eventType, setEventType] = useState(false)
     const [companyName, setComapnayName] = useState("")
-    const [walletamount, setwalletamount] = useState("")
+    // const [walletamount, setwalletamount] = useState("")
     const [email, setEmail] = useState("")
     const [mobile, setMobile] = useState("")
     const [location, setLocation] = useState("")
@@ -39,7 +39,7 @@ const StoreManagement = () => {
     const [fssai, setFssai] = useState('')
     const [compnayId, setCompnayId] = useState("")
     const [suc, setSuc] = useState(false);
-    const[isClearable,setIsClearable]=useState(true);
+    const [isClearable, setIsClearable] = useState(true);
 
 
     const [page, setPage] = useState(0);
@@ -55,12 +55,12 @@ const StoreManagement = () => {
     // console.log(page,limit,search,"sdsasfasasdasd")
     const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
     const [qrOpen, setQrOpen] = useState(false)
- 
+
     console.log(status, "fgdffdggdf")
- 
- 
- 
- 
+
+
+
+
     const checkItem = (item) => {
         if (selectedItems.includes(item)) {
             setSelectedItems(selectedItems.filter((x) => x !== item));
@@ -75,26 +75,26 @@ const StoreManagement = () => {
             setSelectedItems([]);
         }
     };
- 
+
     const dispatch = useDispatch()
- 
+
     const { currentUser } = useSelector((state) => state.auth)
- 
+
     const { storeData, notification, dropdownList } = useSelector((state) => state.iCafeAdminStoreSlice)
- 
+
     console.log(storeData, "sadmin")
- 
+
     useEffect(() => {
         dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, option))
     }, [])
- 
- 
- 
- 
+
+
+
+
     useEffect(() => {
         dispatch(ICafeAdminStoreDropDownListURL())
     }, [])
- 
+
     const dropdownstore = [];
     dropdownList?.data?.map((text) => {
 
@@ -106,12 +106,12 @@ const StoreManagement = () => {
 
     const eventHandler = (event) => {
         setOpen(true)
- 
+
         console.log(event, "jkjh")
-        setUpdateOption({label: event?.company[0]?.company_name, value: event?.company[0]?.uuid})
+        setUpdateOption({ label: event?.company[0]?.company_name, value: event?.company[0]?.uuid })
         setCompanyvalue(event)
         setComapnayName(event.store_name)
-        setwalletamount(event.wallet_amount)
+        // setwalletamount(event.wallet_amount)
         setEmail(event.email)
         setMobile(event.mobile)
         setimageUrl(event.logo)
@@ -120,117 +120,52 @@ const StoreManagement = () => {
         setGstin(event.gstin)
         setFssai(event.fssai_no)
         setCompnayId(event.uuid)
- 
- 
+
+
     };
- 
- 
+
+
     const update = (event) => {
         event.preventDefault()
         const value = event.target.elements
         if (UploadedFile) {
-        const payload = {
-            "company_uuid": updateOption?.value,
-            "store_name": companyName,
-            "email": email,
-            "mobile": mobile,
-            "wallet_amount": walletamount,
-            "location": location,
-            "address": address,
-            "gstin": gstin,
-            "fssai_no": fssai,
-            "logo":UploadedFile
+            const payload = {
+                "company_uuid": updateOption?.value,
+                "store_name": companyName,
+                "email": email,
+                "mobile": mobile,
+                // "wallet_amount": walletamount,
+                "location": location,
+                "address": address,
+                "gstin": gstin,
+                "fssai_no": fssai,
+                "logo": UploadedFile
+            }
+            dispatch(ICafeAdminStoreUpdateURL(compnayId, payload, currentUser.token))
+            setSuc(true)
+
         }
-        dispatch(ICafeAdminStoreUpdateURL(compnayId, payload, currentUser.token))
-        setSuc(true)
- 
-    }
-    else{
-        const payload = {
-            "company_uuid": updateOption?.value,
-            "store_name": companyName,
-            "email": email,
-            "mobile": mobile,
-            "wallet_amount": walletamount,
-            "location": location,
-            "address": address,
-            "gstin": gstin,
-            "fssai_no": fssai,
-            // "logo":UploadedFile
+        else {
+            const payload = {
+                "company_uuid": updateOption?.value,
+                "store_name": companyName,
+                "email": email,
+                "mobile": mobile,
+                // "wallet_amount": walletamount,
+                "location": location,
+                "address": address,
+                "gstin": gstin,
+                "fssai_no": fssai,
+                // "logo":UploadedFile
+            }
+            dispatch(ICafeAdminStoreUpdateURL(compnayId, payload, currentUser.token))
+            setSuc(true)
+
+
         }
-        dispatch(ICafeAdminStoreUpdateURL(compnayId, payload, currentUser.token))
-        setSuc(true)
- 
-    
     }
-}
 
 
-
-
-
-
-
-    // const updateProduct = (event) => {
-    //     event.preventDefault()
-    //     if (UploadedFile) {
-    //         const payload = {
-    //             "name": name,
-    //             "type": selectType.value,
-    //             "category_uuid": selectCategory.value,
-    //             "price": price,
-    //             "quantity": quantity,
-    //             "company_uuid": selectCompany1,
-    //             "image": UploadedFile,
-    //             "stock_quantity": stockQuantity,
-    //             "cgst_tax": cgst,
-    //             "sgst_tax": sgst,
-    //             "store_uuid": storeOption.value
-    //         }
-
-
-    //         dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
-
-    //         // dispatch(CompanyListURL(currentUser.token))
-    //         setSuc(true)
-
-    //     } else {
-    //         const payload = {
-    //             "name": name,
-    //             "type": selectType.value,
-    //             "category_uuid": selectCategory.value,
-    //             "price": price,
-    //             "quantity": quantity,
-    //             "company_uuid": selectCompany1,
-    //             "stock_quantity": stockQuantity,
-    //             // "image": UploadedFile,
-    //             "cgst_tax": cgst,
-    //             "sgst_tax": sgst,
-    //             "store_uuid": storeOption.value
-    //         }
-
-
-    //         dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
-    //         // dispatch(CompanyListURL(currentUser.token))
-    //         setSuc(true)
-
-
-    //     }
-
-
-
-    // }
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
     useEffect(() => {
         if (suc === true) {
             if (notification.status === true) {
@@ -241,20 +176,22 @@ const StoreManagement = () => {
                 setTimeout(() => {
                     dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, option))
                     setOpen(false)
- 
+                    setTimeout(() => {
+                        setImage(null)
+                    }, 1000)
                 }, 1000)
- 
+
             }
             else if (notification.status === false) {
                 toast.error(notification.message)
                 setSuc(false)
             }
         }
- 
+
     }, [notification])
     console.log(notification, "ProductDataProductData")
- 
- 
+
+
     const searchfunction = (type, pages) => {
         console.log(pages, type, "ghjkfgdvxvxvcvcfgssdvbnm")
         if (type === "search") {
@@ -289,11 +226,11 @@ const StoreManagement = () => {
             dispatch(ICafeAdminStoreListURL(0, search, currentUser.token, pages))
         }
     }
- 
- 
- 
- 
- 
+
+
+
+
+
     const HandleCompanyStatus = (event) => {
         console.log(event, "eventxcvvxcvv")
         // if (event.is_delivered)
@@ -303,19 +240,20 @@ const StoreManagement = () => {
         }
         dispatch(ICafeAdminStoreStatusUpdateURL(payload, currentUser.token, event.uuid))
         setSuc(true)
- 
+
     };
- 
- 
+
+
     const [CompnayIdForQR, setCompnayIdForQR] = useState("")
- 
+
     console.log(CompnayIdForQR, "CompnayIdForQR")
     const ViewQRCode = (event) => {
         console.log(event, "sfdsfsdfsdfcvghnh")
-        setCompnayIdForQR(event.uuid)
+        // setCompnayIdForQR(event.uuid)
+        setCompnayIdForQR(event?.slug)
         setQrOpen(true)
- 
- 
+
+
     }
     console.log(`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`, "sdfsdfsdfsfd")
     const handleDownload = () => {
@@ -325,20 +263,20 @@ const StoreManagement = () => {
         //   document.body.innerHTML = printContents;
         //   window.print();
         //  document.body.innerHTML = originalContents;
- 
+
     };
- 
- 
- 
+
+
+
 
 
 
     const PaginationFunn = (selectedOption) => {
         console.log(selectedOption, 'hbsdvhdhgvb')
         setOption(selectedOption?.value);
-        dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, selectedOption=== null ? "" : selectedOption?.value))
+        dispatch(ICafeAdminStoreListURL(page, search, currentUser.token, limit, selectedOption === null ? "" : selectedOption?.value))
     }
- 
+
     const dropdownOption = (selectedOption) => {
         console.log(selectedOption, 'hbsdvhdhgvb')
         setUpdateOption(selectedOption);
@@ -394,7 +332,7 @@ const StoreManagement = () => {
                         </h1>
                     </Col>
                     {/* Title End */}
- 
+
                     {/* Top Buttons Start */}
                     <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
                         <NavLink to="/add_store">
@@ -426,7 +364,7 @@ const StoreManagement = () => {
                     {/* Top Buttons End */}
                 </Row>
             </div>
- 
+
             <Row className="mb-3">
                 <Col md="5" lg="3" xxl="2" className="mb-1">
                     {/* Search Start */}
@@ -447,21 +385,28 @@ const StoreManagement = () => {
                         className="basic-single"
                         classNamePrefix="select company"
                         isClearable={isClearable}
+                        // borderRadius="10px"
                         // defaultValue={colourOptions[0]}
                         onChange={PaginationFunn}
                         placeholder="Select company"
                         name="color"
                         border="none"
                         options={dropdownstore}
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
-               
-               
-                
-                
+
+
+
+
                 <Col md="2" lg="6" xxl="6" className="mb-1 text-end">
- 
- 
+
+
                     {/* Length Start */}
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
@@ -478,13 +423,13 @@ const StoreManagement = () => {
                     {/* Length End */}
                 </Col>
             </Row>
- 
+
             {/* List Header Start */}
             <Row className="g-0 mb-2 d-none d-lg-flex">
                 {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
                 <Col className=''>
                     <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
- 
+
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer ">Store Name</div>
                         </Col>
@@ -494,7 +439,7 @@ const StoreManagement = () => {
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Location</div>
                         </Col>
- 
+
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer ">Contact No</div>
                         </Col>
@@ -517,7 +462,7 @@ const StoreManagement = () => {
                 </Col>
             </Row>
             {/* List Header End */}
- 
+
             {/* List Items Start */}
 
 
@@ -561,7 +506,7 @@ const StoreManagement = () => {
                                                             <CsLineIcons icon="print" />
                                                         </Button>
                                                     </td>
- 
+
                                                 </tr>
                                             </table>
                                         </div>
@@ -575,7 +520,7 @@ const StoreManagement = () => {
                                                             type="switch"
                                                             checked={item.is_active}
                                                             onClick={() => { HandleCompanyStatus(item) }}
- 
+
                                                         />
                                                     </td>
                                                     <td>
@@ -621,9 +566,9 @@ const StoreManagement = () => {
                     </Card>
                 </div>
             })}
- 
- 
- 
+
+
+
             {/* <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
           <Col xs="auto" className="positio-relative">
@@ -713,11 +658,11 @@ const StoreManagement = () => {
           </Col>
         </Row>
       </Card> */}
- 
+
             {/* List Items End */}
- 
+
             {/* Pagination Start */}
- 
+
             <div className="d-flex justify-content-center mt-5">
                 <Pagination>
                     <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
@@ -728,12 +673,12 @@ const StoreManagement = () => {
                     </Pagination.Item>
                     <Pagination.Item className="shadow" disabled={Math.ceil(storeData && storeData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
                     <Pagination.Item className="shadow" disabled={Math.ceil(storeData && storeData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
- 
+
                     {Math.ceil(storeData && storeData.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
- 
+
                     }
                     <Pagination.Next className="shadow" disabled={Math.ceil(storeData && storeData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                         <CsLineIcons icon="chevron-right" />
@@ -756,7 +701,7 @@ const StoreManagement = () => {
                     <DialogContent style={{ width: "500px", height: "auto" }}>
                         <Form
                             onSubmit={update}
- 
+
                         >
                             <Row className="g-3">
                                 <Col lg="6">
@@ -780,22 +725,22 @@ const StoreManagement = () => {
                                         isDisabled={eventType}
                                     />
                                 </Col>
-                                <Col lg="6">
+                                {/* <Col lg="6">
                                     <Form.Label>Wallet Amount</Form.Label>
                                     <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
-                                </Col>
+                                </Col> */}
                                 <Col lg="6">
                                     <Form.Label>Contact No</Form.Label>
                                     <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
- 
+
                                         const regex = /^[0-9\b]+$/;
- 
+
                                         if (!regex.test(e.key)) {
- 
+
                                             e.preventDefault();
- 
+
                                         }
- 
+
                                     }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
                                 </Col>
                                 <Col lg="6">
@@ -806,19 +751,19 @@ const StoreManagement = () => {
                                     <Form.Label>Location</Form.Label>
                                     <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />
                                 </Col>
- 
- 
+
+
                                 <Col lg="6">
                                     <Form.Label>Address</Form.Label>
                                     <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                                 </Col>
                                 <Col lg="6">
-                                    <Form.Label>Gstin</Form.Label>
+                                    <Form.Label>GSTIN</Form.Label>
                                     <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
-                                <Col lg="12">
-                                    <Form.Label>Fssai No</Form.Label>
+                                <Col lg="6">
+                                    <Form.Label>FSSAI NO</Form.Label>
                                     <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
                                         onKeyPress={(e) => {
                                             const regex = /^[0-9\b]+$/;
@@ -829,6 +774,7 @@ const StoreManagement = () => {
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
                                 <Col lg="12">
+                                    <h6>Logo</h6>
                                     {image ? null
 
                                         :
@@ -860,12 +806,7 @@ const StoreManagement = () => {
 
                                         </div>
                                     </Col>
-
-
                                 }
-
-
-
                                 <Col lg="6">
                                     <Col lg="3">
                                         {eventType ?
@@ -874,7 +815,7 @@ const StoreManagement = () => {
                                             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
                                         }
                                     </Col>
- 
+
                                 </Col>
                                 <Col lg="6" align="right">
                                     {/* <Col lg="3"> */}
@@ -882,22 +823,22 @@ const StoreManagement = () => {
                                         Cancel
                                     </Button>
                                     {/* </Col> */}
- 
+
                                 </Col>
                             </Row>
- 
+
                         </Form>
- 
+
                     </DialogContent>
- 
+
                 </Dialog>
             </div>
             {/* View And Edit Popup end */}
- 
- 
- 
- 
- 
+
+
+
+
+
             {/* View QR code  Popup Start */}
             <div>
                 <Dialog
@@ -905,19 +846,19 @@ const StoreManagement = () => {
                     onClose={() => setQrOpen(false)}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
- 
+
                 >
- 
+
                     <DialogContent
- 
+
                     >
- 
- 
+
+
                         <div>
                             <QRCode
                                 size={300}
                                 // style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                value={`${process.env.REACT_APP_WEB_APP_URL}/menu/${CompnayIdForQR}`}
+                                value={`${process.env.REACT_APP_WEB_APP_URL}/products/store/${CompnayIdForQR}`}
                                 viewBox='0 0 556 556'
                             />
                         </div>
@@ -928,25 +869,25 @@ const StoreManagement = () => {
                                 onClick={handleDownload}>
                                 <CsLineIcons icon="print" /> <span>Print</span>
                             </Button>
- 
+
                         </div>
- 
+
                     </DialogContent>
- 
+
                 </Dialog>
             </div>
             {/* View And Edit Popup end  */}
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
         </>
     );
 };
- 
+
 export default StoreManagement;

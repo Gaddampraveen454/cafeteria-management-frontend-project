@@ -26,7 +26,7 @@ const addAdminStoreManagement = () => {
 
 
 
-  const initialValues = { storeName: "", walletamount: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
+  const initialValues = { storeName: "", email: "", mobile: "", location: "", address: "", gstin: "", fssai_no: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -90,7 +90,7 @@ const addAdminStoreManagement = () => {
       "store_name": formValues.storeName,
       "email": formValues.email,
       "mobile": formValues.mobile,
-      "wallet_amount": ((formValues.walletamount > 0) ? formValues.walletamount : 0) ,
+      // "wallet_amount": ((formValues.walletamount > 0) ? formValues.walletamount : 0) ,
       "location": formValues.location,
       "address": formValues.address,
       "gstin": formValues.gstin,
@@ -143,9 +143,9 @@ const addAdminStoreManagement = () => {
     if (!values.storeName) {
       errors.storeName = "Store Name is Required";
     }
-    else if (!values.walletamount) {
-      errors.walletamount = "Wallet Amout is Required";
-    }
+    // else if (!values.walletamount) {
+    //   errors.walletamount = "Wallet Amout is Required";
+    // }
     else if (!values.mobile) {
       errors.mobile = "Moble number is Required";
     }
@@ -275,16 +275,16 @@ const addAdminStoreManagement = () => {
                   </Col>
                   
                  
-                  <Col lg="6">
+                  {/* <Col lg="6">
                     <Form.Label>Wallet Amount</Form.Label>
                     <Form.Control type="number"
                       name="walletamount"
                       
                       // onChange={(e) => { setwalletamount(e.target.value) }}
                       onChange={myhandlechange}
-                    />
-                    <p style={{ color: "red" }}>{formErrors.walletamount}</p>
-                  </Col>
+                    /> */}
+                    {/* <p style={{ color: "red" }}>{formErrors.walletamount}</p> */}
+                  {/* </Col> */}
                   <Col lg="6">
                     <Form.Label>Contact No</Form.Label>
                     <Form.Control
@@ -380,6 +380,13 @@ const addAdminStoreManagement = () => {
                       {/* <input type="file" onChange={handleImageChange} /> */}
                     </div>
                   </Col>
+                  <div>
+                    {image && (
+                      <div >
+                        <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} />
+                      </div>
+                    )}
+                  </div>
                   <Col lg="12">
                     <Col lg="6">
                       <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit"

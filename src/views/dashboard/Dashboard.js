@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DashdoardAdminContListURL } from "Redux/AdminRedux/DashBoard/DashCountRedux"
+import { DashbaordCompany } from 'Redux/AdminRedux/CompanyDashboard/companydashbaord';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { Row, Col, Dropdown, Card, Badge } from 'react-bootstrap';
 import Rating from 'react-rating';
@@ -18,17 +18,16 @@ const Dashboard = () => {
   const description = 'Ecommerce Dashboard Page';
 
   const [selecttypedates, setSelectTypeDates] = useState('today')
-  console.log(selecttypedates, 'hjbhvhvbhdhcvsdhv')
+
   const { currentUser } = useSelector((state) => state.auth)
-  const { DashboardCountData, notification } = useSelector((state) => state.AdminDashbordCountList)
-  console.log(DashboardCountData, "jsdggjjhg");
+  const { companyDashboard } = useSelector((state) => state.companyDashbaord)
+  console.log(companyDashboard, "jsdggjjhg");
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
-  console.log(IpAddressData, "IpAddressData")
 
 
   useEffect(() => {
-    dispatch(DashdoardAdminContListURL(currentUser?.token, selecttypedates))
+    dispatch(DashbaordCompany(currentUser?.token, selecttypedates))
     dispatch(IpAddressDataURL())
   }, [])
   // console.log(DashboardCountData,"jsdggjjhg");
@@ -37,7 +36,7 @@ const Dashboard = () => {
   const SelectBasedonValue = (type) => {
     console.log(type, 'hbvhehvberhfvyerf')
     setSelectTypeDates(type);
-    dispatch(DashdoardAdminContListURL(currentUser?.token, type))
+    dispatch(DashbaordCompany(currentUser?.token, type))
   }
 
   let toggleText = "Today";
@@ -92,7 +91,7 @@ const Dashboard = () => {
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">EARNINGS</div>
               <div className="text-primary cta-4">₹
-                {DashboardCountData.total_order_amount}</div>
+                {companyDashboard.total_order_amount}</div>
             </Card.Body>
           </Card>
         </Col>
@@ -103,7 +102,7 @@ const Dashboard = () => {
                 <CsLineIcons icon="cart" className="text-primary" />
               </div>
               <div className="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">ORDERS</div>
-              <div className="text-primary cta-4">{DashboardCountData.total_order}</div>
+              <div className="text-primary cta-4">{companyDashboard.total_order}</div>
             </Card.Body>
           </Card>
         </Col>

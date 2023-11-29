@@ -1,5 +1,5 @@
 .selectedCategory {
-    color:#ed6789 !important; /* Change this to the desired highlight color */
+    color:red !important; /* Change this to the desired highlight color */
   }
 /* 
   *, *::before, *::after{

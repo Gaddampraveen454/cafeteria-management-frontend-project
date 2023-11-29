@@ -74,6 +74,7 @@ const Menu = () => {
     console.log(error);
   };
 
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
 
 
   useEffect(() => {
@@ -111,11 +112,11 @@ const Menu = () => {
   }, [])
   useEffect(() => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
       setSuc(false)
     } else if (ip) {
       //  if (ip)
-      dispatch(CartListURL(ip))
+      dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
     }
   }, [ip])
   useEffect(() => {
@@ -147,6 +148,8 @@ const Menu = () => {
   const { StoreForConsumer } = useSelector((state) => state.StoreForConsumerSlice)
   const { categoryForConsumer } = useSelector((state) => state.categoryForConsumerList)
   const { ProductForConsumer } = useSelector((state) => state.ProductForConsumerList)
+
+  console.log(ProductForConsumer, "ProductForConsumer545")
   const { CartData, notification } = useSelector((state) => state.CartList)
 
   console.log(currentUser, "currentUser")
@@ -157,7 +160,7 @@ const Menu = () => {
       const payload = {
         "item_uuid": event.uuid,
         "quantity": 1,
-        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid
+        "user_uuid": currentUser && currentUser.data && currentUser.data.uuid,
       }
       dispatch(addToCartURL(payload))
       setSuc(true)
@@ -194,10 +197,10 @@ const Menu = () => {
             position: "top-right",
           })
         if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-          dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+          dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
           setSuc(false)
         } else {
-          dispatch(CartListURL(ip))
+          dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
           setSuc(false)
         }
         // setTimeout(() => {
@@ -260,13 +263,18 @@ const Menu = () => {
   const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
     return item.uuid
   })
+  // length
   console.log(prod, "sdfsdfsdfsdfsdfdsf")
   const prodCart = CartData && CartData.data && CartData.data.map((item) => {
     return item.item_uuid
   })
 
-  const OrderNow = (data) => {
-    history.push(data)
+  const OrderNow = (data, values) => {
+    console.log(data, values, "dghxcsjdgcsh")
+    history.push({
+      pathname: data,
+      state: values
+    })
   }
 
   const disableStore = (data) => {
@@ -319,16 +327,16 @@ const Menu = () => {
       <div className="page-title-container">
         <Row className="g-0">
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            <CsLineIcons icon="chevron-left" size="20" />
-            <span className="align-middle text-medium ms-1">Home</span>
-            <h1 className="mb-0 pb-0 display-4" id="title">
+            {/* <CsLineIcons icon="chevron-left" size="20" /> */}
+            {/* <span className="align-middle text-medium ms-1">Home</span> */}
+            {/* <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
-            </h1>
+            </h1> */}
           </Col>
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
               onClick={() => setOpen(true)}>
-              <CsLineIcons icon="scanner" /><span>Scan QR Code</span>
+              <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
             </Button>
             &nbsp;&nbsp;
             <NavLink to="/Cardcart">
@@ -341,45 +349,54 @@ const Menu = () => {
         </Row>
       </div>
       <Row>
-        <Col style={{ position: "sticky" }} lg="9" xl="9">
+        <Col style={{ position: "sticky" }} lg="12" xl="12">
           <div id="firstcolumn">
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 mb-5">
               {StoreForConsumer && StoreForConsumer.data && StoreForConsumer.data.map((item, index) => {
                 console.log(item, "sfsdfdsfsdfsdf")
                 return <>
-                  <Col xs="12" md="6" lg="6" xl="6">
+                  <Col xs="12" md="4" lg="4" xl="4">
                     <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                       <Card.Body className="pb-3">
                         <Row >
-                          <Col xs="6" sm="8" md="8" lg="8">
+                          <Col xs="6" sm="6" md="6" lg="6">
+                          <img src={item?.logo} alt="GreenDot" style={{ width: "100%", height: "auto" }}  crossOrigin="anonymous" />
                             {/* <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading"> */}
-                            <Clamp tag="span" clamp="2">
-                              {item.store_name}
-                            </Clamp>
+                          
                             {/* </NavLink> */}
                           </Col>
                           {item?.is_active === false ?
-                          <Col xs="6" sm="4" md="4" lg="4">
-                            <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                            <Button variant="outline-primary"
-                              className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                              onClick={() => { disableStore()}}
-                              disabled={item?.is_active === false}
-                            >
-                              <span>Order Now</span>
-                            </Button>
-                          </Col>
-                          :
-                          <Col xs="6" sm="4" md="4" lg="4">
-                          <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
-                          <Button variant="outline-primary"
-                            className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
-                            disabled={item?.is_active === false}
-                            onClick={() => { OrderNow(`/products/store/${item?.slug}`) }}
-                          >
-                            <span>Order Now</span>
-                          </Button>
-                        </Col>
+                           <Col xs="6" sm="6" md="6" lg="6">
+                            <p style={{fontSize:"16px",fontWeight:"800"}}>{item.store_name}</p>
+                                {/* <Clamp tag="span" clamp="2"> */}
+                              
+                            {/* </Clamp> */}
+                            <br/>
+
+                              <Button variant="outline-primary"
+                                className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                onClick={() => { disableStore() }}
+                                disabled={item?.is_active === false}
+                              >
+                                <span>Order Now</span>
+                              </Button>
+                            </Col>
+                            :
+                            <Col xs="6" sm="6" md="6" lg="6">
+                                <p style={{fontSize:"16px",fontWeight:"800"}}>{item.store_name}</p>
+                               {/* <Clamp tag="span" clamp="2"> */}
+                              {/* {item.store_name} */}
+                            {/* </Clamp> */}
+                            <br/>
+                              {/* <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
+                              <Button variant="outline-primary"
+                                className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
+                                disabled={item?.is_active === false}
+                                onClick={() => { OrderNow(`/products/store/${item?.slug}`, item) }}
+                              >
+                                <span>Order Now</span>
+                              </Button>
+                            </Col>
                           }
                         </Row>
                       </Card.Body>
@@ -397,8 +414,16 @@ const Menu = () => {
             </Row>
           </div>
           {/* Product Thumbnails End */}
-          {/* Pagination Start */}
-          <div className="d-flex justify-content-center mt-5">
+         
+          {/* Pagination End */}
+        </Col>
+
+
+      </Row>
+      {/* <Row>
+        <Col xs="12" lg="12" xl="12">
+        
+         <div className="d-flex justify-content-center mt-5">
             <Pagination>
               <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                 <CsLineIcons icon="chevron-left" />
@@ -418,11 +443,8 @@ const Menu = () => {
               </Pagination.Next>
             </Pagination>
           </div>
-          {/* Pagination End */}
         </Col>
-
-
-      </Row>
+      </Row> */}
       {/* Filters Modal Start */}
       {/* {!isLgScreen && (
         <>

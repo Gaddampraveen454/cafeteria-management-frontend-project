@@ -40,9 +40,10 @@ export const ConsumerLoginURL = (values) => async (dispatch) => {
   const response = await axios.post(`${process.env.REACT_APP_URL}/user/login/consumer`, values)
     .then((res) => {
       console.log(res, "sdfsdfdfgdfgdgdfsdff")
-      dispatch(setCurrentUser(res.data));
+      dispatch(setCurrentUser(res));
       console.log(localStorage.getItem('token'), JSON.stringify(res))
-      dispatch(setToast({ status: true, message: res.data.message }))
+      dispatch(setToast({ status: true, message: res?.data?.message }))
+      localStorage.setItem("user", JSON.stringify(res));
     })
     .catch((err) => {
       console.log(err.response, "dfgfsdfsfdsfsdhj")
@@ -89,6 +90,7 @@ export const OtpVerify = (values) => async (dispatch) => {
       dispatch(setCurrentUser(res));
       console.log(localStorage.getItem('token'), JSON.stringify(res))
       dispatch(setToast({ status: true, message: res.data.message }))
+      localStorage.setItem("user", JSON.stringify(res))
     })
     .catch((err) => {
       console.log(err.response, "dfgfsdfsfdsfsdhj")

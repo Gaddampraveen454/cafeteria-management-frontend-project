@@ -6,6 +6,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import moment from "moment";
 import { AdminOrderListURL } from "Redux/IcafeAdminRedux/Orders/orderredux";
+import { AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
@@ -34,21 +35,23 @@ const Order = () => {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
-    const[comapanyOption,setComapanyOption]=useState('')
-    const[option,setOption]=useState('');
+    const [comapanyOption, setComapanyOption] = useState('')
+    const [option, setOption] = useState('');
+    const [option1, setOption1] = useState('');
     const { currentUser } = useSelector((state) => state.auth);
-    console.log(currentUser,'bdvgsvf')
-    const { OrderData,notification } = useSelector((state) => state.adminorder)
+    console.log(currentUser, 'bdvgsvf')
+    const { OrderData, notification } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
 
     const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
+    const { storeList } = useSelector((state) => state.adminproducts)
     // const { AdmincategoryDropdown,storeDropdown } = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
-    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
+    console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
     useEffect(() => {
-        dispatch(AdminOrderListURL(page,search,currentUser?.token,limit,comapanyOption,option));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -88,34 +91,52 @@ const Order = () => {
     useEffect(() => {
         dispatch(ICafeAdminCategoryDropDownListURL());
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
+        dispatch(AdminProductStoreDropDownList(''))
     }, [])
 
-    const [isClearable,setIsClearable]=useState(true);
-    const[isRemove,setIsRemove]=useState(true);
+    const [isClearable, setIsClearable] = useState(true);
+    const [isRemove, setIsRemove] = useState(true);
 
     const CompanyDropDown = [];
 
-    AdmincategoryDropdown.data.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
-        return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
-    })
+    if (AdmincategoryDropdown?.data?.length > 0) {
+        AdmincategoryDropdown.data.map((text) => {
+            console.log(text, 'dvhgdvgbhfvbj')
+            return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+        })
+    }
 
     const selectedCompany = (selectvalue) => {
+        console.log(option, "selectvalue")
         setComapanyOption(selectvalue?.value)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue=== null ? "": selectvalue?.value, option === null ? "" : option))
+        dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option))
     }
+
+    const StoredropdownValues = [];
+
+    if (storeList?.data?.length > 0) {
+        storeList?.data?.map((text) => {
+            console.log(text, 'dvhgdvgbhfvbj')
+            return StoredropdownValues.push({ label: text?.store_name, value: text?.uuid })
+        })
+    }
+
 
     const dropdownValues = [];
 
-    storeDropdown.data.map((text) => {
-        console.log(text, 'dvhgdvgbhfvbj')
-        return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
-    })
+    if (storeDropdown?.data?.length > 0) {
+        storeDropdown.data.map((text) => {
+            console.log(text, 'dvhgdvgbhfvbj')
+            return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
+        })
+    }
+
 
     const selectdropdown = (text) => {
-        console.log(text, 'hsdbvudgsfy')
-        setOption(text)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption, text=== null ? '' : text?.value))
+        setOption(text?.value)
+        setOption1(text)
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value))
     }
 
 
@@ -190,7 +211,7 @@ const Order = () => {
                 {/* disabled={eventType} */}
                 {/* /> */}
                 {/* </Col> */}
-                
+
                 <Col lg="3">
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
@@ -202,18 +223,31 @@ const Order = () => {
                         name="color"
                         border="none"
                         options={CompanyDropDown}
+                        placeholder='Select Company'
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
                 <Col lg="3">
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select
-                     className="basic-single"
-                     classNamePrefix="select Store"
-                        options={dropdownValues}
+                        className="basic-single"
+                        classNamePrefix="select Store"
+                        options={StoredropdownValues}
                         isClearable={isRemove}
                         // value={categoryId}
                         onChange={selectdropdown}
                         placeholder="Select Store"
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     // disabled={eventType}
                     />
                 </Col>
@@ -260,19 +294,22 @@ const Order = () => {
 
             {/* List Header Start */}
             <Row className="g-0 h-100 align-content-center d-none d-lg-flex ps-5 pe-5 mb-2 custom-sort">
-                <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                <Col md="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-small cursor-pointer sort">ID</div>
                 </Col>
                 <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">NAME</div>
+                    <div className="text-muted text-small cursor-pointer sort">COMPANY NAME</div>
+                </Col>
+                <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer sort">STORE NAME</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">PURCHASE</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">DATE</div>
+                    <div className="text-muted text-small cursor-pointer sort">ORDER DATE</div>
                 </Col>
-                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer sort">STATUS</div>
                 </Col>
             </Row>
@@ -285,7 +322,7 @@ const Order = () => {
                     <Card className="mb-2" key={index}>
                         <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(1)}>
-                                <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
+                                <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">Id</div>
                                     <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
                                         {index + 1}
@@ -295,6 +332,11 @@ const Order = () => {
                                     <div className="text-muted text-small d-md-none">Name</div>
                                     <div className="text-alternate">{text?.companies[0]?.company_name}</div>
                                 </Col>
+                                <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Name</div>
+                                    <div className="text-alternate">{text?.stores?.length > 0 ? text?.stores[0]?.store_name : ""}</div>
+                                </Col>
+
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
                                     <div className="text-muted text-small d-md-none">Purchase</div>
                                     <div className="text-alternate">
@@ -306,9 +348,9 @@ const Order = () => {
                                 </Col>
                                 <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
                                     <div className="text-muted text-small d-md-none">Date</div>
-                                    <div className="text-alternate"> {moment(text?.updatedAt).format("YYYY-MM-DD")}</div>
+                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
                                 </Col>
-                                <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
                                     <div className="text-muted text-small d-md-none">Status</div>
                                     <div>
                                         <Badge bg="outline-primary">{text?.payment_status}</Badge>

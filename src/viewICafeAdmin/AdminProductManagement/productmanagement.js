@@ -16,7 +16,7 @@ import {
     TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL, AdminProductStoreDropDownListURL, AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
@@ -86,24 +86,24 @@ const productmanagement = () => {
     const [quantity, setQuantity] = useState("")
 
     const [stockQuantity, setStockQuantity] = useState("")
-    const[description,setDescription]=useState('');
+    const [description, setDescription] = useState('');
     const [cgst, setCgst] = useState("")
     const [sgst, setSgst] = useState("")
 
     const [selectType, setSelectType] = useState();
     const [selectCategory, setSelectCategory] = useState('');
     const [selectCompany, setSelectCompany] = useState([]);
-    const [ selectStore1 , setSelectStore] = useState([])
+    const [selectStore1, setSelectStore] = useState([])
     const [productId, setProductId] = useState("")
     const [imageUrl, setimageUrl] = useState("")
-     let selectCompany1
+    let selectCompany1
     if (selectCompany?.value === undefined) {
         selectCompany1 = '';
     } else {
         selectCompany1 = selectCompany?.value;
     }
 
-       let selectStores
+    let selectStores
     if (selectStore1?.value === undefined) {
         selectStores = '';
     } else {
@@ -126,6 +126,8 @@ const productmanagement = () => {
 
     const [storeOption, setStoreOption] = useState('');
     const [comOption, setComOption] = useState('');
+    const [company1, setCompany1] = useState('');
+    const [store1, setStore1] = useState('');
 
 
     console.log(compnayId.value, categoryId.value, "dfgdfgdfgdd")
@@ -156,19 +158,24 @@ const productmanagement = () => {
     const { categoryData } = useSelector((state) => state.cotegoryList)
     const { companyData } = useSelector((state) => state.companyList)
     const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
+    const { categoryList, storeList } = useSelector((state) => state.adminproducts);
+    console.log(categoryList, 'hsdvghdghfhgfdav');
     // const { AdmincategoryDropdown ,storeDropdown} = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
     const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
-    console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
-    
+    console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
+
 
     const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
     useEffect(() => {
-
         dispatch(ActiveCompnyURL(currentUser.token))
-        dispatch(CategoryListURL(page, search, currentUser.token, limit))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, '', ''))
+    }, [])
+    useEffect(() => {
+        // dispatch(AdminProductCategoryDropDownListURL(companyOption,option))
+        dispatch(AdminProductStoreDropDownList(company1))
     }, [])
 
     const { ProductData, notification } = useSelector((state) => state.adminproducts)
@@ -269,7 +276,7 @@ const productmanagement = () => {
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
                 "store_uuid": storeOption.value,
-                "description":description
+                "description": description
             }
 
 
@@ -291,7 +298,7 @@ const productmanagement = () => {
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
                 "store_uuid": storeOption.value,
-                "description":description
+                "description": description
             }
 
 
@@ -436,7 +443,7 @@ const productmanagement = () => {
 
     AdmincategoryDropdown?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
-       return  CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+        return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
     })
 
 
@@ -449,26 +456,57 @@ const productmanagement = () => {
 
 
     const selectedCompany = (selectvalue) => {
-        console.log(selectvalue, 'gsdvgsdty')
+        console.log(selectvalue, 'selectvalue')
         setComapanyOption(selectvalue?.value)
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option))
+        setCompany1(selectvalue);
+        setStore1('');
+        dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
+        dispatch(AdminProductListURL(page, search, currentUser?.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
     }
 
     const dropdownValues = [];
 
-    storeDropdown?.data?.map((text) => {
+    storeList?.data?.map((text) => {
         console.log(text, 'dvhgdvgbhfvbj')
         return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
     })
 
     const selectdropdown = (text) => {
-        console.log(text, 'hsdbvudgsfy')
-        setOption(text)
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value))
+        console.log(comapanyOption, 'hsdbvudgsfy')
+        setOption(text?.value)
+        setStore1(text);
+        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
     }
 
-    const selectStore = (select) => {
-        setStoreOption(select)
+    const CategoryDropdown = []
+
+    if (categoryList?.data?.length > 0) {
+        categoryList?.data?.map((item) => {
+            return CategoryDropdown?.push({ label: item.name, value: item.uuid })
+        })
+    }
+
+    const selectCategoryfunction = (value) => {
+        setSelectCategory(value)
+    }
+
+    // update functions 
+
+    const UpdateSelectCompany = (selectvalue) => {
+        console.log(selectvalue, 'selectvalue')
+        setSelectCompany(selectvalue)
+        setStoreOption('')
+        setSelectCategory('')
+        dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
+    }
+
+    const UpdateselectStore = (text) => {
+        setStoreOption(text)
+        setSelectCategory('')
+        dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
     }
 
     return (
@@ -490,7 +528,7 @@ const productmanagement = () => {
                     <DialogContentText >
                         {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                        <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={setSelectCompany} placeholder="Select Company" />
+                        <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={UpdateSelectCompany} placeholder="Select Company" />
                         {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                         <Select classNamePrefix="react-select" options={dropdownValues} value={selectStore1} onChange={setSelectStore} placeholder="Select Stores" className="mt-3" />
@@ -525,7 +563,7 @@ const productmanagement = () => {
                     </Row>
                 </DialogActions>
             </Dialog>
-            <HtmlHead title={title}  />
+            <HtmlHead title={title} />
             <div className="page-title-container">
                 <Row className="g-0">
                     {/* Title Start */}
@@ -609,10 +647,18 @@ const productmanagement = () => {
                         classNamePrefix="select company"
                         isClearable={isRemove}
                         // defaultValue={colourOptions[0]}
+                        value={company1}
                         onChange={selectedCompany}
                         name="color"
                         border="none"
                         options={CompanyDropDown}
+                        placeholder='Select Company'
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
                     />
                 </Col>
                 {/* <Col lg="3"> */}
@@ -632,11 +678,19 @@ const productmanagement = () => {
                         className="basic-single"
                         classNamePrefix="select Store"
                         isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
+                        Value={store1}
                         onChange={selectdropdown}
                         name="color"
                         border="none"
+                        // placeholder='Select Store'
                         options={dropdownValues}
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
+                        placeholder="Select Store"
                     />
                 </Col>
                 <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
@@ -697,8 +751,8 @@ const productmanagement = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            { ProductData?.data?.length > 0 &&ProductData && ProductData?.data && ProductData?.data?.map((item, index) => {
-            // {ProductData?.data?.map((item, index) => {
+            {ProductData?.data?.length > 0 && ProductData && ProductData?.data && ProductData?.data?.map((item, index) => {
+                // {ProductData?.data?.map((item, index) => {
                 console.log(item, 'svdghvsdghf')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
@@ -850,7 +904,7 @@ const productmanagement = () => {
                                     <Select classNamePrefix="react-select"
                                         options={CompanyDropDown}
                                         value={selectCompany}
-                                        onChange={setSelectCompany}
+                                        onChange={UpdateSelectCompany}
                                         placeholder=""
                                         isDisabled={eventType}
                                     />
@@ -860,7 +914,7 @@ const productmanagement = () => {
                                     <Select classNamePrefix="react-select"
                                         options={dropdownValues}
                                         value={storeOption}
-                                        onChange={selectStore}
+                                        onChange={UpdateselectStore}
                                         placeholder=""
                                         isDisabled={eventType}
                                     />
@@ -868,9 +922,9 @@ const productmanagement = () => {
                                 <Col lg="6">
                                     <Form.Label>Category</Form.Label>
                                     <Select classNamePrefix="react-select"
-                                        options={productList}
+                                        options={CategoryDropdown}
                                         value={selectCategory}
-                                        onChange={setSelectCategory}
+                                        onChange={selectCategoryfunction}
                                         placeholder=""
                                         isDisabled={eventType}
                                     />

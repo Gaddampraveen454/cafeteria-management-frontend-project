@@ -11,7 +11,8 @@ import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
-import { ExportExcel } from 'Export';
+// import { ExportExcel } from 'Export'
+import { ExportExcel } from 'views/ExportData';
 
 const report = () => {
   const dispatch = useDispatch()
@@ -28,7 +29,7 @@ const report = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const [storeuuid,setstoreuuid] = useState()
+  const [storeuuid, setstoreuuid] = useState('')
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
@@ -76,7 +77,7 @@ const report = () => {
   const Handlereportstore = (event) => {
     console.log(event?.value, "eventeventevent")
     setstoreuuid(event?.value)
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value,startDate, endDate))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value, startDate, endDate))
 
   }
 
@@ -87,60 +88,58 @@ const report = () => {
     dispatch(ReportstorelistApi(page, search, currentUser.token, limit, currentUser?.data?.uuid))
   }, [])
   useEffect(() => {
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, "","",""))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     // dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
   }, [])
-
-
 
 
   const ChangeStartData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setStartDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid ,e.target.value,""))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, e.target.value, endDate))
   };
   const ChangeEndData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setEndDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid,startDate,e.target.value))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, startDate, e.target.value))
   };
- 
-  const exportfunction = async () => {
-    await ExportExcel(`/report/list/admin/export?pagenum=0&limit=10&search=&company_uuid=${selectValueState && selectValueState.value}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
-  }
 
+  const exportfunction = async () => {
+    await ExportExcel(`/report/date/wise/company?start_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
+  }
+  // /report/date/wise/company?start_date=2023-11-13&end_date=2023-11-14%27
   const searchfunction = (type, pages) => {
     console.log(pages, "ghjsdfsdfkvbnm")
     if (type === "search") {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid,startDate,endDate))
+      dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, startDate, endDate))
     }
   }
   return (
@@ -217,14 +216,14 @@ const report = () => {
           // disabled={eventType}
           />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1" style={{marginTop:"-2%"}}>
+        <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
-          <Form.Control type="date" value={startDate} onChange={ChangeStartData}  placeholder="Start date"/>
+          <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1" style={{marginTop:"-2%"}}>
+        <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
           <Form.Label>End date</Form.Label>
-          <Form.Control type="date" value={endDate} onChange={ChangeEndData}  placeholder="End date"/>
+          <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
           {/* </div> */}
         </Col>
         {/* <Col md="3" lg="3" xxl="3" className="mb-1">
@@ -259,18 +258,18 @@ const report = () => {
           {/* Print Button End */}
 
           {/* Export Dropdown Start */}
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end"> */}
-          {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
-          {/* <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item> */}
-          {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
-          {/* </Dropdown.Menu>
-          </Dropdown> */}
+            <Dropdown.Menu className="shadow dropdown-menu-end">
+              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+            </Dropdown.Menu>
+          </Dropdown>
           {/* Export Dropdown End */}
 
           {/* Length Start */}
@@ -298,7 +297,7 @@ const report = () => {
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Company</div>
+              <div className="text-muted text-medium cursor-pointer sort">Store</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Email</div>
@@ -344,7 +343,7 @@ const report = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                    <div className="lh-1 text-alternate">{item?.stores[0]?.store_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item?.company[0]?.email}</div>

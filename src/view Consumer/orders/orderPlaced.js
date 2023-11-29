@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -25,6 +25,8 @@ const OrderPlaced = () => {
   const dispatch = useDispatch()
   const title = 'Orders';
   const description = 'Ecommerce Orders Page';
+
+  const history = useHistory('')
   const [status, setStatus] = useState(false)
   const [eventType, setEventType] = useState(false)
   const [suc, setSuc] = useState(false);
@@ -63,8 +65,9 @@ const OrderPlaced = () => {
   console.log(InvoiceData, "InvoiceData")
 
   useEffect(() => {
+
     if (currentUser.data) {
-      dispatch(ConsumerOrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
 
   }, [])
@@ -158,13 +161,18 @@ const OrderPlaced = () => {
 
 
 
-  const viewEventHandler = (event) => {
-    setOpen(true)
+  const viewEventHandler = (event, type) => {
+    // setOpen(true)
 
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
-
-
+    history.push({
+      pathname: `/OrderView/${event?.uuid}`,
+      state: {
+        event,
+        type
+      }
+    })
   };
 
 
@@ -235,43 +243,43 @@ const OrderPlaced = () => {
     async function getpdf(id) {
       try {
         await axios.get(`${process.env.REACT_APP_URL}/order/invoice/${id}`
-          )
+        )
           .then((res) => {
             if (res.data) {
               dt = res.data;
-              console.log(dt,"SDsadasdasda")
+              console.log(dt, "SDsadasdasda")
               fetch(`data:application/pdf;base64,${dt}`).then(response => {
                 response.blob().then(blob => {
-                    // Creating new object of PDF file
-                    const fileURL = window.URL.createObjectURL(blob);
-                    // Setting various property values
-                    const alink = document.createElement('a');
-                    alink.href = fileURL;
-                    alink.download = 'Invoice.pdf';
-                    alink.click();
+                  // Creating new object of PDF file
+                  const fileURL = window.URL.createObjectURL(blob);
+                  // Setting various property values
+                  const alink = document.createElement('a');
+                  alink.href = fileURL;
+                  alink.download = 'Invoice.pdf';
+                  alink.click();
                 })
-            })
-            
+              })
+
               // setLoader(false);
             }
           });
 
-      //   handlePdfOpen();
-         
-      //   await fetch(`data:application/pdf;base64,${dt}`)
-      //     .then((res) => res.blob())
-      //     .then((blob) => {
-      //       url = window.URL.createObjectURL(blob);
-      //     });
-      //   const iframe = document.querySelector("#pdf");
-      //   iframe.setAttribute("src", url);
+        //   handlePdfOpen();
+
+        //   await fetch(`data:application/pdf;base64,${dt}`)
+        //     .then((res) => res.blob())
+        //     .then((blob) => {
+        //       url = window.URL.createObjectURL(blob);
+        //     });
+        //   const iframe = document.querySelector("#pdf");
+        //   iframe.setAttribute("src", url);
 
 
-      //   // const onButtonClick = () => {
-      //     // using Java Script method to get PDF file
-         
-      // // }
-        
+        //   // const onButtonClick = () => {
+        //     // using Java Script method to get PDF file
+
+        // // }
+
       } catch (error) {
         failurePdfOpen();
       }
@@ -282,26 +290,26 @@ const OrderPlaced = () => {
 
 
 
-//   const handleDownload = () => {
-//     window.print();
+  //   const handleDownload = () => {
+  //     window.print();
 
-//   };
+  //   };
 
 
-//   const onButtonClick = (e) => {
-//     // using Java Script method to get PDF file
-//     fetch(`${process.env.REACT_APP_URL}/order/invoice/${e.uuid}`).then(response => {
-//         response.data.blob().then(blob => {
-//             // Creating new object of PDF file
-//             const fileURL = window.URL.createObjectURL(blob);
-//             // Setting various property values
-//             const alink = document.createElement('a');
-//             alink.href = fileURL;
-//             alink.download = 'SamplePDF.pdf';
-//             alink.click();
-//         })
-//     })
-// }
+  //   const onButtonClick = (e) => {
+  //     // using Java Script method to get PDF file
+  //     fetch(`${process.env.REACT_APP_URL}/order/invoice/${e.uuid}`).then(response => {
+  //         response.data.blob().then(blob => {
+  //             // Creating new object of PDF file
+  //             const fileURL = window.URL.createObjectURL(blob);
+  //             // Setting various property values
+  //             const alink = document.createElement('a');
+  //             alink.href = fileURL;
+  //             alink.download = 'SamplePDF.pdf';
+  //             alink.click();
+  //         })
+  //     })
+  // }
 
   return (
     <>
@@ -312,7 +320,7 @@ const OrderPlaced = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Back</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
@@ -417,8 +425,11 @@ const OrderPlaced = () => {
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
-            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Date</div>
+            </Col>
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Token No</div>
             </Col>
             <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
@@ -433,13 +444,13 @@ const OrderPlaced = () => {
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Price</div>
             </Col>
-            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
-            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
 
@@ -450,9 +461,11 @@ const OrderPlaced = () => {
       {/* List Header End */}
 
       {/* List Items Start */}
-      {ConsumerOrderData && ConsumerOrderData.data && ConsumerOrderData.data.map((item, index) => {
+
+      {ConsumerOrderData && ConsumerOrderData.data?.length > 0 && ConsumerOrderData && ConsumerOrderData.data && ConsumerOrderData.data.map((item, index) => {
         return <div key="">
           {console.log(item, "dffdfdfdfsssfsdfsdf")}
+
           {/* <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
         <Row className="g-0 h-100 sh-lg-9 position-relative">
        
@@ -532,7 +545,7 @@ const OrderPlaced = () => {
                           </Col>
                         </Row>
                       </Col>
-                      <Col lg="2">
+                      <Col lg="1">
                         <Row className="gx-2 align-items-center">
                           <Col lg="12" className="col">
                             <Row className="g-0">
@@ -541,6 +554,20 @@ const OrderPlaced = () => {
                               </Col>
                               <Col xs="auto" lg="12">
                                 <div className="lh-1 text-alternate">{moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col lg="1">
+                        <Row className="gx-2 align-items-center">
+                          <Col lg="12" className="col">
+                            <Row className="g-0">
+                              <Col className="d-lg-none">
+                                <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Token No</div>
+                              </Col>
+                              <Col xs="auto" lg="12">
+                                <div className="lh-1 text-alternate">{item.token_no}</div>
                               </Col>
                             </Row>
                           </Col>
@@ -597,13 +624,13 @@ const OrderPlaced = () => {
                                 <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Price</div>
                               </Col>
                               <Col xs="auto" lg="12">
-                                <div className="lh-1 text-alternate">{item.total_amount}</div>
+                                <div className="lh-1 text-alternate">{item.amount}</div>
                               </Col>
                             </Row>
                           </Col>
                         </Row>
                       </Col>
-                      <Col lg="2">
+                      <Col lg="1">
                         <Row className="gx-2 align-items-center">
                           <Col lg="12" className="col">
                             <Row className="g-0">
@@ -632,7 +659,7 @@ const OrderPlaced = () => {
                           </Col>
                         </Row>
                       </Col>
-                      <Col lg="1">
+                      <Col lg="2">
                         <Row className="gx-2 align-items-center">
 
                           <Col lg="12" className="col">
@@ -642,9 +669,13 @@ const OrderPlaced = () => {
                               </Col>
                               <Col xs="auto" lg="12">
                                 <div className="sh-4 d-flex align-items-center text-alternate justify-content-lg-end">
-
+                                  <Button title="Rating" variant="outline-primary" className="btn px-2 py-2"
+                                    onClick={() => viewEventHandler(item, "Rating")}
+                                  >
+                                    Rating
+                                  </Button>
                                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                    onClick={() => { viewEventHandler(item); setEventType(false) }}
+                                    onClick={() => { viewEventHandler(item, "View"); setEventType(false) }}
                                   >
                                     <CsLineIcons icon="eye" />
                                   </Button>
@@ -672,7 +703,7 @@ const OrderPlaced = () => {
               </Row>
             </Card>
           </Col>
-          <br/>
+          <br />
         </div>
       })}
 
@@ -719,6 +750,8 @@ const OrderPlaced = () => {
       </div>
       {/* Pagination End */}
 
+
+      {/* OrderView Popup not using */}
       <div>
         <Dialog
           open={open}
@@ -726,7 +759,7 @@ const OrderPlaced = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           fullWidth
-          // width="lg"
+        // width="lg"
 
         >
           {/* <DialogTitle id="alert-dialog-title">
@@ -738,13 +771,13 @@ const OrderPlaced = () => {
           >
 
             {/* List Header Start */}
-            <Row 
-            className="g-0 mb-2 d-none d-lg-flex"
+            <Row
+              className="g-0 mb-2 d-none d-lg-flex"
             >
               {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
               <Col>
-                <Row 
-                className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100"
+                <Row
+                  className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100"
                 >
                   <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-medium cursor-pointer sort">S.No</div>
@@ -797,7 +830,7 @@ const OrderPlaced = () => {
                           <Row className="gx-2 align-items-center">
                             <Col lg="12" className="col">
                               <Row className="g-0">
-                                <Col xs="6"  className="d-lg-none">
+                                <Col xs="6" className="d-lg-none">
                                   <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Name</div>
                                 </Col>
                                 <Col xs="6" lg="12">
@@ -897,7 +930,7 @@ const OrderPlaced = () => {
         </Button>
         <DialogContent >
           <iframe src="" className="pdfiframe" id="pdf" title="myFrame"
-          
+
             style={{ width: "100%", height: "100%" }}
 
           />

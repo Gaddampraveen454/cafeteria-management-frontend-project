@@ -83,6 +83,8 @@ const product = () => {
   const [cgst, setCgst]=useState("")
   const [sgst, setSgst]=useState("")
   const [image, setImage] = useState(null);
+  const [descriptionvalue, setDescriptionvalue] = useState('');
+
   
   
   const handleImageChange = (e) => {
@@ -248,7 +250,7 @@ const eventHandler = (event) => {
   setSgst(event.sgst_tax)
   // setImage(event.image_url)
   setProductId(event.uuid)
-
+  setDescriptionvalue(event?.description)
 };
 
 
@@ -265,7 +267,8 @@ const updateProduct = (event) => {
     "stock_quantity" : stockQuantity,
     "cgst_tax": cgst,
     "sgst_tax": sgst,
-    "store_uuid" : currentUser?.data?.uuid
+    "store_uuid" : currentUser?.data?.uuid,
+    "description" : descriptionvalue
   }
   dispatch(StoreProductUpdateURL(productId, payload, currentUser.token))
   // dispatch(CompanyListURL(currentUser.token))
@@ -690,7 +693,7 @@ const searchfunction =(type , pages)=>{
                      value={selectCategory} 
                      onChange={setSelectCategory}
                       placeholder="" 
-                      disabled={eventType}
+                      isDisabled={eventType}
                       />
                   </Col>
                   <Col lg="6">
@@ -701,7 +704,7 @@ const searchfunction =(type , pages)=>{
                     value={selectType} 
                     onChange={setSelectType}
                      placeholder="" 
-                     disabled={eventType}
+                     isDisabled={eventType}
                      />
                   </Col>
                   <Col lg="6">
@@ -723,15 +726,19 @@ const searchfunction =(type , pages)=>{
                   </Col>
                   <Col lg="6">
                     <Form.Label>Stock Quantity</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setStockQuantity(e.target.value)}}  value={stockQuantity}/>
+                    <Form.Control type="text" rows={1}   disabled={eventType} onChange={(e)=>{setStockQuantity(e.target.value)}}  value={stockQuantity}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>CGST(%)</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setCgst(e.target.value)}}  value={cgst}/>
+                    <Form.Control type="text" rows={1}  disabled={eventType} onChange={(e)=>{setCgst(e.target.value)}}  value={cgst}/>
                   </Col>
                   <Col lg="6">
                     <Form.Label>SGST(%)</Form.Label>
-                    <Form.Control type="text" rows={1}  onChange={(e)=>{setSgst(e.target.value)}} value={sgst}/>
+                    <Form.Control type="text" rows={1}  disabled={eventType} onChange={(e)=>{setSgst(e.target.value)}} value={sgst}/>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control type="text" rows={1}  disabled={eventType} onChange={(e)=>{setDescriptionvalue(e.target.value)}} value={descriptionvalue}/>
                   </Col>
                   <Col  lg="6">
                   <div>

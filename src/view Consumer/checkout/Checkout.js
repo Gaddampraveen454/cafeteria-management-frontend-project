@@ -14,6 +14,7 @@ import { LogOutURL, LoginURL } from 'auth/authSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 
 
@@ -80,6 +81,9 @@ const Categories = () => {
     }
   }, [])
 
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
+
+
 
 
   useEffect(() => {
@@ -137,12 +141,35 @@ const Categories = () => {
 
               console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
 
-              history.push(({
-                pathname: "/OrderSuccess",
-                state: {
-                  message: `${resp.data.message}`
-                }
-              }));
+              const host = 'https://cmsapi.scienstechnologies.com'; // Replace with your server host
+
+              const queryParams = { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
+
+              const socket = io(host, {
+                path: '/pathToConnection',
+                transports: ['websocket'],
+                upgrade: false,
+                query: queryParams,
+                reconnection: true,
+                rejectUnauthorized: false
+              });
+
+              socket.on('connect', () => {
+                console.log('Connected to the server');
+
+                // socket.on('orderNotification', (value) => {
+                //   console.log(value, 'Order placed');
+                  history.push(({
+                    pathname: "/OrderSuccess",
+                    state: {
+                      message: `${resp.data.message}`
+                    }
+                  }));
+                // })
+                socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
+              });
+
+
 
               // dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
             })
@@ -250,7 +277,8 @@ const Categories = () => {
   }
   const ConsumerCheckout = () => {
     const payload = {
-      "user_uuid": currentUser.data.uuid
+      "user_uuid": currentUser.data.uuid,
+      "compan_uuid": StoreData?.company_uuid
     }
     dispatch(CreateCheckOutURL(payload, currentUser.data?.token))
     // setSuc(true)
@@ -261,9 +289,10 @@ const Categories = () => {
   const GuestCheckOut = () => {
 
     const payload = {
-      "ip_address": IpAddressData.ip
+      "ip_address": IpAddressData.ip,
+      "compan_uuid": StoreData?.company_uuid
     }
-    dispatch(CreateCheckOutGuestURL(payload,))
+    dispatch(CreateCheckOutGuestURL(payload, currentUser?.token))
     // setSuc(true)
 
   }
@@ -532,14 +561,14 @@ const Categories = () => {
                     </span>
                   </p>
                 </div>
-                {/* <div className="mb-2">
+                <div className="mb-2">
                   <p className="text-small text-muted mb-1">SGST(%)</p>
                   <p>
                     <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>{CartData.sgst_tax} 
+                      <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
                     </span>
                   </p>
-                </div> */}
+                </div>
                 <div className="mb-2">
                   <p className="text-small text-muted mb-1">Wallet Amount</p>
                   <p>
@@ -557,7 +586,7 @@ const Categories = () => {
                   </div>
                 </div>
               </div>
-              <div className="form-check mb-4">
+              {/* <div className="form-check mb-4">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={(e) => console.log(e.target.value, "DSfsdfsdfsdfsdf")} />
                 <label className="form-check-label">
                   I have read and accept the{' '}
@@ -565,7 +594,7 @@ const Categories = () => {
                     terms and conditions.
                   </NavLink>
                 </label>
-              </div>
+              </div> */}
               <Button className="btn-icon btn-icon-end w-100" variant="primary"
                 onClick={submitOrder}
               // onClick={displayRazorpay}

@@ -7,7 +7,8 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
-import { ExportExcel } from 'Export'
+// import { ExportExcel } from 'Export'
+import { ExportExcel } from 'views/ExportData';
 
 const report = () => {
   const dispatch = useDispatch()
@@ -94,7 +95,7 @@ const report = () => {
 
 
   const exportfunction = async () => {
-    await ExportExcel(`/report/list/cashier/export?pagenum=0&limit=10&search=&company_uuid=${currentUser.data.company_uuid}&user_uuid=&strat_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
+    await ExportExcel(`/report/date/wise/store?start_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
   }
 
 
@@ -161,12 +162,10 @@ const report = () => {
 
 
       <Row className="mb-3">
-        <Col md="3" lg="3" xxl="3" className="mb-1">
+      <Col md="3" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
-          <Form.Label>Search</Form.Label>
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-
-            <Form.Control type="text" placeholder="Search" />
+            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -187,12 +186,12 @@ const report = () => {
           //  onChange={myhandlechange}
           />
         </Col> */}
-        <Col md="2" lg="2" xxl="2" className="mb-1">
+        <Col md="2" lg="2" xxl="2" className="mb-1" style={{marginTop:"-2%"}}>
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={startDate} onChange={ChangeStartData} />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1">
+        <Col md="2" lg="2" xxl="2" className="mb-1" style={{marginTop:"-2%"}}>
           <Form.Label>End date</Form.Label>
           <Form.Control type="date" value={endDate} onChange={ChangeEndData} />
           {/* </div> */}
@@ -230,9 +229,11 @@ const report = () => {
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">5 Items</Dropdown.Item>
-              <Dropdown.Item href="#">10 Items</Dropdown.Item>
-              <Dropdown.Item href="#">20 Items</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 15)}>15 Items</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+
             </Dropdown.Menu>
           </Dropdown>
 
@@ -308,7 +309,7 @@ const report = () => {
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item?.company[0]?.company_name}</div>
+                    <div className="lh-1 text-alternate">{item?.company?.length > 0 ? item?.company[0]?.company_name : ""}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.employee_name}</div>

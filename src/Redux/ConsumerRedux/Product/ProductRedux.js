@@ -24,8 +24,8 @@ const ProductForConsumerSlice = createSlice({
 export const { setProductForConsumer, setToast } = ProductForConsumerSlice.actions;
 
 
-export const ProductForConsumerListURL = (companyId, catagory,page,search, token, limit,storeSlug) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/lists?pagenum=${page}&limit=${limit}&company_slug=&store_slug=${storeSlug}&category_uuid=${catagory}&search=${search}`, {
+export const ProductForConsumerListURL = (companyId, catagory, page, search, token, limit, storeSlug, type) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/lists?pagenum=${page}&limit=${limit}&company_slug=&store_slug=${storeSlug}&category_uuid=${catagory}&search=${search}&type=${type}`, {
     // headers: {
     //   "x-auth-token": token
     // }

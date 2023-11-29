@@ -55,7 +55,7 @@ export const Categotylist = (companyid,storeid) => async (dispatch) => {
 // setcategorylist
 
 export const CategoryAddURL = (payload,token) => async (dispatch) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/category/create/company`,payload,{headers:{
+    const response = await axios.post(`${process.env.REACT_APP_URL}/category/create`,payload,{headers:{
       "x-auth-token" : token
     }}) .then((res) => {
       console.log(res, "sdfsdfsdff")
@@ -68,7 +68,7 @@ export const CategoryAddURL = (payload,token) => async (dispatch) => {
   };
 
 export const CategoryUpdateURL = (uuid,payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/category/company/update/${uuid}`,payload,{headers:{
+    const response = await axios.put(`${process.env.REACT_APP_URL}/category/update/${uuid}`,payload,{headers:{
       "x-auth-token" : token
     }}) .then((res) => {
       console.log(res, "sdfsdfsdff")

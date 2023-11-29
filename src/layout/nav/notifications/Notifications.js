@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import classNames from 'classnames';
+// import moment from 'moment';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import { MENU_PLACEMENT } from 'constants.js';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -30,13 +31,24 @@ const NotificationsDropdownToggle = React.memo(
     </a>
   ))
 );
-const NotificationItem = ({ img = '', link = '', detail = '' }) => (
+const NotificationItem = ({ img = '', link = '', title = '', description = '' }) => (
   <li className="mb-3 pb-3 border-bottom border-separator-light d-flex">
-    <img src={img} className="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="notification" />
-    <div className="align-self-center">
+    {/* <img src={img} className="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="notification" /> */}
+    {/* <div className="align-self-center">
       <NavLink to={link} activeClassName="">
         {detail}
       </NavLink>
+    </div> */}
+    <div className="align-self-center">
+      <h5>{title}</h5>
+      <NavLink to={link} activeClassName="">
+        {description}
+      </NavLink>
+      {/* {moment(new Date()).format("YYYY-MM-DD") === moment(createdAt).format("YYYY-MM-DD") ?
+        <div style={{ fontSize: "10px", float: "right" }}>{(moment(createdAt).format("HH:MM A"))}</div>
+        :
+        <div style={{ fontSize: "10px", float: "right" }}>{(moment(createdAt).format("YYYY-MM-DD HH:MM A"))}</div>
+      } */}
     </div>
   </li>
 );
@@ -54,8 +66,9 @@ const NotificationsDropdownMenu = React.memo(
         >
           <ul className="list-unstyled border-last-none">
             {items.map((item, itemIndex) => (
-              <NotificationItem key={`notificationItem.${itemIndex}`} detail={item.detail} link={item.link} img={item.img} />
+              <NotificationItem key={`notificationItem.${itemIndex}`} title={item.title} description={item.detail} link="usernotification" img={item.img} />
             ))}
+            <u><NavLink to="usernotification">View More</NavLink></u>
           </ul>
         </OverlayScrollbarsComponent>
       </div>
@@ -77,10 +90,11 @@ const Notifications = () => {
   const { color } = useSelector((state) => state.settings);
   const { items } = useSelector((state) => state.notification);
   const { showingNavMenu } = useSelector((state) => state.layout);
+  const { currentUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(fetchNotifications());
-    return () => {};
+    dispatch(fetchNotifications(0, 5, currentUser && currentUser?.data?.token, currentUser && currentUser?.data?.uuid));
+    return () => { };
     // eslint-disable-next-line
   }, []);
 

@@ -24,16 +24,16 @@ const CartSlice = createSlice({
 export const { setCartData, setToast } = CartSlice.actions;
 
 
-export const CartListURL = (ip, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?ip_address=${ip}`,{headers:{
+export const CartListURL = (ip, companyid, search, token, limit) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?ip_address=${ip}&company_uuid=${companyid}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfgcvvcvcvbchj")
   dispatch(setCartData(response.data));
 };
 
-export const ConsumerCartListURL = (uuid, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?user_uuid=${uuid}`,{headers:{
+export const ConsumerCartListURL = (uuid, search, token, limit, companyId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/cart/list?user_uuid=${uuid}&company_uuid=${companyId}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfgcvvcvcvbchj")

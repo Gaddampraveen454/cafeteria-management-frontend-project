@@ -50,7 +50,7 @@ const productsUserCardDetailes = ({ onClose }) => {
 
     useEffect(() => {
         // dispatch(StoresForConsumerLIST(companyId))
-        dispatch(ProductForConsumerListURL(companyId, category, 0, "", "", 10, id1))
+        dispatch(ProductForConsumerListURL(companyId, "", 0, "", "", 10, id1, ""))
     }, [])
 
 
@@ -76,7 +76,7 @@ const productsUserCardDetailes = ({ onClose }) => {
     useEffect(() => {
         if (category) {
             //   dispatch(ProductForConsumerListURL(companyId, category, 0, ""))
-            dispatch(ProductForConsumerListURL(companyId, category, 0, "", "",10, id1))
+            dispatch(ProductForConsumerListURL(companyId, "", 0, "", "", 10, id1, ""))
 
         }
     }, [category])
@@ -89,24 +89,35 @@ const productsUserCardDetailes = ({ onClose }) => {
         <>
             <div>
                 <Form className="mb-5">
-                    {/* <p className="text-large text-muted mb-2">Menu</p> */}
-                    {categoryForConsumer ?
+                    {categoryForConsumer ? (
                         <div>
-                            {categoryForConsumer && categoryForConsumer.data && categoryForConsumer.data.map((item) => {
-                                return <>
-                                    <label style={{ cursor: "pointer" }} title className={`form-check-label mb-3 d-flex justify-content-left align-items-left ${category === item.uuid ? 'selectedCategory' : ''}`}
-                                        onClick={() => { setCategory(item.uuid); closeFunction() }}
+                            {categoryForConsumer?.data &&
+                                categoryForConsumer?.data?.map((item) => (
+                                    <a
+                                        key={item?.uuid}
+                                        className={`text-alternate mb-2 ${category === item?.uuid ? 'selectedCategory' : ''}`}
+                                        href={`#${item?.name}`}
+                                        onClick={() => {
+                                            setCategory(item?.uuid);
+                                            closeFunction();
+                                        }}
+                                        style={{
+                                            marginBottom: '15px',
+                                            fontWeight: '500',
+                                            fontSize: '1rem',
+                                            color: category === item?.uuid ? 'red' : 'rgb(72 72 72/1)',
+                                            lineHeight: '1.25rem',
+                                            fontFamily: 'proxima-nova,sans-serif',
+                                            // backgroundColor: category === item.uuid ? 'red' : 'transparent',
+                                            // padding: '5px',
+                                            // borderRadius: '5px'
+                                        }}
                                     >
-                                        <div>
-                                            {item.name}
-                                        </div>
-                                    </label>
-                                </>
-                            })}
+                                        <p>{item.name}</p>
+                                    </a>
+                                ))}
                         </div>
-                        :
-                        null
-                    }
+                    ) : null}
                 </Form>
             </div>
         </>

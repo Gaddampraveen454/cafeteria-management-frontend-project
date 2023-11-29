@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
@@ -43,7 +44,13 @@ const companymanagement = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
+  const [imageUrl, setimageUrl] = useState("")
+  console.log(imageUrl, 'dtrdtrdtrdfty')
+  const [UploadedFile, setUploadedFile] = useState('')
+  const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState();
 
+  console.log(image, "image45634rthyft")
   // console.log(page,limit,search,"sdsasfasasdasd")
   const value1 = "https://cms.scienstechnologies.com/menu/COMP-37CF1AF7"
   const [qrOpen, setQrOpen] = useState(false)
@@ -74,9 +81,7 @@ const companymanagement = () => {
 
   console.log(currentUser, "currentUserb")
 
-  useEffect(() => {
-    dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
-  }, [])
+
 
 
   console.log(companyData, "currentUsersdffscurrentUser")
@@ -87,7 +92,7 @@ const companymanagement = () => {
   const eventHandler = (event) => {
     setOpen(true)
 
-    console.log(event, "eventxcvvxcvv")
+    console.log(event, "eventxcvvxcvv5667")
     setComapnayName(event.company_name)
     setwalletamount(event.wallet_amount)
     setEmail(event.email)
@@ -97,57 +102,116 @@ const companymanagement = () => {
     setGstin(event.gstin)
     setFssai(event.fssai_no)
     setCompnayId(event.uuid)
+    setimageUrl(event?.logo)
 
 
   };
 
 
+  // const update = (event) => {
+  //   event.preventDefault()
+  //   const value = event.target.elements
+  //   const payload = {
+  //     "company_name": companyName,
+  //     "email": email,
+  //     "mobile": mobile,
+  //     "wallet_amount": walletamount,
+  //     "location": location,
+  //     "address": address,
+  //     "gstin": gstin,
+  //     "fssai_no": fssai,
+  //     "logo":UploadedFile
+  //   }
+  //   dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
+  //   setSuc(true)
+
+  // }
+  const handleImageChange = (e) => {
+    console.log(e, 'dhdfbvghf')
+    setImage(e.target.files[0]);
+    setImage1(e.target.files[0])
+  };
+
+  const url = "https://cmsapi.scienstechnologies.com/product/images/";
+  const handleUpdateImage = () => {
+
+    const formData = new FormData();
+    formData.append('image', image);
+    axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
+      {
+        headers: {
+          "x-access-token": `${currentUser.token}`,
+        }
+      })
+      .then(res => {
+        console.log(res.data.image, "resp00");
+        setUploadedFile(res.data.image.filename)
+
+      })
+      .catch(err => {
+        console.log(err, "err00")
+
+      });
+  }
+
+  useEffect(() => {
+    if (image !== null) {
+      handleUpdateImage()
+    }
+
+  }, [image])
+
+
   const update = (event) => {
     event.preventDefault()
     const value = event.target.elements
-    const payload = {
-      "company_name": companyName,
-      "email": email,
-      "mobile": mobile,
-      "wallet_amount": walletamount,
-      "location": location,
-      "address": address,
-      "gstin": gstin,
-      "fssai_no": fssai
-    }
-    dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
-    setSuc(true)
 
+    if (UploadedFile) {
+      const payload = {
+        "company_name": companyName,
+        "email": email,
+        "mobile": mobile,
+        "wallet_amount": walletamount,
+        "location": location,
+        "address": address,
+        "gstin": gstin,
+        "fssai_no": fssai,
+        "logo": UploadedFile
+
+      }
+      dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
+      setSuc(true)
+
+
+    }
+    else {
+
+      const payload = {
+        "company_name": companyName,
+        "email": email,
+        "mobile": mobile,
+        "wallet_amount": walletamount,
+        "location": location,
+        "address": address,
+        "gstin": gstin,
+        "fssai_no": fssai,
+        // "logo":UploadedFile
+
+      }
+      dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
+      setSuc(true)
+    }
   }
 
 
-
-
-
-
-
-
   useEffect(() => {
-    if (suc === true) {
-      if (notification.status === true) {
-        toast.success(notification.message, {
-          position: "top-right",
-        })
-        setSuc(false)
-        setTimeout(() => {
-          dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
-          setOpen(false)
+    dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
+  }, [])
 
-        }, 1000)
-      }
-      else if (notification.status === false) {
-        toast.error(notification.message)
-        setSuc(false)
-      }
-    }
 
-  }, [notification])
-  console.log(notification, "ProductDataProductData")
+
+
+
 
 
   const searchfunction = (type, pages) => {
@@ -196,7 +260,7 @@ const companymanagement = () => {
       // "uuid": event.uuid,
       "status": !event.is_active
     }
-    dispatch(ICafeAdminCompanyStatusUpdateURL(payload, currentUser?.token,event.uuid))
+    dispatch(ICafeAdminCompanyStatusUpdateURL(payload, currentUser?.token, event.uuid))
     setSuc(true)
 
   };
@@ -207,7 +271,7 @@ const companymanagement = () => {
   console.log(CompnayIdForQR, "CompnayIdForQR")
   const ViewQRCode = (event) => {
     console.log(event, "sfdsfsdfsdf")
-    setCompnayIdForQR(event.slug)
+    setCompnayIdForQR(event?.slug)
     setQrOpen(true)
 
 
@@ -222,6 +286,34 @@ const companymanagement = () => {
     //  document.body.innerHTML = originalContents; 
 
   };
+
+
+
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          dispatch(ICafeAdminCompanyListURL(page, search, currentUser.token, limit))
+          setOpen(false)
+          setTimeout(() => {
+            setImage(null)
+          }, 1000)
+
+        }, 1000)
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+
+      }
+    }
+
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
 
   return (
     <>
@@ -350,72 +442,72 @@ const companymanagement = () => {
         console.log(item, "itemitemitemitem")
         return (
           <>
-         
-          
-          <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} key="">
-            <Row className="g-0 h-100 sh-lg-9 position-relative">
-              <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-             
-                <Row className="g-0 h-100 ">
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.company_name}</div>
-                  </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.location}</div>
-                  </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.mobile}</div>
-                  </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.email}</div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate"> {item.uuid}</div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">
-                      <table>
-                        <tr>
-                          <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                              onClick={() => { ViewQRCode(item) }}
-                            >
-                              <CsLineIcons icon="print" />
-                            </Button>
-                          </td>
 
-                        </tr>
-                      </table>
-                    </div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                    <div className="lh-1 text-alternate">
-                      <table>
-                        <tr>
-                          <td>
-                            <Form.Check
-                              type="switch"
-                              checked={item.is_active}
-                              onClick={() => { HandleCompanyStatus(item) }}
 
-                            />
-                          </td>
-                          <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                              onClick={() => { eventHandler(item); setEventType(true) }}
-                            >
-                              <CsLineIcons icon="eye" />
-                            </Button>
-                          </td>
-                          <td>
-                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
-                              <CsLineIcons icon="edit-square" />
-                            </Button>
-                          </td>
-                          {/* <td>
+            <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} key="">
+              <Row className="g-0 h-100 sh-lg-9 position-relative">
+                <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+
+                  <Row className="g-0 h-100 ">
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.company_name}</div>
+                    </Col>
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.location}</div>
+                    </Col>
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.mobile}</div>
+                    </Col>
+                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                      <div className="lh-1 text-alternate">{item.email}</div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate">₹ {item.wallet_amount}</div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate"> {item.uuid}</div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate">
+                        <table>
+                          <tr>
+                            <td>
+                              <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                onClick={() => { ViewQRCode(item) }}
+                              >
+                                <CsLineIcons icon="print" />
+                              </Button>
+                            </td>
+
+                          </tr>
+                        </table>
+                      </div>
+                    </Col>
+                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                      <div className="lh-1 text-alternate">
+                        <table>
+                          <tr>
+                            <td>
+                              <Form.Check
+                                type="switch"
+                                checked={item.is_active}
+                                onClick={() => { HandleCompanyStatus(item) }}
+
+                              />
+                            </td>
+                            <td>
+                              <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                onClick={() => { eventHandler(item); setEventType(true) }}
+                              >
+                                <CsLineIcons icon="eye" />
+                              </Button>
+                            </td>
+                            <td>
+                              <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
+                                <CsLineIcons icon="edit-square" />
+                              </Button>
+                            </td>
+                            {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
                  <CsLineIcons icon="check" />
                  </Button>
@@ -425,33 +517,34 @@ const companymanagement = () => {
                  <CsLineIcons icon="close" />
                  </Button>
                   </td> */}
-                          {/* <td>
+                            {/* <td>
                   <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
                  <CsLineIcons icon="bin" />
                  </Button>
                   </td> */}
-                        </tr>
-                      </table>
-                    </div>
-                  </Col>
-                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                          </tr>
+                        </table>
+                      </div>
+                    </Col>
+                    {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
                 <Badge bg="outline-primary">SALE</Badge>
               </Col> */}
-                  {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
+                    {/* <Col xs="1" className="d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center">
                 <Form.Check className="form-check mt-2 ps-7 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
               </Col> */}
-                </Row>
-                
-              </Col>
-            </Row>
-          </Card>
-         
-        </>
-     ) })}
+                  </Row>
+
+                </Col>
+              </Row>
+            </Card>
+
+          </>
+        )
+      })}
 
 
 
-      
+
       {/* Pagination Start */}
 
       <div className="d-flex justify-content-center mt-5">
@@ -533,12 +626,12 @@ const companymanagement = () => {
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                 </Col>
                 <Col lg="6">
-                  <Form.Label>Gstin</Form.Label>
+                  <Form.Label>GSTIN</Form.Label>
                   <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
                 <Col lg="6">
-                  <Form.Label>Fssai No</Form.Label>
+                  <Form.Label>FSSAI NO</Form.Label>
                   <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
                     onKeyPress={(e) => {
                       const regex = /^[0-9\b]+$/;
@@ -548,6 +641,44 @@ const companymanagement = () => {
                     }} />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                 </Col>
+                <Col lg="12">
+                  <h6>Logo</h6>
+                  {image ? null
+
+                    :
+                    <img src={imageUrl} alt="company image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
+                  }
+
+                </Col>
+                {/* <Col lg="12">
+                    <Col lg="3">
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                    <CsLineIcons /> <span>Submit</span>
+                    </Button>
+                    </Col>
+                  </Col> */}
+
+
+                {eventType ?
+                  null
+                  :
+                  <Col lg="12">
+                    <div>
+                      {image && (
+                        <div >
+                          <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} crossOrigin='anonymous' />
+                        </div>
+                      )}
+                      {/* <input type="file" onChange={handleImageChange} /> */}
+                      <Form.Control type="file" onChange={handleImageChange} />
+
+                    </div>
+                  </Col>
+
+
+                }
+
+
                 <Col lg="6">
                   <Col lg="3">
                     {eventType ?

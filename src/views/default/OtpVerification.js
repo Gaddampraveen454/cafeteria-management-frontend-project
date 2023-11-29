@@ -28,6 +28,7 @@ const OtpVerification = () => {
     console.log(location, "location65465yrth")
 
     const { currentUser, isLogin, loginDetailes } = useSelector((state) => state.auth);
+    console.log(currentUser, "gfdshvsgcvdgc")
 
     const history = useHistory();
 

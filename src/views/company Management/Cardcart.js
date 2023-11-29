@@ -29,6 +29,9 @@ const Cardcart = () => {
   const [suc, setSuc] = useState(false);
 
 
+  const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
+
+
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
   const getData = async () => {
@@ -60,11 +63,11 @@ const Cardcart = () => {
 
   useEffect(() => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+      dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
       setSuc(false)
     } else if (ip) {
       // if (ip)
-      dispatch(CartListURL(ip))
+      dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
     }
 
 
@@ -112,11 +115,11 @@ const Cardcart = () => {
         setTimeout(() => {
 
           if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
+            dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))
             setSuc(false)
           } else if (ip) {
             // if (ip)
-            dispatch(CartListURL(ip))
+            dispatch(CartListURL(ip, StoreData?.company_uuid, "", currentUser?.token, ""))
           }
           // history.push(({
           //   pathname: "/Cardcart",
@@ -238,13 +241,16 @@ const Cardcart = () => {
 
 
   }
+  const Back = () => {
+    history.goBack()
+  }
 
   return (
     <>
       <HtmlHead title={title} description={description} />
       {/* Title Start */}
       <div className="page-title-container">
-        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to={`/menu/${companyId}`}>
+        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to={`/menu/${companyId}`} onClick={Back}>
           <CsLineIcons icon="chevron-left" size="20" />
           <span className="align-middle text-medium ms-1 ">Menu</span>
         </NavLink>

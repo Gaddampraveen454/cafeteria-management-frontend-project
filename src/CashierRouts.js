@@ -16,6 +16,7 @@ const addcategory = lazy(() => import('views/Category Management/addcategory'));
 const product = lazy(() => import('views cashier/Product Management/product'));
 const addproduct = lazy(() => import('views cashier/Product Management/addproduct'));
 const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
+const ViewOrder = lazy(() => import('views cashier/NICorders/Vieworderstore'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views cashier/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
@@ -25,6 +26,8 @@ const Storecategory = lazy(() => import('views cashier/CategoryMnagement/StoreCa
 const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryAdd'));
 
 const Changepassword = lazy(() => import('views cashier/ChangePassword/changepassword'))
+
+const StoreNotifications = lazy(() => import('views cashier/StoreNotifications/storenotifications'))
 
 
 const products = {
@@ -56,6 +59,13 @@ const settings = {
   home: lazy(() => import('views/settings/home/Home')),
   general: lazy(() => import('views/settings/general/General')),
 };
+
+const FooterRoutes = {
+  terms: lazy(() => import('views/default/footer/TermsConditions')),
+  refund: lazy(() => import('views/default/footer/RefundReturn')),
+  ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+
+}
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
@@ -152,6 +162,10 @@ const cashierRoutesAndMenuItems = {
       label: 'Orders',
       icon: 'wallet',
     },
+    {
+      path: `${appRoot}/Storevieworder/:id`,
+      component: ViewOrder
+    },
     // {
     //   path: `${appRoot}/addNICorder`,
     //   component: addNICorder,
@@ -170,6 +184,24 @@ const cashierRoutesAndMenuItems = {
       label: 'Change Password',
       icon: 'lock-off',
     },
+    {
+      path: `${appRoot}/storenotifications`,
+      component: StoreNotifications,
+      label: 'Notifications',
+      icon: 'news'
+    },
+    {
+      path: `${appRoot}/termsconditions`,
+      component: FooterRoutes.terms
+    },
+    {
+      path: `${appRoot}/refund`,
+      component: FooterRoutes.refund
+    },
+    {
+      path: `${appRoot}/shippingpolicy`,
+      component: FooterRoutes.ShippingPolicy
+    }
     // {
     //   path: `${appRoot}/addreport`,
     //   component: addreport,

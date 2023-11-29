@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
+import axios from 'axios'
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,6 +47,8 @@ const NICorders = () => {
       setSelectedItems([]);
     }
   };
+
+  const history = useHistory('')
 
 
   const [page, setPage] = useState(0);
@@ -146,12 +149,69 @@ const NICorders = () => {
 
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
+    history.push({
+      pathname: `/companyViewOrder/${event?.uuid}`,
+      state: event
+    })
 
 
   };
 
+  const [print, setPrint] = useState(false);
+  const [printData, setPrintData] = useState('')
+
+  const PrintFunction = (orderid) => {
+    axios.get(`${process.env.REACT_APP_URL}/order/list/cashier/print/${orderid}`, {
+      headers: {
+        'x-auth-token': currentUser?.token
+      }
+    })
+      .then((res) => {
+        console.log(res, "hdfhfhjdefaultdetails")
+        setPrint(true)
+        setPrintData(res.data)
+        // setdefaultdetails(res?.data)
+      })
+      .catch((err) => {
+        console.log(err, "hdfhfhjdefaultdetails")
+        setPrint(false)
+        setPrintData('')
+      })
+  }
+
   return (
     <>
+      {print === true && printData !== '' &&
+        <iframe
+          title="Print Frame"
+          srcDoc={printData}
+          onLoad={() => {
+            const iframe = document.querySelector("iframe");
+            // iframe.style.display = "none"; // Hide the iframe
+            // Check if the browser supports silent printing
+            if ("requestMediaKeySystemAccess" in navigator) {
+              try {
+                // Attempt to silently print
+                console.log("silently print");
+                iframe.contentWindow.print({ silent: true });
+                setTimeout(() => {
+                  setPrint(false);
+                  setPrintData('')
+                }, 1000)
+
+              } catch (error) {
+                console.error("Error printing:", error);
+                setPrint(false)
+                setPrintData('')
+              }
+            } else {
+              console.error("Silent printing is not supported in this browser.");
+              setPrint(false)
+              setPrintData('')
+            }
+          }}
+        />
+      }
       <HtmlHead title={title} description={description} />
       <div className="page-title-container">
         <Row className="g-0">
@@ -263,25 +323,34 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer sort">Date</div>
+              <div className="text-muted text-medium cursor-pointer sort">Order Date</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Token No </div>
+            </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Store Name </div>
+            </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Consumer Name </div>
             </Col>
-            <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order Type </div>
             </Col>
 
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Price</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Ordered By</div>
+            </Col>
+            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
           </Row>
@@ -313,17 +382,24 @@ const NICorders = () => {
                     <div className="lh-1 text-alternate">{index + 1}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                    <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
 
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.token_no}</div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item && item.stores && item.stores[0] && item.stores[0].store_name}
+                    </div>
+                  </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
                     </div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item && item.order_created_by}
                     </div>
                   </Col>
@@ -341,7 +417,7 @@ const NICorders = () => {
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.order_created_by}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
 
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -376,7 +452,7 @@ const NICorders = () => {
               </Col> */}
 
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">
+                    <div className="lh-1 text-alternate" style={{ marginLeft: "25px" }}>
                       <table>
                         <tr>
                           {/* <ToggleButton
@@ -388,6 +464,11 @@ const NICorders = () => {
                               onClick={() => { viewEventHandler(item); setEventType(false) }}
                             >
                               <CsLineIcons icon="eye" />
+                            </Button>
+                          </td>
+                          <td>
+                            <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow" onClick={() => PrintFunction(item?.uuid)}>
+                              <CsLineIcons icon="print" />
                             </Button>
                           </td>
 
@@ -419,8 +500,8 @@ const NICorders = () => {
                 </Row>
               </Col>
             </Row>
-          </Card>
-        </div>
+          </Card >
+        </div >
       })}
 
       {/* List Items End */}

@@ -37,21 +37,21 @@ const User = () => {
   // const {companyUser,notification} = useSelector((state)=>state.userManagement);
   // console.log(companyUser,'eghverv')
   const { companyUser, notification } = useSelector((state) => state.comapnuserSlice)
-  console.log(companyUser,'vdghvehgfvhegvfv')
+  console.log(companyUser, 'vdghvehgfvhegvfv')
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
   const { companyData } = useSelector((state) => state.companyList)
-  console.log(companyData,'vsdfgh')
+  console.log(companyData, 'vsdfgh')
 
- 
 
-  const [selectCompany, setSelectCompany] = useState(); 
+
+  const [selectCompany, setSelectCompany] = useState();
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
   console.log(selectCompany, "sfsfsdfdsfsfds")
 
   useEffect(() => {
-    dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+    dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
   }, [])
 
 
@@ -146,7 +146,7 @@ const User = () => {
   const [email, setEmail] = useState("")
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
-  const [dayAmount,setDayAmount]= useState('')
+  const [dayAmount, setDayAmount] = useState('')
   const [designation, setDesignation] = useState("")
   const [WalletAmount, setWalletAmount] = useState("")
   const [EmpId, setEmpId] = useState("")
@@ -186,8 +186,8 @@ const User = () => {
       "company_uuid": currentUser?.data?.uuid,
       "emp_id": EmpId,
       "location": location,
-      "designation":designation,
-      "per_day_amount":dayAmount,
+      "designation": designation,
+      "per_day_amount": dayAmount,
 
 
     }
@@ -206,7 +206,7 @@ const User = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+          dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
           setOpenPopup(false)
         }, 1000)
 
@@ -250,32 +250,32 @@ const User = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(CompanyConsumerListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(CompanyConsumerListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(CompanyConsumerListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(CompanyConsumerListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
     }
   }
 
@@ -310,9 +310,9 @@ const User = () => {
         <DialogContent style={{ width: "500px", height: "100px" }}>
           {/* <DialogContentText > */}
 
-            {/* <Form.Label>Select Company</Form.Label> */}
-            {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-            {/* <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" /> */}
+          {/* <Form.Label>Select Company</Form.Label> */}
+          {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+          {/* <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" /> */}
           {/* </DialogContentText><br /> */}
 
           <DialogContentText >
@@ -474,7 +474,7 @@ const User = () => {
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col> */}
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer" />
+              <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Action</div>
@@ -648,7 +648,8 @@ const User = () => {
                   />
                   {/* <Select classNamePrefix="react-select" options={optionsState} value={selectedCompany} onChange={setSelectedCompany} placeholder="" /> */}
                 </Col>
-                <Col lg="6">
+
+                {/* <Col lg="6">
                   <Form.Label>Company Name</Form.Label>
                   <Select classNamePrefix="react-select"
                     options={companyList}
@@ -657,8 +658,8 @@ const User = () => {
                     placeholder=""
                     isDisabled={eventType}
                   />
-                  {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
-                </Col>
+                </Col> */}
+
                 {/* <Col lg="6">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
@@ -707,13 +708,13 @@ const User = () => {
                     onChange={(e) => { setDayAmount(e.target.value) }}
                     disabled={eventType} />
                 </Col>
-                <Col lg="12">
+                {/* <Col lg="12">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text"
                     value={WalletAmount}
                     // onChange={(e) => { setLocation(e.target.value) }}
                     disabled />
-                </Col>
+                </Col> */}
                 {/* <Col lg="6">
                   <Form.Label>Location</Form.Label>
                   <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />
@@ -724,24 +725,26 @@ const User = () => {
                   <Form.Label>Address</Form.Label>
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                 </Col> */}
-                <Col lg="6">
-                  <Col lg="3">
-                    {eventType ?
-                      null
-                      :
-                      <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
-                    }
+                <Row className='mt-2'>
+                  <Col lg="6">
+                    <Col lg="3">
+                      {eventType ?
+                        null
+                        :
+                        <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">Submit</Button>
+                      }
+                    </Col>
+
                   </Col>
+                  <Col lg="6" align="right">
+                    {/* <Col lg="3"> */}
+                    <Button onClick={() => setOpenPopup(false)} autoFocus>
+                      Cancel
+                    </Button>
+                    {/* </Col> */}
 
-                </Col>
-                <Col lg="6" align="right">
-                  {/* <Col lg="3"> */}
-                  <Button onClick={() => setOpenPopup(false)} autoFocus>
-                    Cancel
-                  </Button>
-                  {/* </Col> */}
-
-                </Col>
+                  </Col>
+                </Row>
               </Row>
 
             </Form>

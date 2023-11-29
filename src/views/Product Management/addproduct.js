@@ -6,6 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductListURL, ProductAddURL, ProductUpdateURL, ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
+import { AdminProductCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 // import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -76,15 +77,12 @@ const addproduct = () => {
   const { categoryData } = useSelector((state) => state.cotegoryList)
   const { companyData } = useSelector((state) => state.companyList)
   const { StoreList, notification } = useSelector((state) => state.products)
-  console.log(StoreList, 'sdgvhdsv')
+
+  const { categoryList } = useSelector((state) => state.adminproducts)
+
 
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
-  // useEffect(() => {
-
-  //   dispatch(ActiveCompnyURL(currentUser.token))
-  // }, [])
-  console.log(ActiveCompnayData, "sfsdfdssdfsffs");
 
   const companyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
@@ -96,9 +94,10 @@ const addproduct = () => {
   // const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
 
-
+  console.log(selectStore?.value, "selectStoreselectStore")
   useEffect(() => {
     dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+    dispatch(AdminProductCategoryDropDownListURL(currentUser?.data?.uuid, selectStore === "" ? "" : selectStore?.value))
   }, [])
 
 
@@ -111,6 +110,15 @@ const addproduct = () => {
   const handleEvent = (event) => {
     console.log(event, 'hvdhdf')
     setSelectStore(event)
+    dispatch(AdminProductCategoryDropDownListURL(currentUser?.data?.uuid, event?.value))
+  }
+
+  const CategoryUUid = []
+
+  if (categoryList?.data?.length > 0) {
+    categoryList?.data?.map((item) => {
+      return CategoryUUid?.push({ label: item?.name, value: item?.uuid })
+    })
   }
 
 
@@ -249,7 +257,7 @@ const addproduct = () => {
                   </Col>
                   <Col lg="6">
                     <Form.Label>Category</Form.Label>
-                    <Select classNamePrefix="react-select" options={productList} value={selectCategory} onChange={setSelectCategory} placeholder="" />
+                    <Select classNamePrefix="react-select" options={CategoryUUid} value={selectCategory} onChange={setSelectCategory} placeholder="" />
                   </Col>
                   <Col lg="6">
                     <Form.Label>Veg/Non Veg</Form.Label>

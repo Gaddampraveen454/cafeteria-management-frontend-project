@@ -298,6 +298,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
     dispatch(ICafeAdminCategoryDropDownListURL());
 }, [])
 
+
   const CompanyDropDown = [];
 
   AdmincategoryDropdown?.data?.map((text) => {
@@ -471,9 +472,9 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Employee ID</div>
-            </Col> */}
+            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+              <div className="text-muted text-medium cursor-pointer sort">Designation</div>
+            </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Email ID</div>
             </Col>
@@ -516,16 +517,19 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                 </NavLink>
               </Col> */}
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.name}</div>
+                    <div className="lh-1 text-alternate">{item?.name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item?.company_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.email}</div>
+                    <div className="lh-1 text-alternate">{item?.designation}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item.mobile}</div>
+                    <div className="lh-1 text-alternate">{item?.email}</div>
+                  </Col>
+                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item?.mobile}</div>
                   </Col>
                   {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.company_name}</div>
@@ -667,7 +671,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                     value={selectedCompany}
                     onChange={setSelectedCompany}
                     placeholder=""
-                    disabled={eventType}
+                    isDisabled={eventType}
                   />
                   {/* <Form.Control type="text" onChange={(e)=>{setComapnayName(e.target.value)}}/> */}
                 </Col>
@@ -719,13 +723,13 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
                     onChange={(e) => { setDayAmount(e.target.value) }}
                     disabled={eventType} />
                 </Col>
-                <Col lg="12">
+                {/* <Col lg="12">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text"
                     value={WalletAmount}
                     // onChange={(e) => { setLocation(e.target.value) }}
-                    disabled />
-                </Col>
+                    disabled={eventType} />
+                </Col> */}
                 {/* <Col lg="6">
                   <Form.Label>Location</Form.Label>
                   <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />

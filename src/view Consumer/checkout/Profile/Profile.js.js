@@ -29,20 +29,21 @@ const Profile = () => {
   };
 
 
-const [ConsumerData, setConsumerData]=useState()
-console.log(ConsumerData,"ConsumerData")
+  const [ConsumerData, setConsumerData] = useState()
+  console.log(ConsumerData, "ConsumerData")
   const { currentUser } = useSelector((state) => state.auth)
+  console.log(currentUser, "currentUser")
   const { WalletData } = useSelector((state) => state.WalletData);
-  console.log(WalletData,"WalletData")
-  useEffect(()=>{
-    if(currentUser.data){
+  console.log(WalletData, "WalletData")
+  useEffect(() => {
+    if (currentUser.data) {
       setConsumerData(currentUser.data)
     }
 
-  },[])
+  }, [])
   useEffect(() => {
     if (currentUser && currentUser.data) {
-      dispatch(getWalletURL(currentUser.data.uuid, currentUser.token))
+      dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
 
@@ -53,9 +54,9 @@ console.log(ConsumerData,"ConsumerData")
         <Row className="g-0">
           {/* Title Start */}
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/customers">
+            <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/">
               <CsLineIcons icon="chevron-left" size="13" />
-              <span className="align-middle text-small ms-1">Customers</span>
+              <span className="align-middle text-small ms-1">Back</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
@@ -93,10 +94,10 @@ console.log(ConsumerData,"ConsumerData")
                   <div className="sw-6 sh-6 mb-3 d-inline-block bg-primary d-flex justify-content-center align-items-center rounded-xl">
                     <div className="text-white">BC</div>
                   </div>
-                  <div className="h5 mb-1">{ConsumerData?ConsumerData.name:"Guest"}</div>
+                  <div className="h5 mb-1">{ConsumerData ? ConsumerData.name : "Guest"}</div>
                   <div className="text-muted">
                     {/* <CsLineIcons icon="pin" className="me-1" /> */}
-                    <span className="align-middle">{ConsumerData?ConsumerData.emp_id:""}</span>
+                    <span className="align-middle">{ConsumerData ? ConsumerData.emp_id : ""}</span>
                   </div>
                 </div>
                 <div className="d-flex flex-row justify-content-between w-100 w-sm-50 w-xl-100">
@@ -129,6 +130,7 @@ console.log(ConsumerData,"ConsumerData")
                     </Row>
                   </Col>
                 </Row>
+
                 {/* <Row className="g-0 align-items-center mb-2">
                   <Col xs="auto">
                     <div className="border border-primary sw-5 sh-5 rounded-xl d-flex justify-content-center align-items-center">
@@ -172,23 +174,23 @@ console.log(ConsumerData,"ConsumerData")
                       <CsLineIcons icon="user" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.name:"Guest"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.name : "Guest"}</Col>
                 </Row>
-                <Row className="g-0 mb-2">
+                {/* <Row className="g-0 mb-2">
                   <Col xs="auto">
                     <div className="sw-3 me-1">
                       <CsLineIcons icon="pin" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.location:"No location"}</Col>
-                </Row>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.location : "No location"}</Col>
+                </Row> */}
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
                     <div className="sw-3 me-1">
                       <CsLineIcons icon="phone" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.mobile:"Guest"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.mobile : "Guest"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -196,7 +198,7 @@ console.log(ConsumerData,"ConsumerData")
                       <CsLineIcons icon="email" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData?ConsumerData.email:"guest@gmail.com"}</Col>
+                  <Col className="text-alternate">{ConsumerData ? ConsumerData.email : "guest@gmail.com"}</Col>
                 </Row>
               </div>
               {/* <div className="mb-5">
