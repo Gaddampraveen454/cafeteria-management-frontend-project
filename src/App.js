@@ -151,7 +151,7 @@ const App = () => {
   useEffect(() => {
     if (currentUser.data && currentUser.data.group === "company") {
 
-      const host = 'https://cmsapi.scienstechnologies.com'; // Replace with your server host
+      const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
       const currentUserUuid = currentUser ? currentUser.data.uuid : "";
       const queryParams = { company_uuid: currentUserUuid };
 

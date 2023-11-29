@@ -552,7 +552,7 @@ const productmanagement = () => {
                     >
                         <Col lg="6">
 
-                            <p><a href="https://cmsapi.scienstechnologies.com/api/v1/product/download/productdata/excel/format">Download Sample File <CsLineIcons icon="download" /> </a> </p>
+                            <p><a href={`${process.env.REACT_APP_URL}/product/download/productdata/excel/format`}>Download Sample File <CsLineIcons icon="download" /> </a> </p>
                         </Col>
                         <Col lg="6" align="right">
                             {/* <Button onClick={() => setOpen(false)}>Disagree</Button> */}

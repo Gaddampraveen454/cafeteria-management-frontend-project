@@ -141,7 +141,7 @@ const AdminUser = () => {
   const [email, setEmail] = useState("")
   const [mobile, setMobile] = useState("")
   const [location, setLocation] = useState("")
-  const [dayAmount,setDayAmount]= useState('')
+  const [dayAmount, setDayAmount] = useState('')
   const [designation, setDesignation] = useState("")
   const [WalletAmount, setWalletAmount] = useState("")
   const [EmpId, setEmpId] = useState("")
@@ -151,10 +151,10 @@ const AdminUser = () => {
 
   const [suc, setSuc] = useState(false);
   const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
-//   const { AdmincategoryDropdown } = useSelector(
-//     ({ adminCategorySlice }) => adminCategorySlice
-//   );
-console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
+  //   const { AdmincategoryDropdown } = useSelector(
+  //     ({ adminCategorySlice }) => adminCategorySlice
+  //   );
+  console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
   const eventHandler = (event) => {
     setOpenPopup(true)
@@ -185,8 +185,8 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
       "company_uuid": selectedCompany.value,
       "emp_id": EmpId,
       "location": location,
-      "designation":designation,
-      "per_day_amount":dayAmount,
+      "designation": designation,
+      "per_day_amount": dayAmount,
 
 
     }
@@ -296,14 +296,14 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
   useEffect(() => {
     dispatch(ICafeAdminCategoryDropDownListURL());
-}, [])
+  }, [])
 
 
   const CompanyDropDown = [];
 
   AdmincategoryDropdown?.data?.map((text) => {
-      console.log(text, 'dvhgdvgbhfvbj')
-      return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+    console.log(text, 'dvhgdvgbhfvbj')
+    return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
   })
 
   return (
@@ -339,7 +339,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
           >
             <Col lg="6">
 
-              <p><a href="https://cmsapi.scienstechnologies.com/api/v1/user/download/consumerdata/excel/format">Download Sample File <CsLineIcons icon="download" /> </a> </p>
+              <p><a href={`${process.env.REACT_APP_URL}/user/download/consumerdata/excel/format`}>Download Sample File <CsLineIcons icon="download" /> </a> </p>
             </Col>
             <Col lg="6" align="right">
               {/* <Button onClick={() => setOpen(false)}>Disagree</Button> */}
@@ -481,7 +481,7 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Phone No</div>
             </Col>
-            
+
             {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Location</div>
             </Col> */}
@@ -498,8 +498,8 @@ console.log(AdmincategoryDropdown,'sbdvhjsdvsdv')
 
       {/* List Items Start */}
 
-      { consumerData?.data?.length > 0 &&consumerData && consumerData?.data && consumerData?.data?.map((item, index) => {
-        console.log(item,'dbfvhjbdfhvb')
+      {consumerData?.data?.length > 0 && consumerData && consumerData?.data && consumerData?.data?.map((item, index) => {
+        console.log(item, 'dbfvhjbdfhvb')
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
