@@ -48,8 +48,8 @@ export const StoreProductListURL = (pageNUm, search, token, limit, storId, catId
   //   dispatch(setProductData(response.data));
 };
 
-export const StoreProductsList = (token, StoreId, search) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/store/order/list?search=${search}&store_uuid=${StoreId}`, {
+export const StoreProductsList = (token, StoreId, search, type) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/store/order/list?search=${search}&store_uuid=${StoreId}&type=${type}`, {
     headers: {
       "x-auth-token": token
     }

@@ -65,7 +65,7 @@ const Cardsdetails = ({ onClose }) => {
   }, [categoryForConsumer])
 
   useEffect(() => {
-    dispatch(StoreProductsList(currentUser.token, currentUser?.data?.uuid, search))
+    dispatch(StoreProductsList(currentUser.token, currentUser?.data?.uuid, search, ""))
   }, [])
 
   const closeFunction = () => {

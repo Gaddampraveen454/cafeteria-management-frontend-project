@@ -43,8 +43,8 @@ export const CompanyProductionListURL = (pageNUm, search, token, limit, companyI
   //   dispatch(setProductData(response.data));
 };
 
-export const CompanyProductsList = (token, companyId, storeId, search) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/product/company/order/list?search=${search}&company_uuid=${companyId}&store_uuid=${storeId}`, {
+export const CompanyProductsList = (token, companyId, storeId, search , type) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/product/company/order/list?search=${search}&company_uuid=${companyId}&store_uuid=${storeId}&type=${type}`, {
     headers: {
       "x-auth-token": token
     }

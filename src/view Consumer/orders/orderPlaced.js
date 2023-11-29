@@ -167,7 +167,7 @@ const OrderPlaced = () => {
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
     history.push({
-      pathname: '/OrderView',
+      pathname: `/OrderView/${event?.uuid}`,
       state: {
         event,
         type
@@ -320,7 +320,7 @@ const OrderPlaced = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Back</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
@@ -425,8 +425,11 @@ const OrderPlaced = () => {
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">S.No</div>
             </Col>
-            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Date</div>
+            </Col>
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Token No</div>
             </Col>
             <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Order id</div>
@@ -444,10 +447,10 @@ const OrderPlaced = () => {
             <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Transaction </div>
             </Col>
-            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
-            <Col lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Action</div>
             </Col>
 
@@ -542,7 +545,7 @@ const OrderPlaced = () => {
                           </Col>
                         </Row>
                       </Col>
-                      <Col lg="2">
+                      <Col lg="1">
                         <Row className="gx-2 align-items-center">
                           <Col lg="12" className="col">
                             <Row className="g-0">
@@ -551,6 +554,20 @@ const OrderPlaced = () => {
                               </Col>
                               <Col xs="auto" lg="12">
                                 <div className="lh-1 text-alternate">{moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col lg="1">
+                        <Row className="gx-2 align-items-center">
+                          <Col lg="12" className="col">
+                            <Row className="g-0">
+                              <Col className="d-lg-none">
+                                <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Token No</div>
+                              </Col>
+                              <Col xs="auto" lg="12">
+                                <div className="lh-1 text-alternate">{item.token_no}</div>
                               </Col>
                             </Row>
                           </Col>

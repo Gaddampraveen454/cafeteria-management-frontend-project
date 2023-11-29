@@ -18,14 +18,29 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-  console.log('Received background message ', payload);
-
+  console.log('Received background message', payload);
+ 
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
+    tag: "notification-1",
+    data: {
+      url: payload.data.click_action
+    }
   };
-
-  // self.registration.showNotification(notificationTitle,
-  //   notificationOptions);
-  self.registration.hideNotification();
+  // self.registration.hideNotification();
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+ 
+self.addEventListener('notificationclick', function (event) {
+  console.log('Notification clicked', event);
+ 
+  event.notification.close();
+  event.stopImmediatePropagation();
+  event.preventDefault();
+ 
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
+   
 });

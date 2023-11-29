@@ -183,10 +183,24 @@ const CreateOrder = () => {
 
     console.log(selectStore, 'bfvherverrejb')
 
+    const [vegtype, setVegType] = useState("");
+
+    const optionsVegType = [
+        { value: "", label: 'ALL' },
+        { value: 'veg', label: 'VEG' },
+        { value: 'non-veg', label: 'NON-VEG' },
+    ];
+
+    const SelectVegFunction = (type) => {
+        console.log(type, "gsdhfgkdshkfjh")
+        setVegType(type?.value)
+        dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore, search, type?.value))
+    }
+
 
     useEffect(() => {
         // dispatch(CompanyProductionListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, '', selectStore));
-        dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore, search))
+        dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore, search, vegtype))
     }, [])
 
 
@@ -296,7 +310,7 @@ const CreateOrder = () => {
             setSearch(pages)
             setPage(0)
             // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
-            dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore, pages))
+            dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, selectStore, pages, vegtype))
         }
         // if (type === "prev") {
         //     setPage(page - 1)
@@ -615,7 +629,7 @@ const CreateOrder = () => {
         setcompanyuuid(event?.company_uuid)
         // dispatch(CompanyProductionListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "", event?.value))
         // dispatch(Categotylist(event?.company_uuid === undefined ? "" : event?.company_uuid, event?.value === undefined ? "" : event?.value))
-        dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, event?.value, search))
+        dispatch(CompanyProductsList(currentUser?.token, currentUser?.data?.uuid, event?.value, search, vegtype))
     }
 
     const CategorySelect = (event) => {
@@ -627,55 +641,55 @@ const CreateOrder = () => {
 
     const [isNavbarFixed, setIsNavbarFixed] = useState(false);
     const [prevScrollY, setPrevScrollY] = useState(0);
-  
+
     useEffect(() => {
-      const handleScroll = () => {
-        const navbar = document.getElementById("nav-section");
-        const navOffset = navbar.offsetTop;
-        const currentScrollY = window.scrollY;
-  
-        if (currentScrollY > navOffset && currentScrollY > prevScrollY) {
-          setIsNavbarFixed(true);
-        } else {
-          setIsNavbarFixed(false);
-        }
-  
-        setPrevScrollY(currentScrollY);
-      };
-  
-      window.addEventListener('scroll', handleScroll);
-  
-      // Cleanup the event listener on component unmount
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
+        const handleScroll = () => {
+            const navbar = document.getElementById("nav-section");
+            const navOffset = navbar.offsetTop;
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > navOffset && currentScrollY > prevScrollY) {
+                setIsNavbarFixed(true);
+            } else {
+                setIsNavbarFixed(false);
+            }
+
+            setPrevScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [prevScrollY]);
 
 
     const [isNavbarFixed1, setIsNavbarFixed1] = useState(false);
     const [prevScrollY1, setPrevScrollY1] = useState(0);
-  
+
     useEffect(() => {
-      const handleScroll = () => {
-        const navbar1 = document.getElementById("nav-section1");
-        const navOffset = navbar1.offsetTop;
-        const currentScrollY = window.scrollY;
-  
-        if (currentScrollY > navOffset && currentScrollY > prevScrollY) {
-          setIsNavbarFixed(true);
-        } else {
-          setIsNavbarFixed(false);
-        }
-  
-        setPrevScrollY1(currentScrollY);
-      };
-  
-      window.addEventListener('scroll', handleScroll);
-  
-      // Cleanup the event listener on component unmount
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
+        const handleScroll = () => {
+            const navbar1 = document.getElementById("nav-section1");
+            const navOffset = navbar1.offsetTop;
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > navOffset && currentScrollY > prevScrollY) {
+                setIsNavbarFixed(true);
+            } else {
+                setIsNavbarFixed(false);
+            }
+
+            setPrevScrollY1(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [prevScrollY1]);
 
 
@@ -683,26 +697,26 @@ const CreateOrder = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-          const nav = document.querySelector('nav');
-          const navDiv = document.querySelector('nav div');
-          const scrollPosition = window.scrollY;
-    
-          if (scrollPosition >= 300) {
-            nav.classList.add('fixed-header');
-            navDiv.classList.add('visible-title');
-          } else {
-            nav.classList.remove('fixed-header');
-            navDiv.classList.remove('visible-title');
-          }
+            const nav = document.querySelector('nav');
+            const navDiv = document.querySelector('nav div');
+            const scrollPosition = window.scrollY;
+
+            if (scrollPosition >= 300) {
+                nav.classList.add('fixed-header');
+                navDiv.classList.add('visible-title');
+            } else {
+                nav.classList.remove('fixed-header');
+                navDiv.classList.remove('visible-title');
+            }
         };
-    
+
         window.addEventListener('scroll', handleScroll);
-    
+
         // Cleanup the event listener on component unmount
         return () => {
-          window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
-      }, []);
+    }, []);
 
 
 
@@ -1108,7 +1122,7 @@ const CreateOrder = () => {
 
 
 
-            {/* <header>
+                {/* <header>
     <div className="header-banner">
         <h1>Visit Finland</h1>
     </div>
@@ -1122,11 +1136,11 @@ const CreateOrder = () => {
         </ul>
     </nav>
 </header>  */}
-  
 
 
-          
-                    {/* <Row >
+
+
+                {/* <Row >
                     <div id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}>
                                 <div className='nav'>
                               
@@ -1188,33 +1202,33 @@ const CreateOrder = () => {
                     <Col xs="12" lg="3" xl="3"  >
                         {/* Filters Start */}
                         <div>
-                      
 
 
-                        <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
-                        <div className='nav1'>
 
-            <Row>
-            
-                <Col xs="12" md="12" lg="12" className='mb-3' style={{marginTop:"40px"}}>
+                            <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
+                                <div className='nav1'>
 
+                                    <Row>
 
-                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-
-                    <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                    <span className="search-magnifier-icon">
-                    <CsLineIcons icon="search" />
-                    </span>
-                    <span className="search-delete-icon d-none">
-                    <CsLineIcons icon="close" />
-                    </span>
-                    </div>
-                </Col>
-
-            </Row>
+                                        <Col xs="12" md="12" lg="12" className='mb-3' style={{ marginTop: "40px" }}>
 
 
-                        {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
+                                            <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                                <span className="search-magnifier-icon">
+                                                    <CsLineIcons icon="search" />
+                                                </span>
+                                                <span className="search-delete-icon d-none">
+                                                    <CsLineIcons icon="close" />
+                                                </span>
+                                            </div>
+                                        </Col>
+
+                                    </Row>
+
+
+                                    {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
                                 <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
                                 <span className="search-magnifier-icon">
                                     <CsLineIcons icon="search" />
@@ -1224,42 +1238,52 @@ const CreateOrder = () => {
                                 </span>
                             </div> */}
 
-                       
 
-                        <Select className="mb-4"  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
+                                    <Row>
+                                        <Col>
+                                            <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                                        </Col>
+                                    </Row>
 
-                        {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
-                             
-                                <Card>
-                            <Card.Body>
-                                <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
-                            </Card.Body>
-                        </Card>
-                        </div>
+                                    <Row>
+                                        <Col>
+                                            <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                        </Col>
+                                    </Row>
+
+
+                                    {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
+
+                                    <Card>
+                                        <Card.Body>
+                                            <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
+                                        </Card.Body>
+                                    </Card>
+                                </div>
                                 {/* </div> */}
-                            {/* </div>
+                                {/* </div>
                         </div> */}
-                        {/* </div> */}
-                       
-                        {/* <Cart 
+                                {/* </div> */}
+
+                                {/* <Cart 
               item={items}
             /> */}
-                        {/* Filters End */}
+                                {/* Filters End */}
 
 
 
 
 
 
-                        {/* {handleopen === true ?  */}
+                                {/* {handleopen === true ?  */}
 
 
-                        {/* } */}
+                                {/* } */}
+                            </div>
                         </div>
-                          </div>
                     </Col>
-                   
-                 
+
+
 
                 )}
 
@@ -1322,6 +1346,20 @@ const CreateOrder = () => {
                                                                     <Row >
                                                                         {/* <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} /> */}
                                                                         <Col xs="7" sm="7" md="7" lg="7">
+                                                                            <Clamp tag="span" clamp="2">
+                                                                                {item?.type === 'veg' && (
+                                                                                    <img
+                                                                                        src="https://stage-couponportal.mistaeats.com/img/profile/profile-17.jpg"
+                                                                                        alt=""
+                                                                                        style={{ width: '15px' }}
+                                                                                    />
+                                                                                )}
+                                                                            </Clamp>
+                                                                            <Clamp tag="span" clamp="2">
+                                                                                {item?.type === 'non-veg' && (
+                                                                                    <img src="https://stage-couponportal.mistaeats.com/img/profile/non-veg.png" alt="" style={{ width: '17px' }} />
+                                                                                )}
+                                                                            </Clamp>
                                                                             <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
                                                                                 <Clamp tag="span" clamp="2">
                                                                                     {item?.name}

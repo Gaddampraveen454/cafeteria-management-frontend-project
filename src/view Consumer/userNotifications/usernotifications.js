@@ -4,10 +4,10 @@ import { NavLink, useHistory } from 'react-router-dom';
 // import { Pagination, PaginationItem } from "@material-ui/lab";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { Row, Col, Button, Dropdown, Form, Card, Badge, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
+import { UserNotificationsURL } from 'Redux/ConsumerRedux/NotificationRedux/notification';
 import CheckAll from 'components/check-all/CheckAll';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -39,8 +39,8 @@ const Notification = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
 
-    const { items } = useSelector((state) => state.notification)
-    console.log(items, "dsghsjgsh")
+    const { notificationValue } = useSelector((state) => state.Usernotification)
+    console.log(notificationValue, "dsghsjgsh")
 
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [selectedItems, setSelectedItems] = useState([]);
@@ -87,27 +87,27 @@ const Notification = () => {
     const pageChange = (type) => {
         if (type === "decreement") {
             setPage(page - 1)
-            dispatch(fetchNotifications(page - 1, limit, currentUser?.data?.token, currentUser?.data?.uuid));
+            dispatch(UserNotificationsURL(page - 1, limit, currentUser?.data?.token, currentUser?.data?.uuid));
         }
         else if (type === "increement") {
             setPage(page + 1)
-            dispatch(fetchNotifications(page + 1, limit, currentUser?.data?.token, currentUser?.data?.uuid));
+            dispatch(UserNotificationsURL(page + 1, limit, currentUser?.data?.token, currentUser?.data?.uuid));
         }
         else if (type === "5Items") {
             setLimit(5)
             setPage(1)
-            dispatch(fetchNotifications(0, 5, currentUser?.data?.token, currentUser?.data?.uuid));
+            dispatch(UserNotificationsURL(0, 5, currentUser?.data?.token, currentUser?.data?.uuid));
         }
         else if (type === "10Items") {
             setLimit(10)
             setPage(1)
-            dispatch(fetchNotifications(0, 10, currentUser?.data?.token, currentUser?.data?.uuid));
+            dispatch(UserNotificationsURL(0, 10, currentUser?.data?.token, currentUser?.data?.uuid));
 
         }
         else if (type === "20Items") {
             setLimit(20)
             setPage(1)
-            dispatch(fetchNotifications(0, 20, currentUser?.data?.token, currentUser?.data?.uuid));
+            dispatch(UserNotificationsURL(0, 20, currentUser?.data?.token, currentUser?.data?.uuid));
 
         }
 
@@ -119,7 +119,7 @@ const Notification = () => {
         // GetList(p-1)
     };
     const notificationsDatas = () => {
-        dispatch(fetchNotifications(pageNumber, limit, currentUser?.data?.token, currentUser?.data?.uuid));
+        dispatch(UserNotificationsURL(pageNumber, limit, currentUser?.data?.token, currentUser?.data?.uuid));
     }
     useEffect(() => {
         notificationsDatas()
@@ -280,59 +280,60 @@ const Notification = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {items && items?.map((item, index) => {
+            {notificationValue && notificationValue?.data?.map((item, index) => {
                 console.log(item, "hgsdfgsjhgsdj")
                 return <Card key="" className={`mb-2 ${'selected'}`}>
                     <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
-                        <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
-                            <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                                <div className="text-muted text-small d-md-none">S No.</div>
-                                <div className="text-truncate h-100 d-flex align-items-center">
-                                    {index + 1}
-                                </div>
-                            </Col>
-                            <Col xs="3" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                <div className="text-muted text-small d-md-none">title</div>
-                                <div className="text-alternate">
-                                    {item?.title}
-                                </div>
-                            </Col>
-                            <Col xs="5" md="5" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                <div className="text-muted text-small d-md-none">DESCRIPTION</div>
-                                <div className="text-alternate">
-                                    <span>
-                                        {item?.detail}
-                                    </span>
-                                </div>
-                            </Col>
-                            <Col xs="3" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                <div className="text-muted text-small d-md-none">DATE</div>
-                                <div className="text-alternate">
-                                    <span>
-                                        {/* {(moment(item.createdAt).format("YYYY-MM-DD HH:MM A"))} */}
-                                    </span>
-                                </div>
-                            </Col>
-                            {/* <Col xs="3" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
+                        <NavLink to={`/OrderView/${item?.link}`}>
+                            <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
+                                <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
+                                    <div className="text-muted text-small d-md-none">S No.</div>
+                                    <div className="text-truncate h-100 d-flex align-items-center">
+                                        {index + 1}
+                                    </div>
+                                </Col>
+                                <Col xs="3" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">title</div>
+                                    <div className="text-alternate">
+                                        {item?.title}
+                                    </div>
+                                </Col>
+                                <Col xs="5" md="5" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">DESCRIPTION</div>
+                                    <div className="text-alternate">
+                                        <span>
+                                            {item?.message}
+                                        </span>
+                                    </div>
+                                </Col>
+                                <Col xs="3" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">DATE</div>
+                                    <div className="text-alternate">
+                                        <span>
+                                            {(moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"))}
+                                        </span>
+                                    </div>
+                                </Col>
+                                {/* <Col xs="3" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
                 <div className="text-muted text-small d-md-none">EDIT</div>
                 <div className="text-alternate">
                   
                   <Button type="button" variant="outline-primary" ><CsLineIcons icon="edit" /></Button>
                 </div>
               </Col> */}
-                            {/* <Button type="button" variant="outline-primary" ><CsLineIcons icon="edit" /></Button> */}
-                            {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                {/* <Button type="button" variant="outline-primary" ><CsLineIcons icon="edit" /></Button> */}
+                                {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
                 <div className="text-muted text-small d-md-none"></div>
                 <div className="text-alternate"> </div>
               </Col> */}
-                            {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
+                                {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
                 <div className="text-muted text-small d-md-none">ISDELETE</div>
                 <div className="text-alternate">
 
                 <Button type="button" variant="outline-primary"><CsLineIcons icon="edit" /></Button>
                 </div>
               </Col> */}
-                            {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
                 <div className="text-muted text-small d-md-none">Status</div>
                 <div className="text-alternate">hgfvh</div>
               </Col>
@@ -341,10 +342,11 @@ const Notification = () => {
                 <div className="text-alternate">fdghc</div>
                 </Col> */}
 
-                            {/* <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
+                                {/* <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
 &nbsp; */}
-                            {/* </Col> */}
-                        </Row>
+                                {/* </Col> */}
+                            </Row>
+                        </NavLink>
                     </Card.Body>
                 </Card>
             })}
@@ -356,21 +358,28 @@ const Notification = () => {
             {/* List Items End */}
 
             {/* Pagination Start */}
-            {/* <div className="d-flex justify-content-center mt-5">
-      <Pagination>
-          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => pageChange("decreement")}>
-            <CsLineIcons icon="chevron-left" />
-          </Pagination.Prev>
-          <Pagination.Item className="shadow" active>
-            {page+1}
-          </Pagination.Item>
-          <Pagination.Item className="shadow">2</Pagination.Item>
-          <Pagination.Item className="shadow">3</Pagination.Item>
-          <Pagination.Next className="shadow" onClick={() => pageChange("increement")}>
-            <CsLineIcons icon="chevron-right" />
-          </Pagination.Next>
-        </Pagination>
-      </div> */}
+            <div className="d-flex justify-content-center mt-5">
+                <Pagination>
+                    <Pagination.Prev className="shadow" disabled={pageNumber === 0} onClick={() => pageChange("prev")}>
+                        <CsLineIcons icon="chevron-left" />
+                    </Pagination.Prev>
+                    <Pagination.Item className="shadow" active onClick={() => pageChange("page")} >
+                        {pageNumber + 1}
+                    </Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= pageNumber + 1} onClick={() => pageChange("page+1", pageNumber + 1)}>{pageNumber + 2}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= pageNumber + 2} onClick={() => pageChange("page+2", pageNumber + 2)}>{pageNumber + 3}</Pagination.Item>
+
+                    {Math.ceil(notificationValue && notificationValue.count / limit) > pageNumber + 3 &&
+                        <>
+                            <Pagination.Item className="shadow" >...</Pagination.Item>
+                        </>
+
+                    }
+                    <Pagination.Next className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= pageNumber + 1} onClick={() => pageChange("next")}>
+                        <CsLineIcons icon="chevron-right" />
+                    </Pagination.Next>
+                </Pagination>
+            </div>
             {/* Pagination End */}
             {/* Pagination Start */}
 

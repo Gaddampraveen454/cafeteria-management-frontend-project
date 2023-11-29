@@ -101,7 +101,7 @@ const MenuForCashier = () => {
         if (isOpenFiltersModal) setIsOpenFiltersModal(false);
       } else if (isLgScreen) setIsLgScreen(false);
     }
-    return () => {};
+    return () => { };
     // eslint-disable-next-line
   }, [width]);
 
@@ -180,6 +180,20 @@ const MenuForCashier = () => {
     }
   };
 
+  const [vegtype, setVegType] = useState("");
+
+  const optionsVegType = [
+    { value: "", label: 'ALL' },
+    { value: 'veg', label: 'VEG' },
+    { value: 'non-veg', label: 'NON-VEG' },
+  ];
+
+  const SelectVegFunction = (type) => {
+    console.log(type, "gsdhfgkdshkfjh")
+    setVegType(type?.value)
+    dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, search, type?.value));
+  }
+
   // const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
   //   return item.uuid
   // })
@@ -208,7 +222,7 @@ const MenuForCashier = () => {
   }, [categoryForConsumer]);
 
   useEffect(() => {
-    dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, search));
+    dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, search, vegtype));
   }, []);
 
   const searchfunction = (type, pages) => {
@@ -218,7 +232,7 @@ const MenuForCashier = () => {
       setSearch(pages);
       setPage(0);
       // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
-      dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, pages));
+      dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, pages, vegtype));
     }
     // if (type === "prev") {
     //   setPage(page - 1)
@@ -774,7 +788,7 @@ const MenuForCashier = () => {
             <div>
               <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
                 <div className="nav1">
-                   
+
                   <Row>
                     <Col xs="12" md="12" lg="12" className="mb-3" style={{ marginTop: '40px' }}>
                       <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -786,6 +800,15 @@ const MenuForCashier = () => {
                           <CsLineIcons icon="close" />
                         </span>
                       </div>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col>
+                      <Select className="mb-4" classNamePrefix="react-select"
+                        options={optionsVegType}
+                        onChange={SelectVegFunction}
+                        placeholder="Select Type" />
                     </Col>
                   </Row>
 

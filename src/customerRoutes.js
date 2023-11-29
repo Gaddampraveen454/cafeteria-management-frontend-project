@@ -453,7 +453,7 @@ const consumerRoutesAndMenuItems = {
       icon: 'shipping',
     },
     {
-      path: `${appRoot}/OrderView`,
+      path: `${appRoot}/OrderView/:id`,
       component: OrderPlacedView,
     },
     {
@@ -471,8 +471,8 @@ const consumerRoutesAndMenuItems = {
     {
       path: `${appRoot}/usernotification`,
       component: notification,
-      // label: 'Company Management',
-      // icon: 'shipping',
+      label: 'Notifications',
+      icon: 'news',
     },
     {
       path: `${appRoot}/termsconditions`,

@@ -330,8 +330,11 @@ const NICorders = () => {
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Order Date</div>
             </Col>
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer">Token No</div>
+            </Col>
 
-            <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Consumer Name </div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -470,8 +473,11 @@ const NICorders = () => {
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate"> {item.token_no}</div>
+                  </Col>
 
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
                     </div>
                   </Col>

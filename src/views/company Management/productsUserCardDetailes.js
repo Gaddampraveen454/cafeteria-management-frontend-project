@@ -50,7 +50,7 @@ const productsUserCardDetailes = ({ onClose }) => {
 
     useEffect(() => {
         // dispatch(StoresForConsumerLIST(companyId))
-        dispatch(ProductForConsumerListURL(companyId, "", 0, "", "", 10, id1))
+        dispatch(ProductForConsumerListURL(companyId, "", 0, "", "", 10, id1, ""))
     }, [])
 
 
@@ -76,7 +76,7 @@ const productsUserCardDetailes = ({ onClose }) => {
     useEffect(() => {
         if (category) {
             //   dispatch(ProductForConsumerListURL(companyId, category, 0, ""))
-            dispatch(ProductForConsumerListURL(companyId, "", 0, "", "", 10, id1))
+            dispatch(ProductForConsumerListURL(companyId, "", 0, "", "", 10, id1, ""))
 
         }
     }, [category])

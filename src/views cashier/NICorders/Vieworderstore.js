@@ -116,7 +116,7 @@ const StoreOrderView = () => {
                                     </Col>
                                     <Col lg="6">
                                         <Form.Label>Order Created By</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.amount} />
+                                        <Form.Control type="text" disabled value={OrderView?.data?.order_created_by} />
                                     </Col>
 
                                     <Col lg="6">
