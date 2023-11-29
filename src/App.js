@@ -21,12 +21,13 @@ import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
 import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
 // import { getMes } from 'firebase';
 import io from 'socket.io-client';
-
+import { Button } from '@mui/material';
+import axios from 'axios';
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
 import { getMes, onMessageListener } from './firebase';
 
 import beep1 from "./Assests/audio/beep1.wav"
-import beep2 from "./Assests/audio/beep2.mp3"
+import beep2 from "./Assests/audio/telephone.mp3"
 
 
 
@@ -136,9 +137,12 @@ const App = () => {
   // }, [localStorage.getItem('companyId')]);
 
   const [show, setShow] = useState(false);
+  const [audiostatus, setAudioStatus] = useState(false)
+  const [recievedData, setRecievedData] = useState([])
 
   const handleClose = () => {
     setShow(false)
+    setAudioStatus(false)
   }
 
   useEffect(() => {
@@ -159,16 +163,19 @@ const App = () => {
 
       socket.on('connect', () => {
         console.log('Connected to the server');
-
-
-        socket.on('orderNotification', (count) => {
-          console.log('Received new order:', count);
-          setShow(true)
-          alert("order Recieved")
-        });
-        socket.emit('newOrder', { company_uuid: currentUserUuid });
       });
 
+      // socket.emit('newOrder');
+
+      socket.on('orderNotification', (count) => {
+        console.log('Received new order:', count);
+        setRecievedData(count)
+        setShow(true)
+        setAudioStatus(true)
+        // alert("order Recieved")
+      });
+
+      socket.emit('newOrder');
       // Clean up the socket connection when the component unmounts
       return () => {
         if (socket) {
@@ -183,15 +190,60 @@ const App = () => {
   const song1 = new Audio(beep1);
 
   const AudioFunction = () => {
-    new Audio(beep2).play()
+    song.play()
+  }
+
+  const StopAudioFunction = () => {
+    song.pause()
   }
 
   useEffect(() => {
     // Trigger audio playback when the component mounts
-    if (show === true) {
+    if (audiostatus === true) {
       AudioFunction();
     }
-  }, [show]);
+  }, [audiostatus]);
+
+
+  function removeObjectWithId(arr, id) {
+    const objWithIdIndex = arr.findIndex((obj) => obj.uuid === id);
+    // console.log(arr, id, objWithIdIndex, "sdsadasd")
+    let data = recievedData
+    if (objWithIdIndex > -1) {
+      data = arr.splice(objWithIdIndex, 1);
+      console.log(data, "sdsadasd")
+
+    }
+
+    return arr;
+  }
+
+  const UpdateOrderStatus = (orderId, status) => {
+    const payload = {
+      "order_uuid": orderId,
+      "status": status
+    }
+    axios.put(`${process.env.REACT_APP_URL}/order/status/update`, payload, {
+      headers: {
+        "x-auth-token": currentUser?.token
+      }
+    }).then((res) => {
+      // alert("Status Updated");
+      StopAudioFunction();
+      setAudioStatus(false)
+      console.log('Before:', recievedData);
+      const afterAccept = removeObjectWithId([...recievedData], orderId);
+      console.log('After:', afterAccept);
+      if(afterAccept?.length <= 0){
+        setShow(false);
+      }
+      setRecievedData(prevData => afterAccept);
+
+    })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+  }
 
   const loopset = true;
 
@@ -213,7 +265,7 @@ const App = () => {
           scrollable
         >
           <Modal.Header>
-            <Modal.Title as="h5">Niches</Modal.Title>
+            <Modal.Title as="h5">New Orders</Modal.Title>
             <button type="button" className="btn-close" onClick={handleClose} />
           </Modal.Header>
           <Modal.Body>
@@ -223,11 +275,28 @@ const App = () => {
 
                   <audio autoPlay loop={loopset} muted={false}>
                     {/* <source src="horse.ogg" type="audio/ogg"/> */}
-                    <source src={song1} type="audio/mpeg" />
-                    <track src={song1} kind="captions" label="english_captions" />
-                    <track src={song1} kind="captions" label="spanish_captions" />
+                    <source src={song} type="audio/mpeg" />
+                    <track src={song} kind="captions" label="english_captions" />
+                    <track src={song} kind="captions" label="spanish_captions" />
                   </audio>
                   {/* Order */}
+                  {recievedData?.length > 0 && recievedData.map((item) => {
+                    return <div key="" className='card sh-20 p-3 m-3'>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <div>
+                          <h1>{item?.details[0]?.name}</h1>
+                          <h2>Price : {item?.details[0]?.price}</h2>
+                          <h2>Quantity : {item?.details[0]?.quantity}</h2>
+                        </div>
+                        <div>
+                          <Button variant="outlined" onClick={() => UpdateOrderStatus(item.uuid, "Accepted")}>Accept</Button>&nbsp;&nbsp;
+                          <Button variant="outlined" onClick={() => UpdateOrderStatus(item.uuid, "Cancelled")}>Ignore</Button>
+                        </div>
+                      </div>
+
+                    </div>
+                  })}
+
                   {/* <button type='button' onClick={AudioFunction}>Play</button> */}
                 </Col>
               </Row>
