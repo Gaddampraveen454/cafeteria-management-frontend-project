@@ -52,8 +52,11 @@ const NavIconMenu = () => {
 
   const redirect = () => {
     console.log("enter1")
+    const companyId = localStorage.getItem('companyId');
+console.log(companyId, "companyId")
+const compNewId = !companyId ? "qr" : companyId
     dispatch(LogOutURL())
-    history.push('/login')
+    history.push(`/menu/company/${compNewId}`)
   }
 
   const Loginredirect = () => {

@@ -79,32 +79,32 @@ const OrderPlaced = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(ConsumerOrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(0, pages, currentUser.data.token, limit, currentUser.data.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(ConsumerOrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page - 1, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(ConsumerOrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page + 1, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(ConsumerOrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(ConsumerOrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page + 1, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(ConsumerOrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(page + 2, search, currentUser.data.token, limit, currentUser.data.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(ConsumerOrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid))
+      dispatch(ConsumerOrderListURL(0, search, currentUser.data.token, pages, currentUser.data.uuid))
     }
   }
 
@@ -145,7 +145,7 @@ const OrderPlaced = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(ConsumerOrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+          dispatch(ConsumerOrderListURL(page, search, currentUser.data.token, limit, currentUser.data.uuid))
           // setOpen(false)
 
         }, 1000)

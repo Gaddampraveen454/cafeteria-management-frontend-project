@@ -222,6 +222,7 @@ const App = () => {
   }
 
   const RedirectToPendingList = () => {
+    setShow(false)
     history.push({
       pathname: "/Pendingorders"
     })
@@ -272,6 +273,7 @@ const App = () => {
           aria-labelledby="settings"
           tabIndex="-1"
           scrollable
+          onBackdropClick={false}
         >
           <Modal.Header>
             <Modal.Title as="h5">New Orders</Modal.Title>
@@ -302,16 +304,15 @@ const App = () => {
                           <Button variant="outlined" onClick={() => UpdateOrderStatus(item.uuid, "Cancelled")}>Ignore</Button>
                         </div>
                       </div>
-
                     </div>
                   })}
 
                   {/* <button type='button' onClick={AudioFunction}>Play</button> */}
                 </Col>
-                <Col>
-                  <Button variant="outlined" onClick={RedirectToPendingList}>View More Pending Orders</Button>
-                </Col>
               </Row>
+              <Col>
+                <Button type="button" variant="outlined" style={{ marginTop: "86px", marginLeft: "81px" }} onClick={RedirectToPendingList}>View More Pending Orders</Button>
+              </Col>
             </div>
           </Modal.Body>
         </Modal>
