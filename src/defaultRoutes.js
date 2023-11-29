@@ -68,6 +68,7 @@ const FooterRoutes = {
   terms: lazy(() => import('views/default/footer/TermsConditions')),
   refund: lazy(() => import('views/default/footer/RefundReturn')),
   ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+  TransitionsModal: lazy(() => import('views/CreateOrders/TransitionsModal')),
 
 }
 
@@ -162,6 +163,10 @@ const defaultRoutesAndMenuItems = {
     {
       path: `${appRoot}/shippingpolicy`,
       component: FooterRoutes.ShippingPolicy
+    },
+    {
+      path: `${appRoot}/TransitionsModal`,
+      component: FooterRoutes.TransitionsModal
     }
 
 

@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <footer>
       <div className="footer-content">
-        <Container className='mt-3'>
+        <Container className='mt-3 pb-5'>
           <Row >
             {/* align="center" */}
             <Col xs="12" sm="4" >
@@ -39,18 +39,18 @@ const Footer = () => {
               <p className="mb-0 text-muted text-medium"><a href='/refund' target='_blank'>Refund Policy</a></p>
             </Col> */}
             <Col xs="12" sm="2"  >
-              <p className="mb-0 text-muted text-medium">Branded & Market By Zeonova Tech</p>
+              <p className="mb-0 text-muted text-medium">Branded & Market By Zeonova Technology</p>
               {/* <p className="mb-0 text-muted text-medium"><a href='/shippingpolicy' target='_blank'>Shipping policy</a></p> */}
             </Col>
           
-            <Col xs="12" sm="2"  >
+            <Col xs="5" sm="2"  >
               <p className="mb-0 text-muted text-medium center"><a href='/termsconditions' target='_blank'>Terms and Conditions</a></p>
             </Col>
-            <Col xs="12" sm="2"  >
+            <Col xs="3" sm="2"  >
               <p className="mb-0 text-muted text-medium"><a href='/refund' target='_blank'>Refund Policy</a></p>
             </Col>
-            <Col xs="12" sm="2"  >
-              <p className="mb-0 text-muted text-medium"><a href='/shippingpolicy' target='_blank'>Shipping policy</a></p>
+            <Col xs="4" sm="2"  >
+              <p className="mb-0 text-muted text-medium"><a href='/shippingpolicy' target='_blank'>Shipping Policy</a></p>
             </Col>
           </Row>
         </Container>

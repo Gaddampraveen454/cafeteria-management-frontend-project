@@ -69,7 +69,9 @@ const Cardsdetails = ({ onClose }) => {
   }, [])
 
   const closeFunction = () => {
-    onClose()
+    setTimeout(()=>{
+      onClose()
+    },1000)
   }
 
 
