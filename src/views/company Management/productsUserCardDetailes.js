@@ -97,9 +97,11 @@ const productsUserCardDetailes = ({ onClose }) => {
                                         key={item?.uuid}
                                         className={`text-alternate mb-2 ${category === item?.uuid ? 'selectedCategory' : ''}`}
                                         href={`#${item?.name}`}
-                                        onClick={() => {
+                                        onClick={(event) => {
+                                            event.preventDefault(); // Prevent the default behavior of anchor link
                                             setCategory(item?.uuid);
                                             closeFunction();
+                                            window.location.href = `#${item?.name}`; // Navigate to the specified ID
                                         }}
                                         style={{
                                             marginBottom: '15px',
@@ -108,13 +110,11 @@ const productsUserCardDetailes = ({ onClose }) => {
                                             color: category === item?.uuid ? 'red' : 'rgb(72 72 72/1)',
                                             lineHeight: '1.25rem',
                                             fontFamily: 'proxima-nova,sans-serif',
-                                            // backgroundColor: category === item.uuid ? 'red' : 'transparent',
-                                            // padding: '5px',
-                                            // borderRadius: '5px'
                                         }}
                                     >
                                         <p>{item.name}</p>
                                     </a>
+
                                 ))}
                         </div>
                     ) : null}
