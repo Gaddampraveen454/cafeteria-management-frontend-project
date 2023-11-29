@@ -312,14 +312,9 @@ const Categories = () => {
     if (currentUser && currentUser.data && currentUser.data.uuid) {
 
       CartUpdate()
-
       setTimeout(() => {
         ConsumerCheckout()
-      }, 1500)
-
-
-
-      // ConsumerCheckout()
+      }, 200)
     } else {
 
       GuestCheckOut()
@@ -358,53 +353,91 @@ const Categories = () => {
   const submitOrder = async (event) => {
     if (userType === "consumer") {
       event.preventDefault()
-      const value = event.target.elements
-      const payload = {
-        "checkout_uuid": CheckoutData.data.uuid,
-        "user_uuid": currentUser.data.uuid,
-        "company_uuid": CheckoutData.data.company_uuid,
-        "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
-      }
-
-      axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
-        {
-          headers: {
-            "x-auth-token": currentUser.data?.token
+      if (currentUser && currentUser?.data?.company_uuid) {
+        if (currentUser && currentUser?.data?.company_uuid === CheckoutData.data.company_uuid) {
+          const value = event.target.elements
+          const payload = {
+            "checkout_uuid": CheckoutData.data.uuid,
+            "user_uuid": currentUser.data.uuid,
+            "company_uuid": CheckoutData.data.company_uuid,
+            "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
           }
-        })
-        .then((respons) => {
-          console.log(respons, "fffgdsfsdfdsf")
-          if (respons.data.message !== "Checkout Success") {
-            history.push(({
-              pathname: "/OrderSuccess",
-              state: {
-                message: `${respons.data.message}`
+
+          axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
+            {
+              headers: {
+                "x-auth-token": currentUser.data?.token
               }
-            }));
-          }
+            })
+            .then((respons) => {
+              console.log(respons, "fffgdsfsdfdsf")
+              if (respons.data.message !== "Checkout Success") {
+                history.push(({
+                  pathname: "/OrderSuccess",
+                  state: {
+                    message: `${respons.data.message}`
+                  }
+                }));
+              }
+              setOrderData(respons.data)
+            })
+            .catch((err) => {
+              console.log(err.response.data.message, "zasdsadasd")
+              toast.error(err.response.data.message)
 
-          setOrderData(respons.data)
+              if (err.response.data.message === "Your account has been deactivated. Please contact superadmin.") {
+                setTimeout(() => {
+                  // console.log('Hello, World!')
+                  dispatch(LogOutURL())
+                  history.push('/dashboard')
+                }, 3000);
+              }
+            })
+        }
+        else {
+          toast.error("Your Not Eligible For this Products")
+        }
+      }
+      else {
+        const value = event.target.elements
+        const payload = {
+          "checkout_uuid": CheckoutData.data.uuid,
+          "user_uuid": currentUser.data.uuid,
+          "company_uuid": CheckoutData.data.company_uuid,
+          "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
+        }
 
-        })
-        .catch((err) => {
-          console.log(err.response.data.message, "zasdsadasd")
-          toast.error(err.response.data.message)
+        axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
+          {
+            headers: {
+              "x-auth-token": currentUser.data?.token
+            }
+          })
+          .then((respons) => {
+            console.log(respons, "fffgdsfsdfdsf")
+            if (respons.data.message !== "Checkout Success") {
+              history.push(({
+                pathname: "/OrderSuccess",
+                state: {
+                  message: `${respons.data.message}`
+                }
+              }));
+            }
+            setOrderData(respons.data)
+          })
+          .catch((err) => {
+            console.log(err.response.data.message, "zasdsadasd")
+            toast.error(err.response.data.message)
 
-          if (err.response.data.message === "Your account has been deactivated. Please contact superadmin.") {
-            setTimeout(() => {
-              // console.log('Hello, World!')
-              dispatch(LogOutURL())
-              history.push('/dashboard')
-            }, 3000);
-
-
-          }
-
-
-        })
-
-
-
+            if (err.response.data.message === "Your account has been deactivated. Please contact superadmin.") {
+              setTimeout(() => {
+                // console.log('Hello, World!')
+                dispatch(LogOutURL())
+                history.push('/dashboard')
+              }, 3000);
+            }
+          })
+      }
       // await dispatch(createOrderURL(payload, currentUser.token))
       // setSuc(true)
       // // await displayRazorpay()

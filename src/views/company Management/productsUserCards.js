@@ -603,7 +603,7 @@ const productsUserCards = () => {
                                                                                                     <InputGroup.Text id="basic-addon2">
                                                                                                         <button type="button" className="spin-up single px-2"
                                                                                                             onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
-                                                                                                            disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === items.stock_quantity ? true : ""}
+                                                                                                            disabled={(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === items.stock_quantity ? true : "") || Number(item.sellng_price === 0)}
                                                                                                         >
                                                                                                             +
                                                                                                         </button>
@@ -704,7 +704,6 @@ const productsUserCards = () => {
 
 
             </Row>
-            {/* Filters Modal Start */}
             {!isLgScreen && (
                 <>
                     <div className='settings-buttons-container'
@@ -733,9 +732,6 @@ const productsUserCards = () => {
                     </Modal>
                 </>
             )}
-            {/* Filters Modal End */}
-            {/* edit view popup start */}
-            {/* <div> */}
             <Dialog
                 open={open}
                 onClose={() => setOpen(false)}
@@ -753,7 +749,6 @@ const productsUserCards = () => {
                 </DialogContent>
                 <p>{result1}</p>
             </Dialog>
-            {/* </div> */}
         </>
     );
 };
