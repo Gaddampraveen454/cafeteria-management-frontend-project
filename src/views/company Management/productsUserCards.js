@@ -704,7 +704,6 @@ const productsUserCards = () => {
 
 
             </Row>
-            {/* Filters Modal Start */}
             {!isLgScreen && (
                 <>
                     <div className='settings-buttons-container'
@@ -733,9 +732,6 @@ const productsUserCards = () => {
                     </Modal>
                 </>
             )}
-            {/* Filters Modal End */}
-            {/* edit view popup start */}
-            {/* <div> */}
             <Dialog
                 open={open}
                 onClose={() => setOpen(false)}
@@ -753,7 +749,6 @@ const productsUserCards = () => {
                 </DialogContent>
                 <p>{result1}</p>
             </Dialog>
-            {/* </div> */}
         </>
     );
 };
