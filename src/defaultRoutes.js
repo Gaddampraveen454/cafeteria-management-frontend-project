@@ -29,7 +29,7 @@ const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/Order
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
-
+const productsUserCardDetailes = lazy(() => import('views/company Management/productsUserCardDetailes'))
 
 
 
@@ -116,7 +116,12 @@ const defaultRoutesAndMenuItems = {
       // label: 'Menu',
       // icon: 'shipping',
     },
-
+    {
+      path: `${appRoot}/productsUserCardDetailes`,
+      component: productsUserCardDetailes,
+      // label: 'Notifications',
+      // icon: 'news',
+    },
     {
       path: `${appRoot}/products/:id/:id1`,
       component: productsCards,

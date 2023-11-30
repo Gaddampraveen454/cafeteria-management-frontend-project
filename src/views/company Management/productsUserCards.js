@@ -29,6 +29,8 @@ import {
 // import Cardsdetails from './Cardsdetails';
 import ProductsUserCardDetailes from './productsUserCardDetailes';
 import GreenDot from '../../Assests/images/GreenDot.png';
+import '../CreateOrders/createorder.css'
+import TransitionsModalUser from './TransitionsModalUser';
 
 // import FilterMenuContent from "../storefront/filters/components/FilterMenuContent";
 const productsUserCards = () => {
@@ -457,6 +459,7 @@ const productsUserCards = () => {
 
                             <Card className="mb-5">
                                 <Card.Body>
+                                 
                                     {/* <Cardsdetails /> */}
                                     <ProductsUserCardDetailes />
                                     {/* {categoryForConsumer ?
@@ -487,6 +490,31 @@ const productsUserCards = () => {
                         {/* Filters End */}
                     </Col>
                 )}
+ <Col xs="12" lg="3" xl="3"  className='sidebarCol mt-5' >
+ <Row>
+ <Col xs="12" md="4"  className='mt-3' >
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container shadow bg-foreground w-100 mb-3">
+
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
+                     
+                            <Col xs="12" md="4"  className='mt-3' >
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                         
+                            </Row>
+                            </Col>
+
+
+
+
 
                 <Col style={{ position: "sticky" }} lg="9" xl="9">
                     <div id="firstcolumn">
@@ -712,15 +740,17 @@ const productsUserCards = () => {
                             marginRight: "20px",
                         }}
                     >
-                        <Button
+                           <TransitionsModalUser/>
+                        {/* <Button
                             style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
                             onClick={() => setIsOpenFiltersModal(true)}
                         >
                             <CsLineIcons icon="menu" style={{ width: "80%", height: "auto" }} />
                             <h6>Menu</h6>
-                        </Button>
+                        </Button> */}
+                        
                     </div>
-                    <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
+                    {/* <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
                         <Modal.Header closeButton>
                             <Modal.Title as="div">Menu</Modal.Title>
                         </Modal.Header>
@@ -729,7 +759,7 @@ const productsUserCards = () => {
                                 onClose={handleModel}
                             />
                         </Modal.Body>
-                    </Modal>
+                    </Modal> */}
                 </>
             )}
             <Dialog

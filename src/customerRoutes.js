@@ -344,10 +344,11 @@ const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
 const OrderPlacedView = lazy(() => import('view Consumer/orders/orderView'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
+const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
-
+const productsUserCardDetailes = lazy(() => import('views/company Management/productsUserCardDetailes'))
 
 
 
@@ -473,6 +474,18 @@ const consumerRoutesAndMenuItems = {
       component: notification,
       label: 'Notifications',
       icon: 'news',
+    },
+    {
+      path: `${appRoot}/TransitionsModalUser`,
+      component: TransitionsModalUser,
+      // label: 'Notifications',
+      // icon: 'news',
+    },
+    {
+      path: `${appRoot}/productsUserCardDetailes`,
+      component: productsUserCardDetailes,
+      // label: 'Notifications',
+      // icon: 'news',
     },
     {
       path: `${appRoot}/termsconditions`,
