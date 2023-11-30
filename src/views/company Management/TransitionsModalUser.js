@@ -6,6 +6,7 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import ProductsUserCardDetailes from './productsUserCardDetailes';
 
 
 const style = {
@@ -47,8 +48,8 @@ export default function TransitionsModalUser() {
           justifyContent: 'center',
           alignItems: 'center',
           border: '2px solid #fff',
-          backgroundColor:"#f74b63",
-          color:"#fff"
+          backgroundColor: "#f74b63",
+          color: "#fff"
         }}
         onClick={handleOpen}
       >
@@ -71,8 +72,7 @@ export default function TransitionsModalUser() {
       >
         <Fade in={open}>
           <Box sx={style} closeButton>
-      
-          <productUserCardDetailes />
+            <ProductsUserCardDetailes handleClose={handleClose} onClose={handleModel} />
           </Box>
         </Fade>
       </Modal>
