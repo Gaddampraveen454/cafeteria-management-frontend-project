@@ -10,6 +10,20 @@
     top:18%; 
     width:19%;
 }
+
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+   .sidebarCol{
+    display: inline;
+   }
+  }
+  
+  @media only screen and (min-width: 999px) {
+    /* For desktop: */
+    .sidebarCol{
+        display: none;
+    }
+  }
   /* #nav-section1.fixed-nav1{
     position:fixed;
      top:14%; 

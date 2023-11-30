@@ -15,7 +15,7 @@ import './Cards.css';
 import { StoresForConsumerLIST } from 'Redux/ConsumerRedux/StoreList/storelist';
 import axios from 'axios';
 
-const productsUserCardDetailes = ({ onClose }) => {
+const productsUserCardDetailes = ({ handleClose, onClose }) => {
     // console.log(onClose,"gfsfgsgsfgsg")
     const dispatch = useDispatch()
     const [suc, setSuc] = useState(false);
@@ -81,9 +81,12 @@ const productsUserCardDetailes = ({ onClose }) => {
         }
     }, [category])
 
+    
     const closeFunction = () => {
-        onClose()
-    }
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+      };
 
     return (
         <>
@@ -112,7 +115,7 @@ const productsUserCardDetailes = ({ onClose }) => {
                                             fontFamily: 'proxima-nova,sans-serif',
                                         }}
                                     >
-                                        <p>{item.name}</p>
+                                        <p onClick={handleClose}>{item.name}</p>
                                     </a>
 
                                 ))}

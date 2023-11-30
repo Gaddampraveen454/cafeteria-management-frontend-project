@@ -1299,14 +1299,7 @@ const CreateOrder = () => {
 
 
                 )}
-
-
-                {/* <Col md="5" lg="3"  className="mb-1"> */}
-                {/* Search Start */}
-                {/* <Form.Label/> */}
-
-                {/* Search End */}
-                {/* </Col> */}
+ 
 
                 <Col xs="12" lg="9" xl="9">
                     <Row>
@@ -1640,6 +1633,41 @@ const CreateOrder = () => {
                         </Col>
                     </Row> */}
 
+
+                    <Col xs="12" lg="3" xl="3"  className='sidebarCol mt-5' >
+                        <div>
+                                    <Row>
+
+                                        <Col xs="12" md="4"  className='mt-3' >
+
+
+                                            <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                                <span className="search-magnifier-icon">
+                                                    <CsLineIcons icon="search" />
+                                                </span>
+                                                <span className="search-delete-icon d-none">
+                                                    <CsLineIcons icon="close" />
+                                                </span>
+                                            </div>
+                                        </Col>
+
+                                    </Row>
+                                    <Row>
+                                    <Col xs="12" md="4"  className='mt-3' >
+                                            <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                    <Col xs="12" md="4" >
+                                            <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                        </Col>
+                                    </Row>
+                                </div>
+                               
+                    </Col>
+
                     <div id="firstcolumn">
                         {/* <Form className="mb-5">
               <p className="text-large text-muted mb-2">Happy New Year 2023 Combos</p>
@@ -1863,7 +1891,7 @@ const CreateOrder = () => {
             </Row >
 
 
-
+           
             <Row>
                 <Col xs="12" md="12">
                     {/* Pagination Start */}
