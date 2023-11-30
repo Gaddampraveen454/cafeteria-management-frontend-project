@@ -237,7 +237,8 @@ const User = () => {
 
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('fileName', file.name);
+      // formData.append('fileName', file.name);
+      formData.append('company_uuid', currentUser?.data?.uuid)
       // formData.append('company_uuid', selectCompany && selectCompany.value);
       dispatch(CompanyConsumerBulkUploadURL(formData, currentUser.token))
       setSuc(true)
