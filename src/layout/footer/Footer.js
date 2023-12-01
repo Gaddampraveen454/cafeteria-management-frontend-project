@@ -52,6 +52,15 @@ const Footer = () => {
             <Col xs="4" sm="2"  >
               <p className="mb-0 text-muted text-medium"><a href='/shippingpolicy' target='_blank'>Shipping Policy</a></p>
             </Col>
+            <Col xs="4" sm="2"  >
+              <p className="mb-0 text-muted text-medium"><a href='/about' target='_blank'>About Us</a></p>
+            </Col>
+            <Col xs="4" sm="2"  >
+              <p className="mb-0 text-muted text-medium"><a href='/contact' target='_blank'>Contact Us</a></p>
+            </Col>
+            <Col xs="4" sm="2"  >
+              <p className="mb-0 text-muted text-medium"><a href='/privacy' target='_blank'>Privacy Policy</a></p>
+            </Col>
           </Row>
         </Container>
       </div>

@@ -90,11 +90,6 @@ const Categories = () => {
     dispatch(IpAddressDataURL())
   }, [])
 
-
-  const data = "ord012356"
-  const RAZORPAY_KEY_ID = "rzp_test_SEA53JLJICNZPH"
-  const RAZORPAY_KEY_SECRET = "28NnsrgmxIHGKGU6qcgBwans"
-
   const displayRazorpay = async () => {
 
     if (orderData) {
@@ -112,15 +107,9 @@ const Categories = () => {
         "name": "Cafeteria",
         "description": "Cafeteria",
         "image": "https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=600",
-        // "order_id": data.data.razorpay_id,
         "order_id": orderData?.data?.razorpay_id,
-
-        // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        //    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
         handler: (response) => {
-          console.log(response, "sdfsdfsfsdf")
           const payLoad = {
-            // "order_uuid": orderData && orderData.data && orderData.data.order_uuid,
             "transaction_uuid": orderData && orderData.data && orderData.data.transaction_id,
             "payment_status": "paid",
             "razorpay_order_id": response.razorpay_order_id,
@@ -129,24 +118,14 @@ const Categories = () => {
           }
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
-              console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
-              // dispatch(CartListURL(IpAddressData.ip))
               if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
                 setSuc(false)
               } else {
-                // if (ip)
                 dispatch(CartListURL(IpAddressData.ip))
               }
-
-              console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
-
               const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
-
-              // const queryParams = { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
               const queryParams = { transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
-
-
               const socket = io(host, {
                 path: '/pathToConnection',
                 transports: ['websocket'],

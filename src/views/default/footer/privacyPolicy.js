@@ -1,0 +1,113 @@
+import React, { useEffect } from "react";
+import { Row, Col, } from 'react-bootstrap';
+
+const Privacy = () => {
+    // const scrollToTop = () => {
+    //     window.scrollTo({
+    //         top: 0,
+    //         behavior: "smooth",
+    //     });
+    // };
+    // useEffect(()=>{
+    //     scrollToTop()
+    // })
+    return (
+        <>
+            <div className="container">
+                <Col className="termcondition">
+                    <div style={{ backgroundColor: "rgb(33 90 65 / 3%)", padding: "22px" }}>
+                        <Col className="header-term1">
+                            <center><h1><strong>Privacy Policy</strong></h1></center>
+                        </Col>
+
+                        <Col>
+                            <p>PRIVACY POLICY - iCafe
+
+                                Last Updated: 01-12-2023
+
+                                1. Introduction:
+
+                                iCafe, is committed to protecting the privacy of its users. This Privacy Policy outlines how we collect, use, disclose, and safeguard your personal information. By using the iCafe website, mobile application, or services, you agree to the terms outlined in this policy.
+
+                                2. Information We Collect:
+
+                                a. Personal Information:
+                                - When you register on iCafe, we may collect personal information such as your name, email address, and contact details.
+                                - Information provided during the ordering process, including location details.
+
+                                b. Transactional Information:
+                                - Details of your orders, transactions, and payment information.
+
+                                c. Device Information:
+                                - Information about the device you use to access iCafe, including device type, operating system, and unique device identifiers.
+
+                                d. Usage Information:
+                                - Data on how you interact with the iCafe platform, including pages visited, features used, and time spent on the platform.
+
+                                3. How We Use Your Information:
+
+                                a. Order Fulfillment:
+                                - To process and fulfill your orders placed through iCafe.
+
+                                b. Account Management:
+                                - To manage your iCafe account, provide customer support, and communicate with you about your account.
+
+                                c. Personalization:
+                                - To personalize your experience and provide tailored content, promotions, and recommendations.
+
+                                d. Analytics and Improvements:
+                                - To analyze usage patterns, improve our services, and enhance the user experience.
+
+                                e. Marketing Communications:
+                                - To send you promotional materials and updates about iCafe, provided you have opted to receive such communications.
+
+                                4. Information Sharing:
+
+                                a. Merchants:
+                                - Your order details, including personal information, may be shared with the respective merchants for order fulfillment.
+
+                                b. Service Providers:
+                                - We may engage third-party service providers to assist with various aspects of our operations, such as payment processing and analytics.
+
+                                c. Legal Compliance:
+                                - We may disclose information to comply with legal obligations or respond to lawful requests from authorities.
+
+                                5. Security:
+
+                                a. We employ industry-standard security measures to protect your personal information from unauthorized access, disclosure, alteration, and destruction.
+
+                                6. Your Choices:
+
+                                a. Account Information:
+                                - You can review and update your account information through the iCafe platform.
+
+                                b. Marketing Preferences:
+                                - You can manage your marketing communication preferences in your account settings.
+
+                                7. Children's Privacy:
+
+                                iCafe is not directed at individuals under the age of 13, and we do not knowingly collect personal information from children. If you believe we have inadvertently collected information from a child, please contact us to have it removed.
+
+                                8. Changes to this Privacy Policy:
+
+                                We reserve the right to update this Privacy Policy. Any changes will be effective upon posting the updated policy on the iCafe platform. We encourage you to review this policy periodically for any updates.
+
+                                9. Contact Information:
+
+                                For questions or concerns regarding this Privacy Policy, please contact us at icafe@misateats.com.
+
+                                Effective Date: 01-12-2023</p>
+                        </Col>
+                    </div>
+
+                </Col>
+                <div>
+                    {/* <Footer /> */}
+                </div>
+            </div>
+        </>
+
+    )
+};
+
+export default Privacy;
