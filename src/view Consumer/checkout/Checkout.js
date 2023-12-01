@@ -92,8 +92,8 @@ const Categories = () => {
 
 
   const data = "ord012356"
-  const RAZORPAY_KEY_ID = "rzp_test_SEA53JLJICNZPH"
-  const RAZORPAY_KEY_SECRET = "28NnsrgmxIHGKGU6qcgBwans"
+  // const RAZORPAY_KEY_ID = "rzp_test_SEA53JLJICNZPH"
+  // const RAZORPAY_KEY_SECRET = "28NnsrgmxIHGKGU6qcgBwans"
 
   const displayRazorpay = async () => {
 

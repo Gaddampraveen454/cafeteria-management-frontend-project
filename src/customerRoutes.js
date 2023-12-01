@@ -345,6 +345,7 @@ const OrderPlacedView = lazy(() => import('view Consumer/orders/orderView'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
+const Changepassword = lazy(() => import('view Consumer/Changepassword/changepassword'))
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
@@ -397,6 +398,7 @@ let compNewId = !companyId ? "qr" : companyId
 console.log(companyId, "dfdsfdssdfdsfdsf")
 const [url, newCompId] = window.location.pathname.split("menu/")
 console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
+const Logindetailes = localStorage.getItem("user")
 // if(newCompId!=="qr"){
 // compNewId=newCompId
 // }else if(companyId!==null){
@@ -474,6 +476,12 @@ const consumerRoutesAndMenuItems = {
       component: notification,
       label: 'Notifications',
       icon: 'news',
+    },
+    {
+      path: `${appRoot}/userchangepassword`,
+      component: Changepassword,
+      label: 'Change Password',
+      icon: 'lock-off',
     },
     {
       path: `${appRoot}/TransitionsModalUser`,

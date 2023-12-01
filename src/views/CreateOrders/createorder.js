@@ -727,12 +727,12 @@ const CreateOrder = () => {
 
 
 
-  
+
 
 
     //   const [open1, setOpen] = React.useState(false);
-      const handleOpen = () => setOpen(true);
-      const handleClose = () => setOpen(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
 
@@ -789,7 +789,7 @@ const CreateOrder = () => {
                     {/* <Row className="mb-3 mt-4">
 
                         <Col xs="12" md="6" lg="6"> */}
-                            {/* <div className="page-title-container">
+                    {/* <div className="page-title-container">
                                 <Row className="g-0">
                                   
 
@@ -805,7 +805,7 @@ const CreateOrder = () => {
 
 
 
-{/* 
+                    {/* 
                             <Card className="hover-scale-up cursor-pointer sh-26">
                                 <Card.Body >
                                     <Row>
@@ -826,12 +826,12 @@ const CreateOrder = () => {
                                                                             </Col>
 
                                                                             <Col lg="5" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3"> */}
-                                                                                {/* <div className="lh-1 text-alternate">{item.quantity}</div> */}
-                                                                                {/* <InputGroup className="spinner sw-11 ">
+                    {/* <div className="lh-1 text-alternate">{item.quantity}</div> */}
+                    {/* <InputGroup className="spinner sw-11 ">
                                                                                     <InputGroup.Text id="basic-addon1">
                                                                                         <button type="button" className="spin-down single px-2"
                                                                                             onClick={() => { decrimentItem1(item, item.quantity - 1) }} */}
-                                                                                            {/* // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                    {/* // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
                                                                                             // disabled={btndisabl}
 
                                                                                             // disabled={items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity===1 ? true : ""}
@@ -849,7 +849,7 @@ const CreateOrder = () => {
                                                                                     />
                                                                                     <InputGroup.Text id="basic-addon2">
                                                                                         <button type="button" className="spin-up single px-2" */}
-                                                                                            {/* // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                    {/* // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
                                                                                             // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
                                                                                             // onClick={() => { editItem(item) }}
                                                                                             onClick={() => { IncrimentItem1(item, item.quantity + 1) }}
@@ -880,7 +880,7 @@ const CreateOrder = () => {
 
 
 
-                                                                            {/* <Button size="sm"
+                    {/* <Button size="sm"
                                                                                 className="btn-icon btn-icon-only position-absolute t-2 e-2 "
                                                                                 variant="foreground-alternate"
                                                                                 // onClick={() => { deleteToCart(item) }}
@@ -906,7 +906,7 @@ const CreateOrder = () => {
                                 </Card.Body>
                             </Card> */}
 
-                            {/* {items && items.map((item) => {
+                    {/* {items && items.map((item) => {
                             console.log(item, "itemcxxxvxcvxcv")
                             return <>
                                 <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} >
@@ -986,12 +986,12 @@ const CreateOrder = () => {
 
                         })} */}
 
-                        {/* </Col> */}
-                        {/* <Col xs="12" md="6" lg="6" style={{ marginTop: "3%" }}>
+                    {/* </Col> */}
+                    {/* <Col xs="12" md="6" lg="6" style={{ marginTop: "3%" }}>
                             <Card className="h-100 hover-scale-up cursor-pointer sh-26">
                                 <Card.Body className="pb-3">
                                     <Row> */}
-                                        {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
+                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
                     <Row >
                       <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
                       <Col xs="8" sm="8" md="8" lg="8">
@@ -1011,7 +1011,7 @@ const CreateOrder = () => {
 
                       </Col> */}
 
-                                        {/* <Col xs="12" sm="6" md="6" lg="6">
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
                                             <div className="mb-2">
                                                 <p className="text-small text-muted mb-1">TOTAL ITEMS</p>
                                                 <p>
@@ -1019,7 +1019,7 @@ const CreateOrder = () => {
                                                 </p>
                                             </div>
                                         </Col> */}
-                                        {/* <Col xs="12" sm="6" md="6" lg="6">
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
                                             <div className="mb-2">
                                                 <p className="text-small text-muted mb-1">SHIPPING</p>
                                                 <p>
@@ -1030,7 +1030,7 @@ const CreateOrder = () => {
                                                 </p>
                                             </div>
                                         </Col> */}
-                                        {/* <Col xs="12" sm="6" md="6" lg="6">
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
                                             <div className="mb-2">
                                                 <p className="text-small text-muted mb-1">SUB TOTAL</p>
                                                 <p>
@@ -1068,10 +1068,10 @@ const CreateOrder = () => {
                                                 <p className="text-small text-muted mb-1">SELECT PAYMENT</p>
                                                 <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Mode" />
                                             </div> */}
-                                        {/* </Col> */}
-                                        {/* <br />
+                    {/* </Col> */}
+                    {/* <br />
                     <br /> */}
-{/* 
+                    {/* 
                                         <Col xs="12" sm="6" md="6" lg="6">
                                             <div className="mb-2">
                                                 <p className="text-small text-muted mb-1">GRAND TOTAL</p>
@@ -1086,7 +1086,7 @@ const CreateOrder = () => {
 
 
 
-                                        {/* <Col xs="12" sm="6" md="6" lg="6">
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
                                             <div className="mt-2">
                                                 <Button className="btn-icon btn-icon-end w-100" variant="primary"
                                                     onClick={submitOrderPlased}
@@ -1098,10 +1098,10 @@ const CreateOrder = () => {
                                     </Row>
                                 </Card.Body>
                             </Card> */}
-                        {/* </Col> */}
+                    {/* </Col> */}
 
 
-                        {/* <Col lg="3">
+                    {/* <Col lg="3">
           <Form.Label>Category</Form.Label>
           <Select classNamePrefix="react-select"
             options={productList}
@@ -1111,12 +1111,12 @@ const CreateOrder = () => {
             // disabled={eventType}
           />
         </Col> */}
-                        {/* <Col md="7" lg="3" xxl="10" className="mb-1 text-end"> */}
+                    {/* <Col md="7" lg="3" xxl="10" className="mb-1 text-end"> */}
 
-                        {/* Length Start */}
+                    {/* Length Start */}
 
-                        {/* Length End */}
-                        {/* </Col> */}
+                    {/* Length End */}
+                    {/* </Col> */}
                     {/* </Row> */}
 
 
@@ -1221,27 +1221,27 @@ const CreateOrder = () => {
                             {/* <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
                                 <div className='nav1'> */}
 
-                                    <Row>
+                            <Row>
 
-                                        <Col xs="12" md="12" lg="12" className='mb-3' >
-
-
-                                            <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-
-                                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                                                <span className="search-magnifier-icon">
-                                                    <CsLineIcons icon="search" />
-                                                </span>
-                                                <span className="search-delete-icon d-none">
-                                                    <CsLineIcons icon="close" />
-                                                </span>
-                                            </div>
-                                        </Col>
-
-                                    </Row>
+                                <Col xs="12" md="12" lg="12" className='mb-3' >
 
 
-                                    {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
+
+                            </Row>
+
+
+                            {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
                                 <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
                                 <span className="search-magnifier-icon">
                                     <CsLineIcons icon="search" />
@@ -1252,58 +1252,58 @@ const CreateOrder = () => {
                             </div> */}
 
 
-                                    <Row>
-                                        <Col>
-                                            <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
-                                        </Col>
-                                    </Row>
+                            <Row>
+                                <Col>
+                                    <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                                </Col>
+                            </Row>
 
-                                    <Row>
-                                        <Col>
-                                            <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
-                                        </Col>
-                                    </Row>
+                            <Row>
+                                <Col>
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                            </Row>
 
 
-                                    {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
+                            {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
 
-                                    <Card>
-                                        <Card.Body>
-                                            <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                                {/* </div> */}
-                                {/* </div>
+                            <Card>
+                                <Card.Body>
+                                    <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
+                                </Card.Body>
+                            </Card>
+                        </div>
+                        {/* </div> */}
+                        {/* </div>
                         </div> */}
-                                {/* </div> */}
+                        {/* </div> */}
 
-                                {/* <Cart 
+                        {/* <Cart 
               item={items}
             /> */}
-                                {/* Filters End */}
+                        {/* Filters End */}
 
 
 
 
 
 
-                                {/* {handleopen === true ?  */}
+                        {/* {handleopen === true ?  */}
 
 
-                                {/* } */}
-                            {/* </div>
+                        {/* } */}
+                        {/* </div>
                         </div> */}
                     </Col>
 
 
 
                 )}
- 
+
 
                 <Col xs="12" lg="9" xl="9">
                     <Row>
-                    <Col xs="12" md="6" lg="6">
+                        <Col xs="12" md="6" lg="6">
                             <div className="page-title-container">
                                 <Row className="g-0">
                                     {/* Title Start */}
@@ -1615,7 +1615,7 @@ const CreateOrder = () => {
                             </Card>
                         </Col>
                     </Row>
-               
+
                     {/* <Row className='mb-3'>
                         <Col xs="12" lg="6" xl="6">
                        
@@ -1634,38 +1634,38 @@ const CreateOrder = () => {
                     </Row> */}
 
 
-                    <Col xs="12" lg="3" xl="3"  className='sidebarCol mt-5' >
+                    <Col xs="12" lg="3" xl="3" className='sidebarCol mt-5' >
                         <div>
-                                    <Row>
+                            <Row>
 
-                                        <Col xs="12" md="4"  className='mt-3' >
+                                <Col xs="12" md="4" className='mt-3' >
 
 
-                                            <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
-                                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                                                <span className="search-magnifier-icon">
-                                                    <CsLineIcons icon="search" />
-                                                </span>
-                                                <span className="search-delete-icon d-none">
-                                                    <CsLineIcons icon="close" />
-                                                </span>
-                                            </div>
-                                        </Col>
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
 
-                                    </Row>
-                                    <Row>
-                                    <Col xs="12" md="4"  className='mt-3' >
-                                            <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                    <Col xs="12" md="4" >
-                                            <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
-                                        </Col>
-                                    </Row>
-                                </div>
-                               
+                            </Row>
+                            <Row>
+                                <Col xs="12" md="4" className='mt-3' >
+                                    <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs="12" md="4" >
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                            </Row>
+                        </div>
+
                     </Col>
 
                     <div id="firstcolumn">
@@ -1891,7 +1891,7 @@ const CreateOrder = () => {
             </Row >
 
 
-           
+
             <Row>
                 <Col xs="12" md="12">
                     {/* Pagination Start */}
@@ -1963,7 +1963,7 @@ const CreateOrder = () => {
                                 marginRight: "20px",
                             }}
                         >
-                            <TransitionsModal/>
+                            <TransitionsModal />
                             {/* <Button
                                 style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
 
@@ -1981,7 +1981,7 @@ const CreateOrder = () => {
                                 <Cardsdetails
                                     onClose={handleModel}
                                 /> */}
-                                {/* <Form>
+                        {/* <Form>
                                     {categorylist ?
                                         <div>
                                             {categorylist && categorylist.data && categorylist.data.map((item) => {
@@ -2002,7 +2002,7 @@ const CreateOrder = () => {
                                         null
                                     }
                                 </Form> */}
-                            {/* </Modal.Body>
+                        {/* </Modal.Body>
                         </Modal> */}
 
                     </>

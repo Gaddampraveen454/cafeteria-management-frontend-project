@@ -194,7 +194,7 @@ const adminRoutesAndMenuItems = {
       path: `${appRoot}/changepassword`,
       component: changepassword,
       label: 'Change Password',
-      icon: 'news',
+      icon: 'lock-off',
     },
     // changepassword
     {
