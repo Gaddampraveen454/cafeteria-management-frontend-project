@@ -64,10 +64,15 @@ const FooterRoutes = {
   terms: lazy(() => import('views/default/footer/TermsConditions')),
   refund: lazy(() => import('views/default/footer/RefundReturn')),
   ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
-
+  contact: lazy(() => import('views/default/footer/contactus')),
+  about: lazy(() => import('views/default/footer/aboutus')),
+  privacy: lazy(() => import('views/default/footer/privacyPolicy'))
 }
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
+
+console.log(localStorage.getItem("user"), "asysyfys")
+
 
 const adminRoutesAndMenuItems = {
   mainMenuItems: [
@@ -220,6 +225,18 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/shippingpolicy`,
       component: FooterRoutes.ShippingPolicy
+    },
+    {
+      path: `${appRoot}/privacy`,
+      component: FooterRoutes.privacy
+    },
+    {
+      path: `${appRoot}/contact`,
+      component: FooterRoutes.contact
+    },
+    {
+      path: `${appRoot}/about`,
+      component: FooterRoutes.about
     }
     // {
     //   path: `${appRoot}/discount`,

@@ -306,8 +306,6 @@ const App = () => {
                       </div>
                     </div>
                   })}
-
-                  {/* <button type='button' onClick={AudioFunction}>Play</button> */}
                 </Col>
               </Row>
               <Col>
