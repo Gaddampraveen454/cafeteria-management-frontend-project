@@ -148,7 +148,7 @@ const NICorders = () => {
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, "Pending"))
+                    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
                     // setOpen(false)
 
                 }, 1000)

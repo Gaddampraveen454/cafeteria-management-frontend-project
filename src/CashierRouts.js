@@ -64,6 +64,10 @@ const FooterRoutes = {
   terms: lazy(() => import('views/default/footer/TermsConditions')),
   refund: lazy(() => import('views/default/footer/RefundReturn')),
   ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+  contact: lazy(() => import('views/default/footer/contactus')),
+  about: lazy(() => import('views/default/footer/aboutus')),
+  privacy: lazy(() => import('views/default/footer/privacyPolicy'))
+
 
 }
 
@@ -201,6 +205,18 @@ const cashierRoutesAndMenuItems = {
     {
       path: `${appRoot}/shippingpolicy`,
       component: FooterRoutes.ShippingPolicy
+    },
+    {
+      path: `${appRoot}/privacy`,
+      component: FooterRoutes.privacy
+    },
+    {
+      path: `${appRoot}/contact`,
+      component: FooterRoutes.contact
+    },
+    {
+      path: `${appRoot}/about`,
+      component: FooterRoutes.about
     }
     // {
     //   path: `${appRoot}/addreport`,

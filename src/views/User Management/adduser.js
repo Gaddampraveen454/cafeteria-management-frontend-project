@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { consumerListURL,CompanyConsumerAddURL, consumerUpdateURL} from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { consumerListURL, CompanyConsumerAddURL, consumerUpdateURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
 import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
 // import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
@@ -20,8 +20,8 @@ const adduser = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { companyUser, notification } = useSelector((state) => state.comapnuserSlice)
   const [selectValueState, setSelectValueState] = useState();
-  console.log(selectValueState,"selectValueState")
-  const [suc,setSuc] = useState(false);
+  console.log(selectValueState, "selectValueState")
+  const [suc, setSuc] = useState(false);
 
 
 
@@ -35,138 +35,141 @@ const adduser = () => {
   // const [mobile, setMobile]=useState("")
   // const [location, setLocation]=useState("")
   // const [EmpId,setEmpId]=useState("")
-  
 
-  const initialValues = { name: "", email: "", mobile: "", location: "", EmpId: "" ,designation:"",per_day_amount:""};
+
+  const initialValues = { name: "", email: "", mobile: "", location: "", EmpId: "", designation: "", per_day_amount: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
-  
+
   const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
 
-// useEffect(()=>{
+  // useEffect(()=>{
 
-//   dispatch(ActiveCompnyURL(currentUser.token))
-// },[])
-  console.log(ActiveCompnayData,"sfsdfdssdfsffs");
- 
-  const companyList= ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
+  //   dispatch(ActiveCompnyURL(currentUser.token))
+  // },[])
+  console.log(ActiveCompnayData, "sfsdfdssdfsffs");
 
- 
+  const companyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
+
+
 
   const AddConsumer = () => {
-  
+
     const payload = {
-       
-        
-          "name" : formValues.name,
-          "mobile" : formValues.mobile,
-          "email" : formValues.email,
-          "company_uuid" : currentUser?.data?.uuid,
-          "emp_id" :formValues.EmpId,
-          "location" :formValues.location,
-          "designation" : formValues.designation,
-          "per_day_amount" : formValues.per_day_amount,
-      
+
+
+      "name": formValues.name,
+      "mobile": formValues.mobile,
+      "email": formValues.email,
+      "company_uuid": currentUser?.data?.uuid,
+      "emp_id": formValues.EmpId,
+      "location": formValues.location,
+      "designation": formValues.designation,
+      "per_day_amount": formValues.per_day_amount,
+
     }
     dispatch(CompanyConsumerAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
     setSuc(true)
-}
+  }
 
 
 
 
-useEffect(() => {
-  if (suc === true) {
-    if (notification.status === true) {
-      toast.success(notification.message,{
-        position:"top-right",
-      })
-      setSuc(false)
-      setTimeout(()=>{
-        // dispatch(ProductListURL(currentUser.token))
-        history.push(({
-          pathname: "/User",
-          // state : {detail : id,fullname : name, pic :image, type:"edit"},
-        }));
-      },2000)
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          // dispatch(ProductListURL(currentUser.token))
+          history.push(({
+            pathname: "/User",
+            // state : {detail : id,fullname : name, pic :image, type:"edit"},
+          }));
+        }, 2000)
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
     }
-    else if (notification.status === false) {
-      toast.error(notification.message)
-      setSuc(false)
+
+  }, [notification])
+
+
+
+
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const alpharegex = /^[A-Za-z].{3,15}$/
+    const numberregex = /^[0-9]{10,12}$/
+
+    if (!values.name) {
+      errors.name = "Name is Required";
     }
-  }
+    else if (!values.EmpId) {
+      errors.EmpId = "Employe id is required!";
+    }
+    else if (!values.designation) {
+      errors.designation = "designation is required!";
+    }
+    else if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!regex.test(values.email)) {
+      errors.email = "This is not a valid email format!";
+    }
 
-}, [notification])
+    else if (!values.mobile) {
+      errors.mobile = "Moble number is Required";
+    }
+    else if (!numberregex.test(values.mobile)) {
+      errors.mobile = "Please Enter vailid Mobile Number";
+    }
 
+    else if (!values.location) {
+      errors.location = "Location is required!";
+    }
 
-
-
-const validate = (values) => {
-  const errors = {};
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  const alpharegex = /^[A-Za-z].{3,15}$/
-  const numberregex = /^[0-9]{10,12}$/
- 
-  if (!values.name) {
-    errors.name = "Name is Required";
-  }
-  else if(!values.EmpId){
-    errors.EmpId = "Employe id is required!";
-  }
-  else if(!values.designation){
-    errors.designation = "designation is required!";
-  }
-  else if (!values.email) {
-    errors.email = "Email is required!";
-  } else if (!regex.test(values.email)) {
-    errors.email = "This is not a valid email format!";
-  }
-
- else if (!values.mobile) {
-    errors.mobile = "Moble number is Required";
-  }
-  else if (!numberregex.test(values.mobile)) {
-    errors.mobile = "Please Enter vailid Mobile Number";
-  }
-
-  else if(!values.location){
-    errors.location = "Location is required!";
-  }
-  
-  else if(!values.per_day_amount){
-    errors.per_day_amount = "Location is required!";
-  }
-
- 
-
-  else {
-    setIsSubmit(true)
-
-  }
-  return errors;
-};
-console.log(formValues, "initialValues")
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  setFormErrors(validate(formValues));
-
-};
-const myhandlechange = (e) => {
-  const { name, value } = e.target;
-  setFormValues({ ...formValues, [name]: value });
-};
+    else if (!values.per_day_amount) {
+      errors.per_day_amount = "Per Day Amount is required!";
+    }
 
 
-useEffect(() => {
-  if (isSubmit === true) {
-    AddConsumer()
-  }
 
-}, [formErrors])
+    else {
+      setIsSubmit(true)
+
+    }
+    return errors;
+  };
+  console.log(formValues, "initialValues")
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+
+  };
+  const myhandlechange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value, "gvdfvcdskjbcjkd")
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  console.log(formValues.per_day_amount, "jhfgfdgjhdfkj")
+
+
+  useEffect(() => {
+    if (isSubmit === true) {
+      AddConsumer()
+    }
+
+  }, [formErrors])
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -192,12 +195,12 @@ useEffect(() => {
                 <Row className="g-3">
                   <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text"  
-                    // onChange={(e)=>{setName(e.target.value)}}
-                    name="name"
-                    onChange={myhandlechange}
-                     />
-                        <p style={{color:"red"}}>{formErrors.name}</p>
+                    <Form.Control type="text"
+                      // onChange={(e)=>{setName(e.target.value)}}
+                      name="name"
+                      onChange={myhandlechange}
+                    />
+                    <p style={{ color: "red" }}>{formErrors.name}</p>
                   </Col>
                   {/* <Col lg="6">
                     <Form.Label>Company Name</Form.Label>
@@ -213,65 +216,65 @@ useEffect(() => {
                   </Col> */}
                   <Col lg="6">
                     <Form.Label>Employee ID</Form.Label>
-                    <Form.Control type="text" 
-                    // onChange={(e)=>{setEmpId(e.target.value)}}
-                    name="EmpId"
-                    onChange={myhandlechange}
-                     />
-                      <p style={{color:"red"}}>{formErrors.EmpId}</p>
+                    <Form.Control type="text"
+                      // onChange={(e)=>{setEmpId(e.target.value)}}
+                      name="EmpId"
+                      onChange={myhandlechange}
+                    />
+                    <p style={{ color: "red" }}>{formErrors.EmpId}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Designation</Form.Label>
                     <Form.Control type="text"
                       // onChange={(e)=>{setEmail(e.target.value)}}
                       name="designation"
-                    onChange={myhandlechange}
+                      onChange={myhandlechange}
 
-                      />
-                       <p style={{color:"red"}}>{formErrors.designation}</p>
+                    />
+                    <p style={{ color: "red" }}>{formErrors.designation}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Email ID</Form.Label>
                     <Form.Control type="text"
                       // onChange={(e)=>{setEmail(e.target.value)}}
                       name="email"
-                    onChange={myhandlechange}
+                      onChange={myhandlechange}
 
-                      />
-                       <p style={{color:"red"}}>{formErrors.email}</p>
+                    />
+                    <p style={{ color: "red" }}>{formErrors.email}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Phone No</Form.Label>
-                    <Form.Control type="text" 
-                    // onChange={(e)=>{setMobile(e.target.value)}}
-                    name="mobile"
-                    onChange={myhandlechange}
+                    <Form.Control type="text"
+                      // onChange={(e)=>{setMobile(e.target.value)}}
+                      name="mobile"
+                      onChange={myhandlechange}
                     />
-                     <p style={{color:"red"}}>{formErrors.mobile}</p>
+                    <p style={{ color: "red" }}>{formErrors.mobile}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Location</Form.Label>
-                    <Form.Control as="textarea" rows={1} 
-                    // onChange={(e)=>{setLocation(e.target.value)}}
-                    name="location"
-                    onChange={myhandlechange}
+                    <Form.Control as="textarea" rows={1}
+                      // onChange={(e)=>{setLocation(e.target.value)}}
+                      name="location"
+                      onChange={myhandlechange}
                     />
-                     <p style={{color:"red"}}>{formErrors.location}</p>
+                    <p style={{ color: "red" }}>{formErrors.location}</p>
                   </Col>
                   <Col lg="6">
                     <Form.Label>Per Day Amount</Form.Label>
                     <Form.Control type="number"
-                    // onChange={(e)=>{setLocation(e.target.value)}}
-                    name="per_day_amount"
-                    onChange={myhandlechange}
+                      // onChange={(e)=>{setLocation(e.target.value)}}
+                      name="per_day_amount"
+                      onChange={myhandlechange}
                     />
-                     <p style={{color:"red"}}>{formErrors.per_day_amount}</p>
+                    <p style={{ color: "red" }}>{formErrors.per_day_amount}</p>
                   </Col>
                   <Col lg="12">
                     <Col lg="3">
-                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type='submit'>
-                    <CsLineIcons /> <span>Submit</span>
-                    </Button>
+                      <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type='submit'>
+                        <CsLineIcons /> <span>Submit</span>
+                      </Button>
                     </Col>
                   </Col>
                   {/* <Col lg="4">
@@ -353,8 +356,8 @@ useEffect(() => {
           {/* Payment End */}
         </Col>
         {/* <Col lg="auto" className="order-0 order-lg-1"> */}
-          {/* <h2 className="small-title">Summary</h2> */}
-          {/* <Card className="mb-5 w-100 sw-lg-35">
+        {/* <h2 className="small-title">Summary</h2> */}
+        {/* <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
               <div className="mb-3">
                 <div className="mb-2">
@@ -415,7 +418,7 @@ useEffect(() => {
 
 
 
-   
+
     </>
   );
 };

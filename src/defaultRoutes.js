@@ -29,7 +29,7 @@ const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/Order
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
-
+const productsUserCardDetailes = lazy(() => import('views/company Management/productsUserCardDetailes'))
 
 
 
@@ -68,6 +68,11 @@ const FooterRoutes = {
   terms: lazy(() => import('views/default/footer/TermsConditions')),
   refund: lazy(() => import('views/default/footer/RefundReturn')),
   ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+  TransitionsModal: lazy(() => import('views/CreateOrders/TransitionsModal')),
+  contact: lazy(() => import('views/default/footer/contactus')),
+  about: lazy(() => import('views/default/footer/aboutus')),
+  privacy: lazy(() => import('views/default/footer/privacyPolicy'))
+
 
 }
 
@@ -115,7 +120,12 @@ const defaultRoutesAndMenuItems = {
       // label: 'Menu',
       // icon: 'shipping',
     },
-
+    {
+      path: `${appRoot}/productsUserCardDetailes`,
+      component: productsUserCardDetailes,
+      // label: 'Notifications',
+      // icon: 'news',
+    },
     {
       path: `${appRoot}/products/:id/:id1`,
       component: productsCards,
@@ -162,6 +172,30 @@ const defaultRoutesAndMenuItems = {
     {
       path: `${appRoot}/shippingpolicy`,
       component: FooterRoutes.ShippingPolicy
+    },
+    {
+      path: `${appRoot}/privacy`,
+      component: FooterRoutes.privacy
+    },
+    {
+      path: `${appRoot}/contact`,
+      component: FooterRoutes.contact
+    },
+    {
+      path: `${appRoot}/about`,
+      component: FooterRoutes.about
+    },
+    {
+      path: `${appRoot}/TransitionsModal`,
+      component: FooterRoutes.TransitionsModal
+    },
+    {
+      path: `${appRoot}/contact`,
+      component: FooterRoutes.contact
+    },
+    {
+      path: `${appRoot}/about`,
+      component: FooterRoutes.about
     }
 
 

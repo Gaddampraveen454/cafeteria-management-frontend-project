@@ -344,10 +344,12 @@ const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
 const OrderPlacedView = lazy(() => import('view Consumer/orders/orderView'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
+const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
+const Changepassword = lazy(() => import('view Consumer/Changepassword/changepassword'))
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
-
+const productsUserCardDetailes = lazy(() => import('views/company Management/productsUserCardDetailes'))
 
 
 
@@ -386,6 +388,10 @@ const FooterRoutes = {
   terms: lazy(() => import('views/default/footer/TermsConditions')),
   refund: lazy(() => import('views/default/footer/RefundReturn')),
   ShippingPolicy: lazy(() => import('views/default/footer/ShippingPolicy')),
+  contact: lazy(() => import('views/default/footer/contactus')),
+  about: lazy(() => import('views/default/footer/aboutus')),
+  privacy: lazy(() => import('views/default/footer/privacyPolicy'))
+
 
 }
 
@@ -396,6 +402,7 @@ let compNewId = !companyId ? "qr" : companyId
 console.log(companyId, "dfdsfdssdfdsfdsf")
 const [url, newCompId] = window.location.pathname.split("menu/")
 console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
+const Logindetailes = localStorage.getItem("user")
 // if(newCompId!=="qr"){
 // compNewId=newCompId
 // }else if(companyId!==null){
@@ -475,6 +482,24 @@ const consumerRoutesAndMenuItems = {
       icon: 'news',
     },
     {
+      path: `${appRoot}/userchangepassword`,
+      component: Changepassword,
+      label: 'Change Password',
+      icon: 'lock-off',
+    },
+    {
+      path: `${appRoot}/TransitionsModalUser`,
+      component: TransitionsModalUser,
+      // label: 'Notifications',
+      // icon: 'news',
+    },
+    {
+      path: `${appRoot}/productsUserCardDetailes`,
+      component: productsUserCardDetailes,
+      // label: 'Notifications',
+      // icon: 'news',
+    },
+    {
       path: `${appRoot}/termsconditions`,
       component: FooterRoutes.terms
     },
@@ -485,6 +510,18 @@ const consumerRoutesAndMenuItems = {
     {
       path: `${appRoot}/shippingpolicy`,
       component: FooterRoutes.ShippingPolicy
+    },
+    {
+      path: `${appRoot}/privacy`,
+      component: FooterRoutes.privacy
+    },
+    {
+      path: `${appRoot}/contact`,
+      component: FooterRoutes.contact
+    },
+    {
+      path: `${appRoot}/about`,
+      component: FooterRoutes.about
     }
 
     // {

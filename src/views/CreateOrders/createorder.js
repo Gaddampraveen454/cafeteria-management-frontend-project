@@ -18,6 +18,12 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { QrReader } from 'react-qr-reader';
 import QrReader from "react-web-qr-reader";
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+// import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+// import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import {
     Dialog,
     DialogActions,
@@ -33,6 +39,7 @@ import Cardsdetails from './cardDetails';
 import GreenDot from '../../Assests/images/GreenDot.png';
 import Cart from '../../views cashier/CreateOrder/Cart';
 import './createorder.css'
+import TransitionsModal from './TransitionsModal';
 
 
 
@@ -722,6 +729,13 @@ const CreateOrder = () => {
 
 
 
+
+    //   const [open1, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+
+
     return (
         <>
             {print === true && printData !== '' &&
@@ -772,8 +786,523 @@ const CreateOrder = () => {
                     {/* Title End */}
                     {/* <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" /> */}
 
-                    <Row className="mb-3 mt-4">
+                    {/* <Row className="mb-3 mt-4">
 
+                        <Col xs="12" md="6" lg="6"> */}
+                    {/* <div className="page-title-container">
+                                <Row className="g-0">
+                                  
+
+                                    <Col className="col-auto mb-3 mb-sm-0 me-auto">
+                                  
+                                        <h1 className="mb-0 pb-0 display-4" id="title">
+                                            {title1}
+                                        </h1>
+                                    </Col>
+                               
+                                </Row>
+                            </div> */}
+
+
+
+                    {/* 
+                            <Card className="hover-scale-up cursor-pointer sh-26">
+                                <Card.Body >
+                                    <Row>
+                                        {items.length !== 0 ?
+                                            <>
+                                                <div style={{ overflowY: "auto", height: "250px" }}>
+                                                    {items && items.map((item) => {
+                                                        console.log(item, "itemcxxxvxcvxcv")
+                                                        return <>
+                                                            <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} style={{ border: "1px solid #ed6789" }} >
+                                                                <Row className="g-0 h-100 sh-lg-9 position-relative" >
+
+                                                                    <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                                                                        <Row className="g-0 h-100 ">
+                                                                            <Col lg="7" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                                                                <div className="lh-1 text-alternate">{item.item_name}</div>
+
+                                                                            </Col>
+
+                                                                            <Col lg="5" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3"> */}
+                    {/* <div className="lh-1 text-alternate">{item.quantity}</div> */}
+                    {/* <InputGroup className="spinner sw-11 ">
+                                                                                    <InputGroup.Text id="basic-addon1">
+                                                                                        <button type="button" className="spin-down single px-2"
+                                                                                            onClick={() => { decrimentItem1(item, item.quantity - 1) }} */}
+                    {/* // onClick={() => { editItem(items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid) : 0, items && items.find(data1 => data1.item_uuid === item.uuid) ? items && items.find(data1 => data1.item_uuid === item.uuid).quantity - 1 : 0) }}
+                                                                                            // disabled={btndisabl}
+
+                                                                                            // disabled={items &&  items.find(data1 => data1.item_uuid === item.uuid).quantity===1 ? true : ""}
+                                                                                            disabled={item.quantity === 1 ? true : ""}
+                                                                                        >
+                                                                                            -
+                                                                                        </button>
+                                                                                    </InputGroup.Text>
+                                                                                    <Form.Control
+                                                                                        value={item.quantity}
+                                                                                        onInput={onInput}
+                                                                                        placeholder="Count"
+                                                                                        className="text-center"
+
+                                                                                    />
+                                                                                    <InputGroup.Text id="basic-addon2">
+                                                                                        <button type="button" className="spin-up single px-2" */}
+                    {/* // onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
+                                                                                            // disabled={CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === item.stock_quantity ? true : ""}
+                                                                                            // onClick={() => { editItem(item) }}
+                                                                                            onClick={() => { IncrimentItem1(item, item.quantity + 1) }}
+                                                                                        >
+                                                                                            +
+                                                                                        </button>
+                                                                                    </InputGroup.Text>
+                                                                                </InputGroup>
+
+                                                                            </Col> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* <Button size="sm"
+                                                                                className="btn-icon btn-icon-only position-absolute t-2 e-2 "
+                                                                                variant="foreground-alternate"
+                                                                                // onClick={() => { deleteToCart(item) }}
+                                                                                onClick={() => deleteItem(item.item_uuid)}
+                                                                            >
+                                                                                <CsLineIcons icon="error-hexagon" />
+                                                                            </Button>
+                                                                        </Row>
+
+                                                                    </Col>
+                                                                </Row>
+                                                            </Card>
+                                                        </>
+
+                                                    })}
+                                                </div>
+                                            </>
+                                            :
+                                            <h1>cart is empty</h1>
+                                        }
+
+                                    </Row>
+                                </Card.Body>
+                            </Card> */}
+
+                    {/* {items && items.map((item) => {
+                            console.log(item, "itemcxxxvxcvxcv")
+                            return <>
+                                <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} >
+                                    <Row className="g-0 h-100 sh-lg-9 position-relative" >
+
+                                        <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
+                                            <Row className="g-0 h-100 ">
+                                                <Col lg="7" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                                    <div className="lh-1 text-alternate">{item.item_name}</div>
+
+                                                </Col>
+
+                                                <Col lg="5" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                                 
+                                                    <InputGroup className="spinner sw-11 ">
+                                                        <InputGroup.Text id="basic-addon1">
+                                                            <button type="button" className="spin-down single px-2"
+                                                                onClick={() => { decrimentItem1(item, item.quantity - 1) }}
+                                                                
+                                                                disabled={item.quantity === 1 ? true : ""}
+                                                            >
+                                                                -
+                                                            </button>
+                                                        </InputGroup.Text>
+                                                        <Form.Control
+                                                            value={item.quantity}
+                                                            onInput={onInput}
+                                                            placeholder="Count"
+                                                            className="text-center"
+
+                                                        />
+                                                        <InputGroup.Text id="basic-addon2">
+                                                            <button type="button" className="spin-up single px-2"
+                                                              
+                                                                onClick={() => { IncrimentItem1(item, item.quantity + 1) }}
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </InputGroup.Text>
+                                                    </InputGroup>
+
+                                                </Col>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <Button size="sm"
+                                                    className="btn-icon btn-icon-only position-absolute t-2 e-2 "
+                                                    variant="foreground-alternate"
+                                                  
+                                                    onClick={() => deleteItem(item.item_uuid)}
+                                                >
+                                                    <CsLineIcons icon="error-hexagon" />
+                                                </Button>
+                                            </Row>
+
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            </>
+
+                        })} */}
+
+                    {/* </Col> */}
+                    {/* <Col xs="12" md="6" lg="6" style={{ marginTop: "3%" }}>
+                            <Card className="h-100 hover-scale-up cursor-pointer sh-26">
+                                <Card.Body className="pb-3">
+                                    <Row> */}
+                    {/* <img src={item.image_url} alt="GreenDot" style={{ width: "10%" }} className="heading mb-3 d-flex" crossOrigin="anonymous" />
+                    <Row >
+                      <Form.Check className="form-check" checked={selectedItems.includes(1)} onChange={() => checkItem(1)} />
+                      <Col xs="8" sm="8" md="8" lg="8">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            Total Amount
+                          </Clamp>
+                        </NavLink>
+
+                      </Col>
+                      <Col xs="4" sm="4" md="4" lg="4">
+                        <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading">
+                          <Clamp tag="span" clamp="2">
+                            ₹{amount.total_amount}
+                          </Clamp>
+                        </NavLink>
+
+                      </Col> */}
+
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">TOTAL ITEMS</p>
+                                                <p>
+                                                    <span className="text-alternate"> {amount?.details?.length}</span>
+                                                </p>
+                                            </div>
+                                        </Col> */}
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SHIPPING</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        0
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col> */}
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SUB TOTAL</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        {Math.round(amount.amount)}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">CGST(%)</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        {amount.cgst_tax}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SGST(%)</p>
+                                                <p>
+                                                    <span className="text-alternate">
+                                                        <span className="text-small text-muted">₹</span>
+                                                        {amount.sgst_tax}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </Col>
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">SELECT PAYMENT</p>
+                                                <Select classNamePrefix="react-select" options={optionsPayment} value={selectPaymentType} onChange={setSelectPaymentType} placeholder="select Payment Mode" />
+                                            </div> */}
+                    {/* </Col> */}
+                    {/* <br />
+                    <br /> */}
+                    {/* 
+                                        <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mb-2">
+                                                <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                                                <div className="cta-2">
+                                                    <span>
+                                                        <span className="text-small text-muted cta-2">₹</span>
+                                                        {amount.total_amount}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Col> */}
+
+
+
+                    {/* <Col xs="12" sm="6" md="6" lg="6">
+                                            <div className="mt-2">
+                                                <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                                                    onClick={submitOrderPlased}
+                                                >
+                                                    <span>PLACE ORDER</span> <CsLineIcons icon="chevron-right" />
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card> */}
+                    {/* </Col> */}
+
+
+                    {/* <Col lg="3">
+          <Form.Label>Category</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={productList}
+            value={categoryId}
+            onChange={setCategoryId}
+            placeholder="Select Category"
+            // disabled={eventType}
+          />
+        </Col> */}
+                    {/* <Col md="7" lg="3" xxl="10" className="mb-1 text-end"> */}
+
+                    {/* Length Start */}
+
+                    {/* Length End */}
+                    {/* </Col> */}
+                    {/* </Row> */}
+
+
+
+
+
+
+                </Row>
+            </div>
+            {/* Title End */}
+
+            <Row>
+
+
+
+
+
+
+                {/* <header>
+    <div className="header-banner">
+        <h1>Visit Finland</h1>
+    </div>
+    <div className="clear">we</div>
+    <nav>
+        <div className="site-title">Finland</div>
+        <ul>
+            <li><a href="/archive">Archive</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>  */}
+
+
+
+
+                {/* <Row >
+                    <div id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}>
+                                <div className='nav'>
+                              
+                                <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
+                        <div className='nav1'> 
+                        <Col xs="12" md="3" >
+    &nbsp;
+    </Col>
+                        <Col xs="12" md="3" lg="3" style={{width:"20%"}}>
+                        <Select  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
+                        </Col>
+                        &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
+                        <Col xs="12" md="6">
+
+                        <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                <span className="search-magnifier-icon">
+                                    <CsLineIcons icon="search" />
+                                </span>
+                                <span className="search-delete-icon d-none">
+                                    <CsLineIcons icon="close" />
+                                </span>
+                          
+                            </div>
+    </Col>
+    <Col xs="12" md="3" >
+    &nbsp;
+    </Col>
+    </div>
+    </div>
+    </div>
+    </div>
+   
+    
+</Row> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {isLgScreen && (
+
+
+
+                    <Col xs="12" lg="3" xl="3"  >
+                        {/* Filters Start */}
+                        <div className='sidebar'>
+
+
+
+                            {/* <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
+                                <div className='nav1'> */}
+
+                            <Row>
+
+                                <Col xs="12" md="12" lg="12" className='mb-3' >
+
+
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
+
+                            </Row>
+
+
+                            {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
+                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                <span className="search-magnifier-icon">
+                                    <CsLineIcons icon="search" />
+                                </span>
+                                <span className="search-delete-icon d-none">
+                                    <CsLineIcons icon="close" />
+                                </span>
+                            </div> */}
+
+
+                            <Row>
+                                <Col>
+                                    <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col>
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                            </Row>
+
+
+                            {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
+
+                            <Card>
+                                <Card.Body>
+                                    <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
+                                </Card.Body>
+                            </Card>
+                        </div>
+                        {/* </div> */}
+                        {/* </div>
+                        </div> */}
+                        {/* </div> */}
+
+                        {/* <Cart 
+              item={items}
+            /> */}
+                        {/* Filters End */}
+
+
+
+
+
+
+                        {/* {handleopen === true ?  */}
+
+
+                        {/* } */}
+                        {/* </div>
+                        </div> */}
+                    </Col>
+
+
+
+                )}
+
+
+                <Col xs="12" lg="9" xl="9">
+                    <Row>
                         <Col xs="12" md="6" lg="6">
                             <div className="page-title-container">
                                 <Row className="g-0">
@@ -1086,216 +1615,8 @@ const CreateOrder = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-
-
-                        {/* <Col lg="3">
-          <Form.Label>Category</Form.Label>
-          <Select classNamePrefix="react-select"
-            options={productList}
-            value={categoryId}
-            onChange={setCategoryId}
-            placeholder="Select Category"
-            // disabled={eventType}
-          />
-        </Col> */}
-                        {/* <Col md="7" lg="3" xxl="10" className="mb-1 text-end"> */}
-
-                        {/* Length Start */}
-
-                        {/* Length End */}
-                        {/* </Col> */}
                     </Row>
 
-
-
-
-
-
-                </Row>
-            </div>
-            {/* Title End */}
-
-            <Row>
-
-
-
-
-
-
-                {/* <header>
-    <div className="header-banner">
-        <h1>Visit Finland</h1>
-    </div>
-    <div className="clear">we</div>
-    <nav>
-        <div className="site-title">Finland</div>
-        <ul>
-            <li><a href="/archive">Archive</a></li>
-            <li><a href="/events">Events</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>  */}
-
-
-
-
-                {/* <Row >
-                    <div id="nav-section" className={`navbar ${isNavbarFixed ? 'fixed-nav' : ''}`}>
-                                <div className='nav'>
-                              
-                                <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
-                        <div className='nav1'> 
-                        <Col xs="12" md="3" >
-    &nbsp;
-    </Col>
-                        <Col xs="12" md="3" lg="3" style={{width:"20%"}}>
-                        <Select  classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name}  />
-                        </Col>
-                        &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
-                        <Col xs="12" md="6">
-
-                        <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-
-                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                                <span className="search-magnifier-icon">
-                                    <CsLineIcons icon="search" />
-                                </span>
-                                <span className="search-delete-icon d-none">
-                                    <CsLineIcons icon="close" />
-                                </span>
-                          
-                            </div>
-    </Col>
-    <Col xs="12" md="3" >
-    &nbsp;
-    </Col>
-    </div>
-    </div>
-    </div>
-    </div>
-   
-    
-</Row> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                {isLgScreen && (
-
-
-
-                    <Col xs="12" lg="3" xl="3"  >
-                        {/* Filters Start */}
-                        <div>
-
-
-
-                            <div id="nav-section1" className={`navbar1 ${isNavbarFixed ? 'fixed-nav1' : ''}`}>
-                                <div className='nav1'>
-
-                                    <Row>
-
-                                        <Col xs="12" md="12" lg="12" className='mb-3' style={{ marginTop: "40px" }}>
-
-
-                                            <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-
-                                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                                                <span className="search-magnifier-icon">
-                                                    <CsLineIcons icon="search" />
-                                                </span>
-                                                <span className="search-delete-icon d-none">
-                                                    <CsLineIcons icon="close" />
-                                                </span>
-                                            </div>
-                                        </Col>
-
-                                    </Row>
-
-
-                                    {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground mb-4">
-                                <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
-                                <span className="search-magnifier-icon">
-                                    <CsLineIcons icon="search" />
-                                </span>
-                                <span className="search-delete-icon d-none">
-                                    <CsLineIcons icon="close" />
-                                </span>
-                            </div> */}
-
-
-                                    <Row>
-                                        <Col>
-                                            <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
-                                        </Col>
-                                    </Row>
-
-                                    <Row>
-                                        <Col>
-                                            <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
-                                        </Col>
-                                    </Row>
-
-
-                                    {/* <Select className='mb-3' classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} /> */}
-
-                                    <Card>
-                                        <Card.Body>
-                                            <Cardsdetails selectStore={selectStore} companyuuid={companyuuid} />
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                                {/* </div> */}
-                                {/* </div>
-                        </div> */}
-                                {/* </div> */}
-
-                                {/* <Cart 
-              item={items}
-            /> */}
-                                {/* Filters End */}
-
-
-
-
-
-
-                                {/* {handleopen === true ?  */}
-
-
-                                {/* } */}
-                            </div>
-                        </div>
-                    </Col>
-
-
-
-                )}
-
-
-                {/* <Col md="5" lg="3"  className="mb-1"> */}
-                {/* Search Start */}
-                {/* <Form.Label/> */}
-
-                {/* Search End */}
-                {/* </Col> */}
-
-                <Col xs="12" lg="9" xl="9">
                     {/* <Row className='mb-3'>
                         <Col xs="12" lg="6" xl="6">
                        
@@ -1312,6 +1633,41 @@ const CreateOrder = () => {
                             </div>
                         </Col>
                     </Row> */}
+
+
+                    <Col xs="12" lg="3" xl="3" className='sidebarCol mt-5' >
+                        <div>
+                            <Row>
+
+                                <Col xs="12" md="4" className='mt-3' >
+
+
+                                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                                        <span className="search-magnifier-icon">
+                                            <CsLineIcons icon="search" />
+                                        </span>
+                                        <span className="search-delete-icon d-none">
+                                            <CsLineIcons icon="close" />
+                                        </span>
+                                    </div>
+                                </Col>
+
+                            </Row>
+                            <Row>
+                                <Col xs="12" md="4" className='mt-3' >
+                                    <Select className="mb-4" classNamePrefix="react-select" options={StoreData} onChange={handleEvent} placeholder={StoreList?.data?.length > 1 && StoreList?.data[0]?.store_name} />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs="12" md="4" >
+                                    <Select className="mb-4" classNamePrefix="react-select" options={optionsVegType} onChange={SelectVegFunction} placeholder="Select Type" />
+                                </Col>
+                            </Row>
+                        </div>
+
+                    </Col>
 
                     <div id="firstcolumn">
                         {/* <Form className="mb-5">
@@ -1566,6 +1922,37 @@ const CreateOrder = () => {
                 </Col>
             </Row>
 
+            {/* <div>
+      <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box >
+            aasdasdasdasdasdasdasd
+            <h1>asdadsa</h1>
+            aasdasdasdasdasdasdasd
+            <h1>asdadsa</h1>
+            aasdasdasdasdasdasdasd
+            <h1>asdadsa</h1>
+      
+          </Box>
+        </Fade>
+      </Modal>
+    </div> */}
+
+
+
             {/* Filters Modal Start */}
             {
                 !isLgScreen && (
@@ -1577,24 +1964,25 @@ const CreateOrder = () => {
                                 marginRight: "20px",
                             }}
                         >
-                            <Button
+                            <TransitionsModal />
+                            {/* <Button
                                 style={{ borderRadius: "50%", width: "65px", height: "65px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #fff", }}
 
                                 onClick={() => setIsOpenFiltersModal(true)}
                             >
                                 <CsLineIcons icon="menu" style={{ width: "80%", height: "auto" }} />
                                 <h6>Menu</h6>
-                            </Button>
+                            </Button> */}
                         </div>
-                        <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
+                        {/* <Modal className="modal-bottom" show={isOpenFiltersModal} onHide={() => setIsOpenFiltersModal(false)}>
                             <Modal.Header closeButton>
                                 <Modal.Title as="div">Menu</Modal.Title>
                             </Modal.Header>
                             <Modal.Body >
                                 <Cardsdetails
                                     onClose={handleModel}
-                                />
-                                {/* <Form>
+                                /> */}
+                        {/* <Form>
                                     {categorylist ?
                                         <div>
                                             {categorylist && categorylist.data && categorylist.data.map((item) => {
@@ -1615,8 +2003,8 @@ const CreateOrder = () => {
                                         null
                                     }
                                 </Form> */}
-                            </Modal.Body>
-                        </Modal>
+                        {/* </Modal.Body>
+                        </Modal> */}
 
                     </>
                 )
