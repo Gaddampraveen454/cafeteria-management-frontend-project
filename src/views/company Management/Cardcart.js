@@ -312,7 +312,7 @@ const Cardcart = () => {
                                 <button type="button" className="spin-up single px-2"
                                   onClick={() => { updateCart(item.uuid, item.quantity + 1) }}
                                   //  onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid):0,CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid)?CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid===item.uuid).quantity+1:0) }}
-                                  disabled={item.quantity === item.stock_quantity ? true : ""}
+                                  disabled={item.quantity === item.stock_quantity ? true : "" || Number(item.product_price === 0)}
                                 >
                                   +
                                 </button>
