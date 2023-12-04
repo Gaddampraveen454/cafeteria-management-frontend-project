@@ -359,14 +359,33 @@ const Categories = () => {
             })
             .then((respons) => {
               console.log(respons, "fffgdsfsdfdsf")
-              if (respons.data.message !== "Checkout Success") {
-                history.push(({
-                  pathname: "/OrderSuccess",
-                  state: {
-                    message: `${respons.data.message}`
-                  }
-                }));
-              }
+              const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
+              const queryParams = { transaction_uuid: respons?.data?.message };
+              const socket = io(host, {
+                path: '/pathToConnection',
+                transports: ['websocket'],
+                upgrade: false,
+                query: queryParams,
+                reconnection: true,
+                rejectUnauthorized: false
+              });
+
+              socket.on('connect', () => {
+                console.log('Connected to the server');
+                // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
+                socket.emit('newOrder');
+
+
+                if (respons.data.message !== "Checkout Success") {
+                  history.push(({
+                    pathname: "/OrderSuccess",
+                    state: {
+                      message: `${respons.data.message}`
+                    }
+                  }));
+                }
+
+              })
               setOrderData(respons.data)
             })
             .catch((err) => {
@@ -403,14 +422,33 @@ const Categories = () => {
           })
           .then((respons) => {
             console.log(respons, "fffgdsfsdfdsf")
-            if (respons.data.message !== "Checkout Success") {
-              history.push(({
-                pathname: "/OrderSuccess",
-                state: {
-                  message: `${respons.data.message}`
-                }
-              }));
-            }
+            
+            const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
+            const queryParams = { transaction_uuid: respons?.data?.message };
+            const socket = io(host, {
+              path: '/pathToConnection',
+              transports: ['websocket'],
+              upgrade: false,
+              query: queryParams,
+              reconnection: true,
+              rejectUnauthorized: false
+            });
+
+            socket.on('connect', () => {
+              console.log('Connected to the server');
+              // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
+              socket.emit('newOrder');
+
+              if (respons.data.message !== "Checkout Success") {
+                history.push(({
+                  pathname: "/OrderSuccess",
+                  state: {
+                    message: `${respons.data.message}`
+                  }
+                }));
+              }
+            })
+
             setOrderData(respons.data)
           })
           .catch((err) => {
