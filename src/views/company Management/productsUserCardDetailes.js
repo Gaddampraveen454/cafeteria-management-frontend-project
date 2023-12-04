@@ -98,10 +98,8 @@ const productsUserCardDetailes = ({ onClose }) => {
                                         className={`text-alternate mb-2 ${category === item?.uuid ? 'selectedCategory' : ''}`}
                                         href={`#${item?.name}`}
                                         onClick={(event) => {
-                                            event.preventDefault(); // Prevent the default behavior of anchor link
                                             setCategory(item?.uuid);
                                             closeFunction();
-                                            window.location.href = `#${item?.name}`; // Navigate to the specified ID
                                         }}
                                         style={{
                                             marginBottom: '15px',

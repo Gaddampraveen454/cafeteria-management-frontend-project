@@ -265,14 +265,14 @@ const Login = () => {
                         <Button size="lg" type="submit" className="mb-2" onClick={EmployeeLogin}>
                             Employee
                         </Button>
-                        <Button size="lg"
+                        {/* <Button size="lg"
                             // type="submit" 
                             onClick={Guest}
                             className="mb-2"
                             style={{ marginLeft: "10px" }}
                         >
                             Checkout as a guest
-                        </Button>
+                        </Button> */}
                     </form>
                 </div>
             </div>

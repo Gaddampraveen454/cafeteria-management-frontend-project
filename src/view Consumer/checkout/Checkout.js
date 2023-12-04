@@ -141,7 +141,7 @@ const Categories = () => {
 
               console.log(resp.data, "ssdfsdfsdsdfsdfsdffsdfsdf")
 
-              const host = 'https://cmsapi.scienstechnologies.com'; // Replace with your server host
+              const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
 
               // const queryParams = { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
               const queryParams = { transaction_uuid: orderData && orderData.data && orderData.data.transaction_id };
@@ -315,6 +315,10 @@ const Categories = () => {
       setTimeout(() => {
         ConsumerCheckout()
       }, 200)
+
+
+
+      // ConsumerCheckout()
     } else {
 
       GuestCheckOut()

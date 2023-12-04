@@ -41,7 +41,6 @@ export const CreateCheckOutURL = (payload,token) => async (dispatch) => {
   .catch((err) => {
     dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
     dispatch(setCheckoutData({}));
-
   })
 };
 

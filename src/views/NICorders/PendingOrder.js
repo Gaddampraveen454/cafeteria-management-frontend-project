@@ -24,7 +24,7 @@ import moment from 'moment';
 
 const NICorders = () => {
     const dispatch = useDispatch()
-    const title = 'Orders';
+    const title = 'Pending Orders';
     const description = 'Ecommerce Orders Page';
     // const [status, setStatus] = useState(false)
     const [eventType, setEventType] = useState(false)
@@ -117,7 +117,7 @@ const NICorders = () => {
         console.log(event)
         setStoreUUID(event?.value)
         setStoreUUID1(event)
-        dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, storeuuid, "Pending"))
+        dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, "Pending"))
     }
 
 
