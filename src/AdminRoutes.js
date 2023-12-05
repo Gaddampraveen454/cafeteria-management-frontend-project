@@ -18,6 +18,7 @@ const addproduct = lazy(() => import('views/Product Management/addproduct'));
 const NICorders = lazy(() => import('views/NICorders/NICorders'));
 const PendingOrder = lazy(() => import('views/NICorders/PendingOrder'));
 const Viewordercompany = lazy(() => import('views/NICorders/Viewordercmpy'))
+const ScanOrderDetails = lazy(() => import('views/NICorders/ScanOrderdetails'))
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
@@ -71,7 +72,9 @@ const FooterRoutes = {
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-console.log(localStorage.getItem("user"), "asysyfys")
+const OrderId = localStorage.getItem('OrderCompanyDetails');
+let compNeworderId = !OrderId ? "" : OrderId
+console.log(compNeworderId, "asysyfys")
 
 
 const adminRoutesAndMenuItems = {
@@ -182,6 +185,10 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/companyViewOrder/:id`,
       component: Viewordercompany,
+    },
+    {
+      path: `${appRoot}/scanorderdetails/${compNeworderId}`,
+      component: ScanOrderDetails
     },
     {
       path: `${appRoot}/addNICorder`,

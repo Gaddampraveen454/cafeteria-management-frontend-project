@@ -402,7 +402,7 @@ let compNewId = !companyId ? "qr" : companyId
 console.log(companyId, "dfdsfdssdfdsfdsf")
 const [url, newCompId] = window.location.pathname.split("menu/")
 console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
-const Logindetailes = localStorage.getItem("user")
+const Logindetailes = localStorage.getItem("ChangePassword")
 // if(newCompId!=="qr"){
 // compNewId=newCompId
 // }else if(companyId!==null){

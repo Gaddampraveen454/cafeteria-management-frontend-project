@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import moment from 'moment';
+import QRCode from "react-qr-code";
 
 const OrderPlaced = () => {
   const dispatch = useDispatch()
@@ -173,6 +174,19 @@ const OrderPlaced = () => {
         type
       }
     })
+  };
+
+  const [qrOpen, setQrOpen] = useState(false)
+  const [OrderIdForQR, setOrderIdForQR] = useState("")
+
+  const ViewQRCode = (event) => {
+    console.log(event, "sfdsfsdfsdfcvghnh")
+    setOrderIdForQR(event?.uuid)
+    setQrOpen(true)
+  }
+
+  const handleDownload = () => {
+    window.print();
   };
 
 
@@ -553,7 +567,7 @@ const OrderPlaced = () => {
                                 <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Date</div>
                               </Col>
                               <Col xs="auto" lg="12">
-                                <div className="lh-1 text-alternate">{moment(item.createdAt).format('DD/MM/YYYY')}</div>
+                                <div className="lh-1 text-alternate">{moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                               </Col>
                             </Row>
                           </Col>
@@ -653,7 +667,7 @@ const OrderPlaced = () => {
                                 <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Status</div>
                               </Col>
                               <Col xs="auto" lg="12">
-                                <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div>
+                                <div className="lh-1 text-alternate">{item.order_status}</div>
                               </Col>
                             </Row>
                           </Col>
@@ -674,6 +688,11 @@ const OrderPlaced = () => {
                                   >
                                     Rating
                                   </Button>
+                                  <Button title="Rating" variant="outline-primary" className="btn px-2 py-2"
+                                    onClick={() => ViewQRCode(item)}
+                                  >
+                                    <CsLineIcons icon="print" />
+                                  </Button>
                                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                                     onClick={() => { viewEventHandler(item, "View"); setEventType(false) }}
                                   >
@@ -682,7 +701,7 @@ const OrderPlaced = () => {
                                   <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
                                     onClick={(e) => { handleHistoryCaseNote(item); }}
                                   >
-                                    <CsLineIcons icon="print" />
+                                    <CsLineIcons icon="download" />
                                   </Button>
                                   {/* <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
                                   //  onClick={onButtonClick}
@@ -938,6 +957,36 @@ const OrderPlaced = () => {
         </DialogContent>
         {/* </div> */}
       </Dialog>
+
+      {/* View QR code  Popup Start */}
+      <div>
+        <Dialog
+          open={qrOpen}
+          onClose={() => setQrOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <div>
+              <QRCode
+                size={300}
+                // style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${OrderIdForQR}`}
+                viewBox='0 0 556 556'
+              />
+            </div>
+            <br />
+            <div style={{ alignItems: "center" }}>
+              <Button variant="outline-primary"
+                className='btn-icon btn-icon-end w-100'
+                onClick={handleDownload}>
+                <CsLineIcons icon="print" /> <span>Print</span>
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      {/* View And Edit Popup end  */}
 
     </>
   );

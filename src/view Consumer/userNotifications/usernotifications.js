@@ -59,7 +59,7 @@ const Notification = () => {
         }
     };
 
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(0)
     const [pageNumber, setPageNumber] = useState(0);
     const [limit, setLimit] = useState(5)
     const [open, setOpen] = React.useState(false);
@@ -85,28 +85,40 @@ const Notification = () => {
     // })
 
     const pageChange = (type) => {
-        if (type === "decreement") {
+        if (type === "prev") {
             setPage(page - 1)
             dispatch(UserNotificationsURL(page - 1, limit, currentUser?.data?.token, currentUser?.data?.uuid));
         }
-        else if (type === "increement") {
+        else if (type === "next") {
             setPage(page + 1)
             dispatch(UserNotificationsURL(page + 1, limit, currentUser?.data?.token, currentUser?.data?.uuid));
         }
+        else if (type === "page") {
+            setPage(page)
+            dispatch(UserNotificationsURL(page, limit, currentUser.data.token, currentUser.data.uuid))
+        }
+        else if (type === "page+1") {
+            setPage(page + 1)
+            dispatch(UserNotificationsURL(page + 1, limit, currentUser.data.token, currentUser.data.uuid))
+        }
+        else if (type === "page+2") {
+            setPage(page + 2)
+            dispatch(UserNotificationsURL(page + 2, limit, currentUser.data.token, currentUser.data.uuid))
+        }
         else if (type === "5Items") {
             setLimit(5)
-            setPage(1)
+            setPage(0)
             dispatch(UserNotificationsURL(0, 5, currentUser?.data?.token, currentUser?.data?.uuid));
         }
         else if (type === "10Items") {
             setLimit(10)
-            setPage(1)
+            setPage(0)
             dispatch(UserNotificationsURL(0, 10, currentUser?.data?.token, currentUser?.data?.uuid));
 
         }
         else if (type === "20Items") {
             setLimit(20)
-            setPage(1)
+            setPage(0)
             dispatch(UserNotificationsURL(0, 20, currentUser?.data?.token, currentUser?.data?.uuid));
 
         }
@@ -119,11 +131,11 @@ const Notification = () => {
         // GetList(p-1)
     };
     const notificationsDatas = () => {
-        dispatch(UserNotificationsURL(pageNumber, limit, currentUser?.data?.token, currentUser?.data?.uuid));
+        dispatch(UserNotificationsURL(page, limit, currentUser?.data?.token, currentUser?.data?.uuid));
     }
     useEffect(() => {
         notificationsDatas()
-    }, [pageNumber])
+    }, [page])
 
 
 
@@ -259,10 +271,10 @@ const Notification = () => {
             {/* List Header Start */}
             <Row className="g-0 h-100 align-content-center d-none d-lg-flex ps-5 pe-5 mb-2 custom-sort">
                 <Col md="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                    <div className="text-muted text-small cursor-pointer ">S No.</div>
+                    <div className="text-muted text-small cursor-pointer ">S NO.</div>
                 </Col>
                 <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">title</div>
+                    <div className="text-muted text-small cursor-pointer ">TITLE</div>
                 </Col>
                 <Col md="5" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">DESCRIPTION</div>
@@ -287,13 +299,13 @@ const Notification = () => {
                         <NavLink to={`/OrderView/${item?.link}`}>
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
                                 <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                                    <div className="text-muted text-small d-md-none">S No.</div>
+                                    <div className="text-muted text-small d-md-none">S NO.</div>
                                     <div className="text-truncate h-100 d-flex align-items-center">
                                         {index + 1}
                                     </div>
                                 </Col>
                                 <Col xs="3" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div className="text-muted text-small d-md-none">title</div>
+                                    <div className="text-muted text-small d-md-none">TITLE</div>
                                     <div className="text-alternate">
                                         {item?.title}
                                     </div>
@@ -360,22 +372,22 @@ const Notification = () => {
             {/* Pagination Start */}
             <div className="d-flex justify-content-center mt-5">
                 <Pagination>
-                    <Pagination.Prev className="shadow" disabled={pageNumber === 0} onClick={() => pageChange("prev")}>
+                    <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => pageChange("prev")}>
                         <CsLineIcons icon="chevron-left" />
                     </Pagination.Prev>
                     <Pagination.Item className="shadow" active onClick={() => pageChange("page")} >
-                        {pageNumber + 1}
+                        {page + 1}
                     </Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= pageNumber + 1} onClick={() => pageChange("page+1", pageNumber + 1)}>{pageNumber + 2}</Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= pageNumber + 2} onClick={() => pageChange("page+2", pageNumber + 2)}>{pageNumber + 3}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= page + 1} onClick={() => pageChange("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= page + 2} onClick={() => pageChange("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                    {Math.ceil(notificationValue && notificationValue.count / limit) > pageNumber + 3 &&
+                    {Math.ceil(notificationValue && notificationValue.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
 
                     }
-                    <Pagination.Next className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= pageNumber + 1} onClick={() => pageChange("next")}>
+                    <Pagination.Next className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= page + 1} onClick={() => pageChange("next")}>
                         <CsLineIcons icon="chevron-right" />
                     </Pagination.Next>
                 </Pagination>

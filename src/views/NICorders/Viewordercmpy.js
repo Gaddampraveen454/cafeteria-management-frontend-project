@@ -66,6 +66,7 @@ const CompanyOrderView = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView } = useSelector((state) => state.OrderPlacedData)
+    console.log(OrderView, "ghsdfjdgsfhgsj")
 
     const OrderViewFunction = () => {
         dispatch(ConsumerOrderView(currentUser?.token, location?.state?.uuid || id))
@@ -145,7 +146,7 @@ const CompanyOrderView = () => {
                         </Card.Body>
                     </Card>
 
-                    <Row>
+                    {/* <Row>
                         <Col xs="12" className="col-lg order-1 order-lg-0">
                             <Card className="mb-5">
                                 <Card.Body>
@@ -179,7 +180,7 @@ const CompanyOrderView = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                    </Row>
+                    </Row> */}
 
                     <Card>
                         <Card.Body>
@@ -191,17 +192,23 @@ const CompanyOrderView = () => {
                                             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                                             </Col>
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                                             </Col>
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                <div className="text-muted text-medium cursor-pointer sort">Type</div>
+                                            </Col>
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                <div className="text-muted text-medium cursor-pointer sort">Product ID</div>
                                             </Col>
                                             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                                             </Col>
                                             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
+                                            </Col>
+                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                <div className="text-muted text-medium cursor-pointer sort">Rating</div>
                                             </Col>
 
                                         </Row>
@@ -230,7 +237,7 @@ const CompanyOrderView = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="4">
+                                                        <Col lg="2">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -244,7 +251,21 @@ const CompanyOrderView = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="4">
+                                                        <Col lg="2">
+                                                            <Row className="gx-2 align-items-center">
+                                                                <Col lg="12" className="col">
+                                                                    <Row className="g-0">
+                                                                        <Col xs="6" className="d-lg-none">
+                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Type</div>
+                                                                        </Col>
+                                                                        <Col xs="6" lg="12">
+                                                                            <div className="lh-1 text-alternate mt-2 ">{item.type}</div>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col lg="2">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -282,6 +303,40 @@ const CompanyOrderView = () => {
                                                                         <Col xs="auto" lg="12">
                                                                             <div className="lh-1 text-alternate  mt-2">{item.price}</div>
                                                                         </Col>
+                                                                    </Row>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col lg="1">
+                                                            <Row className="gx-2 align-items-center">
+                                                                <Col lg="12" className="col">
+                                                                    <Row className="g-0">
+                                                                        <Col className="d-lg-none">
+                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
+                                                                        </Col>
+                                                                        {OrderView?.data?.feedbacks.map((feedback, ind) => {
+                                                                            console.log(feedback, "hdvfsjdgfdsj")
+                                                                            return <Col xs="auto" lg="12" key={ind}>
+                                                                                {feedback?.product_uuid === item?.uuid ?
+                                                                                    <Rating
+                                                                                        count={5}
+                                                                                        value={feedback?.rating}
+                                                                                        onChange={handleRatingChange}
+                                                                                        size={20}
+                                                                                        activeColor="#ffd700"
+                                                                                        edit={false}
+                                                                                    />
+                                                                                    :
+                                                                                    <span>No Rating</span>
+                                                                                }
+                                                                            </Col>
+                                                                        })}
+                                                                        {OrderView?.data?.feedbacks?.length === 0 &&
+                                                                            <Col>
+                                                                                <span>No Rating</span>
+                                                                            </Col>
+                                                                        }
+
                                                                     </Row>
                                                                 </Col>
                                                             </Row>

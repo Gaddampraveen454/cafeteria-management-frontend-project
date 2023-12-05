@@ -10,6 +10,8 @@ import Clamp from 'components/clamp/index';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import Slider from 'react-slick';
+import QRCode from "react-qr-code";
 import axios from 'axios';
 // import ItemCounter from '../storefront/cart/components/ItemCounter';
 
@@ -53,9 +55,18 @@ const OrderSuccessPage = () => {
 
   }
 
+  const handleDownload = () => {
+    window.print();
 
+  };
 
-
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
 
 
@@ -80,22 +91,48 @@ const OrderSuccessPage = () => {
         <Col xs="12" lg="12" className="order-0 order-lg-1">
           <h2 className="small-title">Order Placed</h2>
           <Card
-            style={{ width: "100%", height: "100%", justifyContent : 'center', alignItems:'center', textAlign:'center' }}
+            style={{ width: "100%", height: "100%", justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}
           >
             <Card.Body>
               <div className="mb-4">
                 <div className="mb-2">
                   <div >
-                <CsLineIcons icon="check-circle" size="45"/>
-                </div>
+                    <CsLineIcons icon="check-circle" size="45" />
+                  </div>
                   <h3 >
                     Order Placed Successfully
-                    </h3>
-                  <h5 
+                  </h3>
+                  <h5
                   >
                     Order Id : {location && location.state && location.state.message}
-                    </h5>
+                  </h5>
+                  <h5>
+                    Token Number : {location?.state?.data.map((item) => {
+                      return (item?.token_no)
+                    })}
+                  </h5>
                 </div>
+              </div>
+              <Slider {...settings}>
+                {location?.state?.data?.length > 0 && location?.state?.data?.map((items, index) => {
+                  console.log(items, "ghdfdjsgdsh")
+                  return <div key={index}>
+                    <QRCode
+                      size={200}
+                      // value={items}
+                      value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
+                      viewBox='0 0 556 556'
+                    />
+                  </div>
+                })}
+              </Slider>
+              <br />
+              <div style={{ alignItems: "center" }}>
+                <Button variant="outline-primary"
+                  className='btn-icon btn-icon-end w-100'
+                  onClick={handleDownload}>
+                  <CsLineIcons icon="print" /> <span>Print</span>
+                </Button>
               </div>
               <br />
               <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={handleBack}>

@@ -10,16 +10,16 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
 
-const StoreOrderView = () => {
+const ScanOrderDetailsStore = () => {
     const dispatch = useDispatch()
     const history = useHistory();
-    const title = 'Order View';
+    const title = 'Order Details';
     const description = 'Ecommerce Category Management Page';
 
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location, "11111111111111")
+    console.log(location, "dghsfjdsgfdhgjhf")
 
     const optionsState = [
         { value: 'Fougasse', label: 'Fougasse' },
@@ -68,14 +68,14 @@ const StoreOrderView = () => {
     const { OrderView } = useSelector((state) => state.OrderPlacedData)
 
     const OrderViewFunction = () => {
-        dispatch(ConsumerOrderView(currentUser?.token, location?.state?.uuid || id))
+        dispatch(ConsumerOrderView(currentUser?.token, location?.state))
     }
 
     useEffect(() => {
         OrderViewFunction()
     }, [])
 
-    const [ratingValue, setRating] = React.useState(location?.state?.feedbacks[0]?.rating);
+    const [ratingValue, setRating] = React.useState('');
 
     const handleRatingChange = (newRating) => {
         console.log(newRating, "fgdghhhghfhgf")
@@ -106,6 +106,10 @@ const StoreOrderView = () => {
                         <Card.Body>
                             <Form>
                                 <Row className="g-3">
+                                    <Col lg="6">
+                                        <Form.Label>Order ID</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.uuid} />
+                                    </Col>
                                     <Col lg="6">
                                         <Form.Label>Payment Status</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_status} />
@@ -145,42 +149,6 @@ const StoreOrderView = () => {
                         </Card.Body>
                     </Card>
 
-                    {/* <Row>
-                        <Col xs="12" className="col-lg order-1 order-lg-0">
-                            <Card className="mb-5">
-                                <Card.Body>
-                                    <Form>
-                                        <h3>Feedback : </h3>
-                                        <Row className="g-3">
-                                            <Col lg="6">
-                                                <Form.Label>Rating</Form.Label>
-                                                <Rating
-                                                    count={5}
-                                                    defaultValue={location?.state?.feedbacks[0]?.rating}
-                                                    value={ratingValue}
-                                                    onChange={handleRatingChange}
-                                                    size={35}
-                                                    activeColor="#ffd700"
-                                                    edit={false}
-                                                />
-                                            </Col>
-                                        </Row>
-                                        <Row className="g-3">
-                                            <Col lg="6">
-                                                {location?.state?.feedbacks?.length === 1 &&
-                                                    <>
-                                                        <Form.Label>Review</Form.Label>
-                                                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={location?.state?.feedbacks[0]?.review} />
-                                                    </>
-                                                }
-                                            </Col>
-                                        </Row>
-                                    </Form>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row> */}
-
                     <Card>
                         <Card.Body>
                             <Form>
@@ -191,13 +159,10 @@ const StoreOrderView = () => {
                                             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                                             </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                                             </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Type</div>
-                                            </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
                                             </Col>
                                             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -205,9 +170,6 @@ const StoreOrderView = () => {
                                             </Col>
                                             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
-                                            </Col>
-                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Rating</div>
                                             </Col>
 
                                         </Row>
@@ -236,7 +198,7 @@ const StoreOrderView = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="2">
+                                                        <Col lg="4">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -250,21 +212,7 @@ const StoreOrderView = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="2">
-                                                            <Row className="gx-2 align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col xs="6" className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Type</div>
-                                                                        </Col>
-                                                                        <Col xs="6" lg="12">
-                                                                            <div className="lh-1 text-alternate mt-2 ">{item.type}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="2">
+                                                        <Col lg="4">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -302,40 +250,6 @@ const StoreOrderView = () => {
                                                                         <Col xs="auto" lg="12">
                                                                             <div className="lh-1 text-alternate  mt-2">{item.price}</div>
                                                                         </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="1">
-                                                            <Row className="gx-2 align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
-                                                                        </Col>
-                                                                        {OrderView?.data?.feedbacks.map((feedback, ind) => {
-                                                                            console.log(feedback, "hdvfsjdgfdsj")
-                                                                            return <Col xs="auto" lg="12" key={ind}>
-                                                                                {feedback?.product_uuid === item?.uuid ?
-                                                                                    <Rating
-                                                                                        count={5}
-                                                                                        value={feedback?.rating}
-                                                                                        onChange={handleRatingChange}
-                                                                                        size={20}
-                                                                                        activeColor="#ffd700"
-                                                                                        edit={false}
-                                                                                    />
-                                                                                    :
-                                                                                    <span>No Rating</span>
-                                                                                }
-                                                                            </Col>
-                                                                        })}
-                                                                        {OrderView?.data?.feedbacks?.length === 0 &&
-                                                                            <Col>
-                                                                                <span>No Rating</span>
-                                                                            </Col>
-                                                                        }
-
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
@@ -475,4 +389,4 @@ const StoreOrderView = () => {
     );
 };
 
-export default StoreOrderView;
+export default ScanOrderDetailsStore;

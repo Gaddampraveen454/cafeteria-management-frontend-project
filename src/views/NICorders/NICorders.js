@@ -19,6 +19,7 @@ import {
   DialogTitle,
   Input,
 } from '@mui/material';
+import QrReader from "react-web-qr-reader";
 import moment from 'moment';
 
 
@@ -30,9 +31,69 @@ const NICorders = () => {
   const [eventType, setEventType] = useState(false)
   const [suc, setSuc] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [qropen, setQROpen] = React.useState(false);
   const [productDetails, setProductDetails] = useState([])
   console.log(productDetails, "fdfdsfdsfsdfsdfsdfffgfdgd")
   // console.log(status, "sdfsdfsfs")
+
+  const history = useHistory('')
+
+  const { currentUser } = useSelector((state) => state.auth)
+
+  const [result1, setResult1] = useState();
+
+  const delay = 500;
+  const previewStyle = {
+    // height: 200,
+    width: 280
+  };
+
+  const handleScan = (result) => {
+
+    const Compuuid = result?.data?.split("scanorderdetails/")
+    const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+    const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+
+    console.log(slugRoute, "routeStartPath")
+
+    localStorage.setItem('OrderCompanyDetails', routeStartPath);
+
+    // if (routeStartPath?.startsWith("scanorderdetails")) {
+    //   localStorage.setItem('OrderCompanyDetails', Compuuid[1]);
+    // }
+    if (result) {
+      setResult1(result.data);
+    }
+  };
+
+  const handleError = (error) => {
+    console.log(error);
+  };
+
+  useEffect(() => {
+
+    if (result1) {
+
+      const Compuuid = result1.split("scanorderdetails/")
+      const slugRoute = result1?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+      console.log(slugRoute, "result1")
+      const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+      if (routeStartPath) {
+        history.push(({
+          pathname: `/scanorderdetails/${routeStartPath}`,
+          state: routeStartPath
+        }));
+      }
+      else {
+        history.push(({
+          pathname: `/scanorderdetails/${routeStartPath}`,
+          state: routeStartPath
+        }));
+      }
+      window.location.reload(false);
+    }
+  }, [result1])
+
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
   const checkItem = (item) => {
@@ -50,7 +111,6 @@ const NICorders = () => {
     }
   };
 
-  const history = useHistory('')
 
 
   const [page, setPage] = useState(0);
@@ -60,7 +120,6 @@ const NICorders = () => {
   const [storeuuid, setStoreUUID] = useState('');
   const [storeuuid1, setStoreUUID1] = useState('');
 
-  const { currentUser } = useSelector((state) => state.auth)
   const { OrderData, notification } = useSelector((state) => state.orderList)
   const { StoreList } = useSelector((state) => state.products)
   useEffect(() => {
@@ -165,7 +224,7 @@ const NICorders = () => {
 
 
   const viewEventHandler = (event) => {
-    setOpen(true)
+    // setOpen(true)
 
     console.log(event, "fdfffgfdgd")
     setProductDetails(event.details)
@@ -301,6 +360,12 @@ const NICorders = () => {
             value={storeuuid1}
             onChange={SelectStoreNamevalue}
             placeholder="Select Store" />
+        </Col>
+        <Col md="2" lg="2" xxl="2">
+          <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+            onClick={() => setQROpen(true)}>
+            <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
+          </Button>
         </Col>
         <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
           {/* Print Button Start */}
@@ -669,6 +734,25 @@ const NICorders = () => {
           </DialogContent>
 
         </Dialog>
+
+        <Dialog
+          open={qropen}
+          onClose={() => setQROpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* qr code start */}
+          <DialogContent style={{ width: "100%", height: "100%" }}>
+            <QrReader
+              delay={delay}
+              style={previewStyle}
+              onError={handleError}
+              onScan={handleScan}
+            />
+          </DialogContent>
+          <p>{result1}</p>
+        </Dialog>
+
       </div>
     </>
   );

@@ -9,6 +9,14 @@ import { ConsumerOrderView, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRe
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
 
 const UserOrderView = () => {
   const dispatch = useDispatch()
@@ -19,7 +27,7 @@ const UserOrderView = () => {
   const { id } = useParams();
 
   const location = useLocation('')
-  console.log(location, "11111111111111")
+  console.log(location?.state?.event?.feedbacks?.length, "11111111111111")
 
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
@@ -84,6 +92,8 @@ const UserOrderView = () => {
     setRating(newRating);
   };
 
+  const [productuuid, setProductuuid] = useState('');
+
   const ConsumerRatingApi = (event) => {
     event?.preventDefault()
     const value = event?.target?.elements;
@@ -91,6 +101,7 @@ const UserOrderView = () => {
     const payload = {
       "user_uuid": currentUser?.data?.uuid,
       "order_uuid": location?.state?.event?.uuid || id,
+      "product_uuid": productuuid,
       "rating": ratingValue,
       "review": value?.review?.value
     }
@@ -112,6 +123,15 @@ const UserOrderView = () => {
       }
     }
   }, [notification])
+
+
+  const [ratingopen, setRatingOpen] = useState(false)
+
+  const OrderRating = (event) => {
+    console.log(event, "sfdsfsdfsdfcvghnh")
+    setProductuuid(event?.uuid)
+    setRatingOpen(true)
+  }
 
 
   return (
@@ -176,7 +196,7 @@ const UserOrderView = () => {
             </Card.Body>
           </Card>
 
-          <Row>
+          {/* <Row>
             <Col xs="12" className="col-lg order-1 order-lg-0">
               {location?.state?.type === "Rating" &&
                 <Card className="mb-5">
@@ -226,7 +246,7 @@ const UserOrderView = () => {
                 </Card>
               }
             </Col>
-          </Row>
+          </Row> */}
 
           <Card>
             <Card.Body>
@@ -238,10 +258,13 @@ const UserOrderView = () => {
                       <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                       </Col>
-                      <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                       </Col>
-                      <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">Type</div>
+                      </Col>
+                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
                       </Col>
                       <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -249,6 +272,9 @@ const UserOrderView = () => {
                       </Col>
                       <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Price</div>
+                      </Col>
+                      <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <div className="text-muted text-medium cursor-pointer sort">Rating</div>
                       </Col>
 
                     </Row>
@@ -277,7 +303,7 @@ const UserOrderView = () => {
                                 </Col>
                               </Row>
                             </Col>
-                            <Col lg="4">
+                            <Col lg="2">
                               <Row className="gx-2 align-items-center">
                                 <Col lg="12" className="col">
                                   <Row className="g-0">
@@ -291,7 +317,21 @@ const UserOrderView = () => {
                                 </Col>
                               </Row>
                             </Col>
-                            <Col lg="4">
+                            <Col lg="2">
+                              <Row className="gx-2 align-items-center">
+                                <Col lg="12" className="col">
+                                  <Row className="g-0">
+                                    <Col className="d-lg-none">
+                                      <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Type</div>
+                                    </Col>
+                                    <Col xs="auto" lg="12">
+                                      <div className="lh-1 text-alternate  mt-2">{item.type}</div>
+                                    </Col>
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col lg="2">
                               <Row className="gx-2 align-items-center">
                                 <Col lg="12" className="col">
                                   <Row className="g-0">
@@ -333,6 +373,48 @@ const UserOrderView = () => {
                                 </Col>
                               </Row>
                             </Col>
+                            <Col lg="1">
+                              <Row className="gx-2 align-items-center">
+                                <Col lg="12" className="col">
+                                  <Row className="g-0">
+                                    <Col className="d-lg-none">
+                                      <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
+                                    </Col>
+                                    {OrderView?.data?.feedbacks.map((feedback, ind) => {
+                                      console.log(feedback, "hdvfsjdgfdsj")
+                                      return <Col xs="auto" lg="12" key={ind}>
+                                        {feedback?.product_uuid === item?.uuid ?
+                                          <Rating
+                                            count={5}
+                                            value={feedback?.rating}
+                                            onChange={handleRatingChange}
+                                            size={20}
+                                            activeColor="#ffd700"
+                                            edit={false}
+                                          />
+                                          :
+                                          <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
+                                            onClick={(e) => OrderRating(item)}
+                                          >
+                                            <CsLineIcons icon="star" />
+                                          </Button>
+                                        }
+                                      </Col>
+                                    })}
+                                    {OrderView?.data?.feedbacks?.length === 0 &&
+                                      <Col>
+                                        <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
+                                          onClick={(e) => OrderRating(item)}
+                                        >
+                                          <CsLineIcons icon="star" />
+                                        </Button>
+                                      </Col>
+                                    }
+
+                                  </Row>
+                                </Col>
+                              </Row>
+                            </Col>
 
                           </Row>
                         </Col>
@@ -347,6 +429,47 @@ const UserOrderView = () => {
             </Card.Body>
           </Card>
           {/* Address End */}
+
+          {/* View QR code  Popup Start */}
+          <div>
+            <Dialog
+              open={ratingopen}
+              onClose={() => setRatingOpen(false)}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                Feedback:
+              </DialogTitle>
+
+              <DialogContent style={{ width: "500px", height: "auto" }}>
+                <Form onSubmit={ConsumerRatingApi}>
+                  <Row className="g-3">
+                    <Col lg='12' className="mb-1">
+                      <Rating
+                        count={5}
+                        value={ratingValue}
+                        onChange={handleRatingChange}
+                        size={35}
+                        activeColor="#ffd700"
+                      />
+                    </Col>
+                    <Col lg="6">
+                      <Button variant="outline-primary"
+                        className='btn-icon btn-icon-end w-100'
+                        type='submit'
+                      >
+                        Submit
+                      </Button>
+                    </Col>
+                  </Row>
+
+                </Form>
+
+              </DialogContent>
+
+            </Dialog>
+          </div>
 
           {/* Shipment Start */}
           {/* <h2 className="small-title">Shipment</h2> */}

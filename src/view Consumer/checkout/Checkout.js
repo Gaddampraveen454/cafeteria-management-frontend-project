@@ -152,7 +152,8 @@ const Categories = () => {
                   history.push(({
                     pathname: "/OrderSuccess",
                     state: {
-                      message: `${resp.data.message}`
+                      message: `${resp.data.message}`,
+                      data: resp.data.data
                     }
                   }));
                 }, 1000)
@@ -277,7 +278,7 @@ const Categories = () => {
       "compan_uuid": StoreData?.company_uuid
     }
     dispatch(CreateCheckOutURL(payload, currentUser.data?.token))
-    // setSuc(true)
+    setSuc(true)
   }
 
 
@@ -418,7 +419,7 @@ const Categories = () => {
           })
           .then((respons) => {
             console.log(respons, "fffgdsfsdfdsf")
-            
+
             const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
             const queryParams = { transaction_uuid: respons?.data?.message };
             const socket = io(host, {
