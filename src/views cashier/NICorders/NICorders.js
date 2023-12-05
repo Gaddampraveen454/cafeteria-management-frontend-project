@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger, Modal } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import { useDispatch, useSelector } from 'react-redux';
+import { ConsumerOrderView, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import { OrderListURL, OrderStatusUpdateCashierURL } from 'Redux/CashierRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +21,7 @@ import {
 } from '@mui/material';
 import Select from 'react-select';
 import moment from 'moment';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 
 const NICorders = () => {
@@ -58,7 +60,9 @@ const NICorders = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
-
+  const [discountModal, setDiscountModal] = useState(false);
+  const [view, setView] = useState('');
+  console.log(view, 'dfbvhgdvhjebhf')
   // print start
 
   const [print, setPrint] = useState(false);
@@ -164,6 +168,13 @@ const NICorders = () => {
     }
 
   }, [notification])
+
+
+  const viewEventHandlerSamePage = (event) => {
+    setDiscountModal(true)
+    dispatch(ConsumerOrderView(currentUser?.token, event?.uuid))
+    setView(event);
+  }
 
 
   const viewEventHandler = (event) => {
@@ -324,6 +335,9 @@ const NICorders = () => {
             {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">S.No</div>
             </Col> */}
+            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer">Consumer Name </div>
+            </Col>
             <Col xs="1" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Order id</div>
             </Col>
@@ -334,9 +348,7 @@ const NICorders = () => {
               <div className="text-muted text-medium cursor-pointer">Token No</div>
             </Col>
 
-            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-              <div className="text-muted text-medium cursor-pointer">Consumer Name </div>
-            </Col>
+
             <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer">Order Type </div>
             </Col>
@@ -467,21 +479,32 @@ const NICorders = () => {
                     <div className="text-muted text-small d-lg-none">Name</div>
                     <div className="text-alternate">{index + 1}</div>
                   </Col> */}
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
+                    </div>
+                  </Col> */}
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Consumer Name</div>
+                    <Button variant="link" className="p-0 text-truncate h-100 d-flex align-items-center" onClick={() => viewEventHandlerSamePage(item)}>
+                      {item && item.users && item.users[0] && item.users[0].name}
+                    </Button>
+                  </Col>
+                  <Col xs='6' lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Order Id</div>
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Order Date</div>
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Token No</div>
                     <div className="lh-1 text-alternate"> {item.token_no}</div>
                   </Col>
 
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
-                    </div>
-                  </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Order Type</div>
                     <div className="lh-1 text-alternate">{item && item.order_created_by}
                     </div>
                   </Col>
@@ -489,19 +512,22 @@ const NICorders = () => {
                 <div className="lh-1 text-alternate">{newItem.quantity}</div>
               </Col> */}
 
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Price</div>
                     <div className="lh-1 text-alternate">{item.amount}</div>
                   </Col>
                   {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
                   </Col> */}
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col xs='6' lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Transaction</div>
                     <div className="lh-1 text-alternate">{item.order_created_by === "cashier" ? "NA" : item.transaction_uuid}</div>
                   </Col>
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <div className="text-muted text-small d-md-none">Status</div>
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
                     <div className="lh-1 text-alternate">
-                      <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+                      <Dropdown align={{ xs: 'start' }} className="d-inline-block ms-1">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                           <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                             {item.order_status ? item.order_status : "Pending"}
@@ -532,7 +558,7 @@ const NICorders = () => {
                 onClick={() => { eventHandler(item) }}
                 />
               </Col> */}
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-5">
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-5">
                     <div className="lh-1 text-alternate">
                       <table>
                         <tr>
@@ -542,6 +568,7 @@ const NICorders = () => {
                  /> */}
                           &nbsp;
                           <td>
+                          <div className="text-muted text-small d-md-none">View</div>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { viewEventHandler(item); setEventType(false) }}
                               style={{ marginLeft: '50%' }}
@@ -557,7 +584,8 @@ const NICorders = () => {
                   </Col>
 
                   {/* Print Start */}
-                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-5">
+                  <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-5">
+                  <div className="text-muted text-small d-md-none">Print</div>
                     <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow" onClick={() => apiFun(item?.uuid)}>
                       <CsLineIcons icon="print" />
                       {/* <div className="App">
@@ -598,6 +626,139 @@ const NICorders = () => {
       })}
 
       {/* List Items End */}
+
+
+      {/* Discount Detail Modal Start */}
+      <Modal className="modal-right scroll-out-negative" show={discountModal} onHide={() => setDiscountModal(false)} scrollable dialogClassName="full">
+        <Modal.Header closeButton>
+          <Modal.Title as="h5">Orders View</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <OverlayScrollbarsComponent options={{ overflowBehavior: { x: 'hidden', y: 'scroll' } }} className="scroll-track-visible">
+            <Form>
+              {/* List Header Start */}
+              {/* <Row className="g-0 mb-2 d-none d-lg-flex">
+                <Col>
+                  <Row className="g-0 w-100 h-100 align-content-start  h-100"> */}
+                    {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">S.No</div>
+                        </Col> */}
+                    {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                      <div className="text-muted text-medium cursor-pointer">Product Name</div>
+                      {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                        console.log(item, 'hcbghefyef')
+                        return (
+                          <div key={index}>{item?.name}</div>
+                        )
+                      })}
+                    </Col> */}
+                    {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                        </Col> */}
+                    {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                      <div className="text-muted text-medium cursor-pointer ">Quantity</div>
+                      {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                        console.log(item, 'hcbghefyef')
+                        return (
+                          <div key={index}>{item?.quantity}</div>
+                        )
+                      })}
+                    </Col> */}
+                    {/* <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">Price</div>
+                        </Col> */}
+                  {/* </Row>
+                </Col>
+              </Row> */}
+
+              <Row className="g-3">
+                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                  <div className="text-muted text-medium cursor-pointer">Product Name</div>
+                  {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                    console.log(item, 'hcbghefyef')
+                    return (
+                      <div key={index}>{item?.name}</div>
+                    )
+                  })}
+                </Col>
+                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                  <div className="text-muted text-medium cursor-pointer ">Quantity</div>
+                  {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                    console.log(item, 'hcbghefyef')
+                    return (
+                      <div key={index}>{item?.quantity}</div>
+                    )
+                  })}
+                </Col>
+                <Col xs='6' lg="6" className='mt-2'>
+                  <Form.Label>Payment Status</Form.Label>
+                  <Form.Control type="text" disabled value={view?.payment_status} />
+                </Col>
+                <Col xs='6' lg="6" className='mt-2'>
+                  <Form.Label>Amount</Form.Label>
+                  <Form.Control type="text" disabled value={view?.amount} />
+                </Col>
+                <Col xs='6' lg="6">
+                  <Form.Label>Order Created By</Form.Label>
+                  <Form.Control type="text" disabled value={view?.order_created_by} />
+                </Col>
+
+                <Col xs='6' lg="6">
+                  <Form.Label>Online Payment</Form.Label>
+                  <Form.Control type="text" disabled value={view?.online_payment} />
+                </Col>
+                <Col xs='6' lg="6">
+                  <Form.Label>Paid From Wallet</Form.Label>
+                  <Form.Control type="text" disabled value={view?.paid_from_wallet} />
+                </Col>
+                <Col xs='6' lg="6">
+                  <Form.Label>Payment Mode</Form.Label>
+                  <Form.Control type="text" disabled value={view?.payment_type} />
+                </Col>
+                <Col xs='6' lg="6">
+                  <Form.Label>SGST Tax</Form.Label>
+                  <Form.Control type="text" disabled value={view?.sgst_tax} />
+                </Col>
+                <Col xs='6' lg="6">
+                  <Form.Label>CGST Tax</Form.Label>
+                  <Form.Control type="text" disabled value={view?.cgst_tax} />
+                </Col>
+              </Row>
+
+              {/* <div className="mb-3">
+                <Form.Label>Type</Form.Label>
+                <Select classNamePrefix="react-select" options={options} value={discountType} onChange={setDiscountType} placeholder="" />
+              </div>
+              <div className="mb-3">
+                <Form.Label>Start</Form.Label>
+                <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+              </div>
+              <div className="mb-3">
+                <Form.Label>End</Form.Label>
+                <DatePicker className="form-control" selected={endDate} onChange={(date) => setEndDate(date)} />
+              </div> */}
+              {/* <div className="mb-3">
+                <Form.Label>Limit</Form.Label>
+                <Form.Control type="text" defaultValue="5000" />
+              </div>
+              <div className="mb-3">
+                <Form.Label>Usage</Form.Label>
+                <Form.Control type="text" defaultValue="2723" readOnly />
+              </div> */}
+            </Form>
+          </OverlayScrollbarsComponent>
+        </Modal.Body>
+        {/* <Modal.Footer className="border-0">
+          <Button variant="outline-primary" className="btn-icon btn-icon-only ">
+            <CsLineIcons icon="bin" />
+          </Button>
+          <Button variant="primary" className="btn-icon btn-icon-start">
+            <CsLineIcons icon="save" /> <span>Save</span>
+          </Button>
+        </Modal.Footer> */}
+      </Modal>
+      {/* Discount Detail Modal End */}
+
 
       {/* Pagination Start */}
       {/* <div className="d-flex justify-content-center mt-5">

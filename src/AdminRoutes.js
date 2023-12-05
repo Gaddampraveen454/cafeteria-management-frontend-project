@@ -26,6 +26,7 @@ const CreateOrder = lazy(() => import('views/CreateOrders/createorder'));
 const changepassword = lazy(() => import('views/ChangePassword/changepassword'))
 const CompanyNotifications = lazy(() => import('views/CompanyNotifications/companynotifications'))
 
+
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 

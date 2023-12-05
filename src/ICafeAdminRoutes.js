@@ -16,6 +16,7 @@ const AdminProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/prod
 const AdminAddProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/addproductmanagement'));
 const OrderList=lazy(()=>import('viewICafeAdmin/Order/Order'));
 const Reports = lazy(()=>import('viewICafeAdmin/Reports/adminreports'));
+const AdminOrderView = lazy(()=>import('viewICafeAdmin/Order/orderview'));
 
 
 const FooterRoutes = {
@@ -161,6 +162,12 @@ const iCafeAdminRoutesAndMenuItems = {
       component: OrderList,
       label: 'Order List',
       icon: 'shop',
+    },
+    {
+      path: `${appRoot}/order_view`,
+      component: AdminOrderView,
+      // label: 'User Management',
+      // icon: 'user',
     },
     {
       path: `${appRoot}/reports`,

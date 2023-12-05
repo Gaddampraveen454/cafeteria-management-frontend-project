@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { NavLink, useHistory } from 'react-router-dom';
+import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger, Modal } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
@@ -10,6 +10,8 @@ import { AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductMana
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+
 
 const Order = () => {
     const title = 'Orders List';
@@ -32,12 +34,16 @@ const Order = () => {
         }
     };
     const dispatch = useDispatch('');
+    const history = useHistory('');
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
     const [comapanyOption, setComapanyOption] = useState('')
     const [option, setOption] = useState('');
     const [option1, setOption1] = useState('');
+    const [discountModal, setDiscountModal] = useState(false);
+    const [view, setView] = useState('');
+    console.log(view, 'hsbdvhgbfberu')
     const { currentUser } = useSelector((state) => state.auth);
     console.log(currentUser, 'bdvgsvf')
     const { OrderData, notification } = useSelector((state) => state.adminorder)
@@ -137,6 +143,20 @@ const Order = () => {
         setOption(text?.value)
         setOption1(text)
         dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value))
+    }
+
+    const viewEventHandler = (event) => {
+        history.push({
+            pathname: '/order_view',
+            state: event
+        })
+    }
+
+    const viewEventHandlerSamePage = (event) => {
+        console.log(event, 'vdshdgfv')
+        setDiscountModal(true);
+        // dispatch(ConsumerOrderView(currentUser?.token, event?.uuid))
+        setView(event);
     }
 
 
@@ -295,22 +315,37 @@ const Order = () => {
             {/* List Header Start */}
             <Row className="g-0 h-100 align-content-center d-none d-lg-flex ps-5 pe-5 mb-2 custom-sort">
                 <Col md="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                    <div className="text-muted text-small cursor-pointer sort">ID</div>
-                </Col>
-                <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">COMPANY NAME</div>
-                </Col>
-                <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">STORE NAME</div>
-                </Col>
-                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">PURCHASE</div>
-                </Col>
-                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">ORDER DATE</div>
+                    <div className="text-muted text-small cursor-pointer ">ID</div>
                 </Col>
                 <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer sort">STATUS</div>
+                    <div className="text-muted text-small cursor-pointer ">COMPANY  NAME</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">STORE NAME</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">CONSUMER NAME</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">ORDER TYPE</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">ORDER ID</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">TOKEN NO</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">PRICE</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">ORDER DATE</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer "> PAYMENT STATUS</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">ORDER STATUS</div>
                 </Col>
             </Row>
             {/* List Header End */}
@@ -320,25 +355,43 @@ const Order = () => {
                 console.log(text, 'bsdhbhf')
                 return (
                     <Card className="mb-2" key={index}>
-                        <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
+                        <Card.Body className="pt-0 pb-0 sh-40 sh-md-8">
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(1)}>
-                                <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">Id</div>
                                     <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
                                         {index + 1}
                                     </NavLink>
                                 </Col>
-                                <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div className="text-muted text-small d-md-none">Name</div>
-                                    <div className="text-alternate">{text?.companies[0]?.company_name}</div>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Company Name</div>
+                                    {/* <div className="text-alternate"></div> */}
+                                    <Button variant="link" className="p-0 text-truncate h-100 d-flex align-items-center" onClick={() => viewEventHandlerSamePage(text)}>
+                                        {text?.companies[0]?.company_name}
+                                    </Button>
                                 </Col>
-                                <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div className="text-muted text-small d-md-none">Name</div>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Store Name</div>
                                     <div className="text-alternate">{text?.stores?.length > 0 ? text?.stores[0]?.store_name : ""}</div>
                                 </Col>
-
-                                <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">Purchase</div>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Consumer Name</div>
+                                    <div className="text-alternate">{text?.users?.length > 0 ? text?.users[0]?.name : ""}</div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Order Type</div>
+                                    <div className="text-alternate">{text?.order_created_by}</div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Order Id</div>
+                                    <div className="text-alternate">{text?.uuid}</div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Token No</div>
+                                    <div className="text-alternate">{text?.token_no}</div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">Price</div>
                                     <div className="text-alternate">
                                         <span>
                                             <span className="text-small">₹</span>
@@ -346,12 +399,12 @@ const Order = () => {
                                         </span>
                                     </div>
                                 </Col>
-                                <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                                    <div className="text-muted text-small d-md-none">Date</div>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
+                                    <div className="text-muted text-small d-md-none">Order Date</div>
                                     <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
                                 </Col>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">Status</div>
+                                    <div className="text-muted text-small d-md-none">Payment Status</div>
                                     <div>
                                         <Badge bg="outline-primary">{text?.payment_status}</Badge>
                                     </div>
@@ -359,6 +412,20 @@ const Order = () => {
                                 {/* <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
                             <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => { }} />
                         </Col> */}
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                    <div className="text-muted text-small d-md-none">Order Status</div>
+                                    <div className="text-alternate">
+                                        {text?.order_status}
+                                    </div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                    <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                        onClick={() => viewEventHandler(text)}
+                                    >
+                                        <CsLineIcons icon="eye" />
+                                    </Button>
+                                    </div>
+                                </Col>
                             </Row>
                         </Card.Body>
                     </Card>
@@ -710,6 +777,140 @@ const Order = () => {
                 </Card.Body>
             </Card> */}
             {/* List Items End */}
+
+            {/* Discount Detail Modal Start */}
+            <Modal className="modal-right scroll-out-negative" show={discountModal} onHide={() => setDiscountModal(false)} scrollable dialogClassName="full">
+                <Modal.Header closeButton>
+                    <Modal.Title as="h5">Orders View</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <OverlayScrollbarsComponent options={{ overflowBehavior: { x: 'hidden', y: 'scroll' } }} className="scroll-track-visible">
+                        <Form>
+                            {/* List Header Start */}
+                            {/* <Row className="g-0 mb-2 d-none d-lg-flex">
+                                <Col>
+                                    <Row className="g-0 w-100 h-100 align-content-start  h-100"> */}
+                                        {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">S.No</div>
+                        </Col> */}
+                                        {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <div className="text-muted text-medium cursor-pointer">Product Name</div>
+                                            {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                                                console.log(item, 'hcbghefyef')
+                                                return (
+                                                    <div key={index}>{item?.name}</div>
+                                                )
+                                            })}
+                                        </Col> */}
+                                        {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                        </Col> */}
+                                        {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <div className="text-muted text-medium cursor-pointer ">Quantity</div>
+                                            {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                                                console.log(item, 'hcbghefyef')
+                                                return (
+                                                    <div key={index}>{item?.quantity}</div>
+                                                )
+                                            })}
+                                        </Col> */}
+                                        {/* <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">Price</div>
+                        </Col> */}
+                                    {/* </Row>
+                                </Col>
+                            </Row>
+                        </Form> */}
+
+
+                        
+                            <Row className="g-3 ">
+                                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                                    <div className="text-muted text-medium cursor-pointer">Product Name</div>
+                                    {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                                        console.log(item, 'hcbghefyef')
+                                        return (
+                                            <div key={index}>{item?.name}</div>
+                                        )
+                                    })}
+                                </Col>
+                                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                                    <div className="text-muted text-medium cursor-pointer ">Quantity</div>
+                                    {view?.details?.length > 0 && view?.details?.map((item, index) => {
+                                        console.log(item, 'hcbghefyef')
+                                        return (
+                                            <div key={index}>{item?.quantity}</div>
+                                        )
+                                    })}
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>Payment Status</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.payment_status} />
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>Amount</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.amount} />
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>Order Created By</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.order_created_by} />
+                                </Col>
+
+                                <Col xs='6' lg="6">
+                                    <Form.Label>Online Payment</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.online_payment} />
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>Paid From Wallet</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.paid_from_wallet} />
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>Payment Mode</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.payment_type} />
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>SGST Tax</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.sgst_tax} />
+                                </Col>
+                                <Col xs='6' lg="6">
+                                    <Form.Label>CGST Tax</Form.Label>
+                                    <Form.Control type="text" disabled value={view?.cgst_tax} />
+                                </Col>
+                            </Row>
+
+                            {/* <div className="mb-3">
+                <Form.Label>Type</Form.Label>
+                <Select classNamePrefix="react-select" options={options} value={discountType} onChange={setDiscountType} placeholder="" />
+              </div>
+              <div className="mb-3">
+                <Form.Label>Start</Form.Label>
+                <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+              </div>
+              <div className="mb-3">
+                <Form.Label>End</Form.Label>
+                <DatePicker className="form-control" selected={endDate} onChange={(date) => setEndDate(date)} />
+              </div> */}
+                            {/* <div className="mb-3">
+                <Form.Label>Limit</Form.Label>
+                <Form.Control type="text" defaultValue="5000" />
+              </div>
+              <div className="mb-3">
+                <Form.Label>Usage</Form.Label>
+                <Form.Control type="text" defaultValue="2723" readOnly />
+              </div> */}
+                        </Form>
+                    </OverlayScrollbarsComponent>
+                </Modal.Body>
+                {/* <Modal.Footer className="border-0">
+          <Button variant="outline-primary" className="btn-icon btn-icon-only ">
+            <CsLineIcons icon="bin" />
+          </Button>
+          <Button variant="primary" className="btn-icon btn-icon-start">
+            <CsLineIcons icon="save" /> <span>Save</span>
+          </Button>
+        </Modal.Footer> */}
+            </Modal>
+            {/* Discount Detail Modal End */}
 
             {/* Pagination Start */}
             <div className="d-flex justify-content-center mt-5">
