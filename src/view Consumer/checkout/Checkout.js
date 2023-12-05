@@ -300,6 +300,10 @@ const Categories = () => {
       setTimeout(() => {
         ConsumerCheckout()
       }, 200)
+
+
+
+      // ConsumerCheckout()
     } else {
 
       GuestCheckOut()

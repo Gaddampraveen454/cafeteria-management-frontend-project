@@ -1312,6 +1312,7 @@ const CreateOrder = () => {
                                         {/* <CsLineIcons icon="chevron-left" size="20" /> */}
                                         <h1 className="mb-0 pb-0 display-4" id="title">
                                             {title1}
+                                            
                                         </h1>
                                     </Col>
                                     {/* Title End */}
