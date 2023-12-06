@@ -179,9 +179,9 @@ const Order = () => {
 
                     {/* Top Buttons Start */}
                     <Col xs="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                        <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
+                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
                             <CsLineIcons icon="sort" />
-                        </Button>
+                        </Button> */}
                         {/* <div className="btn-group ms-1 check-all-container">
                             <CheckAll
                                 allItems={allItems}
@@ -232,7 +232,7 @@ const Order = () => {
                 {/* /> */}
                 {/* </Col> */}
 
-                <Col lg="3">
+                <Col lg="3" className='mb-2'>
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -252,7 +252,7 @@ const Order = () => {
                         }}
                     />
                 </Col>
-                <Col lg="3">
+                <Col lg="3" className='mb-2'>
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -359,9 +359,9 @@ const Order = () => {
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(1)}>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">Id</div>
-                                    <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                        {index + 1}
-                                    </NavLink>
+                                    {/* <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center"> */}
+                                    <div className="text-alternate">{index + 1}</div>   
+                                    {/* </NavLink> */}
                                 </Col>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                     <div className="text-muted text-small d-md-none">Company Name</div>
@@ -419,6 +419,7 @@ const Order = () => {
                                     </div>
                                 </Col>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                <div className="text-muted text-small d-md-none">View</div>
                                     <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                                         onClick={() => viewEventHandler(text)}
                                     >
