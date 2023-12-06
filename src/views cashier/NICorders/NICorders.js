@@ -305,9 +305,9 @@ const NICorders = () => {
               <CsLineIcons icon="plus" /> <span>Add Orders</span>
             </Button> */}
             {/* </NavLink> */}
-            <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
+            {/* <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
               <CsLineIcons icon="sort" />
-            </Button>
+            </Button> */}
             {/* <div className="btn-group ms-1 check-all-container">
               <CheckAll
                 allItems={allItems}
@@ -548,27 +548,27 @@ const NICorders = () => {
                     </div>
                   </Col> */}
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Consumer Name</div>
+                    <div className="text-muted text-small d-md-none">Consumer Name</div>
                     <Button variant="link" className="p-0 text-truncate h-100 d-flex align-items-center" onClick={() => viewEventHandlerSamePage(item)}>
                       {item && item.users && item.users[0] && item.users[0].name}
                     </Button>
                   </Col>
                   <Col xs='6' lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Order Id</div>
+                    <div className="text-muted text-small d-md-none">Order Id</div>
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Order Date</div>
+                    <div className="text-muted text-small d-md-none">Order Date</div>
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Token No</div>
+                    <div className="text-muted text-small d-md-none">Token No</div>
                     <div className="lh-1 text-alternate"> {item.token_no}</div>
                   </Col>
 
 
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Order Type</div>
+                    <div className="text-muted text-small d-md-none">Order Type</div>
                     <div className="lh-1 text-alternate">{item && item.order_created_by}
                     </div>
                   </Col>
@@ -577,18 +577,18 @@ const NICorders = () => {
               </Col> */}
 
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Price</div>
+                    <div className="text-muted text-small d-md-none">Price</div>
                     <div className="lh-1 text-alternate">{item.amount}</div>
                   </Col>
                   {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
                   </Col> */}
                   <Col xs='6' lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Transaction</div>
+                    <div className="text-muted text-small d-md-none">Transaction</div>
                     <div className="lh-1 text-alternate">{item.order_created_by === "cashier" ? "NA" : item.transaction_uuid}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Status</div>
+                    <div className="text-muted text-small d-md-none">Status</div>
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
                     <div className="lh-1 text-alternate">
                       <Dropdown align={{ xs: 'start' }} className="d-inline-block ms-1">
@@ -632,7 +632,7 @@ const NICorders = () => {
                  /> */}
                           &nbsp;
                           <td>
-                          <div className="text-muted text-small d-md-none">View</div>
+                            <div className="text-muted text-small d-md-none">View</div>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { viewEventHandler(item); setEventType(false) }}
                               style={{ marginLeft: '50%' }}
@@ -649,7 +649,7 @@ const NICorders = () => {
 
                   {/* Print Start */}
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-5">
-                  <div className="text-muted text-small d-md-none">Print</div>
+                    <div className="text-muted text-small d-md-none">Print</div>
                     <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow" onClick={() => apiFun(item?.uuid)}>
                       <CsLineIcons icon="print" />
                       {/* <div className="App">
@@ -695,7 +695,7 @@ const NICorders = () => {
       {/* Discount Detail Modal Start */}
       <Modal className="modal-right scroll-out-negative" show={discountModal} onHide={() => setDiscountModal(false)} scrollable dialogClassName="full">
         <Modal.Header closeButton>
-          <Modal.Title as="h5">Orders View</Modal.Title>
+          <Modal.Title as="h5">Order Details View</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <OverlayScrollbarsComponent options={{ overflowBehavior: { x: 'hidden', y: 'scroll' } }} className="scroll-track-visible">
@@ -704,10 +704,10 @@ const NICorders = () => {
               {/* <Row className="g-0 mb-2 d-none d-lg-flex">
                 <Col>
                   <Row className="g-0 w-100 h-100 align-content-start  h-100"> */}
-                    {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                           <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                         </Col> */}
-                    {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                       <div className="text-muted text-medium cursor-pointer">Product Name</div>
                       {view?.details?.length > 0 && view?.details?.map((item, index) => {
                         console.log(item, 'hcbghefyef')
@@ -716,10 +716,10 @@ const NICorders = () => {
                         )
                       })}
                     </Col> */}
-                    {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                           <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
                         </Col> */}
-                    {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                       <div className="text-muted text-medium cursor-pointer ">Quantity</div>
                       {view?.details?.length > 0 && view?.details?.map((item, index) => {
                         console.log(item, 'hcbghefyef')
@@ -728,10 +728,10 @@ const NICorders = () => {
                         )
                       })}
                     </Col> */}
-                    {/* <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              {/* <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                           <div className="text-muted text-medium cursor-pointer sort">Price</div>
                         </Col> */}
-                  {/* </Row>
+              {/* </Row>
                 </Col>
               </Row> */}
 
