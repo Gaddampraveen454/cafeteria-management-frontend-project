@@ -21,13 +21,15 @@ import {
 const UserOrderView = () => {
   const dispatch = useDispatch()
   const history = useHistory();
-  const title = 'Order View';
-  const description = 'Ecommerce Category Management Page';
+
 
   const { id } = useParams();
 
   const location = useLocation('')
-  console.log(location?.state?.event?.feedbacks?.length, "11111111111111")
+  console.log(location?.state?.detailsValue, "11111111111111")
+
+  const title = location?.state?.type === "View" ? 'Order View' : 'Order Rating';
+  const description = 'Ecommerce Category Management Page';
 
   const optionsState = [
     { value: 'Fougasse', label: 'Fougasse' },
@@ -74,13 +76,13 @@ const UserOrderView = () => {
   const { currentUser } = useSelector((state) => state.auth)
 
   const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
-  console.log(consumerfeedback, "ConsumerOrderView")
+  console.log(OrderView, "ConsumerOrderView")
 
-  const [ratingValue, setRating] = React.useState(location?.state?.event?.feedbacks[0]?.rating);
+  const [ratingValue, setRating] = React.useState(OrderView?.data?.rating);
   const [success, setSuccess] = useState(false);
 
   const OrderViewFunction = () => {
-    dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id))
+    dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
   }
 
   useEffect(() => {
@@ -107,6 +109,9 @@ const UserOrderView = () => {
     }
     dispatch(ConsumerFeedback(currentUser?.data?.token, payload))
     setSuccess(true)
+    setTimeout(() => {
+      dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
+    }, 200)
   }
 
   useEffect(() => {
@@ -380,10 +385,12 @@ const UserOrderView = () => {
                                     <Col className="d-lg-none">
                                       <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
                                     </Col>
-                                    {OrderView?.data?.feedbacks.map((feedback, ind) => {
+                                    {/* {location?.state?.type !== "View"} */}
+                                    {OrderView?.data?.feedbacks.length > 0 && OrderView?.data?.feedbacks.map((feedback, ind) => {
+
                                       console.log(feedback, "hdvfsjdgfdsj")
                                       return <Col xs="auto" lg="12" key={ind}>
-                                        {feedback?.product_uuid === item?.uuid ?
+                                        {feedback?.product_uuid === item?.uuid &&
                                           <Rating
                                             count={5}
                                             value={feedback?.rating}
@@ -392,7 +399,8 @@ const UserOrderView = () => {
                                             activeColor="#ffd700"
                                             edit={false}
                                           />
-                                          :
+                                        }
+                                        {feedback?.product_uuid !== item?.uuid &&
                                           <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
                                             onClick={(e) => OrderRating(item)}
                                           >
@@ -401,11 +409,18 @@ const UserOrderView = () => {
                                         }
                                       </Col>
                                     })}
-                                    {OrderView?.data?.feedbacks?.length === 0 &&
+                                    {location?.state?.type === "Rating" ?
+                                      OrderView?.data?.feedbacks?.length === 0 &&
                                       <Col>
                                         <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
                                           onClick={(e) => OrderRating(item)}
                                         >
+                                          <CsLineIcons icon="star" />
+                                        </Button>
+                                      </Col>
+                                      :
+                                      <Col>
+                                        <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2" disabled >
                                           <CsLineIcons icon="star" />
                                         </Button>
                                       </Col>
@@ -458,6 +473,7 @@ const UserOrderView = () => {
                       <Button variant="outline-primary"
                         className='btn-icon btn-icon-end w-100'
                         type='submit'
+                        onClick={() => setRatingOpen(false)}
                       >
                         Submit
                       </Button>

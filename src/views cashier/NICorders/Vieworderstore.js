@@ -111,7 +111,7 @@ const StoreOrderView = () => {
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_status} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Amount</Form.Label>
+                                        <Form.Label>Total Amount</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.amount} />
                                     </Col>
                                     <Col lg="6">

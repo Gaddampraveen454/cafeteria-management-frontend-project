@@ -68,6 +68,8 @@ const ScanOrderDetails = () => {
 
     const { OrderView } = useSelector((state) => state.OrderPlacedData)
 
+    const { OrderData, notification } = useSelector((state) => state.orderList)
+
     const OrderViewFunction = () => {
         dispatch(ConsumerOrderView(currentUser?.token, location?.state))
     }
@@ -86,6 +88,7 @@ const ScanOrderDetails = () => {
     ];
 
     const [selectedvalue, setSelectedValue] = useState({ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status });
+    const [suc, setSuc] = useState(false);
 
     const eventHandler = (status) => {
         console.log(status, "eventxzdsdcvvxcvv")
@@ -94,7 +97,7 @@ const ScanOrderDetails = () => {
             "status": status
         }
         dispatch(CompanyOrderStatusUpdateURL(payload, currentUser.token))
-        // setSuc(true)
+        setSuc(true)
 
     };
 
@@ -103,6 +106,27 @@ const ScanOrderDetails = () => {
         setSelectedValue(item)
         eventHandler(item?.value)
     }
+
+
+    useEffect(() => {
+        if (suc === true) {
+            if (notification.status === true) {
+                toast.success(notification.message, {
+                    position: "top-right",
+                })
+                setSuc(false)
+                setTimeout(() => {
+                    history.push('/orders')
+                }, 200)
+            }
+            else if (notification.status === false) {
+                toast.error(notification.message)
+                setSuc(false)
+            }
+        }
+
+    }, [notification])
+
 
 
 

@@ -323,7 +323,7 @@ const AdminUser = () => {
 
             <Form.Label>Select Company</Form.Label>
             {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-            <Select classNamePrefix="react-select" options={ActivcompanyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+            <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={setSelectCompany} placeholder="" />
           </DialogContentText><br />
 
           <DialogContentText >
