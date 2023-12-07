@@ -6,6 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ConsumerOrderView, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
+import { OrderStatusUpdateCashierURL } from 'Redux/CashierRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
@@ -66,6 +67,7 @@ const ScanOrderDetailsStore = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView } = useSelector((state) => state.OrderPlacedData)
+    console.log(OrderView, "orderview123")
 
     const OrderViewFunction = () => {
         dispatch(ConsumerOrderView(currentUser?.token, location?.state))
@@ -81,6 +83,33 @@ const ScanOrderDetailsStore = () => {
         console.log(newRating, "fgdghhhghfhgf")
         setRating(newRating);
     };
+
+    const selectOrderStatus = [
+        { value: 'Pending', label: 'Pending' },
+        { value: 'Accepted', label: 'Accepted' },
+        { value: 'Preparing', label: 'Preparing' },
+        { value: 'Ready', label: 'Ready' },
+        { value: 'Delivered', label: 'Delivered' },
+    ];
+
+    const [selectedvalue, setSelectedValue] = useState({ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status });
+
+    const eventHandler = (status) => {
+        console.log(status, "eventxzdsdcvvxcvv")
+        // if (event.is_delivered)
+        const payload = {
+            "order_uuid": OrderView?.data?.uuid,
+            "status": status
+        }
+        dispatch(OrderStatusUpdateCashierURL(payload, currentUser.token))
+        // setSuc(true)
+    };
+
+    const HandleOrderStatus = (item) => {
+        console.log(item, "item123")
+        setSelectedValue(item)
+        eventHandler(item?.value)
+    }
 
 
     return (
@@ -106,42 +135,25 @@ const ScanOrderDetailsStore = () => {
                         <Card.Body>
                             <Form>
                                 <Row className="g-3">
-                                    <Col lg="6">
+                                    <Col lg="6" xs="6">
                                         <Form.Label>Order ID</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.uuid} />
                                     </Col>
-                                    <Col lg="6">
+                                    <Col lg="6" xs="6">
+                                        <Form.Label>Token No</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.token_no} />
+                                    </Col>
+                                    <Col lg="6" xs="6">
                                         <Form.Label>Payment Status</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_status} />
                                     </Col>
-                                    <Col lg="6">
+                                    <Col lg="6" xs="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.amount} />
                                     </Col>
-                                    <Col lg="6">
+                                    <Col lg="6" xs="6">
                                         <Form.Label>Order Created By</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.order_created_by} />
-                                    </Col>
-
-                                    <Col lg="6">
-                                        <Form.Label>Online Payment</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.online_payment} />
-                                    </Col>
-                                    <Col lg="6">
-                                        <Form.Label>Paid From Wallet</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.paid_from_wallet} />
-                                    </Col>
-                                    <Col lg="6">
-                                        <Form.Label>Payment Mode</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
-                                    </Col>
-                                    <Col lg="6">
-                                        <Form.Label>SGST Tax</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.sgst_tax} />
-                                    </Col>
-                                    <Col lg="6">
-                                        <Form.Label>CGST Tax</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.cgst_tax} />
                                     </Col>
                                 </Row>
 
@@ -163,7 +175,7 @@ const ScanOrderDetailsStore = () => {
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                                             </Col>
                                             <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                                                <div className="text-muted text-medium cursor-pointer sort">Product ID</div>
                                             </Col>
                                             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
@@ -217,7 +229,7 @@ const ScanOrderDetailsStore = () => {
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
                                                                         <Col className="d-lg-none">
-                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Product Id</div>
+                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Product ID</div>
                                                                         </Col>
                                                                         <Col xs="auto" lg="12">
                                                                             <div className="lh-1 text-alternate  mt-2">{item.uuid}</div>
@@ -266,8 +278,35 @@ const ScanOrderDetailsStore = () => {
                                 {/* List Items End */}
                             </Form>
                         </Card.Body>
-                    </Card>
+                    </Card>&nbsp;&nbsp;
                     {/* Address End */}
+
+                    <Row>
+                        <Col xs="12" className="col-lg order-1 order-lg-0">
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    <Form>
+                                        <Col md="2" lg="2" xxl="2">
+                                            <Form.Label>Order Status</Form.Label>
+                                            <Select
+                                                classNamePrefix="react-select"
+                                                options={selectOrderStatus}
+                                                value={selectedvalue}
+                                                defaultValue={{ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status }}
+                                                onChange={HandleOrderStatus}
+                                                placeholder="Order Status" />
+                                        </Col>
+                                        <Col className='mt-2'>
+                                            <Button type='button' onClick={() => eventHandler("Delivered")}>Delivered</Button>
+                                        </Col>
+                                        {/* <Col className='mt-2'>
+                                            <Button type='submit'>Submit</Button>
+                                        </Col> */}
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
 
                     {/* Shipment Start */}
                     {/* <h2 className="small-title">Shipment</h2> */}
