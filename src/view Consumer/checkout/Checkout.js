@@ -299,7 +299,7 @@ const Categories = () => {
       CartUpdate()
       setTimeout(() => {
         ConsumerCheckout()
-      }, 200)
+      }, 100)
 
 
 
@@ -381,7 +381,8 @@ const Categories = () => {
                   history.push(({
                     pathname: "/OrderSuccess",
                     state: {
-                      message: `${respons.data.message}`
+                      message: `${respons.data.message}`,
+                      data: respons.data.data
                     }
                   }));
                 }
@@ -444,7 +445,8 @@ const Categories = () => {
                 history.push(({
                   pathname: "/OrderSuccess",
                   state: {
-                    message: `${respons.data.message}`
+                    message: `${respons.data.message}`,
+                    data: respons.data.data
                   }
                 }));
               }
@@ -617,14 +619,14 @@ const Categories = () => {
                     </span>
                   </p>
                 </div>
-                <div className="mb-2">
+                {/* <div className="mb-2">
                   <p className="text-small text-muted mb-1">SHIPPING</p>
                   <p>
                     <span className="text-alternate">
                       <span className="text-small text-muted">₹</span> 0
                     </span>
                   </p>
-                </div>
+                </div> */}
                 <div className="mb-2">
                   <p className="text-small text-muted mb-1">CGST(%)</p>
                   <p>

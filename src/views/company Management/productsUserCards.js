@@ -590,7 +590,7 @@ const productsUserCards = () => {
                                                                                     {item.name}
                                                                                 </Clamp>
                                                                             </NavLink>
-                                                                            ₹{item.sellng_price}
+                                                                            ₹{item.price}
                                                                         </Col>
                                                                         {/* <Col> &nbsp;</Col> */}
                                                                         {/*                          
@@ -635,7 +635,7 @@ const productsUserCards = () => {
                                                                                                     <InputGroup.Text id="basic-addon2">
                                                                                                         <button type="button" className="spin-up single px-2"
                                                                                                             onClick={() => { updateCart(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) : 0, CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) ? CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity + 1 : 0) }}
-                                                                                                            disabled={(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === items.stock_quantity ? true : "") || Number(item.sellng_price === 0)}
+                                                                                                            disabled={(CartData && CartData.data && CartData.data.find(data1 => data1.item_uuid === item.uuid) && CartData.data.find(data1 => data1.item_uuid === item.uuid).quantity === items.stock_quantity ? true : "") || Number(item.price === 0)}
                                                                                                         >
                                                                                                             +
                                                                                                         </button>

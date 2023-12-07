@@ -24,8 +24,8 @@ const orderSlice = createSlice({
 export const { setOrderData, setToast } = orderSlice.actions;
 
 
-export const OrderListURL = (pageNUm, search, token, limit,storId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/order/list/store?pagenum=${pageNUm}&limit=${limit}&search=${search}&store_uuid=${storId}`, {
+export const OrderListURL = (pageNUm, search, token, limit, storId, status) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/order/list/store?pagenum=${pageNUm}&limit=${limit}&search=${search}&store_uuid=${storId}&order_status=${status || ''}`, {
     headers: {
       "x-auth-token": token
     }
@@ -51,7 +51,7 @@ export const OrderAddURL = (payload, token) => async (dispatch) => {
       dispatch(setToast({ status: true, message: res.data.message }))
     })
     .catch((err) => {
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
 
@@ -84,8 +84,8 @@ export const OrderUpdateURL = (uuid, payload, token) => async (dispatch) => {
     dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log(err && err.response,"hjgjghgjhghj")
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      console.log(err && err.response, "hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
   // console.log(response, "sdfsfsdfs")
@@ -102,11 +102,11 @@ export const OrderStatusUpdateCashierURL = (payload, token) => async (dispatch) 
     dispatch(setToast({ status: true, message: res.data.message }))
   })
     .catch((err) => {
-      console.log(err && err.response,"hjgjghgjhghj")
-      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
+      console.log(err && err.response, "hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
     })
-  }
+}
 
 const OrderReducerCashier = orderSlice.reducer;
 

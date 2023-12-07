@@ -13,6 +13,8 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import Slider from 'react-slick';
 import QRCode from "react-qr-code";
 import axios from 'axios';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 // import ItemCounter from '../storefront/cart/components/ItemCounter';
 
 
@@ -113,19 +115,25 @@ const OrderSuccessPage = () => {
                   </h5>
                 </div>
               </div>
-              <Slider {...settings}>
-                {location?.state?.data?.length > 0 && location?.state?.data?.map((items, index) => {
-                  console.log(items, "ghdfdjsgdsh")
-                  return <div key={index}>
-                    <QRCode
-                      size={200}
-                      // value={items}
-                      value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
-                      viewBox='0 0 556 556'
-                    />
-                  </div>
-                })}
-              </Slider>
+              <Row style={{ padding: '0px' }}>
+                <Col lg="12" md="12">
+                  {location?.state?.data?.length > 0 && (
+                    <Carousel showThumbs={false} showStatus={false} showArrows={false} interval={2000} infiniteLoop>
+                      {location.state.data.map((items, index) => (
+                        <div key={index}>
+                          <QRCode
+                            size={200}
+                            value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
+                          />
+                        </div>
+                      ))}
+                    </Carousel>
+                  )}
+                </Col>
+              </Row>
+              {/* <Slider {...settings}> */}
+
+              {/* </Slider> */}
               <br />
               <div style={{ alignItems: "center" }}>
                 <Button variant="outline-primary"

@@ -359,7 +359,7 @@ const Cardcart = () => {
                     </span>
                   </p>
                 </div>
-                <div className="mb-2">
+                {/* <div className="mb-2">
                   <p className="text-small text-muted mb-1">SHIPPING</p>
                   <p>
                     <span className="text-alternate">
@@ -367,7 +367,7 @@ const Cardcart = () => {
                       0
                     </span>
                   </p>
-                </div>
+                </div> */}
                 <div className="mb-2">
                   <p className="text-small text-muted mb-1">CGST(%)</p>
                   <p>

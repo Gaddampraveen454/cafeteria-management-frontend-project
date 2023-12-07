@@ -226,7 +226,7 @@ const Menu = () => {
   // }, [id1]);
 
   useEffect(() => {
-    if (window.location.pathname === "/menu/qr" || window.location.pathname === "/menu/undefined") {
+    if (window.location.pathname === "/menu/qr" || window.location.pathname === "/menu/undefined" || window.location.pathname === "/menu/company/qr" || window.location.pathname === "/menu/company/undefined") {
       toast.error("Please Scan the QR code")
     }
   }, [window.location.pathname])
@@ -360,18 +360,18 @@ const Menu = () => {
                       <Card.Body className="pb-3">
                         <Row >
                           <Col xs="6" sm="6" md="6" lg="6">
-                          <img src={item?.logo} alt="GreenDot" style={{ width: "100%", height: "auto" }}  crossOrigin="anonymous" />
+                            <img src={item?.logo} alt="GreenDot" style={{ width: "100%", height: "auto" }} crossOrigin="anonymous" />
                             {/* <NavLink to="#" className="body-link d-block sh-4 mb-0 h6 heading"> */}
-                          
+
                             {/* </NavLink> */}
                           </Col>
                           {item?.is_active === false ?
-                           <Col xs="6" sm="6" md="6" lg="6">
-                            <p style={{fontSize:"16px",fontWeight:"800"}}>{item.store_name}</p>
-                                {/* <Clamp tag="span" clamp="2"> */}
-                              
-                            {/* </Clamp> */}
-                            <br/>
+                            <Col xs="6" sm="6" md="6" lg="6">
+                              <p style={{ fontSize: "16px", fontWeight: "800" }}>{item.store_name}</p>
+                              {/* <Clamp tag="span" clamp="2"> */}
+
+                              {/* </Clamp> */}
+                              <br />
 
                               <Button variant="outline-primary"
                                 className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
@@ -383,11 +383,11 @@ const Menu = () => {
                             </Col>
                             :
                             <Col xs="6" sm="6" md="6" lg="6">
-                                <p style={{fontSize:"16px",fontWeight:"800"}}>{item.store_name}</p>
-                               {/* <Clamp tag="span" clamp="2"> */}
+                              <p style={{ fontSize: "16px", fontWeight: "800" }}>{item.store_name}</p>
+                              {/* <Clamp tag="span" clamp="2"> */}
                               {/* {item.store_name} */}
-                            {/* </Clamp> */}
-                            <br/>
+                              {/* </Clamp> */}
+                              <br />
                               {/* <img src={item?.logo} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" /> */}
                               <Button variant="outline-primary"
                                 className="btn-icon btn-icon-start ms-0 ms-xs-auto ms-sm-auto w-100 w-md-auto"
@@ -414,7 +414,7 @@ const Menu = () => {
             </Row>
           </div>
           {/* Product Thumbnails End */}
-         
+
           {/* Pagination End */}
         </Col>
 

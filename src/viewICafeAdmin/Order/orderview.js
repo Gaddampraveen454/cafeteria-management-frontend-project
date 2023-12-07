@@ -115,7 +115,7 @@ const orderview = () => {
                                         <Form.Control type="text" disabled value={location?.state?.payment_status} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Amount</Form.Label>
+                                        <Form.Label>Total Amount</Form.Label>
                                         <Form.Control type="text" disabled value={location?.state?.amount} />
                                     </Col>
                                     <Col lg="6">

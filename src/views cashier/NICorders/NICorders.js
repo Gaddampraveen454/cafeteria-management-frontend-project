@@ -132,7 +132,7 @@ const NICorders = () => {
   console.log(currentUser, "dsfsdfsdfssfd")
   const { OrderData, notification } = useSelector((state) => state.orderListCashier)
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, ""))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
 
@@ -142,32 +142,32 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, ""))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid, ""))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, ""))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, ""))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, ""))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid, ""))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid))
+      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid, ""))
     }
   }
 
@@ -213,7 +213,7 @@ const NICorders = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid))
+          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, ""))
           // setOpen(false)
 
         }, 1000)
