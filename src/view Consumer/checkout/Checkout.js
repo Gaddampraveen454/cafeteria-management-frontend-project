@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, Col, Form, Row } from 'react-bootstrap';
+import { Card, Button, Col, Form, Row, Spinner } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -51,6 +51,7 @@ const Categories = () => {
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
   const [orderData, setOrderData] = useState([])
+  const [loading, setLoading] = useState(false);
 
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
@@ -145,6 +146,11 @@ const Categories = () => {
                 // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
                 socket.emit('newOrder');
 
+                <div>
+                  {loading && (
+                    <Spinner animation="border" variant="primary" />
+                  )}
+                </div>
 
                 // socket.on('orderNotification', (value) => {
                 //   console.log(value, 'Order placed');
@@ -376,6 +382,11 @@ const Categories = () => {
                 // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
                 socket.emit('newOrder');
 
+                <div>
+                  {loading && (
+                    <Spinner animation="border" variant="primary" />
+                  )}
+                </div>
 
                 if (respons.data.message !== "Checkout Success") {
                   history.push(({
@@ -440,6 +451,12 @@ const Categories = () => {
               console.log('Connected to the server');
               // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
               socket.emit('newOrder');
+
+              <div>
+                {loading && (
+                  <Spinner animation="border" variant="primary" />
+                )}
+              </div>
 
               if (respons.data.message !== "Checkout Success") {
                 history.push(({

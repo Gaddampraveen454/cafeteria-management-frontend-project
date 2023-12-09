@@ -34,7 +34,6 @@ import beep2 from "./Assests/audio/telephone.mp3"
 
 const App = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-  console.log(currentUser, "fhhgfhfghfhfghfghfgh")
   const audioRef = useRef(null);
   let routsData = ''
   if (currentUser && currentUser.data && currentUser.data.group === "company") {
@@ -143,6 +142,9 @@ const App = () => {
   const [audiostatus, setAudioStatus] = useState(false)
   const [recievedData, setRecievedData] = useState([])
 
+  const [print, setPrint] = useState(false);
+  const [printData, setPrintData] = useState('')
+
   const handleClose = () => {
     setShow(false)
     setAudioStatus(false)
@@ -239,8 +241,11 @@ const App = () => {
       }
     }).then((res) => {
       // alert("Status Updated");
+      console.log(res,"res12345")
       StopAudioFunction();
       setAudioStatus(false)
+      setPrintData(res.data?.data)
+      setPrint(true)
       console.log('Before:', recievedData);
       const afterAccept = removeObjectWithId([...recievedData], orderId);
       console.log('After:', afterAccept);
@@ -314,6 +319,38 @@ const App = () => {
             </div>
           </Modal.Body>
         </Modal>
+
+        {print === true && printData !== '' &&
+          <iframe
+            title="Print Frame"
+            srcDoc={printData}
+            onLoad={() => {
+              const iframe = document.querySelector("iframe");
+              // iframe.style.display = "none"; // Hide the iframe
+              // Check if the browser supports silent printing
+              if ("requestMediaKeySystemAccess" in navigator) {
+                try {
+                  // Attempt to silently print
+                  console.log("silently print");
+                  iframe.contentWindow.print({ silent: true });
+                  setTimeout(() => {
+                    setPrint(false);
+                    setPrintData('')
+                  }, 1000)
+
+                } catch (error) {
+                  console.error("Error printing:", error);
+                  setPrint(false)
+                  setPrintData('')
+                }
+              } else {
+                console.error("Silent printing is not supported in this browser.");
+                setPrint(false)
+                setPrintData('')
+              }
+            }}
+          />
+        }
       </>
     );
   }

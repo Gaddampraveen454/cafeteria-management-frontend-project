@@ -27,9 +27,8 @@ const addproduct = () => {
   const [selectCategory, setSelectCategory] = useState();
   const [selectCompany, setSelectCompany] = useState();
   const [UploadedFile, setUploadedFile] = useState("")
-  console.log(UploadedFile, "UploadedFile")
 
-  console.log(selectType, selectCategory, selectCompany, "sfsdfsdfsdfsdfsdf")
+
   const optionsType = [
     { value: 'veg', label: 'veg' },
     { value: 'non-veg', label: 'non-veg' },
@@ -74,7 +73,7 @@ const addproduct = () => {
   const { categoryData, categoryDropdown } = useSelector((state) => state.StorecategorySlice)
   const { companyData, companyDropData } = useSelector((state) => state.companyList)
   const { ProductData, notification } = useSelector((state) => state.StoreproductSlice)
-  console.log(categoryDropdown, notification, currentUser, "categoryDropdown")
+
 
   const productList = categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) => { return { label: item.name, value: item.uuid } })
 
@@ -168,7 +167,7 @@ const addproduct = () => {
 
   }, [notification])
 
-  console.log(notification, "notificationjk")
+
 
   const handleSubmit = () => {
     // e.preventDefault();

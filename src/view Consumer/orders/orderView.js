@@ -5,7 +5,7 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { ConsumerOrderView, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
+import { ConsumerOrderView, ConsumerOrderReview, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
@@ -28,7 +28,7 @@ const UserOrderView = () => {
   const location = useLocation('')
   console.log(location?.state?.detailsValue, "11111111111111")
 
-  const title = location?.state?.type === "View" ? 'Order View' : 'Order Rating';
+  const title = 'Order View';
   const description = 'Ecommerce Category Management Page';
 
   const optionsState = [
@@ -78,7 +78,7 @@ const UserOrderView = () => {
   const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
   console.log(OrderView, "ConsumerOrderView")
 
-  const [ratingValue, setRating] = React.useState(OrderView?.data?.rating);
+  const [ratingValue, setRating] = React.useState('');
   const [success, setSuccess] = useState(false);
 
   const OrderViewFunction = () => {
@@ -89,23 +89,16 @@ const UserOrderView = () => {
     OrderViewFunction()
   }, [])
 
-  const handleRatingChange = (newRating) => {
-    console.log(newRating, "fgdghhhghfhgf")
-    setRating(newRating);
-  };
 
   const [productuuid, setProductuuid] = useState('');
 
-  const ConsumerRatingApi = (event) => {
-    event?.preventDefault()
-    const value = event?.target?.elements;
-    console.log(value, "ghdfvcshbjbsdjhj")
+  const handleRatingChange = (newRating, productID) => {
+
     const payload = {
       "user_uuid": currentUser?.data?.uuid,
       "order_uuid": location?.state?.event?.uuid || id,
-      "product_uuid": productuuid,
-      "rating": ratingValue,
-      "review": value?.review?.value
+      "product_uuid": productID?.uuid,
+      "rating": newRating,
     }
     dispatch(ConsumerFeedback(currentUser?.data?.token, payload))
     setSuccess(true)
@@ -113,6 +106,32 @@ const UserOrderView = () => {
       dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
     }, 200)
   }
+
+  const ConsumerReviewApi = (event) => {
+    event?.preventDefault()
+    const value = event?.target?.elements;
+    console.log(value, "ghdfvcshbjbsdjhj")
+    const payload = {
+      "user_uuid": currentUser?.data?.uuid,
+      "order_uuid": location?.state?.event?.uuid || id,
+      "review": value?.review?.value
+    }
+    dispatch(ConsumerOrderReview(currentUser?.data?.token, payload))
+    setSuccess(true)
+    setTimeout(() => {
+      dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
+    }, 200)
+  }
+
+  const [ratingvalue, setRatingValue] = useState('')
+  console.log(ratingvalue, "ratingvalue")
+
+  useEffect(() => {
+    OrderView?.data?.feedbacks?.map((items) => {
+      console.log(items, "hgdsfgsgjs")
+      return setRatingValue(items.rating)
+    })
+  })
 
   useEffect(() => {
     if (success === true) {
@@ -201,45 +220,20 @@ const UserOrderView = () => {
             </Card.Body>
           </Card>
 
-          {/* <Row>
+          <Row>
             <Col xs="12" className="col-lg order-1 order-lg-0">
-              {location?.state?.type === "Rating" &&
+              {location?.state?.type === "Rating" ?
                 <Card className="mb-5">
                   <Card.Body>
-                    <Form onSubmit={ConsumerRatingApi}>
-                      <h3>Feedback : </h3>
+                    <Form onSubmit={ConsumerReviewApi}>
+                      <h3>Order Review : </h3>
                       <Row className="g-3">
                         <Col lg="6">
-                          <Form.Label>Rating</Form.Label>
-                          {location?.state?.event?.feedbacks?.length === 1 ?
-                            <Rating
-                              count={5}
-                              value={ratingValue}
-                              onChange={handleRatingChange}
-                              size={35}
-                              activeColor="#ffd700"
-                              edit={false}
-                            />
-                            :
-                            <Rating
-                              count={5}
-                              value={ratingValue}
-                              onChange={handleRatingChange}
-                              size={35}
-                              activeColor="#ffd700"
-                            />
-                          }
+                          <Form.Label>Review</Form.Label>
+                          <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} />
                         </Col>
                       </Row>
-                      <Row className="g-3">
-                        {ratingValue <= 3 &&
-                          <Col lg="6">
-                            <Form.Label>Review</Form.Label>
-                            <Form.Control as="textarea" name="review" rows={3} disabled={location?.state?.event?.feedbacks?.length === 1} defaultValue={location?.state?.event?.feedbacks[0]?.review} />
-                          </Col>
-                        }
-                      </Row>
-                      {location?.state?.event?.feedbacks?.length !== 1 &&
+                      {OrderView?.data?.reviews.length !== 1 &&
                         <Row className="mt-3">
                           <Col lg="6">
                             <Button variant="outline-primary" type='submit'>Submit</Button>
@@ -249,9 +243,23 @@ const UserOrderView = () => {
                     </Form>
                   </Card.Body>
                 </Card>
+                :
+                <Card className="mb-5">
+                  <Card.Body>
+                    <Form>
+                      <h3>Order Review : </h3>
+                      <Row className="g-3">
+                        <Col lg="6">
+                          <Form.Label>Review</Form.Label>
+                          <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={OrderView?.data?.reviews[0]?.review} />
+                        </Col>
+                      </Row>
+                    </Form>
+                  </Card.Body>
+                </Card>
               }
             </Col>
-          </Row> */}
+          </Row>
 
           <Card>
             <Card.Body>
@@ -272,13 +280,13 @@ const UserOrderView = () => {
                       <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
                       </Col>
-                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                      <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                       </Col>
                       <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Price</div>
                       </Col>
-                      <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Rating</div>
                       </Col>
 
@@ -350,7 +358,7 @@ const UserOrderView = () => {
                                 </Col>
                               </Row>
                             </Col>
-                            <Col lg="2">
+                            <Col lg="1">
                               <Row className="gx-2 align-items-center">
                                 <Col lg="12" className="col">
                                   <Row className="g-0">
@@ -378,7 +386,7 @@ const UserOrderView = () => {
                                 </Col>
                               </Row>
                             </Col>
-                            <Col lg="1">
+                            <Col lg="2">
                               <Row className="gx-2 align-items-center">
                                 <Col lg="12" className="col">
                                   <Row className="g-0">
@@ -386,7 +394,7 @@ const UserOrderView = () => {
                                       <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
                                     </Col>
                                     {/* {location?.state?.type !== "View"} */}
-                                    {OrderView?.data?.feedbacks.length > 0 && OrderView?.data?.feedbacks.map((feedback, ind) => {
+                                    {/* {OrderView?.data?.feedbacks.length > 0 && OrderView?.data?.feedbacks.map((feedback, ind) => {
 
                                       console.log(feedback, "hdvfsjdgfdsj")
                                       return <Col xs="auto" lg="12" key={ind}>
@@ -408,9 +416,8 @@ const UserOrderView = () => {
                                           </Button>
                                         }
                                       </Col>
-                                    })}
-                                    {location?.state?.type === "Rating" ?
-                                      OrderView?.data?.feedbacks?.length === 0 &&
+                                    })} */}
+                                    {/* {OrderView?.data?.feedbacks?.length === 0 &&
                                       <Col>
                                         <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
                                           onClick={(e) => OrderRating(item)}
@@ -418,13 +425,17 @@ const UserOrderView = () => {
                                           <CsLineIcons icon="star" />
                                         </Button>
                                       </Col>
-                                      :
-                                      <Col>
-                                        <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2" disabled >
-                                          <CsLineIcons icon="star" />
-                                        </Button>
-                                      </Col>
-                                    }
+                                    } */}
+                                    <Col xs="auto" lg="12">
+                                      <Rating
+                                        count={5}
+                                        value={item?.feedbacks[0]?.rating}
+                                        onChange={(rating) => handleRatingChange(rating, item)}
+                                        size={25}
+                                        activeColor="#ffd700"
+                                        edit={false}
+                                      />
+                                    </Col>
 
                                   </Row>
                                 </Col>
@@ -458,7 +469,7 @@ const UserOrderView = () => {
               </DialogTitle>
 
               <DialogContent style={{ width: "500px", height: "auto" }}>
-                <Form onSubmit={ConsumerRatingApi}>
+                <Form>
                   <Row className="g-3">
                     <Col lg='12' className="mb-1">
                       <Rating

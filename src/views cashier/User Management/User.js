@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink ,useHistory} from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -41,16 +41,14 @@ const User = () => {
   const [selectCompany, setSelectCompany] = useState();
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [search , setSearch] = useState('')
-  console.log(selectCompany,"sfsfsdfdsfsfds")
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
-    dispatch(consumerListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
+    dispatch(consumerListURL(page, search, currentUser.token, limit, currentUser.data.company_uuid))
   }, [])
 
 
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
-  console.log(consumerData, "cashierDatadassadad")
 
 
   const [selectValueState, setSelectValueState] = useState();
@@ -134,7 +132,6 @@ const User = () => {
   const [EmpId, setEmpId] = useState("")
   const [consmerId, setConsumerId] = useState("")
   const [selectedCompany, setSelectedCompany] = useState();
-  console.log(selectedCompany, "selectedCompany")
 
   const [suc, setSuc] = useState(false);
 
@@ -142,7 +139,6 @@ const User = () => {
   const eventHandler = (event) => {
     setOpenPopup(true)
 
-    console.log(event, "eventxsddsdcvvxcvv")
     setName(event.name)
     // setComapnayName(event.company_name)
     setEmail(event.email)
@@ -182,7 +178,7 @@ const User = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(consumerListURL(page, search,currentUser.token,limit,currentUser.data.company_uuid))
+          dispatch(consumerListURL(page, search, currentUser.token, limit, currentUser.data.company_uuid))
           setOpenPopup(false)
         }, 1000)
 
@@ -194,85 +190,80 @@ const User = () => {
     }
 
   }, [notification])
-  console.log(notification, "ProductDataProductData")
 
 
 
   const [file, setFile] = useState()
-  console.log(file, "dfsfsdfsffsfs");
   function handleChange(event) {
     setFile(event.target.files[0])
   }
 
   function handleSubmit(event) {
     if (!file) {
-      console.log("zxczxczxcz")
       toast.error("Please Select File")
-        }
-        else{
+    }
+    else {
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name);
-    formData.append('company_uuid',selectCompany && selectCompany.value);
-    dispatch(consumerBulkUploadURL(formData, currentUser.token))
-    setSuc(true)
-  }
-}
-
-
-const searchfunction =(type , pages)=>{
-  if(type === "search"){
-   console.log(pages ,"ghjkvbnm")
-   setSearch(pages)
-   setPage(0)
-   dispatch(consumerListURL(0, pages,currentUser.token,limit,currentUser.data.company_uuid)) 
-  }
-  if(type === "prev"){
-   setPage(page-1)
-   dispatch(consumerListURL(page-1,search,currentUser.token,limit,currentUser.data.company_uuid))
-  }
-  else if(type === "next"){
-   setPage(page+1)
-   dispatch(consumerListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
-  }
-  else if(type === "page"){
-   setPage(page)
-   dispatch(consumerListURL(page,search,currentUser.token,limit,currentUser.data.company_uuid))
-  }
-  else if(type === "page+1"){
-   setPage(page+1)
-   dispatch(consumerListURL(page+1,search,currentUser.token,limit,currentUser.data.company_uuid))
-  }
-  else if(type === "page+2"){
-   setPage(page+2)
-   dispatch(consumerListURL(page+2,search,currentUser.token,limit,currentUser.data.company_uuid))
-  }
-  else if(type === "limit"){
-   setLimit(pages)
-   setPage(0)
-   dispatch(consumerListURL(0,search,currentUser.token,pages,currentUser.data.company_uuid))
-  }
- }
-
- useEffect(() => {
-  setSuc(true)
-  if (suc === true) {
-    if (notification.status === false) {
-      toast.error(notification.message.message)
-      setSuc(false)
-      if(notification.message.logout===true){
-   setTimeout(() => {
-        // console.log('Hello, World!')
-        dispatch(LogOutURL())
-        history.push('/login')
-      }, 5000);
-      }
-   
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fileName', file.name);
+      formData.append('company_uuid', selectCompany && selectCompany.value);
+      dispatch(consumerBulkUploadURL(formData, currentUser.token))
+      setSuc(true)
     }
   }
 
-}, [notification])
+
+  const searchfunction = (type, pages) => {
+    if (type === "search") {
+      setSearch(pages)
+      setPage(0)
+      dispatch(consumerListURL(0, pages, currentUser.token, limit, currentUser.data.company_uuid))
+    }
+    if (type === "prev") {
+      setPage(page - 1)
+      dispatch(consumerListURL(page - 1, search, currentUser.token, limit, currentUser.data.company_uuid))
+    }
+    else if (type === "next") {
+      setPage(page + 1)
+      dispatch(consumerListURL(page + 1, search, currentUser.token, limit, currentUser.data.company_uuid))
+    }
+    else if (type === "page") {
+      setPage(page)
+      dispatch(consumerListURL(page, search, currentUser.token, limit, currentUser.data.company_uuid))
+    }
+    else if (type === "page+1") {
+      setPage(page + 1)
+      dispatch(consumerListURL(page + 1, search, currentUser.token, limit, currentUser.data.company_uuid))
+    }
+    else if (type === "page+2") {
+      setPage(page + 2)
+      dispatch(consumerListURL(page + 2, search, currentUser.token, limit, currentUser.data.company_uuid))
+    }
+    else if (type === "limit") {
+      setLimit(pages)
+      setPage(0)
+      dispatch(consumerListURL(0, search, currentUser.token, pages, currentUser.data.company_uuid))
+    }
+  }
+
+  useEffect(() => {
+    setSuc(true)
+    if (suc === true) {
+      if (notification.status === false) {
+        toast.error(notification.message.message)
+        setSuc(false)
+        if (notification.message.logout === true) {
+          setTimeout(() => {
+            dispatch(LogOutURL())
+            history.push('/login')
+          }, 5000);
+        }
+
+      }
+    }
+
+  }, [notification])
   return (
     <>
       <Dialog
@@ -289,8 +280,8 @@ const searchfunction =(type , pages)=>{
           <DialogContentText >
 
             <Form.Label>Select Company</Form.Label>
-          {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-          <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
+            {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+            <Select classNamePrefix="react-select" options={companyList} value={selectCompany} onChange={setSelectCompany} placeholder="" />
           </DialogContentText><br />
 
           <DialogContentText >
@@ -311,8 +302,8 @@ const searchfunction =(type , pages)=>{
             <Col lg="6" align="right">
               {/* <Button onClick={() => setOpen(false)}>Disagree</Button> */}
               <Button
-              //  onClick={() => handleSubmit()} 
-               autoFocus>
+                //  onClick={() => handleSubmit()} 
+                autoFocus>
                 submit
               </Button>
             </Col>
@@ -350,7 +341,7 @@ const searchfunction =(type , pages)=>{
             {/* <NavLink 
             to="/adduser"
             > */}
-              {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+            {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
                 <CsLineIcons icon="plus" /> <span>Add User</span>
               </Button> */}
             {/* </NavLink> */}
@@ -383,7 +374,7 @@ const searchfunction =(type , pages)=>{
         <Col md="5" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
-          <Form.Control type="text" onChange={(event)=>searchfunction("search" , event.target.value)} placeholder="Search" />
+            <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
             </span>
@@ -425,9 +416,9 @@ const searchfunction =(type , pages)=>{
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-            <Dropdown.Item onClick={()=>searchfunction("limit", 5)}>5 Items</Dropdown.Item>
-              <Dropdown.Item onClick={()=>searchfunction("limit", 10)}>10 Items</Dropdown.Item>
-              <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+              <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {/* Length End */}
@@ -525,7 +516,7 @@ const searchfunction =(type , pages)=>{
                           <td>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { eventHandler(item); setEventType(true) }}
-                              >
+                            >
                               <CsLineIcons icon="eye" />
                             </Button>
                           </td>
@@ -573,22 +564,22 @@ const searchfunction =(type , pages)=>{
       {/* Pagination Start */}
       <div className="d-flex justify-content-center mt-5">
         <Pagination>
-          <Pagination.Prev className="shadow" disabled={page===0} onClick={()=>searchfunction("prev")}>
+          <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
           </Pagination.Prev>
-          <Pagination.Item className="shadow" active onClick={()=>searchfunction("page")} >
-            {page+1}
+          <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
+            {page + 1}
           </Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count/limit)<= page+1} onClick={()=>searchfunction("page+1",page+1)}>{page+2}</Pagination.Item>
-          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count/limit)<= page+2} onClick={()=>searchfunction("page+2",page+2)}>{page+3}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+          <Pagination.Item className="shadow" disabled={Math.ceil(consumerData && consumerData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-          {Math.ceil(consumerData && consumerData.count/limit) > page+3 &&
-          <>
-          <Pagination.Item className="shadow" >...</Pagination.Item>
-           </>
+          {Math.ceil(consumerData && consumerData.count / limit) > page + 3 &&
+            <>
+              <Pagination.Item className="shadow" >...</Pagination.Item>
+            </>
 
-        }
-          <Pagination.Next className="shadow" disabled={Math.ceil(consumerData && consumerData.count/limit)<= page+1} onClick={()=>searchfunction("next")}>
+          }
+          <Pagination.Next className="shadow" disabled={Math.ceil(consumerData && consumerData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>

@@ -13,8 +13,9 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import Slider from 'react-slick';
 import QRCode from "react-qr-code";
 import axios from 'axios';
-import { Carousel } from 'react-responsive-carousel';
+// import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Carousel from "react-simply-carousel";
 // import ItemCounter from '../storefront/cart/components/ItemCounter';
 
 
@@ -34,7 +35,7 @@ const OrderSuccessPage = () => {
     companyId = localStorage.getItem('companyId')
   }, [localStorage.getItem('companyId')])
 
-
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const handleBack = () => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
@@ -62,13 +63,6 @@ const OrderSuccessPage = () => {
 
   };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
 
 
@@ -108,16 +102,19 @@ const OrderSuccessPage = () => {
                   >
                     Order Id : {location && location.state && location.state.message}
                   </h5>
-                  <h5>
+                  {/* <h5>
                     Token Number : {location?.state?.data.map((item) => {
                       return (item?.token_no)
                     })}
-                  </h5>
+                  </h5> */}
                 </div>
               </div>
               <Row style={{ padding: '0px' }}>
                 <Col lg="12" md="12">
-                  {location?.state?.data?.length > 0 && (
+
+
+
+                  {/* {location?.state?.data?.length > 0 && (
                     <Carousel showThumbs={false} showStatus={false} showArrows={false} interval={2000} infiniteLoop>
                       {location.state.data.map((items, index) => (
                         <div key={index}>
@@ -128,20 +125,112 @@ const OrderSuccessPage = () => {
                         </div>
                       ))}
                     </Carousel>
+                  )} */}
+
+
+                  {location?.state?.data?.length > 0 && (
+                    <Carousel
+                      containerProps={{
+                        style: {
+                          width: "100%",
+                          justifyContent: "center",
+                          userSelect: "none"
+                        }
+                      }}
+                      showArrows={false}
+                      preventScrollOnSwipe
+                      swipeTreshold={60}
+                      activeSlideIndex={activeSlide}
+                      activeSlideProps={{
+                        style: {
+                          background: "blue"
+                        }
+                      }}
+                      onRequestChange={setActiveSlide}
+                      forwardBtnProps={{
+                        children: ">",
+                        style: {
+                          height: 16,
+                          width: 16,
+                          borderRadius: "50%",
+                          border: 0,
+                          marginTop: "30%",
+                          marginLeft: "10px"
+                        },
+                        activeItemBtnProps: {
+                          background: "red"
+                        }
+                      }}
+                      backwardBtnProps={{
+                        children: "<",
+                        style: {
+                          height: 16,
+                          width: 16,
+                          borderRadius: "50%",
+                          border: 0,
+                          marginTop: "30%",
+                          marginRight: "10px"
+                        },
+                        activeItemBtnProps: {
+                          background: "red"
+                        }
+                      }}
+                      dotsNav={{
+                        show: true,
+                        itemBtnProps: {
+                          style: {
+                            height: 16,
+                            width: 16,
+                            borderRadius: "50%",
+                            border: 0,
+                            margin: "20px",
+                            backgroundColor: "#eb9cb0"
+                          }
+                        },
+                        activeItemBtnProps: {
+                          style: {
+                            height: 16,
+                            width: 16,
+                            borderRadius: "50%",
+                            border: 0,
+                            background: "#ed6789",
+                            margin: "20px"
+                          }
+                        }
+                      }}
+
+                      itemsToShow={1}
+                      speed={300}
+                      centerMode
+                    >
+
+                      {location.state.data.map((items, index) => (
+                        <>
+                          <div key={index}>
+                            <div>Store Name : {items?.store_name}</div>
+                            <div>Token No: {items?.token_no}</div>
+                            <br />
+                            <QRCode
+                              size={200}
+                              value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
+                            />
+                          </div>
+                        </>
+                      ))}
+                    </Carousel>
                   )}
+
+
                 </Col>
               </Row>
-              {/* <Slider {...settings}> */}
-
-              {/* </Slider> */}
               <br />
-              <div style={{ alignItems: "center" }}>
+              {/* <div style={{ alignItems: "center" }}>
                 <Button variant="outline-primary"
                   className='btn-icon btn-icon-end w-100'
                   onClick={handleDownload}>
                   <CsLineIcons icon="print" /> <span>Print</span>
                 </Button>
-              </div>
+              </div> */}
               <br />
               <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={handleBack}>
                 <CsLineIcons icon="chevron-left" />
@@ -150,6 +239,9 @@ const OrderSuccessPage = () => {
                   <span>Back to Menu </span>
                 }
               </Button>
+
+             
+
             </Card.Body>
           </Card>
         </Col>

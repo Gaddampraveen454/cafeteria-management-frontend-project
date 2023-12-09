@@ -5,22 +5,31 @@ import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { ConsumerOrderView, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
-import { CompanyOrderStatusUpdateURL } from 'Redux/AdminRedux/OrderRedux/OrderRedux';
+import { ConsumerOrderView, ConsumerOrderReview, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Input,
+} from '@mui/material';
 
-const ScanOrderDetails = () => {
+const UserOrderRating = () => {
     const dispatch = useDispatch()
     const history = useHistory();
-    const title = 'Order Details';
-    const description = 'Ecommerce Category Management Page';
+
 
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location, "dghsfjdsgfdhgjhf")
+    console.log(location?.state?.detailsValue, "11111111111111")
+
+    const title = 'Order Rating';
+    const description = 'Ecommerce Category Management Page';
 
     const optionsState = [
         { value: 'Fougasse', label: 'Fougasse' },
@@ -63,20 +72,17 @@ const ScanOrderDetails = () => {
         { value: '30', label: '30' },
     ];
 
-    const [success, setSuccess] = useState(false);
 
     const { currentUser } = useSelector((state) => state.auth)
 
-    const { OrderView } = useSelector((state) => state.OrderPlacedData)
+    const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
+    console.log(OrderView, "ConsumerOrderView")
 
-    const { OrderData, notification } = useSelector((state) => state.orderList)
-
-    const OrderId = localStorage.getItem('OrderCompanyDetails');
-    const compNeworderId = !OrderId ? "" : OrderId
+    const [ratingValue, setRating] = React.useState('');
+    const [success, setSuccess] = useState(false);
 
     const OrderViewFunction = () => {
-        dispatch(ConsumerOrderView(currentUser?.token, location?.state === undefined ? compNeworderId : location?.state))
-        setSuccess(true)
+        dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
     }
 
     useEffect(() => {
@@ -84,56 +90,72 @@ const ScanOrderDetails = () => {
     }, [])
 
 
-    const selectOrderStatus = [
-        { value: 'Pending', label: 'Pending' },
-        { value: 'Accepted', label: 'Accepted' },
-        { value: 'Preparing', label: 'Preparing' },
-        { value: 'Ready', label: 'Ready' },
-        { value: 'Delivered', label: 'Delivered' },
-        { value: 'Cancelled', label: 'Cancelled' }
-    ];
+    const [productuuid, setProductuuid] = useState('');
 
-    const [selectedvalue, setSelectedValue] = useState({ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status });
-    const [suc, setSuc] = useState(false);
+    const handleRatingChange = (newRating, productID) => {
 
-    const eventHandler = (status) => {
-        console.log(status, "eventxzdsdcvvxcvv")
         const payload = {
-            "order_uuid": OrderView?.data?.uuid,
-            "status": status
+            "user_uuid": currentUser?.data?.uuid,
+            "order_uuid": location?.state?.event?.uuid || id,
+            "product_uuid": productID?.uuid,
+            "rating": newRating,
         }
-        dispatch(CompanyOrderStatusUpdateURL(payload, currentUser.token))
-        setSuc(true)
-
-    };
-
-    const HandleOrderStatus = (item) => {
-        console.log(item, "item123")
-        setSelectedValue(item)
-        eventHandler(item?.value)
+        dispatch(ConsumerFeedback(currentUser?.data?.token, payload))
+        setSuccess(true)
+        setTimeout(() => {
+            dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
+        }, 200)
     }
 
+    const ConsumerReviewApi = (event) => {
+        event?.preventDefault()
+        const value = event?.target?.elements;
+        console.log(value, "ghdfvcshbjbsdjhj")
+        const payload = {
+            "user_uuid": currentUser?.data?.uuid,
+            "order_uuid": location?.state?.event?.uuid || id,
+            "review": value?.review?.value
+        }
+        dispatch(ConsumerOrderReview(currentUser?.data?.token, payload))
+        setSuccess(true)
+        setTimeout(() => {
+            dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
+        }, 200)
+    }
+
+    const [ratingvalue, setRatingValue] = useState('')
+    console.log(ratingvalue, "ratingvalue")
 
     useEffect(() => {
-        if (suc === true) {
-            if (notification.status === true) {
-                toast.success(notification.message, {
+        OrderView?.data?.feedbacks?.map((items) => {
+            console.log(items, "hgdsfgsgjs")
+            return setRatingValue(items.rating)
+        })
+    })
+
+    useEffect(() => {
+        if (success === true) {
+            if (notification?.status === true) {
+                toast.success(notification?.message, {
                     position: "top-right",
                 })
-                setSuc(false)
-                setTimeout(() => {
-                    history.push('/orders')
-                }, 200)
             }
-            else if (notification.status === false) {
-                toast.error(notification.message)
-                setSuc(false)
+            else if (notification?.status === false) {
+                toast.error(notification?.message, {
+                    position: "top-right",
+                })
             }
         }
-
     }, [notification])
 
 
+    const [ratingopen, setRatingOpen] = useState(false)
+
+    const OrderRating = (event) => {
+        console.log(event, "sfdsfsdfsdfcvghnh")
+        setProductuuid(event?.uuid)
+        setRatingOpen(true)
+    }
 
 
     return (
@@ -141,7 +163,7 @@ const ScanOrderDetails = () => {
             <HtmlHead title={title} description={description} />
             {/* Title Start */}
             <div className="page-title-container">
-                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/orders">
+                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Order">
                     <CsLineIcons icon="chevron-left" size="20" />
                     <span className="align-middle text-medium ms-1">order List</span>
                 </NavLink>
@@ -159,31 +181,85 @@ const ScanOrderDetails = () => {
                         <Card.Body>
                             <Form>
                                 <Row className="g-3">
-                                    <Col lg="6" xs="6">
-                                        <Form.Label>Order ID</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.uuid} />
-                                    </Col>
-                                    <Col lg="6" xs="6">
-                                        <Form.Label>Token No</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.token_no} />
-                                    </Col>
-                                    <Col lg="6" xs="6">
+                                    <Col lg="6">
                                         <Form.Label>Payment Status</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_status} />
                                     </Col>
-                                    <Col lg="6" xs="6">
-                                        <Form.Label>Amount</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.amount} />
+                                    {/* <Col lg="6">
+                    <Form.Label>Order Created By</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.amount} />
+                  </Col> */}
+
+                                    <Col lg="6">
+                                        <Form.Label>Online Payment</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.online_payment} />
                                     </Col>
-                                    <Col lg="6" xs="6">
-                                        <Form.Label>Order Created By</Form.Label>
-                                        <Form.Control type="text" disabled value={OrderView?.data?.order_created_by} />
+                                    <Col lg="6">
+                                        <Form.Label>Paid From Wallet</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.paid_from_wallet} />
+                                    </Col>
+                                    {/* <Col lg="6">
+                    <Form.Label>Payment Type</Form.Label>
+                    <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
+                  </Col> */}
+                                    <Col lg="6">
+                                        <Form.Label>SGST Tax</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.sgst_tax} />
+                                    </Col>
+                                    <Col lg="6">
+                                        <Form.Label>CGST Tax</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.cgst_tax} />
+                                    </Col>
+                                    <Col lg="6">
+                                        <Form.Label>Total Amount</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.amount} />
                                     </Col>
                                 </Row>
 
                             </Form>
                         </Card.Body>
                     </Card>
+
+                    <Row>
+                        <Col xs="12" className="col-lg order-1 order-lg-0">
+                            {location?.state?.type === "Rating" ?
+                                <Card className="mb-5">
+                                    <Card.Body>
+                                        <Form onSubmit={ConsumerReviewApi}>
+                                            <h3>Order Review : </h3>
+                                            <Row className="g-3">
+                                                <Col lg="6">
+                                                    <Form.Label>Review</Form.Label>
+                                                    <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} />
+                                                </Col>
+                                            </Row>
+                                            {OrderView?.data?.reviews.length !== 1 &&
+                                                <Row className="mt-3">
+                                                    <Col lg="6">
+                                                        <Button variant="outline-primary" type='submit'>Submit</Button>
+                                                    </Col>
+                                                </Row>
+                                            }
+                                        </Form>
+                                    </Card.Body>
+                                </Card>
+                                :
+                                <Card className="mb-5">
+                                    <Card.Body>
+                                        <Form>
+                                            <h3>Order Review : </h3>
+                                            <Row className="g-3">
+                                                <Col lg="6">
+                                                    <Form.Label>Review</Form.Label>
+                                                    <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={OrderView?.data?.reviews[0]?.review} />
+                                                </Col>
+                                            </Row>
+                                        </Form>
+                                    </Card.Body>
+                                </Card>
+                            }
+                        </Col>
+                    </Row>
 
                     <Card>
                         <Card.Body>
@@ -192,20 +268,26 @@ const ScanOrderDetails = () => {
                                 <Row className="g-0 mb-2 d-none d-lg-flex">
                                     <Col>
                                         <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-                                            {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">S.No</div>
-                                            </Col> */}
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            </Col>
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                                             </Col>
-                                            {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                <div className="text-muted text-medium cursor-pointer sort">Type</div>
+                                            </Col>
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
-                                            </Col> */}
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            </Col>
+                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                                             </Col>
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
+                                            </Col>
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                <div className="text-muted text-medium cursor-pointer sort">Rating</div>
                                             </Col>
 
                                         </Row>
@@ -222,7 +304,7 @@ const ScanOrderDetails = () => {
 
                                                 <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                                                     <Row className="g-0 h-100 ">
-                                                        {/* <Col lg="1">
+                                                        <Col lg="1">
                                                             <Row className="gx-2 align-items-center ">
 
                                                                 <Col lg="12" className="col">
@@ -233,8 +315,8 @@ const ScanOrderDetails = () => {
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
-                                                        </Col> */}
-                                                        <Col lg="4">
+                                                        </Col>
+                                                        <Col lg="2">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -248,7 +330,21 @@ const ScanOrderDetails = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        {/* <Col lg="4">
+                                                        <Col lg="2">
+                                                            <Row className="gx-2 align-items-center">
+                                                                <Col lg="12" className="col">
+                                                                    <Row className="g-0">
+                                                                        <Col className="d-lg-none">
+                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Type</div>
+                                                                        </Col>
+                                                                        <Col xs="auto" lg="12">
+                                                                            <div className="lh-1 text-alternate  mt-2">{item.type}</div>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col lg="2">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -261,8 +357,8 @@ const ScanOrderDetails = () => {
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
-                                                        </Col> */}
-                                                        <Col lg="4">
+                                                        </Col>
+                                                        <Col lg="1">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -276,7 +372,7 @@ const ScanOrderDetails = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="4">
+                                                        <Col lg="1">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -286,6 +382,60 @@ const ScanOrderDetails = () => {
                                                                         <Col xs="auto" lg="12">
                                                                             <div className="lh-1 text-alternate  mt-2">{item.price}</div>
                                                                         </Col>
+                                                                    </Row>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col lg="2">
+                                                            <Row className="gx-2 align-items-center">
+                                                                <Col lg="12" className="col">
+                                                                    <Row className="g-0">
+                                                                        <Col className="d-lg-none">
+                                                                            <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
+                                                                        </Col>
+                                                                        {/* {location?.state?.type !== "View"} */}
+                                                                        {/* {OrderView?.data?.feedbacks.length > 0 && OrderView?.data?.feedbacks.map((feedback, ind) => {
+
+                                      console.log(feedback, "hdvfsjdgfdsj")
+                                      return <Col xs="auto" lg="12" key={ind}>
+                                        {feedback?.product_uuid === item?.uuid &&
+                                          <Rating
+                                            count={5}
+                                            value={feedback?.rating}
+                                            onChange={handleRatingChange}
+                                            size={20}
+                                            activeColor="#ffd700"
+                                            edit={false}
+                                          />
+                                        }
+                                        {feedback?.product_uuid !== item?.uuid &&
+                                          <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
+                                            onClick={(e) => OrderRating(item)}
+                                          >
+                                            <CsLineIcons icon="star" />
+                                          </Button>
+                                        }
+                                      </Col>
+                                    })} */}
+                                                                        {/* {OrderView?.data?.feedbacks?.length === 0 &&
+                                      <Col>
+                                        <Button title="PRINT" variant="outline-primary" className="btn px-2 py-2"
+                                          onClick={(e) => OrderRating(item)}
+                                        >
+                                          <CsLineIcons icon="star" />s
+                                        </Button>
+                                      </Col>
+                                    } */}
+                                                                        <Col xs="auto" lg="12">
+                                                                            <Rating
+                                                                                count={5}
+                                                                                value={item?.feedbacks[0]?.rating}
+                                                                                onChange={(rating) => handleRatingChange(rating, item)}
+                                                                                size={25}
+                                                                                activeColor="#ffd700"
+                                                                            />
+                                                                        </Col>
+
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
@@ -302,44 +452,50 @@ const ScanOrderDetails = () => {
                                 {/* List Items End */}
                             </Form>
                         </Card.Body>
-                    </Card>&nbsp;&nbsp;
+                    </Card>
                     {/* Address End */}
 
-                    <Row>
-                        <Col xs="12" className="col-lg order-1 order-lg-0">
-                            <Card className="mb-5">
-                                <Card.Body>
-                                    <Form>
-                                        <Col md="2" lg="2" xxl="2">
-                                            <Form.Label>Current Order Status</Form.Label>
-                                            <Form.Control type="text" disabled value={OrderView?.data?.order_status} />
+                    {/* View QR code  Popup Start */}
+                    <div>
+                        <Dialog
+                            open={ratingopen}
+                            onClose={() => setRatingOpen(false)}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                Feedback:
+                            </DialogTitle>
+
+                            <DialogContent style={{ width: "500px", height: "auto" }}>
+                                <Form>
+                                    <Row className="g-3">
+                                        <Col lg='12' className="mb-1">
+                                            <Rating
+                                                count={5}
+                                                value={ratingValue}
+                                                onChange={handleRatingChange}
+                                                size={35}
+                                                activeColor="#ffd700"
+                                            />
                                         </Col>
-                                        <br />
-                                        {OrderView?.data?.order_status !== "Delivered" &&
-                                            <>
-                                                <Col md="2" lg="2" xxl="2">
-                                                    <Form.Label>Order Status</Form.Label>
-                                                    <Select
-                                                        classNamePrefix="react-select"
-                                                        options={selectOrderStatus}
-                                                        value={selectedvalue}
-                                                        defaultValue={{ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status }}
-                                                        onChange={HandleOrderStatus}
-                                                        placeholder="Order Status" />
-                                                </Col>
-                                                <Col className='mt-2'>
-                                                    <Button type='button' onClick={() => eventHandler("Delivered")}>Delivered</Button>
-                                                </Col>
-                                            </>
-                                        }
-                                        {/* <Col className='mt-2'>
-                                            <Button type='submit'>Submit</Button>
-                                        </Col> */}
-                                    </Form>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+                                        <Col lg="6">
+                                            <Button variant="outline-primary"
+                                                className='btn-icon btn-icon-end w-100'
+                                                type='submit'
+                                                onClick={() => setRatingOpen(false)}
+                                            >
+                                                Submit
+                                            </Button>
+                                        </Col>
+                                    </Row>
+
+                                </Form>
+
+                            </DialogContent>
+
+                        </Dialog>
+                    </div>
 
                     {/* Shipment Start */}
                     {/* <h2 className="small-title">Shipment</h2> */}
@@ -396,7 +552,7 @@ const ScanOrderDetails = () => {
             </Card.Body>
           </Card> */}
                     {/* Payment End */}
-                </Col >
+                </Col>
                 {/* <Col lg="auto" className="order-0 order-lg-1"> */}
                 {/* <h2 className="small-title">Summary</h2> */}
                 {/* <Card className="mb-5 w-100 sw-lg-35">
@@ -461,4 +617,4 @@ const ScanOrderDetails = () => {
     );
 };
 
-export default ScanOrderDetails;
+export default UserOrderRating;

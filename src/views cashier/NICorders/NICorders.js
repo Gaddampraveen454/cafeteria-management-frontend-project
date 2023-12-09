@@ -90,7 +90,10 @@ const NICorders = () => {
     const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
     const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
 
-    localStorage.setItem('OrderCompanyDetailsStore', routeStartPath);
+
+    if (routeStartPath?.startsWith("ORD-")) {
+      localStorage.setItem('OrderCompanyDetailsStore', routeStartPath);
+    }
 
     if (result) {
       setResult1(result.data);
@@ -605,6 +608,7 @@ const NICorders = () => {
                             onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
                           <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
                           <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
+                          <Dropdown.Item onClick={(status) => { eventHandler(item, "Cancelled") }} >Cancelled</Dropdown.Item>
                           {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
                         </Dropdown.Menu>
                       </Dropdown>

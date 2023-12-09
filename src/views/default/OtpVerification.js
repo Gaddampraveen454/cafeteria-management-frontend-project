@@ -27,7 +27,7 @@ const OtpVerification = () => {
     const location = useLocation();
     console.log(location, "location65465yrth")
 
-    const { currentUser, isLogin, loginDetailes } = useSelector((state) => state.auth);
+    const { currentUser, notification, isLogin, loginDetailes } = useSelector((state) => state.auth);
     console.log(currentUser, "gfdshvsgcvdgc")
 
     const history = useHistory();
@@ -36,23 +36,37 @@ const OtpVerification = () => {
 
     useEffect(() => {
         if (success === true) {
-            history.push('/Checkout')
-            localStorage.setItem('token', currentUser)
-        }
-    }, [success])
+            if (notification.status === true) {
+                toast.success(notification.message)
+                setTimeout(() => {
+                    history.push('/Checkout')
+                    localStorage.setItem('token', currentUser)
+                }, 200)
+            }
+            else if (notification.status === false) {
+                toast.error(notification.message)
+            }
 
-    const initialValues = { phone: '', otp: '' };
+        }
+    }, [notification])
+
+    const initialValues = { otp: '' };
+
+    const validationSchema = Yup.object().shape({
+        otp: Yup.string().required('OTP is required'),
+    });
+
     const onSubmit = (values) => {
         const payLoad = {
             "mobile": location?.state?.mobile,
             "email": location?.state?.email,
-            "otp": otp
+            "otp": values?.otp
         }
         dispatch(OtpVerify(payLoad))
         setSuccess(true)
     };
 
-    const formik = useFormik({ initialValues, onSubmit });
+    const formik = useFormik({ initialValues, validationSchema, onSubmit });
     const { handleSubmit, handleChange, values, touched, errors } = formik;
 
 
@@ -123,8 +137,9 @@ const OtpVerification = () => {
 
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="mobile" />
-                            <Form.Control type="text" name="mobile" placeholder="Enter OTP" minLength={4} maxLength={6} value={otp} onChange={otpChange} />
-                            {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
+                            {/* <Form.Control type="text" name="mobile" placeholder="Enter OTP" minLength={4} maxLength={6} value={otp} onChange={otpChange} /> */}
+                            <Form.Control type="text" name="otp" placeholder="Enter OTP" minLength={6} maxLength={6} value={values.otp} onChange={handleChange} isInvalid={touched.otp && !!errors.otp} />
+                            {errors.otp && <div className="d-block invalid-tooltip">{errors.otp}</div>}
                         </div>
                         {count === 0 ?
                             <Button size="md" type="submit" style={{ marginBottom: "10px" }}>

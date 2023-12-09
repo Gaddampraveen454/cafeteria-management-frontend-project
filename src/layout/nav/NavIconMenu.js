@@ -47,7 +47,6 @@ const NavIconMenu = () => {
   };
 
   const { isLogin, currentUser } = useSelector((state) => state.auth);
-  console.log(isLogin, currentUser, "sfdfdsfsdfsdf")
 
 
   const redirect = () => {

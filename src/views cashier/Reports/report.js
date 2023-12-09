@@ -39,19 +39,15 @@ const report = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
-  console.log(selectValueState, "selectValueState")
   // const { companyData } = useSelector((state) => state.companyList)
 
   // const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
   const { currentUser } = useSelector((state) => state.auth)
   const { CashierReportData, notification } = useSelector((state) => state.CashierReportList)
-  console.log(CashierReportData, "currentUser");
 
   const searchfunction = (type, pages) => {
-    console.log(pages, "ghjsdfsdfkvbnm")
     if (type === "search") {
-      console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
       dispatch(CashierReportListURL(0, limit, pages, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
@@ -85,11 +81,9 @@ const report = () => {
 
 
   const ChangeStartData = e => {
-    console.log("ChangeStartData: ", e.target.value);
     setStartDate(e.target.value);
   };
   const ChangeEndData = e => {
-    console.log("ChangeStartData: ", e.target.value);
     setEndDate(e.target.value);
   };
 
@@ -102,7 +96,6 @@ const report = () => {
   // useEffect(()=>{
   //   dispatch(CashierReportListURL(currentUser.token))
   // },[])
-  // console.log(CashierReportData,"dffdgdff");
 
   useEffect(() => {
     if (currentUser)
@@ -291,7 +284,6 @@ const report = () => {
 
       {/* List Items Start */}
       {CashierReportData && CashierReportData.data && CashierReportData.data.map((item, index) => {
-        console.log(item, "reportitem")
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">

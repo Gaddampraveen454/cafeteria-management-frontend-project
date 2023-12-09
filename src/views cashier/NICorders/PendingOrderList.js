@@ -63,7 +63,6 @@ const Pendingorders = () => {
     const [search, setSearch] = useState('')
     const [discountModal, setDiscountModal] = useState(false);
     const [view, setView] = useState('');
-    console.log(view, 'dfbvhgdvhjebhf')
     // print start
 
     const [print, setPrint] = useState(false);
@@ -71,17 +70,17 @@ const Pendingorders = () => {
 
     const { currentUser } = useSelector((state) => state.auth)
 
-    console.log(currentUser, "dsfsdfsdfssfd")
+
     const { OrderData, notification } = useSelector((state) => state.orderListCashier)
     useEffect(() => {
         dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
     }, [])
-    console.log(OrderData, "dfgdgdgdfgd");
+
 
 
     const searchfunction = (type, pages) => {
         if (type === "search") {
-            console.log(pages, "ghjkvbnm")
+
             setSearch(pages)
             setPage(0)
             dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, "Pending"))
@@ -115,7 +114,6 @@ const Pendingorders = () => {
 
 
     const eventHandler = (event, status) => {
-        console.log(event, status, "eventxzdsdcvvxcvv")
         // if (event.is_delivered)
         const payload = {
             "order_uuid": event.uuid,
@@ -179,7 +177,6 @@ const Pendingorders = () => {
 
     const viewEventHandler = (event) => {
         // setOpen(true)
-        console.log(event, "fdfffgfdgd")
         setProductDetails(event.details)
 
         history.push({
@@ -458,7 +455,6 @@ const Pendingorders = () => {
       })} */}
             {OrderData && OrderData.data && OrderData.data.map((item, index) => {
                 return <div key="">
-                    {console.log(item, "dffdfdfdfsssfsdfsdf")}
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
                             {/* <Col xs="auto" className="positio-relative">
@@ -675,7 +671,6 @@ const Pendingorders = () => {
                                 <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                                     <div className="text-muted text-medium cursor-pointer">Product Name</div>
                                     {view?.details?.length > 0 && view?.details?.map((item, index) => {
-                                        console.log(item, 'hcbghefyef')
                                         return (
                                             <div key={index}>{item?.name}</div>
                                         )
@@ -684,7 +679,6 @@ const Pendingorders = () => {
                                 <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                                     <div className="text-muted text-medium cursor-pointer ">Quantity</div>
                                     {view?.details?.length > 0 && view?.details?.map((item, index) => {
-                                        console.log(item, 'hcbghefyef')
                                         return (
                                             <div key={index}>{item?.quantity}</div>
                                         )
@@ -845,7 +839,6 @@ const Pendingorders = () => {
                         {/* List Items Start */}
                         {productDetails && productDetails.map((item, index) => {
                             return <div key="">
-                                {console.log(item, "fghfghfghh")}
                                 <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                                     <Row className="g-0 h-100 sh-lg-9 position-relative">
 

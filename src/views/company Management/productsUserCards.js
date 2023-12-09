@@ -96,6 +96,22 @@ const productsUserCards = () => {
         dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1, type?.value))
     }
 
+    useEffect(() => {
+        dispatch(ProductForConsumerListURL(id, "", page, search, currentUser.token, limit, id1, vegtype))
+    }, [])
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_URL}/company/store/slug/${id1}`)
+            .then((res) => {
+                console.log("dgvhgsdfj", res?.data)
+                localStorage.setItem("storeDatiles", JSON.stringify(res.data))
+                localStorage.setItem('companyId', res?.data?.company_slug ? res?.data?.company_slug : "");
+                dispatch(categoryForConsumerListURL(res.data?.company_uuid, res?.data?.uuid))
+            })
+            .catch((err) => {
+                console.log("Err")
+            })
+    }, [id1])
 
     useEffect(() => {
         console.log(result1, "result1")

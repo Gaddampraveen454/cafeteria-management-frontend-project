@@ -29,8 +29,7 @@ const CompanyNotifications = () => {
     const [suc, setSuc] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [productDetails, setProductDetails] = useState([])
-    console.log(productDetails, "fdfdsfdsfsdfsdfsdfffgfdgd")
-    // console.log(status, "sdfsdfsfs")
+
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [selectedItems, setSelectedItems] = useState([]);
     const checkItem = (item) => {
@@ -57,7 +56,6 @@ const CompanyNotifications = () => {
 
     const { currentUser } = useSelector((state) => state.auth)
     const { StoreNotification } = useSelector((state) => state.storeNotify)
-    console.log(StoreNotification, "cmpyNotification");
 
 
     useEffect(() => {
@@ -66,9 +64,8 @@ const CompanyNotifications = () => {
 
 
     const searchfunction = (type, pages) => {
-        console.log(pages, "ghjsdfsdfkvbnm")
+
         if (type === "search") {
-            console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
             dispatch(StoreNotificationsURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
@@ -230,7 +227,6 @@ const CompanyNotifications = () => {
             {/* List Items Start */}
             {StoreNotification && StoreNotification.data && StoreNotification.data.map((item, index) => {
                 return <div key="">
-                    {console.log(item, "dffdfdfdfsssfsdfsdf")}
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
                             <NavLink to={`/Storevieworder/${item?.link}`}>

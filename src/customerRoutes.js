@@ -342,6 +342,7 @@ const Checkout = lazy(() => import('view Consumer/checkout/Checkout'))
 const Profile = lazy(() => import('view Consumer/checkout/Profile/Profile.js'))
 const orderPlaced = lazy(() => import('view Consumer/orders/orderPlaced'))
 const OrderPlacedView = lazy(() => import('view Consumer/orders/orderView'))
+const OrderRating = lazy(() => import('view Consumer/orders/orderRating'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
@@ -399,9 +400,7 @@ const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEF
 
 const companyId = localStorage.getItem('companyId');
 let compNewId = !companyId ? "qr" : companyId
-console.log(companyId, "dfdsfdssdfdsfdsf")
 const [url, newCompId] = window.location.pathname.split("menu/")
-console.log(localStorage.getItem('companyId'), "dfdsfdssdfdsfdsf")
 const Logindetailes = localStorage.getItem("ChangePassword")
 // if(newCompId!=="qr"){
 // compNewId=newCompId
@@ -462,6 +461,10 @@ const consumerRoutesAndMenuItems = {
     {
       path: `${appRoot}/OrderView/:id`,
       component: OrderPlacedView,
+    },
+    {
+      path: `${appRoot}/Orderrating/:id`,
+      component: OrderRating,
     },
     {
       path: `${appRoot}/Checkout`,

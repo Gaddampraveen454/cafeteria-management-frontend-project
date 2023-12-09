@@ -38,7 +38,6 @@ export const getMes = (setTokenFound, pubnub) => {
 // const messaging = getMessaging(app1);
 
 const userdata1 = JSON.parse(localStorage.getItem("user"));
-console.log(messaging,"messaging")
 
 getToken(messaging, { vapidKey: 'BAHPDorxKjVssgWH3dYIWXIhbGB0xL3U7od9UUMftsFhh0qZZnH6t1iQ9V8vEFVN0UjwTX2lw2AXdkufy7p2ZbY' }).then((currentToken) => {
     if (currentToken) {
@@ -46,7 +45,6 @@ getToken(messaging, { vapidKey: 'BAHPDorxKjVssgWH3dYIWXIhbGB0xL3U7od9UUMftsFhh0q
 
     // Send the token to your server and update the UI if necessary
       let userdata = JSON.parse(localStorage.getItem("user"));
-      console.log(userdata,"ghdsfgsjshd")
       userdata = userdata != null ? userdata : false;
       if (userdata && userdata && userdata?.data?.uuid){
         const config1 = {

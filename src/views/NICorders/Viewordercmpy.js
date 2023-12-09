@@ -76,12 +76,6 @@ const CompanyOrderView = () => {
         OrderViewFunction()
     }, [])
 
-    const [ratingValue, setRating] = React.useState(location?.state?.feedbacks[0]?.rating);
-
-    const handleRatingChange = (newRating) => {
-        console.log(newRating, "fgdghhhghfhgf")
-        setRating(newRating);
-    };
 
 
     return (
@@ -314,28 +308,17 @@ const CompanyOrderView = () => {
                                                                         <Col className="d-lg-none">
                                                                             <div className="text-alternate sh-4 d-flex align-items-center lh-1-25">Rating</div>
                                                                         </Col>
-                                                                        {OrderView?.data?.feedbacks.map((feedback, ind) => {
-                                                                            console.log(feedback, "hdvfsjdgfdsj")
-                                                                            return <Col xs="auto" lg="12" key={ind}>
-                                                                                {feedback?.product_uuid === item?.uuid ?
-                                                                                    <Rating
-                                                                                        count={5}
-                                                                                        value={feedback?.rating}
-                                                                                        onChange={handleRatingChange}
-                                                                                        size={20}
-                                                                                        activeColor="#ffd700"
-                                                                                        edit={false}
-                                                                                    />
-                                                                                    :
-                                                                                    <span>No Rating</span>
-                                                                                }
-                                                                            </Col>
-                                                                        })}
-                                                                        {OrderView?.data?.feedbacks?.length === 0 &&
-                                                                            <Col>
-                                                                                <span>No Rating</span>
-                                                                            </Col>
-                                                                        }
+                                                                        <Col xs="auto" lg="12">
+
+                                                                            <Rating
+                                                                                count={5}
+                                                                                value={item?.feedbacks[0]?.rating}
+                                                                                size={20}
+                                                                                activeColor="#ffd700"
+                                                                                edit={false}
+                                                                            />
+
+                                                                        </Col>
 
                                                                     </Row>
                                                                 </Col>

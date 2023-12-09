@@ -19,7 +19,6 @@ const adduser = () => {
   const { currentUser } = useSelector((state) => state.auth)
   const { consumerData,notification } = useSelector((state) => state.consumerList)
   const [selectValueState, setSelectValueState] = useState();
-  console.log(selectValueState,"selectValueState")
   const [suc,setSuc] = useState(false);
 
 
@@ -83,11 +82,10 @@ const adduser = () => {
   // useEffect(() => {
   //   dispatch(CompanyListURL(page, search,currentUser.token,limit))
   // }, [])
-  console.log(companyData,"sfsdfdsfs");
+
  
   const companyList= companyData && companyData.data && companyData.data.map((item) =>{return {label:item.company_name, value:item.uuid}})
 
-  console.log(companyName,"companyName")
 
   const AddConsumer = (event) => {
     event.preventDefault()

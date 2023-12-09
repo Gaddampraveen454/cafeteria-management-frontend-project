@@ -177,6 +177,20 @@ const OrderPlaced = () => {
     })
   };
 
+  const RatingEventHandler = (event, type) => {
+    // setOpen(true)
+
+    console.log(event, "fdfffgfdgd")
+    setProductDetails(event.details)
+    history.push({
+      pathname: `/Orderrating/${event?.uuid}`,
+      state: {
+        event,
+        type
+      }
+    })
+  };
+
   const [qrOpen, setQrOpen] = useState(false)
   const [OrderIdForQR, setOrderIdForQR] = useState("")
 
@@ -685,7 +699,7 @@ const OrderPlaced = () => {
                               <Col xs="auto" lg="12">
                                 <div className="sh-4 d-flex align-items-center text-alternate justify-content-lg-end">
                                   <Button title="Rating" variant="outline-primary" className="btn px-2 py-2"
-                                    onClick={() => viewEventHandler(item, "Rating")}
+                                    onClick={() => RatingEventHandler(item, "Rating")}
                                   >
                                     <CsLineIcons icon="star" />
                                   </Button>

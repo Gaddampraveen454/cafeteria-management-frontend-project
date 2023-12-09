@@ -17,7 +17,7 @@ const product = lazy(() => import('views cashier/Product Management/product'));
 const addproduct = lazy(() => import('views cashier/Product Management/addproduct'));
 const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
 const ViewOrder = lazy(() => import('views cashier/NICorders/Vieworderstore'));
-const PendingOrders = lazy(()=> import('views cashier/NICorders/PendingOrderList'));
+const PendingOrders = lazy(() => import('views cashier/NICorders/PendingOrderList'));
 const ScanOrderDetailsStore = lazy(() => import('views cashier/NICorders/ScanOrderdetailsStore'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
 const report = lazy(() => import('views cashier/Reports/report'));
@@ -77,7 +77,6 @@ const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEF
 
 const OrderId = localStorage.getItem('OrderCompanyDetailsStore');
 let compNeworderId = !OrderId ? "" : OrderId
-console.log(compNeworderId, "asysyfys")
 
 const cashierRoutesAndMenuItems = {
   mainMenuItems: [

@@ -20,7 +20,6 @@ const ScanOrderDetailsStore = () => {
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location, "dghsfjdsgfdhgjhf")
 
     const optionsState = [
         { value: 'Fougasse', label: 'Fougasse' },
@@ -67,10 +66,12 @@ const ScanOrderDetailsStore = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView } = useSelector((state) => state.OrderPlacedData)
-    console.log(OrderView, "orderview123")
+
+    const OrderId = localStorage.getItem('OrderCompanyDetailsStore');
+    const compNeworderId = !OrderId ? "" : OrderId;
 
     const OrderViewFunction = () => {
-        dispatch(ConsumerOrderView(currentUser?.token, location?.state))
+        dispatch(ConsumerOrderView(currentUser?.token, location?.state === undefined ? compNeworderId : location?.state))
     }
 
     useEffect(() => {
@@ -80,7 +81,6 @@ const ScanOrderDetailsStore = () => {
     const [ratingValue, setRating] = React.useState('');
 
     const handleRatingChange = (newRating) => {
-        console.log(newRating, "fgdghhhghfhgf")
         setRating(newRating);
     };
 
@@ -90,12 +90,12 @@ const ScanOrderDetailsStore = () => {
         { value: 'Preparing', label: 'Preparing' },
         { value: 'Ready', label: 'Ready' },
         { value: 'Delivered', label: 'Delivered' },
+        { value: 'Cancelled', label: 'Cancelled' }
     ];
 
     const [selectedvalue, setSelectedValue] = useState({ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status });
 
     const eventHandler = (status) => {
-        console.log(status, "eventxzdsdcvvxcvv")
         // if (event.is_delivered)
         const payload = {
             "order_uuid": OrderView?.data?.uuid,
@@ -106,7 +106,6 @@ const ScanOrderDetailsStore = () => {
     };
 
     const HandleOrderStatus = (item) => {
-        console.log(item, "item123")
         setSelectedValue(item)
         eventHandler(item?.value)
     }
@@ -168,19 +167,19 @@ const ScanOrderDetailsStore = () => {
                                 <Row className="g-0 mb-2 d-none d-lg-flex">
                                     <Col>
                                         <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-                                            <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">S.No</div>
-                                            </Col>
+                                            </Col> */}
                                             <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product Name</div>
                                             </Col>
-                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Product ID</div>
-                                            </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            </Col> */}
+                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
                                             </Col>
-                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
                                             </Col>
 
@@ -192,13 +191,12 @@ const ScanOrderDetailsStore = () => {
                                 {/* List Items Start */}
                                 {OrderView?.data?.details?.length > 0 && OrderView?.data?.details.map((item, index) => {
                                     return <div key="">
-                                        {console.log(item, "fghfghfghh")}
                                         <Card className='mb-2'>
                                             <Row className="g-0 h-100 sh-lg-9 position-relative">
 
                                                 <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                                                     <Row className="g-0 h-100 ">
-                                                        <Col lg="1">
+                                                        {/* <Col lg="1">
                                                             <Row className="gx-2 align-items-center ">
 
                                                                 <Col lg="12" className="col">
@@ -209,7 +207,7 @@ const ScanOrderDetailsStore = () => {
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
-                                                        </Col>
+                                                        </Col> */}
                                                         <Col lg="4">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
@@ -224,7 +222,7 @@ const ScanOrderDetailsStore = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="4">
+                                                        {/* <Col lg="4">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -237,8 +235,8 @@ const ScanOrderDetailsStore = () => {
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
-                                                        </Col>
-                                                        <Col lg="2">
+                                                        </Col> */}
+                                                        <Col lg="4">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -252,7 +250,7 @@ const ScanOrderDetailsStore = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="1">
+                                                        <Col lg="4">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">
@@ -287,18 +285,27 @@ const ScanOrderDetailsStore = () => {
                                 <Card.Body>
                                     <Form>
                                         <Col md="2" lg="2" xxl="2">
-                                            <Form.Label>Order Status</Form.Label>
-                                            <Select
-                                                classNamePrefix="react-select"
-                                                options={selectOrderStatus}
-                                                value={selectedvalue}
-                                                defaultValue={{ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status }}
-                                                onChange={HandleOrderStatus}
-                                                placeholder="Order Status" />
+                                            <Form.Label>Current Order Status</Form.Label>
+                                            <Form.Control type="text" disabled value={OrderView?.data?.order_status} />
                                         </Col>
-                                        <Col className='mt-2'>
-                                            <Button type='button' onClick={() => eventHandler("Delivered")}>Delivered</Button>
-                                        </Col>
+                                        <br />
+                                        {OrderView?.data?.order_status !== "Delivered" &&
+                                            <>
+                                                <Col md="2" lg="2" xxl="2">
+                                                    <Form.Label>Order Status</Form.Label>
+                                                    <Select
+                                                        classNamePrefix="react-select"
+                                                        options={selectOrderStatus}
+                                                        value={selectedvalue}
+                                                        defaultValue={{ label: OrderView?.data?.order_status, value: OrderView?.data?.order_status }}
+                                                        onChange={HandleOrderStatus}
+                                                        placeholder="Order Status" />
+                                                </Col>
+                                                <Col className='mt-2'>
+                                                    <Button type='button' onClick={() => eventHandler("Delivered")}>Delivered</Button>
+                                                </Col>
+                                            </>
+                                        }
                                         {/* <Col className='mt-2'>
                                             <Button type='submit'>Submit</Button>
                                         </Col> */}

@@ -98,7 +98,6 @@ const product = () => {
   const [selectCompany, setSelectCompany] = useState();
   const [productId, setProductId] = useState("")
   const [UploadedFile, setUploadedFile] = useState("")
-  console.log(UploadedFile, "UploadedFile")
   const [suc, setSuc] = useState(false);
 
   const [page, setPage] = useState(0);
@@ -109,7 +108,7 @@ const product = () => {
     setSelectCat([]);
   };
 
-  console.log(selectCompany, "dfgdfgdfgdd")
+
 
   let selectCategory1
   if (selectCategory?.value === undefined) {
@@ -152,12 +151,10 @@ const product = () => {
 
   const { ProductData, notification } = useSelector((state) => state.StoreproductSlice)
   const { categoryDropdown } = useSelector((state) => state.StorecategorySlice)
-  console.log(categoryDropdown, currentUser, "categoryDropdown")
   useEffect(() => {
     dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, selectcat1))
     dispatch(StoreCategoryDropDownL(currentUser?.data?.uuid))
   }, [selectcat1])
-  console.log(ProductData, "ProductDatasdfdsfdsf");
   useEffect(() => {
     if (suc === true) {
       if (notification.status === true) {
@@ -178,7 +175,6 @@ const product = () => {
     }
 
   }, [notification])
-  console.log(notification, "ProductDataProductData")
 
 
 
@@ -193,7 +189,7 @@ const product = () => {
   // const { categoryData } = useSelector((state) => state.cotegoryList)
   const companyList = companyDropData && companyDropData.data && companyDropData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
   const productList = categoryDropdown && categoryDropdown.data && categoryDropdown.data.map((item) => { return { label: item.name, value: item.uuid } })
-  // console.log(productList,"categoryDatacategoryData")
+
 
 
   // const { companyData } = useSelector((state) => state.companyList)
@@ -238,7 +234,6 @@ const product = () => {
   const eventHandler = (event) => {
     setOpenEditViewOpupup(true)
 
-    console.log(event, "editstore")
     setName(event.name)
     setSelectCompany({ label: event.company_name, value: event.company_uuid })
     setSelectCategory({ label: event.category_name, value: event.category_uuid })
@@ -281,14 +276,12 @@ const product = () => {
 
 
   const [file, setFile] = useState()
-  console.log(file, "dfsfsdfsffsfs");
   function handleChange(event) {
     setFile(event.target.files[0])
   }
 
   function handleSubmit(event) {
     if (!file) {
-      console.log("zxczxczxcz")
       toast.error("Please Select File")
     }
     else {
@@ -309,7 +302,6 @@ const product = () => {
 
   const searchfunction = (type, pages) => {
     if (type === "search") {
-      console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
       dispatch(StoreProductListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, selectcat1))

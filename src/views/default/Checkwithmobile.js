@@ -226,7 +226,7 @@ const Login = () => {
                     >
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="mobile" />
-                            <Form.Control type="text" name="mobile" placeholder="Mobile" value={mobile} onChange={(e) => setMobile(e.target.value)} />
+                            <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} />
                             {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
                         </div>
                         {Checkapiresponse === true &&

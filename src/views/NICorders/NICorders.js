@@ -59,11 +59,9 @@ const NICorders = () => {
 
     console.log(slugRoute, "routeStartPath")
 
-    localStorage.setItem('OrderCompanyDetails', routeStartPath);
-
-    // if (routeStartPath?.startsWith("scanorderdetails")) {
-    //   localStorage.setItem('OrderCompanyDetails', Compuuid[1]);
-    // }
+    if (routeStartPath?.startsWith("ORD-")) {
+      localStorage.setItem('OrderCompanyDetails', routeStartPath);
+    }
     if (result) {
       setResult1(result.data);
     }
@@ -82,17 +80,18 @@ const NICorders = () => {
       console.log(slugRoute, "result1")
       const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
       if (routeStartPath) {
+        console.log(routeStartPath, "dghfdsjdshghjs")
         history.push(({
-          pathname: `/scanorderdetails/${routeStartPath}`,
+          pathname: `${slugRoute}`,
           state: routeStartPath
         }));
       }
-      else {
-        history.push(({
-          pathname: `/scanorderdetails/${routeStartPath}`,
-          state: routeStartPath
-        }));
-      }
+      // else {
+      //   history.push(({
+      //     pathname: `${slugRoute}`,
+      //     state: slugRoute?.replace('/scanorderdetails/', "")
+      //   }));
+      // }
       window.location.reload(false);
     }
   }, [result1])
@@ -485,36 +484,36 @@ const NICorders = () => {
                 </NavLink>
               </Col> */}
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Id</div>
+                    <div className="text-muted text-small d-md-none">Id</div>
                     <div className="lh-1 text-alternate">{index + 1}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Store Name</div>
+                    <div className="text-muted text-small d-md-none">Store Name</div>
                     <Button variant="link" className="p-0 text-truncate h-100 d-flex align-items-center" onClick={() => viewEventHandlerSamePage(item)}>
                       {item && item.stores && item.stores[0] && item.stores[0].store_name}
                     </Button>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Order Date</div>
+                    <div className="text-muted text-small d-md-none">Order Date</div>
                     <div className="lh-1 text-alternate"> {moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
                   </Col>
 
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Order Id</div>
+                    <div className="text-muted text-small d-md-none">Order Id</div>
                     <div className="lh-1 text-alternate">{item.uuid}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Token No</div>
+                    <div className="text-muted text-small d-md-none">Token No</div>
                     <div className="lh-1 text-alternate">{item.token_no}</div>
                   </Col>
 
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Consumer Name</div>
+                    <div className="text-muted text-small d-md-none">Consumer Name</div>
                     <div className="lh-1 text-alternate">{item && item.users && item.users[0] && item.users[0].name}
                     </div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Order Type</div>
+                    <div className="text-muted text-small d-md-none">Order Type</div>
                     <div className="lh-1 text-alternate">{item && item.order_created_by}
                     </div>
                   </Col>
@@ -523,16 +522,16 @@ const NICorders = () => {
               </Col> */}
 
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Price</div>
+                    <div className="text-muted text-small d-md-none">Price</div>
                     <div className="lh-1 text-alternate">{item.amount}</div>
                   </Col>
 
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Transaction</div>
+                    <div className="text-muted text-small d-md-none">Transaction</div>
                     <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                  <div className="text-muted text-small d-md-none">Ordered By</div>
+                    <div className="text-muted text-small d-md-none">Ordered By</div>
                     <div className="lh-1 text-alternate">{item.order_created_by}</div>
                   </Col>
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -552,6 +551,7 @@ const NICorders = () => {
                           onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
+                        <Dropdown.Item onClick={(status) => { eventHandler(item, "Cancelled") }} >Cancelled</Dropdown.Item>
                         {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
                       </Dropdown.Menu>
                     </Dropdown>
@@ -578,7 +578,7 @@ const NICorders = () => {
                 onToggle={()=>activefunct(items)}
                  /> */}
                           <td>
-                          <div className="text-muted text-small d-md-none">View</div>
+                            <div className="text-muted text-small d-md-none">View</div>
                             <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                               onClick={() => { viewEventHandler(item); setEventType(false) }}
                             >
@@ -586,7 +586,7 @@ const NICorders = () => {
                             </Button>
                           </td>
                           <td>
-                          <div className="text-muted text-small d-md-none">Print</div>
+                            <div className="text-muted text-small d-md-none">Print</div>
                             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow" onClick={() => PrintFunction(item?.uuid)}>
                               <CsLineIcons icon="print" />
                             </Button>
@@ -906,7 +906,8 @@ const NICorders = () => {
               delay={delay}
               style={previewStyle}
               onError={handleError}
-              onScan={handleScan}
+              // onScan={handleScan}
+              onScan={(result) => handleScan(result)}
             />
           </DialogContent>
           <p>{result1}</p>

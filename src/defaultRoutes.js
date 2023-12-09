@@ -79,7 +79,6 @@ const FooterRoutes = {
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
-console.log(companyId, "companyId")
 let compNewId = !companyId ? "qr" : companyId
 // console.log(window.location.pathname, companyId, compNewId, "dfdsfdssdfdsfdsf")
 // const [url, newCompId] = window.location.pathname.split("menu/")

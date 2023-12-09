@@ -75,7 +75,6 @@ const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEF
 
 const OrderId = localStorage.getItem('OrderCompanyDetails');
 let compNeworderId = !OrderId ? "" : OrderId
-console.log(compNeworderId, "asysyfys")
 
 
 const adminRoutesAndMenuItems = {

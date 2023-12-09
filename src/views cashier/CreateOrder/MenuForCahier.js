@@ -678,7 +678,7 @@ const MenuForCashier = () => {
                         </p>
                       </div>
                     </Col>
-                    <Col xs="12" md="6">
+                    {/* <Col xs="12" md="6">
                       <div className="mb-2">
                         <p className="text-small text-muted mb-1">SHIPPING</p>
                         <p>
@@ -687,7 +687,7 @@ const MenuForCashier = () => {
                           </span>
                         </p>
                       </div>
-                    </Col>
+                    </Col> */}
                     <Col xs="12" md="6">
                       <div className="mb-2">
                         <p className="text-small text-muted mb-1">SUB TOTAL</p>
