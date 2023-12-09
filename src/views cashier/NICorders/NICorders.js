@@ -736,16 +736,16 @@ const NICorders = () => {
               </Row> */}
 
               <Row className="g-3">
-                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                <Col xs="9" lg="9" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                   <div className="text-muted text-medium cursor-pointer">Product Name</div>
                   {view?.details?.length > 0 && view?.details?.map((item, index) => {
                     console.log(item, 'hcbghefyef')
                     return (
-                      <div key={index}>{item?.name}</div>
+                      <div key={index}>{item?.name?.length > 18 ? `${item?.name.slice(0, 18)}..` : item?.name}</div>
                     )
                   })}
                 </Col>
-                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                <Col xs="3" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                   <div className="text-muted text-medium cursor-pointer ">Quantity</div>
                   {view?.details?.length > 0 && view?.details?.map((item, index) => {
                     console.log(item, 'hcbghefyef')
