@@ -296,7 +296,7 @@ const Notification = () => {
                 console.log(item, "hgsdfgsjhgsdj")
                 return <Card key="" className={`mb-2 ${'selected'}`}>
                     <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
-                        <NavLink to={`/OrderView/${item?.link}`}>
+                        <NavLink to={item?.link.startsWith('/Orderrating/') ? `${item?.link}` : `/OrderView/${item?.link}`}>
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
                                 <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">S NO.</div>

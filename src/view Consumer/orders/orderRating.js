@@ -222,42 +222,28 @@ const UserOrderRating = () => {
 
                     <Row>
                         <Col xs="12" className="col-lg order-1 order-lg-0">
-                            {location?.state?.type === "Rating" ?
-                                <Card className="mb-5">
-                                    <Card.Body>
-                                        <Form onSubmit={ConsumerReviewApi}>
-                                            <h3>Order Review : </h3>
-                                            <Row className="g-3">
+
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    <Form onSubmit={ConsumerReviewApi}>
+                                        <h3>Order Review : </h3>
+                                        <Row className="g-3">
+                                            <Col lg="6">
+                                                <Form.Label>Review</Form.Label>
+                                                <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} />
+                                            </Col>
+                                        </Row>
+                                        {OrderView?.data?.reviews.length !== 1 &&
+                                            <Row className="mt-3">
                                                 <Col lg="6">
-                                                    <Form.Label>Review</Form.Label>
-                                                    <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} />
+                                                    <Button variant="outline-primary" type='submit'>Submit</Button>
                                                 </Col>
                                             </Row>
-                                            {OrderView?.data?.reviews.length !== 1 &&
-                                                <Row className="mt-3">
-                                                    <Col lg="6">
-                                                        <Button variant="outline-primary" type='submit'>Submit</Button>
-                                                    </Col>
-                                                </Row>
-                                            }
-                                        </Form>
-                                    </Card.Body>
-                                </Card>
-                                :
-                                <Card className="mb-5">
-                                    <Card.Body>
-                                        <Form>
-                                            <h3>Order Review : </h3>
-                                            <Row className="g-3">
-                                                <Col lg="6">
-                                                    <Form.Label>Review</Form.Label>
-                                                    <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={OrderView?.data?.reviews[0]?.review} />
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    </Card.Body>
-                                </Card>
-                            }
+                                        }
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+
                         </Col>
                     </Row>
 
@@ -427,13 +413,24 @@ const UserOrderRating = () => {
                                       </Col>
                                     } */}
                                                                         <Col xs="auto" lg="12">
-                                                                            <Rating
-                                                                                count={5}
-                                                                                value={item?.feedbacks[0]?.rating}
-                                                                                onChange={(rating) => handleRatingChange(rating, item)}
-                                                                                size={25}
-                                                                                activeColor="#ffd700"
-                                                                            />
+                                                                            {item?.feedbacks.length === 1 ?
+                                                                                <Rating
+                                                                                    count={5}
+                                                                                    value={item?.feedbacks[0]?.rating}
+                                                                                    onChange={(rating) => handleRatingChange(rating, item)}
+                                                                                    size={25}
+                                                                                    activeColor="#ffd700"
+                                                                                    edit={false}
+                                                                                />
+                                                                                :
+                                                                                <Rating
+                                                                                    count={5}
+                                                                                    value={item?.feedbacks[0]?.rating}
+                                                                                    onChange={(rating) => handleRatingChange(rating, item)}
+                                                                                    size={25}
+                                                                                    activeColor="#ffd700"
+                                                                                />
+                                                                            }
                                                                         </Col>
 
                                                                     </Row>
