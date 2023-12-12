@@ -147,15 +147,15 @@ const OtpVerification = () => {
                             <Form.Control type="text" name="otp" placeholder="Enter OTP" minLength={6} maxLength={6} value={values.otp} onChange={handleChange} isInvalid={touched.otp && !!errors.otp} />
                             {errors.otp && <div className="d-block invalid-tooltip">{errors.otp}</div>}
                         </div>
-                        {count === 0 ?
+                        {/* {count === 0 ? */}
                             <Button size="md" type="submit" style={{ marginBottom: "10px" }}>
                                 Verify
                             </Button>
-                            :
+                            {/* :
                             <Button disabled size="md" type="submit" style={{ marginBottom: "10px" }}>
                                 Verify
                             </Button>
-                        }
+                        } */}
                         &nbsp;&nbsp;&nbsp;
                         {resendButton &&
                             <Button size="md" onClick={ResendOTP} style={{ marginBottom: "10px" }}>

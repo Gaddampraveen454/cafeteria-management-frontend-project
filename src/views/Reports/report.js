@@ -84,6 +84,10 @@ const report = () => {
   const [storeid, setStoreId] = useState('');
 
   const [selectuser, setSelectUser] = useState('');
+  const [selectuser1, setSelectUser1] = useState('');
+
+
+  console.log(selectuser, "hgdsfsgadhsj")
 
   const StoreData = [];
 
@@ -104,6 +108,7 @@ const report = () => {
   const SelectUserDropdown = (select) => {
     console.log(select, "select")
     setSelectUser(select)
+    setSelectUser1(select?.value)
   }
 
 
@@ -162,7 +167,7 @@ const report = () => {
   }
 
   const Orderwiseexportfunction = async () => {
-    await ExportExcel(`/report/list/company/export?store_uuid=${Orderwisestoreuuid}&user_uuid=${selectuser?.value}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderwiseReports", currentUser.token)
+    await ExportExcel(`/report/list/company/export?store_uuid=${Orderwisestoreuuid}&user_uuid=${selectuser1}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderwiseReports", currentUser.token)
   }
   // /report/date/wise/company?start_date=2023-11-13&end_date=2023-11-14%27
 
@@ -273,7 +278,7 @@ const report = () => {
             options={StoreData}
             // value={compnayId}
             onChange={ItemwiseHandlereportstore}
-            placeholder="Select Store"
+            placeholder="Select Company"
           // disabled={eventType}
           />
         </Col>
@@ -362,7 +367,7 @@ const report = () => {
             options={StoreData}
             // value={compnayId}
             onChange={OrderwiseHandlereportstore}
-            placeholder="Select Store"
+            placeholder="Select Company"
           // disabled={eventType}
           />
         </Col>
@@ -372,7 +377,7 @@ const report = () => {
             options={UserDropdown}
             value={selectuser}
             onChange={SelectUserDropdown}
-            placeholder="Select Store"
+            placeholder="Select User"
           // disabled={eventType}
           />
         </Col>

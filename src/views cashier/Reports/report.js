@@ -46,6 +46,7 @@ const report = () => {
   const [search, setSearch] = useState('')
 
   const [selectuser, setSelectUser] = useState('');
+  const [selectuser1, setSelectUser1] = useState('');
 
 
   useEffect(() => {
@@ -78,6 +79,7 @@ const report = () => {
   const SelectUserDropdown = (select) => {
     console.log(select, "select")
     setSelectUser(select)
+    setSelectUser1(select?.value)
   }
 
 
@@ -147,7 +149,7 @@ const report = () => {
 
 
   const orderwiseexportfunction = async () => {
-    await ExportExcel(`/report/list/cashier/export?user_uuid=${selectuser?.value}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderWiseReport", currentUser.token)
+    await ExportExcel(`/report/list/cashier/export?user_uuid=${selectuser1}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderWiseReport", currentUser.token)
   }
 
   // useEffect(()=>{
@@ -302,7 +304,7 @@ const report = () => {
             options={UserDropdown}
             value={selectuser}
             onChange={SelectUserDropdown}
-            placeholder="Select Store"
+            placeholder="Select User"
           // disabled={eventType}
           />
         </Col>
