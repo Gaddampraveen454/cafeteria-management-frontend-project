@@ -273,7 +273,7 @@ const report = () => {
         {/* </Col> */}
 
         <Col md="3" lg="3" xxl="2" className="mb-1 mt-5">
-          <Form.Label>Select company </Form.Label>
+          <Form.Label>Select Company </Form.Label>
           <Select classNamePrefix="react-select"
             options={StoreData}
             // value={compnayId}
