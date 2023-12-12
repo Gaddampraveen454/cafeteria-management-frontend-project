@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import Select from 'react-select';
 import CheckAll from 'components/check-all/CheckAll';
 import { ICafeAdminCompanyListURL, ICafeAdminCompnayUpdateURL, ICafeAdminCompanyStatusUpdateURL } from "Redux/IcafeAdminRedux/CompanyManagement/companymanagement";
 import {
@@ -38,6 +39,7 @@ const companymanagement = () => {
   const [fssai, setFssai] = useState('')
   const [compnayId, setCompnayId] = useState("")
   const [suc, setSuc] = useState(false);
+  const [autoaccept, setAutoAccept] = useState('');
 
 
   const [page, setPage] = useState(0);
@@ -103,6 +105,7 @@ const companymanagement = () => {
     setFssai(event.fssai_no)
     setCompnayId(event.uuid)
     setimageUrl(event?.logo)
+    setAutoAccept(event.auto_accept)
 
 
   };
@@ -161,6 +164,17 @@ const companymanagement = () => {
 
   }, [image])
 
+  const [selectautoaccpet, setSelectAutoAccept] = useState({ label: autoaccept === true ? "Yes" : "No", value: autoaccept === true ? "Yes" : "No" });
+
+  const AutoAcceptOption = [
+    { label: "Yes", value: true },
+    { label: "No", value: false }
+  ]
+
+  const AutoacceptFunction = (details) => {
+    setSelectAutoAccept(details)
+  }
+
 
   const update = (event) => {
     event.preventDefault()
@@ -176,7 +190,8 @@ const companymanagement = () => {
         "address": address,
         "gstin": gstin,
         "fssai_no": fssai,
-        "logo": UploadedFile
+        "logo": UploadedFile,
+        "auto_accept": selectautoaccpet?.value
 
       }
       dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
@@ -195,6 +210,7 @@ const companymanagement = () => {
         "address": address,
         "gstin": gstin,
         "fssai_no": fssai,
+        "auto_accept": selectautoaccpet?.value
         // "logo":UploadedFile
 
       }
@@ -624,6 +640,10 @@ const companymanagement = () => {
                 <Col lg="6">
                   <Form.Label>Address</Form.Label>
                   <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Auto Accept</Form.Label>
+                  <Select classNamePrefix="react-select" options={AutoAcceptOption} value={selectautoaccpet} onChange={AutoacceptFunction} isDisabled={eventType} />
                 </Col>
                 <Col lg="6">
                   <Form.Label>GSTIN</Form.Label>

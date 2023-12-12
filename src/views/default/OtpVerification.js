@@ -33,6 +33,7 @@ const OtpVerification = () => {
     const history = useHistory();
 
     const [success, setSuccess] = useState(false)
+    const [resendButton, setRendButton] = useState(false)
 
     useEffect(() => {
         if (success === true) {
@@ -64,6 +65,10 @@ const OtpVerification = () => {
         }
         dispatch(OtpVerify(payLoad))
         setSuccess(true)
+        setCount(1)
+        setTimeout(() => {
+            setRendButton(true)
+        }, 60000)
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
@@ -76,6 +81,7 @@ const OtpVerification = () => {
         }
         axios.post(`${process.env.REACT_APP_URL}/user/resend/otp`, payLoad)
             .then((res) => {
+                setCount(0)
                 toast.success('OTP Sent Successfully!')
             })
             .catch((err) => {
@@ -151,9 +157,12 @@ const OtpVerification = () => {
                             </Button>
                         }
                         &nbsp;&nbsp;&nbsp;
-                        <Button size="md" onClick={ResendOTP} style={{ marginBottom: "10px" }}>
-                            Resend OTP
-                        </Button>
+                        {resendButton &&
+                            <Button size="md" onClick={ResendOTP} style={{ marginBottom: "10px" }}>
+                                Resend OTP
+                            </Button>
+                        }
+                        {count !== 0 && <p>Note: You can request OTP again after 60 seconds if not received.</p>}
                     </form>
                 </div>
             </div>

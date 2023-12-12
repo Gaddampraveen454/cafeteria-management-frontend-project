@@ -53,6 +53,7 @@ const Categories = () => {
   const [orderData, setOrderData] = useState([])
   const [loading, setLoading] = useState(false);
 
+  const [count, setCount] = useState(0);
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
   const TotaleAmount = walletAmount > CartData.total_amount ? CartData.total_amount : (CartData.total_amount - walletAmount) * 100
@@ -105,7 +106,7 @@ const Categories = () => {
         return
       }
       console.log(orderData, "orderData")
-
+      setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
         "amount": String(TotaleAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -125,6 +126,7 @@ const Categories = () => {
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
               if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+                setLoading(false)
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
                 setSuc(false)
               } else {
@@ -146,11 +148,11 @@ const Categories = () => {
                 // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
                 socket.emit('newOrder');
 
-                <div>
-                  {loading && (
-                    <Spinner animation="border" variant="primary" />
-                  )}
-                </div>
+                // <div>
+                //   {loading && (
+                //     <Spinner animation="border" variant="primary" />
+                //   )}
+                // </div>
 
                 // socket.on('orderNotification', (value) => {
                 //   console.log(value, 'Order placed');
@@ -348,6 +350,8 @@ const Categories = () => {
   const submitOrder = async (event) => {
     if (userType === "consumer") {
       event.preventDefault()
+      setCount(1)
+      setLoading(true)
       if (currentUser && currentUser?.data?.company_uuid) {
         if (currentUser && currentUser?.data?.company_uuid === CheckoutData.data.company_uuid) {
           const value = event.target.elements
@@ -366,6 +370,7 @@ const Categories = () => {
             })
             .then((respons) => {
               console.log(respons, "fffgdsfsdfdsf")
+              setLoading(false)
               const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
               const queryParams = { transaction_uuid: respons?.data?.message };
               const socket = io(host, {
@@ -382,11 +387,11 @@ const Categories = () => {
                 // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
                 socket.emit('newOrder');
 
-                <div>
-                  {loading && (
-                    <Spinner animation="border" variant="primary" />
-                  )}
-                </div>
+                // <div>
+                //   {loading && (
+                //     <Spinner animation="border" variant="primary" />
+                //   )}
+                // </div>
 
                 if (respons.data.message !== "Checkout Success") {
                   history.push(({
@@ -419,6 +424,7 @@ const Categories = () => {
         }
       }
       else {
+        setLoading(true)
         const value = event.target.elements
         const payload = {
           "checkout_uuid": CheckoutData.data.uuid,
@@ -435,7 +441,7 @@ const Categories = () => {
           })
           .then((respons) => {
             console.log(respons, "fffgdsfsdfdsf")
-
+            setLoading(false)
             const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
             const queryParams = { transaction_uuid: respons?.data?.message };
             const socket = io(host, {
@@ -452,11 +458,11 @@ const Categories = () => {
               // socket.emit('newOrder', { company_uuid: StoreData?.company_uuid, transaction_uuid: orderData && orderData.data && orderData.data.transaction_id });
               socket.emit('newOrder');
 
-              <div>
-                {loading && (
-                  <Spinner animation="border" variant="primary" />
-                )}
-              </div>
+              // <div>
+              //   {loading && (
+              //     <Spinner animation="border" variant="primary" />
+              //   )}
+              // </div>
 
               if (respons.data.message !== "Checkout Success") {
                 history.push(({
@@ -596,8 +602,10 @@ const Categories = () => {
       </div>
       {/* Title End */}
 
+    
+
       <Row>
-        <Col xs={12} sm={12} lg={8} md={8}>
+        <Col xs={12} md={4}>
 
           {/* Payment Start */}
           <h2 className="small-title">Payment</h2>
@@ -617,7 +625,15 @@ const Categories = () => {
             null}
           {/* Payment End */}
         </Col>
-        <Col xs={12} sm={12} lg={4} md={4}>
+        <Col xs={12} md={4} style={{display:"flex",justifyContent:"stretch",alignItems:"center"}} className='spinner-checkout'>
+        <div>
+          {loading && (
+            <Spinner animation="border" variant="primary" />
+          )}
+        </div>
+      </Col>
+        <Col xs={12} md={4} >
+          <div>
           <h2 className="small-title">Summary</h2>
           <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
@@ -686,17 +702,25 @@ const Categories = () => {
                   </NavLink>
                 </label>
               </div> */}
-              <Button className="btn-icon btn-icon-end w-100" variant="primary"
-                onClick={submitOrder}
-              // onClick={displayRazorpay}
-              >
-                <span>Purchase</span> <CsLineIcons icon="chevron-right" />
-              </Button>
+              {count === 0 ?
+                <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                  onClick={submitOrder}
+                // onClick={displayRazorpay}
+                >
+                  <span>Purchase</span> <CsLineIcons icon="chevron-right" />
+                </Button>
+                :
+                <Button className="btn-icon btn-icon-end w-100" variant="primary" disabled>
+                  <span>Purchase</span> <CsLineIcons icon="chevron-right" />
+                </Button>
+              }
               {/* <button className="App-link" onClick={displayRazorpay}>
                     Pay ₹500
                 </button> */}
             </Card.Body>
           </Card>
+          </div>
+          
         </Col>
       </Row>
     </>

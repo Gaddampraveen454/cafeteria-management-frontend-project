@@ -22,6 +22,7 @@ import axios from 'axios';
 import moment from 'moment';
 import QRCode from "react-qr-code";
 import QrCode from '../../Assests/images/upc-scan.svg';
+import QR from '../../Assests/images/qr-code.svg';
 
 const OrderPlaced = () => {
   const dispatch = useDispatch()
@@ -698,16 +699,16 @@ const OrderPlaced = () => {
                               </Col>
                               <Col xs="auto" lg="12">
                                 <div className="sh-4 d-flex align-items-center text-alternate justify-content-lg-end">
-                                  <Button title="Rating" variant="outline-primary" className="btn px-2 py-2"
+                                  <Button title="RATING" variant="outline-primary" className="btn px-2 py-2"
                                     onClick={() => RatingEventHandler(item, "Rating")}
                                   >
                                     <CsLineIcons icon="star" />
                                   </Button>
-                                  <Button title="Rating" variant="outline-primary" className="btn px-2 py-2"
+                                  <Button title="QR" variant="outline-primary" className="btn px-2 py-2"
                                     onClick={() => ViewQRCode(item)}
                                   >
                                     {/* <CsLineIcons icon="print" /> */}
-                                    <img src={QrCode} alt='qr' style={{ color: "#ef698b" }} />
+                                    <img src={QR} alt='qr' style={{ color: "#ef698b" }} />
                                   </Button>
                                   <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                                     onClick={() => { viewEventHandler(item, "View"); setEventType(false) }}

@@ -35,7 +35,7 @@ const OrderSuccessPage = () => {
     companyId = localStorage.getItem('companyId')
   }, [localStorage.getItem('companyId')])
 
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState('');
 
   const handleBack = () => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
@@ -65,6 +65,27 @@ const OrderSuccessPage = () => {
 
 
 
+  // const carouselItems = [
+  //   'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg',
+  //   'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg',
+  //   'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample3.jpg',
+  //   'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg',
+  //   'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg',
+  //   'https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample3.jpg',
+  //   // Add more image URLs as needed
+  // ];
+
+  // const [currentIndex, setCurrentIndex] = useState(0);
+
+  // const goToPrevious = () => {
+  //   setCurrentIndex((prevIndex) => (prevIndex === 0 ? carouselItems.length - 1 : prevIndex - 1));
+  // };
+
+  // const goToNext = () => {
+  //   setCurrentIndex((prevIndex) => (prevIndex === carouselItems.length - 1 ? 0 : prevIndex + 1));
+  // };
+
+
 
   return (
     <>
@@ -72,7 +93,8 @@ const OrderSuccessPage = () => {
       {/* Title Start */}
       <div className="page-title-container">
         <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back"
-          to={`/menu/${companyId}`}
+          // to={`/menu/${companyId}`}
+          to='/menu/company/qr'
         >
           <CsLineIcons icon="chevron-left" size="20" />
           <span className="align-middle text-medium ms-1 ">Menu</span>
@@ -109,7 +131,7 @@ const OrderSuccessPage = () => {
                   </h5> */}
                 </div>
               </div>
-              <Row style={{ padding: '0px' }}>
+              <Row >
                 <Col lg="12" md="12">
 
 
@@ -126,99 +148,128 @@ const OrderSuccessPage = () => {
                       ))}
                     </Carousel>
                   )} */}
+                  {/* <div className="carousel">
+                    <button type="button" onClick={goToPrevious}>&lt; Previous</button>
+                    <div className="carousel-content">
+                      <img src={carouselItems[currentIndex]} alt={`item ${currentIndex}`} />
 
 
-                  {location?.state?.data?.length > 0 && (
-                    <Carousel
-                      containerProps={{
-                        style: {
-                          width: "100%",
-                          justifyContent: "center",
-                          userSelect: "none"
-                        }
-                      }}
-                      showArrows={false}
-                      preventScrollOnSwipe
-                      swipeTreshold={60}
-                      activeSlideIndex={activeSlide}
-                      activeSlideProps={{
-                        style: {
-                          background: "blue"
-                        }
-                      }}
-                      onRequestChange={setActiveSlide}
-                      forwardBtnProps={{
-                        children: ">",
-                        style: {
-                          height: 16,
-                          width: 16,
-                          borderRadius: "50%",
-                          border: 0,
-                          marginTop: "30%",
-                          marginLeft: "10px"
-                        },
-                        activeItemBtnProps: {
-                          background: "red"
-                        }
-                      }}
-                      backwardBtnProps={{
-                        children: "<",
-                        style: {
-                          height: 16,
-                          width: 16,
-                          borderRadius: "50%",
-                          border: 0,
-                          marginTop: "30%",
-                          marginRight: "10px"
-                        },
-                        activeItemBtnProps: {
-                          background: "red"
-                        }
-                      }}
-                      dotsNav={{
-                        show: true,
-                        itemBtnProps: {
-                          style: {
-                            height: 16,
-                            width: 16,
-                            borderRadius: "50%",
-                            border: 0,
-                            margin: "20px",
-                            backgroundColor: "#eb9cb0"
-                          }
-                        },
-                        activeItemBtnProps: {
-                          style: {
-                            height: 16,
-                            width: 16,
-                            borderRadius: "50%",
-                            border: 0,
-                            background: "#ed6789",
-                            margin: "20px"
-                          }
-                        }
-                      }}
 
-                      itemsToShow={1}
-                      speed={300}
-                      centerMode
-                    >
-
-                      {location.state.data.map((items, index) => (
-                        <>
+                      {location.state.data.map((items, index) => {
+                        console.log(items, "hjdfdksjhfkdjs")
+                        return (
                           <div key={index}>
-                            <div>Store Name : {items?.store_name}</div>
-                            <div>Token No: {items?.token_no}</div>
+                            {items?.store_name}<br />
+                            {items?.token_no}
                             <br />
                             <QRCode
                               size={200}
+                              index
                               value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
                             />
                           </div>
-                        </>
-                      ))}
-                    </Carousel>
-                  )}
+                        )
+                      })}
+
+
+                    </div>
+                    <button type="button" onClick={goToNext}>Next &gt;</button>
+                  </div> */}
+                  <br />
+                  <br />
+                  <br />
+                  {/* {location?.state?.data?.length > 0 && ( */}
+                  <Carousel
+                    containerProps={{
+                      style: {
+                        width: "100%",
+                        justifyContent: "center",
+                        alignItems: "center"
+                        // userSelect: "none"
+                      }
+                    }}
+                    onRequestChange={(index) => setActiveSlide(index)}
+                    preventScrollOnSwipe
+                    swipeTreshold={60}
+                    activeSlideIndex={activeSlide}
+                    activeSlideProps={{
+                      style: {
+                        background: "white"
+                      }
+                    }}
+                    // onRequestChange={setActiveSlide}
+                    forwardBtnProps={{
+                      children: ">",
+                      style: {
+                        height: 16,
+                        width: 16,
+                        borderRadius: "50%",
+                        border: 0,
+                        marginTop: "30%",
+                        marginLeft: "10px"
+                      }
+                      // activeItemBtnProps: {
+                      //   background: "red"
+                      // }
+                    }}
+                    backwardBtnProps={{
+                      children: "<",
+                      style: {
+                        height: 16,
+                        width: 16,
+                        borderRadius: "50%",
+                        border: 0,
+                        marginTop: "30%",
+                        marginRight: "10px"
+                      }
+                      // activeItemBtnProps: {
+                      //   background: "red"
+                      // }
+                    }}
+                    dotsNav={{
+                      show: true,
+                      itemBtnProps: {
+                        style: {
+                          height: 16,
+                          width: 16,
+                          borderRadius: "50%",
+                          border: 0,
+                          margin: "20px",
+                          backgroundColor: "#eb9cb0"
+                        }
+                      },
+                      activeItemBtnProps: {
+                        style: {
+                          height: 16,
+                          width: 16,
+                          borderRadius: "50%",
+                          border: 0,
+                          background: "#ed6789",
+                          margin: "20px"
+                        }
+                      }
+                    }}
+
+                    itemsToShow={1}
+                    speed={300}
+                    centerMode
+                  >
+                    {location.state.data.map((items, index) => {
+                      console.log(items, "hjdfdksjhfkdjs")
+                      return (
+                        <div key={index}>
+                          {items?.store_name}<br />
+                          {items?.token_no}
+                          <br />
+                          <QRCode
+                            size={200}
+                            value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
+                          />
+                        </div>
+                      )
+                    })}
+                  </Carousel>
+                  {/* )} */}
 
 
                 </Col>
@@ -240,12 +291,12 @@ const OrderSuccessPage = () => {
                 }
               </Button>
 
-             
+
 
             </Card.Body>
           </Card>
         </Col>
-      </Row>
+      </Row >
     </>
   );
 };

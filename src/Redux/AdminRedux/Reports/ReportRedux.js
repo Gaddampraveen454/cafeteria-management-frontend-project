@@ -6,6 +6,7 @@ import axios from 'axios';
 const initialState = {
   AdminReportData: [],
   reportstorelist:[],
+  userdropdown: {},
   notification: {}
 };
 
@@ -19,6 +20,9 @@ const adminReportSlice = createSlice({
     setreportstorelist(state, action) {
       state.reportstorelist = action.payload;
     },
+    setUserDropdown(state, action){
+      state.userdropdown = action.payload;
+    },
     // setCatData
     setToast(state, action) {
       state.notification = action.payload;
@@ -26,7 +30,7 @@ const adminReportSlice = createSlice({
   },
 });
 
-export const { setAdminReportData,setreportstorelist, setToast } = adminReportSlice.actions;
+export const { setAdminReportData,setreportstorelist,setUserDropdown, setToast } = adminReportSlice.actions;
 
 
 export const AdminReportListURL = (page, search, token, limit, id,storeid,startdate,enddate) => async (dispatch) => {
@@ -62,6 +66,21 @@ export const ExportAdminReportURL = (companyId, startDate, endDate, token) => as
   }).then((res) => {
     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
     dispatch(setAdminReportData(res.data));
+  })
+    .catch((err) => {
+      console.log("err");
+    })
+
+};
+
+export const UserDropdownList = (token, companyID) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/user/dropdown?company_uuid=${companyID}`, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+    dispatch(setUserDropdown(res.data));
   })
     .catch((err) => {
       console.log("err");

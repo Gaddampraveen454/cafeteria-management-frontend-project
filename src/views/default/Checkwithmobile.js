@@ -40,11 +40,24 @@ const Login = () => {
 
     }, [])
 
-    const CheckWithMobile = (e) => {
-        e.preventDefault()
+    const dispatch = useDispatch();
 
+
+    const initialValues = { mobile: '' };
+
+    const validationSchema = Yup.object().shape({
+        mobile: Yup.string().required('Mobile is required'),
+    });
+
+    // const validationSchema = Yup.object().shape({
+    //     email: Yup.string().email().required('Email is required'),
+    //     password: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
+    // });
+    // const initialValues = { emp_id: '', password: '' };
+    const onSubmit = (values) => {
+        console.log('submit form', values);
         const payLoad = {
-            "mobile": mobile
+            "mobile": values?.mobile
         }
 
         axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
@@ -65,6 +78,35 @@ const Login = () => {
                 setCheckapiResponse(true)
             })
     }
+
+    const formik = useFormik({ initialValues, validationSchema, onSubmit });
+    const { handleSubmit, handleChange, values, touched, errors } = formik;
+
+    // const CheckWithMobile = (e) => {
+    //     e.preventDefault()
+
+    //     const payLoad = {
+    //         "mobile": mobile
+    //     }
+
+    //     axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
+    //         .then((res) => {
+    //             console.log(res, "gjdsfjdsh")
+    //             toast.success(res?.data?.message)
+    //             setTimeout(() => {
+    //                 history.push({
+    //                     pathname: "/otp-verification",
+    //                     state: res?.data?.data
+    //                 })
+    //             }, 2000)
+
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //             toast.error(err?.response?.data?.message)
+    //             setCheckapiResponse(true)
+    //         })
+    // }
 
     const [check, setCheck] = useState(false)
 
@@ -129,21 +171,6 @@ const Login = () => {
     // }
     //   },[currentUser])
 
-
-
-
-
-    const validationSchema = Yup.object().shape({
-        email: Yup.string().email().required('Email is required'),
-        password: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
-    });
-    const initialValues = { emp_id: '', password: '' };
-    const onSubmit = (values) => console.log('submit form', values);
-
-    const formik = useFormik({ initialValues, validationSchema, onSubmit });
-    const { handleSubmit, handleChange, values, touched, errors } = formik;
-
-    const dispatch = useDispatch();
 
     console.log(values, "values")
     // const LoginAPI = (event) => {
@@ -220,14 +247,12 @@ const Login = () => {
                     </p>
                 </div>
                 <div>
-                    <form id="loginForm" className="tooltip-end-bottom"
-                    // onSubmit={CheckWithMobile}
-                    // onSubmit={handleLogin}
-                    >
+                    <form id="loginForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="mobile" />
-                            <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} />
-                            {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
+                            <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={values.mobile} onChange={handleChange} />
+                            {/* <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} /> */}
+                            {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
                         </div>
                         {Checkapiresponse === true &&
                             <>
@@ -258,7 +283,7 @@ const Login = () => {
                                 Signup
                             </Button>
                             :
-                            <Button size="lg" type="submit" className="mb-2" onClick={CheckWithMobile}>
+                            <Button size="lg" type="submit" className="mb-2">
                                 Login
                             </Button>
                         }&nbsp;

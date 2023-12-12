@@ -145,6 +145,9 @@ const App = () => {
   const [print, setPrint] = useState(false);
   const [printData, setPrintData] = useState('')
 
+  const [htmlprint, setHTMLPrint] = useState(false);
+  const [htmlresponse, setHtmlResponse] = useState('');
+
   const handleClose = () => {
     setShow(false)
     setAudioStatus(false)
@@ -179,6 +182,14 @@ const App = () => {
         setAudioStatus(true)
         // alert("order Recieved")
       });
+
+      socket.on('htmlContent', (html) => {
+        console.log('Html Response:', html);
+        setHTMLPrint(true)
+        setHtmlResponse(html?.htmlContent)
+        // alert("order Recieved")
+      });
+
 
       socket.emit('newOrder');
       // Clean up the socket connection when the component unmounts
@@ -241,7 +252,7 @@ const App = () => {
       }
     }).then((res) => {
       // alert("Status Updated");
-      console.log(res,"res12345")
+      console.log(res, "res12345")
       StopAudioFunction();
       setAudioStatus(false)
       setPrintData(res.data?.data)
@@ -324,6 +335,38 @@ const App = () => {
           <iframe
             title="Print Frame"
             srcDoc={printData}
+            onLoad={() => {
+              const iframe = document.querySelector("iframe");
+              // iframe.style.display = "none"; // Hide the iframe
+              // Check if the browser supports silent printing
+              if ("requestMediaKeySystemAccess" in navigator) {
+                try {
+                  // Attempt to silently print
+                  console.log("silently print");
+                  iframe.contentWindow.print({ silent: true });
+                  setTimeout(() => {
+                    setHTMLPrint(false);
+                    setHtmlResponse('')
+                  }, 1000)
+
+                } catch (error) {
+                  console.error("Error printing:", error);
+                  setHTMLPrint(false)
+                  setHtmlResponse('')
+                }
+              } else {
+                console.error("Silent printing is not supported in this browser.");
+                setHTMLPrint(false)
+                setHtmlResponse('')
+              }
+            }}
+          />
+        }
+
+        {htmlprint === true && htmlresponse !== "" &&
+          <iframe
+            title="Print Frame"
+            srcDoc={htmlresponse}
             onLoad={() => {
               const iframe = document.querySelector("iframe");
               // iframe.style.display = "none"; // Hide the iframe

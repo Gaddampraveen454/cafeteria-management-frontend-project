@@ -17,7 +17,7 @@ const addAdimcafeCompany = () => {
   const { companyData, notification } = useSelector((state) => state.companymanagement)
   const title = 'Add Company';
   const description = 'Ecommerce Storefront Add Details Page';
-  const url ="https://cmsapi.scienstechnologies.com/product/images/";
+  const url = "https://cmsapi.scienstechnologies.com/product/images/";
 
   const [UploadedFile, setUploadedFile] = useState("")
   console.log(UploadedFile, "UploadedFile")
@@ -77,6 +77,17 @@ const addAdimcafeCompany = () => {
 
   }, [image])
 
+  const [selectautoaccpet, setSelectAutoAccept] = useState('');
+
+  const AutoAcceptOption = [
+    { label: "Yes", value: "true" },
+    { label: "No", value: "false" }
+  ]
+
+  const AutoacceptFunction = (details) => {
+    setSelectAutoAccept(details)
+  }
+
 
 
   const AddCategory = () => {
@@ -91,7 +102,8 @@ const addAdimcafeCompany = () => {
       "address": formValues.address,
       "gstin": formValues.gstin,
       "fssai_no": formValues.fssai_no,
-      "logo":UploadedFile
+      "logo": UploadedFile,
+      "auto_accept": selectautoaccpet?.value
     }
     dispatch(IcafeAdminCompanyAddURL(payload, currentUser.token))
     setSuc(true)
@@ -335,6 +347,12 @@ const addAdimcafeCompany = () => {
                     />
                     <p style={{ color: "red" }}>{formErrors.fssai_no}</p>
                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Auto Accept</Form.Label>
+                    <Select classNamePrefix="react-select" options={AutoAcceptOption} value={selectautoaccpet} onChange={AutoacceptFunction} />
+                    {/* <Form.Control type="number" name="auto_accept" onChange={myhandlechange} /> */}
+                    {/* <p style={{ color: "red" }}>{formErrors.walletamount}</p> */}
                   </Col>
                   <Col lg="6">
                     <div>

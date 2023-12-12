@@ -71,6 +71,29 @@ const NICorders = () => {
     console.log(error);
   };
 
+  // useEffect(() => {
+
+  //   if (result1) {
+
+  //     const Compuuid = result1.split("scanorderdetails/")
+  //     const slugRoute = result1?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+  //     console.log(slugRoute, "result1")
+  //     const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+  //     if (routeStartPath) {
+  //       console.log(routeStartPath, "dghfdsjdshghjs")
+  //       history.push(({
+  //         pathname: `${slugRoute}`,
+  //         state: routeStartPath
+  //       }));
+  //     }
+  //     window.location.reload(false);
+  //   }
+  // }, [result1])
+
+  const [openpopup, setOpenPopup] = useState(false);
+  // const [scantoast, setScanToast] = useState(false);
+  const [message123, setMessage] = useState(false);
+
   useEffect(() => {
 
     if (result1) {
@@ -80,19 +103,29 @@ const NICorders = () => {
       console.log(slugRoute, "result1")
       const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
       if (routeStartPath) {
-        console.log(routeStartPath, "dghfdsjdshghjs")
-        history.push(({
-          pathname: `${slugRoute}`,
-          state: routeStartPath
-        }));
+        setQROpen(false)
+        const payload = {
+          "order_uuid": routeStartPath,
+          "status": "Delivered"
+        }
+        axios.put(`${process.env.REACT_APP_URL}/order/status/update`, payload, {
+          headers: {
+            "x-auth-token": currentUser?.token
+          }
+        }).then((res) => {
+          console.log(res, "sdfsddffsdff")
+          setOpenPopup(true)
+          setMessage(true)
+          toast.success(res.data.message)
+        })
+          .catch((err) => {
+            console.log(err && err.response, "hjgjghgjhghj")
+            setMessage(false)
+            setOpenPopup(true)
+            toast.error(err && err.response?.data)
+          })
+        // setScanToast(true)
       }
-      // else {
-      //   history.push(({
-      //     pathname: `${slugRoute}`,
-      //     state: slugRoute?.replace('/scanorderdetails/', "")
-      //   }));
-      // }
-      window.location.reload(false);
     }
   }, [result1])
 
@@ -113,6 +146,13 @@ const NICorders = () => {
     }
   };
 
+  const OrderStatus = [
+    { label: "Pending", value: "Pending" },
+    { label: "Accepted", value: "Accepted" },
+    { label: "Ready", value: "Ready" },
+    { label: "Delivered", value: "Delivered" },
+    { label: "Cancelled", value: "Cancelled" }
+  ]
 
 
   const [page, setPage] = useState(0);
@@ -124,10 +164,13 @@ const NICorders = () => {
   const [storeuuid, setStoreUUID] = useState('');
   const [storeuuid1, setStoreUUID1] = useState('');
 
+  const [selectorderstatus, setSelectOrderStatus] = useState('')
+
+
   const { OrderData, notification } = useSelector((state) => state.orderList)
   const { StoreList } = useSelector((state) => state.products)
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
@@ -139,32 +182,32 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, ""))
+      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
     }
   }
 
@@ -180,10 +223,15 @@ const NICorders = () => {
     console.log(event)
     setStoreUUID(event?.value)
     setStoreUUID1(event)
-    dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, ""))
+    dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, selectorderstatus?.value))
   }
 
 
+  const OrderStatusFunction = (value) => {
+    console.log(value, "ghdsvcsgzvchj")
+    setSelectOrderStatus(value)
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, value?.value))
+  }
 
 
 
@@ -211,7 +259,7 @@ const NICorders = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, ""))
+          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
           // setOpen(false)
 
         }, 1000)
@@ -371,6 +419,15 @@ const NICorders = () => {
             value={storeuuid1}
             onChange={SelectStoreNamevalue}
             placeholder="Select Store" />
+        </Col>
+        <Col md="2" lg="2" xxl="2">
+          {/* <Form.Label>Category</Form.Label> */}
+          <Select
+            classNamePrefix="react-select"
+            options={OrderStatus}
+            value={selectorderstatus}
+            onChange={OrderStatusFunction}
+            placeholder="Order Status" />
         </Col>
         <Col md="2" lg="2" xxl="2">
           <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
@@ -672,16 +729,16 @@ const NICorders = () => {
 
 
               <Row className="g-3 ">
-                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                <Col xs="9" lg="9" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                   <div className="text-muted text-medium cursor-pointer">Product Name</div>
                   {view?.details?.length > 0 && view?.details?.map((item, index) => {
                     console.log(item, 'hcbghefyef')
                     return (
-                      <div key={index}>{item?.name}</div>
+                      <div key={index}>{item?.name?.length > 18 ? `${item?.name.slice(0, 18)}..` : item?.name}</div>
                     )
                   })}
                 </Col>
-                <Col xs="6" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                <Col xs="3" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                   <div className="text-muted text-medium cursor-pointer ">Quantity</div>
                   {view?.details?.length > 0 && view?.details?.map((item, index) => {
                     console.log(item, 'hcbghefyef')
@@ -911,6 +968,42 @@ const NICorders = () => {
             />
           </DialogContent>
           <p>{result1}</p>
+        </Dialog>
+
+        <Dialog
+          open={openpopup}
+          onClose={() => setOpenPopup(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent style={{ width: "100%", height: "100%" }}>
+            <Row>
+              <Col xs="12" lg="12" className="order-0 order-lg-1">
+                {/* <h2 className="small-title">Order Placed</h2> */}
+                <Card style={{ width: "100%", height: "100%", justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                  <Card.Body>
+                    <div className="mb-4">
+                      <div className="mb-2">
+                        <div >
+                          <CsLineIcons icon="check-circle" size="45" />
+                        </div>
+                        <h3 >
+                          {message123 ? "Order successfully Delivered" : "Already Order Delivered"}
+                        </h3>
+                      </div>
+                    </div>
+                    <br />
+
+                    <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={() => { setOpenPopup(false); setQROpen(true) }}>
+                      <CsLineIcons icon="chevron-left" />
+                      <span>Back to Scan </span>
+                    </Button>
+
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row >
+          </DialogContent>
         </Dialog>
 
       </div>

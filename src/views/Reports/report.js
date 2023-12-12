@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminReportListURL, ReportstorelistApi, ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
+import { AdminReportListURL, UserDropdownList, ReportstorelistApi, ExportAdminReportURL } from "Redux/AdminRedux/Reports/ReportRedux"
 import { NavLink } from 'react-router-dom';
 import { Row, Col, Button, Dropdown, Form, Card, Badge, Pagination, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
 // import DatePicker from "react-multi-date-picker"
@@ -26,10 +27,23 @@ const report = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [itemwisestartDate, setItemWiseStartDate] = useState('');
+  const [itemwiseendDate, setItemWiseEndDate] = useState("");
 
-  const [storeuuid, setstoreuuid] = useState('')
+  const [orderwisestartDate, setOrderWiseStartDate] = useState("");
+  const [orderwiseendDate, setOrderWiseEndDate] = useState("");
+
+  const [Itemwisestoreuuid, setItemWiseStoreuuid] = useState('')
+  const [Orderwisestoreuuid, setOrderWiseStoreuuid] = useState('')
+
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    setItemWiseStartDate(today);
+    setItemWiseEndDate(today);
+    setOrderWiseStartDate(today);
+    setOrderWiseEndDate(today);
+  }, []);
+
 
   const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedItems, setSelectedItems] = useState([]);
@@ -59,8 +73,9 @@ const report = () => {
   const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
   const { currentUser } = useSelector((state) => state.auth)
-  const { AdminReportData, notification, reportstorelist } = useSelector((state) => state.AdminReportList)
-  console.log(reportstorelist, "reportstorelistreportstorelist");
+  const { AdminReportData, notification, reportstorelist, userdropdown } = useSelector((state) => state.AdminReportList)
+  const { StoreList } = useSelector((state) => state.products)
+  console.log(userdropdown, "reportstorelistreportstorelist");
 
   // const { companyData01 } = useSelector((state) => state.company)
 
@@ -68,80 +83,123 @@ const report = () => {
 
   const [storeid, setStoreId] = useState('');
 
+  const [selectuser, setSelectUser] = useState('');
+
   const StoreData = [];
 
-  reportstorelist?.data?.map((text) => {
-    return StoreData.push({ label: text?.store_name, value: text?.uuid })
-  }, [])
+  if (StoreList?.data?.length > 0) {
+    StoreList?.data?.map((text) => {
+      return StoreData.push({ label: text?.store_name, value: text?.uuid })
+    }, [])
+  }
 
-  const Handlereportstore = (event) => {
+  const UserDropdown = [];
+
+  if (userdropdown?.length > 0) {
+    userdropdown?.map((item) => {
+      return UserDropdown.push({ label: item?.name, value: item?.uuid })
+    }, [])
+  }
+
+  const SelectUserDropdown = (select) => {
+    console.log(select, "select")
+    setSelectUser(select)
+  }
+
+
+  const ItemwiseHandlereportstore = (event) => {
     console.log(event?.value, "eventeventevent")
-    setstoreuuid(event?.value)
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value, startDate, endDate))
+    setItemWiseStoreuuid(event?.value)
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value, itemwisestartDate, itemwiseendDate))
+  }
 
+  const OrderwiseHandlereportstore = (event) => {
+    console.log(event?.value, "eventeventevent")
+    setOrderWiseStoreuuid(event?.value)
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value, orderwisestartDate, orderwiseendDate))
   }
 
   // useEffect(() => {
   //   dispatch(AdminReportListURL(currentUser.token))
   // }, [])
+
+  // useEffect(() => {
+  //   dispatch(ReportstorelistApi(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+  // }, [])
+
   useEffect(() => {
-    dispatch(ReportstorelistApi(page, search, currentUser.token, limit, currentUser?.data?.uuid))
-  }, [])
-  useEffect(() => {
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Itemwisestoreuuid, itemwisestartDate, itemwiseendDate))
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+    dispatch(UserDropdownList(currentUser?.token, currentUser?.data?.uuid))
     // dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
   }, [])
 
 
-  const ChangeStartData = e => {
+  const ItemwiseChangeStartData = e => {
     console.log("ChangeStartData: ", e.target.value);
-    setStartDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, e.target.value, endDate))
+    setItemWiseStartDate(e.target.value);
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Itemwisestoreuuid, e.target.value, itemwiseendDate))
   };
-  const ChangeEndData = e => {
+  const ItemwiseChangeEndData = e => {
     console.log("ChangeStartData: ", e.target.value);
-    setEndDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, storeuuid, startDate, e.target.value))
+    setItemWiseEndDate(e.target.value);
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Itemwisestoreuuid, itemwisestartDate, e.target.value))
   };
 
-  const exportfunction = async () => {
-    await ExportExcel(`/report/date/wise/company?start_date=${startDate}&end_date=${endDate}`, "Report", currentUser.token)
+  const OrderwiseChangeStartData = e => {
+    console.log("ChangeStartData: ", e.target.value);
+    setOrderWiseStartDate(e.target.value);
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Orderwisestoreuuid, e.target.value, orderwiseendDate))
+  };
+  const OrderwiseChangeEndData = e => {
+    console.log("ChangeStartData: ", e.target.value);
+    setOrderWiseEndDate(e.target.value);
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Orderwisestoreuuid, orderwisestartDate, e.target.value))
+  };
+
+  const Itemwiseexportfunction = async () => {
+    await ExportExcel(`/report/date/wise/company?start_date=${itemwisestartDate}&end_date=${itemwiseendDate}&store_uuid=${Itemwisestoreuuid}`, "ItemwiseReports", currentUser.token)
+  }
+
+  const Orderwiseexportfunction = async () => {
+    await ExportExcel(`/report/list/company/export?store_uuid=${Orderwisestoreuuid}&user_uuid=${selectuser?.value}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderwiseReports", currentUser.token)
   }
   // /report/date/wise/company?start_date=2023-11-13&end_date=2023-11-14%27
-  const searchfunction = (type, pages) => {
-    console.log(pages, "ghjsdfsdfkvbnm")
-    if (type === "search") {
-      console.log(pages, "ghjkvbnm")
-      setSearch(pages)
-      setPage(0)
-      dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-    if (type === "prev") {
-      setPage(page - 1)
-      dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-    else if (type === "next") {
-      setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-    else if (type === "page") {
-      setPage(page)
-      dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-    else if (type === "page+1") {
-      setPage(page + 1)
-      dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-    else if (type === "page+2") {
-      setPage(page + 2)
-      dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-    else if (type === "limit") {
-      setLimit(pages)
-      setPage(0)
-      dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, startDate, endDate))
-    }
-  }
+
+  // const searchfunction = (type, pages) => {
+  //   console.log(pages, "ghjsdfsdfkvbnm")
+  //   if (type === "search") {
+  //     console.log(pages, "ghjkvbnm")
+  //     setSearch(pages)
+  //     setPage(0)
+  //     dispatch(AdminReportListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  //   if (type === "prev") {
+  //     setPage(page - 1)
+  //     dispatch(AdminReportListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  //   else if (type === "next") {
+  //     setPage(page + 1)
+  //     dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  //   else if (type === "page") {
+  //     setPage(page)
+  //     dispatch(AdminReportListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  //   else if (type === "page+1") {
+  //     setPage(page + 1)
+  //     dispatch(AdminReportListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  //   else if (type === "page+2") {
+  //     setPage(page + 2)
+  //     dispatch(AdminReportListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  //   else if (type === "limit") {
+  //     setLimit(pages)
+  //     setPage(0)
+  //     dispatch(AdminReportListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, itemwisestartDate, itemwiseendDate))
+  //   }
+  // }
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -192,9 +250,12 @@ const report = () => {
       </div>
 
       <Row className="mb-3">
-        <Col md="3" lg="3" xxl="2" className="mb-1">
-          {/* Search Start */}
-          <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+        <h3>Item Wise Reports:</h3>
+
+        {/* <Col md="3" lg="3" xxl="2" className="mb-1"> */}
+        {/* Search Start */}
+        {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
             <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
             <span className="search-magnifier-icon">
               <CsLineIcons icon="search" />
@@ -202,28 +263,28 @@ const report = () => {
             <span className="search-delete-icon d-none">
               <CsLineIcons icon="close" />
             </span>
-          </div>
-          {/* Search End */}
-        </Col>
+          </div> */}
+        {/* Search End */}
+        {/* </Col> */}
 
-        <Col md="2" lg="2" className="mb-1">
-          {/* <Form.Label>Company</Form.Label> */}
+        <Col md="3" lg="3" xxl="2" className="mb-1 mt-5">
+          <Form.Label>Select company </Form.Label>
           <Select classNamePrefix="react-select"
             options={StoreData}
             // value={compnayId}
-            onChange={Handlereportstore}
+            onChange={ItemwiseHandlereportstore}
             placeholder="Select Store"
           // disabled={eventType}
           />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" >
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
-          <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
+          <Form.Control type="date" value={itemwisestartDate} onChange={ItemwiseChangeStartData} placeholder="Start date" />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" >
           <Form.Label>End date</Form.Label>
-          <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
+          <Form.Control type="date" value={itemwiseendDate} onChange={ItemwiseChangeEndData} placeholder="End date" />
           {/* </div> */}
         </Col>
         {/* <Col md="3" lg="3" xxl="3" className="mb-1">
@@ -247,7 +308,7 @@ const report = () => {
           <Form.Control type="date" value={endDate} onChange={ChangeEndData} /> */}
         {/* </div> */}
         {/* </Col> */}
-        <Col md="3" lg="3" xxl="2" className="mb-1 text-end" >
+        <Col md="3" lg="3" xxl="2" className="mb-1 mt-5 text-start" >
 
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
@@ -258,7 +319,7 @@ const report = () => {
           {/* Print Button End */}
 
           {/* Export Dropdown Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4" >
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
@@ -266,14 +327,15 @@ const report = () => {
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
               {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
-              <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={Itemwiseexportfunction}>Excel</Dropdown.Item>
               {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
           {/* Export Dropdown End */}
 
           {/* Length Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+
+          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                 {limit} Items
@@ -284,16 +346,71 @@ const report = () => {
               <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
               <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
 
           {/* Length End */}
         </Col>
 
       </Row>
 
+      <Row className="mb-3">
+        <h3>Order Wise Reports:</h3>
+
+        <Col md="2" lg="2" className="mb-1 mt-5">
+          <Form.Label>Select Company</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={StoreData}
+            // value={compnayId}
+            onChange={OrderwiseHandlereportstore}
+            placeholder="Select Store"
+          // disabled={eventType}
+          />
+        </Col>
+        <Col md="2" lg="2" className="mb-1 mt-5">
+          <Form.Label>Select User</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={UserDropdown}
+            value={selectuser}
+            onChange={SelectUserDropdown}
+            placeholder="Select Store"
+          // disabled={eventType}
+          />
+        </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+          {/* <div className="mb-3"> */}
+          <Form.Label>Start date</Form.Label>
+          <Form.Control type="date" value={orderwisestartDate} onChange={OrderwiseChangeStartData} placeholder="Start date" />
+        </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+          <Form.Label>End date</Form.Label>
+          <Form.Control type="date" value={orderwiseendDate} onChange={OrderwiseChangeEndData} placeholder="End date" />
+          {/* </div> */}
+        </Col>
+
+        <Col md="3" lg="3" xxl="2" className="mb-1 mt-5" >
+          {/* Export Dropdown Start */}
+          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
+              <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
+                <CsLineIcons icon="download" />
+              </Dropdown.Toggle>
+            </OverlayTrigger>
+            <Dropdown.Menu className="shadow dropdown-menu-end">
+              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#" onClick={Orderwiseexportfunction}>Excel</Dropdown.Item>
+              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+            </Dropdown.Menu>
+          </Dropdown>
+          {/* Export Dropdown End */}
+
+        </Col>
+
+      </Row>
+
+
       {/* List Header Start */}
-      <Row className="g-0 mb-2 d-none d-lg-flex">
-        {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
+
+      {/* <Row className="g-0 mb-2 d-none d-lg-flex">
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -315,33 +432,22 @@ const report = () => {
               <div className="text-muted text-medium cursor-pointer sort">Status</div>
             </Col>
 
-            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Active</div>
-            </Col> */}
 
           </Row>
         </Col>
-      </Row>
+      </Row> */}
       {/* List Header End */}
 
       {/* List Items Start */}
-      {AdminReportData && AdminReportData.data && AdminReportData.data.map((item, index) => {
+
+      {/* {AdminReportData && AdminReportData.data && AdminReportData.data.map((item, index) => {
         return <div key="">
           <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
             <Row className="g-0 h-100 sh-lg-9 position-relative">
-              {/* <Col xs="auto" className="positio-relative">
-            <NavLink to="/products/detail">
-              <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
-            </NavLink>
-          </Col> */}
+             
               <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                 <Row className="g-0 h-100 ">
-                  {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
-                <NavLink to="/products/detail">
-                  Anpan
-                  <div className="text-small text-muted text-truncate">#2342</div>
-                </NavLink>
-              </Col> */}
+                  
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item?.stores[0]?.store_name}</div>
                   </Col>
@@ -361,37 +467,17 @@ const report = () => {
                     <div className="lh-1 text-alternate">{item?.payment_status}</div>
                   </Col>
 
-                  {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">
-                      <table>
-                        <tr>
-                    
-                          <td>
-                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2">
-                              <CsLineIcons icon="eye" />
-                            </Button>
-                          </td>
-                          <td>
-                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2">
-                              <CsLineIcons icon="edit-square" />
-                            </Button>
-                          </td>
-                  
-                        </tr>
-                      </table>
-                    </div>
-                  </Col> */}
-
                 </Row>
               </Col>
             </Row>
           </Card></div>
-      })}
+      })} */}
 
       {/* List Items End */}
 
       {/* Pagination Start */}
-      <div className="d-flex justify-content-center mt-5">
+
+      {/* <div className="d-flex justify-content-center mt-5">
         <Pagination>
           <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
             <CsLineIcons icon="chevron-left" />
@@ -412,7 +498,8 @@ const report = () => {
             <CsLineIcons icon="chevron-right" />
           </Pagination.Next>
         </Pagination>
-      </div>
+      </div> */}
+
       {/* Pagination End */}
     </>
   );
