@@ -76,8 +76,8 @@ export const StoreCategoryUpdateURL = (uuid,payload, token) => async (dispatch) 
    
   };
 
-  export const  StoreCategoryStatusUpdateURL = (payload, token) => async (dispatch) => {
-    const response = await axios.put(`${process.env.REACT_APP_URL}/category/change/status`, payload, {
+  export const  StoreCategoryStatusUpdateURL = (payload, token,id) => async (dispatch) => {
+    const response = await axios.put(`${process.env.REACT_APP_URL}/category/status/update/${id}`, payload, {
       headers: {
         "x-auth-token": token
       }

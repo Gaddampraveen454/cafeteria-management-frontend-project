@@ -273,12 +273,12 @@ const report = () => {
         {/* </Col> */}
 
         <Col md="3" lg="3" xxl="2" className="mb-1 mt-5">
-          <Form.Label>Select Company </Form.Label>
+          <Form.Label>Select Store </Form.Label>
           <Select classNamePrefix="react-select"
             options={StoreData}
             // value={compnayId}
             onChange={ItemwiseHandlereportstore}
-            placeholder="Select Company"
+            placeholder="Select Store"
           // disabled={eventType}
           />
         </Col>
@@ -362,12 +362,12 @@ const report = () => {
         <h3>Order Wise Reports:</h3>
 
         <Col md="2" lg="2" className="mb-1 mt-5">
-          <Form.Label>Select Company</Form.Label>
+          <Form.Label>Select Store</Form.Label>
           <Select classNamePrefix="react-select"
             options={StoreData}
             // value={compnayId}
             onChange={OrderwiseHandlereportstore}
-            placeholder="Select Company"
+            placeholder="Select Store"
           // disabled={eventType}
           />
         </Col>

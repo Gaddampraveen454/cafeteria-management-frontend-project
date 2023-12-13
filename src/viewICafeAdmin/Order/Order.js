@@ -5,10 +5,22 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import moment from "moment";
+import axios from 'axios'
 import { AdminOrderListURL } from "Redux/IcafeAdminRedux/Orders/orderredux";
 import { AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
+import QrReader from "react-web-qr-reader";
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
@@ -41,6 +53,7 @@ const Order = () => {
     const [comapanyOption, setComapanyOption] = useState('')
     const [option, setOption] = useState('');
     const [option1, setOption1] = useState('');
+    const [qropen, setQROpen] = React.useState(false);
     const [discountModal, setDiscountModal] = useState(false);
     const [view, setView] = useState('');
     console.log(view, 'hsbdvhgbfberu')
@@ -56,6 +69,73 @@ const Order = () => {
     //   );
     console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
 
+    const [result1, setResult1] = useState();
+
+  const delay = 500;
+  const previewStyle = {
+    // height: 200,
+    width: 280
+  };
+
+  const handleScan = (result) => {
+
+    const Compuuid = result?.data?.split("scanorderdetails/")
+    const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+    const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+
+    console.log(slugRoute, "routeStartPath")
+
+    if (routeStartPath?.startsWith("ORD-")) {
+      localStorage.setItem('OrderCompanyDetails', routeStartPath);
+    }
+    if (result) {
+      setResult1(result.data);
+    }
+  };
+
+  const handleError = (error) => {
+    console.log(error);
+  };
+
+
+    const [openpopup, setOpenPopup] = useState(false);
+  // const [scantoast, setScanToast] = useState(false);
+  const [message123, setMessage] = useState(false);
+
+  useEffect(() => {
+
+    if (result1) {
+
+      const Compuuid = result1.split("scanorderdetails/")
+      const slugRoute = result1?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+      console.log(slugRoute, "result1")
+      const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+      if (routeStartPath) {
+        setQROpen(false)
+        const payload = {
+          "order_uuid": routeStartPath,
+          "status": "Delivered"
+        }
+        axios.put(`${process.env.REACT_APP_URL}/order/status/update`, payload, {
+          headers: {
+            "x-auth-token": currentUser?.token
+          }
+        }).then((res) => {
+          console.log(res, "sdfsddffsdff")
+          setOpenPopup(true)
+          setMessage(true)
+          toast.success(res.data.message)
+        })
+          .catch((err) => {
+            console.log(err && err.response, "hjgjghgjhghj")
+            setMessage(false)
+            setOpenPopup(true)
+            toast.error(err && err.response?.data)
+          })
+        // setScanToast(true)
+      }
+    }
+  }, [result1])
     useEffect(() => {
         dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
     }, [])
@@ -205,7 +285,7 @@ const Order = () => {
             </div>
 
             <Row className="mb-3">
-                <Col md="5" lg="3" xxl="2" className="mb-1">
+                <Col  lg="3" xxl="2" className="mb-1">
                     {/* Search Start */}
                     {/* <Form.Label/> */}
                     <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -232,7 +312,7 @@ const Order = () => {
                 {/* /> */}
                 {/* </Col> */}
 
-                <Col lg="3" className='mb-2'>
+                <Col lg="3" xxl='2' className='mb-2'>
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -252,7 +332,7 @@ const Order = () => {
                         }}
                     />
                 </Col>
-                <Col lg="3" className='mb-2'>
+                <Col lg="3" xxl='2' className='mb-2'>
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -271,7 +351,13 @@ const Order = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col lg="3" className="mb-1 text-end">
+                <Col  lg="2" xxl="2">
+                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                        onClick={() => setQROpen(true)}>
+                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
+                    </Button>
+                </Col>
+                <Col lg="1" xxl='3' className="mb-1 text-end">
                     {/* Print Button Start */}
                     {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
                         <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -360,7 +446,7 @@ const Order = () => {
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">Id</div>
                                     {/* <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center"> */}
-                                    <div className="text-alternate">{index + 1}</div>   
+                                    <div className="text-alternate">{index + 1}</div>
                                     {/* </NavLink> */}
                                 </Col>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
@@ -419,7 +505,7 @@ const Order = () => {
                                     </div>
                                 </Col>
                                 <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                <div className="text-muted text-small d-md-none">View</div>
+                                    <div className="text-muted text-small d-md-none">View</div>
                                     <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
                                         onClick={() => viewEventHandler(text)}
                                     >
@@ -791,10 +877,10 @@ const Order = () => {
                             {/* <Row className="g-0 mb-2 d-none d-lg-flex">
                                 <Col>
                                     <Row className="g-0 w-100 h-100 align-content-start  h-100"> */}
-                                        {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                            {/* <Col xs="1" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                           <div className="text-muted text-medium cursor-pointer sort">S.No</div>
                         </Col> */}
-                                        {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                            {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                             <div className="text-muted text-medium cursor-pointer">Product Name</div>
                                             {view?.details?.length > 0 && view?.details?.map((item, index) => {
                                                 console.log(item, 'hcbghefyef')
@@ -803,10 +889,10 @@ const Order = () => {
                                                 )
                                             })}
                                         </Col> */}
-                                        {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                            {/* <Col xs="2" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                           <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
                         </Col> */}
-                                        {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                            {/* <Col xs="12" lg="6" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                             <div className="text-muted text-medium cursor-pointer ">Quantity</div>
                                             {view?.details?.length > 0 && view?.details?.map((item, index) => {
                                                 console.log(item, 'hcbghefyef')
@@ -815,23 +901,23 @@ const Order = () => {
                                                 )
                                             })}
                                         </Col> */}
-                                        {/* <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                            {/* <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                           <div className="text-muted text-medium cursor-pointer sort">Price</div>
                         </Col> */}
-                                    {/* </Row>
+                            {/* </Row>
                                 </Col>
                             </Row>
                         </Form> */}
 
 
-                        
+
                             <Row className="g-3 ">
                                 <Col xs="9" lg="9" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
                                     <div className="text-muted text-medium cursor-pointer">Product Name</div>
                                     {view?.details?.length > 0 && view?.details?.map((item, index) => {
                                         console.log(item, 'hcbghefyef')
                                         return (
-                                            <div key={index}>{item?.name?.length > 18 ? `${item?.name.slice(0,18)}..`:item?.name}</div>
+                                            <div key={index}>{item?.name?.length > 18 ? `${item?.name.slice(0, 18)}..` : item?.name}</div>
                                         )
                                     })}
                                 </Col>
@@ -937,6 +1023,62 @@ const Order = () => {
                 </Pagination>
             </div>
             {/* Pagination End */}
+
+            <Dialog
+          open={qropen}
+          onClose={() => setQROpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* qr code start */}
+          <DialogContent style={{ width: "100%", height: "100%" }}>
+            <QrReader
+              delay={delay}
+              style={previewStyle}
+              onError={handleError}
+              // onScan={handleScan}
+              onScan={(result) => handleScan(result)}
+            />
+          </DialogContent>
+          <p>{result1}</p>
+        </Dialog>
+
+        <Dialog
+          open={openpopup}
+          onClose={() => setOpenPopup(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent style={{ width: "100%", height: "100%" }}>
+            <Row>
+              <Col xs="12" lg="12" className="order-0 order-lg-1">
+                {/* <h2 className="small-title">Order Placed</h2> */}
+                <Card style={{ width: "100%", height: "100%", justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                  <Card.Body>
+                    <div className="mb-4">
+                      <div className="mb-2">
+                        <div >
+                          <CsLineIcons icon="check-circle" size="45" />
+                        </div>
+                        <h3 >
+                          {message123 ? "Order successfully Delivered" : "Already Order Delivered"}
+                        </h3>
+                      </div>
+                    </div>
+                    <br />
+
+                    <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={() => { setOpenPopup(false); setQROpen(true) }}>
+                      <CsLineIcons icon="chevron-left" />
+                      <span>Back to Scan </span>
+                    </Button>
+
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row >
+          </DialogContent>
+        </Dialog>
+
         </>
     );
 };

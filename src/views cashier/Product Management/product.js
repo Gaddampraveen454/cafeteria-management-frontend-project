@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreCategoryDropDownL } from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux'
-import { StoreProductListURL, ProductAddURL, StoreProductUpdateURL, StoreProductBulkUplodURL } from 'Redux/CashierRedux/Product/ProductRedux';
+import { StoreProductListURL, ProductAddURL, StoreProductUpdateURL, StoreProductBulkUplodURL, StoreProductStatusUpdateURL } from 'Redux/CashierRedux/Product/ProductRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -332,6 +332,18 @@ const product = () => {
       dispatch(StoreProductListURL(0, search, currentUser.token, pages, currentUser.data.uuid, selectcat1))
     }
   }
+
+  const HandleCategoryStatus = (event) => {
+    console.log(event, "eventxcvvxcvv")
+    // if (event.is_delivered)
+    const payload = {
+      "uuid" : event.uuid,
+      "status" : !event.is_active
+  }
+    dispatch(StoreProductStatusUpdateURL(payload, currentUser.token))
+    setSuc(true)
+    
+  };
   return (
     <>
       <Dialog
@@ -558,14 +570,20 @@ const product = () => {
                     <div className="lh-1 text-alternate">{item.quantity}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">
-                      <div className="mb-n1">
-                        {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                        <Form.Check type="switch" id="quantitySwitch2" defaultChecked />
-                        {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                      </div>
-                    </div>
-                  </Col>
+                <div className="lh-1 text-alternate">
+                <div className="mb-n1">
+                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
+                  <Form.Check 
+                   
+                  type="switch"
+                           checked={item.is_active} 
+                           onClick={() => { HandleCategoryStatus(item) }}
+
+                     />
+                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
+                </div>
+                </div>
+              </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
                       <div className="lh-1 text-alternate">
