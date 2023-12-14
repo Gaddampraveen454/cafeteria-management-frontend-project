@@ -11,7 +11,7 @@ import DatePicker from 'react-datepicker';
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
 import { ExportExcel } from 'Export';
-import { ICafeAdminReportListURL } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
+import { ICafeAdminReportListURL, ICafeAdminUserDropdownList } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, ICafeAdminCategoryStoreDropDownList } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
 
 const AdminReports = () => {
@@ -44,12 +44,19 @@ const AdminReports = () => {
     };
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [orderStartDate, setOrderStartDate] = useState('');
+    const [orderEndDate, setOrderEndDate] = useState('');
     const [selectValueState, setSelectValueState] = useState("");
     console.log(selectValueState, "selectValueState")
     const { companyData } = useSelector((state) => state.companyList)
     const [comapanyOption, setComapanyOption] = useState('')
     const [companyOption1, setCompanyOption1] = useState('')
+    const [orderComapnyOption, setOrderCompanyOption] = useState('');
+    const [orderComapnyOption1, setOrderCompanyOption1] = useState('');
+    const [orderOption, setOrderOption] = useState('');
     const [option, setOption] = useState('');
+    const [selectuser, setSelectUser] = useState('');
+    const [selectuser1, setSelectUser1] = useState('');
 
 
     console.log(companyData, "sfsdfdsfs");
@@ -57,10 +64,16 @@ const AdminReports = () => {
     const companyList = companyData && companyData.data && companyData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
     const { currentUser } = useSelector((state) => state.auth)
-    const { AdminReportData, notification } = useSelector((state) => state.admindashbord)
-    console.log(AdminReportData, 'dbsvhdsghvgh');
+    const { AdminReportData, notification, userDrop } = useSelector((state) => state.admindashbord)
+    console.log(userDrop, 'dbsvhhvhvdsghvgh');
 
-
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        setStartDate(today);
+        setEndDate(today);
+        setOrderStartDate(today);
+        setOrderEndDate(today);
+    }, []);
 
     // useEffect(() => {
     //   dispatch(AdminReportListURL(currentUser.token))
@@ -91,6 +104,17 @@ const AdminReports = () => {
         dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, e?.target?.value));
     };
 
+    const OrderStartData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setOrderStartDate(e.target.value);
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, e?.target?.value, orderEndDate));
+    };
+    const OrderEndData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setOrderEndDate(e.target.value);
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, e?.target?.value));
+    };
+
     const { AdmincategoryDropdown, storeDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
     // const { AdmincategoryDropdown,storeDropdown } = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
@@ -101,43 +125,48 @@ const AdminReports = () => {
         dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
     }, [])
 
-    const searchfunction = (type, pages) => {
-        if (type === "search") {
-            console.log(pages, "ghjkvbnm")
-            setSearch(pages)
-            setPage(0)
-            dispatch(ICafeAdminReportListURL(0, pages, currentUser.token, limit, comapanyOption, option, startDate, endDate))
-        }
-        if (type === "prev") {
-            setPage(page - 1)
-            dispatch(ICafeAdminReportListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
-        }
-        else if (type === "next") {
-            setPage(page + 1)
-            dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
-        }
-        else if (type === "page") {
-            setPage(page)
-            dispatch(ICafeAdminReportListURL(page, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
-        }
-        else if (type === "page+1") {
-            setPage(page + 1)
-            dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
-        }
-        else if (type === "page+2") {
-            setPage(page + 2)
-            dispatch(ICafeAdminReportListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
-        }
-        else if (type === "limit") {
-            setLimit(pages)
-            setPage(0)
-            dispatch(ICafeAdminReportListURL(0, search, currentUser.token, pages, comapanyOption, option, startDate, endDate))
-        }
-    }
+    useEffect(() => {
+        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
+    }, [])
+
+    // const searchfunction = (type, pages) => {
+    //     if (type === "search") {
+    //         console.log(pages, "ghjkvbnm")
+    //         setSearch(pages)
+    //         setPage(0)
+    //         dispatch(ICafeAdminReportListURL(0, pages, currentUser.token, limit, comapanyOption, option, startDate, endDate))
+    //     }
+    //     if (type === "prev") {
+    //         setPage(page - 1)
+    //         dispatch(ICafeAdminReportListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
+    //     }
+    //     else if (type === "next") {
+    //         setPage(page + 1)
+    //         dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
+    //     }
+    //     else if (type === "page") {
+    //         setPage(page)
+    //         dispatch(ICafeAdminReportListURL(page, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
+    //     }
+    //     else if (type === "page+1") {
+    //         setPage(page + 1)
+    //         dispatch(ICafeAdminReportListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
+    //     }
+    //     else if (type === "page+2") {
+    //         setPage(page + 2)
+    //         dispatch(ICafeAdminReportListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
+    //     }
+    //     else if (type === "limit") {
+    //         setLimit(pages)
+    //         setPage(0)
+    //         dispatch(ICafeAdminReportListURL(0, search, currentUser.token, pages, comapanyOption, option, startDate, endDate))
+    //     }
+    // }
 
     useEffect(() => {
         dispatch(ICafeAdminCategoryDropDownListURL());
         dispatch(ICafeAdminCategoryStoreDropDownListURL());
+
     }, [])
 
     const [isClearable, setIsClearable] = useState(true);
@@ -177,14 +206,66 @@ const AdminReports = () => {
         dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
     }
 
+    
+
+
+    const OrderCompanyDropDown = [];
+
+    AdmincategoryDropdown?.data?.map((text) => {
+        return OrderCompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+    })
+
+    const OrderCompanyHandle = (selectvalue) => {
+        console.log(selectvalue,'dshvhgdv')
+        setOrderCompanyOption(selectvalue?.value)
+        setOrderCompanyOption1(selectvalue)
+        setOrderOption("")
+        dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
+        dispatch(ICafeAdminUserDropdownList(currentUser?.token, selectvalue === null ? "" : selectvalue?.value))
+    }
+
+
+    const orderDropdownValues = [];
+
+    storeDropdownByCompanyId?.data?.map((text) => {
+        return orderDropdownValues.push({ label: text?.store_name, value: text?.uuid })
+    })
+
+    const selectOrderdropdown = (text) => {
+        setOrderOption(text?.value)
+        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, orderComapnyOption === undefined ? "" : orderComapnyOption, text === null ? "" : text?.value, orderStartDate, orderEndDate))
+    }
+
+
+    const UserDropdown = [];
+    console.log(UserDropdown, 'svdcgvsgd')
+
+
+    if (userDrop?.length > 0) {
+        userDrop?.map((item) => {
+          return UserDropdown.push({ label: item?.name, value: item?.uuid })
+        })
+      }
+
+    const SelectUserDropdown = (select) => {
+        console.log(select, "select")
+        setSelectUser(select)
+        setSelectUser1(select?.value)
+    }
+
+
+
+
+    const exportfunction = async () => {
+        await ExportExcel(`/report/date/wise/admin?start_date=${startDate}&end_date=${endDate}&company_uuid=${comapanyOption}&store_uuid=${option === null ? "" : option}`, "ItemwiseReports", currentUser.token)
+    }
+    const exportfunction1 = async () => {
+        await ExportExcel(`/report/list/admin/export?company_uuid=${orderComapnyOption}&store_uuid=${orderOption}&user_uuid=${selectuser1}&start_date=${orderStartDate}&end_date=${orderEndDate}`, "OrderwiseReports", currentUser.token)
+    }
+    // /report/list/admin/export?pagenum=0&limit=10&search=&user_uuid=&start_date=&end_date='
     useEffect(() => {
         dispatch(ICafeAdminCategoryStoreDropDownList(""));
     }, [])
-
-    const exportfunction = async () => {
-        await ExportExcel(`/report/date/wise/admin?start_date=${startDate}&end_date=${endDate}&company_uuid=${comapanyOption}&store_uuid=${option === null ? "" : option}`, "Report", currentUser.token)
-    }
-
 
     return (
         <>
@@ -236,10 +317,11 @@ const AdminReports = () => {
             </div>
 
             <Row className="mb-3">
+                <h3 className='mb-5'>Item Wise Report:</h3>
                 {/* <Col md="5" lg="3" xxl="2" className="mb-1"> */}
-                    {/* Search Start */}
-                    {/* <Form.Label/> */}
-                    {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                {/* Search Start */}
+                {/* <Form.Label/> */}
+                {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
                         <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
                         <span className="search-magnifier-icon">
@@ -249,7 +331,7 @@ const AdminReports = () => {
                             <CsLineIcons icon="close" />
                         </span>
                     </div> */}
-                    {/* Search End */}
+                {/* Search End */}
                 {/* </Col> */}
 
                 {/* <Col lg="3"> */}
@@ -263,7 +345,7 @@ const AdminReports = () => {
                 {/* /> */}
                 {/* </Col> */}
                 <Col lg="3">
-                    {/* <Form.Label>Company</Form.Label> */}
+                    <Form.Label>Select Company</Form.Label>
                     <Select
                         className="basic-single"
                         classNamePrefix="select company"
@@ -284,7 +366,7 @@ const AdminReports = () => {
                     />
                 </Col>
                 <Col lg="3">
-                    {/* <Form.Label>Category</Form.Label> */}
+                    <Form.Label>Select Store</Form.Label>
                     <Select
                         className="basic-single"
                         classNamePrefix="select Store"
@@ -302,12 +384,12 @@ const AdminReports = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                <Col md="2" lg="2" xxl="2" className="mb-1" >
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
                     <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
                 </Col>
-                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                <Col md="2" lg="2" xxl="2" className="mb-1" >
                     <Form.Label>End date</Form.Label>
                     <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
                     {/* </div> */}
@@ -325,9 +407,9 @@ const AdminReports = () => {
                 {/* </Col> */}
 
 
-                <Col xs="1" md="1" style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "15px" }} >
+                <Col xs="1" md="1" style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 ">
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
@@ -357,12 +439,147 @@ const AdminReports = () => {
                     {/* Length End */}
 
                 </Col>
-            </Row> 
+            </Row>
+
+            <Row className="mb-3">
+                <h3 className='mb-5'>Order Wise Report:</h3>
+                {/* <Col md="5" lg="3" xxl="2" className="mb-1"> */}
+                {/* Search Start */}
+                {/* <Form.Label/> */}
+                {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+
+                        <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
+                        <span className="search-magnifier-icon">
+                            <CsLineIcons icon="search" />
+                        </span>
+                        <span className="search-delete-icon d-none">
+                            <CsLineIcons icon="close" />
+                        </span>
+                    </div> */}
+                {/* Search End */}
+                {/* </Col> */}
+
+                {/* <Col lg="3"> */}
+                {/* <Form.Label>Company</Form.Label> */}
+                {/* <Select classNamePrefix="react-select"
+                        options={ActivcompanyList}
+                        value={compnayId}
+                        onChange={setCompnayId}
+                        placeholder="Select Company" */}
+                {/* disabled={eventType} */}
+                {/* /> */}
+                {/* </Col> */}
+                <Col lg="2">
+                    <Form.Label>Select Company</Form.Label>
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select company"
+                        isClearable={isClearable}
+                        // defaultValue={colourOptions[0]}
+                        value={orderComapnyOption1}
+                        onChange={OrderCompanyHandle}
+                        name="color"
+                        border="none"
+                        options={OrderCompanyDropDown}
+                        placeholder='Select Company'
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
+                    />
+                </Col>
+                <Col lg="2">
+                    <Form.Label>Select Store</Form.Label>
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select Store"
+                        options={orderDropdownValues}
+                        isClearable={isRemove}
+                        // value={categoryId}
+                        onChange={selectOrderdropdown}
+                        placeholder="Select Store"
+                        styles={{
+                            control: provided => ({
+                                ...provided,
+                                borderRadius: '12px',
+                            }),
+                        }}
+                    // disabled={eventType}
+                    />
+                </Col>
+                <Col md="2" lg="2" className="mb-1">
+                    <Form.Label>Select User</Form.Label>
+                    <Select classNamePrefix="react-select"
+                        options={UserDropdown}
+                        value={selectuser}
+                        onChange={SelectUserDropdown}
+                        placeholder="Select User"
+                    // disabled={eventType}
+                    />
+                </Col>
+                <Col md="2" lg="2" className="mb-1" >
+                    {/* <div className="mb-3"> */}
+                    <Form.Label>Start date</Form.Label>
+                    <Form.Control type="date" value={orderStartDate} onChange={OrderStartData} placeholder="Start date" />
+                </Col>
+                <Col md="2" lg="2" className="mb-1" >
+                    <Form.Label>End date</Form.Label>
+                    <Form.Control type="date" value={orderEndDate} onChange={OrderEndData} placeholder="End date" />
+                    {/* </div> */}
+                </Col>
+                {/* <Col lg="3" className="mb-1 text-end"> */}
+                {/* Print Button Start */}
+                {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
+                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
+                            <CsLineIcons icon="print" />
+                        </Button>
+                    </OverlayTrigger> */}
+                {/* Print Button End */}
+
+
+                {/* </Col> */}
+
+
+                <Col md="1" style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                    {/* Export Dropdown Start */}
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
+                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
+                                <CsLineIcons icon="download" />
+                            </Dropdown.Toggle>
+                        </OverlayTrigger>
+                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                            {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+                            <Dropdown.Item href="#" onClick={exportfunction1}>Excel</Dropdown.Item>
+                            {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    {/* Export Dropdown End */}
+
+                    {/* Length Start */}
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                            <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+                                {limit} Items
+                            </Dropdown.Toggle>
+                        </OverlayTrigger>
+                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                            <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown> */}
+                    {/* Length End */}
+
+                </Col>
+            </Row>
 
             {/* List Header Start */}
             {/* <Row className="g-0 mb-2 d-none d-lg-flex"> */}
-                {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
-                {/* <Col>
+            {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
+            {/* <Col>
                     <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
                         <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-medium cursor-pointer sort">Company</div>
@@ -384,11 +601,11 @@ const AdminReports = () => {
                             <div className="text-muted text-medium cursor-pointer sort">Status</div>
                         </Col> */}
 
-                        {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col> */}
 
-                    {/* </Row>
+            {/* </Row>
                 </Col>
             </Row> */}
             {/* List Header End */}
@@ -399,20 +616,20 @@ const AdminReports = () => {
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative"> */}
-                            {/* <Col xs="auto" className="positio-relative">
+            {/* <Col xs="auto" className="positio-relative">
             <NavLink to="/products/detail">
               <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
             </NavLink>
         //   </Col> */}
-        {/* //                     <Col className="py-4 py-lg-0 ps-5 pe-4 h-100"> */}
-        {/* //                         <Row className="g-0 h-100 "> */}
-                                    {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
+            {/* //                     <Col className="py-4 py-lg-0 ps-5 pe-4 h-100"> */}
+            {/* //                         <Row className="g-0 h-100 "> */}
+            {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
                 <NavLink to="/products/detail">
                   Anpan
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-                                    {/* <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+            {/* <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item?.companies[0]?.company_name}</div>
                                     </Col>
                                     <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -434,7 +651,7 @@ const AdminReports = () => {
                                         </div>
                                     </Col> */}
 
-                                    {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+            {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
                       <table>
                         <tr>
@@ -454,7 +671,7 @@ const AdminReports = () => {
                       </table>
                     </div>
                   </Col> */}
-{/* 
+            {/* 
                                 </Row>
                             </Col>
                         </Row>
