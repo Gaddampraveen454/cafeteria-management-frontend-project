@@ -187,6 +187,7 @@ const App = () => {
         console.log('Html Response:', html);
         setHTMLPrint(true)
         setHtmlResponse(html?.htmlContent)
+        setAudioStatus(true)
         // alert("order Recieved")
       });
 
@@ -203,21 +204,26 @@ const App = () => {
   }, [])
 
   const song = new Audio(beep2);
-  const song1 = new Audio(beep1);
+  // const song1 = new Audio(beep1);
 
   const AudioFunction = () => {
     song.play()
   }
 
   const StopAudioFunction = () => {
-    song.pause()
+    song.pause();
   }
 
   useEffect(() => {
+    console.log(audiostatus, "audiostatus")
     // Trigger audio playback when the component mounts
     if (audiostatus === true) {
       AudioFunction();
     }
+    else if (audiostatus === false){
+      StopAudioFunction();
+    }
+    // return song.pause();
   }, [audiostatus]);
 
 
@@ -257,6 +263,7 @@ const App = () => {
       setAudioStatus(false)
       setPrintData(res.data?.data)
       setPrint(true)
+
       console.log('Before:', recievedData);
       const afterAccept = removeObjectWithId([...recievedData], orderId);
       console.log('After:', afterAccept);
@@ -337,7 +344,7 @@ const App = () => {
             srcDoc={printData}
             onLoad={() => {
               const iframe = document.querySelector("iframe");
-              // iframe.style.display = "none"; // Hide the iframe
+              iframe.style.display = "none"; // Hide the iframe
               // Check if the browser supports silent printing
               if ("requestMediaKeySystemAccess" in navigator) {
                 try {
@@ -346,8 +353,15 @@ const App = () => {
                   iframe.contentWindow.print({ silent: true });
                   setTimeout(() => {
                     setHTMLPrint(false);
-                    setHtmlResponse('')
+                    setHtmlResponse('');
+                    // setAudioStatus(false);
+                    // StopAudioFunction();
                   }, 1000)
+
+                  setTimeout(() => {
+                    StopAudioFunction();
+                    setAudioStatus(false);
+                  }, 3000)
 
                 } catch (error) {
                   console.error("Error printing:", error);
@@ -369,7 +383,7 @@ const App = () => {
             srcDoc={htmlresponse}
             onLoad={() => {
               const iframe = document.querySelector("iframe");
-              // iframe.style.display = "none"; // Hide the iframe
+              iframe.style.display = "none"; // Hide the iframe
               // Check if the browser supports silent printing
               if ("requestMediaKeySystemAccess" in navigator) {
                 try {
@@ -378,8 +392,14 @@ const App = () => {
                   iframe.contentWindow.print({ silent: true });
                   setTimeout(() => {
                     setPrint(false);
-                    setPrintData('')
+                    setPrintData('');
+                    // setAudioStatus(false);
+                    // StopAudioFunction();
                   }, 1000)
+                  setTimeout(() => {
+                    StopAudioFunction();
+                    setAudioStatus(false);
+                  }, 3000)
 
                 } catch (error) {
                   console.error("Error printing:", error);
