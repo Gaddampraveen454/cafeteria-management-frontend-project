@@ -154,10 +154,10 @@ const searchfunction =(type , pages)=>{
   console.log(event, "eventxcvvxcvv")
   // if (event.is_delivered)
   const payload = {
-    "uuid" : event.uuid,
+    // "uuid" : event.uuid,
     "status" : !event.is_active
 }
-  dispatch(StoreCategoryStatusUpdateURL(payload, currentUser.token))
+  dispatch(StoreCategoryStatusUpdateURL(payload, currentUser.token,event?.uuid))
   setSuc(true)
   
 };

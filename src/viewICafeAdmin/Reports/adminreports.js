@@ -95,7 +95,7 @@ const AdminReports = () => {
     // const { AdmincategoryDropdown,storeDropdown } = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
-    console.log(AdmincategoryDropdown, 'sbdvhjsdvsdv')
+    console.log(storeDropdownByCompanyId, 'sbdvhjsdvsdv')
 
     useEffect(() => {
         dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
@@ -236,10 +236,10 @@ const AdminReports = () => {
             </div>
 
             <Row className="mb-3">
-                <Col md="5" lg="3" xxl="2" className="mb-1">
+                {/* <Col md="5" lg="3" xxl="2" className="mb-1"> */}
                     {/* Search Start */}
                     {/* <Form.Label/> */}
-                    <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                    {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
 
                         <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
                         <span className="search-magnifier-icon">
@@ -248,9 +248,9 @@ const AdminReports = () => {
                         <span className="search-delete-icon d-none">
                             <CsLineIcons icon="close" />
                         </span>
-                    </div>
+                    </div> */}
                     {/* Search End */}
-                </Col>
+                {/* </Col> */}
 
                 {/* <Col lg="3"> */}
                 {/* <Form.Label>Company</Form.Label> */}
@@ -302,12 +302,12 @@ const AdminReports = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col md="3" lg="3" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
+                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
                     <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
                 </Col>
-                <Col md="3" lg="3" xxl="2" className="mt-1" style={{ marginTop: "-2%" }}>
+                <Col md="2" lg="2" xxl="2" className="mb-1" style={{ marginTop: "-2%" }}>
                     <Form.Label>End date</Form.Label>
                     <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
                     {/* </div> */}
@@ -325,9 +325,9 @@ const AdminReports = () => {
                 {/* </Col> */}
 
 
-                <Col xs="12" md="9" style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "15px" }} >
+                <Col xs="1" md="1" style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "15px" }} >
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 ">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
@@ -342,7 +342,7 @@ const AdminReports = () => {
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                                 {limit} Items
@@ -353,16 +353,16 @@ const AdminReports = () => {
                             <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
                             <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                     {/* Length End */}
 
                 </Col>
-            </Row>
+            </Row> 
 
             {/* List Header Start */}
-            <Row className="g-0 mb-2 d-none d-lg-flex">
+            {/* <Row className="g-0 mb-2 d-none d-lg-flex"> */}
                 {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
-                <Col>
+                {/* <Col>
                     <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
                         <Col xs="2" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-medium cursor-pointer sort">Company</div>
@@ -382,37 +382,37 @@ const AdminReports = () => {
                         </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-medium cursor-pointer sort">Status</div>
-                        </Col>
+                        </Col> */}
 
                         {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Active</div>
             </Col> */}
 
-                    </Row>
+                    {/* </Row>
                 </Col>
-            </Row>
+            </Row> */}
             {/* List Header End */}
 
             {/* List Items Start */}
-            {AdminReportData?.data?.map((item, index) => {
+            {/* {AdminReportData?.data?.map((item, index) => {
                 console.log(item, 'hjdvbhjbfver')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
-                        <Row className="g-0 h-100 sh-lg-9 position-relative">
+                        <Row className="g-0 h-100 sh-lg-9 position-relative"> */}
                             {/* <Col xs="auto" className="positio-relative">
             <NavLink to="/products/detail">
               <img src="/img/product/small/product-1.webp" alt="product" className="card-img card-img-horizontal sw-11 h-100" />
             </NavLink>
-          </Col> */}
-                            <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
-                                <Row className="g-0 h-100 ">
+        //   </Col> */}
+        {/* //                     <Col className="py-4 py-lg-0 ps-5 pe-4 h-100"> */}
+        {/* //                         <Row className="g-0 h-100 "> */}
                                     {/* <Col xs="11" lg="3" className="d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
                 <NavLink to="/products/detail">
                   Anpan
                   <div className="text-small text-muted text-truncate">#2342</div>
                 </NavLink>
               </Col> */}
-                                    <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    {/* <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item?.companies[0]?.company_name}</div>
                                     </Col>
                                     <Col lg="3" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -428,11 +428,11 @@ const AdminReports = () => {
                                         <div className="lh-1 text-alternate">{item.total_amount}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        {/* <div className="lh-1 text-alternate">{item.payment_status}</div> */}
+                                        <div className="lh-1 text-alternate">{item.payment_status}</div>
                                         <div>
                                             <Badge bg="outline-primary">{item?.payment_status}</Badge>
                                         </div>
-                                    </Col>
+                                    </Col> */}
 
                                     {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
@@ -454,17 +454,17 @@ const AdminReports = () => {
                       </table>
                     </div>
                   </Col> */}
-
+{/* 
                                 </Row>
                             </Col>
                         </Row>
                     </Card></div>
-            })}
+            })} */}
 
             {/* List Items End */}
 
             {/* Pagination Start */}
-            <div className="d-flex justify-content-center mt-5">
+            {/* <div className="d-flex justify-content-center mt-5">
                 <Pagination>
                     <Pagination.Prev className="shadow" disabled={page === 0} onClick={() => searchfunction("prev")}>
                         <CsLineIcons icon="chevron-left" />
@@ -485,7 +485,7 @@ const AdminReports = () => {
                         <CsLineIcons icon="chevron-right" />
                     </Pagination.Next>
                 </Pagination>
-            </div>
+            </div> */}
             {/* Pagination End */}
         </>
     );

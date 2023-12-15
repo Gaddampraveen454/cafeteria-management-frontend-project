@@ -201,7 +201,7 @@ const CompanyOrderView = () => {
                                             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
                                             </Col>
-                                            <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Rating</div>
                                             </Col>
 
@@ -301,7 +301,7 @@ const CompanyOrderView = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="1">
+                                                        <Col lg="2">
                                                             <Row className="gx-2 align-items-center">
                                                                 <Col lg="12" className="col">
                                                                     <Row className="g-0">

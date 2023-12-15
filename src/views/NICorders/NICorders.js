@@ -149,6 +149,7 @@ const NICorders = () => {
   const OrderStatus = [
     { label: "Pending", value: "Pending" },
     { label: "Accepted", value: "Accepted" },
+    { label: "Preparing", value: "Preparing" },
     { label: "Ready", value: "Ready" },
     { label: "Delivered", value: "Delivered" },
     { label: "Cancelled", value: "Cancelled" }
@@ -398,7 +399,7 @@ const NICorders = () => {
       </div>
 
       <Row className="mb-3">
-        <Col md="5" lg="3" xxl="2" className="mb-1">
+        <Col md="4" lg="3" xxl="2" className="mb-1">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
             <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
@@ -435,7 +436,7 @@ const NICorders = () => {
             <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
           </Button>
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+        <Col md="2" lg="3" xxl="4" className="mb-1 text-end">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -604,8 +605,7 @@ const NICorders = () => {
                         <Dropdown.Item
                           onClick={(status) => { eventHandler(item, "Pending") }}>Pending</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Accepted") }} >Accepted</Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
+                        <Dropdown.Item onClick={(status) => { eventHandler(item, "Preparing") }}>Preparing</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Cancelled") }} >Cancelled</Dropdown.Item>
