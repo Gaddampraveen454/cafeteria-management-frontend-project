@@ -61,6 +61,7 @@ const NICorders = () => {
   const OrderStatus = [
     { label: "Pending", value: "Pending" },
     { label: "Accepted", value: "Accepted" },
+    { label: "Preparing", value: "Preparing" },
     { label: "Ready", value: "Ready" },
     { label: "Delivered", value: "Delivered" },
     { label: "Cancelled", value: "Cancelled" }
