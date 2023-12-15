@@ -72,6 +72,11 @@ const Storeaddcategory = () => {
   // }, [])
   const AddCategory = (event) => {
     event.preventDefault()
+    if (sortorder <= 0) {
+      toast.error("Sort order must be greater than zero");
+      return; // Stop the function if validation fails
+    }
+    
     const payload = {
       "company_uuid": currentUser?.data?.company_uuid,
       "store_uuid": currentUser?.data?.uuid,

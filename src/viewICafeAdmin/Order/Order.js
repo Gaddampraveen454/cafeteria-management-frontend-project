@@ -239,6 +239,10 @@ const Order = () => {
         setView(event);
     }
 
+    setTimeout(() => {
+        window.location.reload(true);
+      }, 20000)
+
 
     return (
         <>
@@ -1040,7 +1044,7 @@ const Order = () => {
               onScan={(result) => handleScan(result)}
             />
           </DialogContent>
-          <p>{result1}</p>
+          {/* <p>{result1}</p> */}
         </Dialog>
 
         <Dialog

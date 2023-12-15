@@ -253,6 +253,12 @@ const product = () => {
 
   const updateProduct = (event) => {
     event.preventDefault()
+
+    if (sortorder <= 0) {
+      toast.error("Sort order must be greater than zero");
+      return; // Stop the function if validation fails
+    }
+
     const payload = {
       "name": name,
       "type": selectType.value,
@@ -736,22 +742,23 @@ const product = () => {
 
                     disabled={eventType}
                   />
-                  <Col lg="6">
-                    <Form.Label>Sort Order</Form.Label>
-                    <Form.Control type="number"
-                      defaultValue={sortorder}
-                      onChange={(e) => {
-                        const enteredValue = e.target.value;
-                        if (enteredValue !== "0") {
-                          setSortOrder(enteredValue);
-                          setError(""); // Clear any previous error
-                        } else {
-                          setError("Sort Order cannot be 0");
-                        }
-                      }}
-                    />
-                    {error && <div style={{ color: 'red' }}>{error}</div>}
-                  </Col>
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Sort Order</Form.Label>
+                  <Form.Control type="number"
+                    defaultValue={sortorder}
+                    onChange={(e) => {
+                      const enteredValue = e.target.value;
+                      if (enteredValue !== "0") {
+                        setSortOrder(enteredValue);
+                        setError(""); // Clear any previous error
+                      } else {
+                        setError("Sort Order cannot be 0");
+                      }
+                    }}
+                    disabled={eventType}
+                  />
+                  {error && <div style={{ color: 'red' }}>{error}</div>}
                 </Col>
                 <Col lg="6">
                   <Form.Label>Stock Quantity</Form.Label>

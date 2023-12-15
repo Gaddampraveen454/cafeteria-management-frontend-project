@@ -102,20 +102,21 @@ const category = () => {
   const updateCategory = (event) => {
     event.preventDefault()
     const value = event.target.elements
+
+    if (sortorder <= 0) {
+      toast.error("Sort order must be greater than zero");
+      return; // Stop the function if validation fails
+    }
+
     const payload = {
       "company_uuid": currentUser?.data?.uuid,
       "name": name,
       "store_uuid": storeuuid?.value,
       "sort_order": sortorder
     }
-    if (sortorder !== "0" || sortorder !== 0) {
-      dispatch(CategoryUpdateURL(categoryId, payload, currentUser.token))
-      // dispatch(CompanyListURL(currentUser.token))
-      setSuc(true)
-    }
-    else {
-      setError("Sort Order cannot be 0");
-    }
+    dispatch(CategoryUpdateURL(categoryId, payload, currentUser.token))
+    // dispatch(CompanyListURL(currentUser.token))
+    setSuc(true)
   }
 
   const [StoreUUID, setStoreUUIDvalue] = useState('');

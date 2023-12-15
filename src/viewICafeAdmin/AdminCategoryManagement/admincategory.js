@@ -55,6 +55,7 @@ const category = () => {
 
     const [storeDrop, setStoreDrop] = useState('');
     const [storeDrop1, setStoreDrop1] = useState('');
+    const[sortOrder,setSortOrder]=useState('');
 
 
     const [companyUpdateDrop, setCompanyUpdateDrop] = useState('');
@@ -83,6 +84,7 @@ const category = () => {
         setCompanyUpdateDrop({ label: event.company[0].company_name, value: event.company[0].uuid })
         setStoreUpdateDrop({ label: event.store[0].store_name, value: event.store[0].uuid })
         setCategoryId(event.uuid)
+        setSortOrder(event.sort_order)
     };
 
 
@@ -94,6 +96,7 @@ const category = () => {
             "company_uuid": companyUpdateDrop?.value,
             "store_uuid": storeUpdateDrop?.value,
             "name": name,
+            "sort_order":sortOrder
 
         }
         dispatch(AdminCategoryUpdateURL(categoryId, payload, currentUser.token))
@@ -606,6 +609,11 @@ const category = () => {
                                         style={{ borderRadius: '10px' }}
                                         isDisabled={eventType}
                                     />
+                                </Col>
+                                <Col lg="12">
+                                    <Form.Label>Sort</Form.Label>
+                                    <Form.Control type="number" value={sortOrder} onChange={(e) => { setSortOrder(e.target.value) }} disabled={eventType} />
+                                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectedCompany} onChange={setSelectedCompany} placeholder="" /> */}
                                 </Col>
 
 

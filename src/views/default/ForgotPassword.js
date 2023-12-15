@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
@@ -6,20 +6,54 @@ import { useFormik } from 'formik';
 import LayoutFullpage from 'layout/LayoutFullpage';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import HtmlHead from 'components/html-head/HtmlHead';
+import { ForgetPasswordApi } from 'Redux/ForgetPassword/forgetpassword';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import logo from "../../Assests/images/cafe.png"
 
 const ForgotPassword = () => {
   const title = 'Forgot Password';
   const description = 'Forgot Password Page';
+  const dispatch = useDispatch('');
+  const history = useHistory('');
+  const[emailSave,setEmailSave]=useState('');
+  console.log(emailSave,"email")
+  const[suc,setSuc]=useState(false);
+
+  const{forgetPassword,notification} = useSelector((state)=>state.forgetpassword);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),
   });
   const initialValues = { email: '' };
-  const onSubmit = (values) => console.log('submit form', values);
+  const onSubmit = (values) => {
+  console.log('submithdvsg', values);
+  setEmailSave(values);
+  dispatch(ForgetPasswordApi(values))
+  setSuc(true)
+}
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
+
+  useEffect(() => {
+    if (suc === true) {
+      if (notification?.status === true) {
+        toast.success(notification?.message)
+        setTimeout(() => {
+          history.push({
+            pathname: '/forgot/email_otp',
+            state: emailSave?.email
+          })
+        }, 2000)
+      }
+      else if (notification?.status === false) {
+        toast.error(notification?.message)
+      }
+    }
+  }, [notification])
 
   const leftSide = (
     <div className="min-h-100 d-flex align-items-center">

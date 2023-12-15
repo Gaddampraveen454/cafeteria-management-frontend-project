@@ -128,6 +128,7 @@ const productmanagement = () => {
     const [comOption, setComOption] = useState('');
     const [company1, setCompany1] = useState('');
     const [store1, setStore1] = useState('');
+    const [sortOrder, setSortOrder] = useState('');
 
 
     console.log(compnayId.value, categoryId.value, "dfgdfgdfgdd")
@@ -257,12 +258,17 @@ const productmanagement = () => {
         setDescription(event.description)
         setSgst(event.sgst_tax)
         setCgst(event.cgst_tax)
+        setSortOrder(event.sort_order)
 
     };
 
 
     const updateProduct = (event) => {
         event.preventDefault()
+        if (sortOrder <= 0) {
+            toast.error("Sort order must be greater than zero");
+            return; // Stop the function if validation fails
+        }
         if (UploadedFile) {
             const payload = {
                 "name": name,
@@ -276,7 +282,8 @@ const productmanagement = () => {
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
                 "store_uuid": storeOption.value,
-                "description": description
+                "description": description,
+                "sort_order": sortOrder,
             }
 
 
@@ -286,6 +293,10 @@ const productmanagement = () => {
             setSuc(true)
 
         } else {
+            if (sortOrder <= 0) {
+                toast.error("Sort order must be greater than zero");
+                return; // Stop the function if validation fails
+            }
             const payload = {
                 "name": name,
                 "type": selectType.value,
@@ -298,6 +309,7 @@ const productmanagement = () => {
                 "cgst_tax": cgst,
                 "sgst_tax": sgst,
                 "store_uuid": storeOption.value,
+                "sort_order": sortOrder,
                 "description": description
             }
 
@@ -993,7 +1005,14 @@ const productmanagement = () => {
                                     />
                                 </Col>
 
-
+                                <Col lg="6">
+                                    <Form.Label>Sort</Form.Label>
+                                    <Form.Control type="text"
+                                        onChange={(e) => { setSortOrder(e.target.value) }}
+                                        value={sortOrder}
+                                        disabled={eventType}
+                                    />
+                                </Col>
 
 
                                 <Col lg="12">

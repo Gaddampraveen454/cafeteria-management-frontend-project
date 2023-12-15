@@ -139,6 +139,12 @@ const addproduct = () => {
 
   const AddProduct = (event) => {
     event.preventDefault()
+
+    if (sortorder <= 0) {
+      toast.error("Sort order must be greater than zero");
+      return; 
+    }
+  
     const payload = {
       "name": name,
       "type": selectType && selectType.value,

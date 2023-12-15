@@ -320,6 +320,11 @@ const product = () => {
 
   const updateProduct = (event) => {
     event.preventDefault()
+
+    if (sortorder <= 0) {
+      toast.error("Sort order must be greater than zero");
+      return; // Stop the function if validation fails
+    }
     if (UploadedFile) {
       const payload = {
         "name": name,

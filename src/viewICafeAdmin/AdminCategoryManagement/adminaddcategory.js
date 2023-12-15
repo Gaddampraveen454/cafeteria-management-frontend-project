@@ -30,6 +30,7 @@ const adminaddcategory = () => {
     const [company, setCompany] = useState('');
     const [store, setStore] = useState('');
     const [store1, setStore1] = useState('');
+    const[sortOrder,setSortOrder]=useState('');
  
     const [selectValueMonth, setSelectValueMonth] = useState();
     const optionsMonth = [
@@ -74,11 +75,18 @@ const adminaddcategory = () => {
     // }, [])
     const AddCategory = (event) => {
         event.preventDefault()
+
+        if (sortOrder <= 0) {
+          toast.error("Sort order must be greater than zero");
+          return; // Stop the function if validation fails
+      }
+      
         const payload = {
             "company_uuid": company,
             "store_uuid": store,
             // "name" : "fruit"
             "name": name,
+            "sort_order":sortOrder
  
         }
         dispatch(AdminCategoryAddURL(payload, currentUser.token))
@@ -204,6 +212,10 @@ const adminaddcategory = () => {
                                             required
                                             style={{ borderRadius: '10px' }}
                                         />
+                                    </Col>
+                                    <Col lg="6">
+                                        <Form.Label>Sort</Form.Label>
+                                        <Form.Control type="number" onChange={(e) => { setSortOrder(e.target.value) }} />
                                     </Col>
                                     <Col lg="12" className='mt-4'>
                                         {/* <Form.Label >hello</Form.Label> */}
