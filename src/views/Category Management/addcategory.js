@@ -59,6 +59,8 @@ const addcategory = () => {
   ];
 
   const [name, setName] = useState("")
+  const [sortorder, setSortOrder] = useState("")
+  const [error, setError] = useState("");
   const [suc, setSuc] = useState(false);
 
   const { currentUser } = useSelector((state) => state.auth)
@@ -94,6 +96,7 @@ const addcategory = () => {
       "company_uuid": currentUser?.data?.uuid,
       "name": name,
       "store_uuid": storeuuid?.value,
+      "sort_order": sortorder
     }
     dispatch(CategoryAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
@@ -163,6 +166,21 @@ const addcategory = () => {
                   <Col lg="6">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" onChange={(e) => { setName(e.target.value) }} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Sort Order</Form.Label>
+                    <Form.Control type="number"
+                      onChange={(e) => {
+                        const enteredValue = e.target.value;
+                        if (enteredValue !== "0") {
+                          setSortOrder(enteredValue);
+                          setError(""); // Clear any previous error
+                        } else {
+                          setError("Sort Order cannot be 0");
+                        }
+                      }}
+                    />
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
                   </Col>
                   <Col lg="12" className='mt-4'>
                     {/* <Form.Label >hello</Form.Label> */}

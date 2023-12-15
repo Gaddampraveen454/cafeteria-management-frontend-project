@@ -321,6 +321,11 @@ const NICorders = () => {
   const addNICorder = () => {
     history.push("/addNICorder")
   }
+
+  setTimeout(() => {
+    window.location.reload(true);
+  }, 20000)
+
   return (
     <>
       {console.log(print === true && printData, print, printData, "print === true && printData")}

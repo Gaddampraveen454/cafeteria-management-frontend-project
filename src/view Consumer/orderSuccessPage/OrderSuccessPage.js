@@ -261,6 +261,27 @@ const OrderSuccessPage = () => {
                           {items?.store_name}<br />
                           {items?.token_no}
                           <br />
+                          <Row className="g-3 " key=''>
+                            <Col xs="9" lg="9" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                              <div className="text-muted text-medium cursor-pointer">PRODUCT NAME:</div>
+                              {items?.details?.length > 0 && items?.details?.map((item, ind) => {
+                                console.log(item, 'hcbghefyef')
+                                return (
+                                  <div key={ind}>{item?.name?.length > 18 ? `${item?.name.slice(0, 18)}..` : item?.name}</div>
+                                )
+                              })}
+                            </Col>
+                            <Col xs="3" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                              <div className="text-muted text-medium cursor-pointer ">QTY:</div>
+                              {items?.details?.length > 0 && items?.details?.map((item, i) => {
+                                console.log(item, 'hcbghefyef')
+                                return (
+                                  <div key={i}>{item?.quantity}</div>
+                                )
+                              })}
+                            </Col>
+                          </Row>
+                          <br />
                           <QRCode
                             size={200}
                             value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}

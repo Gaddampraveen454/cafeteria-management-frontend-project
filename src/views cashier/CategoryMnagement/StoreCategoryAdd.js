@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from 'react';
-import { NavLink,useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Card, Button, Col, Form, Row } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import {  StoreCategoryAddURL } from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
+import { StoreCategoryAddURL } from 'Redux/CashierRedux/StoreCategoryRedux/storeCategoryRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -57,52 +57,55 @@ const Storeaddcategory = () => {
     { value: '30', label: '30' },
   ];
 
-  const [name, setName]=useState("")
-  const [suc,setSuc] = useState(false);
+  const [name, setName] = useState("")
+  const [sortorder, setSortOrder] = useState("")
+  const [error, setError] = useState("");
+  const [suc, setSuc] = useState(false);
 
   const { currentUser } = useSelector((state) => state.auth)
   const { categoryData, notification } = useSelector((state) => state.StorecategorySlice)
-  console.log(currentUser,"storecurrentUser")
+  console.log(currentUser, "storecurrentUser")
   // const { cashierData } = useSelector((state) => state.cashierList)
-//   const { categoryData } = useSelector((state) => state.cotegoryList)
-// useEffect(() => {
-//   dispatch(CategoryListURL(currentUser.token))
-// }, [])
+  //   const { categoryData } = useSelector((state) => state.cotegoryList)
+  // useEffect(() => {
+  //   dispatch(CategoryListURL(currentUser.token))
+  // }, [])
   const AddCategory = (event) => {
     event.preventDefault()
     const payload = {
-        "company_uuid" : currentUser?.data?.company_uuid        ,
-        "store_uuid" : currentUser?.data?.uuid,
-        "name" : name
+      "company_uuid": currentUser?.data?.company_uuid,
+      "store_uuid": currentUser?.data?.uuid,
+      "name": name,
+      "sort_order": sortorder
 
     }
     dispatch(StoreCategoryAddURL(payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
     setSuc(true)
-}
-
-useEffect(() => {
-  if (suc === true) {
-    if (notification.status === true) {
-      toast.success(notification.message,{
-        position:"top-right",
-      })
-      setSuc(false)
-      setTimeout(()=>{
-        // dispatch(ProductListURL(page, search,currentUser.token,limit))
-        history.push(({
-          pathname: "/Storecategory",
-          // state : {detail : id,fullname : name, pic :image, type:"edit"},
-        }));
-      },2000)
-    }
-    else if (notification.status === false) {
-      toast.error(notification.message)
-      setSuc(false)
-    }
   }
 
-}, [notification])
+  useEffect(() => {
+    if (suc === true) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          // dispatch(ProductListURL(page, search,currentUser.token,limit))
+          history.push(({
+            pathname: "/Storecategory",
+            // state : {detail : id,fullname : name, pic :image, type:"edit"},
+          }));
+        }, 2000)
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [notification])
 
   return (
     <>
@@ -127,14 +130,29 @@ useEffect(() => {
             <Card.Body>
               <Form onSubmit={AddCategory}>
                 <Row className="g-3">
-                     <Col lg="6">
+                  <Col lg="6">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" onChange={(e)=>{setName(e.target.value)}}/>
+                    <Form.Control type="text" onChange={(e) => { setName(e.target.value) }} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Sort Order</Form.Label>
+                    <Form.Control type="number"
+                      onChange={(e) => {
+                        const enteredValue = e.target.value;
+                        if (enteredValue !== "0") {
+                          setSortOrder(enteredValue);
+                          setError(""); // Clear any previous error
+                        } else {
+                          setError("Sort Order cannot be 0");
+                        }
+                      }}
+                    />
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
                   </Col>
                   <Col lg="12" className='mt-4'>
-                  {/* <Form.Label >hello</Form.Label> */}
-                  <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
-                    <CsLineIcons /> <span>Submit</span>
+                    {/* <Form.Label >hello</Form.Label> */}
+                    <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
+                      <CsLineIcons /> <span>Submit</span>
                     </Button>
                   </Col>
 
@@ -229,8 +247,8 @@ useEffect(() => {
           {/* Payment End */}
         </Col>
         {/* <Col lg="auto" className="order-0 order-lg-1"> */}
-          {/* <h2 className="small-title">Summary</h2> */}
-          {/* <Card className="mb-5 w-100 sw-lg-35">
+        {/* <h2 className="small-title">Summary</h2> */}
+        {/* <Card className="mb-5 w-100 sw-lg-35">
             <Card.Body>
               <div className="mb-3">
                 <div className="mb-2">

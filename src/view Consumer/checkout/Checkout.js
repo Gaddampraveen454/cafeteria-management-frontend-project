@@ -125,6 +125,7 @@ const Categories = () => {
           }
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
+              console.log(resp.data, "checkout123")
               if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
                 setLoading(false)
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
@@ -602,7 +603,7 @@ const Categories = () => {
       </div>
       {/* Title End */}
 
-    
+
 
       <Row>
         <Col xs={12} md={4}>
@@ -625,34 +626,34 @@ const Categories = () => {
             null}
           {/* Payment End */}
         </Col>
-        <Col xs={12} md={4} style={{display:"flex",justifyContent:"stretch",alignItems:"center"}} className='spinner-checkout'>
-        <div>
-          {loading && (
-            <Spinner animation="border" variant="primary" />
-          )}
-        </div>
-      </Col>
+        <Col xs={12} md={4} style={{ display: "flex", justifyContent: "stretch", alignItems: "center" }} className='spinner-checkout'>
+          <div>
+            {loading && (
+              <Spinner animation="border" variant="primary" />
+            )}
+          </div>
+        </Col>
         <Col xs={12} md={4} >
           <div>
-          <h2 className="small-title">Summary</h2>
-          <Card className="mb-5 w-100 sw-lg-35">
-            <Card.Body>
-              <div className="mb-3">
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">ITEMS</p>
-                  <p>
-                    <span className="text-alternate">{CartData.count}</span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">TOTAL</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>{CartData.amount}
-                    </span>
-                  </p>
-                </div>
-                {/* <div className="mb-2">
+            <h2 className="small-title">Summary</h2>
+            <Card className="mb-5 w-100 sw-lg-35">
+              <Card.Body>
+                <div className="mb-3">
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">ITEMS</p>
+                    <p>
+                      <span className="text-alternate">{CartData.count}</span>
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">TOTAL</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span>{CartData.amount}
+                      </span>
+                    </p>
+                  </div>
+                  {/* <div className="mb-2">
                   <p className="text-small text-muted mb-1">SHIPPING</p>
                   <p>
                     <span className="text-alternate">
@@ -660,40 +661,40 @@ const Categories = () => {
                     </span>
                   </p>
                 </div> */}
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">CGST(%)</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">SGST(%)</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">Wallet Amount</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount : 0}
-                    </span>
-                  </p>
-                </div>
-                <div className="mb-2">
-                  <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                  <div className="cta-2">
-                    <span>
-                      <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
-                    </span>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">CGST(%)</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">SGST(%)</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">Wallet Amount</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount : 0}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                    <div className="cta-2">
+                      <span>
+                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* <div className="form-check mb-4">
+                {/* <div className="form-check mb-4">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={(e) => console.log(e.target.value, "DSfsdfsdfsdfsdf")} />
                 <label className="form-check-label">
                   I have read and accept the{' '}
@@ -702,25 +703,25 @@ const Categories = () => {
                   </NavLink>
                 </label>
               </div> */}
-              {count === 0 ?
-                <Button className="btn-icon btn-icon-end w-100" variant="primary"
-                  onClick={submitOrder}
-                // onClick={displayRazorpay}
-                >
-                  <span>Purchase</span> <CsLineIcons icon="chevron-right" />
-                </Button>
-                :
-                <Button className="btn-icon btn-icon-end w-100" variant="primary" disabled>
-                  <span>Purchase</span> <CsLineIcons icon="chevron-right" />
-                </Button>
-              }
-              {/* <button className="App-link" onClick={displayRazorpay}>
+                {count === 0 ?
+                  <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                    onClick={submitOrder}
+                  // onClick={displayRazorpay}
+                  >
+                    <span>Purchase</span> <CsLineIcons icon="chevron-right" />
+                  </Button>
+                  :
+                  <Button className="btn-icon btn-icon-end w-100" variant="primary" disabled>
+                    <span>Purchase</span> <CsLineIcons icon="chevron-right" />
+                  </Button>
+                }
+                {/* <button className="App-link" onClick={displayRazorpay}>
                     Pay ₹500
                 </button> */}
-            </Card.Body>
-          </Card>
+              </Card.Body>
+            </Card>
           </div>
-          
+
         </Col>
       </Row>
     </>

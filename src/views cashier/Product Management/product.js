@@ -84,7 +84,8 @@ const product = () => {
   const [sgst, setSgst] = useState("")
   const [image, setImage] = useState(null);
   const [descriptionvalue, setDescriptionvalue] = useState('');
-
+  const [sortorder, setSortOrder] = useState("")
+  const [error, setError] = useState("");
 
 
   const handleImageChange = (e) => {
@@ -235,6 +236,7 @@ const product = () => {
     setOpenEditViewOpupup(true)
 
     setName(event.name)
+    setSortOrder(event?.sort_order)
     setSelectCompany({ label: event.company_name, value: event.company_uuid })
     setSelectCategory({ label: event.category_name, value: event.category_uuid })
     setSelectType({ label: event.type, value: event.type })
@@ -263,7 +265,8 @@ const product = () => {
       "cgst_tax": cgst,
       "sgst_tax": sgst,
       "store_uuid": currentUser?.data?.uuid,
-      "description": descriptionvalue
+      "description": descriptionvalue,
+      "sort_order": sortorder
     }
     dispatch(StoreProductUpdateURL(productId, payload, currentUser.token))
     // dispatch(CompanyListURL(currentUser.token))
@@ -337,12 +340,12 @@ const product = () => {
     console.log(event, "eventxcvvxcvv")
     // if (event.is_delivered)
     const payload = {
-      "uuid" : event.uuid,
-      "status" : !event.is_active
-  }
+      "uuid": event.uuid,
+      "status": !event.is_active
+    }
     dispatch(StoreProductStatusUpdateURL(payload, currentUser.token))
     setSuc(true)
-    
+
   };
   return (
     <>
@@ -570,20 +573,20 @@ const product = () => {
                     <div className="lh-1 text-alternate">{item.quantity}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                <div className="lh-1 text-alternate">
-                <div className="mb-n1">
-                  {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
-                  <Form.Check 
-                   
-                  type="switch"
-                           checked={item.is_active} 
-                           onClick={() => { HandleCategoryStatus(item) }}
+                    <div className="lh-1 text-alternate">
+                      <div className="mb-n1">
+                        {/* <Form.Check type="switch" id="quantitySwitch1" label="Allow out of stock purchase" /> */}
+                        <Form.Check
 
-                     />
-                  {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
-                </div>
-                </div>
-              </Col>
+                          type="switch"
+                          checked={item.is_active}
+                          onClick={() => { HandleCategoryStatus(item) }}
+
+                        />
+                        {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
+                      </div>
+                    </div>
+                  </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">
                       <div className="lh-1 text-alternate">
@@ -733,6 +736,22 @@ const product = () => {
 
                     disabled={eventType}
                   />
+                  <Col lg="6">
+                    <Form.Label>Sort Order</Form.Label>
+                    <Form.Control type="number"
+                      defaultValue={sortorder}
+                      onChange={(e) => {
+                        const enteredValue = e.target.value;
+                        if (enteredValue !== "0") {
+                          setSortOrder(enteredValue);
+                          setError(""); // Clear any previous error
+                        } else {
+                          setError("Sort Order cannot be 0");
+                        }
+                      }}
+                    />
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
+                  </Col>
                 </Col>
                 <Col lg="6">
                   <Form.Label>Stock Quantity</Form.Label>

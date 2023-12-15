@@ -318,6 +318,10 @@ const NICorders = () => {
       })
   }
 
+  setTimeout(() => {
+    window.location.reload(true);
+  }, 20000)
+
   return (
     <>
       {print === true && printData !== '' &&
@@ -967,7 +971,7 @@ const NICorders = () => {
               onScan={(result) => handleScan(result)}
             />
           </DialogContent>
-          <p>{result1}</p>
+          {/* <p>{result1}</p> */}
         </Dialog>
 
         <Dialog

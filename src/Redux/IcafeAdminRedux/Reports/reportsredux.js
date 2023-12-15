@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   AdminReportData: [],
+  userDrop:{},
   notification: {}
 };
 
@@ -15,13 +16,16 @@ const iCafeAdminReportSlice = createSlice({
     setAdminReportData(state, action) {
       state.AdminReportData = action.payload;
     },
+    setUserDrop(state, action) {
+      state.userDrop = action.payload;
+    },
     setToast(state, action) {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setAdminReportData, setToast } = iCafeAdminReportSlice.actions;
+export const { setAdminReportData,setUserDrop, setToast } = iCafeAdminReportSlice.actions;
 
 
 export const ICafeAdminReportListURL = (pagNum, search, token, limit, comapnyId, storeId, startdate, enddate) => async (dispatch) => {
@@ -52,6 +56,22 @@ export const ICafeExportAdminReportURL = (companyId, startDate, endDate, token) 
     })
 
 };
+
+export const ICafeAdminUserDropdownList = (token, companyID) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/user/dropdown/admin?company_uuid=${companyID}`, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+    dispatch(setUserDrop(res.data));
+  })
+    .catch((err) => {
+      console.log("err");
+    })
+
+};
+
 
 
 

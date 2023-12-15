@@ -777,7 +777,7 @@ const productsUserCards = () => {
                                 onClick={RedirectToCart}
                             >
                                 <CsLineIcons icon="cart" className="position-relative" style={{ width: '80%', height: 'auto' }} />
-                                <h6>Cart</h6>
+                                <h6>Cart {CartData && CartData.count !== 0 ? CartData.count : null}</h6>
                             </div>
                         }
                         <TransitionsModalUser />

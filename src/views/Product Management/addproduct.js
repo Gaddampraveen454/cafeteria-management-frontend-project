@@ -130,6 +130,8 @@ const addproduct = () => {
   const [cgst, setCgst] = useState("")
   const [sgst, setSgst] = useState("")
   const [descriptionvalue, setDescription] = useState("")
+  const [sortorder, setSortOrder] = useState("")
+  const [error, setError] = useState("");
 
 
 
@@ -150,6 +152,7 @@ const addproduct = () => {
       "cgst_tax": cgst,
       "sgst_tax": sgst,
       "description": descriptionvalue,
+      "sort_order": sortorder
     }
     dispatch(ProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -283,6 +286,21 @@ const addproduct = () => {
                   <Col lg="6">
                     <Form.Label>SGST(%)</Form.Label>
                     <Form.Control type="text" rows={1} onChange={(e) => { setSgst(e.target.value) }} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Sort Order</Form.Label>
+                    <Form.Control type="number"
+                      onChange={(e) => {
+                        const enteredValue = e.target.value;
+                        if (enteredValue !== "0") {
+                          setSortOrder(enteredValue);
+                          setError(""); // Clear any previous error
+                        } else {
+                          setError("Sort Order cannot be 0");
+                        }
+                      }}
+                    />
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
                   </Col>
                   <Col lg="6">
                     <Form.Label>Description</Form.Label>

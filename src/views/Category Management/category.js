@@ -46,6 +46,8 @@ const category = () => {
   const [open, setOpen] = React.useState(false);
   const [eventType, setEventType] = useState(false)
   const [name, setName] = useState("")
+  const [sortorder, setSortOrder] = useState("")
+  const [error, setError] = useState("");
   const [categoryId, setCategoryId] = useState("")
   const [StoreId, setStoreId] = useState("")
   const [suc, setSuc] = useState(false);
@@ -77,6 +79,7 @@ const category = () => {
 
     console.log(event, "eventxcvvxcvv")
     setName(event.name)
+    setSortOrder(event?.sort_order)
     setCategoryId(event.uuid)
     setStoreUUID({ label: event?.store[0]?.store_name, value: event?.store_uuid })
   };
@@ -103,10 +106,16 @@ const category = () => {
       "company_uuid": currentUser?.data?.uuid,
       "name": name,
       "store_uuid": storeuuid?.value,
+      "sort_order": sortorder
     }
-    dispatch(CategoryUpdateURL(categoryId, payload, currentUser.token))
-    // dispatch(CompanyListURL(currentUser.token))
-    setSuc(true)
+    if (sortorder !== "0" || sortorder !== 0) {
+      dispatch(CategoryUpdateURL(categoryId, payload, currentUser.token))
+      // dispatch(CompanyListURL(currentUser.token))
+      setSuc(true)
+    }
+    else {
+      setError("Sort Order cannot be 0");
+    }
   }
 
   const [StoreUUID, setStoreUUIDvalue] = useState('');
@@ -504,6 +513,23 @@ const category = () => {
                 <Col lg="12">
                   <Form.Label>Select Store</Form.Label>
                   <Select classNamePrefix="react-select" options={StoreUUid} defaultValue={StoreId} value={storeuuid} onChange={SelectStoreName} placeholder="" isDisabled={eventType} />
+                </Col>
+                <Col lg="12">
+                  <Form.Label>Sort Order</Form.Label>
+                  <Form.Control type="text"
+                    defaultValue={sortorder}
+                    onChange={(e) => {
+                      const enteredValue = e.target.value;
+                      if (enteredValue !== "0") {
+                        setSortOrder(enteredValue);
+                        setError(""); // Clear any previous error
+                      } else {
+                        setError("Sort Order cannot be 0");
+                      }
+                    }}
+                    disabled={eventType}
+                  />
+                  {error && <div style={{ color: 'red' }}>{error}</div>}
                 </Col>
 
 

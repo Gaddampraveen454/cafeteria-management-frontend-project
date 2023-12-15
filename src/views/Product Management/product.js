@@ -90,6 +90,9 @@ const product = () => {
 
   const [descriptionvalue, setDescription] = useState('')
 
+  const [sortorder, setSortOrder] = useState("")
+  const [error, setError] = useState("");
+
   const [selectType, setSelectType] = useState();
   const [selectCategory, setSelectCategory] = useState('');
   const [selectCompany, setSelectCompany] = useState('');
@@ -298,6 +301,7 @@ const product = () => {
 
     console.log(event, "sdfssdfsdfsf")
     setName(event.name)
+    setSortOrder(event?.sort_order)
     setSelectCompany({ label: event.company_name, value: event.company_uuid })
     setSelectCategory({ label: event.category_name, value: event.category_uuid })
     setSelectType({ label: event.type, value: event.type })
@@ -329,7 +333,8 @@ const product = () => {
         "cgst_tax": cgst,
         "sgst_tax": sgst,
         "store_uuid": selectStore?.value,
-        "description": descriptionvalue
+        "description": descriptionvalue,
+        "sort_order": sortorder
       }
 
 
@@ -350,7 +355,8 @@ const product = () => {
         "cgst_tax": cgst,
         "sgst_tax": sgst,
         "store_uuid": selectStore?.value,
-        "description": descriptionvalue
+        "description": descriptionvalue,
+        "sort_order": sortorder
       }
 
 
@@ -894,6 +900,23 @@ const product = () => {
 
                     disabled={eventType}
                   />
+                </Col>
+                <Col lg="6">
+                  <Form.Label>Sort Order</Form.Label>
+                  <Form.Control type="number"
+                    defaultValue={sortorder}
+                    onChange={(e) => {
+                      const enteredValue = e.target.value;
+                      if (enteredValue !== "0") {
+                        setSortOrder(enteredValue);
+                        setError(""); // Clear any previous error
+                      } else {
+                        setError("Sort Order cannot be 0");
+                      }
+                    }}
+                    disabled={eventType}
+                  />
+                  {error && <div style={{ color: 'red' }}>{error}</div>}
                 </Col>
                 <Col lg="6">
                   <Form.Label>Stock Quantity</Form.Label>
