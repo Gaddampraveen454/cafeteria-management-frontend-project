@@ -51,7 +51,7 @@ const AdminNotifications = () => {
     const { id } = useParams();
 
     const [page, setPage] = useState(0);
-    const [limit, setLimit] = useState(2);
+    const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
 
     const { currentUser } = useSelector((state) => state.auth)
@@ -196,7 +196,7 @@ const AdminNotifications = () => {
                             </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item onClick={() => searchfunction("limit", 2)}>2 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
                             <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
                             <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
                         </Dropdown.Menu>

@@ -54,6 +54,7 @@ import companyNotificationReducer from 'Redux/AdminRedux/Companynotifications/co
 import storeNotificationReducer from 'Redux/CashierRedux/StoreNotifications/storenotifications';
 import notificationUserReducer from 'Redux/ConsumerRedux/NotificationRedux/notification';
 import adminNotificationReducer from 'Redux/IcafeAdminRedux/AdminNotifications/adminnotificationsredux';
+import forgetPasswordReducer from 'Redux/ForgetPassword/forgetpassword';
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -81,6 +82,7 @@ const persistedReducer = persistReducer(
     iCafeAdminStoreSlice: iCafeAdminStoreReducer,
     companyDashbaord: CompanyDashboard,
     admincategory: adminCategoryReducer,
+    forgetpassword: forgetPasswordReducer,
     adminproducts: adminProductReducer,
     admindashbord: ICafeAdminReportReducer,
     adminNotify: adminNotificationReducer,

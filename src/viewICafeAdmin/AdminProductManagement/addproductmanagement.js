@@ -121,13 +121,17 @@ const addproductmanagement = () => {
   const [option, setOption] = useState('');
   const [option1, setOption1] = useState('');
   const [cate, setCate] = useState('');
-
+  const [sortOrder, setSortOrder] = useState('');
 
 
 
 
   const AddProduct = (event) => {
     event.preventDefault()
+    if (sortOrder <= 0) {
+      toast.error("Sort order must be greater than zero");
+      return; // Stop the function if validation fails
+  }
     const payload = {
       "name": name,
       "type": selectType && selectType.value,
@@ -140,7 +144,8 @@ const addproductmanagement = () => {
       "cgst_tax": cgst,
       "sgst_tax": sgst,
       "store_uuid": option,
-      "description": description
+      "description": description,
+      "sort_order":sortOrder
     }
     dispatch(AdminProductAddURL(payload, currentUser.token))
     setSuc(true)
@@ -342,6 +347,10 @@ const addproductmanagement = () => {
                   <Col lg="6">
                     <Form.Label>Description</Form.Label>
                     <Form.Control type="text" rows={1} onChange={(e) => { setDescription(e.target.value) }} />
+                  </Col>
+                  <Col lg="6">
+                    <Form.Label>Sort</Form.Label>
+                    <Form.Control type="number" rows={1} onChange={(e) => { setSortOrder(e.target.value) }} />
                   </Col>
                   <Col lg="6">
                     <div>

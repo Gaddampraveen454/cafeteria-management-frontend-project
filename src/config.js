@@ -20,6 +20,7 @@ export const DEFAULT_PATHS = {
   REGISTER: '/register',
   OTPVERIFICATION : '/otp-verification',
   FORGOT_PASSWORD: '/forgot-password',
+  FORGOT_EMAIL_OTP:'/forgot/email_otp',
   RESET_PASSWORD: '/reset-password',
   USER_WELCOME: '/dashboards/default',
   NOTFOUND: '/page-not-found',
