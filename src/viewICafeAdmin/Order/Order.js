@@ -13,12 +13,12 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Input,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Input,
 } from '@mui/material';
 import QrReader from "react-web-qr-reader";
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
@@ -71,73 +71,93 @@ const Order = () => {
 
     const [result1, setResult1] = useState();
 
-  const delay = 500;
-  const previewStyle = {
-    // height: 200,
-    width: 280
-  };
+    const delay = 500;
+    const previewStyle = {
+        // height: 200,
+        width: 280
+    };
 
-  const handleScan = (result) => {
+    const handleScan = (result) => {
 
-    const Compuuid = result?.data?.split("scanorderdetails/")
-    const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
-    const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+        const Compuuid = result?.data?.split("scanorderdetails/")
+        const slugRoute = result?.data?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+        const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
 
-    console.log(slugRoute, "routeStartPath")
+        console.log(slugRoute, "routeStartPath")
 
-    if (routeStartPath?.startsWith("ORD-")) {
-      localStorage.setItem('OrderCompanyDetails', routeStartPath);
+        if (routeStartPath?.startsWith("ORD-")) {
+            localStorage.setItem('OrderCompanyDetails', routeStartPath);
+        }
+        if (result) {
+            setResult1(result.data);
+        }
+    };
+
+    const handleError = (error) => {
+        console.log(error);
+    };
+
+    const [selectorderstatus, setSelectOrderStatus] = useState('')
+    const [selectorderstatus1, setSelectOrderStatus1] = useState('')
+
+
+    const OrderStatus = [
+        { label: "Pending", value: "Pending" },
+        { label: "Accepted", value: "Accepted" },
+        { label: "Preparing", value: "Preparing" },
+        { label: "Ready", value: "Ready" },
+        { label: "Delivered", value: "Delivered" },
+        { label: "Cancelled", value: "Cancelled" }
+    ]
+
+    const OrderStatusFunction = (value) => {
+        console.log(value, "ghdsvcsgzvchj")
+        setSelectOrderStatus(value)
+        setSelectOrderStatus1(value?.value)
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, value?.value));
     }
-    if (result) {
-      setResult1(result.data);
-    }
-  };
-
-  const handleError = (error) => {
-    console.log(error);
-  };
 
 
     const [openpopup, setOpenPopup] = useState(false);
-  // const [scantoast, setScanToast] = useState(false);
-  const [message123, setMessage] = useState(false);
+    // const [scantoast, setScanToast] = useState(false);
+    const [message123, setMessage] = useState(false);
 
-  useEffect(() => {
-
-    if (result1) {
-
-      const Compuuid = result1.split("scanorderdetails/")
-      const slugRoute = result1?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
-      console.log(slugRoute, "result1")
-      const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
-      if (routeStartPath) {
-        setQROpen(false)
-        const payload = {
-          "order_uuid": routeStartPath,
-          "status": "Delivered"
-        }
-        axios.put(`${process.env.REACT_APP_URL}/order/status/update`, payload, {
-          headers: {
-            "x-auth-token": currentUser?.token
-          }
-        }).then((res) => {
-          console.log(res, "sdfsddffsdff")
-          setOpenPopup(true)
-          setMessage(true)
-          toast.success(res.data.message)
-        })
-          .catch((err) => {
-            console.log(err && err.response, "hjgjghgjhghj")
-            setMessage(false)
-            setOpenPopup(true)
-            toast.error(err && err.response?.data)
-          })
-        // setScanToast(true)
-      }
-    }
-  }, [result1])
     useEffect(() => {
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
+
+        if (result1) {
+
+            const Compuuid = result1.split("scanorderdetails/")
+            const slugRoute = result1?.replace(`${process.env.REACT_APP_WEB_APP_URL}`, '')
+            console.log(slugRoute, "result1")
+            const routeStartPath = slugRoute?.replace("/scanorderdetails/", "")
+            if (routeStartPath) {
+                setQROpen(false)
+                const payload = {
+                    "order_uuid": routeStartPath,
+                    "status": "Delivered"
+                }
+                axios.put(`${process.env.REACT_APP_URL}/order/status/update`, payload, {
+                    headers: {
+                        "x-auth-token": currentUser?.token
+                    }
+                }).then((res) => {
+                    console.log(res, "sdfsddffsdff")
+                    setOpenPopup(true)
+                    setMessage(true)
+                    toast.success(res.data.message)
+                })
+                    .catch((err) => {
+                        console.log(err && err.response, "hjgjghgjhghj")
+                        setMessage(false)
+                        setOpenPopup(true)
+                        toast.error(err && err.response?.data)
+                    })
+                // setScanToast(true)
+            }
+        }
+    }, [result1])
+    useEffect(() => {
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -145,32 +165,32 @@ const Order = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(AdminOrderListURL(0, pages, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminOrderListURL(0, pages, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(AdminOrderListURL(page - 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminOrderListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(AdminOrderListURL(page, search, currentUser.token, limit), comapanyOption, option)
+            dispatch(AdminOrderListURL(page, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(AdminOrderListURL(page + 2, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminOrderListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(AdminOrderListURL(0, search, currentUser.token, pages, comapanyOption, option))
+            dispatch(AdminOrderListURL(0, search, currentUser.token, pages, comapanyOption, option, selectorderstatus1))
         }
     }
 
@@ -196,7 +216,7 @@ const Order = () => {
         console.log(option, "selectvalue")
         setComapanyOption(selectvalue?.value)
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option, selectorderstatus1))
     }
 
     const StoredropdownValues = [];
@@ -222,7 +242,7 @@ const Order = () => {
     const selectdropdown = (text) => {
         setOption(text?.value)
         setOption1(text)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value, selectorderstatus1))
     }
 
     const viewEventHandler = (event) => {
@@ -239,9 +259,15 @@ const Order = () => {
         setView(event);
     }
 
+<<<<<<< HEAD
     // setTimeout(() => {
     //     window.location.reload(true);
     //   }, 20000)
+=======
+    setTimeout(() => {
+        window.location.reload(true);
+    }, 20000)
+>>>>>>> 1f0aea46afb17beb5d743d947e5a1924639df8b7
 
 useEffect(() => {
         const intervalId = setInterval(() => {
@@ -297,7 +323,7 @@ useEffect(() => {
             </div>
 
             <Row className="mb-3">
-                <Col  lg="3" xxl="2" className="mb-1">
+                <Col lg="3" xxl="2" className="mb-1">
                     {/* Search Start */}
                     {/* <Form.Label/> */}
                     <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -363,7 +389,15 @@ useEffect(() => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col  lg="2" xxl="2">
+                <Col md="2" lg="2" xxl="2">
+                    <Select
+                        classNamePrefix="react-select"
+                        options={OrderStatus}
+                        value={selectorderstatus}
+                        onChange={OrderStatusFunction}
+                        placeholder="Order Status" />
+                </Col>
+                <Col lg="2" xxl="2">
                     <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
                         onClick={() => setQROpen(true)}>
                         <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
@@ -1037,59 +1071,59 @@ useEffect(() => {
             {/* Pagination End */}
 
             <Dialog
-          open={qropen}
-          onClose={() => setQROpen(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          {/* qr code start */}
-          <DialogContent style={{ width: "100%", height: "100%" }}>
-            <QrReader
-              delay={delay}
-              style={previewStyle}
-              onError={handleError}
-              // onScan={handleScan}
-              onScan={(result) => handleScan(result)}
-            />
-          </DialogContent>
-          {/* <p>{result1}</p> */}
-        </Dialog>
+                open={qropen}
+                onClose={() => setQROpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                {/* qr code start */}
+                <DialogContent style={{ width: "100%", height: "100%" }}>
+                    <QrReader
+                        delay={delay}
+                        style={previewStyle}
+                        onError={handleError}
+                        // onScan={handleScan}
+                        onScan={(result) => handleScan(result)}
+                    />
+                </DialogContent>
+                {/* <p>{result1}</p> */}
+            </Dialog>
 
-        <Dialog
-          open={openpopup}
-          onClose={() => setOpenPopup(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent style={{ width: "100%", height: "100%" }}>
-            <Row>
-              <Col xs="12" lg="12" className="order-0 order-lg-1">
-                {/* <h2 className="small-title">Order Placed</h2> */}
-                <Card style={{ width: "100%", height: "100%", justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                  <Card.Body>
-                    <div className="mb-4">
-                      <div className="mb-2">
-                        <div >
-                          <CsLineIcons icon="check-circle" size="45" />
-                        </div>
-                        <h3 >
-                          {message123 ? "Order successfully Delivered" : "Already Order Delivered"}
-                        </h3>
-                      </div>
-                    </div>
-                    <br />
+            <Dialog
+                open={openpopup}
+                onClose={() => setOpenPopup(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogContent style={{ width: "100%", height: "100%" }}>
+                    <Row>
+                        <Col xs="12" lg="12" className="order-0 order-lg-1">
+                            {/* <h2 className="small-title">Order Placed</h2> */}
+                            <Card style={{ width: "100%", height: "100%", justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                                <Card.Body>
+                                    <div className="mb-4">
+                                        <div className="mb-2">
+                                            <div >
+                                                <CsLineIcons icon="check-circle" size="45" />
+                                            </div>
+                                            <h3 >
+                                                {message123 ? "Order successfully Delivered" : "Already Order Delivered"}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <br />
 
-                    <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={() => { setOpenPopup(false); setQROpen(true) }}>
-                      <CsLineIcons icon="chevron-left" />
-                      <span>Back to Scan </span>
-                    </Button>
+                                    <Button className="btn-icon btn-icon-end w-100" variant="primary" onClick={() => { setOpenPopup(false); setQROpen(true) }}>
+                                        <CsLineIcons icon="chevron-left" />
+                                        <span>Back to Scan </span>
+                                    </Button>
 
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row >
-          </DialogContent>
-        </Dialog>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row >
+                </DialogContent>
+            </Dialog>
 
         </>
     );

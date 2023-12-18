@@ -283,7 +283,7 @@ const OrderSuccessPage = () => {
                           </Row>
                           <br />
                           <QRCode
-                            size={200}
+                            size={216}
                             value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
                           />
                         </div>
