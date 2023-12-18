@@ -259,19 +259,13 @@ const Order = () => {
         setView(event);
     }
 
-<<<<<<< HEAD
     // setTimeout(() => {
     //     window.location.reload(true);
     //   }, 20000)
-=======
-    setTimeout(() => {
-        window.location.reload(true);
-    }, 20000)
->>>>>>> 1f0aea46afb17beb5d743d947e5a1924639df8b7
 
 useEffect(() => {
         const intervalId = setInterval(() => {
-            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
+            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option,selectorderstatus1));
         }, 10000); 
 
     
