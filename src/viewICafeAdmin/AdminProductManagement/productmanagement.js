@@ -736,7 +736,7 @@ const productmanagement = () => {
                             <div className="text-muted text-medium cursor-pointer sort">Category</div>
                         </Col>
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-medium cursor-pointer sort">Compnay</div>
+                            <div className="text-muted text-medium cursor-pointer sort">Company</div>
                         </Col>
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
