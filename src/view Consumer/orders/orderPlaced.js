@@ -318,7 +318,14 @@ const OrderPlaced = () => {
     getpdf(caseid);
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(ConsumerOrderListURL(page, search, currentUser.data.token, limit, currentUser.data.uuid))
+    }, 10000); 
 
+
+    return () => clearInterval(intervalId);
+}, []); 
 
   //   const handleDownload = () => {
   //     window.print();

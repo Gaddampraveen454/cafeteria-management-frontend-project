@@ -326,7 +326,7 @@ const NICorders = () => {
 useEffect(() => {
         const intervalId = setInterval(() => {
           dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value))
-        }, 120000); 
+        }, 10000); 
 
     
         return () => clearInterval(intervalId);
