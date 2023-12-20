@@ -263,12 +263,14 @@ const Order = () => {
     //     window.location.reload(true);
     //   }, 20000)
 
-// useEffect(() => {
-    //     const intervalId = setInterval(() => {
-    //         dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
-    //     }, 10000); 
-    //     return () => clearInterval(intervalId);
-    // }, []); 
+useEffect(() => {
+        const intervalId = setInterval(() => {
+            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option,selectorderstatus1));
+        }, 10000); 
+
+    
+        return () => clearInterval(intervalId);
+    }, []);
 
     return (
         <>

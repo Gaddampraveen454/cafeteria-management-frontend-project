@@ -59,7 +59,7 @@ const Categories = () => {
   const TotaleAmount = walletAmount > CartData.total_amount ? CartData.total_amount : (CartData.total_amount - walletAmount) * 100
 
 
-  console.log(TotaleAmount, "TotaleAmount")
+  console.log(count, "TotaleAmount")
 
   const FinalAmount = CartData.total_amount < walletAmount ? 0 : CartData.total_amount - walletAmount
 
@@ -106,7 +106,7 @@ const Categories = () => {
         return
       }
       console.log(orderData, "orderData")
-      setLoading(true)
+      // setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
         "amount": String(TotaleAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -127,7 +127,7 @@ const Categories = () => {
             .then((resp) => {
               console.log(resp.data, "checkout123")
               if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
-                setLoading(false)
+                // setLoading(false)
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
                 setSuc(false)
               } else {
@@ -352,7 +352,7 @@ const Categories = () => {
     if (userType === "consumer") {
       event.preventDefault()
       setCount(1)
-      setLoading(true)
+      // setLoading(true)
       if (currentUser && currentUser?.data?.company_uuid) {
         if (currentUser && currentUser?.data?.company_uuid === CheckoutData.data.company_uuid) {
           const value = event.target.elements
@@ -371,7 +371,7 @@ const Categories = () => {
             })
             .then((respons) => {
               console.log(respons, "fffgdsfsdfdsf")
-              setLoading(false)
+              // setLoading(false)
               const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
               const queryParams = { transaction_uuid: respons?.data?.message };
               const socket = io(host, {
@@ -408,24 +408,26 @@ const Categories = () => {
               setOrderData(respons.data)
             })
             .catch((err) => {
-              console.log(err.response.data.message, "zasdsadasd")
-              toast.error(err.response.data.message)
+              console.log(err.response, "zasdsadasdewe")
+              toast.error(err.response.data)
 
-              if (err.response.data.message === "Your account has been deactivated. Please contact superadmin.") {
+              if (err.response.data === "Your account has been deactivated. Please contact superadmin.") {
                 setTimeout(() => {
                   // console.log('Hello, World!')
                   dispatch(LogOutURL())
                   history.push('/dashboard')
                 }, 3000);
               }
+              setSuc(false)
             })
+
         }
         else {
           toast.error("Your Not Eligible For this Products")
         }
       }
       else {
-        setLoading(true)
+        // setLoading(true)
         const value = event.target.elements
         const payload = {
           "checkout_uuid": CheckoutData.data.uuid,
@@ -442,7 +444,7 @@ const Categories = () => {
           })
           .then((respons) => {
             console.log(respons, "fffgdsfsdfdsf")
-            setLoading(false)
+            // setLoading(false)
             const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
             const queryParams = { transaction_uuid: respons?.data?.message };
             const socket = io(host, {
@@ -479,17 +481,20 @@ const Categories = () => {
             setOrderData(respons.data)
           })
           .catch((err) => {
-            console.log(err.response.data.message, "zasdsadasd")
-            toast.error(err.response.data.message)
+            console.log(err.response, "zasdsadasdhdvbh")
+            toast.error(err.response.data)
 
-            if (err.response.data.message === "Your account has been deactivated. Please contact superadmin.") {
+            if (err.response.data === "Your account has been deactivated. Please contact superadmin.") {
               setTimeout(() => {
                 // console.log('Hello, World!')
                 dispatch(LogOutURL())
                 history.push('/dashboard')
               }, 3000);
             }
+            setSuc(false)
           })
+
+
       }
       // await dispatch(createOrderURL(payload, currentUser.token))
       // setSuc(true)
@@ -703,17 +708,17 @@ const Categories = () => {
                   </NavLink>
                 </label>
               </div> */}
-                {count === 0 ?
-                  <Button className="btn-icon btn-icon-end w-100" variant="primary"
+                {(count === 0 && checkoutnotification?.status === true) ?
+                  (<Button className="btn-icon btn-icon-end w-100" variant="primary"
                     onClick={submitOrder}
                   // onClick={displayRazorpay}
                   >
                     <span>Purchase</span> <CsLineIcons icon="chevron-right" />
-                  </Button>
+                  </Button>)
                   :
-                  <Button className="btn-icon btn-icon-end w-100" variant="primary" disabled>
+                  (<Button className="btn-icon btn-icon-end w-100" variant="primary" disabled>
                     <span>Purchase</span> <CsLineIcons icon="chevron-right" />
-                  </Button>
+                  </Button>)
                 }
                 {/* <button className="App-link" onClick={displayRazorpay}>
                     Pay ₹500

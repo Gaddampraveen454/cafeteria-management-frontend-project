@@ -92,6 +92,10 @@ const category = () => {
     const updateCategory = (event) => {
         event.preventDefault()
         const value = event.target.elements
+        if (sortOrder <= 0) {
+            toast.error("Sort order must be greater than zero");
+            return; // Stop the function if validation fails
+        }
         const payload = {
             "company_uuid": companyUpdateDrop?.value,
             "store_uuid": storeUpdateDrop?.value,
