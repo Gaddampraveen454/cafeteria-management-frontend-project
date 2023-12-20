@@ -69,7 +69,11 @@ const Register = () => {
           history.push(({
             pathname: "/otp-verification",
             // state : {detail : id,fullname : name, pic :image, type:"edit"},
-          }));
+            state : {
+              mobile : mobilevalue,
+              email : emailvalue
+            }
+          }))
         }, 2000)
         // if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
         //   // history.push('/dashboard')
@@ -95,7 +99,7 @@ const Register = () => {
       }
     }
 
-  }, [notification, currentUser])
+  }, [notification])
 
 
   const leftSide = (

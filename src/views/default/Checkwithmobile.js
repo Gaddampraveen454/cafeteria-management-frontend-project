@@ -54,39 +54,11 @@ const Login = () => {
     //     password: Yup.string().min(6, 'Must be at least 6 chars!').required('Password is required'),
     // });
     // const initialValues = { emp_id: '', password: '' };
-    const onSubmit = (values) => {
-        console.log('submit form', values);
-        const payLoad = {
-            "mobile": values?.mobile
-        }
 
-        axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
-            .then((res) => {
-                console.log(res, "gjdsfjdsh")
-                toast.success(res?.data?.message)
-                setTimeout(() => {
-                    history.push({
-                        pathname: "/otp-verification",
-                        state: res?.data?.data
-                    })
-                }, 2000)
-
-            })
-            .catch((err) => {
-                console.log(err)
-                toast.error(err?.response?.data?.message)
-                setCheckapiResponse(true)
-            })
-    }
-
-    const formik = useFormik({ initialValues, validationSchema, onSubmit });
-    const { handleSubmit, handleChange, values, touched, errors } = formik;
-
-    // const CheckWithMobile = (e) => {
-    //     e.preventDefault()
-
+    // const onSubmit = (values) => {
+    //     console.log('submit form', values);
     //     const payLoad = {
-    //         "mobile": mobile
+    //         "mobile": values.mobile 
     //     }
 
     //     axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
@@ -107,6 +79,39 @@ const Login = () => {
     //             setCheckapiResponse(true)
     //         })
     // }
+
+    const onSubmit = () => {
+        console.log("console.log")
+    }
+
+    const formik = useFormik({ initialValues, validationSchema, onSubmit });
+    const { handleSubmit, handleChange, values, touched, errors } = formik;
+
+    const CheckWithMobile = (e) => {
+        e.preventDefault()
+
+        const payLoad = {
+            "mobile": mobile
+        }
+
+        axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
+            .then((res) => {
+                console.log(res, "gjdsfjdsh")
+                toast.success(res?.data?.message)
+                setTimeout(() => {
+                    history.push({
+                        pathname: "/otp-verification",
+                        state: res?.data?.data
+                    })
+                }, 2000)
+
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(err?.response?.data?.message)
+                setCheckapiResponse(true)
+            })
+    }
 
     const [check, setCheck] = useState(false)
 
@@ -247,10 +252,10 @@ const Login = () => {
                     </p>
                 </div>
                 <div>
-                    <form id="loginForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
+                    <form id="loginForm" className="tooltip-end-bottom" onSubmit={CheckWithMobile}>
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="mobile" />
-                            <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={values.mobile} onChange={handleChange} />
+                            <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} />
                             {/* <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} /> */}
                             {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
                         </div>

@@ -323,9 +323,18 @@ const NICorders = () => {
     history.push("/addNICorder")
   }
 
-  setTimeout(() => {
-    window.location.reload(true);
-  }, 20000)
+  // setTimeout(() => {
+  //   window.location.reload(true);
+  // }, 20000)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+    }, 10000); 
+
+
+    return () => clearInterval(intervalId);
+}, []); 
 
   return (
     <>

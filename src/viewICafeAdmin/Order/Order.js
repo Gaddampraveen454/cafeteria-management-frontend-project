@@ -259,10 +259,16 @@ const Order = () => {
         setView(event);
     }
 
-    setTimeout(() => {
-        window.location.reload(true);
-    }, 20000)
+    // setTimeout(() => {
+    //     window.location.reload(true);
+    //   }, 20000)
 
+// useEffect(() => {
+    //     const intervalId = setInterval(() => {
+    //         dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option));
+    //     }, 10000); 
+    //     return () => clearInterval(intervalId);
+    // }, []); 
 
     return (
         <>
