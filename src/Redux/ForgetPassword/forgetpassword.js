@@ -41,11 +41,11 @@ export const ForgetPasswordApi = (payload) => async (dispatch) => {
         .then((res) => {
             console.log(res, 'hjgdtkvbhj')
             dispatch(setForgetPassword(res?.data))
-            dispatch(setToast({ status: true, message: "Otp send Successfully!" }))
+            dispatch(setToast({ status: true, message: res?.data?.message }))
         })
         .catch((err) => {
-            console.log(err)
-            dispatch(setToast({ status: false, message: err?.response?.data?.message }))
+            console.log(err?.response,'dhfbhsdfhdgdfg')
+            dispatch(setToast({ status: false, message: err?.response?.data }))
         })
 }
 
@@ -62,8 +62,8 @@ export const ForgetOtpVerifyFormApi = (payload) => async (dispatch) => {
             dispatch(setToast({ status: true, message: res?.data?.message }))
         })
         .catch((err) => {
-            console.log(err)
-            dispatch(setToast({ status: false, message: err?.response?.data?.message }))
+            console.log(err?.response,'bsdhvbdhv')
+            dispatch(setToast({ status: false, message: err?.response?.data }))
         })
 }
 
