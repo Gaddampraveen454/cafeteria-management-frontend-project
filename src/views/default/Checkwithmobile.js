@@ -264,7 +264,7 @@ const Login = () => {
                                 <div className="mb-3 filled form-group tooltip-end-top">
                                     <CsLineIcons icon="user" />
                                     <Form.Control type="text" name="name" placeholder="Name" value={namevalue} onChange={(e) => setNameValue(e.target.value)} />
-                                    {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
+                                    {errors.name && touched.name && <div className="d-block invalid-tooltip">{errors.name}</div>}
                                 </div>
                                 <div className="mb-3 filled form-group tooltip-end-top">
                                     <CsLineIcons icon="email" />

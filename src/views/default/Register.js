@@ -68,13 +68,12 @@ const Register = () => {
         setTimeout(() => {
           history.push(({
             pathname: "/otp-verification",
-            // state : {detail : id,fullname : name, pic :image, type:"edit"},
-            state : {
-              mobile : mobilevalue,
-              email : emailvalue
+            state: {
+              mobile: mobilevalue,
+              email: emailvalue
             }
           }))
-        }, 2000)
+        }, 200)
         // if(isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer"){
         //   // history.push('/dashboard')
         //   history.push(({
@@ -157,7 +156,7 @@ const Register = () => {
             </div>
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="mobile" />
-              <Form.Control type="mobile" name="mobile" value={mobilevalue} onChange={(e) => setMobileValue(e.target.value)} placeholder="mobile" />
+              <Form.Control type="mobile" name="mobile" value={mobilevalue} minLength={10} maxLength={10} onChange={(e) => setMobileValue(e.target.value)} placeholder="mobile" />
               {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
             </div>
             {/* <div className="mb-3 filled form-group tooltip-end-top">
