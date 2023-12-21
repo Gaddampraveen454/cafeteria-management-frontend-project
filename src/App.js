@@ -141,6 +141,8 @@ const App = () => {
   const [show, setShow] = useState(false);
   const [audiostatus, setAudioStatus] = useState(false)
   const [recievedData, setRecievedData] = useState([])
+  const [storerecievedData, setStoreRecievedData] = useState('')
+  console.log(storerecievedData, "storerecievedData")
 
   const [print, setPrint] = useState(false);
   const [printData, setPrintData] = useState('')
@@ -203,6 +205,47 @@ const App = () => {
     return () => { };
   }, [])
 
+  useEffect(() => {
+    if (currentUser.data && currentUser.data.group === "store") {
+
+      const host = `${process.env.REACT_APP_SOCKET}`; // Replace with your server host
+      const currentUserUuid = currentUser ? currentUser.data.uuid : "";
+      const queryParams = { store_uuid: currentUserUuid };
+
+      const socket = io(host, {
+        path: '/pathToConnection',
+        transports: ['websocket'],
+        upgrade: false,
+        query: queryParams,
+        reconnection: true,
+        rejectUnauthorized: false
+      });
+
+      socket.on('connect', () => {
+        console.log('Connected to the server');
+      });
+
+      // socket.emit('newOrder');
+
+      socket.on('storeOrderNotification', (count) => {
+        console.log('Received new order:', count);
+        setStoreRecievedData(count)
+        setShow(true)
+        setAudioStatus(true)
+        // alert("order Recieved")
+      });
+
+      socket.emit('newOrder');
+      // Clean up the socket connection when the component unmounts
+      return () => {
+        if (socket) {
+          socket.disconnect();
+        }
+      };
+    }
+    return () => { };
+  }, [])
+
   const song = new Audio(beep2);
   // const song1 = new Audio(beep1);
 
@@ -220,7 +263,7 @@ const App = () => {
     if (audiostatus === true) {
       AudioFunction();
     }
-    else if (audiostatus === false){
+    else if (audiostatus === false) {
       StopAudioFunction();
     }
     // return song.pause();
@@ -272,6 +315,11 @@ const App = () => {
       }
       setRecievedData(prevData => afterAccept);
 
+      const afterAcceptStore = removeObjectWithId({...storerecievedData}, orderId)
+      if (afterAcceptStore <= 0) {
+        setShow(false);
+      }
+      setStoreRecievedData(prevData => afterAcceptStore);
     })
       .catch((err) => {
         console.log(err.response.data)
@@ -329,6 +377,21 @@ const App = () => {
                       </div>
                     </div>
                   })}
+                  {storerecievedData &&
+                    <div className='card sh-20 p-3 m-3'>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <div>
+                          <h1>{storerecievedData?.details[0]?.name}</h1>
+                          <h2>Price : {storerecievedData?.details[0]?.price}</h2>
+                          <h2>Quantity : {storerecievedData?.details[0]?.quantity}</h2>
+                        </div>
+                        <div>
+                          <Button variant="outlined" onClick={() => UpdateOrderStatus(storerecievedData?.uuid, "Accepted")}>Accept</Button>&nbsp;&nbsp;
+                          <Button variant="outlined" onClick={() => UpdateOrderStatus(storerecievedData?.uuid, "Cancelled")}>Ignore</Button>
+                        </div>
+                      </div>
+                    </div>
+                  }
                 </Col>
               </Row>
               <Col>
