@@ -27,7 +27,7 @@ const Login = () => {
 
     const [mobile, setMobile] = useState("")
     const [namevalue, setNameValue] = useState("")
-    const [emailvalue, setEmailValue] = useState("")
+    const [emailcheck, setEmailCheck] = useState('');
 
     const [Checkapiresponse, setCheckapiResponse] = useState(false)
 
@@ -43,11 +43,18 @@ const Login = () => {
     const dispatch = useDispatch();
 
 
-    const initialValues = { mobile: '' };
+    // const initialValues = { mobile: '' };
 
-    const validationSchema = Yup.object().shape({
-        mobile: Yup.string().required('Mobile is required'),
-    });
+    // const validationSchema = Yup.object().shape({
+    //     mobile: Yup.string().required('Mobile is required'),
+    // });
+
+    const [validated, setValidated] = useState(false);
+    const [userType, setUserType] = useState('mobile');
+
+    const handleUserTypeChange = (type) => {
+        setUserType(type);
+    };
 
     // const validationSchema = Yup.object().shape({
     //     email: Yup.string().email().required('Email is required'),
@@ -55,37 +62,57 @@ const Login = () => {
     // });
     // const initialValues = { emp_id: '', password: '' };
 
-    const onSubmit = (values) => {
-        console.log('submit form', values);
-        const payLoad = {
-            "mobile": values?.mobile
+    const onSubmit = (event) => {
+        event.preventDefault()
+        console.log('submit form');
+        // const payLoad = {
+        //     "mobile": values?.mobile
+        // }
+
+        let payLoad = {}
+
+        if (userType === "mobile") {
+            payLoad = { mobile }
+        }
+        else if (userType === "email") {
+            payLoad = { email: emailcheck }
         }
 
-        axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
-            .then((res) => {
-                console.log(res, "gjdsfjdsh")
-                toast.success(res?.data?.message)
-                setTimeout(() => {
-                    history.push({
-                        pathname: "/otp-verification",
-                        state: res?.data?.data
-                    })
-                }, 2000)
+        const form = event.currentTarget;
 
-            })
-            .catch((err) => {
-                console.log(err)
-                toast.error(err?.response?.data?.message)
-                setCheckapiResponse(true)
-            })
+        if (form.checkValidity() === true) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
+                .then((res) => {
+                    console.log(res, "gjdsfjdsh")
+                    toast.success(res?.data?.message)
+                    setTimeout(() => {
+                        history.push({
+                            pathname: "/otp-verification",
+                            state: res?.data?.data
+                        })
+                    }, 2000)
+
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast.error(err?.response?.data?.message)
+                    setCheckapiResponse(true)
+                })
+        }
+        setValidated(true);
     }
+
+
 
     // const onSubmit = () => {
     //     console.log("console.log")
     // }
 
-    const formik = useFormik({ initialValues, validationSchema, onSubmit });
-    const { handleSubmit, handleChange, values, touched, errors } = formik;
+    // const formik = useFormik({ initialValues, validationSchema, onSubmit });
+    // const { handleSubmit, handleChange, values, touched, errors } = formik;
 
     const CheckWithMobile = (e) => {
         e.preventDefault()
@@ -128,8 +155,8 @@ const Login = () => {
         e.preventDefault()
 
         const payLoad = {
-            "mobile": values?.mobile,
-            "email": emailvalue,
+            "mobile": mobile,
+            "email": emailcheck,
             "name": namevalue
         }
         if (check === true) {
@@ -177,7 +204,7 @@ const Login = () => {
     //   },[currentUser])
 
 
-    console.log(values, "values")
+    console.log("values")
     // const LoginAPI = (event) => {
     //     event.preventDefault()
     //     dispatch(ConsumerLoginURL(values));
@@ -252,25 +279,55 @@ const Login = () => {
                     </p>
                 </div>
                 <div>
-                    <form id="loginForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
-                        <div className="mb-3 filled form-group tooltip-end-top">
-                            <CsLineIcons icon="mobile" />
-                            <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={values.mobile} onChange={handleChange} />
-                            {/* <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} /> */}
-                            {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
+                    <form id="loginForm" className="tooltip-end-bottom" noValidate onSubmit={onSubmit}>
+                        <div>
+                            <div className="form-check form-check-inline">
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userType === 'mobile'} onChange={() => handleUserTypeChange('mobile')} value="mobile" />
+                                <label className="form-check-label" htmlFor="inlineRadio1">Mobile</label>
+                            </div>
+                            <div className="form-check form-check-inline">
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userType === 'email'} onChange={() => handleUserTypeChange('email')} value="email" />
+                                <label className="form-check-label" htmlFor="inlineRadio2">Email</label>
+                            </div>
                         </div>
+                        {userType === "mobile" &&
+                            <div className="mb-3 filled form-group tooltip-end-top">
+                                <CsLineIcons icon="mobile" />
+                                {/* <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={values.mobile} onChange={handleChange} /> */}
+                                <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} required />
+                                {/* {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>} */}
+                            </div>
+                        }
+                        {userType === "email" &&
+                            <div className="mb-3 filled form-group tooltip-end-top">
+                                <CsLineIcons icon="email" />
+                                {/* <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={values.mobile} onChange={handleChange} /> */}
+                                <Form.Control type="text" name="email" placeholder="Email" value={emailcheck} onChange={(e) => setEmailCheck(e.target.value)} required />
+                                {/* {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>} */}
+                            </div>
+                        }
                         {Checkapiresponse === true &&
                             <>
                                 <div className="mb-3 filled form-group tooltip-end-top">
                                     <CsLineIcons icon="user" />
                                     <Form.Control type="text" name="name" placeholder="Name" value={namevalue} onChange={(e) => setNameValue(e.target.value)} />
-                                    {errors.name && touched.name && <div className="d-block invalid-tooltip">{errors.name}</div>}
+                                    {/* {errors.name && touched.name && <div className="d-block invalid-tooltip">{errors.name}</div>} */}
                                 </div>
-                                <div className="mb-3 filled form-group tooltip-end-top">
-                                    <CsLineIcons icon="email" />
-                                    <Form.Control type="text" name="email" placeholder="Email" value={emailvalue} onChange={(e) => setEmailValue(e.target.value)} />
-                                    {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
-                                </div>
+                                {userType === "mobile" &&
+                                    <div className="mb-3 filled form-group tooltip-end-top">
+                                        <CsLineIcons icon="email" />
+                                        <Form.Control type="text" name="email" placeholder="Email" value={emailcheck} onChange={(e) => setEmailCheck(e.target.value)} />
+                                        {/* {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>} */}
+                                    </div>
+                                }
+                                {userType === "email" &&
+                                    <div className="mb-3 filled form-group tooltip-end-top">
+                                        <CsLineIcons icon="mobile" />
+                                        {/* <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={values.mobile} onChange={handleChange} /> */}
+                                        <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} required />
+                                        {/* {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>} */}
+                                    </div>
+                                }
 
                                 <div className="form-check mb-4">
                                     <input type="checkbox" className="form-check-input" name="terms" checked={check === true} onClick={change} />
