@@ -28,6 +28,20 @@ const Login = () => {
     const [mobile, setMobile] = useState("")
     const [namevalue, setNameValue] = useState("")
     const [emailvalue, setEmailValue] = useState("")
+    const [email, setMail] = useState('')
+    // const type = "Mobile";
+    // const type1 = "Email";
+
+    const [phone, setPhone] = useState('Mobile');
+    console.log(phone, "phone")
+
+    const switchToMobile = () => {
+        setPhone('Mobile');
+    };
+
+    const switchToEmail = () => {
+        setPhone('Email');
+    };
 
     const [Checkapiresponse, setCheckapiResponse] = useState(false)
 
@@ -44,10 +58,29 @@ const Login = () => {
 
 
     const initialValues = { mobile: '' };
+    // const initialValues1 = { email: '' };
+
 
     const validationSchema = Yup.object().shape({
-        mobile: Yup.string().required('Mobile is required'),
+        // mobile: Yup.string().when('phone', {
+        //     is: 'Mobile',
+        //     then: Yup.string().required('Mobile number is required'),
+        //     otherwise: Yup.string(),
+        // }),
+        mobile: Yup.string().required('Mobile number is required'),
+        // email: Yup.string().when('phone', {
+        //     is: 'Email',
+        //     then: Yup.string().email('Invalid email address').required('Email is required'),
+        //     otherwise: Yup.string(),
+        // }),
     });
+    const onSubmit = () => {
+        console.log("console.log")
+    } 
+
+    const formik = useFormik({ initialValues, validationSchema, onSubmit });
+    const { handleSubmit, handleChange, values, touched, errors } = formik;
+
 
     // const validationSchema = Yup.object().shape({
     //     email: Yup.string().email().required('Email is required'),
@@ -57,11 +90,11 @@ const Login = () => {
 
     // const onSubmit = (values) => {
     //     console.log('submit form', values);
-    //     const payLoad = {
-    //         "mobile": values.mobile 
-    //     }
 
-    //     axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
+    //     const payload={
+    //         "mobile":values.mobile
+    //     }
+    //     axios.post(`${process.env.REACT_APP_URL}/user/check`, payload)
     //         .then((res) => {
     //             console.log(res, "gjdsfjdsh")
     //             toast.success(res?.data?.message)
@@ -80,21 +113,18 @@ const Login = () => {
     //         })
     // }
 
-    const onSubmit = () => {
-        console.log("console.log")
-    }
+    
 
-    const formik = useFormik({ initialValues, validationSchema, onSubmit });
-    const { handleSubmit, handleChange, values, touched, errors } = formik;
 
     const CheckWithMobile = (e) => {
         e.preventDefault()
 
-        const payLoad = {
+        const payload = {
             "mobile": mobile
         }
 
-        axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
+
+        axios.post(`${process.env.REACT_APP_URL}/user/check`, payload)
             .then((res) => {
                 console.log(res, "gjdsfjdsh")
                 toast.success(res?.data?.message)
@@ -177,7 +207,7 @@ const Login = () => {
     //   },[currentUser])
 
 
-    console.log(values, "values")
+    // console.log(values, "values")
     // const LoginAPI = (event) => {
     //     event.preventDefault()
     //     dispatch(ConsumerLoginURL(values));
@@ -253,6 +283,7 @@ const Login = () => {
                 </div>
                 <div>
                     <form id="loginForm" className="tooltip-end-bottom" onSubmit={CheckWithMobile}>
+
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="mobile" />
                             <Form.Control type="text" name="mobile" placeholder="Mobile" minLength={10} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} />
@@ -268,9 +299,11 @@ const Login = () => {
                                 </div>
                                 <div className="mb-3 filled form-group tooltip-end-top">
                                     <CsLineIcons icon="email" />
-                                    <Form.Control type="text" name="email" placeholder="Email" value={emailvalue} onChange={(e) => setEmailValue(e.target.value)} />
+                                    <Form.Control type="email" name="email" placeholder="Email" value={emailvalue} onChange={(e) => setEmailValue(e.target.value)} />
+
                                     {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
                                 </div>
+
 
                                 <div className="form-check mb-4">
                                     <input type="checkbox" className="form-check-input" name="terms" checked={check === true} onClick={change} />
