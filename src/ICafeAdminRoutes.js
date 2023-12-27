@@ -19,6 +19,8 @@ const Reports = lazy(()=>import('viewICafeAdmin/Reports/adminreports'));
 const AdminOrderView = lazy(()=>import('viewICafeAdmin/Order/orderview'));
 const AdminNotification = lazy(()=>import('viewICafeAdmin/AdminNotifications/adminnotifications'));
 const AdminChangePassword=lazy(()=>import('viewICafeAdmin/ChangePassword/adminchangepassword'));
+const Roles = lazy(()=>import('viewICafeAdmin/Roles/roles'));
+const AddRoles = lazy(()=>import('viewICafeAdmin/Roles/addroles'))
 
 
 const FooterRoutes = {
@@ -156,6 +158,18 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/add_product`,
       component: AdminAddProduct,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/roles_list`,
+      component: Roles,
+      label: 'Roles',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/add_roles`,
+      component: AddRoles,
       // label: 'User Management',
       // icon: 'user',
     },

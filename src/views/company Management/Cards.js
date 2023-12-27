@@ -102,14 +102,24 @@ const Menu = () => {
   }, [])
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
+  // const getData = async () => {
+  //   const res = await axios.get('https://ipapi.co/json/')
+  //   console.log(res.data);
+  //   setIP(res.data.ip)
+  // }
   const getData = async () => {
-    const res = await axios.get('https://ipapi.co/json/')
-    console.log(res.data);
-    setIP(res.data.ip)
-  }
+    try {
+      const res = await axios.get('https://ipapi.co/json/');
+      console.log(res.data);
+      setIP(res?.data?.ip);
+    } catch (error) {
+      console.error('Error fetching IP data:', error);
+      // Handle the error (e.g., retry, show an error message)
+    }
+  };
   useEffect(() => {
     getData()
-  }, [])
+  }, [ip])
   useEffect(() => {
     if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
       dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid, "", currentUser?.token, "", StoreData?.company_uuid))

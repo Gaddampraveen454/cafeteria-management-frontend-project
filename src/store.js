@@ -55,6 +55,10 @@ import storeNotificationReducer from 'Redux/CashierRedux/StoreNotifications/stor
 import notificationUserReducer from 'Redux/ConsumerRedux/NotificationRedux/notification';
 import adminNotificationReducer from 'Redux/IcafeAdminRedux/AdminNotifications/adminnotificationsredux';
 import forgetPasswordReducer from 'Redux/ForgetPassword/forgetpassword';
+import AdminRolesReducer from 'Redux/IcafeAdminRedux/AdminRoles/rolesredux';
+import CompanyRoleReducer from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux';
+import StoreRoleReducer from 'Redux/CashierRedux/StoreRoleredux/storeroleredux';
+
 
 const persistConfig = {
   key: REDUX_PERSIST_KEY,
@@ -88,6 +92,7 @@ const persistedReducer = persistReducer(
     adminNotify: adminNotificationReducer,
     iacfeadminconsumer: iCafeAdminConsumerReducer,
     comapnuserSlice: companyUserReducer,
+
     products: productReducer,
     compamyProduction: CompanyProductReducer,
     orderList: OrderReducer,
@@ -105,12 +110,16 @@ const persistedReducer = persistReducer(
     IpAddressList: IpAddressReducer,
     WalletData: WalletReducer,
     OrderPlacedData: ConsumerOrderReducer,
+    RolesSlice: AdminRolesReducer,
     InvoiceData: InvoiceReducer,
     ActiveCompnayList: ActiveCompnayReducer,
     StorecategorySlice: StorecategoryReducer,
     StoreForConsumerSlice: StoresForConsumersReducer,
     companyNotify: companyNotificationReducer,
+    CompanyRoleSlice: CompanyRoleReducer,
+    StoreRoleSlice: StoreRoleReducer,
     storeNotify: storeNotificationReducer
+
   })
 );
 const store = configureStore({

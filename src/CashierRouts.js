@@ -30,6 +30,8 @@ const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/Stor
 const Changepassword = lazy(() => import('views cashier/ChangePassword/changepassword'))
 
 const StoreNotifications = lazy(() => import('views cashier/StoreNotifications/storenotifications'))
+const StoreRole = lazy(()=>import('views cashier/StoreRoles/storerole'));
+const StoreAddRole = lazy(()=>import('views cashier/StoreRoles/addstorerole'));
 
 
 const products = {
@@ -156,6 +158,18 @@ const cashierRoutesAndMenuItems = {
     {
       path: `${appRoot}/Storeaddproduct`,
       component: addproduct,
+      // label: 'Product Management',
+      // icon: 'web-page',
+    },
+    {
+      path: `${appRoot}/role_list`,
+      component: StoreRole,
+      label: 'Roles',
+      icon: 'web-page',
+    },
+    {
+      path: `${appRoot}/add_roles`,
+      component: StoreAddRole,
       // label: 'Product Management',
       // icon: 'web-page',
     },

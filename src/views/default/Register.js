@@ -43,12 +43,12 @@ const Register = () => {
 
 
   const onSubmit = (values) => {
-    values.preventDefault()
+    // values.preventDefault()
 
     const payload = {
-      "mobile": mobilevalue,
-      "email": emailvalue,
-      "name": namevalue
+      "mobile": values.mobile,
+      "email": values.email,
+      "name": values.name
     }
     dispatch(ConsumerSignUpURL(payload));
     setSuc(true)
@@ -69,8 +69,8 @@ const Register = () => {
           history.push(({
             pathname: "/otp-verification",
             state: {
-              mobile: mobilevalue,
-              email: emailvalue
+              mobile: values.mobile,
+              email: values.email
             }
           }))
         }, 200)
@@ -143,20 +143,20 @@ const Register = () => {
           </p>
         </div>
         <div>
-          <form id="registerForm" className="tooltip-end-bottom" onSubmit={onSubmit}>
+          <form id="registerForm" className="tooltip-end-bottom" onSubmit={handleSubmit}>
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="user" />
-              <Form.Control type="text" name="name" placeholder="Name" value={namevalue} onChange={(e) => setNameValue(e.target.value)} />
+              <Form.Control type="text" name="name" placeholder="Name" value={values.name} onChange={handleChange} />
               {errors.name && touched.name && <div className="d-block invalid-tooltip">{errors.name}</div>}
             </div>
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="email" />
-              <Form.Control type="text" name="email" placeholder="Email" value={emailvalue} onChange={(e) => setEmailValue(e.target.value)} />
+              <Form.Control type="text" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
               {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
             </div>
             <div className="mb-3 filled form-group tooltip-end-top">
               <CsLineIcons icon="mobile" />
-              <Form.Control type="mobile" name="mobile" value={mobilevalue} minLength={10} maxLength={10} onChange={(e) => setMobileValue(e.target.value)} placeholder="mobile" />
+              <Form.Control type="mobile" name="mobile" value={values.mobile} minLength={10} maxLength={10} onChange={handleChange} placeholder="mobile" />
               {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>}
             </div>
             {/* <div className="mb-3 filled form-group tooltip-end-top">
