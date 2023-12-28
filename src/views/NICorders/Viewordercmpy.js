@@ -300,7 +300,7 @@ const CompanyOrderView = () => {
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="2">
+                                                        <Col lg="2" className='mb-4'>
                                                             <Row className="align-items-center">
                                                                 <Col lg="12" >
                                                                     <Row className="g-0">

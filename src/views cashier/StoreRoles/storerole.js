@@ -103,6 +103,7 @@ const storerole = () => {
   const [isClearable, setIsClearable] = useState(true);
   const [suc, setSuc] = useState(false);
   const[group,setGroup]=useState('');
+  console.log(group,'bdvhjbfsdbvjh')
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
@@ -435,14 +436,14 @@ const handleGroup = (selectValue) => {
 
           {/* Top Buttons Start */}
           <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+            {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
               onClick={() => setOpen(true)}
             >
               <CsLineIcons icon="plus" /> <span>Bulk Upload</span>
-            </Button>
-            <NavLink to="/Storeaddproduct">
+            </Button> */}
+            <NavLink to="/add_roles">
               <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                <CsLineIcons icon="plus" /> <span>Add Product</span>
+                <CsLineIcons icon="plus" /> <span>Add Role</span>
               </Button>
             </NavLink>
             <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
@@ -493,7 +494,7 @@ const handleGroup = (selectValue) => {
                         // borderRadius="10px"
                         // defaultValue={colourOptions[0]}
                         onChange={handleGroup}
-                        placeholder="Select Group"
+                        placeholder="Select Role"
                         name="color"
                         border="none"
                         options={RolesGroup}
@@ -564,7 +565,7 @@ const handleGroup = (selectValue) => {
               <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
             </Col>
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-              <div className="text-muted text-medium cursor-pointer sort">Store Name</div>
+              <div className="text-muted text-medium cursor-pointer sort">Code</div>
             </Col>
             <Col xs="1" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Added By</div>
@@ -601,7 +602,7 @@ const handleGroup = (selectValue) => {
                     <div className="lh-1 text-alternate">{item.company[0].company_name}</div>
                   </Col>
                   <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                    <div className="lh-1 text-alternate">{item?.store[0]?.store_name}</div>
+                    <div className="lh-1 text-alternate">{item?.uuid}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item?.added_by_group}</div>

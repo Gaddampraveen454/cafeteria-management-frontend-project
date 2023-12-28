@@ -72,22 +72,22 @@ export const StoreRoleListURL = (page,search,token,limit,group) => async (dispat
 //   //   dispatch(setProductData(response.data));
 // };
 
-// export const StoreProductAddURL = (payload, token) => async (dispatch) => {
-//   const response = await axios.post(`${process.env.REACT_APP_URL}/product/create`, payload, {
-//     headers: {
-//       "x-auth-token": token
-//     }
-//   })
-//     .then((res) => {
-//       console.log(res, "sdfsdfsdff")
-//       dispatch(setToast({ status: true, message: res.data.message }))
-//     })
-//     .catch((err) => {
-//       dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
+export const StoreRoleAddURL = (payload, token) => async (dispatch) => {
+  const response = await axios.post(`${process.env.REACT_APP_URL}/company/add/cashier/manager`, payload, {
+    headers: {
+      "x-auth-token": token
+    }
+  })
+    .then((res) => {
+      console.log(res, "sdfsdfsdff")
+      dispatch(setToast({ status: true, message: res.data.message }))
+    })
+    .catch((err) => {
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
-//     })
+    })
 
-// };
+};
 
 // export const StoreProductBulkUplodURL = (payload, token) => async (dispatch) => {
 //   const response = await axios.post(`${process.env.REACT_APP_URL}/product/upload/bulk`, payload, {

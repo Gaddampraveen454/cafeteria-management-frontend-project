@@ -411,7 +411,7 @@ const Roles = () => {
                         // borderRadius="10px"
                         // defaultValue={colourOptions[0]}
                         onChange={handleGroup}
-                        placeholder="Select Group"
+                        placeholder="Select Role"
                         name="color"
                         border="none"
                         options={RolesGroup}

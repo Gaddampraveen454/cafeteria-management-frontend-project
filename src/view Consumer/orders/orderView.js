@@ -314,7 +314,7 @@ const UserOrderView = () => {
                                 <Col xs="6" className="d-lg-none">
                                   <div className="text-alternate sh-4 d-flex align-items-center lh-1-25" style={{ fontWeight: 'bold' }}>Type</div>
                                 </Col>
-                                <Col xs="6" lg="12">
+                                <Col xs="6" lg="12" className='d-flex align-items-center'>
                                   <div className="lh-1 text-alternate orderView" style={{ paddingLeft: "18px" }}>{item.type}</div>
                                 </Col>
                               </Row>
@@ -339,7 +339,7 @@ const UserOrderView = () => {
                           <Row className=" align-items-center">
                             <Col lg="12" className="col">
                               <Row className="g-0">
-                                <Col xs='6' className="d-lg-none">
+                                <Col xs='6' className="d-lg-none ">
                                   <div className="text-alternate d-flex align-items-center lh-1-25" style={{ fontWeight: 'bold' }}>Quantity</div>
                                 </Col>
                                 <Col xs="6" lg="12" className='d-flex align-items-center'>
