@@ -10,7 +10,7 @@ import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedu
 // import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CompanyRoleAddURL } from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux';
+import { CompanyRoleAddURL } from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux'; 
 import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
 
 
@@ -128,10 +128,10 @@ const addrole = () => {
         }
 
         else if (!values.mobile) {
-            errors.mobile = "Moble number is Required";
+            errors.mobile = "Mobile number is Required";
         }
         else if (!numberregex.test(values.mobile)) {
-            errors.mobile = "Please Enter vailid Mobile Number";
+            errors.mobile = "Please Enter vaild Mobile Number";
         }
 
         else if (!values.password) {
@@ -265,7 +265,7 @@ const addrole = () => {
                                         <p style={{ color: "red" }}>{formErrors.email}</p>
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Phone No</Form.Label>
+                                        <Form.Label>Mobile</Form.Label>
                                         <Form.Control type="text"
                                             // onChange={(e)=>{setMobile(e.target.value)}}
                                             name="mobile"

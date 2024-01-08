@@ -261,7 +261,7 @@ const addroles = () => {
                                         <p style={{ color: "red" }}>{formErrors.email}</p>
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Phone No</Form.Label>
+                                        <Form.Label>Mobile</Form.Label>
                                         <Form.Control type="text"
                                             // onChange={(e)=>{setMobile(e.target.value)}}
                                             name="mobile"

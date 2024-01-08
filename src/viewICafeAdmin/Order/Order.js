@@ -263,14 +263,18 @@ const Order = () => {
     //     window.location.reload(true);
     //   }, 20000)
 
-useEffect(() => {
-        const intervalId = setInterval(() => {
-            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option,selectorderstatus1));
-        }, 10000); 
+    const handleRefresh = ()=>{
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, '', '',''));
+    }
+
+// useEffect(() => {
+//         const intervalId = setInterval(() => {
+//             dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option,selectorderstatus1));
+//         }, 10000); 
 
     
-        return () => clearInterval(intervalId);
-    }, []);
+//         return () => clearInterval(intervalId);
+//     }, []);
 
     return (
         <>
@@ -391,10 +395,16 @@ useEffect(() => {
                         onChange={OrderStatusFunction}
                         placeholder="Order Status" />
                 </Col>
-                <Col lg="2" xxl="2">
+                <Col lg="1" xxl="1">
                     <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
                         onClick={() => setQROpen(true)}>
                         <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
+                    </Button>
+                </Col>
+                <Col lg="1" xxl="1">
+                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+                       onClick={handleRefresh} >
+                      Refresh {/* <CsLineIcons icon="scanner" /><span>Scan QR Code </span> */}
                     </Button>
                 </Col>
                 <Col lg="1" xxl='3' className="mb-1 text-end">
@@ -436,6 +446,7 @@ useEffect(() => {
                     </Dropdown>
                     {/* Length End */}
                 </Col>
+                
             </Row>
 
             {/* List Header Start */}
