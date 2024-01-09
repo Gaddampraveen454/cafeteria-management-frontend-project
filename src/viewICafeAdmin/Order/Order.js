@@ -321,7 +321,7 @@ const Order = () => {
             </div>
 
             <Row className="mb-3">
-                <Col lg="3" xxl="2" className="mb-1">
+                <Col lg="2"  className="mb-1">
                     {/* Search Start */}
                     {/* <Form.Label/> */}
                     <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -348,7 +348,7 @@ const Order = () => {
                 {/* /> */}
                 {/* </Col> */}
 
-                <Col lg="3" xxl='2' className='mb-2'>
+                <Col lg="2"  className='mb-1'>
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -368,7 +368,7 @@ const Order = () => {
                         }}
                     />
                 </Col>
-                <Col lg="3" xxl='2' className='mb-2'>
+                <Col lg="2" className='mb-1'>
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -387,7 +387,7 @@ const Order = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col md="2" lg="2" xxl="2">
+                <Col md="2" lg="2" className='mb-1'>
                     <Select
                         classNamePrefix="react-select"
                         options={OrderStatus}
@@ -395,19 +395,19 @@ const Order = () => {
                         onChange={OrderStatusFunction}
                         placeholder="Order Status" />
                 </Col>
-                <Col lg="1" xxl="1">
+                <Col lg="2" className='mb-1'>
                     <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
                         onClick={() => setQROpen(true)}>
                         <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
                     </Button>
                 </Col>
-                <Col lg="1" xxl="1">
+                <Col lg="1"className='mb-1'>
                     <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
                        onClick={handleRefresh} >
                       Refresh {/* <CsLineIcons icon="scanner" /><span>Scan QR Code </span> */}
                     </Button>
                 </Col>
-                <Col lg="1" xxl='3' className="mb-1 text-end">
+                <Col lg="1"  className="mb-1 text-end">
                     {/* Print Button Start */}
                     {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
                         <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -438,7 +438,7 @@ const Order = () => {
                                 {limit} Items
                             </Dropdown.Toggle>
                         </OverlayTrigger>
-                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                        <Dropdown.Menu className="shadow dropdown-menu-center">
                             <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
                             <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
                             <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>

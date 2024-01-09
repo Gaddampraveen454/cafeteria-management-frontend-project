@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.b4e3e718.js",
+    "main.js": "/static/js/main.80e32324.js",
     "static/js/1510.a44843a2.chunk.js": "/static/js/1510.a44843a2.chunk.js",
     "static/js/3922.6a1d7684.chunk.js": "/static/js/3922.6a1d7684.chunk.js",
     "static/js/3814.a64d6338.chunk.js": "/static/js/3814.a64d6338.chunk.js",
@@ -82,7 +82,7 @@
     "static/js/798.9f0d1063.chunk.js": "/static/js/798.9f0d1063.chunk.js",
     "static/js/9284.3e19d176.chunk.js": "/static/js/9284.3e19d176.chunk.js",
     "static/js/71.ce9bf015.chunk.js": "/static/js/71.ce9bf015.chunk.js",
-    "static/js/4040.778cadb2.chunk.js": "/static/js/4040.778cadb2.chunk.js",
+    "static/js/4040.f35f125d.chunk.js": "/static/js/4040.f35f125d.chunk.js",
     "static/css/1739.b5bac8ca.chunk.css": "/static/css/1739.b5bac8ca.chunk.css",
     "static/js/3181.88a3d833.chunk.js": "/static/js/3181.88a3d833.chunk.js",
     "static/js/1248.c6e5542c.chunk.js": "/static/js/1248.c6e5542c.chunk.js",
@@ -136,13 +136,13 @@
     "static/js/4350.75c50a62.chunk.js": "/static/js/4350.75c50a62.chunk.js",
     "static/js/5011.eff4fc30.chunk.js": "/static/js/5011.eff4fc30.chunk.js",
     "static/js/9074.97cf7585.chunk.js": "/static/js/9074.97cf7585.chunk.js",
-    "static/js/9315.ce26a1fb.chunk.js": "/static/js/9315.ce26a1fb.chunk.js",
+    "static/js/9315.24dd6f72.chunk.js": "/static/js/9315.24dd6f72.chunk.js",
     "static/js/3243.05f56865.chunk.js": "/static/js/3243.05f56865.chunk.js",
     "static/js/459.8ff2f0b1.chunk.js": "/static/js/459.8ff2f0b1.chunk.js",
     "static/js/966.1454f318.chunk.js": "/static/js/966.1454f318.chunk.js",
     "static/js/5650.d148b29a.chunk.js": "/static/js/5650.d148b29a.chunk.js",
     "static/js/7133.eb72bdc0.chunk.js": "/static/js/7133.eb72bdc0.chunk.js",
-    "static/js/888.dc3a3ff4.chunk.js": "/static/js/888.dc3a3ff4.chunk.js",
+    "static/js/888.4c8d69ef.chunk.js": "/static/js/888.4c8d69ef.chunk.js",
     "static/js/4163.0b0a8f58.chunk.js": "/static/js/4163.0b0a8f58.chunk.js",
     "static/js/9869.013aa095.chunk.js": "/static/js/9869.013aa095.chunk.js",
     "static/js/861.adef48ba.chunk.js": "/static/js/861.adef48ba.chunk.js",
@@ -204,6 +204,6 @@
     "static/media/qr-code.svg": "/static/media/qr-code.753e9c9ccd2d64116c7a458066c29e31.svg"
   },
   "entrypoints": [
-    "static/js/main.b4e3e718.js"
+    "static/js/main.80e32324.js"
   ]
 }
