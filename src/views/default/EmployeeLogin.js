@@ -152,7 +152,7 @@ const Login = () => {
                 <div className="mb-5">
                     <p className="h6">Please use your credentials to login.</p>
                     <p className="h6">
-                        If you are not a member, please <NavLink to="/register">register</NavLink>.
+                        If you are not a member, please <NavLink to="/register" style={{ color: "#672100" }}>Register</NavLink>.
                     </p>
                 </div>
                 <div>
@@ -162,7 +162,7 @@ const Login = () => {
                     >
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="email" />
-                            <Form.Control type="text" name="emp_id" placeholder="EMP ID" value={values.email} onChange={handleChange} />
+                            <Form.Control type="text" name="emp_id" placeholder="EMP ID/EMAIL ID" value={values.email} onChange={handleChange} />
                             {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
                         </div>
                         <div className="mb-3 filled form-group tooltip-end-top">

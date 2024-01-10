@@ -144,7 +144,7 @@ const Login = () => {
         <div className="mb-5">
           <p className="h6">Please use your credentials to login.</p>
           <p className="h6">
-            If you are not a member, please <NavLink to="/register"><label style={{color : 'blueviolet'}}>register</label></NavLink>.
+            If you are not a member, please <NavLink to="/register"><label style={{color:"#672100"}}>Register</label></NavLink>.
           </p>
         </div>
         <div>
