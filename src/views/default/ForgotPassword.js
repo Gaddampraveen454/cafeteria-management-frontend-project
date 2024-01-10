@@ -18,22 +18,22 @@ const ForgotPassword = () => {
   const description = 'Forgot Password Page';
   const dispatch = useDispatch('');
   const history = useHistory('');
-  const[emailSave,setEmailSave]=useState('');
-  console.log(emailSave,"email")
-  const[suc,setSuc]=useState(false);
+  const [emailSave, setEmailSave] = useState('');
+  console.log(emailSave, "email")
+  const [suc, setSuc] = useState(false);
 
-  const{forgetPassword,notification} = useSelector((state)=>state.forgetpassword);
+  const { forgetPassword, notification } = useSelector((state) => state.forgetpassword);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required('Email is required'),
   });
   const initialValues = { email: '' };
   const onSubmit = (values) => {
-  console.log('submithdvsg', values);
-  setEmailSave(values);
-  dispatch(ForgetPasswordApi(values))
-  setSuc(true)
-}
+    console.log('submithdvsg', values);
+    setEmailSave(values);
+    dispatch(ForgetPasswordApi(values))
+    setSuc(true)
+  }
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
   const { handleSubmit, handleChange, values, touched, errors } = formik;
@@ -83,7 +83,7 @@ const ForgotPassword = () => {
         <div className="sh-11">
           <NavLink to="/">
             {/* <div className="logo-default" /> */}
-            <img src={logo} alt="logo"  style={{width:"100px", height:"auto"}}/>
+            <img src={logo} alt="logo" style={{ width: "100px", height: "auto" }} />
           </NavLink>
         </div>
         <div className="mb-5">
@@ -93,7 +93,7 @@ const ForgotPassword = () => {
         <div className="mb-5">
           <p className="h6">Please enter your email to receive a link to reset your password.</p>
           <p className="h6">
-            If you are a member, please <NavLink to="/login">login</NavLink>.
+            If you are a member, please <NavLink to="/consumer/login" style={{ color: "#672100" }}>Login</NavLink>.
           </p>
         </div>
         <div>

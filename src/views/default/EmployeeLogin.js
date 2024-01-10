@@ -152,7 +152,7 @@ const Login = () => {
                 <div className="mb-5">
                     <p className="h6">Please use your credentials to login.</p>
                     <p className="h6">
-                        If you are not a member, please <NavLink to="/register">register</NavLink>.
+                        If you are not a member, please <NavLink to="/register" style={{ color: "#672100" }}>Register</NavLink>.
                     </p>
                 </div>
                 <div>
@@ -162,15 +162,15 @@ const Login = () => {
                     >
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="email" />
-                            <Form.Control type="text" name="emp_id" placeholder="EMP ID" value={values.email} onChange={handleChange} />
+                            <Form.Control type="text" name="emp_id" placeholder="EMP ID/EMAIL ID" value={values.email} onChange={handleChange} />
                             {errors.email && touched.email && <div className="d-block invalid-tooltip">{errors.email}</div>}
                         </div>
                         <div className="mb-3 filled form-group tooltip-end-top">
                             <CsLineIcons icon="lock-off" />
                             <Form.Control type="password" name="password" onChange={handleChange} value={values.password} placeholder="Password" />
-                            <NavLink className="text-small position-absolute t-3 e-3" to="/forgot-password">
+                            {/* <NavLink className="text-small position-absolute t-3 e-3" to="/forgot-password">
                                 Forgot?
-                            </NavLink>
+                            </NavLink> */}
                             {errors.password && touched.password && <div className="d-block invalid-tooltip">{errors.password}</div>}
                         </div>
                         <Button size="lg" type="submit" onClick={LoginAPI} className="mb-2">
