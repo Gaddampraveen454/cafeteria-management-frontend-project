@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.80e32324.js",
+    "main.js": "/static/js/main.0095a832.js",
     "static/js/1510.a44843a2.chunk.js": "/static/js/1510.a44843a2.chunk.js",
     "static/js/3922.6a1d7684.chunk.js": "/static/js/3922.6a1d7684.chunk.js",
     "static/js/3814.a64d6338.chunk.js": "/static/js/3814.a64d6338.chunk.js",
@@ -136,7 +136,7 @@
     "static/js/4350.75c50a62.chunk.js": "/static/js/4350.75c50a62.chunk.js",
     "static/js/5011.eff4fc30.chunk.js": "/static/js/5011.eff4fc30.chunk.js",
     "static/js/9074.97cf7585.chunk.js": "/static/js/9074.97cf7585.chunk.js",
-    "static/js/9315.24dd6f72.chunk.js": "/static/js/9315.24dd6f72.chunk.js",
+    "static/js/9315.db878fc5.chunk.js": "/static/js/9315.db878fc5.chunk.js",
     "static/js/3243.05f56865.chunk.js": "/static/js/3243.05f56865.chunk.js",
     "static/js/459.8ff2f0b1.chunk.js": "/static/js/459.8ff2f0b1.chunk.js",
     "static/js/966.1454f318.chunk.js": "/static/js/966.1454f318.chunk.js",
@@ -204,6 +204,6 @@
     "static/media/qr-code.svg": "/static/media/qr-code.753e9c9ccd2d64116c7a458066c29e31.svg"
   },
   "entrypoints": [
-    "static/js/main.80e32324.js"
+    "static/js/main.0095a832.js"
   ]
 }
