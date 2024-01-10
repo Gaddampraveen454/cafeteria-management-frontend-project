@@ -117,11 +117,12 @@ const Login = () => {
     const CheckWithMobile = (e) => {
         e.preventDefault()
 
-        const payLoad = {
+        const payload = {
             "mobile": mobile
         }
 
-        axios.post(`${process.env.REACT_APP_URL}/user/check`, payLoad)
+
+        axios.post(`${process.env.REACT_APP_URL}/user/check`, payload)
             .then((res) => {
                 console.log(res, "gjdsfjdsh")
                 toast.success(res?.data?.message)
@@ -178,7 +179,7 @@ const Login = () => {
                 })
         }
         else {
-            toast.error("Please Select Terms and Conditions!")
+            toast.error("Please Select Terms and Conditions!") 
         }
     }
 
@@ -328,6 +329,7 @@ const Login = () => {
                                         {/* {errors.mobile && touched.mobile && <div className="d-block invalid-tooltip">{errors.mobile}</div>} */}
                                     </div>
                                 }
+
 
                                 <div className="form-check mb-4">
                                     <input type="checkbox" className="form-check-input" name="terms" checked={check === true} onClick={change} />

@@ -6,3 +6,15 @@ justify-content: center !important;
 margin: 50px auto !important;
     }
   }
+
+  @media screen and (max-width: 480px) {
+    .orderView{
+        padding-left: 0px !important;
+      }
+      .index{
+        display: none !important;
+      }
+  }
+
+
+  

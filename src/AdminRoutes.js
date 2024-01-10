@@ -26,6 +26,8 @@ const adddetails = lazy(() => import('views/Add details/adddetails'));
 const CreateOrder = lazy(() => import('views/CreateOrders/createorder'));
 const changepassword = lazy(() => import('views/ChangePassword/changepassword'))
 const CompanyNotifications = lazy(() => import('views/CompanyNotifications/companynotifications'))
+const CompanyRole = lazy(()=>import('views/CompanyRoles/role'));
+const CompanyAddRole = lazy(()=>import('views/CompanyRoles/addrole'));
 
 
 const Cards = lazy(() => import('views/company Management/Cards'));
@@ -162,6 +164,18 @@ const adminRoutesAndMenuItems = {
       path: `${appRoot}/addproduct`,
       component: addproduct,
       // label: 'Product Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/company_role_list`,
+      component: CompanyRole,
+      label: 'Roles',
+      icon: 'save',
+    },
+    {
+      path: `${appRoot}/add_role`,
+      component: CompanyAddRole,
+      // label: 'Category Management',
       // icon: 'user',
     },
     {

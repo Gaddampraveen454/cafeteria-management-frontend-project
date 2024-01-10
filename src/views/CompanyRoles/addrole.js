@@ -1,0 +1,471 @@
+import React, { useState, useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
+import { Card, Button, Col, Form, Row } from 'react-bootstrap';
+import Select from 'react-select';
+import HtmlHead from 'components/html-head/HtmlHead';
+import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { consumerListURL, CompanyConsumerAddURL, consumerUpdateURL } from 'Redux/AdminRedux/Consumer/ConsumerRedux';
+import { CompanyListURL, compnayUpdateURL, companyAddURL } from 'Redux/AdminRedux/Comapny/Company';
+// import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CompanyRoleAddURL } from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux'; 
+import { ProductStoreListURL } from 'Redux/AdminRedux/Product/ProductRedux';
+
+
+const addrole = () => {
+    const history = useHistory();
+    const title = 'Add Role ';
+    const description = 'Ecommerce Storefront Add Details Page';
+    const dispatch = useDispatch()
+    const { currentUser } = useSelector((state) => state.auth)
+    const { companyRoleData, notification } = useSelector((state) => state.CompanyRoleSlice);
+    const { StoreList } = useSelector((state) => state.products)
+    console.log(companyRoleData, 'companyRoleData')
+    const [selectValueState, setSelectValueState] = useState();
+    console.log(selectValueState, "selectValueState")
+    const [suc, setSuc] = useState(false);
+    const [group, setGroup] = useState('');
+
+
+
+
+
+
+
+    // const [name,setName]=useState("")
+    // const [companyName, setComapnayName]=useState("")
+    // const [email, setEmail]=useState("")
+    // const [mobile, setMobile]=useState("")
+    // const [location, setLocation]=useState("")
+    // const [EmpId,setEmpId]=useState("")
+
+
+    const initialValues = { name: "", email: "", mobile: "", password: "" };
+    const [formValues, setFormValues] = useState(initialValues);
+    const [formErrors, setFormErrors] = useState({});
+    const [isSubmit, setIsSubmit] = useState(false);
+    const [selectStore, setSelectStore] = useState('');
+
+
+    const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
+
+    // useEffect(()=>{
+
+    //   dispatch(ActiveCompnyURL(currentUser.token))
+    // },[])
+    console.log(currentUser, "currentUser");
+
+    const companyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
+
+
+
+    const AddConsumer = () => {
+
+        const payload = {
+
+
+            "name": formValues.name,
+            "mobile": formValues.mobile,
+            "email": formValues.email,
+            "company_uuid": currentUser?.data?.uuid,
+            "password": formValues.password,
+            "store_uuid": selectStore,
+            "group": group,
+
+
+        }
+        dispatch(CompanyRoleAddURL(payload, currentUser.token))
+        // dispatch(CompanyListURL(currentUser.token))
+        setSuc(true)
+    }
+
+
+
+
+    useEffect(() => {
+        if (suc === true) {
+            if (notification.status === true) {
+                toast.success(notification.message, {
+                    position: "top-right",
+                })
+                setSuc(false)
+                setTimeout(() => {
+                    // dispatch(ProductListURL(currentUser.token))
+                    history.push(({
+                        pathname: "/company_role_list",
+                        // state : {detail : id,fullname : name, pic :image, type:"edit"},
+                    }));
+                }, 2000)
+            }
+            else if (notification.status === false) {
+                toast.error(notification.message)
+                setSuc(false)
+            }
+        }
+
+    }, [notification])
+
+
+
+
+    const validate = (values) => {
+        const errors = {};
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+        const alpharegex = /^[A-Za-z].{3,15}$/
+        const numberregex = /^[0-9]{10,12}$/
+
+        if (!values.name) {
+            errors.name = "Name is Required";
+        }
+
+
+        else if (!values.email) {
+            errors.email = "Email is required!";
+        } else if (!regex.test(values.email)) {
+            errors.email = "This is not a valid email format!";
+        }
+
+        else if (!values.mobile) {
+            errors.mobile = "Mobile number is Required";
+        }
+        else if (!numberregex.test(values.mobile)) {
+            errors.mobile = "Please Enter vaild Mobile Number";
+        }
+
+        else if (!values.password) {
+            errors.password = "Password is required!";
+        }
+        else {
+            setIsSubmit(true)
+
+        }
+        return errors;
+    };
+    console.log(formValues, "initialValues")
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setFormErrors(validate(formValues));
+
+    };
+    const myhandlechange = (e) => {
+        const { name, value } = e.target;
+        console.log(name, value, "gvdfvcdskjbcjkd")
+        setFormValues({ ...formValues, [name]: value });
+    };
+
+    console.log(formValues.per_day_amount, "jhfgfdgjhdfkj")
+
+
+    useEffect(() => {
+        if (isSubmit === true) {
+            AddConsumer()
+        }
+
+    }, [formErrors])
+
+    const RolesGroup = [
+        { label: "cashier", value: "cashier" },
+        { label: "manager", value: "manager" }
+    ]
+
+    const handleGroup = (selectValue) => {
+        console.log(selectValue, 'vcghvehg')
+        setGroup(selectValue?.value)
+
+
+    }
+    useEffect(() => {
+        dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+    }, [])
+
+    const companyStore = [];
+
+    StoreList?.data?.map((text) => {
+        return companyStore.push({ label: text?.store_name, value: text?.uuid })
+
+    }, [])
+
+    const handleStore = (data) => {
+        setSelectStore(data?.value)
+    }
+    return (
+        <>
+            <HtmlHead title={title} description={description} />
+            {/* Title Start */}
+            <div className="page-title-container">
+                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/company_role_list">
+                    <CsLineIcons icon="chevron-left" size="20" />
+                    <span className="align-middle text-medium ms-1">Company Role List</span>
+                </NavLink>
+                <h1 className="mb-0 pb-0 display-4" id="title">
+                    {title}
+                </h1>
+            </div>
+            {/* Title End */}
+
+            <Row>
+                <Col xs="12" className="col-lg order-1 order-lg-0">
+                    {/* Address Start */}
+                    {/* <h2 className="small-title">Address</h2> */}
+                    <Card className="mb-5">
+                        <Card.Body>
+                            <Form onSubmit={handleSubmit}>
+                                <Row className="g-3">
+                                    <Col lg="6">
+                                        <Form.Label>Name</Form.Label>
+                                        <Form.Control type="text"
+                                            // onChange={(e)=>{setName(e.target.value)}}
+                                            name="name"
+                                            onChange={myhandlechange}
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.name}</p>
+                                    </Col>
+                                    {/* <Col lg="6">
+                    <Form.Label>Company Name</Form.Label>
+                    <Select classNamePrefix="react-select" 
+                    options={companyList}
+                     value={selectValueState}
+                     onChange={setSelectValueState} 
+                     placeholder="Select Company"
+                    //  name="companyName"
+                    //  onChange={myhandlechange}
+                      />
+                  
+                  </Col> */}
+                                    {/* <Col lg="6">
+                                        <Form.Label>Employee ID</Form.Label>
+                                        <Form.Control type="text"
+                                            // onChange={(e)=>{setEmpId(e.target.value)}}
+                                            name="EmpId"
+                                            onChange={myhandlechange}
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.EmpId}</p>
+                                    </Col> */}
+                                    {/* <Col lg="6">
+                                        <Form.Label>Designation</Form.Label>
+                                        <Form.Control type="text"
+                                            // onChange={(e)=>{setEmail(e.target.value)}}
+                                            name="designation"
+                                            onChange={myhandlechange}
+
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.designation}</p>
+                                    </Col> */}
+                                    <Col lg="6">
+                                        <Form.Label>Email ID</Form.Label>
+                                        <Form.Control type="text"
+                                            // onChange={(e)=>{setEmail(e.target.value)}}
+                                            name="email"
+                                            onChange={myhandlechange}
+
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.email}</p>
+                                    </Col>
+                                    <Col lg="6">
+                                        <Form.Label>Mobile</Form.Label>
+                                        <Form.Control type="text"
+                                            // onChange={(e)=>{setMobile(e.target.value)}}
+                                            name="mobile"
+                                            onChange={myhandlechange}
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.mobile}</p>
+                                    </Col>
+                                    <Col lg="6">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control type="password" rows={1}
+                                            // onChange={(e)=>{setLocation(e.target.value)}}
+                                            name="password"
+                                            onChange={myhandlechange}
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.password}</p>
+                                    </Col>
+                                    {/* <Col lg="6">
+                                        <Form.Label>Company Name</Form.Label>
+                                        <Form.Control type="text"
+                                            // onChange={(e)=>{setLocation(e.target.value)}}
+                                            name="company"
+                                            value={currentUser?.data?.company_name}
+                                            // onChange={myhandlechange}
+                                        />
+                                        <p style={{ color: "red" }}>{formErrors.}</p>
+                                    </Col> */}
+                                    <Col  lg="6">
+                                        <Form.Label>Store</Form.Label>
+                                        <Select classNamePrefix="react-select"
+                                            options={companyStore}
+                                            // value={store1}
+                                            onChange={handleStore}
+                                            placeholder="Select Store"
+                                        // disabled={eventType}
+                                        />
+                                    </Col>
+                                    <Col lg="6">
+                                        <Form.Label>Role Type</Form.Label>
+                                        <Select classNamePrefix="react-select"
+                                            options={RolesGroup}
+                                            //  value={group}
+                                            onChange={handleGroup}
+                                            placeholder="Type of Role"
+                                        //  name="companyName"
+                                        //  onChange={myhandlechange}
+                                        />
+
+                                    </Col>
+                                    <Col lg="12">
+                                        <Col lg="3">
+                                            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type='submit'>
+                                                <CsLineIcons /> <span>Submit</span>
+                                            </Button>
+                                        </Col>
+                                    </Col>
+                                    {/* <Col lg="4">
+                    <Form.Label>State</Form.Label>
+                    <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" />
+                  </Col>
+                  <Col lg="4">
+                    <Form.Label>City</Form.Label>
+                    <Select classNamePrefix="react-select" options={optionsCity} value={selectValueCity} onChange={setSelectValueCity} placeholder="" />
+                  </Col>
+                  <Col lg="4">
+                    <Form.Label>Zip Code</Form.Label>
+                    <Form.Control type="text" />
+                  </Col> */}
+                                    {/* <Col lg="6">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control as="textarea" rows={2} />
+                  </Col> */}
+                                </Row>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                    {/* Address End */}
+
+                    {/* Shipment Start */}
+                    {/* <h2 className="small-title">Shipment</h2> */}
+                    {/* <Card className="mb-5">
+            <Card.Body>
+              <Form.Label>Options</Form.Label>
+              <Form.Check type="radio" label="Free standard delivery" id="shipmentRadio1" name="shipmentRadio" />
+              <Form.Check type="radio" label="Same day delivery for $12.00" id="shipmentRadio2" name="shipmentRadio" />
+            </Card.Body>
+          </Card> */}
+                    {/* Shipment End */}
+
+                    {/* Payment Start */}
+                    {/* <h2 className="small-title">Payment</h2>
+          <Card className="mb-5">
+            <Card.Body>
+              <Row className="g-3">
+                <Col className="col-sm-auto mb-3">
+                  <Form.Label>Card Number</Form.Label>
+                  <Form.Control type="text" className="w-100 sw-sm-40" />
+                </Col>
+              </Row>
+              <Row className="g-3">
+                <Col className="col-sm-auto mb-3">
+                  <Form.Label>Name on the Card</Form.Label>
+                  <Form.Control type="text" className="w-100 sw-sm-40" />
+                </Col>
+              </Row>
+              <Row className="g-3">
+                <Col className="col-auto mb-3">
+                  <Form.Label>CCV</Form.Label>
+                  <Form.Control type="text" className="sw-9" />
+                </Col>
+                <Col className="col-auto mb-3">
+                  <Form.Label className="d-block">Expiration Date</Form.Label>
+                  <Select
+                    classNamePrefix="react-select"
+                    className="sw-9 d-inline-block me-1 text-center"
+                    options={optionsMonth}
+                    value={selectValueMonth}
+                    onChange={setSelectValueMonth}
+                    placeholder=""
+                  />
+                  <Select
+                    classNamePrefix="react-select"
+                    className="sw-9 d-inline-block"
+                    options={optionsYear}
+                    value={selectValueYear}
+                    onChange={setSelectValueYear}
+                    placeholder=""
+                  />
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card> */}
+                    {/* Payment End */}
+                </Col>
+                {/* <Col lg="auto" className="order-0 order-lg-1"> */}
+                {/* <h2 className="small-title">Summary</h2> */}
+                {/* <Card className="mb-5 w-100 sw-lg-35">
+            <Card.Body>
+              <div className="mb-3">
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">ITEMS</p>
+                  <p>
+                    <span className="text-alternate">5</span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">TOTAL</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">$</span> 285.25
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SHIPPING</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">$</span> 12.50
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SALE</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">$</span> -24.50
+                    </span>
+                  </p>
+                </div>
+                <div className="mb-2">
+                  <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                  <div className="cta-2">
+                    <span>
+                      <span className="text-small text-muted cta-2">$</span> 321.50
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="form-check mb-4">
+                <input type="checkbox" className="form-check-input" name="terms" />
+                <label className="form-check-label">
+                  I have read and accept the{' '}
+                  <NavLink to="/" target="_blank">
+                    terms and conditions.
+                  </NavLink>
+                </label>
+              </div>
+              <Button className="btn-icon btn-icon-end w-100" variant="primary">
+                <span>Purchase</span> <CsLineIcons icon="chevron-right" />
+              </Button>
+            </Card.Body>
+          </Card> */}
+                {/* </Col> */}
+            </Row>
+
+
+
+
+        </>
+    );
+};
+
+export default addrole;
+
