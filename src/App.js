@@ -34,6 +34,7 @@ import beep2 from "./Assests/audio/telephone.mp3"
 
 const App = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
+  const LoginDetails = JSON.parse(localStorage.getItem("user"));
   const audioRef = useRef(null);
   let routsData = ''
   if (currentUser && currentUser.data && currentUser.data.group === "company") {
@@ -315,7 +316,7 @@ const App = () => {
       }
       setRecievedData(prevData => afterAccept);
 
-      const afterAcceptStore = removeObjectWithId({...storerecievedData}, orderId)
+      const afterAcceptStore = removeObjectWithId({ ...storerecievedData }, orderId)
       if (afterAcceptStore <= 0) {
         setShow(false);
       }

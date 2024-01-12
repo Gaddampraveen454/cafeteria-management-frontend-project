@@ -35,7 +35,7 @@ const Menu = () => {
   const title = 'Menu';
   const description = 'Ecommerce Storefront Filters Page';
   const { id, id1 } = useParams();
-  console.log(id, id1, "dsfsdfsdfsdf")
+  localStorage.setItem("SlugId", JSON.stringify(id1));
   const { themeValues } = useSelector((state) => state.settings);
   const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
   const { width } = useWindowSize();
@@ -97,9 +97,12 @@ const Menu = () => {
       window.location.reload(false);
     }
   }, [result1])
+
+  const SLUGID = JSON.parse(localStorage.getItem("SlugId"));
+
   useEffect(() => {
-    dispatch(StoresForConsumerLIST(id1))
-  }, [])
+    dispatch(StoresForConsumerLIST(id1 || SLUGID))
+  }, [id1])
   const [ip, setIP] = useState('');
   console.log(ip, "dsfsdfdsfdsfsd")
   // const getData = async () => {

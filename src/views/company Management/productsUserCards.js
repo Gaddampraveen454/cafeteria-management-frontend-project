@@ -41,6 +41,7 @@ const productsUserCards = () => {
     const location = useLocation('');
     console.log(location, "locationlocation")
     const { id, id1 } = useParams();
+    localStorage.setItem("SlugStoreId", JSON.stringify(id1));
     console.log(id, id1, "ghg")
     const { themeValues } = useSelector((state) => state.settings);
     const lgBreakpoint = parseInt(themeValues.lg.replace('px', ''), 10);
@@ -63,6 +64,7 @@ const productsUserCards = () => {
     };
     const { currentUser } = useSelector((state) => state.auth)
     const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
+    const SLUGSTOREID = JSON.parse(localStorage.getItem("SlugStoreId"));
     const handleScan = (result) => {
 
         const Compuuid = result?.data.split("menu/company/")
@@ -101,7 +103,7 @@ const productsUserCards = () => {
     }, [])
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_URL}/company/store/slug/${id1}`)
+        axios.get(`${process.env.REACT_APP_URL}/company/store/slug/${encodeURIComponent(id1 || SLUGSTOREID)}`)
             .then((res) => {
                 console.log("dgvhgsdfj", res?.data)
                 localStorage.setItem("storeDatiles", JSON.stringify(res.data))
