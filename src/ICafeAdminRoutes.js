@@ -20,7 +20,10 @@ const AdminOrderView = lazy(()=>import('viewICafeAdmin/Order/orderview'));
 const AdminNotification = lazy(()=>import('viewICafeAdmin/AdminNotifications/adminnotifications'));
 const AdminChangePassword=lazy(()=>import('viewICafeAdmin/ChangePassword/adminchangepassword'));
 const Roles = lazy(()=>import('viewICafeAdmin/Roles/roles'));
-const AddRoles = lazy(()=>import('viewICafeAdmin/Roles/addroles'))
+const AddRoles = lazy(()=>import('viewICafeAdmin/Roles/addroles'));
+const FeedBack=lazy(()=>import('viewICafeAdmin/FeedBack/feedback'));
+// const ViewReview = lazy(()=>import('viewICafeAdmin/FeedBack/viewreview'));
+const ProductReview = lazy(()=>import('viewICafeAdmin/FeedBack/productreview'));
 
 
 const FooterRoutes = {
@@ -190,6 +193,18 @@ const iCafeAdminRoutesAndMenuItems = {
       component: Reports,
       label: 'Reports',
       icon: 'shop',
+    },
+    {
+      path: `${appRoot}/feedback`,
+      component: FeedBack,
+      label: 'Feedback',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/product_view`,
+      component: ProductReview,
+      // label: 'User Management',
+      // icon: 'user',
     },
     {
       path: `${appRoot}/termsconditions`,

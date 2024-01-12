@@ -179,7 +179,7 @@ const StoreOrderView = () => {
                         </Col>
                     </Row> */}
 
-                    <Card style={{ margin: "-20px" }}>
+                    <Card className='mt-3'>
                         <Card.Body>
                             <Form>
                                 {/* List Header Start */}

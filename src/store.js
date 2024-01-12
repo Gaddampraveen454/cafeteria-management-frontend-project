@@ -58,6 +58,7 @@ import forgetPasswordReducer from 'Redux/ForgetPassword/forgetpassword';
 import AdminRolesReducer from 'Redux/IcafeAdminRedux/AdminRoles/rolesredux';
 import CompanyRoleReducer from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux';
 import StoreRoleReducer from 'Redux/CashierRedux/StoreRoleredux/storeroleredux';
+import ICafeFeedbackReducer from 'Redux/IcafeAdminRedux/Feedbackredux/feedbackdux';
 
 
 const persistConfig = {
@@ -82,6 +83,7 @@ const persistedReducer = persistReducer(
     cotegoryList: categoryReducer,
     companymanagement: iCafeAdminCompanyReducer,
     storemanagement: iCafeAdminStoreReducer,
+    adminfeedback: ICafeFeedbackReducer,
     adminorder: AdminOrderReducer,
     iCafeAdminStoreSlice: iCafeAdminStoreReducer,
     companyDashbaord: CompanyDashboard,

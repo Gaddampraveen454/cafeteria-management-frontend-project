@@ -1,0 +1,9 @@
+.nav-tabs .nav-link {
+    border: none;
+    border-right: 1px solid #ddd; /* You can set the color to match your design */
+  }
+  
+  .nav-tabs .nav-link.active {
+    border-bottom: 2px solid transparent; /* You can set the color to transparent or match your background color */
+    border-right: 1px solid #ddd; /* You can set the color to match your design */
+  }
