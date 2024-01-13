@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
+ import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Col, Dropdown, Form, Modal, OverlayTrigger, Pagination, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
-import './feedback.css'
+import './companyfeedback.css'
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { NavLink, useHistory } from 'react-router-dom/cjs/react-router-dom';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-import { ICafeAdminProductList, ICafeAdminProductNameURL, ICafeAdminProductViewURL, ICafeFeedbackListURL } from 'Redux/IcafeAdminRedux/Feedbackredux/feedbackdux';
+
 import Rating from 'react-rating-stars-component';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import { CompanyFeedbackListURL, CompanyProductNameURL,CompanyProductList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
 
 
-const feedback = () => {
+const companyfeedback = () => {
     const title = "Feedback"
     const review = "Review"
     const productReview = "Product Wise Review"
@@ -34,13 +35,14 @@ const feedback = () => {
     const { currentUser } = useSelector((state) => state.auth);
     console.log(currentUser, 'hbvhsfh')
 
-    const { FeedbackData, ProductName, ProductList, ProductView } = useSelector((state) => state.adminfeedback);
-    console.log(ProductView, 'ProductView')
+    // const {companyProductList ,ProductView} = useSelector((state) => state.adminfeedback);
+    const { companyFeedback,companyProductName,companyProductList} = useSelector((state) => state.companyfeedback);
+    console.log(companyFeedback, 'companyFeedback')
 
 
     useEffect(() => {
-        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit))
-        dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1))
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit,currentUser?.data?.uuid))
+        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1,currentUser?.data?.uuid))
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -48,32 +50,32 @@ const feedback = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(ICafeFeedbackListURL(0, pages, currentUser.token, limit))
+            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(ICafeFeedbackListURL(page - 1, search, currentUser.token, limit))
+            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(ICafeFeedbackListURL(page + 1, search, currentUser.token, limit))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ICafeFeedbackListURL(page, search, currentUser.token, limit))
+            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(ICafeFeedbackListURL(page + 1, search, currentUser.token, limit))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(ICafeFeedbackListURL(page + 2, search, currentUser.token, limit))
+            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(ICafeFeedbackListURL(0, search, currentUser.token, pages))
+            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
         }
     }
 
@@ -84,32 +86,32 @@ const feedback = () => {
             console.log(pages1, "ghjkvbnm")
             setSearch1(pages1)
             setPage1(0)
-            dispatch(ICafeAdminProductList(0, pages1, currentUser.token, limit1))
+            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1,currentUser?.data?.uuid))
         }
         if (type1 === "prev") {
             setPage1(page1 - 1)
-            dispatch(ICafeAdminProductList(page1 - 1, search1, currentUser.token, limit1))
+            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
         }
         else if (type1 === "next") {
             setPage1(page1 + 1)
-            dispatch(ICafeAdminProductList(page1 + 1, search1, currentUser.token, limit1))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
         }
         else if (type1 === "page") {
             setPage1(page1)
-            dispatch(ICafeAdminProductList(page1, search1, currentUser.token, limit1))
+            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
         }
         else if (type1 === "page+1") {
             setPage1(page1 + 1)
-            dispatch(ICafeAdminProductList(page1 + 1, search1, currentUser.token, limit1))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
         }
         else if (type1 === "page+2") {
             setPage1(page1 + 2)
-            dispatch(ICafeAdminProductList(page1 + 2, search1, currentUser.token, limit1))
+            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1,currentUser?.data?.uuid))
         }
         else if (type1 === "limit") {
             setLimit1(pages1)
             setPage1(0)
-            dispatch(ICafeAdminProductList(0, search1, currentUser.token, pages1))
+            dispatch(CompanyProductList(0, search1, currentUser.token, pages1,currentUser?.data?.uuid))
         }
     }
 
@@ -122,21 +124,21 @@ const feedback = () => {
 
     const viewEventHandlerSamePage = (event) => {
         console.log(event, 'vdshdgfv')
-
+      
         // dispatch(ConsumerOrderView(currentUser?.token, event?.uuid))
         setView(event);
-        dispatch(ICafeAdminProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
 
-        setTimeout(() => {
+        dispatch(CompanyProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
+        setTimeout(()=>{
             setDiscountModal(true);
-        }, 1000)
-
+        },1000)
+      
     }
 
     const viewEventHandler = (value) => {
         history.push({
-            pathname: '/product_view',
-            state: value
+            pathname:'/product_view',
+            state:value
         })
         // console.log(value, 'vdshdgfvhbjh')
         // setModal(true)
@@ -306,13 +308,27 @@ const feedback = () => {
                         <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Review</div>
                         </Col>
-
+                        {/* <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">TOKEN NO</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">PRICE</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">ORDER DATE</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer "> PAYMENT STATUS</div>
+                </Col>
+                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">ORDER STATUS</div>
+                </Col> */}
                     </Row>
                     {/* List Header End */}
 
                     {/* List Items Start */}
-                    {FeedbackData?.data?.length > 0 && FeedbackData?.data?.map((text, index) => {
-                        console.log(text, 'bsdhbhf')
+                    {companyFeedback?.data?.length > 0 && companyFeedback?.data?.map((text, index) => {
+                        console.log(text, 'bsdhbhfvfdv')
                         return (
                             <Card className="mb-2" key={index}>
                                 <Card.Body className="pt-0 pb-0 sh-40 sh-md-8">
@@ -358,7 +374,46 @@ const feedback = () => {
                                             <div className="text-muted text-small d-md-none">Review</div>
                                             <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
                                         </Col>
-
+                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <div className="text-muted text-small d-md-none">Token No</div>
+                                    <div className="text-alternate">{text?.token_no}</div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">Price</div>
+                                    <div className="text-alternate">
+                                        <span>
+                                            <span className="text-small">₹</span>
+                                            {text?.amount}
+                                        </span>
+                                    </div>
+                                </Col> */}
+                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
+                                    <div className="text-muted text-small d-md-none">Order Date</div>
+                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
+                                </Col>
+                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                    <div className="text-muted text-small d-md-none">Payment Status</div>
+                                    <div>
+                                        <Badge bg="outline-primary">{text?.payment_status}</Badge>
+                                    </div>
+                                </Col> */}
+                                        {/* <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
+                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => { }} />
+                        </Col> */}
+                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                    <div className="text-muted text-small d-md-none">Order Status</div>
+                                    <div className="text-alternate">
+                                        {text?.order_status}
+                                    </div>
+                                </Col> */}
+                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
+                                            <div className="text-muted text-small d-md-none">View</div>
+                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                                onClick={() => redirectReview(text)}>
+                                                <CsLineIcons icon="eye" />
+                                            </Button>
+                                            </div>
+                                        </Col> */}
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -380,7 +435,7 @@ const feedback = () => {
                                     <Row className="g-2">
                                         <Col xs="8" lg="8" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-5">
                                             <div className="text-muted text-medium cursor-pointer">Product Name</div>
-                                            {ProductName?.data?.map((text, ind) => {
+                                            {companyProductName?.data?.map((text, ind) => {
                                                 console.log(text, 'sdhbvhjdsv')
                                                 return (
                                                     <div key={ind} className='mb-3'>{text?.products?.length > 0 ? text?.products[0]?.name : ''}</div>
@@ -389,7 +444,7 @@ const feedback = () => {
                                         </Col>
                                         <Col xs="4" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-5">
                                             <div className="text-muted text-medium cursor-pointer">Rating</div>
-                                            {ProductName?.data?.map((text, ind) => {
+                                            {companyProductName?.data?.map((text, ind) => {
                                                 console.log(text, 'sdhbvhjdsv')
                                                 return (
                                                     <div className="mb-3" key=''>
@@ -443,16 +498,16 @@ const feedback = () => {
                             <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                                 {page + 1}
                             </Pagination.Item>
-                            <Pagination.Item className="shadow" disabled={Math.ceil(FeedbackData && FeedbackData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-                            <Pagination.Item className="shadow" disabled={Math.ceil(FeedbackData && FeedbackData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+                            <Pagination.Item className="shadow" disabled={Math.ceil(companyFeedback && companyFeedback.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                            <Pagination.Item className="shadow" disabled={Math.ceil(companyFeedback && companyFeedback.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                            {Math.ceil(FeedbackData && FeedbackData.count / limit) > page + 3 &&
+                            {Math.ceil(companyFeedback && companyFeedback.count / limit) > page + 3 &&
                                 <>
                                     <Pagination.Item className="shadow" >...</Pagination.Item>
                                 </>
 
                             }
-                            <Pagination.Next className="shadow" disabled={Math.ceil(FeedbackData && FeedbackData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                            <Pagination.Next className="shadow" disabled={Math.ceil(companyFeedback && companyFeedback.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                                 <CsLineIcons icon="chevron-right" />
                             </Pagination.Next>
                         </Pagination>
@@ -643,7 +698,7 @@ const feedback = () => {
                     {/* List Header End */}
 
                     {/* List Items Start */}
-                    {ProductList?.data?.length > 0 && ProductList?.data?.map((text, index) => {
+                    {companyProductList?.data?.length > 0 && companyProductList?.data?.map((text, index) => {
                         console.log(text, 'bsdhbhf')
                         return (
                             <Card className="mb-2" key={index}>
@@ -691,14 +746,14 @@ const feedback = () => {
                                             <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
                                         </Col> */}
                                         <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                            <div className="text-muted text-small d-md-none">View</div>
-                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                                onClick={() => viewEventHandler(text)}
-                                            >
-                                                <CsLineIcons icon="eye" />
-                                            </Button>
-                                            </div>
-                                        </Col>
+                                    <div className="text-muted text-small d-md-none">View</div>
+                                    <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                        onClick={() => viewEventHandler(text)}
+                                    >
+                                        <CsLineIcons icon="eye" />
+                                    </Button>
+                                    </div>
+                                </Col>
 
                                     </Row>
                                 </Card.Body>
@@ -753,7 +808,7 @@ const feedback = () => {
                                             })}
                                         </Col>
                                     </Row> */}
-                    {/* <Row>
+                                    {/* <Row>
                     
                     <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
@@ -765,7 +820,7 @@ const feedback = () => {
                                         </Col>
                                     </Row> */}
 
-                    {/* </Form>
+                                {/* </Form>
 
                             </OverlayScrollbarsComponent>
                         </Modal.Body>
@@ -781,16 +836,16 @@ const feedback = () => {
                             <Pagination.Item className="shadow" active onClick={() => searchfun("page")} >
                                 {page1 + 1}
                             </Pagination.Item>
-                            <Pagination.Item className="shadow" disabled={Math.ceil(ProductList && ProductList.count / limit1) <= page1 + 1} onClick={() => searchfun("page+1", page1 + 1)}>{page1 + 2}</Pagination.Item>
-                            <Pagination.Item className="shadow" disabled={Math.ceil(ProductList && ProductList.count / limit1) <= page1 + 2} onClick={() => searchfun("page+2", page1 + 2)}>{page1 + 3}</Pagination.Item>
+                            <Pagination.Item className="shadow" disabled={Math.ceil(companyProductList && companyProductList.count / limit1) <= page1 + 1} onClick={() => searchfun("page+1", page1 + 1)}>{page1 + 2}</Pagination.Item>
+                            <Pagination.Item className="shadow" disabled={Math.ceil(companyProductList && companyProductList.count / limit1) <= page1 + 2} onClick={() => searchfun("page+2", page1 + 2)}>{page1 + 3}</Pagination.Item>
 
-                            {Math.ceil(ProductList && ProductList.count / limit1) > page1 + 3 &&
+                            {Math.ceil(companyProductList && companyProductList.count / limit1) > page1 + 3 &&
                                 <>
                                     <Pagination.Item className="shadow" >...</Pagination.Item>
                                 </>
 
                             }
-                            <Pagination.Next className="shadow" disabled={Math.ceil(ProductList && ProductList.count / limit1) <= page1 + 1} onClick={() => searchfun("next")}>
+                            <Pagination.Next className="shadow" disabled={Math.ceil(companyProductList && companyProductList.count / limit1) <= page1 + 1} onClick={() => searchfun("next")}>
                                 <CsLineIcons icon="chevron-right" />
                             </Pagination.Next>
                         </Pagination>
@@ -805,4 +860,6 @@ const feedback = () => {
     )
 }
 
-export default feedback
+
+
+export default companyfeedback
