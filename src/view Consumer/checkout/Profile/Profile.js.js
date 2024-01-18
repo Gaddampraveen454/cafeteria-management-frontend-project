@@ -125,7 +125,7 @@ const Profile = () => {
                         <div className="sh-5 d-flex align-items-center lh-1-25">Wallet Amount </div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center">₹ {ConsumerData ? WalletData.data.wallet_amount:"0"}</div>
+                        <div className="sh-5 d-flex align-items-center">₹ {ConsumerData ? WalletData?.data?.wallet_amount : "0"}</div>
                       </Col>
                     </Row>
                   </Col>

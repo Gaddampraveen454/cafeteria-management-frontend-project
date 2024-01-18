@@ -40,8 +40,15 @@ const OtpVerification = () => {
             if (notification.status === true) {
                 toast.success(notification.message)
                 setTimeout(() => {
-                    history.push('/Checkout')
-                    localStorage.setItem('token', currentUser)
+                    if (location?.stat === "withoutLogin") {
+                        history.push('/Checkout')
+                        localStorage.setItem('token', currentUser)
+                    }
+                    else {
+                        history.push('/Profile')
+                        localStorage.setItem('token', currentUser)
+                    }
+
                 }, 200)
             }
             else if (notification.status === false) {
@@ -148,10 +155,10 @@ const OtpVerification = () => {
                             {errors.otp && <div className="d-block invalid-tooltip">{errors.otp}</div>}
                         </div>
                         {/* {count === 0 ? */}
-                            <Button size="md" type="submit" style={{ marginBottom: "10px" }}>
-                                Verify
-                            </Button>
-                            {/* :
+                        <Button size="md" type="submit" style={{ marginBottom: "10px" }}>
+                            Verify
+                        </Button>
+                        {/* :
                             <Button disabled size="md" type="submit" style={{ marginBottom: "10px" }}>
                                 Verify
                             </Button>
