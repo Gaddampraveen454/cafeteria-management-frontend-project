@@ -35,6 +35,7 @@ const report = () => {
 
   const [Itemwisestoreuuid, setItemWiseStoreuuid] = useState('')
   const [Orderwisestoreuuid, setOrderWiseStoreuuid] = useState('')
+  const [selectType, setSelectType] = useState('');
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -140,6 +141,17 @@ const report = () => {
   }, [])
 
 
+  const types = [
+    { label: "Lunch", value: 'Lunch' },
+    { label: "Dinner", value: 'Dinner' },
+  ]
+
+  const handleType = (type) => {
+    console.log(type, 'dbdgshvsda')
+    setSelectType(type?.value)
+  }
+
+
   const ItemwiseChangeStartData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setItemWiseStartDate(e.target.value);
@@ -167,7 +179,7 @@ const report = () => {
   }
 
   const Orderwiseexportfunction = async () => {
-    await ExportExcel(`/report/list/company/export?store_uuid=${Orderwisestoreuuid}&user_uuid=${selectuser1}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderwiseReports", currentUser.token)
+    await ExportExcel(`/report/list/company/export?store_uuid=${Orderwisestoreuuid}&user_uuid=${selectuser1}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}&type=${selectType}`, "OrderwiseReports", currentUser.token)
   }
   // /report/date/wise/company?start_date=2023-11-13&end_date=2023-11-14%27
 
@@ -272,7 +284,7 @@ const report = () => {
         {/* Search End */}
         {/* </Col> */}
 
-        <Col md="3" lg="3" xxl="2" className="mb-1 mt-5">
+        <Col md="3" lg="3" xxl="2" className="mb-1 mt-2">
           <Form.Label>Select Store </Form.Label>
           <Select classNamePrefix="react-select"
             options={StoreData}
@@ -282,12 +294,12 @@ const report = () => {
           // disabled={eventType}
           />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" >
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" >
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={itemwisestartDate} onChange={ItemwiseChangeStartData} placeholder="Start date" />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" >
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" >
           <Form.Label>End date</Form.Label>
           <Form.Control type="date" value={itemwiseendDate} onChange={ItemwiseChangeEndData} placeholder="End date" />
           {/* </div> */}
@@ -324,18 +336,21 @@ const report = () => {
           {/* Print Button End */}
 
           {/* Export Dropdown Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4" >
+          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4" >
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#">Copy</Dropdown.Item>
               <Dropdown.Item href="#" onClick={Itemwiseexportfunction}>Excel</Dropdown.Item>
-              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+              <Dropdown.Item href="#">Cvs</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
+          <Button onClick={Itemwiseexportfunction}>
+            Download
+          </Button>
           {/* Export Dropdown End */}
 
           {/* Length Start */}
@@ -361,7 +376,7 @@ const report = () => {
       <Row className="mb-3">
         <h3>Order Wise Reports:</h3>
 
-        <Col md="2" lg="2" className="mb-1 mt-5">
+        <Col md="2" lg="2" className="mb-1 mt-2">
           <Form.Label>Select Store</Form.Label>
           <Select classNamePrefix="react-select"
             options={StoreData}
@@ -371,7 +386,7 @@ const report = () => {
           // disabled={eventType}
           />
         </Col>
-        <Col md="2" lg="2" className="mb-1 mt-5">
+        <Col md="2" lg="2" className="mb-1 mt-2">
           <Form.Label>Select User</Form.Label>
           <Select classNamePrefix="react-select"
             options={UserDropdown}
@@ -381,33 +396,45 @@ const report = () => {
           // disabled={eventType}
           />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={orderwisestartDate} onChange={OrderwiseChangeStartData} placeholder="Start date" />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
           <Form.Label>End date</Form.Label>
           <Form.Control type="date" value={orderwiseendDate} onChange={OrderwiseChangeEndData} placeholder="End date" />
           {/* </div> */}
         </Col>
+        <Col md="2" lg="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
+          <Form.Label>Select Type</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={types}
+            // value={selectType}
+            onChange={handleType}
+            placeholder="Select Type"
+          // disabled={eventType}
+          />
+        </Col>
 
-        <Col md="3" lg="3" xxl="2" className="mb-1 mt-5" >
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" >
           {/* Export Dropdown Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#">Copy</Dropdown.Item>
               <Dropdown.Item href="#" onClick={Orderwiseexportfunction}>Excel</Dropdown.Item>
-              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+              <Dropdown.Item href="#">Cvs</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
           {/* Export Dropdown End */}
-
+          <Button onClick={Orderwiseexportfunction}>
+            Download
+          </Button>
         </Col>
 
       </Row>

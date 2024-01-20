@@ -57,6 +57,7 @@ const AdminReports = () => {
     const [option, setOption] = useState('');
     const [selectuser, setSelectUser] = useState('');
     const [selectuser1, setSelectUser1] = useState('');
+    const [selectType, setSelectType] = useState('');
 
 
     console.log(companyData, "sfsdfdsfs");
@@ -206,7 +207,7 @@ const AdminReports = () => {
         dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
     }
 
-    
+
 
 
     const OrderCompanyDropDown = [];
@@ -216,7 +217,7 @@ const AdminReports = () => {
     })
 
     const OrderCompanyHandle = (selectvalue) => {
-        console.log(selectvalue,'dshvhgdv')
+        console.log(selectvalue, 'dshvhgdv')
         setOrderCompanyOption(selectvalue?.value)
         setOrderCompanyOption1(selectvalue)
         setOrderOption("")
@@ -243,9 +244,9 @@ const AdminReports = () => {
 
     if (userDrop?.length > 0) {
         userDrop?.map((item) => {
-          return UserDropdown.push({ label: item?.name, value: item?.uuid })
+            return UserDropdown.push({ label: item?.name, value: item?.uuid })
         })
-      }
+    }
 
     const SelectUserDropdown = (select) => {
         console.log(select, "select")
@@ -253,14 +254,22 @@ const AdminReports = () => {
         setSelectUser1(select?.value)
     }
 
+    const types = [
+        { label: "Lunch", value: 'Lunch' },
+        { label: "Dinner", value: 'Dinner' },
+    ]
 
+    const handleType = (type) => {
+        console.log(type, 'dbdgshvsda')
+        setSelectType(type?.value)
+    }
 
 
     const exportfunction = async () => {
         await ExportExcel(`/report/date/wise/admin?start_date=${startDate}&end_date=${endDate}&company_uuid=${comapanyOption}&store_uuid=${option === null ? "" : option}`, "ItemwiseReports", currentUser.token)
     }
     const exportfunction1 = async () => {
-        await ExportExcel(`/report/list/admin/export?company_uuid=${orderComapnyOption}&store_uuid=${orderOption}&user_uuid=${selectuser1}&start_date=${orderStartDate}&end_date=${orderEndDate}`, "OrderwiseReports", currentUser.token)
+        await ExportExcel(`/report/list/admin/export?company_uuid=${orderComapnyOption}&store_uuid=${orderOption}&user_uuid=${selectuser1}&start_date=${orderStartDate}&end_date=${orderEndDate}&type=${selectType}`, "OrderwiseReports", currentUser.token)
     }
     // /report/list/admin/export?pagenum=0&limit=10&search=&user_uuid=&start_date=&end_date='
     useEffect(() => {
@@ -407,20 +416,24 @@ const AdminReports = () => {
                 {/* </Col> */}
 
 
-                <Col xs="1" md="1" style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                <Col xs="2" md="2" className='mt-4' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "10px" }} >
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
                             </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
-                            {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Copy</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
-                            {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
+                    
+                    <Button onClick={exportfunction}>
+                        Download
+                    </Button>
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}
@@ -529,6 +542,16 @@ const AdminReports = () => {
                     <Form.Control type="date" value={orderEndDate} onChange={OrderEndData} placeholder="End date" />
                     {/* </div> */}
                 </Col>
+                <Col md="2" lg="2" className="mb-1">
+                    <Form.Label>Type</Form.Label>
+                    <Select classNamePrefix="react-select"
+                        options={types}
+                        // value={selectType}
+                        onChange={handleType}
+                        placeholder="Type"
+                    // disabled={eventType}
+                    />
+                </Col>
                 {/* <Col lg="3" className="mb-1 text-end"> */}
                 {/* Print Button Start */}
                 {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
@@ -542,20 +565,23 @@ const AdminReports = () => {
                 {/* </Col> */}
 
 
-                <Col md="1" style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                <Col md="2" className='mt-3' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                    <Button onClick={exportfunction1}>
+                        Download
+                    </Button>
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
                             </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
-                            {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Copy</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={exportfunction1}>Excel</Dropdown.Item>
-                            {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}

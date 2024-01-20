@@ -47,7 +47,7 @@ const report = () => {
 
   const [selectuser, setSelectUser] = useState('');
   const [selectuser1, setSelectUser1] = useState('');
-
+  const[selectType,setSelectType]=useState('');
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -141,6 +141,15 @@ const report = () => {
     console.log("ChangeStartData: ", e.target.value);
     setOrderWiseEndDate(e.target.value);
   };
+  const types=[
+    {label:"Lunch",value:'Lunch'},
+    {label:"Dinner",value:'Dinner'},
+  ]  
+
+  const handleType =(type)=>{
+    console.log(type,'dbdgshvsda')
+   setSelectType(type?.value)
+  }
 
 
   const Itemwiseexportfunction = async () => {
@@ -149,7 +158,7 @@ const report = () => {
 
 
   const orderwiseexportfunction = async () => {
-    await ExportExcel(`/report/list/cashier/export?user_uuid=${selectuser1}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}`, "OrderWiseReport", currentUser.token)
+    await ExportExcel(`/report/list/cashier/export?user_uuid=${selectuser1}&start_date=${orderwisestartDate}&end_date=${orderwiseendDate}&type=${selectType}`, "OrderWiseReport", currentUser.token)
   }
 
   // useEffect(()=>{
@@ -244,12 +253,12 @@ const report = () => {
           //  onChange={myhandlechange}
           />
         </Col> */}
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={itemwisestartDate} onChange={ItemwiseChangeStartData} />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
           <Form.Label>End date</Form.Label>
           <Form.Control type="date" value={itemwiseendDate} onChange={ItemwiseChangeEndData} />
           {/* </div> */}
@@ -258,18 +267,21 @@ const report = () => {
 
 
           {/* Export Dropdown Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#">Copy</Dropdown.Item>
               <Dropdown.Item href="#" onClick={Itemwiseexportfunction}>Excel</Dropdown.Item>
-              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+              <Dropdown.Item href="#">Cvs</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
+           <Button onClick={Itemwiseexportfunction}>
+            Download
+          </Button>
           {/* Export Dropdown End */}
 
           {/* Length Start */}
@@ -298,7 +310,7 @@ const report = () => {
       <Row className="mb-3">
         <h3>Order Wise Reports:</h3>
 
-        <Col md="2" lg="2" className="mb-1 mt-5">
+        <Col md="2" lg="2" className="mb-1 mt-2">
           <Form.Label>Select User</Form.Label>
           <Select classNamePrefix="react-select"
             options={UserDropdown}
@@ -309,32 +321,45 @@ const report = () => {
           />
         </Col>
 
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
           {/* <div className="mb-3"> */}
           <Form.Label>Start date</Form.Label>
           <Form.Control type="date" value={orderwisestartDate} onChange={OrderwiseChangeStartData} />
         </Col>
-        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5" style={{ marginTop: "-2%" }}>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-2" style={{ marginTop: "-2%" }}>
           <Form.Label>End date</Form.Label>
           <Form.Control type="date" value={orderwiseendDate} onChange={OrderwiseChangeEndData} />
           {/* </div> */}
+        </Col>
+        <Col md="2" lg="2" className="mb-1 mt-2">
+          <Form.Label>Select Type</Form.Label>
+          <Select classNamePrefix="react-select"
+            options={types}
+            // value={selectuser}
+            onChange={handleType}
+            placeholder="Select Type"
+          // disabled={eventType}
+          />
         </Col>
         <Col md="3" lg="3" xxl="2" className="mb-1 mt-5 text-start" >
 
 
           {/* Export Dropdown Start */}
-          <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
             <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
               <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                 <CsLineIcons icon="download" />
               </Dropdown.Toggle>
             </OverlayTrigger>
             <Dropdown.Menu className="shadow dropdown-menu-end">
-              {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+              <Dropdown.Item href="#">Copy</Dropdown.Item>
               <Dropdown.Item href="#" onClick={orderwiseexportfunction}>Excel</Dropdown.Item>
-              {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+              <Dropdown.Item href="#">Cvs</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
+          <Button onClick={orderwiseexportfunction}>
+            Download
+          </Button>
           {/* Export Dropdown End */}
 
         </Col>
