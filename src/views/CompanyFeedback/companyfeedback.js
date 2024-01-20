@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Col, Dropdown, Form, Modal, OverlayTrigger, Pagination, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import './companyfeedback.css'
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Rating from 'react-rating-stars-component';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { CompanyFeedbackListURL, CompanyProductNameURL,CompanyProductList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
+import { CompanyFeedbackListURL, CompanyProductNameURL, CompanyProductList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
 
 
 const companyfeedback = () => {
@@ -36,13 +36,13 @@ const companyfeedback = () => {
     console.log(currentUser, 'hbvhsfh')
 
     // const {companyProductList ,ProductView} = useSelector((state) => state.adminfeedback);
-    const { companyFeedback,companyProductName,companyProductList} = useSelector((state) => state.companyfeedback);
+    const { companyFeedback, companyProductName, companyProductList } = useSelector((state) => state.companyfeedback);
     console.log(companyFeedback, 'companyFeedback')
 
 
     useEffect(() => {
-        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit,currentUser?.data?.uuid))
-        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1,currentUser?.data?.uuid))
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid))
+        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser?.data?.uuid))
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -50,32 +50,32 @@ const companyfeedback = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
         }
     }
 
@@ -86,32 +86,32 @@ const companyfeedback = () => {
             console.log(pages1, "ghjkvbnm")
             setSearch1(pages1)
             setPage1(0)
-            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         if (type1 === "prev") {
             setPage1(page1 - 1)
-            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "next") {
             setPage1(page1 + 1)
-            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "page") {
             setPage1(page1)
-            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "page+1") {
             setPage1(page1 + 1)
-            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "page+2") {
             setPage1(page1 + 2)
-            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "limit") {
             setLimit1(pages1)
             setPage1(0)
-            dispatch(CompanyProductList(0, search1, currentUser.token, pages1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(0, search1, currentUser.token, pages1, currentUser?.data?.uuid))
         }
     }
 
@@ -124,21 +124,21 @@ const companyfeedback = () => {
 
     const viewEventHandlerSamePage = (event) => {
         console.log(event, 'vdshdgfv')
-      
+
         // dispatch(ConsumerOrderView(currentUser?.token, event?.uuid))
         setView(event);
 
         dispatch(CompanyProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
-        setTimeout(()=>{
+        setTimeout(() => {
             setDiscountModal(true);
-        },1000)
-      
+        }, 2000)
+
     }
 
     const viewEventHandler = (value) => {
         history.push({
-            pathname:'/product_view',
-            state:value
+            pathname: '/product_view',
+            state: value
         })
         // console.log(value, 'vdshdgfvhbjh')
         // setModal(true)
@@ -372,7 +372,7 @@ const companyfeedback = () => {
                                         </Col>
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
+                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No reviews available"}</div>
                                         </Col>
                                         {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                     <div className="text-muted text-small d-md-none">Token No</div>
@@ -475,7 +475,7 @@ const companyfeedback = () => {
                                         <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
                                             {view?.reviews && view.reviews.length > 0 ? (
-                                                <Form.Control type="text" value={view.reviews[0].review} readOnly />
+                                                <Form.Control type="text" as='textarea' value={view.reviews[0].review} readOnly />
                                             ) : (
                                                 <p>No reviews available</p>
                                             )}
@@ -719,41 +719,23 @@ const companyfeedback = () => {
                                         </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Type</div>
-                                            <div className="text-alternate">{text?.type}</div>
+                                            <div className="text-alternate">{text?.type?.charAt(0).toLowerCase() ? text?.type?.charAt(0).toUpperCase() + text?.type.slice(1) : text?.type}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                            <div className="text-muted text-small d-md-none">Mobile</div>
-                                            <div className="text-alternate">{text?.users[0]?.mobile}</div>
-                                        </Col> */}
+                                        
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Average Rating</div>
-
-                                            <Rating
-                                                count={5}
-                                                value={text?.avg_rating}
-                                                // onChange={handleRatingChange}
-                                                size={25}
-                                                activeColor="#ffd700"
-                                                edit={false}
-                                                className="lh-1 text-alternate  mt-2"
-                                            />
-                                            {/* :
-                                                <span className="lh-1 text-alternate">No Rating</span>
-                                            } */}
+                                            <div className="text-alternate ">{text?.avg_rating}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                            <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
-                                        </Col> */}
+                                        
                                         <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">View</div>
-                                    <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                        onClick={() => viewEventHandler(text)}
-                                    >
-                                        <CsLineIcons icon="eye" />
-                                    </Button>
-                                    </div>
-                                </Col>
+                                            <div className="text-muted text-small d-md-none">View</div>
+                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                                onClick={() => viewEventHandler(text)}
+                                            >
+                                                <CsLineIcons icon="eye" />
+                                            </Button>
+                                            </div>
+                                        </Col>
 
                                     </Row>
                                 </Card.Body>
@@ -808,7 +790,7 @@ const companyfeedback = () => {
                                             })}
                                         </Col>
                                     </Row> */}
-                                    {/* <Row>
+                    {/* <Row>
                     
                     <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
@@ -820,7 +802,7 @@ const companyfeedback = () => {
                                         </Col>
                                     </Row> */}
 
-                                {/* </Form>
+                    {/* </Form>
 
                             </OverlayScrollbarsComponent>
                         </Modal.Body>

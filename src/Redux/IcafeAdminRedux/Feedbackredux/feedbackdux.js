@@ -80,20 +80,20 @@ export const ICafeAdminProductList = (page1,search1,token,limit1) => async (disp
 
 };
 
-export const ICafeAdminProductViewURL = (page,search,token,limit,productId,rating) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${page}&limit=${limit}&search=${search}&product_uuid=${productId}&rating=${rating}`, {
-    headers: {
-      "x-auth-token": token
-    }
-  }).then((res) => {
-    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
-    dispatch(setProductView(res.data));
-  })
-    .catch((err) => {
-      console.log("err");
-    })
+// export const ICafeAdminProductViewURL = (page,search,token,limit,productId,rating) => async (dispatch) => {
+//   const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${page}&limit=${limit}&search=${search}&product_uuid=${productId}&rating=${rating}`, {
+//     headers: {
+//       "x-auth-token": token
+//     }
+//   }).then((res) => {
+//     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+//     dispatch(setProductView(res.data));
+//   })
+//     .catch((err) => {
+//       console.log("err");
+//     })
 
-};
+// };
 
 
 

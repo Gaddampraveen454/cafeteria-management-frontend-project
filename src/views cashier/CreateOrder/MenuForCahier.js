@@ -909,10 +909,10 @@ const MenuForCashier = () => {
                                             />
                                             <div>
                                               {item.stock_quantity <= 0 ? (
-                                                <Col style={{ color: 'red' }}>Out of Stock</Col>
+                                                <Col style={{ color: '#8d2f04' }}>Out of Stock</Col>
                                               ) : (
                                                 <div>
-                                                  {item.stock_quantity <= 5 ? <Col style={{ color: 'red' }}>Only {item.stock_quantity} Item Left</Col> : null}
+                                                  {item.stock_quantity <= 5 ? <Col style={{ color: '#8d2f04' }}>Only {item.stock_quantity} Item Left</Col> : null}
 
                                                   {items && items.find((data1) => data1.item_uuid === item.uuid) !== undefined ? (
                                                     <InputGroup className="spinner sw-11">

@@ -628,13 +628,13 @@ const productsUserCards = () => {
                                                                             <img src={item.image_url} alt="GreenDot" style={{ width: "80%", height: "auto" }} className="heading d-flex fluid-img" crossOrigin="anonymous" />
                                                                             {
                                                                                 item.stock_quantity <= 0 ?
-                                                                                    <Col style={{ color: "red" }}>
+                                                                                    <Col style={{ color: "#6f2503" }}>
                                                                                         Out of Stock
                                                                                     </Col>
                                                                                     :
                                                                                     <div>
                                                                                         {item.stock_quantity <= 5 ?
-                                                                                            <Col style={{ color: "red" }}>
+                                                                                            <Col style={{ color: "#6f2503" }}>
                                                                                                 Only {item.stock_quantity} Item Left
                                                                                             </Col>
                                                                                             :

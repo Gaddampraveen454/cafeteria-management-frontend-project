@@ -285,7 +285,7 @@ const Cart = () => {
 
 
                             {item.stock_quantity <= 5 ?
-                                    <Col style={{ color: "red" }}>
+                                    <Col style={{ color: "#772804" }}>
                                       Only {item.stock_quantity} Item Left
                                     </Col>
                                     :

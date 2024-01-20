@@ -231,9 +231,115 @@ const Company = () => {
             </Card.Body>
           </Card> */}
         {/* </Col> */}
+
+
+
+
+
+          {/* <div className="col-xs-12 col-md-3">
+                        <div className="row rating-desc">
+                            <div className="row rating-desc" style={{ cursor: "pointer" }} onClick={() => searchfunction("filter", 5)}>
+                            <div className="col-xs-3 col-md-3 " >
+                                <span className="fa fa-star" >5</span>
+                                <FontAwesomeIcon icon={faStar} />
+                            </div>
+                            <div className="col-xs-7 col-md-7">
+                                <div className="progress">
+                                    <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style={{ width: "80%" }}>
+                                        <span className="sr-only">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xs-2 col-md-2">
+                                <span className="sr-only">{companyProductView?.ratings[4]?.count}</span>
+                            </div>
+                            </div>
+                            <div className="row rating-desc" style={{ cursor: "pointer" }} onClick={() => searchfunction("filter", 4)}>
+                            <div className="col-xs-3 col-md-3 " >
+                                <span className="fa fa-star"   >4</span>
+                                <FontAwesomeIcon icon={faStar} />
+                            </div>
+                            <div className="col-xs-7 col-md-7">
+                                <div className="progress">
+                                    <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style={{ width: "60%" }}>
+                                        <span className="sr-only">60%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xs-2 col-md-2">
+                                <span className="sr-only">{companyProductView?.ratings[3]?.count}</span>
+                            </div>
+                            </div>
+                            <div className="row rating-desc" style={{ cursor: "pointer" }} onClick={() => searchfunction("filter", 3)}>
+                            <div className="col-xs-3 col-md-3 " >
+                                <span className="fa fa-star"   >3</span>
+                                <FontAwesomeIcon icon={faStar} />
+                            </div>
+                            <div className="col-xs-7 col-md-7">
+                                <div className="progress">
+                                    <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style={{ width: "40%" }}>
+                                        <span className="sr-only">40%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xs-2 col-md-2">
+                                <span className="sr-only">{companyProductView?.ratings[2]?.count}</span>
+                            </div>
+                            </div>
+                            <div className="row rating-desc" style={{ cursor: "pointer" }} onClick={() => searchfunction("filter", 2)}>
+                            <div className="col-xs-3 col-md-3 " >
+                                <span className="fa fa-star"   >2</span>
+                                <FontAwesomeIcon icon={faStar} />
+                            </div>
+                            <div className="col-xs-7 col-md-7">
+                                <div className="progress">
+                                    <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style={{ width: "25%" }}>
+                                        <span className="sr-only">25%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xs-2 col-md-2">
+                                <span className="sr-only">{companyProductView?.ratings[1]?.count}</span>
+                            </div>
+                            </div>
+                            <div className="row rating-desc" style={{ cursor: "pointer" }} onClick={() => searchfunction("filter", 1)}>
+                            <div className="col-xs-3 col-md-3 " >
+                                <span className="fa fa-star"  >1</span>
+                                <FontAwesomeIcon icon={faStar} />
+                            </div>
+                            <div className="col-xs-7 col-md-7">
+                                <div className="progress">
+                                    <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        aria-valuemin="0" aria-valuemax="100" style={{ width: "15%" }}>
+                                        <span className="sr-only">15%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xs-2 col-md-2">
+                                <span className="sr-only">{companyProductView?.ratings[0]?.count}</span>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="col-xs-12 col-md-6">
+                        &nbsp;
+                    </div>
+
+                </div>
+           
+
+            </div>  */}
       </Row>
     </>
   );
 };
 
 export default Company;
+
+
+

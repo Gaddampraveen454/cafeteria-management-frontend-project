@@ -94,7 +94,7 @@ const Cardsdetails = ({ onClose }) => {
                       closeFunction()
                     }}
                   >
-                    <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: category === item?.uuid ? "red": 'rgb(72 72 72/1)', lineHeight: "1rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
+                    <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: category === item?.uuid ? "#672100": 'rgb(72 72 72/1)', lineHeight: "1rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
                   </a>
                   {/* <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
                     onClick={() => { setCategory(item.uuid); closeFunction() }}

@@ -138,7 +138,7 @@ const Cardsdetails = ({ handleClose, onClose, selectStore, companyuuid }) => {
                         marginBottom: '15px',
                         fontWeight: '500',
                         fontSize: '1rem',
-                        color: selectedCategory === item?.uuid ? 'red' : 'rgb(72 72 72/1)',
+                        color: selectedCategory === item?.uuid ? '#772804' : '',
                         lineHeight: '0.8rem',
                         fontFamily: 'proxima-nova, sans-serif',
                       }}

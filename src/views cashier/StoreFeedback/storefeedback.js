@@ -134,7 +134,7 @@ const storefeedback = () => {
         dispatch(StoreProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
         setTimeout(()=>{
             setDiscountModal(true);
-        },1000)
+        },2000)
       
     }
 
@@ -376,7 +376,7 @@ const storefeedback = () => {
                                         </Col>
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
+                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No reviews available"}</div>
                                         </Col>
                                         {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                     <div className="text-muted text-small d-md-none">Token No</div>
@@ -479,7 +479,7 @@ const storefeedback = () => {
                                         <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
                                             {view?.reviews && view.reviews.length > 0 ? (
-                                                <Form.Control type="text" value={view.reviews[0].review} readOnly />
+                                                <Form.Control type="text" as='textarea' value={view.reviews[0].review} readOnly />
                                             ) : (
                                                 <p>No reviews available</p>
                                             )}
@@ -723,7 +723,7 @@ const storefeedback = () => {
                                         </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Type</div>
-                                            <div className="text-alternate">{text?.type}</div>
+                                            <div className="text-alternate">{text?.type?.charAt(0).toLowerCase() ? text?.type?.charAt(0).toUpperCase() + text?.type.slice(1) : text?.type}</div>
                                         </Col>
                                         {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Mobile</div>
@@ -731,24 +731,8 @@ const storefeedback = () => {
                                         </Col> */}
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Average Rating</div>
-
-                                            <Rating
-                                                count={5}
-                                                value={text?.avg_rating}
-                                                // onChange={handleRatingChange}
-                                                size={25}
-                                                activeColor="#ffd700"
-                                                edit={false}
-                                                className="lh-1 text-alternate  mt-2"
-                                            />
-                                            {/* :
-                                                <span className="lh-1 text-alternate">No Rating</span>
-                                            } */}
+                                            <div className="text-alternate">{text?.avg_rating}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                            <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
-                                        </Col> */}
                                         <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
                                     <div className="text-muted text-small d-md-none">View</div>
                                     <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"

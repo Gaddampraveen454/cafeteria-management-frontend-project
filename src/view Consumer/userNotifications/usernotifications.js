@@ -294,7 +294,7 @@ const Notification = () => {
             {/* List Items Start */}
             {notificationValue && notificationValue?.data?.map((item, index) => {
                 console.log(item, "hgsdfgsjhgsdj")
-                return <Card key="" className={`mb-2 ${'selected'}`}>
+                return <Card key="" className='mb-2'>
                     <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
                         <NavLink to={item?.link.startsWith('/Orderrating/') ? `${item?.link}` : `/OrderView/${item?.link}`}>
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
