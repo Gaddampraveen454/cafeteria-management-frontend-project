@@ -63,6 +63,7 @@ export const LogOutURL = () => async (dispatch) => {
   console.log("enter")
   dispatch(setCurrentUser({}));
   // history.push('/login')
+  localStorage.removeItem("user");
 };
 
 

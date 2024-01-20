@@ -39,7 +39,7 @@ const Login = () => {
                     duration: 2000
                 })
                 setSuc(false)
-                if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer") {
+                if (location.state === "withoutLogin" && isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer") {
                     // history.push('/dashboard')
                     history.push(({
                         // pathname: "/consumer/login",
@@ -50,6 +50,14 @@ const Login = () => {
 
                     }));
                     localStorage.setItem('token', currentUser)
+                }
+                else {
+                    history.push(({
+                        pathname: "/Profile",
+                        state: {
+                            userType: "consumer"
+                        }
+                    }));
                 }
 
                 // else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin") {

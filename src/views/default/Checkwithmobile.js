@@ -91,7 +91,8 @@ const Login = () => {
                     setTimeout(() => {
                         history.push({
                             pathname: "/otp-verification",
-                            state: res?.data?.data
+                            state: res?.data?.data,
+                            stat: location.state
                         })
                     }, 2000)
 
@@ -168,7 +169,8 @@ const Login = () => {
                     setTimeout(() => {
                         history.push({
                             pathname: "/otp-verification",
-                            state: res?.data?.data
+                            state: res?.data?.data,
+                            stat: location.state
                         })
                     }, 2000)
 
@@ -179,7 +181,7 @@ const Login = () => {
                 })
         }
         else {
-            toast.error("Please Select Terms and Conditions!") 
+            toast.error("Please Select Terms and Conditions!")
         }
     }
 
@@ -233,7 +235,8 @@ const Login = () => {
 
     const EmployeeLogin = () => {
         history.push({
-            pathname: '/employee/login'
+            pathname: '/employee/login',
+            state: location.state
         })
     }
 
