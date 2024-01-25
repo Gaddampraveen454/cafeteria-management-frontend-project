@@ -50,12 +50,17 @@ const NavIconMenu = () => {
 
 
   const redirect = () => {
+     if(currentUser.data.group === "store" || currentUser.data.group === "company" || currentUser.data.group === "icafe_admin"){
+         history.push('/login')
+     }
+     else{
     console.log("enter1")
     const companyId = localStorage.getItem('companyId');
-console.log(companyId, "companyId")
-const compNewId = !companyId ? "qr" : companyId
+    console.log(companyId, "companyId")
+    const compNewId = !companyId ? "qr" : companyId
     dispatch(LogOutURL())
     history.push(`/menu/company/${compNewId}`)
+     }
   }
 
   const Loginredirect = () => {
@@ -112,8 +117,8 @@ const compNewId = !companyId ? "qr" : companyId
           }
         </li>
         {isLogin === true && currentUser && currentUser?.data?.group === "consumer" &&
-            <IconMenuNotifications />
-          }
+          <IconMenuNotifications />
+        }
       </ul>
       <SearchModal show={showSearchModal} setShow={setShowSearchModal} />
     </>

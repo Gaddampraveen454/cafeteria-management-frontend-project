@@ -61,6 +61,8 @@ const Order = () => {
     console.log(currentUser, 'bdvgsvf')
     const { OrderData, notification } = useSelector((state) => state.adminorder)
     console.log(OrderData, 'hgdvgsahef')
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
     const { storeList } = useSelector((state) => state.adminproducts)
@@ -114,7 +116,7 @@ const Order = () => {
         console.log(value, "ghdsvcsgzvchj")
         setSelectOrderStatus(value)
         setSelectOrderStatus1(value?.value)
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, value?.value));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, value?.value,startDate,endDate));
     }
 
 
@@ -157,7 +159,7 @@ const Order = () => {
         }
     }, [result1])
     useEffect(() => {
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -165,32 +167,32 @@ const Order = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(AdminOrderListURL(0, pages, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(0, pages, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(AdminOrderListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(AdminOrderListURL(page, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(page, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(AdminOrderListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(AdminOrderListURL(0, search, currentUser.token, pages, comapanyOption, option, selectorderstatus1))
+            dispatch(AdminOrderListURL(0, search, currentUser.token, pages, comapanyOption, option, selectorderstatus1,startDate,endDate))
         }
     }
 
@@ -216,7 +218,7 @@ const Order = () => {
         console.log(option, "selectvalue")
         setComapanyOption(selectvalue?.value)
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option, selectorderstatus1))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option, selectorderstatus1,startDate,endDate))
     }
 
     const StoredropdownValues = [];
@@ -242,7 +244,7 @@ const Order = () => {
     const selectdropdown = (text) => {
         setOption(text?.value)
         setOption1(text)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value, selectorderstatus1))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value, selectorderstatus1,startDate,endDate))
     }
 
     const viewEventHandler = (event) => {
@@ -263,18 +265,30 @@ const Order = () => {
     //     window.location.reload(true);
     //   }, 20000)
 
-    const handleRefresh = ()=>{
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, '', '',''));
+    const handleRefresh = () => {
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, '', '', '','',''));
     }
 
-// useEffect(() => {
-//         const intervalId = setInterval(() => {
-//             dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option,selectorderstatus1));
-//         }, 10000); 
+    const ChangeStartData = (e) => {
+        console.log(e.target.value,'sdvhhjdfsgv')
+        setStartDate(e.target.value);
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1,e.target.value,endDate));
+    }
 
-    
-//         return () => clearInterval(intervalId);
-//     }, []);
+    const ChangeEndData = (e) =>{
+        console.log(e.target.value,'sdvhhjdffbgdsgv')
+        setEndDate(e.target.value);
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1,startDate,e.target.value));
+    }
+
+    // useEffect(() => {
+    //         const intervalId = setInterval(() => {
+    //             dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option,selectorderstatus1));
+    //         }, 10000); 
+
+
+    //         return () => clearInterval(intervalId);
+    //     }, []);
 
     return (
         <>
@@ -320,8 +334,8 @@ const Order = () => {
                 </Row>
             </div>
 
-            <Row className="mb-3">
-                <Col lg="2"  className="mb-1">
+            <Row className="mb-3 ">
+                <Col lg="2" className="mb-1 mt-5">
                     {/* Search Start */}
                     {/* <Form.Label/> */}
                     <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -348,7 +362,7 @@ const Order = () => {
                 {/* /> */}
                 {/* </Col> */}
 
-                <Col lg="2"  className='mb-1'>
+                <Col lg="2" className='mb-1 mt-5' >
                     {/* <Form.Label>Company</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -368,7 +382,7 @@ const Order = () => {
                         }}
                     />
                 </Col>
-                <Col lg="2" className='mb-1'>
+                <Col lg="2" className='mb-1 mt-5'>
                     {/* <Form.Label>Category</Form.Label> */}
                     <Select
                         className="basic-single"
@@ -387,7 +401,17 @@ const Order = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col md="2" lg="2" className='mb-1'>
+                <Col md="2" lg="2" xxl="2" className="mb-1 mt-1" >
+                    {/* <div className="mb-3"> */}
+                    <Form.Label>Start date</Form.Label>
+                    <Form.Control  type="date" onChange={ChangeStartData} placeholder="Start date" />
+                </Col>
+                <Col md="2" lg="2" xxl="2" className="mb-1 mt-1" >
+                    <Form.Label>End date</Form.Label>
+                    <Form.Control   type="date" onChange={ChangeEndData} placeholder="End date" />
+                    
+                </Col>
+                <Col md="2" lg="2" className='mb-1 mt-5'>
                     <Select
                         classNamePrefix="react-select"
                         options={OrderStatus}
@@ -395,19 +419,19 @@ const Order = () => {
                         onChange={OrderStatusFunction}
                         placeholder="Order Status" />
                 </Col>
-                <Col lg="2" className='mb-1'>
+                <Col lg="2" className='mb-1 mt-3'>
                     <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
                         onClick={() => setQROpen(true)}>
                         <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
                     </Button>
                 </Col>
-                <Col lg="1"className='mb-1'>
+                <Col lg="1" className='mb-1 mt-3'>
                     <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh {/* <CsLineIcons icon="scanner" /><span>Scan QR Code </span> */}
+                        onClick={handleRefresh} >
+                        Refresh {/* <CsLineIcons icon="scanner" /><span>Scan QR Code </span> */}
                     </Button>
                 </Col>
-                <Col lg="1"  className="mb-1 text-end">
+                <Col lg="1" className="mb-1 text-end mt-3">
                     {/* Print Button Start */}
                     {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
                         <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
@@ -446,7 +470,7 @@ const Order = () => {
                     </Dropdown>
                     {/* Length End */}
                 </Col>
-                
+
             </Row>
 
             {/* List Header Start */}
@@ -572,349 +596,7 @@ const Order = () => {
 
 
 
-            {/* <Card className={`mb-2 ${selectedItems.includes(2) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(2)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1251
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Esperanza Lodge</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    59.00
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">14.09.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-primary">CONFIRMED</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(2)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(3) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(3)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1397
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Blaine Cottrell</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    128.25
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">17.09.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-secondary">DONE</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(3)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(4) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(4)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1421
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Daisy Hartley</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    252.75
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">16.09.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-secondary">DONE</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(4)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(5) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(5)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1438
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Kathryn Mengel</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    189.50
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">12.09.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-secondary">DONE</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(5)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(6) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(6)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1573
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Winry Rockbell</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    63.10
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">10.08.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-secondary">DONE</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(6)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(7) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(7)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1633
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Olli Hawkins</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    45.10
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">05.08.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-secondary">DONE</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(7)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(8) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(8)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1633
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Olli Hawkins</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    45.10
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">05.08.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-secondary">DONE</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(8)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(9) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(9)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                1633
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Kirby Peters</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    79.75
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">03.08.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-tertiary">SHIPPED</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(9)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <Card className={`mb-2 ${selectedItems.includes(10) && 'selected'}`}>
-                <Card.Body className="pt-0 pb-0 sh-21 sh-md-8">
-                    <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(10)}>
-                        <Col xs="11" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                            <div className="text-muted text-small d-md-none">Id</div>
-                            <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center">
-                                2743
-                            </NavLink>
-                        </Col>
-                        <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                            <div className="text-muted text-small d-md-none">Name</div>
-                            <div className="text-alternate">Zayn Hartley</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                            <div className="text-muted text-small d-md-none">Purchase</div>
-                            <div className="text-alternate">
-                                <span>
-                                    <span className="text-small">₹</span>
-                                    124.75
-                                </span>
-                            </div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                            <div className="text-muted text-small d-md-none">Date</div>
-                            <div className="text-alternate">01.08.2021</div>
-                        </Col>
-                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                            <div className="text-muted text-small d-md-none">Status</div>
-                            <div>
-                                <Badge bg="outline-tertiary">SHIPPED</Badge>
-                            </div>
-                        </Col>
-                        <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(10)} onChange={() => { }} />
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card> */}
-            {/* List Items End */}
+
 
             {/* Discount Detail Modal Start */}
             <Modal className="modal-right scroll-out-negative" show={discountModal} onHide={() => setDiscountModal(false)} scrollable dialogClassName="full">

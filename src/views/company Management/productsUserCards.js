@@ -783,7 +783,7 @@ const productsUserCards = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     border: '2px solid #fff',
-                                    backgroundColor: "#f06a8c",
+                                    backgroundColor: "#672100",
                                     color: "#fff"
                                 }}
                                 onClick={RedirectToCart}

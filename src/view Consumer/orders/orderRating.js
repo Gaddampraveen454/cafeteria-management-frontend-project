@@ -220,33 +220,7 @@ const UserOrderRating = () => {
                         </Card.Body>
                     </Card>
 
-                    <Row>
-                        <Col xs="12" className="col-lg order-1 order-lg-0">
-
-                            <Card className="mb-5">
-                                <Card.Body>
-                                    <Form onSubmit={ConsumerReviewApi}>
-                                        <h3>Order Review : </h3>
-                                        <Row className="g-3">
-                                            <Col lg="6">
-                                                <Form.Label>Review</Form.Label>
-                                                {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
-                                                <Form.Control as="textarea" name="review" rows={3}  defaultValue={OrderView?.data?.reviews[0]?.review} />
-                                            </Col>
-                                        </Row>
-                                        {/* {OrderView?.data?.reviews.length !== 1 && */}
-                                            <Row className="mt-3">
-                                                <Col lg="6">
-                                                    <Button variant="outline-primary" type='submit'>Submit</Button>
-                                                </Col>
-                                            </Row>
-                                        {/* } */}
-                                    </Form>
-                                </Card.Body>
-                            </Card>
-
-                        </Col>
-                    </Row>
+                    
 
                     <Card>
                         <Card.Body>
@@ -611,6 +585,33 @@ const UserOrderRating = () => {
           </Card> */}
                 {/* </Col> */}
             </Row >
+            <Row className='mt-5'>
+                        <Col xs="12" className="col-lg order-1 order-lg-0">
+
+                            <Card className="mb-5">
+                                <Card.Body>
+                                    <Form onSubmit={ConsumerReviewApi}>
+                                        <h3>Order Review : </h3>
+                                        <Row className="g-3">
+                                            <Col lg="6">
+                                                <Form.Label>Review</Form.Label>
+                                                {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
+                                                <Form.Control as="textarea" name="review" rows={3}  defaultValue={OrderView?.data?.reviews[0]?.review} />
+                                            </Col>
+                                        </Row>
+                                        {/* {OrderView?.data?.reviews.length !== 1 && */}
+                                            <Row className="mt-3">
+                                                <Col lg="6">
+                                                    <Button variant="outline-primary" type='submit'>Submit</Button>
+                                                </Col>
+                                            </Row>
+                                        {/* } */}
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+
+                        </Col>
+                    </Row>
         </>
     );
 };

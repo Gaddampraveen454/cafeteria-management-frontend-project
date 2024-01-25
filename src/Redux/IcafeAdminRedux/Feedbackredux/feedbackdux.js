@@ -36,8 +36,8 @@ const iCafeFeedbackSlice = createSlice({
 export const { setFeedbackData,setProductName,setProductList,setProductView, setToast } = iCafeFeedbackSlice.actions;
 
 
-export const ICafeFeedbackListURL = (page,search,token,limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/admin/list?pagenum=${page}&limit=${limit}&search=${search}`, {
+export const ICafeFeedbackListURL = (page,search,token,limit,company,store,start,end) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/admin/list?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${company}&store_uuid=${store}&start_date=${start}&end_date=${end}`, {
     headers: {
       "x-auth-token": token
     }
@@ -65,8 +65,8 @@ export const ICafeAdminProductNameURL = (orderId,token) => async (dispatch) => {
 
 };
 
-export const ICafeAdminProductList = (page1,search1,token,limit1) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/product/admin/list?pagenum=${page1}&limit=${limit1}&search=${search1}&company_uuid=&store_uuid=`, {
+export const ICafeAdminProductList = (page1,search1,token,limit1,companyid,storeid) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/product/admin/list?pagenum=${page1}&limit=${limit1}&search=${search1}&company_uuid=${companyid}&store_uuid=${storeid}`, {
     headers: {
       "x-auth-token": token
     }

@@ -43,7 +43,7 @@ const productview = () => {
             pageNumber = pageNum
         }
 
-        axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${pageNumber}&limit=${limitCount}&search=${searchItem}&product_uuid=${location?.state?.product_uuid}&rating=${rating}`, {
+        axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${pageNumber}&limit=${limitCount}&search=${searchItem}&product_uuid=${location?.state?.data?.product_uuid}&rating=${rating}`, {
             headers: {
                 "x-auth-token": currentUser.token
             }
@@ -147,7 +147,7 @@ const productview = () => {
 
         <div>
             <div className="page-title-container">
-                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/feedback">
+                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to={location?.state?.url}>
                     <CsLineIcons icon="chevron-left" size="20" />
                     <span className="align-middle text-medium ms-1">Back</span>
                 </NavLink>

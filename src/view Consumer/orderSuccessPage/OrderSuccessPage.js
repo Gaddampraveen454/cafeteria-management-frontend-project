@@ -85,7 +85,7 @@ const OrderSuccessPage = () => {
   //   setCurrentIndex((prevIndex) => (prevIndex === carouselItems.length - 1 ? 0 : prevIndex + 1));
   // };
 
-
+  const SLUGID = localStorage.getItem("companyId");
 
   return (
     <>
@@ -94,7 +94,7 @@ const OrderSuccessPage = () => {
       <div className="page-title-container">
         <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back"
           // to={`/menu/${companyId}`}
-          to='/menu/company/qr'
+          to={`/menu/company/${SLUGID}`}
         >
           <CsLineIcons icon="chevron-left" size="20" />
           <span className="align-middle text-medium ms-1 ">Menu</span>
@@ -179,82 +179,121 @@ const OrderSuccessPage = () => {
                   <br />
                   <br />
                   {/* {location?.state?.data?.length > 0 && ( */}
-                  <Carousel
-                    containerProps={{
-                      style: {
-                        width: "100%",
-                        justifyContent: "center",
-                        alignItems: "center"
-                        // userSelect: "none"
-                      }
-                    }}
-                    onRequestChange={(index) => setActiveSlide(index)}
-                    preventScrollOnSwipe
-                    swipeTreshold={60}
-                    activeSlideIndex={activeSlide}
-                    activeSlideProps={{
-                      style: {
-                        background: "white"
-                      }
-                    }}
-                    // onRequestChange={setActiveSlide}
-                    forwardBtnProps={{
-                      children: ">",
-                      style: {
-                        height: 16,
-                        width: 16,
-                        borderRadius: "50%",
-                        border: 0,
-                        marginTop: "30%",
-                        marginLeft: "10px"
-                      }
-                      // activeItemBtnProps: {
-                      //   background: "red"
-                      // }
-                    }}
-                    backwardBtnProps={{
-                      children: "<",
-                      style: {
-                        height: 16,
-                        width: 16,
-                        borderRadius: "50%",
-                        border: 0,
-                        marginTop: "30%",
-                        marginRight: "10px"
-                      }
-                      // activeItemBtnProps: {
-                      //   background: "red"
-                      // }
-                    }}
-                    dotsNav={{
-                      show: true,
-                      itemBtnProps: {
+                  {location?.state?.data?.length > 1 ?
+                    (<Carousel
+                      containerProps={{
+                        style: {
+                          width: "100%",
+                          justifyContent: "center",
+                          alignItems: "center"
+                          // userSelect: "none"
+                        }
+                      }}
+                      onRequestChange={(index) => setActiveSlide(index)}
+                      preventScrollOnSwipe
+                      swipeTreshold={60}
+                      activeSlideIndex={activeSlide}
+                      activeSlideProps={{
+                        style: {
+                          background: "white"
+                        }
+                      }}
+                      // onRequestChange={setActiveSlide}
+                      forwardBtnProps={{
+                        children: ">",
                         style: {
                           height: 16,
                           width: 16,
                           borderRadius: "50%",
                           border: 0,
-                          margin: "20px",
-                          backgroundColor: "#eb9cb0"
+                          marginTop: "30%",
+                          marginLeft: "10px"
                         }
-                      },
-                      activeItemBtnProps: {
+                        // activeItemBtnProps: {
+                        //   background: "red"
+                        // }
+                      }}
+                      backwardBtnProps={{
+                        children: "<",
                         style: {
                           height: 16,
                           width: 16,
                           borderRadius: "50%",
                           border: 0,
-                          background: "#ed6789",
-                          margin: "20px"
+                          marginTop: "30%",
+                          marginRight: "10px"
                         }
-                      }
-                    }}
+                        // activeItemBtnProps: {
+                        //   background: "red"
+                        // }
+                      }}
+                      dotsNav={{
+                        show: true,
+                        itemBtnProps: {
+                          style: {
+                            height: 16,
+                            width: 16,
+                            borderRadius: "50%",
+                            border: 0,
+                            margin: "20px",
+                            backgroundColor: "#eb9cb0"
+                          }
+                        },
+                        activeItemBtnProps: {
+                          style: {
+                            height: 16,
+                            width: 16,
+                            borderRadius: "50%",
+                            border: 0,
+                            background: "#ed6789",
+                            margin: "20px"
+                          }
+                        }
+                      }}
 
-                    itemsToShow={1}
-                    speed={300}
-                    centerMode
-                  >
-                    {location.state.data.map((items, index) => {
+                      itemsToShow={1}
+                      speed={300}
+                      centerMode
+                    >
+                      {location.state.data.map((items, index) => {
+                        console.log(items, "hjdfdksjhfkdjs")
+                        return (
+                          <div key={index}>
+                            {items?.store_name}<br />
+                            {items?.token_no}
+                            <br />
+                            <Row className="g-3 " key=''>
+                              <Col xs="9" lg="9" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                                <div className="text-muted text-medium cursor-pointer">PRODUCT NAME:</div>
+                                {items?.details?.length > 0 && items?.details?.map((item, ind) => {
+                                  console.log(item, 'hcbghefyef')
+                                  return (
+                                    <div key={ind}>{item?.name?.length > 18 ? `${item?.name.slice(0, 18)}..` : item?.name}</div>
+                                  )
+                                })}
+                              </Col>
+                              <Col xs="3" lg="3" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-4">
+                                <div className="text-muted text-medium cursor-pointer ">QTY:</div>
+                                {items?.details?.length > 0 && items?.details?.map((item, i) => {
+                                  console.log(item, 'hcbghefyef')
+                                  return (
+                                    <div key={i}>{item?.quantity}</div>
+                                  )
+                                })}
+                              </Col>
+                            </Row>
+                            <br />
+                            <QRCode
+                              size={216}
+                              value={`${process.env.REACT_APP_WEB_APP_URL}/scanorderdetails/${items?.uuid}`}
+                            />
+                          </div>
+                        )
+                      })}
+                    </Carousel>)
+                    :
+                    
+                     (<> {location.state.data.map((items, index) => {
                       console.log(items, "hjdfdksjhfkdjs")
                       return (
                         <div key={index}>
@@ -289,8 +328,9 @@ const OrderSuccessPage = () => {
                         </div>
                       )
                     })}
-                  </Carousel>
-                  {/* )} */}
+                    </>
+                     )
+                  }
 
 
                 </Col>

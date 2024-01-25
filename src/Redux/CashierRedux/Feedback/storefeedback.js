@@ -36,8 +36,8 @@ const storeFeedbackSlice = createSlice({
 export const { setStoreFeedback,setStoreProductName,setStoreProductList,setStoreProductView,setToast } = storeFeedbackSlice.actions;
 
 
-export const StoreFeedbackListURL = (page,search,token,limit,storeId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/store/list?pagenum=${page}&limit=${limit}&search=${search}&store_uuid=${storeId}&start_date=&end_date=`, {
+export const StoreFeedbackListURL = (page,search,token,limit,storeId,startDate,endDate) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/store/list?pagenum=${page}&limit=${limit}&search=${search}&store_uuid=${storeId}&start_date=${startDate}&end_date=${endDate}`, {
     headers: {
       "x-auth-token": token
     }

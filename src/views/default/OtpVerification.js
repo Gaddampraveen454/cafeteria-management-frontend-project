@@ -140,7 +140,7 @@ const OtpVerification = () => {
                 <div className="mb-5">
                     <p className="h6">Please use the form to register.</p>
                     <p className="h6">
-                        If you are a member, please <NavLink to="/login">login</NavLink>.
+                        If you are a member, please <NavLink to="/consumer/login"  style={{ color: "red", fontWeight: '900px' }}>Login</NavLink>.
                     </p>
                 </div>
 

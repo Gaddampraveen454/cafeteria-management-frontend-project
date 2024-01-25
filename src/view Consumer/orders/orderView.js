@@ -220,23 +220,7 @@ const UserOrderView = () => {
             </Card.Body>
           </Card>
 
-          <Row>
-            <Col xs="12" className="col-lg order-1 order-lg-0">
-              <Card className="mb-5">
-                <Card.Body>
-                  <Form>
-                    <h3>Order Review : </h3>
-                    <Row className="g-3">
-                      <Col lg="6">
-                        <Form.Label>Review</Form.Label>
-                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={OrderView?.data?.reviews[0]?.review} />
-                      </Col>
-                    </Row>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+         
 
           <Card style={{ margin: "-20px" }}>
             <Card.Body>
@@ -403,6 +387,9 @@ const UserOrderView = () => {
           </Card>
           {/* Address End */}
 
+
+         
+
           {/* View QR code  Popup Start */}
           <div>
             <Dialog
@@ -444,6 +431,8 @@ const UserOrderView = () => {
 
             </Dialog>
           </div>
+
+         
 
           {/* Shipment Start */}
           {/* <h2 className="small-title">Shipment</h2> */}
@@ -561,6 +550,23 @@ const UserOrderView = () => {
           </Card> */}
         {/* </Col> */}
       </Row >
+      <Row className='mt-5'>
+            <Col xs="12" className="col-lg order-1 order-lg-0">
+              <Card className="mb-5">
+                <Card.Body>
+                  <Form>
+                    <h3>Order Review : </h3>
+                    <Row className="g-3">
+                      <Col lg="6">
+                        <Form.Label>Review</Form.Label>
+                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={OrderView?.data?.reviews[0]?.review} />
+                      </Col>
+                    </Row>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
     </>
   );
 };

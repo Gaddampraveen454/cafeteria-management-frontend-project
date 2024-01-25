@@ -163,18 +163,18 @@ const cashierRoutesAndMenuItems = {
       // label: 'Product Management',
       // icon: 'web-page',
     },
-    {
-      path: `${appRoot}/role_list`,
-      component: StoreRole,
-      label: 'Roles',
-      icon: 'web-page',
-    },
-    {
-      path: `${appRoot}/add_roles`,
-      component: StoreAddRole,
-      // label: 'Product Management',
-      // icon: 'web-page',
-    },
+    // {
+    //   path: `${appRoot}/role_list`,
+    //   component: StoreRole,
+    //   label: 'Roles',
+    //   icon: 'web-page',
+    // },
+    // {
+    //   path: `${appRoot}/add_roles`,
+    //   component: StoreAddRole,
+    //   // label: 'Product Management',
+    //   // icon: 'web-page',
+    // },
     {
       path: `${appRoot}/cashierMenu`,
       component: CashierMenu,
@@ -218,6 +218,12 @@ const cashierRoutesAndMenuItems = {
       component: StoreFeedback,
       label: 'Feedback',
       icon: 'user',
+    },
+    {
+      path: `${appRoot}/feedbackbyproduct`,
+      component: StoreFeedback,
+      // label: 'Feedback',
+      // icon: 'user',
     },
     {
       path: `${appRoot}/product_view`,

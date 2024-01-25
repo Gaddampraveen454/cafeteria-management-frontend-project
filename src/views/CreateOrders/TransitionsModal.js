@@ -47,7 +47,7 @@ export default function TransitionsModal() {
           justifyContent: 'center',
           alignItems: 'center',
           border: '2px solid #fff',
-          backgroundColor:"#f74b63",
+          backgroundColor:"#672100",
           color:"#fff"
         }}
         onClick={handleOpen}

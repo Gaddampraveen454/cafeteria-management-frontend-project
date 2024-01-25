@@ -24,8 +24,8 @@ const orderSlice = createSlice({
 export const { setOrderData, setToast } = orderSlice.actions;
 
 
-export const OrderListURL = (pageNUm, search, token, limit, storId, status) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/order/list/store?pagenum=${pageNUm}&limit=${limit}&search=${search}&store_uuid=${storId}&order_status=${status || ''}`, {
+export const OrderListURL = (pageNUm, search, token, limit, storId, status,start,end) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/order/list/store?pagenum=${pageNUm}&limit=${limit}&search=${search}&store_uuid=${storId}&order_status=${status || ''}&start_date=${start}&end_date=${end}`, {
     headers: {
       "x-auth-token": token
     }

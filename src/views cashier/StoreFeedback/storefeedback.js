@@ -35,17 +35,34 @@ const storefeedback = () => {
 
     const { currentUser } = useSelector((state) => state.auth);
     console.log(currentUser, 'hbvhsfh')
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     // const {storeProductList ,ProductView} = useSelector((state) => state.adminfeedback);
     // const { storeProductList} = useSelector((state) => state.companyfeedback);
-    
-    const { storeFeedback,storeProductName,storeProductList} = useSelector((state) => state.storefeedback);
+
+    const { storeFeedback, storeProductName, storeProductList } = useSelector((state) => state.storefeedback);
     console.log(storeFeedback, 'storeFeedback')
+
+    const [tab, setTab] = useState("tab1")
+    useEffect(() => {
+        console.log(window.location.pathname, "feedbackbyproduct")
+        if (window.location.pathname === "/feedbackbyproduct") {
+            setTab("tab2")
+        }
+        else {
+            setTab("tab1")
+        }
+    }, [])
 
 
     useEffect(() => {
-        dispatch(StoreFeedbackListURL(page, search, currentUser?.token, limit,currentUser?.data?.uuid))
-        dispatch(StoreProductList(page1, search1, currentUser?.token, limit1,currentUser?.data?.uuid))
+        if (window.location.pathname === '/feedback') {
+            dispatch(StoreFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, startDate, endDate))
+        }
+        else {
+            dispatch(StoreProductList(page1, search1, currentUser?.token, limit1, currentUser?.data?.uuid))
+        }
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -53,32 +70,32 @@ const storefeedback = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(StoreFeedbackListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, startDate, endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(StoreFeedbackListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, startDate, endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(StoreFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, startDate, endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(StoreFeedbackListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, startDate, endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(StoreFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, startDate, endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(StoreFeedbackListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, startDate, endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(StoreFeedbackListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+            dispatch(StoreFeedbackListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, startDate, endDate))
         }
     }
 
@@ -89,32 +106,32 @@ const storefeedback = () => {
             console.log(pages1, "ghjkvbnm")
             setSearch1(pages1)
             setPage1(0)
-            dispatch(StoreProductList(0, pages1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(0, pages1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         if (type1 === "prev") {
             setPage1(page1 - 1)
-            dispatch(StoreProductList(page1 - 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(page1 - 1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "next") {
             setPage1(page1 + 1)
-            dispatch(StoreProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(page1 + 1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "page") {
             setPage1(page1)
-            dispatch(StoreProductList(page1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(page1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "page+1") {
             setPage1(page1 + 1)
-            dispatch(StoreProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(page1 + 1, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "page+2") {
             setPage1(page1 + 2)
-            dispatch(StoreProductList(page1 + 2, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(page1 + 2, search1, currentUser.token, limit1, currentUser?.data?.uuid))
         }
         else if (type1 === "limit") {
             setLimit1(pages1)
             setPage1(0)
-            dispatch(StoreProductList(0, search1, currentUser.token, pages1,currentUser?.data?.uuid))
+            dispatch(StoreProductList(0, search1, currentUser.token, pages1, currentUser?.data?.uuid))
         }
     }
 
@@ -127,33 +144,69 @@ const storefeedback = () => {
 
     const viewEventHandlerSamePage = (event) => {
         console.log(event, 'vdshdgfv')
-      
+
         // dispatch(ConsumerOrderView(currentUser?.token, event?.uuid))
         setView(event);
 
         dispatch(StoreProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
-        setTimeout(()=>{
+        setTimeout(() => {
             setDiscountModal(true);
-        },2000)
-      
+        }, 1200)
+
     }
 
     const viewEventHandler = (value) => {
-        console.log(value,'dvchdsvc')
+        console.log(value, 'dvchdsvc')
         history.push({
-            pathname:'/product_view',
-            state:value
+            pathname: '/product_view',
+            state: {
+                data: value,
+                url: window.location.pathname
+            }
         })
         // console.log(value, 'vdshdgfvhbjh')
         // setModal(true)
         // setViewProduct(value)
         // dispatch(ICafeAdminProductViewURL(value?.product_uuid,currentUser.token))
     }
+
+    const ChangeStartData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setStartDate(e.target.value);
+        dispatch(StoreFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, e.target.value, endDate))
+    };
+    const ChangeEndData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setEndDate(e.target.value);
+        dispatch(StoreFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, startDate, e.target.value))
+    };
+
+
+    const TabChange = (tabData) => {
+        console.log(tabData, "sdsa")
+
+        if (tabData === "tab1") {
+            setTab("tab1")
+            history.push('/feedback')
+            // setTimeout(() => {
+            //     window.location.reload(false);
+            // }, 1000)
+        }
+        else {
+            setTab("tab2")
+            history.push('/feedbackbyproduct')
+            // setTimeout(() => {
+            //     window.location.reload(false);
+            // }, 1000)
+        }
+        // window.location.reload(false);
+    }
+
     return (
 
         <div>
             <div className="page-title-container">
-                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/icafe_dashboard">
+                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/Storedashboard">
                     <CsLineIcons icon="chevron-left" size="20" />
                     <span className="align-middle text-medium ms-1">Back</span>
                 </NavLink>
@@ -161,10 +214,11 @@ const storefeedback = () => {
                     {title}
                 </h1>
             </div>
-            <Tabs className='mt-2' defaultActiveKey="tab1" id="tabs-example">
-                <Tab eventKey="tab1" title={review}>
+            <Tabs className='mt-2' id="tabs-example" defaultActiveKey="tab1" activeKey={tab}
+                onSelect={(k) => TabChange(k)}>
+                <Tab eventKey="tab1" title={review} >
                     <Row className="mb-3 mt-5">
-                        <Col lg="3" className="mb-1">
+                        <Col lg="3" className="mb-1 mt-5">
                             {/* Search Start */}
                             {/* <Form.Label/> */}
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -179,99 +233,18 @@ const storefeedback = () => {
                             </div>
                             {/* Search End */}
                         </Col>
+                        <Col md="2" lg="2" xxl="2" className="mb-1" >
+                            {/* <div className="mb-3"> */}
+                            <Form.Label>Start date</Form.Label>
+                            <Form.Control type="date" onChange={ChangeStartData} placeholder="Start date" />
+                        </Col>
+                        <Col md="2" lg="2" xxl="2" className="mb-1" >
+                            <Form.Label>End date</Form.Label>
+                            <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
+                            {/* </div> */}
+                        </Col>
+                        <Col lg="5" className="mb-1 text-end mt-5">
 
-                        {/* <Col lg="3"> */}
-                        {/* <Form.Label>Company</Form.Label> */}
-                        {/* <Select classNamePrefix="react-select"
-                        options={ActivcompanyList}
-                        value={compnayId}
-                        onChange={setCompnayId}
-                        placeholder="Select Company" */}
-                        {/* disabled={eventType} */}
-                        {/* /> */}
-                        {/* </Col> */}
-
-                        {/* <Col lg="2"  className='mb-1'>
-                    <Form.Label>Company</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select company"
-                        // isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
-                        // onChange={selectedCompany}
-                        name="color"
-                        border="none"
-                        // options={CompanyDropDown}
-                        placeholder='Select Company'
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Form.Label>Category</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select Store"
-                        // options={StoredropdownValues}
-                        // isClearable={isRemove}
-                        // value={categoryId}
-                        // onChange={selectdropdown}
-                        placeholder="Select Store"
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    // disabled={eventType}
-                    />
-                </Col> */}
-                        {/* <Col md="2" lg="2" className='mb-1'>
-                    <Select
-                        classNamePrefix="react-select"
-                        // options={OrderStatus}
-                        // value={selectorderstatus}
-                        // onChange={OrderStatusFunction}
-                        placeholder="Order Status" />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                        onClick={() => setQROpen(true)}>
-                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        {/* <Col lg="1"className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh  <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        <Col lg="9" className="mb-1 text-end">
-                            {/* Print Button Start */}
-                            {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-                            <CsLineIcons icon="print" />
-                        </Button>
-                    </OverlayTrigger> */}
-                            {/* Print Button End */}
-
-                            {/* Export Dropdown Start */}
-                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                                <CsLineIcons icon="download" />
-                            </Dropdown.Toggle>
-                        </OverlayTrigger>
-                        <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
-                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
                             {/* Export Dropdown End */}
 
                             {/* Length Start */}
@@ -312,21 +285,7 @@ const storefeedback = () => {
                         <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Review</div>
                         </Col>
-                        {/* <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">TOKEN NO</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">PRICE</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">ORDER DATE</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer "> PAYMENT STATUS</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">ORDER STATUS</div>
-                </Col> */}
+
                     </Row>
                     {/* List Header End */}
 
@@ -378,46 +337,7 @@ const storefeedback = () => {
                                             <div className="text-muted text-small d-md-none">Review</div>
                                             <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No reviews available"}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div className="text-muted text-small d-md-none">Token No</div>
-                                    <div className="text-alternate">{text?.token_no}</div>
-                                </Col>
-                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">Price</div>
-                                    <div className="text-alternate">
-                                        <span>
-                                            <span className="text-small">₹</span>
-                                            {text?.amount}
-                                        </span>
-                                    </div>
-                                </Col> */}
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                                    <div className="text-muted text-small d-md-none">Order Date</div>
-                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
-                                </Col>
-                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">Payment Status</div>
-                                    <div>
-                                        <Badge bg="outline-primary">{text?.payment_status}</Badge>
-                                    </div>
-                                </Col> */}
-                                        {/* <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => { }} />
-                        </Col> */}
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">Order Status</div>
-                                    <div className="text-alternate">
-                                        {text?.order_status}
-                                    </div>
-                                </Col> */}
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                            <div className="text-muted text-small d-md-none">View</div>
-                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                                onClick={() => redirectReview(text)}>
-                                                <CsLineIcons icon="eye" />
-                                            </Button>
-                                            </div>
-                                        </Col> */}
+
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -520,20 +440,7 @@ const storefeedback = () => {
 
 
                 </Tab>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <Tab eventKey="tab2" title={productReview}>
+                <Tab eventKey="tab2" title={productReview} >
                     <Row className="mb-3 mt-5">
                         <Col lg="3" className="mb-1">
                             {/* Search Start */}
@@ -551,99 +458,9 @@ const storefeedback = () => {
                             {/* Search End */}
                         </Col>
 
-                        {/* <Col lg="3"> */}
-                        {/* <Form.Label>Company</Form.Label> */}
-                        {/* <Select classNamePrefix="react-select"
-                        options={ActivcompanyList}
-                        value={compnayId}
-                        onChange={setCompnayId}
-                        placeholder="Select Company" */}
-                        {/* disabled={eventType} */}
-                        {/* /> */}
-                        {/* </Col> */}
 
-                        {/* <Col lg="2"  className='mb-1'>
-                    <Form.Label>Company</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select company"
-                        // isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
-                        // onChange={selectedCompany}
-                        name="color"
-                        border="none"
-                        // options={CompanyDropDown}
-                        placeholder='Select Company'
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Form.Label>Category</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select Store"
-                        // options={StoredropdownValues}
-                        // isClearable={isRemove}
-                        // value={categoryId}
-                        // onChange={selectdropdown}
-                        placeholder="Select Store"
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    // disabled={eventType}
-                    />
-                </Col> */}
-                        {/* <Col md="2" lg="2" className='mb-1'>
-                    <Select
-                        classNamePrefix="react-select"
-                        // options={OrderStatus}
-                        // value={selectorderstatus}
-                        // onChange={OrderStatusFunction}
-                        placeholder="Order Status" />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                        onClick={() => setQROpen(true)}>
-                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        {/* <Col lg="1"className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh  <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
                         <Col lg="9" className="mb-1 text-end">
-                            {/* Print Button Start */}
-                            {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-                            <CsLineIcons icon="print" />
-                        </Button>
-                    </OverlayTrigger> */}
-                            {/* Print Button End */}
 
-                            {/* Export Dropdown Start */}
-                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                                <CsLineIcons icon="download" />
-                            </Dropdown.Toggle>
-                        </OverlayTrigger>
-                        <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
-                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-                            {/* Export Dropdown End */}
 
                             {/* Length Start */}
                             <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -674,30 +491,11 @@ const storefeedback = () => {
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Type</div>
                         </Col>
-                        {/* <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-small cursor-pointer ">Mobile</div>
-                        </Col> */}
+
                         <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Average Rating</div>
                         </Col>
-                        {/* <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-small cursor-pointer ">Review</div>
-                        </Col> */}
-                        {/* <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">TOKEN NO</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">PRICE</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">ORDER DATE</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer "> PAYMENT STATUS</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">ORDER STATUS</div>
-                </Col> */}
+
                     </Row>
                     {/* List Header End */}
 
@@ -713,9 +511,7 @@ const storefeedback = () => {
                                             {/* <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center"> */}
                                             <div className="text-alternate"> {text?.product_uuid}</div>
                                             {/* </NavLink> */}
-                                            {/* <Button variant="link" className="p-0 text-truncate h-100 d-flex align-items-center" title="click"  >
-                                                {text?.product_uuid}
-                                            </Button> */}
+
                                         </Col>
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Item Name</div>
@@ -725,23 +521,20 @@ const storefeedback = () => {
                                             <div className="text-muted text-small d-md-none">Type</div>
                                             <div className="text-alternate">{text?.type?.charAt(0).toLowerCase() ? text?.type?.charAt(0).toUpperCase() + text?.type.slice(1) : text?.type}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                            <div className="text-muted text-small d-md-none">Mobile</div>
-                                            <div className="text-alternate">{text?.users[0]?.mobile}</div>
-                                        </Col> */}
+
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Average Rating</div>
                                             <div className="text-alternate">{text?.avg_rating}</div>
                                         </Col>
                                         <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">View</div>
-                                    <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                        onClick={() => viewEventHandler(text)}
-                                    >
-                                        <CsLineIcons icon="eye" />
-                                    </Button>
-                                    </div>
-                                </Col>
+                                            <div className="text-muted text-small d-md-none">View</div>
+                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                                onClick={() => viewEventHandler(text)}
+                                            >
+                                                <CsLineIcons icon="eye" />
+                                            </Button>
+                                            </div>
+                                        </Col>
 
                                     </Row>
                                 </Card.Body>
@@ -749,72 +542,7 @@ const storefeedback = () => {
                         )
                     })}
 
-                    {/* <Modal className="modal-right scroll-out-negative" show={modal} onHide={() => setModal(false)} scrollable dialogClassName="full">
-                        <Modal.Header closeButton>
-                            <Modal.Title as="h5">Product View</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <OverlayScrollbarsComponent options={{ overflowBehavior: { x: 'hidden', y: 'scroll' } }} className="scroll-track-visible">
 
-
-
-                                <Form >
-
-
-                                    <Row className="g-2">
-                                        <Col xs="8" lg="8" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-5">
-                                            <div className="text-muted text-medium cursor-pointer">Name</div>
-                                            {ProductView?.data?.map((text, ind) => {
-                                                console.log(text, 'sdhbvhjdsv')
-                                                return (
-                                                    <div key={ind} className='mb-3'>{text?.users?.length > 0 ? text?.users[0]?.name : ''}</div>
-                                                )
-                                            })}
-                                        </Col>
-                                        <Col xs="4" lg="4" className="d-flex flex-column mb-lg-0 pe-3 d-flex mb-5">
-                                            <div className="text-muted text-medium cursor-pointer">Rating</div>
-                                            {ProductView?.data?.map((text, ind) => {
-                                                console.log(text, 'sdhbvhjdsv')
-                                                return (
-                                                    <div className="mb-3" key=''>
-                                                        {text?.rating > 0 ? (
-                                                            <Rating
-                                                                count={5}
-                                                                value={text?.rating}
-                                                                // onChange={handleRatingChange}
-                                                                size={15}
-                                                                activeColor="#ffd700"
-                                                                edit={false}
-                                                                className="mb-3"
-                                                            />
-                                                        ) : (
-                                                            <span key={ind} className="lh-1 text-alternate">No Rating</span>
-                                                        )
-                                                        }
-                                                    </div>
-                                                );
-                                            })}
-                                        </Col>
-                                    </Row> */}
-                                    {/* <Row>
-                    
-                    <Col xs='12' lg="12">
-                                            <Form.Label>Review</Form.Label>
-                                            {view?.reviews && view.reviews.length > 0 ? (
-                                                <Form.Control type="text" value={view.reviews[0].review} readOnly />
-                                            ) : (
-                                                <span>No reviews available</span>
-                                            )}
-                                        </Col>
-                                    </Row> */}
-
-                                {/* </Form>
-
-                            </OverlayScrollbarsComponent>
-                        </Modal.Body>
-
-                    </Modal> */}
-                    {/* Discount Detail Modal End */}
                     {/* Pagination Start */}
                     <div className="d-flex justify-content-center mt-5">
                         <Pagination>
@@ -839,15 +567,9 @@ const storefeedback = () => {
                         </Pagination>
                     </div>
                     {/* Pagination End */}
-
-
                 </Tab>
             </Tabs>
-
         </div >
     )
 }
-
-
-
 export default storefeedback

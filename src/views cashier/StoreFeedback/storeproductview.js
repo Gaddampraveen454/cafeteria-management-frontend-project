@@ -42,7 +42,7 @@ const storeproductview = () => {
             pageNumber = pageNum
         }
 
-        axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${pageNumber}&limit=${limitCount}&search=${searchItem}&product_uuid=${location?.state?.product_uuid}&rating=${rating}`, {
+        axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${pageNumber}&limit=${limitCount}&search=${searchItem}&product_uuid=${location?.state?.data?.product_uuid}&rating=${rating}`, {
             headers: {
                 "x-auth-token": currentUser.token
             }
@@ -71,50 +71,50 @@ const storeproductview = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            // dispatch(CompanyProductViewURL(0, pages, currentUser.token, limit, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(0, pages, currentUser.token, limit, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(0, limit, pages, filter)
         }
         if (type === "prev") {
             setPage(page - 1)
-            // dispatch(CompanyProductViewURL(page - 1, search, currentUser.token, limit, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(page - 1, search, currentUser.token, limit, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(page - 1, limit, search, filter)
 
         }
         else if (type === "next") {
             setPage(page + 1)
-            // dispatch(CompanyProductViewURL(page + 1, search, currentUser.token, limit, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(page + 1, search, currentUser.token, limit, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(page + 1, limit, search, filter)
 
         }
         else if (type === "page") {
             setPage(page)
-            // dispatch(CompanyProductViewURL(page, search, currentUser.token, limit, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(page, search, currentUser.token, limit, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(page, limit, search, filter)
 
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            // dispatch(CompanyProductViewURL(page + 1, search, currentUser.token, limit, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(page + 1, search, currentUser.token, limit, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(page + 1, limit, search, filter)
 
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            // dispatch(CompanyProductViewURL(page + 2, search, currentUser.token, limit, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(page + 2, search, currentUser.token, limit, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(page + 2, limit, search, filter)
 
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            // dispatch(CompanyProductViewURL(0, search, currentUser.token, pages, location?.state?.product_uuid, filter))
+            // dispatch(CompanyProductViewURL(0, search, currentUser.token, pages, location?.state?.data?.product_uuid, filter))
             CompanyProductReview(0, pages, search, filter)
 
         }
         else if (type === "filter") {
             setFilter(pages);
             setPage(0);
-            // dispatch(CompanyProductViewURL(0, search, currentUser.token, limit, location?.state?.product_uuid, pages));
+            // dispatch(CompanyProductViewURL(0, search, currentUser.token, limit, location?.state?.data?.product_uuid, pages));
             CompanyProductReview(0, limit, search, pages)
         }
     }
@@ -146,7 +146,7 @@ const storeproductview = () => {
 
         <div>
             <div className="page-title-container">
-                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/feedback">
+                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to={location?.state?.url}>
                     <CsLineIcons icon="chevron-left" size="20" />
                     <span className="align-middle text-medium ms-1">Back</span>
                 </NavLink>
@@ -193,7 +193,7 @@ const storeproductview = () => {
             <div className="mb-5">
                 <div className="row">
                     <div className="col-xs-2 col-md-2 ">
-                        <span className="rating-num ">{location?.state?.avg_rating}</span>
+                        <span className="rating-num ">{location?.state?.data?.avg_rating}</span>
                         <span><FontAwesomeIcon icon={faStar} className='star1' /></span>
                         <div>
                             <span className="fa fa-user" />{productreviewdata?.total} total votes

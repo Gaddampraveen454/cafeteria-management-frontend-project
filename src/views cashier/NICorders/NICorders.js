@@ -42,6 +42,9 @@ const NICorders = () => {
 
   const history = useHistory('');
 
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   const checkItem = (item) => {
     if (selectedItems.includes(item)) {
       setSelectedItems(selectedItems.filter((x) => x !== item));
@@ -125,7 +128,7 @@ const NICorders = () => {
   const OrderStatusFunction = (value) => {
     console.log(value, "ghdsvcsgzvchj")
     setSelectOrderStatus(value)
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, value?.value))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, value?.value, startDate, endDate))
   }
 
   // useEffect(() => {
@@ -205,7 +208,7 @@ const NICorders = () => {
 
   console.log(currentUser, "dsfsdfsdfssfd")
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
 
@@ -215,32 +218,32 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid, selectorderstatus?.value))
+      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
     }
   }
 
@@ -286,7 +289,7 @@ const NICorders = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
+          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
           // setOpen(false)
 
         }, 1000)
@@ -329,12 +332,25 @@ const NICorders = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value))
-    }, 10000); 
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+    }, 10000);
 
 
     return () => clearInterval(intervalId);
-}, []); 
+  }, []);
+
+  const ChangeStartData = (e) => {
+    console.log(e.target.value, 'sdvhhjdfsgv')
+    setStartDate(e.target.value);
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, e.target.value, endDate))
+  }
+
+  const ChangeEndData = (e) => {
+    console.log(e.target.value, 'sdvhhjdffbgdsgv')
+    setEndDate(e.target.value);
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, e.target.value))
+  }
+
 
   return (
     <>
@@ -418,7 +434,7 @@ const NICorders = () => {
       </div>
 
       <Row className="mb-3">
-        <Col md="5" lg="3" xxl="2" className="mb-1">
+        <Col md="5" lg="3" xxl="2" className="mb-1 mt-5">
           {/* Search Start */}
           <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
             <Form.Control type="text" onChange={(event) => searchfunction("search", event.target.value)} placeholder="Search" />
@@ -431,7 +447,7 @@ const NICorders = () => {
           </div>
           {/* Search End */}
         </Col>
-        <Col md="2" lg="2" xxl="2">
+        <Col md="2" lg="2" xxl="2" className='mt-5'>
           {/* <Form.Label>Category</Form.Label> */}
           <Select
             classNamePrefix="react-select"
@@ -440,13 +456,23 @@ const NICorders = () => {
             onChange={OrderStatusFunction}
             placeholder="Order Status" />
         </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-1" >
+          {/* <div className="mb-3"> */}
+          <Form.Label>Start date</Form.Label>
+          <Form.Control type="date" onChange={ChangeStartData} placeholder="Start date" />
+        </Col>
+        <Col md="2" lg="2" xxl="2" className="mb-1 mt-1 " >
+          <Form.Label>End date</Form.Label>
+          <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
+
+        </Col>
         <Col md="2" lg="2" xxl="2">
-          <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+          <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto mt-5"
             onClick={() => setQROpen(true)}>
             <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
           </Button>
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+        <Col md="1" lg="1" xxl="1" className="mb-1 text-end mt-5">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">

@@ -171,7 +171,7 @@ const Notification = () => {
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard">
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/Profile">
                             <CsLineIcons icon="chevron-left" size="13" />
                             <span className="align-middle text-small ms-1">Home</span>
                         </NavLink>
@@ -186,9 +186,9 @@ const Notification = () => {
 
                     {/* Top Buttons Start */}
                     <Col xs="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                        <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
+                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
                             <CsLineIcons icon="sort" />
-                        </Button>
+                        </Button> */}
                         <div className="btn-group ms-1 check-all-container">
                             {/* <CheckAll
                 allItems={allItems}

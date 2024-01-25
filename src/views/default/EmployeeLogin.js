@@ -160,7 +160,7 @@ const Login = () => {
                 <div className="mb-5">
                     <p className="h6">Please use your credentials to login.</p>
                     <p className="h6">
-                        If you are not a member, please <NavLink to="/register" style={{ color: "#672100" }}>Register</NavLink>.
+                        If you are not a member, please <NavLink to="/register"  style={{ color: "red", fontWeight: '900px' }}>Register</NavLink>.
                     </p>
                 </div>
                 <div>

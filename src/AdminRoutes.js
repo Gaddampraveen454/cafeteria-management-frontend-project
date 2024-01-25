@@ -168,18 +168,18 @@ const adminRoutesAndMenuItems = {
       // label: 'Product Management',
       // icon: 'user',
     },
-    {
-      path: `${appRoot}/company_role_list`,
-      component: CompanyRole,
-      label: 'Roles',
-      icon: 'save',
-    },
-    {
-      path: `${appRoot}/add_role`,
-      component: CompanyAddRole,
-      // label: 'Category Management',
-      // icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/company_role_list`,
+    //   component: CompanyRole,
+    //   label: 'Roles',
+    //   icon: 'save',
+    // },
+    // {
+    //   path: `${appRoot}/add_role`,
+    //   component: CompanyAddRole,
+    //   // label: 'Category Management',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/create_order`,
       component: CreateOrder,
@@ -223,6 +223,12 @@ const adminRoutesAndMenuItems = {
       component: CompanyFeedback,
       label: 'Feedback',
       icon: 'user',
+    },
+    {
+      path: `${appRoot}/feedback_by_product`,
+      component: CompanyFeedback,
+      // label: 'Feedback',
+      // icon: 'user',
     },
     {
       path: `${appRoot}/product_view`,

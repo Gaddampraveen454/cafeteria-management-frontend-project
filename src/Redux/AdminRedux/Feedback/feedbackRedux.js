@@ -36,8 +36,8 @@ const companyFeedbackSlice = createSlice({
 export const { setCompanyFeedback,setCompanyProductName,setCompanyProductList,setCompanyProductView,setToast } = companyFeedbackSlice.actions;
 
 
-export const CompanyFeedbackListURL = (page,search,token,limit,companyId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/company/list?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${companyId}`, {
+export const CompanyFeedbackListURL = (page,search,token,limit,companyId,storeId,start,end) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/company/list?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${companyId}&store_uuid=${storeId}&start_date=${start}&end_date=${end}`, {
     headers: {
       "x-auth-token": token
     }
@@ -65,8 +65,8 @@ export const CompanyProductNameURL = (orderId,token) => async (dispatch) => {
 
 };
 
-export const CompanyProductList = (page1,search1,token,limit1,companyId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/product/company/list?pagenum=${page1}&limit=${limit1}&search=${search1}&company_uuid=${companyId}&store_uuid=`, {
+export const CompanyProductList = (page1,search1,token,limit1,companyId,store) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/product/company/list?pagenum=${page1}&limit=${limit1}&search=${search1}&company_uuid=${companyId}&store_uuid=${store}`, {
     headers: {
       "x-auth-token": token
     }
