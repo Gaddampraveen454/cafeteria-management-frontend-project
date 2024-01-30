@@ -216,7 +216,7 @@ const Order = () => {
 
     const selectedCompany = (selectvalue) => {
         console.log(option, "selectvalue")
-        setComapanyOption(selectvalue?.value)
+        setComapanyOption(selectvalue?.value ? selectvalue?.value : '')
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
         dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option, selectorderstatus1,startDate,endDate))
     }
@@ -242,7 +242,7 @@ const Order = () => {
 
 
     const selectdropdown = (text) => {
-        setOption(text?.value)
+        setOption(text?.value ? text?.value : '')
         setOption1(text)
         dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value, selectorderstatus1,startDate,endDate))
     }
