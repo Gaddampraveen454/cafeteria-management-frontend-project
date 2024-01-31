@@ -221,7 +221,7 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/feedback`,
       component: CompanyFeedback,
-      label: 'Feedback',
+      label: 'Feedbacks',
       icon: 'user',
     },
     {

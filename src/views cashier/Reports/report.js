@@ -266,42 +266,11 @@ const report = () => {
         <Col md="3" lg="3" xxl="2" className="mb-1 mt-5 text-start" >
 
 
-          {/* Export Dropdown Start */}
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
-            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-              <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                <CsLineIcons icon="download" />
-              </Dropdown.Toggle>
-            </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#">Copy</Dropdown.Item>
-              <Dropdown.Item href="#" onClick={Itemwiseexportfunction}>Excel</Dropdown.Item>
-              <Dropdown.Item href="#">Cvs</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown> */}
+         
            <Button onClick={Itemwiseexportfunction}>
             Download
           </Button>
-          {/* Export Dropdown End */}
-
-          {/* Length Start */}
-
-          {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-            <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
-              <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
-                10 Items
-              </Dropdown.Toggle>
-            </OverlayTrigger>
-            <Dropdown.Menu className="shadow dropdown-menu-end">
-              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
-              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
-              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 15)}>15 Items</Dropdown.Item>
-              <Dropdown.Item href="#" onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
-
-            </Dropdown.Menu>
-          </Dropdown> */}
-
-          {/* Length End */}
+          
         </Col>
 
       </Row>

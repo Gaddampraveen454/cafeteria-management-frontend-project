@@ -6,7 +6,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { NavLink, useHistory } from 'react-router-dom/cjs/react-router-dom';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { ExportExcel } from 'views/ExportData';
 import Rating from 'react-rating-stars-component';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 // import {  CompanyProductNameURL,StoreProductList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
@@ -14,7 +14,7 @@ import { StoreFeedbackListURL, StoreProductList, StoreProductNameURL } from 'Red
 
 
 const storefeedback = () => {
-    const title = "Feedback"
+    const title = "Feedbacks"
     const review = "Review"
     const productReview = "Product Wise Review"
     const history = useHistory('');
@@ -202,6 +202,10 @@ const storefeedback = () => {
         // window.location.reload(false);
     }
 
+    const storeexportfunction = async () => {
+        await ExportExcel(`/feedback/export?company_uuid=${currentUser?.data?.company_uuid}&store_uuid=${currentUser?.data?.uuid}&start_date=${startDate}&end_date=${endDate}`, "StoreFeedbackReport", currentUser.token)
+    }
+
     return (
 
         <div>
@@ -243,7 +247,16 @@ const storefeedback = () => {
                             <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
                             {/* </div> */}
                         </Col>
-                        <Col lg="5" className="mb-1 text-end mt-5">
+                        <Col md="2" lg="2" xxl="2" className="mb-1 mt-5 text-start" >
+
+
+
+                            <Button onClick={storeexportfunction}>
+                                Export
+                            </Button>
+
+                        </Col>
+                        <Col lg="3" className="mb-1 text-end mt-5">
 
                             {/* Export Dropdown End */}
 

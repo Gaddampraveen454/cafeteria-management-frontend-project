@@ -6,15 +6,15 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { NavLink, useHistory } from 'react-router-dom/cjs/react-router-dom';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { ExportExcel } from 'views/ExportData';
 import Rating from 'react-rating-stars-component';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { CompanyFeedbackListURL, CompanyProductNameURL, CompanyProductList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
+import { CompanyFeedbackListURL, CompanyProductNameURL, CompanyProductList, CompanyStoreDropDownList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownList, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 
 const companyfeedback = () => {
-    const title = "Feedback"
+    const title = "Feedbacks"
     const review = "Review"
     const productReview = "Product Wise Review"
     const history = useHistory('');
@@ -43,16 +43,18 @@ const companyfeedback = () => {
     console.log(currentUser, 'hbvhsfh')
 
     // const {companyProductList ,ProductView} = useSelector((state) => state.adminfeedback);
-    const { companyFeedback, companyProductName, companyProductList } = useSelector((state) => state.companyfeedback);
+    const { companyFeedback, companyProductName, companyProductList ,store} = useSelector((state) => state.companyfeedback);
     console.log(companyFeedback, 'companyFeedback')
 
 
     useEffect(() => {
         if (window.location.pathname === '/feedback') {
             dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyStoreDropDownList(currentUser?.data?.uuid))
         }
         else {
             dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyStoreDropDownList(currentUser?.data?.uuid))
         }
     }, [])
 
@@ -153,7 +155,7 @@ const companyfeedback = () => {
         dispatch(CompanyProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
         setTimeout(() => {
             setDiscountModal(true);
-        }, 2000)
+        }, 1200)
 
     }
 
@@ -185,7 +187,7 @@ const companyfeedback = () => {
 
     useEffect(() => {
         // dispatch(ICafeAdminCategoryDropDownListURL());
-        dispatch(ICafeAdminCategoryStoreDropDownListURL());
+        // dispatch(ICafeAdminCategoryStoreDropDownListURL());
 
     }, [])
 
@@ -197,7 +199,7 @@ const companyfeedback = () => {
 
     const dropdownValues = [];
 
-    storeDropdown?.data?.map((text) => {
+    store?.data?.map((text) => {
         return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
     })
 
@@ -220,13 +222,17 @@ const companyfeedback = () => {
 
     const StoreDropdown = []
 
-    storeDropdown?.data?.map((text) => {
+    store?.data?.map((text) => {
         return StoreDropdown.push({ label: text?.store_name, value: text?.uuid })
     })
 
     const hnadleProductStoredropdown = (text) => {
         setProductStoreDropdown(text?.value)
         dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser?.data?.uuid, text === null ? '' : text?.value))
+    }
+
+    const Feedbackexportfunction = async () => {
+        await ExportExcel(`/feedback/export?company_uuid=${currentUser?.data?.uuid}&store_uuid=${option}&start_date=${startDate}&end_date=${endDate}`, "CompanyFeedbackReports", currentUser.token)
     }
     return (
 
@@ -243,7 +249,7 @@ const companyfeedback = () => {
             <Tabs className='mt-2' defaultActiveKey="tab1" id="tabs-example" activeKey={tab} onSelect={(key) => handleTab(key)}>
                 <Tab eventKey="tab1" title={review}>
                     <Row className="mb-3 mt-5">
-                        <Col lg="3" className="mb-1 mt-5">
+                        <Col lg="2" className="mb-1 mt-5">
                             {/* Search Start */}
                             {/* <Form.Label/> */}
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -289,6 +295,12 @@ const companyfeedback = () => {
                             <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
                             {/* </div> */}
                         </Col>
+                        <Col md="1" lg="1" xxl="1" className="mb-1 mt-5" >
+                           
+                            <Button onClick={Feedbackexportfunction}>
+                                Export
+                            </Button>
+                        </Col>
                         <Col lg="2" className="mb-1 text-end mt-5">
                             {/* Length Start */}
                             <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -313,13 +325,16 @@ const companyfeedback = () => {
                         <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-small cursor-pointer ">Order ID</div>
                         </Col>
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-small cursor-pointer ">Store Name</div>
+                        </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Name</div>
                         </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Email</div>
                         </Col>
-                        <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Mobile</div>
                         </Col>
                         <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -348,6 +363,10 @@ const companyfeedback = () => {
                                                 {text?.feedback[0]?.order_uuid}
                                             </Button>
                                         </Col>
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                            <div className="text-muted text-small d-md-none">Mobile</div>
+                                            <div className="text-alternate">{text?.stores[0]?.store_name}</div>
+                                        </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Name</div>
                                             <div className="text-alternate">{text?.users[0]?.name}</div>
@@ -356,7 +375,7 @@ const companyfeedback = () => {
                                             <div className="text-muted text-small d-md-none">Email</div>
                                             <div className="text-alternate">{text?.users[0]?.email}</div>
                                         </Col>
-                                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Mobile</div>
                                             <div className="text-alternate">{text?.users[0]?.mobile}</div>
                                         </Col>

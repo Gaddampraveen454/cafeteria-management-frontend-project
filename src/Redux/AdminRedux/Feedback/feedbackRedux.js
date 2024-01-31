@@ -8,7 +8,8 @@ const initialState = {
   companyProductName:{},
   companyProductList:{},
 companyProductView:{},
-  notification: {}
+  notification: {},
+  store:{}
 };
 
 const companyFeedbackSlice = createSlice({
@@ -30,10 +31,14 @@ const companyFeedbackSlice = createSlice({
     setToast(state, action) {
       state.notification = action.payload;
     },
+    setStore(state, action) {
+      state.store = action.payload;
+    },
+
   },
 });
 
-export const { setCompanyFeedback,setCompanyProductName,setCompanyProductList,setCompanyProductView,setToast } = companyFeedbackSlice.actions;
+export const { setCompanyFeedback,setCompanyProductName,setCompanyProductList,setCompanyProductView,setToast,setStore } = companyFeedbackSlice.actions;
 
 
 export const CompanyFeedbackListURL = (page,search,token,limit,companyId,storeId,start,end) => async (dispatch) => {
@@ -62,6 +67,17 @@ export const CompanyProductNameURL = (orderId,token) => async (dispatch) => {
     .catch((err) => {
       console.log("err");
     })
+
+};
+export const CompanyStoreDropDownList = (companyId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/get/order/stores?company_uuid=${companyId}`)
+  // {
+  //     headers: {
+  //         "x-auth-token": token
+  //     }
+  // });
+  console.log(response.data, "dhbhjrjgnr")
+  dispatch(setStore(response.data));
 
 };
 

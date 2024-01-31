@@ -197,7 +197,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/feedback`,
       component: FeedBack,
-      label: 'Feedback',
+      label: 'Feedbacks',
       icon: 'shop',
     },
     {

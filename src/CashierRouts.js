@@ -216,7 +216,7 @@ const cashierRoutesAndMenuItems = {
     {
       path: `${appRoot}/feedback`,
       component: StoreFeedback,
-      label: 'Feedback',
+      label: 'Feedbacks',
       icon: 'user',
     },
     {

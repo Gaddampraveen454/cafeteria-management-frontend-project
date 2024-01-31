@@ -8,12 +8,13 @@ import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { ICafeAdminProductList, ICafeAdminProductNameURL, ICafeAdminProductViewURL, ICafeFeedbackListURL } from 'Redux/IcafeAdminRedux/Feedbackredux/feedbackdux';
 import Rating from 'react-rating-stars-component';
+import { ExportExcel } from 'Export';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownList, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 
 const feedback = () => {
-    const title = "Feedback"
+    const title = "Feedbacks"
     const review = "Review"
     const productReview = "Product Wise Review"
     const history = useHistory('');
@@ -259,6 +260,10 @@ const feedback = () => {
             history.push('/feedback_by_product')
         }
     }
+
+    const exportfunction = async () => {
+        await ExportExcel(`/feedback/export?company_uuid=${comapanyOption}&store_uuid=${option}&start_date=${startDate}&end_date=${endDate}`, "Feedbacks", currentUser.token)
+    }
     return (
 
         <div>
@@ -340,7 +345,43 @@ const feedback = () => {
                             <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
                             {/* </div> */}
                         </Col>
-                        <Col lg="2" className="mb-1 text-end mt-5">
+                        <Col xs="1" md="1" className='mt-4' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "10px" }} >
+                    {/* Export Dropdown Start */}
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
+                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
+                                <CsLineIcons icon="download" />
+                            </Dropdown.Toggle>
+                        </OverlayTrigger>
+                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                            <Dropdown.Item href="#">Copy</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
+                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown> */}
+                    
+                    <Button onClick={exportfunction}>
+                        Export
+                    </Button>
+                    {/* Export Dropdown End */}
+
+                    {/* Length Start */}
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                            <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+                                {limit} Items
+                            </Dropdown.Toggle>
+                        </OverlayTrigger>
+                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                            <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown> */}
+                    {/* Length End */}
+
+                </Col>
+                        <Col lg="1" className="mb-1 text-end mt-5">
 
 
                             {/* Length Start */}
@@ -366,13 +407,16 @@ const feedback = () => {
                         <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-small cursor-pointer ">Order ID</div>
                         </Col>
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-small cursor-pointer ">Company Name</div>
+                        </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Name</div>
                         </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Email</div>
                         </Col>
-                        <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Mobile</div>
                         </Col>
                         <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -401,6 +445,10 @@ const feedback = () => {
                                                 {text?.feedback[0]?.order_uuid}
                                             </Button>
                                         </Col>
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                            <div className="text-muted text-small d-md-none">Name</div>
+                                            <div className="text-alternate">{text?.companies[0]?.company_name}</div>
+                                        </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Name</div>
                                             <div className="text-alternate">{text?.users[0]?.name}</div>
@@ -409,7 +457,7 @@ const feedback = () => {
                                             <div className="text-muted text-small d-md-none">Email</div>
                                             <div className="text-alternate">{text?.users[0]?.email}</div>
                                         </Col>
-                                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Mobile</div>
                                             <div className="text-alternate">{text?.users[0]?.mobile}</div>
                                         </Col>
