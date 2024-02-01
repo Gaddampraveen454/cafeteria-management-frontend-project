@@ -22,7 +22,7 @@ const companyproductreview = () => {
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const { currentUser } = useSelector((state) => state.auth);
-    console.log(location, 'hbvhsfhbgfb')
+    console.log(location, 'hbvhsfhbgfbsde')
     const [ratingval, setRatingVal] = useState(null);
 
     const { companyProductView } = useSelector((state) => state.companyfeedback);
@@ -194,7 +194,7 @@ const companyproductreview = () => {
             <div className="mb-5">
                 <div className="row">
                     <div className="col-xs-12 col-md-2 ">
-                        <span className="rating-num ">{location?.state?.avg_rating}</span>
+                        <span className="rating-num ">{location?.state?.data?.avg_rating}</span>
                         <span><FontAwesomeIcon icon={faStar} className='star1' /></span>
                         <div>
                             <span className="fa fa-user" />{productreviewdata?.total} total votes
