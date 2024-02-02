@@ -26,7 +26,7 @@ const UserOrderRating = () => {
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location?.state?.detailsValue, "11111111111111")
+    console.log(location?.state, "11111111111111")
 
     const title = 'Order Rating';
     const description = 'Ecommerce Category Management Page';
@@ -76,20 +76,21 @@ const UserOrderRating = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
-    console.log(OrderView, "ConsumerOrderView")
+    console.log(OrderView,location?.state?.event?.uuid , id , OrderView?.data?.uuid, "ConsumerOrderView")
 
     const [ratingValue, setRating] = React.useState('');
     const [success, setSuccess] = useState(false);
 
-    const OrderViewFunction = () => {
+    
+    useEffect(()=>{
         dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-    }
+    },[])
+        
+    
 
-    useEffect(() => {
-        OrderViewFunction()
-    }, [])
+   
 
-
+    // const [review,setReview]=useState(OrderView?.data?.reviews.length > 0  ? OrderView?.data?.reviews[0]?.review : '')
     const [productuuid, setProductuuid] = useState('');
 
     const handleRatingChange = (newRating, productID) => {
@@ -120,7 +121,11 @@ const UserOrderRating = () => {
         setSuccess(true)
         setTimeout(() => {
             dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-        }, 200)
+        }, 1000)
+        setTimeout(() => {
+            history.push("/Order")
+        }, 1000)
+
     }
 
     const [ratingvalue, setRatingValue] = useState('')
@@ -220,7 +225,7 @@ const UserOrderRating = () => {
                         </Card.Body>
                     </Card>
 
-                    
+
 
                     <Card>
                         <Card.Body>
@@ -398,13 +403,14 @@ const UserOrderRating = () => {
                                                                                     edit={false}
                                                                                 />
                                                                                 : */}
-                                                                                <Rating
-                                                                                    count={5}
-                                                                                    value={item?.feedbacks[0]?.rating}
-                                                                                    onChange={(rating) => handleRatingChange(rating, item)}
-                                                                                    size={25}
-                                                                                    activeColor="#ffd700"
-                                                                                />
+                                                                            <Rating
+                                                                                count={5}
+                                                                                // value={item?.feedbacks[0]?.rating}
+                                                                                value={location?.state?.event?.feedbacks?.length > 0 && location?.state?.event?.feedbacks[0]?.rating}
+                                                                                onChange={(rating) => handleRatingChange(rating, item)}
+                                                                                size={25}
+                                                                                activeColor="#ffd700"
+                                                                            />
                                                                             {/* } */}
                                                                         </Col>
 
@@ -586,32 +592,34 @@ const UserOrderRating = () => {
                 {/* </Col> */}
             </Row >
             <Row className='mt-5'>
-                        <Col xs="12" className="col-lg order-1 order-lg-0">
+                <Col xs="12" className="col-lg order-1 order-lg-0">
 
-                            <Card className="mb-5">
-                                <Card.Body>
-                                    <Form onSubmit={ConsumerReviewApi}>
-                                        <h3>Order Review : </h3>
-                                        <Row className="g-3">
-                                            <Col lg="6">
-                                                <Form.Label>Review</Form.Label>
-                                                {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
-                                                <Form.Control as="textarea" name="review" rows={3}  defaultValue={OrderView?.data?.reviews[0]?.review} />
-                                            </Col>
-                                        </Row>
-                                        {/* {OrderView?.data?.reviews.length !== 1 && */}
-                                            <Row className="mt-3">
-                                                <Col lg="6">
-                                                    <Button variant="outline-primary" type='submit'>Submit</Button>
-                                                </Col>
-                                            </Row>
-                                        {/* } */}
-                                    </Form>
-                                </Card.Body>
-                            </Card>
+                    <Card className="mb-5">
+                        <Card.Body>
+                            <Form onSubmit={ConsumerReviewApi}>
+                                <h3>Order Review : </h3>
+                                <Row className="g-3">
+                                    <Col lg="6">
+                                        <Form.Label>Review</Form.Label>
+                                        {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
+                                        <Form.Control as="textarea" name="review" rows={3}
+                                            defaultValue={location?.state?.event?.reviews[0]?.review || ''}
+                                        />
+                                    </Col>
+                                </Row>
+                                {/* {OrderView?.data?.reviews.length !== 1 && */}
+                                <Row className="mt-3">
+                                    <Col lg="6">
+                                        <Button variant="outline-primary" type='submit'>Submit</Button>
+                                    </Col>
+                                </Row>
+                                {/* } */}
+                            </Form>
+                        </Card.Body>
+                    </Card>
 
-                        </Col>
-                    </Row>
+                </Col>
+            </Row>
         </>
     );
 };

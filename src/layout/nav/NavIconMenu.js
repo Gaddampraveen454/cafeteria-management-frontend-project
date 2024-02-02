@@ -50,17 +50,17 @@ const NavIconMenu = () => {
 
 
   const redirect = () => {
-     if(currentUser.data.group === "store" || currentUser.data.group === "company" || currentUser.data.group === "icafe_admin"){
-         history.push('/login')
-     }
-     else{
-    console.log("enter1")
-    const companyId = localStorage.getItem('companyId');
-    console.log(companyId, "companyId")
-    const compNewId = !companyId ? "qr" : companyId
-    dispatch(LogOutURL())
-    history.push(`/menu/company/${compNewId}`)
-     }
+    if (currentUser.data.group === "store" || currentUser.data.group === "company" || currentUser.data.group === "icafe_admin") {
+      dispatch(LogOutURL())
+      history.push('/login')
+    }
+    else {
+      const companyId = localStorage.getItem('companyId');
+      console.log(companyId, "companyId")
+      const compNewId = !companyId ? "qr" : companyId
+      dispatch(LogOutURL())
+      history.push(`/menu/company/${compNewId}`)
+    }
   }
 
   const Loginredirect = () => {

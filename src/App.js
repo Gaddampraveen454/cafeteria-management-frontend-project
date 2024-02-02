@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 // import layout
 import Layout from 'layout/Layout';
-
+// import "./App.css"
 // import routing modules
 import RouteIdentifier from 'routing/components/RouteIdentifier';
 import { getRoutes } from 'routing/helper';
@@ -23,7 +23,9 @@ import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
 // import { getMes } from 'firebase';
 import io from 'socket.io-client';
 import { Button } from '@mui/material';
+import Footer from 'layout/footer/Footer';
 import axios from 'axios';
+import withClearCache from './clearCache';
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
 import { getMes, onMessageListener } from './firebase';
 
@@ -32,7 +34,10 @@ import beep2 from "./Assests/audio/telephone.mp3"
 
 
 
-const App = () => {
+
+
+
+const MainApp = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const LoginDetails = JSON.parse(localStorage.getItem("user"));
   const audioRef = useRef(null);
@@ -484,4 +489,15 @@ const App = () => {
   return <></>;
 };
 
-export default App;
+// const ClearCacheComponent = withClearCache(MainApp);
+
+// function App() {
+//   return (
+//     <>
+//       {/* <ClearCacheComponent /> */}
+//       {/* <Footer /> */}
+//     </>
+//   );
+// }
+export default MainApp;
+
