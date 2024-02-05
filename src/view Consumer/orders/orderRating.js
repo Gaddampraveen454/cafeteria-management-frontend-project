@@ -9,6 +9,8 @@ import { ConsumerOrderView, ConsumerOrderReview, ConsumerFeedback } from 'Redux/
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import {
     Dialog,
     DialogActions,
@@ -76,24 +78,36 @@ const UserOrderRating = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
-    console.log(OrderView,location?.state?.event?.uuid , id , OrderView?.data?.uuid, "ConsumerOrderView")
+    console.log(OrderView, location?.state?.event?.uuid, id, OrderView?.data?.uuid, "ConsumerOrderView")
 
     const [ratingValue, setRating] = React.useState('');
     const [success, setSuccess] = useState(false);
 
-    
-    useEffect(()=>{
-        dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-    },[])
-        
-    
 
-   
+    useEffect(() => {
+        dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
+    }, [])
+
+
+
+
 
     // const [review,setReview]=useState(OrderView?.data?.reviews.length > 0  ? OrderView?.data?.reviews[0]?.review : '')
     const [productuuid, setProductuuid] = useState('');
 
+    const [RatingValue, setRatingValue1] = useState(location?.state?.event?.feedbacks?.length > 0 && location?.state?.event?.feedbacks.map((items) => {
+        return items?.rating
+    }))
+
+    useEffect(() => {
+        setRatingValue1(location?.state?.event?.feedbacks?.length > 0 && location?.state?.event?.feedbacks.map((items) => {
+            return console.log(items?.rating, "RatingValue")
+        }))
+    }, [location?.state])
+    // console.log(RatingValue,"RatingValue")
+
     const handleRatingChange = (newRating, productID) => {
+        console.log("jdvcdbchbcsjh")
 
         const payload = {
             "user_uuid": currentUser?.data?.uuid,
@@ -105,7 +119,7 @@ const UserOrderRating = () => {
         setSuccess(true)
         setTimeout(() => {
             dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-        }, 200)
+        }, 500)
     }
 
     const ConsumerReviewApi = (event) => {
@@ -121,10 +135,9 @@ const UserOrderRating = () => {
         setSuccess(true)
         setTimeout(() => {
             dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-        }, 1000)
-        setTimeout(() => {
             history.push("/Order")
         }, 1000)
+
 
     }
 
@@ -141,6 +154,7 @@ const UserOrderRating = () => {
     useEffect(() => {
         if (success === true) {
             if (notification?.status === true) {
+                // dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
                 toast.success(notification?.message, {
                     position: "top-right",
                 })
@@ -161,6 +175,20 @@ const UserOrderRating = () => {
         setProductuuid(event?.uuid)
         setRatingOpen(true)
     }
+
+    const RenderStars = ({ rating, onStarClick }) => {
+        console.log(rating, 'fdbvhgvf')
+        const stars = [];
+
+        for (let i = 1; i <= 5; i += 1) {
+            stars.push(
+                // <CsLineIcons icon="star" size="20" fill={i < Number(rating) ? 'gold' : ''} />
+                <FontAwesomeIcon icon={faStar} onClick={() => onStarClick(i)} color={i <= Number(rating) ? 'gold' : ''} style={{ size: "25" }} />
+            );
+        }
+
+        return <div>{stars}</div>;
+    };
 
 
     return (
@@ -393,25 +421,18 @@ const UserOrderRating = () => {
                                       </Col>
                                     } */}
                                                                         <Col xs="auto" lg="12">
-                                                                            {/* {item?.feedbacks.length === 1 ?
-                                                                                <Rating
-                                                                                    count={5}
-                                                                                    value={item?.feedbacks[0]?.rating}
-                                                                                    onChange={(rating) => handleRatingChange(rating, item)}
-                                                                                    size={25}
-                                                                                    activeColor="#ffd700"
-                                                                                    edit={false}
-                                                                                />
-                                                                                : */}
-                                                                            <Rating
+                                                                            {/* <Rating
                                                                                 count={5}
                                                                                 // value={item?.feedbacks[0]?.rating}
-                                                                                value={location?.state?.event?.feedbacks?.length > 0 && location?.state?.event?.feedbacks[0]?.rating}
+                                                                                value={item?.feedbacks[0]?.rating || 0}
                                                                                 onChange={(rating) => handleRatingChange(rating, item)}
                                                                                 size={25}
                                                                                 activeColor="#ffd700"
-                                                                            />
-                                                                            {/* } */}
+                                                                            /> */}
+
+                                                                            {/* <div>{renderStars(item?.feedbacks[0]?.rating)}</div> */}
+                                                                            <RenderStars rating={item?.feedbacks[0]?.rating} onStarClick={(rating) => handleRatingChange(rating, item)} />
+
                                                                         </Col>
 
                                                                     </Row>

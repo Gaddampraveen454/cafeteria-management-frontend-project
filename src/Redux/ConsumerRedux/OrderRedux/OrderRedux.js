@@ -52,6 +52,7 @@ export const ConsumerOrderListURL = (pageNUm, search, token, limit, consumerId) 
 };
 
 export const ConsumerOrderView = (token, OrderId) => async (dispatch) => {
+  dispatch(setConsumerOrderView({}));
   const response = await axios.get(`${process.env.REACT_APP_URL}/order/view/${OrderId}?company_uuid=`, {
     headers: {
       "x-auth-token": token
@@ -62,6 +63,7 @@ export const ConsumerOrderView = (token, OrderId) => async (dispatch) => {
   })
     .catch((err) => {
       console.log("err");
+    dispatch(setConsumerOrderView({}));
     })
 
 };

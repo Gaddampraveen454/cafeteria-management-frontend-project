@@ -273,10 +273,10 @@ const orderview = () => {
                                                                                         count={5}
                                                                                         value={feedback?.rating}
                                                                                         // onChange={handleRatingChange}
-                                                                                        size={20}
+                                                                                        size={16}
                                                                                         activeColor="#ffd700"
                                                                                         edit={false}
-                                                                                        className="lh-1 text-alternate  mt-2"
+                                                                                        className="lh-1 text-alternate "
                                                                                     />
                                                                                     
                                                                                 }

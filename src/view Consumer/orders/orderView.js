@@ -7,6 +7,8 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { ConsumerOrderView, ConsumerOrderReview, ConsumerFeedback } from 'Redux/ConsumerRedux/OrderRedux/OrderRedux';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
 import {
@@ -26,7 +28,7 @@ const UserOrderView = () => {
   const { id } = useParams();
 
   const location = useLocation('')
-  console.log(location?.state?.detailsValue, "11111111111111")
+  console.log(location?.state, "1111111fff1111111")
 
   const title = 'Order View';
   const description = 'Ecommerce Category Management Page';
@@ -157,6 +159,19 @@ const UserOrderView = () => {
     setRatingOpen(true)
   }
 
+  const renderStars = (rating) => {
+    console.log(rating, 'fdbvhgvf')
+    const stars = [];
+
+    for (let i = 0; i < 5; i += 1) {
+        stars.push(
+            // <CsLineIcons icon="star" size="20" fill={i < Number(rating) ? 'gold' : ''} />
+            <FontAwesomeIcon icon={faStar} color={i < Number(rating) ? 'gold' : ''} style={{ size: "25" }} />
+        );
+    }
+
+    return stars;
+};
 
   return (
     <>
@@ -259,7 +274,7 @@ const UserOrderView = () => {
                 {/* List Items Start */}
                 {OrderView?.data?.details?.length > 0 && OrderView?.data?.details.map((item, index) => {
                   return <div key="">
-                    {console.log(item, "fghfghfghh")}
+                    {console.log(item, "fghfghfghssh")}
                     {/* <Card className='mb-2'> */}
                     <Row className="g-0 h-100 sh-lg-9 position-relative">
 
@@ -356,7 +371,7 @@ const UserOrderView = () => {
                                 </Col>
                               
                                   <Col xs="6" lg="12" className='d-flex align-items-center'>
-                                    <Rating
+                                    {/* <Rating
                                       count={5}
                                       value={item?.feedbacks[0]?.rating}
                                       // onChange={(rating) => handleRatingChange(rating, item)}
@@ -364,7 +379,8 @@ const UserOrderView = () => {
                                       activeColor="#ffd700"
                                       edit={false}
                                       className=" text-alternate "
-                                    />
+                                    /> */}
+                                     <div >{renderStars(item?.feedbacks[0]?.rating)}</div>
                                   </Col>
                                  
 
@@ -559,7 +575,7 @@ const UserOrderView = () => {
                     <Row className="g-3">
                       <Col lg="6">
                         <Form.Label>Review</Form.Label>
-                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={OrderView?.data?.reviews[0]?.review} />
+                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={location?.state?.event?.reviews?.length > 0 ? location?.state?.event?.reviews[0]?.review : ""} />
                       </Col>
                     </Row>
                   </Form>
