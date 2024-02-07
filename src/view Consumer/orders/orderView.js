@@ -164,14 +164,14 @@ const UserOrderView = () => {
     const stars = [];
 
     for (let i = 0; i < 5; i += 1) {
-        stars.push(
-            // <CsLineIcons icon="star" size="20" fill={i < Number(rating) ? 'gold' : ''} />
-            <FontAwesomeIcon icon={faStar} color={i < Number(rating) ? 'gold' : ''} style={{ size: "25" }} />
-        );
+      stars.push(
+        // <CsLineIcons icon="star" size="20" fill={i < Number(rating) ? 'gold' : ''} />
+        <FontAwesomeIcon icon={faStar} color={i < Number(rating) ? 'gold' : ''} style={{ size: "25" }} />
+      );
     }
 
     return stars;
-};
+  };
 
   return (
     <>
@@ -235,7 +235,7 @@ const UserOrderView = () => {
             </Card.Body>
           </Card>
 
-         
+
 
           <Card style={{ margin: "-20px" }}>
             <Card.Body>
@@ -262,10 +262,13 @@ const UserOrderView = () => {
                       <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                         <div className="text-muted text-medium cursor-pointer sort">Price</div>
                       </Col>
-                      <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                        <div className="text-muted text-medium cursor-pointer sort">Rating</div>
-                      </Col>
-
+                      {location?.state?.event?.order_status === "Cancelled" ?
+                        ""
+                        :
+                        <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                          <div className="text-muted text-medium cursor-pointer sort">Rating</div>
+                        </Col>
+                      }
                     </Row>
                   </Col>
                 </Row>
@@ -369,7 +372,9 @@ const UserOrderView = () => {
                                 <Col xs='6' className="d-lg-none">
                                   <div className="text-alternate d-flex align-items-center" style={{ fontWeight: 'bold' }}>Rating</div>
                                 </Col>
-                              
+                                {location?.state?.event?.order_status === "Cancelled" ?
+                                  ""
+                                  :
                                   <Col xs="6" lg="12" className='d-flex align-items-center'>
                                     {/* <Rating
                                       count={5}
@@ -380,9 +385,9 @@ const UserOrderView = () => {
                                       edit={false}
                                       className=" text-alternate "
                                     /> */}
-                                     <div >{renderStars(item?.feedbacks[0]?.rating)}</div>
+                                    <div >{renderStars(item?.feedbacks[0]?.rating)}</div>
                                   </Col>
-                                 
+                                }
 
                               </Row>
                             </Col>
@@ -404,7 +409,7 @@ const UserOrderView = () => {
           {/* Address End */}
 
 
-         
+
 
           {/* View QR code  Popup Start */}
           <div>
@@ -448,7 +453,7 @@ const UserOrderView = () => {
             </Dialog>
           </div>
 
-         
+
 
           {/* Shipment Start */}
           {/* <h2 className="small-title">Shipment</h2> */}
@@ -567,22 +572,26 @@ const UserOrderView = () => {
         {/* </Col> */}
       </Row >
       <Row className='mt-5'>
-            <Col xs="12" className="col-lg order-1 order-lg-0">
-              <Card className="mb-5">
-                <Card.Body>
-                  <Form>
-                    <h3>Order Review : </h3>
-                    <Row className="g-3">
-                      <Col lg="6">
-                        <Form.Label>Review</Form.Label>
-                        <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={location?.state?.event?.reviews?.length > 0 ? location?.state?.event?.reviews[0]?.review : ""} />
-                      </Col>
-                    </Row>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+        <Col xs="12" className="col-lg order-1 order-lg-0">
+          {location?.state?.event?.order_status === "Cancelled" ?
+            ""
+            :
+            <Card className="mb-5">
+              <Card.Body>
+                <Form><h3>Order Review : </h3>
+                  <Row className="g-3">
+                    <Col lg="6">
+                      <Form.Label>Review</Form.Label>
+                      <Form.Control as="textarea" name="review" rows={3} disabled defaultValue={location?.state?.event?.reviews?.length > 0 ? location?.state?.event?.reviews[0]?.review : ""} />
+                    </Col>
+                  </Row>
+
+                </Form>
+              </Card.Body>
+            </Card>
+          }
+        </Col>
+      </Row>
     </>
   );
 };

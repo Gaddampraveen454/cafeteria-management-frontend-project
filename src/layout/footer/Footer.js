@@ -19,7 +19,7 @@ const Footer = () => {
               <p className="mb-0 text-muted text-medium">Developed & Maintained  By Sciens Technologies</p>
             </Col>
             <Col xs="12" sm="4"  >
-              <p className="mb-0 text-muted text-medium">Branded & Market By Zeonova Technologies</p>
+              <p className="mb-0 text-muted text-medium">Branded & Marketed By Zeonova Technologies</p>
               {/* <p className="mb-0 text-muted text-medium"><a href='/shippingpolicy' target='_blank'>Shipping policy</a></p> */}
             </Col>
             <Col xs="6" sm="4"  >

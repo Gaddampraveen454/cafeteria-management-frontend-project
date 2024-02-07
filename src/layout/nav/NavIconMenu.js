@@ -50,7 +50,7 @@ const NavIconMenu = () => {
 
 
   const redirect = () => {
-    if (currentUser.data.group === "store" || currentUser.data.group === "company" || currentUser.data.group === "icafe_admin") {
+    if (currentUser.data.group === "store" || currentUser.data.group === "company" || currentUser.data.group === "icafe_admin" || currentUser.data.group === "manager" || currentUser.data.group === "cashier") {
       dispatch(LogOutURL())
       history.push('/login')
     }
@@ -72,6 +72,8 @@ const NavIconMenu = () => {
       {currentUser?.data?.group === "company" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
       {currentUser?.data?.group === "store" && <Button>{currentUser?.data?.store_name?.toUpperCase()}</Button>}
       {currentUser?.data?.group === "icafe_admin" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
+      {currentUser?.data?.group === "manager" && <Button>{currentUser?.data?.name?.toUpperCase()}</Button>}
+      {currentUser?.data?.group === "cashier" && <Button>{currentUser?.data?.name?.toUpperCase()}</Button>}
 
       <ul className="list-unstyled list-inline text-center menu-icons">
         {/* <li className="list-inline-item">

@@ -3,37 +3,38 @@ import { lazy } from 'react';
 import { USER_ROLE } from 'constants.js';
 import { DEFAULT_PATHS } from 'config.js';
 
-const dashboard = lazy(() => import('views/dashboard/Dashboard'));
+const dashboard = lazy(() => import('views cashier/dashboard/Dashboard'));
 
 const Company = lazy(() => import('views/company Management/Company'));
 const addcompany = lazy(() => import('views/company Management/addcompany'));
-const User = lazy(() => import('views/User Management/User'));
+const User = lazy(() => import('views cashier/User Management/User'));
 const adduser = lazy(() => import('views/User Management/adduser'));
 const executive = lazy(() => import('views/Front Desk Executive/executive'));
 const addexecutive = lazy(() => import('views/Front Desk Executive/addexecutive'));
 const category = lazy(() => import('views/Category Management/category'));
 const addcategory = lazy(() => import('views/Category Management/addcategory'));
-const product = lazy(() => import('views/Product Management/product'));
-const addproduct = lazy(() => import('views/Product Management/addproduct'));
-const NICorders = lazy(() => import('views/NICorders/NICorders'));
-const PendingOrder = lazy(() => import('views/NICorders/PendingOrder'));
-const Viewordercompany = lazy(() => import('views/NICorders/Viewordercmpy'))
-const ScanOrderDetails = lazy(() => import('views/NICorders/ScanOrderdetails'))
+const product = lazy(() => import('views cashier/Product Management/product'));
+const addproduct = lazy(() => import('views cashier/Product Management/addproduct'));
+const NICorders = lazy(() => import('views cashier/NICorders/NICorders'));
+const ViewOrder = lazy(() => import('views cashier/NICorders/Vieworderstore'));
+const PendingOrders = lazy(() => import('views cashier/NICorders/PendingOrderList'));
+const ScanOrderDetailsStore = lazy(() => import('views cashier/NICorders/ScanOrderdetailsStore'));
 const addNICorder = lazy(() => import('views/NICorders/addNICorder'));
-const report = lazy(() => import('views/Reports/report'));
+const report = lazy(() => import('views cashier/Reports/report'));
 const addreport = lazy(() => import('views/Reports/addreport'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
-const CreateOrder = lazy(() => import('views/CreateOrders/createorder'));
-const changepassword = lazy(() => import('views/ChangePassword/changepassword'))
-const CompanyNotifications = lazy(() => import('views/CompanyNotifications/companynotifications'))
-const CompanyRole = lazy(()=>import('views/CompanyRoles/role'));
-const CompanyAddRole = lazy(()=>import('views/CompanyRoles/addrole'));
-const CompanyFeedback=lazy(()=>import('views/CompanyFeedback/companyfeedback'));
-const CompanyProductView = lazy(()=>import('views/CompanyFeedback/companyproductview'));
+const CashierMenu = lazy(() => import('views cashier/CreateOrder/MenuForCahier'));
+const Storecategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryList'));
+const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/StoreCategoryAdd'));
 
+const Changepassword = lazy(() => import('views cashier/ChangePassword/changepassword'))
 
-const Cards = lazy(() => import('views/company Management/Cards'));
-const Cardcart = lazy(() => import('views/company Management/Cardcart'));
+const StoreNotifications = lazy(() => import('views cashier/StoreNotifications/storenotifications'))
+const StoreRole = lazy(()=>import('views cashier/StoreRoles/storerole'));
+const StoreAddRole = lazy(()=>import('views cashier/StoreRoles/addstorerole'));
+const StoreFeedback = lazy(()=>import('views cashier/StoreFeedback/storefeedback'));
+const StoreProductView = lazy(()=>import('views cashier/StoreFeedback/storeproductview'));
+
 
 const products = {
   list: lazy(() => import('views/products/list/ProductsList')),
@@ -60,7 +61,6 @@ const storefront = {
 const shipping = lazy(() => import('views/shipping/Shipping'));
 const discount = lazy(() => import('views/discount/Discount'));
 
-
 const settings = {
   home: lazy(() => import('views/settings/home/Home')),
   general: lazy(() => import('views/settings/general/General')),
@@ -73,116 +73,111 @@ const FooterRoutes = {
   contact: lazy(() => import('views/default/footer/contactus')),
   about: lazy(() => import('views/default/footer/aboutus')),
   privacy: lazy(() => import('views/default/footer/privacyPolicy'))
+
+
 }
 
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
-const OrderId = localStorage.getItem('OrderCompanyDetails');
+const OrderId = localStorage.getItem('OrderCompanyDetailsStore');
 let compNeworderId = !OrderId ? "" : OrderId
 
-
-const adminRoutesAndMenuItems = {
+const cashRoutesAndMenuItems = {
   mainMenuItems: [
     {
       path: DEFAULT_PATHS.APP,
       exact: true,
       redirect: true,
-      to: `${appRoot}/dashboard`,
+      to: `${appRoot}/Storedashboard`,
     },
     {
-      path: `${appRoot}/dashboard`,
+      path: `${appRoot}/Storedashboard`,
       component: dashboard,
-      label: 'Dashboard',
+      label: 'Store-Dashboard',
       icon: 'shop',
     },
+    //     {
+    //   path: `${appRoot}/Company`,
+    //   component: Company,
+    //   label: 'Company Management',
+    //   icon: 'shipping',
+    // },
 
-    // {
-    //   path: `${appRoot}/Cards`,
-    //   component: Cards,
-    //   label: 'Cards',
-    //   icon: 'shipping',
-    // },
-    // {
-    //   path: `${appRoot}/Cardcart`,
-    //   component: Cardcart,
-    //   label: 'Cardcart',
-    //   icon: 'shipping',
-    // },
     {
-      path: `${appRoot}/addcompany`,
-      component: addcompany,
-      // label: 'User Management',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/User`,
-      component: User,
-      label: 'User Management',
+      path: `${appRoot}/Storecategory`,
+      component: Storecategory,
+      label: 'Category Management',
       icon: 'user',
     },
     {
-      path: `${appRoot}/adduser`,
-      component: adduser,
+      path: `${appRoot}/Storeaddcatagory`,
+      component: Storeaddcategory,
       // label: 'User Management',
       // icon: 'user',
     },
-    {
-      path: `${appRoot}/Company`,
-      component: Company,
-      label: 'Store Management',
-      icon: 'shipping',
-    },
+    // {
+    //   path: `${appRoot}/User`,
+    //   component: User,
+    //   label: 'User Management',
+    //   icon: 'user',
+    // },
+    // {
+    //   path: `${appRoot}/adduser`,
+    //   component: adduser,
+    //   // label: 'User Management',
+    //   // icon: 'user',
+    // },
     // {
     //   path: `${appRoot}/executive`,
     //   component: executive,
     //   label: 'Front Desk Executive',
     //   icon: 'laptop',
     // },
+    // {
+    //   path: `${appRoot}/addexecutive`,
+    //   component: addexecutive,
+    //   // label: 'Front Desk Executive',
+    //   // icon: 'user',
+    // },
+    // {
+    //   path: `${appRoot}/category`,
+    //   component: category,
+    //   label: 'Category Management',
+    //   icon: 'save',
+    // },
+    // {
+    //   path: `${appRoot}/addcategory`,
+    //   component: addcategory,
+    //   // label: 'Category Management',
+    //   // icon: 'user',
+    // },
     {
-      path: `${appRoot}/addexecutive`,
-      component: addexecutive,
-      // label: 'Front Desk Executive',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/category`,
-      component: category,
-      label: 'Category Management',
-      icon: 'save',
-    },
-    {
-      path: `${appRoot}/addcategory`,
-      component: addcategory,
-      // label: 'Category Management',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/product`,
+      path: `${appRoot}/Storeproduct`,
       component: product,
       label: 'Product Management',
       icon: 'web-page',
     },
     {
-      path: `${appRoot}/addproduct`,
+      path: `${appRoot}/Storeaddproduct`,
       component: addproduct,
       // label: 'Product Management',
-      // icon: 'user',
+      // icon: 'web-page',
     },
+    // {
+    //   path: `${appRoot}/role_list`,
+    //   component: StoreRole,
+    //   label: 'Roles',
+    //   icon: 'web-page',
+    // },
+    // {
+    //   path: `${appRoot}/add_roles`,
+    //   component: StoreAddRole,
+    //   // label: 'Product Management',
+    //   // icon: 'web-page',
+    // },
     {
-      path: `${appRoot}/company_role_list`,
-      component: CompanyRole,
-      label: 'Roles',
-      icon: 'save',
-    },
-    {
-      path: `${appRoot}/add_role`,
-      component: CompanyAddRole,
-      // label: 'Category Management',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/create_order`,
-      component: CreateOrder,
+      path: `${appRoot}/cashierMenu`,
+      component: CashierMenu,
       label: 'Create Order',
       icon: 'user',
     },
@@ -193,67 +188,60 @@ const adminRoutesAndMenuItems = {
       icon: 'wallet',
     },
     {
-      path: `${appRoot}/Pendingorders`,
-      component: PendingOrder,
-      label: 'Pending List',
+      path: `${appRoot}/Storevieworder/:id`,
+      component: ViewOrder
+    },
+    {
+      path: `${appRoot}/pendingorders`,
+      component: PendingOrders,
+      label: 'Pending Orders',
       icon: 'wallet',
     },
     {
-      path: `${appRoot}/companyViewOrder/:id`,
-      component: Viewordercompany,
-    },
-    {
       path: `${appRoot}/scanorderdetails/${compNeworderId}`,
-      component: ScanOrderDetails
+      component: ScanOrderDetailsStore
     },
-    {
-      path: `${appRoot}/addNICorder`,
-      component: addNICorder,
-      // label: 'Orders',
-      // icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/addNICorder`,
+    //   component: addNICorder,
+    //   // label: 'Orders',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/report`,
       component: report,
       label: 'Report',
       icon: 'news',
     },
-    {
-      path: `${appRoot}/feedback`,
-      component: CompanyFeedback,
-      label: 'Feedbacks',
-      icon: 'user',
-    },
-    {
-      path: `${appRoot}/feedback_by_product`,
-      component: CompanyFeedback,
-      // label: 'Feedback',
-      // icon: 'user',
-    },
-    {
-      path: `${appRoot}/product_view`,
-      component: CompanyProductView,
-      // label: 'User Management',
-      // icon: 'user',
-    },
+    // {
+    //   path: `${appRoot}/feedback`,
+    //   component: StoreFeedback,
+    //   label: 'Feedbacks',
+    //   icon: 'user',
+    // },
+    // {
+    //   path: `${appRoot}/feedbackbyproduct`,
+    //   component: StoreFeedback,
+    //   // label: 'Feedback',
+    //   // icon: 'user',
+    // },
+    // {
+    //   path: `${appRoot}/product_view`,
+    //   component: StoreProductView ,
+    //   // label: 'User Management',
+    //   // icon: 'user',
+    // },
     {
       path: `${appRoot}/changepassword`,
-      component: changepassword,
+      component: Changepassword,
       label: 'Change Password',
       icon: 'lock-off',
     },
-    // changepassword
     {
-      path: `${appRoot}/companynotifications`,
-      component: CompanyNotifications,
+      path: `${appRoot}/storenotifications`,
+      component: StoreNotifications,
       label: 'Notifications',
-      icon: 'news',
-    },
-    {
-      path: `${appRoot}/addreport`,
-      component: addreport,
-      // label: 'Report',
-      // icon: 'news',
+      icon: 'news'
     },
     {
       path: `${appRoot}/termsconditions`,
@@ -280,10 +268,10 @@ const adminRoutesAndMenuItems = {
       component: FooterRoutes.about
     }
     // {
-    //   path: `${appRoot}/discount`,
-    //   component: discount,
-    //   label: 'discount',
-    //   icon: 'discount',
+    //   path: `${appRoot}/addreport`,
+    //   component: addreport,
+    //   // label: 'Report',
+    //   // icon: 'news',
     // },
     // {
     //   path: `${appRoot}/adddetails`,
@@ -291,19 +279,6 @@ const adminRoutesAndMenuItems = {
     //   label: 'User Management',
     //   icon: 'user',
     // },
-
-    // // {
-    // //   path: `${appRoot}/Cards`,
-    // //   component: Cards,
-    // //   label: 'Menu',
-    // //   icon: 'news',
-    // // },
-    // // {
-    // //   path: `${appRoot}/Cardcart`,
-    // //   component: Cardcart,
-    // //   // label: 'Menu',
-    // //   // icon: 'news',
-    // // },
     // {
     //   path: `${appRoot}/products`,
     //   exact: true,
@@ -379,4 +354,4 @@ const adminRoutesAndMenuItems = {
   ],
   sidebarItems: [],
 };
-export default adminRoutesAndMenuItems;
+export default cashRoutesAndMenuItems;

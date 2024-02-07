@@ -28,7 +28,7 @@ const UserOrderRating = () => {
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location?.state, "11111111111111")
+    console.log(location?.state, "111111")
 
     const title = 'Order Rating';
     const description = 'Ecommerce Category Management Page';
@@ -280,10 +280,13 @@ const UserOrderRating = () => {
                                             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
                                             </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Rating</div>
-                                            </Col>
-
+                                            {location?.state?.event?.order_status === "Cancelled" ?
+                                                ""
+                                                :
+                                                <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                    <div className="text-muted text-medium cursor-pointer sort">Rating</div>
+                                                </Col>
+                                            }
                                         </Row>
                                     </Col>
                                 </Row>
@@ -419,9 +422,11 @@ const UserOrderRating = () => {
                                           <CsLineIcons icon="star" />s
                                         </Button>
                                       </Col>
-                                    } */}
-                                                                        <Col xs="auto" lg="12">
-                                                                            {/* <Rating
+                                    } */}                              {location?.state?.event?.order_status === "Cancelled" ?
+                                                                            ""
+                                                                            :
+                                                                            <Col xs="auto" lg="12">
+                                                                                {/* <Rating
                                                                                 count={5}
                                                                                 // value={item?.feedbacks[0]?.rating}
                                                                                 value={item?.feedbacks[0]?.rating || 0}
@@ -430,11 +435,11 @@ const UserOrderRating = () => {
                                                                                 activeColor="#ffd700"
                                                                             /> */}
 
-                                                                            {/* <div>{renderStars(item?.feedbacks[0]?.rating)}</div> */}
-                                                                            <RenderStars rating={item?.feedbacks[0]?.rating} onStarClick={(rating) => handleRatingChange(rating, item)} />
+                                                                                {/* <div>{renderStars(item?.feedbacks[0]?.rating)}</div> */}
+                                                                                <RenderStars rating={item?.feedbacks[0]?.rating} onStarClick={(rating) => handleRatingChange(rating, item)} />
 
-                                                                        </Col>
-
+                                                                            </Col>
+                                                                        }
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
@@ -614,31 +619,33 @@ const UserOrderRating = () => {
             </Row >
             <Row className='mt-5'>
                 <Col xs="12" className="col-lg order-1 order-lg-0">
-
-                    <Card className="mb-5">
-                        <Card.Body>
-                            <Form onSubmit={ConsumerReviewApi}>
-                                <h3>Order Review : </h3>
-                                <Row className="g-3">
-                                    <Col lg="6">
-                                        <Form.Label>Review</Form.Label>
-                                        {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
-                                        <Form.Control as="textarea" name="review" rows={3}
-                                            defaultValue={location?.state?.event?.reviews[0]?.review || ''}
-                                        />
-                                    </Col>
-                                </Row>
-                                {/* {OrderView?.data?.reviews.length !== 1 && */}
-                                <Row className="mt-3">
-                                    <Col lg="6">
-                                        <Button variant="outline-primary" type='submit'>Submit</Button>
-                                    </Col>
-                                </Row>
-                                {/* } */}
-                            </Form>
-                        </Card.Body>
-                    </Card>
-
+                    {location?.state?.event?.order_status === "Cancelled" ?
+                        ""
+                        :
+                        <Card className="mb-5">
+                            <Card.Body>
+                                <Form onSubmit={ConsumerReviewApi}>
+                                    <h3>Order Review : </h3>
+                                    <Row className="g-3">
+                                        <Col lg="6">
+                                            <Form.Label>Review</Form.Label>
+                                            {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
+                                            <Form.Control as="textarea" name="review" rows={3}
+                                                defaultValue={location?.state?.event?.reviews[0]?.review || ''}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    {/* {OrderView?.data?.reviews.length !== 1 && */}
+                                    <Row className="mt-3">
+                                        <Col lg="6">
+                                            <Button variant="outline-primary" type='submit'>Submit</Button>
+                                        </Col>
+                                    </Row>
+                                    {/* } */}
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    }
                 </Col>
             </Row>
         </>

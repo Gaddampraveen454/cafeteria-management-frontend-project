@@ -51,7 +51,7 @@ const User = () => {
   console.log(selectCompany, "sfsfsdfdsfsfds")
 
   useEffect(() => {
-    dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+    dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
   }, [])
 
 
@@ -183,7 +183,7 @@ const User = () => {
       "name": name,
       "mobile": mobile,
       "email": email,
-      "company_uuid": currentUser?.data?.uuid,
+      "company_uuid":  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid,
       "emp_id": EmpId,
       "location": location,
       "designation": designation,
@@ -206,7 +206,7 @@ const User = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+          dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
           setOpenPopup(false)
         }, 1000)
 
@@ -251,32 +251,32 @@ const User = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(CompanyConsumerListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(0, pages, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(CompanyConsumerListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page - 1, search, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page, search, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page + 1, search, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(CompanyConsumerListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(page + 2, search, currentUser.token, limit,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(CompanyConsumerListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
+      dispatch(CompanyConsumerListURL(0, search, currentUser.token, pages,  currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }
   }
 
@@ -350,7 +350,7 @@ const User = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Dashboard</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}

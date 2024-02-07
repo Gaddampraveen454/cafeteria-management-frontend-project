@@ -27,7 +27,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 const Pendingorders = () => {
     const dispatch = useDispatch()
-    const title = 'Orders';
+    const title = 'Pending Orders';
     const description = 'Ecommerce Orders Page';
     const [suc, setSuc] = useState(false);
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -73,7 +73,7 @@ const Pendingorders = () => {
 
     const { OrderData, notification } = useSelector((state) => state.orderListCashier)
     useEffect(() => {
-        dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+        dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
     }, [])
 
 
@@ -83,32 +83,32 @@ const Pendingorders = () => {
 
             setSearch(pages)
             setPage(0)
-            dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(0, pages, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(page - 1, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(page + 1, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(page + 1, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(page + 2, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid, "Pending"))
+            dispatch(OrderListURL(0, search, currentUser.token, pages,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
         }
     }
 
@@ -153,7 +153,7 @@ const Pendingorders = () => {
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, "Pending"))
+                    dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , "Pending",'',''))
                     // setOpen(false)
 
                 }, 1000)
@@ -229,7 +229,7 @@ const Pendingorders = () => {
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
                         <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
                             <CsLineIcons icon="chevron-left" size="20" />
-                            <span className="align-middle text-medium ms-1">Home</span>
+                            <span className="align-middle text-medium ms-1">Dashboard</span>
                         </NavLink>
                         <h1 className="mb-0 pb-0 display-4" id="title">
                             {title}

@@ -11,7 +11,9 @@ import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
+import managerRoutesAndMenuItems from 'managerRoutes';
 import consumerRoutesAndMenuItems from 'customerRoutes';
+import cashRoutesAndMenuItems from 'cashRoutes';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import { layoutShowingNavMenu } from 'layout/layoutSlice';
 import companyReducer from 'Redux/AdminRedux/Comapny/Company';
@@ -28,6 +30,8 @@ import {
 
 // import customerroutesAndMenuItems from 'customerRoutes';
 import { checkBehaviour, checkPlacement, isDeeplyDiffBehaviourStatus, isDeeplyDiffPlacementStatus } from './helper';
+
+
 
 
 
@@ -50,6 +54,10 @@ const MainMenu = () => {
     routsData = consumerRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
     routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'manager') {
+    routsData = managerRoutesAndMenuItems.mainMenuItems
+  }  else if (currentUser && currentUser.data && currentUser.data.group === 'cashier') {
+    routsData = cashRoutesAndMenuItems.mainMenuItems
   }
  
   else {

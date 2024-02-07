@@ -16,9 +16,11 @@ import { Modal, Row, Col } from 'react-bootstrap';
 import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import consumerRoutesAndMenuItems from 'customerRoutes';
+import managerRoutesAndMenuItems from 'managerRoutes';
 import Loading from 'components/loading/Loading';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
+import cashRoutesAndMenuItems from 'cashRoutes';
 import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
 // import { getMes } from 'firebase';
 import io from 'socket.io-client';
@@ -31,6 +33,8 @@ import { getMes, onMessageListener } from './firebase';
 
 import beep1 from "./Assests/audio/beep1.wav"
 import beep2 from "./Assests/audio/telephone.mp3"
+
+
 
 
 
@@ -50,6 +54,10 @@ const MainApp = () => {
     routsData = consumerRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
     routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'manager') {
+    routsData = managerRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'cashier') {
+    routsData = cashRoutesAndMenuItems.mainMenuItems
   }
   else {
     routsData = defaultRoutesAndMenuItems.mainMenuItems

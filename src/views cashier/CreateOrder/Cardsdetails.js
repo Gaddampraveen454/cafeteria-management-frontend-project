@@ -52,7 +52,7 @@ const Cardsdetails = ({ onClose }) => {
   console.log(currentUser.data.company_uuid, "currentUser")
 
   useEffect(() => {
-    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid))
 
     // currentUser.data.company_uuid
     // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
@@ -65,7 +65,7 @@ const Cardsdetails = ({ onClose }) => {
   }, [categoryForConsumer])
 
   useEffect(() => {
-    dispatch(StoreProductsList(currentUser.token, currentUser?.data?.uuid, search, ""))
+    dispatch(StoreProductsList(currentUser.token, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid, search, ""))
   }, [])
 
   const closeFunction = () => {

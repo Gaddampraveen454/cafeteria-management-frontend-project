@@ -215,10 +215,11 @@ const Order = () => {
     }
 
     const selectedCompany = (selectvalue) => {
-        console.log(option, "selectvalue")
+        console.log(selectvalue, "selectvalue")
         setComapanyOption(selectvalue?.value ? selectvalue?.value : '')
+        setOption1('')
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null || option === undefined ? "" : option, selectorderstatus1,startDate,endDate))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, "", selectorderstatus1,startDate,endDate))
     }
 
     const StoredropdownValues = [];
@@ -231,14 +232,14 @@ const Order = () => {
     }
 
 
-    const dropdownValues = [];
+    // const dropdownValues = [];
 
-    if (storeDropdown?.data?.length > 0) {
-        storeDropdown.data.map((text) => {
-            console.log(text, 'dvhgdvgbhfvbj')
-            return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
-        })
-    }
+    // if (storeDropdown?.data?.length > 0) {
+    //     storeDropdown.data.map((text) => {
+    //         console.log(text, 'dvhgdvgbhfvbj')
+    //         return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
+    //     })
+    // }
 
 
     const selectdropdown = (text) => {
@@ -389,7 +390,7 @@ const Order = () => {
                         classNamePrefix="select Store"
                         options={StoredropdownValues}
                         isClearable={isRemove}
-                        // value={categoryId}
+                        value={option1}
                         onChange={selectdropdown}
                         placeholder="Select Store"
                         styles={{

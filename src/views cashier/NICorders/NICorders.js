@@ -128,7 +128,7 @@ const NICorders = () => {
   const OrderStatusFunction = (value) => {
     console.log(value, "ghdsvcsgzvchj")
     setSelectOrderStatus(value)
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, value?.value, startDate, endDate))
+    dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , value?.value, startDate, endDate))
   }
 
   // useEffect(() => {
@@ -208,7 +208,7 @@ const NICorders = () => {
 
   console.log(currentUser, "dsfsdfsdfssfd")
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+    dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
 
@@ -218,32 +218,32 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(0, search, currentUser.token, pages,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }
   }
 
@@ -289,7 +289,7 @@ const NICorders = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+          dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
           // setOpen(false)
 
         }, 1000)
@@ -332,7 +332,7 @@ const NICorders = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, endDate))
+      dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, endDate))
     }, 10000);
 
 
@@ -342,13 +342,13 @@ const NICorders = () => {
   const ChangeStartData = (e) => {
     console.log(e.target.value, 'sdvhhjdfsgv')
     setStartDate(e.target.value);
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, e.target.value, endDate))
+    dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, e.target.value, endDate))
   }
 
   const ChangeEndData = (e) => {
     console.log(e.target.value, 'sdvhhjdffbgdsgv')
     setEndDate(e.target.value);
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectorderstatus?.value, startDate, e.target.value))
+    dispatch(OrderListURL(page, search, currentUser.token, limit,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectorderstatus?.value, startDate, e.target.value))
   }
 
 
@@ -393,7 +393,7 @@ const NICorders = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Dashboard</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}

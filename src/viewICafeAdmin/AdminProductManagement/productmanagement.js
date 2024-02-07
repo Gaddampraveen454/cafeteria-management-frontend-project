@@ -171,7 +171,7 @@ const productmanagement = () => {
     const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
     useEffect(() => {
-        dispatch(ActiveCompnyURL(currentUser.token))
+        // dispatch(ActiveCompnyURL(currentUser.token))
         dispatch(CategoryListURL(page, search, currentUser.token, limit, '', ''))
     }, [])
     useEffect(() => {
@@ -462,9 +462,9 @@ const productmanagement = () => {
     const [isClearable, setIsClearable] = useState(true);
     const [isRemove, setIsRemove] = useState(true);
 
-    const ClearFunction = () => {
-        setIsClearable((state) => !state)
-    }
+    // const ClearFunction = () => {
+    //     setIsClearable((state) => !state)
+    // }
 
 
     const selectedCompany = (selectvalue) => {
@@ -729,7 +729,7 @@ const productmanagement = () => {
                 {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
                 <Col>
                     <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
-                    <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                        <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
                         </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
@@ -772,10 +772,9 @@ const productmanagement = () => {
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
-
                             <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                                 <Row className="g-0 h-100 ">
-                                <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.uuid}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -787,7 +786,6 @@ const productmanagement = () => {
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.company_name}</div>
                                     </Col>
-
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.type}</div>
                                     </Col>

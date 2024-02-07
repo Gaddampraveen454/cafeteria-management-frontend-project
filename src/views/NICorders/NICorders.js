@@ -173,8 +173,8 @@ const NICorders = () => {
   const { OrderData, notification } = useSelector((state) => state.orderList)
   const { StoreList } = useSelector((state) => state.products)
   useEffect(() => {
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
-    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid,storeuuid, selectorderstatus?.value,startDate,endDate))
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
   }, [])
   console.log(OrderData, "dfgdgdgdfgd");
 
@@ -185,32 +185,32 @@ const NICorders = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+      dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
     }
   }
 
@@ -226,30 +226,30 @@ const NICorders = () => {
     console.log(event)
     setStoreUUID(event?.value)
     setStoreUUID1(event)
-    dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, selectorderstatus?.value,startDate,endDate))
+    dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, event?.value, selectorderstatus?.value,startDate,endDate))
   }
 
 
   const OrderStatusFunction = (value) => {
     console.log(value, "ghdsvcsgzvchj")
     setSelectOrderStatus(value)
-    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, value?.value,startDate,endDate))
+    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, value?.value,startDate,endDate))
   }
 
 
 
-  const eventHandler = (event, status) => {
-    console.log(event, status, "eventxzdsdcvvxcvv")
-    // if (event.is_delivered)
-    const payload = {
-      "order_uuid": event?.uuid,
-      "status": status
-    }
-    dispatch(CompanyOrderStatusUpdateURL(payload, currentUser.token))
-    setSuc(true)
+  // const eventHandler = (event, status) => {
+  //   console.log(event, status, "eventxzdsdcvvxcvv")
+  //   // if (event.is_delivered)
+  //   const payload = {
+  //     "order_uuid": event?.uuid,
+  //     "status": status
+  //   }
+  //   dispatch(CompanyOrderStatusUpdateURL(payload, currentUser.token))
+  //   setSuc(true)
 
 
-  };
+  // };
 
 
 
@@ -262,7 +262,7 @@ const NICorders = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
           // setOpen(false)
 
         }, 1000)
@@ -327,7 +327,7 @@ const NICorders = () => {
   
 useEffect(() => {
         const intervalId = setInterval(() => {
-          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
+          dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,endDate))
         }, 10000); 
 
     
@@ -337,13 +337,13 @@ useEffect(() => {
     const ChangeStartData = (e) => {
       console.log(e.target.value,'sdvhhjdfsgv')
       setStartDate(e.target.value);
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,e.target.value,endDate))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,e.target.value,endDate))
   }
 
   const ChangeEndData = (e) =>{
       console.log(e.target.value,'sdvhhjdffbgdsgv')
       setEndDate(e.target.value);
-      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,e.target.value))
+      dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, storeuuid, selectorderstatus?.value,startDate,e.target.value))
   }
 
   return (
@@ -633,7 +633,8 @@ useEffect(() => {
                   <Col xs='6' lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     {/* <div className="lh-1 text-alternate">{item.is_delivered === true ? "Delivered" : "Pending"}</div> */}
                     <div className="text-muted text-small d-md-none">Status</div>
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+                    <div className="lh-1 text-alternate">{item.order_status}</div>
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                       <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                         <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                           {item.order_status ? item.order_status : "Pending"}
@@ -647,9 +648,9 @@ useEffect(() => {
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Ready") }} >Ready</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Delivered") }} >Delivered</Dropdown.Item>
                         <Dropdown.Item onClick={(status) => { eventHandler(item, "Cancelled") }} >Cancelled</Dropdown.Item>
-                        {/* <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item> */}
+                        <Dropdown.Item onClick={()=>searchfunction("limit", 20)}>20 Items</Dropdown.Item>
                       </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                   </Col>
 
 

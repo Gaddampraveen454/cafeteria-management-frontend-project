@@ -57,6 +57,16 @@ const Login = () => {
           // /dashboard
           localStorage.setItem('token', currentUser)
         }
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "manager") {
+          history.push('/dashboard')
+          // /dashboard
+          localStorage.setItem('token', currentUser)
+        }
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier") {
+          history.push('/Storedashboard')
+          // /dashboard
+          localStorage.setItem('token', currentUser)
+        }
       }
       else if (notification.status === false) {
         toast.error(notification.message)

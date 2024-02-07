@@ -164,18 +164,18 @@ const iCafeAdminRoutesAndMenuItems = {
       // label: 'User Management',
       // icon: 'user',
     },
-    // {
-    //   path: `${appRoot}/roles_list`,
-    //   component: Roles,
-    //   label: 'Roles',
-    //   icon: 'shop',
-    // },
-    // {
-    //   path: `${appRoot}/add_roles`,
-    //   component: AddRoles,
-    //   // label: 'User Management',
-    //   // icon: 'user',
-    // },
+    {
+      path: `${appRoot}/roles_list`,
+      component: Roles,
+      label: 'Roles',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/add_roles`,
+      component: AddRoles,
+      // label: 'User Management',
+      // icon: 'user',
+    },
     {
       path: `${appRoot}/orders`,
       component: OrderList,

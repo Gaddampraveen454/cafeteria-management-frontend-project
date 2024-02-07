@@ -116,13 +116,13 @@ const report = () => {
   const ItemwiseHandlereportstore = (event) => {
     console.log(event?.value, "eventeventevent")
     setItemWiseStoreuuid(event?.value)
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value, itemwisestartDate, itemwiseendDate))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, event?.value, itemwisestartDate, itemwiseendDate))
   }
 
   const OrderwiseHandlereportstore = (event) => {
     console.log(event?.value, "eventeventevent")
     setOrderWiseStoreuuid(event?.value)
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, event?.value, orderwisestartDate, orderwiseendDate))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, event?.value, orderwisestartDate, orderwiseendDate))
   }
 
   // useEffect(() => {
@@ -134,9 +134,9 @@ const report = () => {
   // }, [])
 
   useEffect(() => {
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Itemwisestoreuuid, itemwisestartDate, itemwiseendDate))
-    dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
-    dispatch(UserDropdownList(currentUser?.token, currentUser?.data?.uuid))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, Itemwisestoreuuid, itemwisestartDate, itemwiseendDate))
+    dispatch(ProductStoreListURL(currentUser?.token, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
+    dispatch(UserDropdownList(currentUser?.token, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     // dispatch(ExportAdminReportURL(selectValueState && selectValueState.value, startDate, endDate, currentUser.token))
   }, [])
 
@@ -155,23 +155,23 @@ const report = () => {
   const ItemwiseChangeStartData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setItemWiseStartDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Itemwisestoreuuid, e.target.value, itemwiseendDate))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, Itemwisestoreuuid, e.target.value, itemwiseendDate))
   };
   const ItemwiseChangeEndData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setItemWiseEndDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Itemwisestoreuuid, itemwisestartDate, e.target.value))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, Itemwisestoreuuid, itemwisestartDate, e.target.value))
   };
 
   const OrderwiseChangeStartData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setOrderWiseStartDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Orderwisestoreuuid, e.target.value, orderwiseendDate))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, Orderwisestoreuuid, e.target.value, orderwiseendDate))
   };
   const OrderwiseChangeEndData = e => {
     console.log("ChangeStartData: ", e.target.value);
     setOrderWiseEndDate(e.target.value);
-    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, Orderwisestoreuuid, orderwisestartDate, e.target.value))
+    dispatch(AdminReportListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, Orderwisestoreuuid, orderwisestartDate, e.target.value))
   };
 
   const Itemwiseexportfunction = async () => {
@@ -226,7 +226,7 @@ const report = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Dashboard</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}

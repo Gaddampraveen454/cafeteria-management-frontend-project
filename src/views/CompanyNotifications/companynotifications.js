@@ -60,7 +60,7 @@ const CompanyNotifications = () => {
 
 
     useEffect(() => {
-        dispatch(CompanyNotificationsURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+        dispatch(CompanyNotificationsURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
     }, [])
 
 
@@ -70,32 +70,32 @@ const CompanyNotifications = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(CompanyNotificationsURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(0, pages, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(CompanyNotificationsURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(page - 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(CompanyNotificationsURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(CompanyNotificationsURL(page, search, currentUser.token, limit, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(CompanyNotificationsURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(CompanyNotificationsURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(page + 2, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(CompanyNotificationsURL(0, search, currentUser.token, pages, currentUser?.data?.uuid))
+            dispatch(CompanyNotificationsURL(0, search, currentUser.token, pages, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
     }
 

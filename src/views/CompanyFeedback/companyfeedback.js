@@ -49,12 +49,12 @@ const companyfeedback = () => {
 
     useEffect(() => {
         if (window.location.pathname === '/feedback') {
-            dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
-            dispatch(CompanyStoreDropDownList(currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyStoreDropDownList(currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
         else {
-            dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
-            dispatch(CompanyStoreDropDownList(currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyStoreDropDownList(currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
         }
     }, [])
 
@@ -74,32 +74,32 @@ const companyfeedback = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
     }
 
@@ -110,32 +110,32 @@ const companyfeedback = () => {
             console.log(pages1, "ghjkvbnm")
             setSearch1(pages1)
             setPage1(0)
-            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         if (type1 === "prev") {
             setPage1(page1 - 1)
-            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "next") {
             setPage1(page1 + 1)
-            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "page") {
             setPage1(page1)
-            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "page+1") {
             setPage1(page1 + 1)
-            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "page+2") {
             setPage1(page1 + 2)
-            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "limit") {
             setLimit1(pages1)
             setPage1(0)
-            dispatch(CompanyProductList(0, search1, currentUser.token, pages1, currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyProductList(0, search1, currentUser.token, pages1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
     }
 
@@ -205,18 +205,18 @@ const companyfeedback = () => {
 
     const selectdropdown = (text) => {
         setOption(text?.value)
-        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, text === null ? '' : text?.value, startDate, endDate))
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, text === null ? '' : text?.value, startDate, endDate))
     }
 
     const ChangeStartData = (e) => {
         console.log("ChangeStartData: ", e.target.value);
         setStartDate(e.target.value);
-        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, option, e.target.value, endDate))
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, e.target.value, endDate))
     };
     const ChangeEndData = (e) => {
         console.log("ChangeStartData: ", e.target.value);
         setEndDate(e.target.value);
-        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser?.data?.uuid, option, startDate, e.target.value))
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, e.target.value))
     };
 
 
@@ -228,11 +228,11 @@ const companyfeedback = () => {
 
     const hnadleProductStoredropdown = (text) => {
         setProductStoreDropdown(text?.value)
-        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser?.data?.uuid, text === null ? '' : text?.value))
+        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, text === null ? '' : text?.value))
     }
 
     const Feedbackexportfunction = async () => {
-        await ExportExcel(`/feedback/export?company_uuid=${currentUser?.data?.uuid}&store_uuid=${option}&start_date=${startDate}&end_date=${endDate}`, "CompanyFeedbackReports", currentUser.token)
+        await ExportExcel(`/feedback/export?company_uuid=${currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid}&store_uuid=${option}&start_date=${startDate}&end_date=${endDate}`, "CompanyFeedbackReports", currentUser.token)
     }
     return (
 

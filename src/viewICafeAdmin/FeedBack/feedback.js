@@ -31,11 +31,13 @@ const feedback = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [option, setOption] = useState('');
+    const [option1,setOption1]=useState('');
     console.log(option, 'hsbdvhgbfberu')
     const [comapanyOption, setComapanyOption] = useState('')
 
     const [productCompanyDropdown, setProductCompanyDropdown] = useState('')
     const [productStoreDropdown, setProductStoreDropdown] = useState('')
+    const [productStoreDropdown1, setProductStoreDropdown1] = useState('')
 
     const [modal, setModal] = useState(false);
     const [viewProduct, setViewProduct] = useState('');
@@ -193,8 +195,9 @@ const feedback = () => {
     const selectedCompany = (selectvalue) => {
         setComapanyOption(selectvalue?.value ? selectvalue?.value : "")
         setOption("")
+        setOption1('')
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
-        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, selectvalue === null ? '' : selectvalue?.value, option, startDate, endDate))
+        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, selectvalue === null ? '' : selectvalue?.value, '', startDate, endDate))
     }
 
     const StoreDropp = [];
@@ -211,7 +214,9 @@ const feedback = () => {
     // })
 
     const selectdropdown = (text) => {
+        console.log(text,'grfgrvger')
         setOption(text?.value ? text?.value : '')
+        setOption1(text)
         dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, text === null ? '' : text?.value, startDate, endDate))
     }
 
@@ -235,8 +240,9 @@ const feedback = () => {
     const handleProductCompanyDropdown = (selectvalue) => {
         setProductCompanyDropdown(selectvalue?.value ? selectvalue?.value : '')
         setProductStoreDropdown("")
+        setProductStoreDropdown1("")
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
-        dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1, selectvalue === null ? "" : selectvalue?.value, productStoreDropdown))
+        dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1, selectvalue === null ? "" : selectvalue?.value, ''))
     }
 
     const StoreDropdown = []
@@ -247,6 +253,7 @@ const feedback = () => {
 
     const hnadleProductStoredropdown = (text) => {
         setProductStoreDropdown(text?.value ? text?.value : '')
+        setProductStoreDropdown1(text)
         dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1, productCompanyDropdown, text === null ? "" : text?.value))
     }
 
@@ -323,7 +330,7 @@ const feedback = () => {
                                 classNamePrefix="select Store"
                                 options={StoreDropp}
                                 isClearable={isRemove}
-                                // value={categoryId}
+                                value={option1}
                                 onChange={selectdropdown}
                                 placeholder="Select Store"
                                 styles={{
@@ -642,7 +649,7 @@ const feedback = () => {
                                 classNamePrefix="select Store"
                                 options={StoreDropdown}
                                 isClearable={isRemove}
-                                // value={categoryId}
+                                value={productStoreDropdown1}
                                 onChange={hnadleProductStoredropdown}
                                 placeholder="Select Store"
                                 styles={{

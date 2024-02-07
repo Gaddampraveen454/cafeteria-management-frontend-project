@@ -57,7 +57,7 @@ const Storecategory = () => {
   // const { cashierData } = useSelector((state) => state.cashierList)
   const { categoryData, notification } = useSelector((state) => state.StorecategorySlice)
   useEffect(() => {
-    dispatch(StoreCategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+    dispatch(StoreCategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
   }, [])
 
 
@@ -87,7 +87,7 @@ const Storecategory = () => {
 
     const payload = {
       "company_uuid": currentUser?.data?.company_uuid,
-      "store_uuid": currentUser?.data?.uuid,
+      "store_uuid": currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ,
       "name": name,
       "sort_order": sortorder
     }
@@ -108,7 +108,7 @@ const Storecategory = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(StoreCategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+          dispatch(StoreCategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
           setOpen(false)
         }, 1000)
 
@@ -131,27 +131,27 @@ const Storecategory = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(StoreCategoryListURL(0, pages, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+      dispatch(StoreCategoryListURL(0, pages, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(StoreCategoryListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+      dispatch(StoreCategoryListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(StoreCategoryListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+      dispatch(StoreCategoryListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(StoreCategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+      dispatch(StoreCategoryListURL(page, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(StoreCategoryListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+      dispatch(StoreCategoryListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(StoreCategoryListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+      dispatch(StoreCategoryListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     }
     else if (type === "limit") {
       setLimit(pages)
@@ -180,7 +180,7 @@ const Storecategory = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Dashboard</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}

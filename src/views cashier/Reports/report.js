@@ -167,7 +167,7 @@ const report = () => {
 
   useEffect(() => {
     if (currentUser)
-      dispatch(CashierReportListURL(page, limit, search, currentUser?.data?.uuid, startDate, endDate, currentUser.token))
+      dispatch(CashierReportListURL(page, limit, search,  currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , startDate, endDate, currentUser.token))
     dispatch(UserDropdownList(currentUser.token, currentUser?.data?.company_uuid))
   }, [startDate, endDate])
 
@@ -182,7 +182,7 @@ const report = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Dashboard</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
