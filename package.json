@@ -98,7 +98,7 @@
     "start-js": " set PORT=3009 && react-scripts start --dev",
     "start-css": "sass --style=compressed --watch src/sass/styles.scss:public/css/styles.css",
     "start": "concurrently \"npm run start-js\" \"npm run start-css\"",
-    "build-js": "react-scripts build --prod",
+    "build-js": "node ./update-build.js && react-scripts build --prod",
     "build-css": "sass --style=compressed --no-source-map src/sass/styles.scss:public/css/styles.css",
     "build": "concurrently \"npm run build-css\" \"npm run build-js\"",
     "test": "react-scripts test",
@@ -153,5 +153,6 @@
     "lint-staged": "^11.0.0",
     "prettier": "2.3.1",
     "sass": "^1.42.1"
-  }
+  },
+  "buildDate": 1707472435332
 }

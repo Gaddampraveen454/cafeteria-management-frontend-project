@@ -502,8 +502,8 @@ const MainApp = () => {
 // function App() {
 //   return (
 //     <>
-//       {/* <ClearCacheComponent /> */}
-//       {/* <Footer /> */}
+//       <ClearCacheComponent />
+     
 //     </>
 //   );
 // }

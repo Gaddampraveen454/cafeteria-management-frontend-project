@@ -51,13 +51,13 @@ const role = () => {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [search, setSearch] = useState('')
-    const[group,setGroup]=useState('');
+    const [group, setGroup] = useState('');
 
     console.log(selectCompany, "sfsfsdfdsfsfds")
 
     useEffect(() => {
         dispatch(CompanyRoleListURL
-            (page, search, currentUser.token, limit,group))
+            (page, search, currentUser.token, limit, group))
     }, [])
 
     // useEffect(()=>{
@@ -164,7 +164,7 @@ const role = () => {
     const [consmerId, setConsumerId] = useState("")
     const [selectedCompany, setSelectedCompany] = useState();
     console.log(selectedCompany, "selectedCompany")
-    
+
     const [suc, setSuc] = useState(false);
 
 
@@ -218,7 +218,7 @@ const role = () => {
                 setSuc(false)
                 setTimeout(() => {
                     dispatch(CompanyRoleListURL
-                        (page, search, currentUser.token, limit,group))
+                        (page, search, currentUser.token, limit, group))
                     setOpenPopup(false)
                 }, 1000)
 
@@ -264,50 +264,50 @@ const role = () => {
             setSearch(pages)
             setPage(0)
             dispatch(CompanyRoleListURL
-                (0, pages, currentUser.token, limit,group))
+                (0, pages, currentUser.token, limit, group))
         }
         if (type === "prev") {
             setPage(page - 1)
             dispatch(CompanyRoleListURL
-                (page - 1, search, currentUser.token, limit,group))
+                (page - 1, search, currentUser.token, limit, group))
         }
         else if (type === "next") {
             setPage(page + 1)
             dispatch(CompanyRoleListURL
-                (page + 1, search, currentUser.token, limit,group))
+                (page + 1, search, currentUser.token, limit, group))
         }
         else if (type === "page") {
             setPage(page)
             dispatch(CompanyRoleListURL
-                (page, search, currentUser.token, limit,group))
+                (page, search, currentUser.token, limit, group))
         }
         else if (type === "page+1") {
             setPage(page + 1)
             dispatch(CompanyRoleListURL
-                (page + 1, search, currentUser.token, limit,group))
+                (page + 1, search, currentUser.token, limit, group))
         }
         else if (type === "page+2") {
             setPage(page + 2)
             dispatch(CompanyRoleListURL
-                (page + 2, search, currentUser.token, limit,group))
+                (page + 2, search, currentUser.token, limit, group))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(CompanyRoleListURL(0, search, currentUser.token, pages,group))
+            dispatch(CompanyRoleListURL(0, search, currentUser.token, pages, group))
         }
     }
 
     const RolesGroup = [
-        { label: "cashier", value: "cashier" },
-        { label: "manager", value: "manager" }
+        { label: "Cashier", value: "cashier" },
+        { label: "Manager", value: "manager" }
     ]
 
     const handleGroup = (selectValue) => {
-        console.log(selectValue,'vcghvehg')
+        console.log(selectValue, 'vcghvehg')
         setGroup(selectValue?.value)
-        dispatch(CompanyRoleListURL(page, search, currentUser.token, limit,selectValue === null ? "" : selectValue?.value))
-        
+        dispatch(CompanyRoleListURL(page, search, currentUser.token, limit, selectValue === null ? "" : selectValue?.value))
+
     }
 
 
@@ -578,7 +578,7 @@ const role = () => {
                                         <div className="lh-1 text-alternate">{item.uuid}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.group}</div>
+                                        <div className="lh-1 text-alternate">{item?.group?.charAt(0).toLowerCase() ? item?.group?.charAt(0).toUpperCase() + item?.group?.slice(1) : item?.group}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.added_by_group}</div>

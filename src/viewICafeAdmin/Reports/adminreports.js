@@ -54,7 +54,9 @@ const AdminReports = () => {
     const [orderComapnyOption, setOrderCompanyOption] = useState('');
     const [orderComapnyOption1, setOrderCompanyOption1] = useState('');
     const [orderOption, setOrderOption] = useState('');
+    const [orderOption1, setOrderOption1] = useState('');
     const [option, setOption] = useState('');
+    const [option1, setOption1] = useState('');
     const [selectuser, setSelectUser] = useState('');
     const [selectuser1, setSelectUser1] = useState('');
     const [selectType, setSelectType] = useState('');
@@ -122,13 +124,14 @@ const AdminReports = () => {
     //   );
     console.log(storeDropdownByCompanyId, 'sbdvhjsdvsdv')
 
-    useEffect(() => {
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
-    }, [])
+    // useEffect(() => {
+    //     dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
+    //     dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
+    // }, [])
 
-    useEffect(() => {
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
-    }, [])
+    // useEffect(() => {
+    //     dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
+    // }, [])
 
     // const searchfunction = (type, pages) => {
     //     if (type === "search") {
@@ -185,8 +188,9 @@ const AdminReports = () => {
         setComapanyOption(selectvalue?.value)
         setCompanyOption1(selectvalue)
         setOption("")
+        setOption1('');
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
-        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option, startDate, endDate))
+        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, '', startDate, endDate))
     }
 
     const StoreDropp = [];
@@ -204,7 +208,8 @@ const AdminReports = () => {
 
     const selectdropdown = (text) => {
         setOption(text?.value)
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
+        setOption1(text)
+        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
     }
 
 
@@ -221,6 +226,7 @@ const AdminReports = () => {
         setOrderCompanyOption(selectvalue?.value)
         setOrderCompanyOption1(selectvalue)
         setOrderOption("")
+        setOrderOption1('')
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
         dispatch(ICafeAdminUserDropdownList(currentUser?.token, selectvalue === null ? "" : selectvalue?.value))
     }
@@ -234,6 +240,7 @@ const AdminReports = () => {
 
     const selectOrderdropdown = (text) => {
         setOrderOption(text?.value)
+        setOrderOption1(text)
         dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, orderComapnyOption === undefined ? "" : orderComapnyOption, text === null ? "" : text?.value, orderStartDate, orderEndDate))
     }
 
@@ -360,7 +367,7 @@ const AdminReports = () => {
                         classNamePrefix="select company"
                         isClearable={isClearable}
                         // defaultValue={colourOptions[0]}
-                        value={companyOption1}
+                        // value={companyOption1}
                         onChange={selectedCompany}
                         name="color"
                         border="none"
@@ -381,7 +388,7 @@ const AdminReports = () => {
                         classNamePrefix="select Store"
                         options={StoreDropp}
                         isClearable={isRemove}
-                        // value={categoryId}
+                        value={option1}
                         onChange={selectdropdown}
                         placeholder="Select Store"
                         styles={{
@@ -510,7 +517,7 @@ const AdminReports = () => {
                         classNamePrefix="select Store"
                         options={orderDropdownValues}
                         isClearable={isRemove}
-                        // value={categoryId}
+                        value={orderOption1}
                         onChange={selectOrderdropdown}
                         placeholder="Select Store"
                         styles={{

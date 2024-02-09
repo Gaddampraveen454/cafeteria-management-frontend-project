@@ -240,7 +240,7 @@ const companyfeedback = () => {
             <div className="page-title-container">
                 <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/dashboard">
                     <CsLineIcons icon="chevron-left" size="20" />
-                    <span className="align-middle text-medium ms-1">Back</span>
+                    <span className="align-middle text-medium ms-1">Dashboard</span>
                 </NavLink>
                 <h1 className="mb-0 pb-0 display-4" id="title">
                     {title}

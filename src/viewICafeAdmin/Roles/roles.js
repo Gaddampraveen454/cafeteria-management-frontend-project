@@ -264,8 +264,8 @@ const Roles = () => {
 
 
     const RolesGroup = [
-        { label: "cashier", value: "cashier" },
-        { label: "manager", value: "manager" }
+        { label: "Cashier", value: "cashier" },
+        { label: "Manager", value: "manager" }
     ]
 
     const handleGroup = (selectValue) => {
@@ -510,7 +510,7 @@ const Roles = () => {
                                             <div className="lh-1 text-alternate">{item.email}</div>
                                         </Col>
                                         <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
-                                            <div className="lh-1 text-alternate">{item.group}</div>
+                                            <div className="lh-1 text-alternate">{item.group?.charAt(0).toLowerCase() ? item?.group?.charAt(0).toUpperCase() + item?.group.slice(1) : item?.group}</div>
                                         </Col>
                                         <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                                             <div className="lh-1 text-alternate"> {item.uuid}</div>
