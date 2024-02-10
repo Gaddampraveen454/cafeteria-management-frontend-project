@@ -6,12 +6,14 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import moment from "moment";
 import axios from 'axios'
+import './datepicker.css'
 import { AdminOrderListURL } from "Redux/IcafeAdminRedux/Orders/orderredux";
 import { AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-date-picker/dist/DatePicker.css';
 import {
     Dialog,
     DialogActions,
@@ -23,6 +25,7 @@ import {
 import QrReader from "react-web-qr-reader";
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import DatePicker from 'react-date-picker';
 
 
 const Order = () => {
@@ -116,7 +119,7 @@ const Order = () => {
         console.log(value, "ghdsvcsgzvchj")
         setSelectOrderStatus(value)
         setSelectOrderStatus1(value?.value)
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, value?.value,startDate,endDate));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, value === null ? "" : value?.value, startDate, endDate));
     }
 
 
@@ -159,7 +162,7 @@ const Order = () => {
         }
     }, [result1])
     useEffect(() => {
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate));
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -167,32 +170,32 @@ const Order = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(AdminOrderListURL(0, pages, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(0, pages, currentUser.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(AdminOrderListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(AdminOrderListURL(page, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(page, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(AdminOrderListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(AdminOrderListURL(0, search, currentUser.token, pages, comapanyOption, option, selectorderstatus1,startDate,endDate))
+            dispatch(AdminOrderListURL(0, search, currentUser.token, pages, comapanyOption, option, selectorderstatus1, startDate, endDate))
         }
     }
 
@@ -219,7 +222,7 @@ const Order = () => {
         setComapanyOption(selectvalue?.value ? selectvalue?.value : '')
         setOption1('')
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, "", selectorderstatus1,startDate,endDate))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, "", selectorderstatus1, startDate, endDate))
     }
 
     const StoredropdownValues = [];
@@ -245,7 +248,7 @@ const Order = () => {
     const selectdropdown = (text) => {
         setOption(text?.value ? text?.value : '')
         setOption1(text)
-        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value, selectorderstatus1,startDate,endDate))
+        dispatch(AdminOrderListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? '' : text?.value, selectorderstatus1, startDate, endDate))
     }
 
     const viewEventHandler = (event) => {
@@ -267,20 +270,44 @@ const Order = () => {
     //   }, 20000)
 
     const handleRefresh = () => {
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, '', '', '','',''));
+        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, '', '', '', '', ''));
     }
 
     const ChangeStartData = (e) => {
-        console.log(e.target.value,'sdvhhjdfsgv')
-        setStartDate(e.target.value);
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1,e.target.value,endDate));
+        if (e) {
+            const formattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedDate, 'sdvhhjdfsgv');
+            
+            setStartDate(formattedDate);
+            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1, formattedDate, endDate));
+          } else {
+            // Handle the case where the date is deselected or invalid
+            setStartDate('');
+            // You might want to dispatch with a default or null value for the start date
+            // depending on your API requirements.
+            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1, '', endDate));
+          }
     }
 
-    const ChangeEndData = (e) =>{
-        console.log(e.target.value,'sdvhhjdffbgdsgv')
-        setEndDate(e.target.value);
-        dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1,startDate,e.target.value));
+    const ChangeEndData = (e) => {
+        if (e) {
+            const formattedEndDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedEndDate, 'sdvhhjdfsghhghhgv');
+            
+            setEndDate(formattedEndDate);
+            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1, startDate, formattedEndDate));
+          } else {
+            // Handle the case where the date is deselected or invalid
+            setEndDate('');
+            // You might want to dispatch with a default or null value for the start date
+            // depending on your API requirements.
+            dispatch(AdminOrderListURL(page, search, currentUser?.token, limit, comapanyOption, option, selectorderstatus1, startDate, ''));
+          }
     }
+    // const clearDate = () => {
+    //     // Clear the date by resetting the state
+    //     setStartDate('');
+    // };
 
     // useEffect(() => {
     //         const intervalId = setInterval(() => {
@@ -402,20 +429,28 @@ const Order = () => {
                     // disabled={eventType}
                     />
                 </Col>
-                <Col md="2" lg="2" xxl="2" className="mb-1 mt-1" >
-                    {/* <div className="mb-3"> */}
+                <Col md="2" lg="2" xxl="2" className="mb-1 mt-1">
                     <Form.Label>Start date</Form.Label>
-                    <Form.Control  type="date" onChange={ChangeStartData} placeholder="Start date" />
+                    <DatePicker
+                        value={startDate}
+                        onChange={ChangeStartData}
+                        placeholder="Start Date"
+                    />
                 </Col>
                 <Col md="2" lg="2" xxl="2" className="mb-1 mt-1" >
                     <Form.Label>End date</Form.Label>
-                    <Form.Control   type="date" onChange={ChangeEndData} placeholder="End date" />
-                    
+                    <DatePicker
+                        value={endDate}
+                        onChange={ChangeEndData}
+                        placeholder="End Date"
+                    />
+
                 </Col>
                 <Col md="2" lg="2" className='mb-1 mt-5'>
                     <Select
                         classNamePrefix="react-select"
                         options={OrderStatus}
+                        isClearable={isRemove}
                         value={selectorderstatus}
                         onChange={OrderStatusFunction}
                         placeholder="Order Status" />

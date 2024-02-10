@@ -56,6 +56,7 @@
     "react-click-away-listener": "^2.2.2",
     "react-contexify": "^5.0.0",
     "react-countdown": "^2.3.2",
+    "react-date-picker": "^10.6.0",
     "react-datepicker": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-dropzone-uploader": "^2.11.0",
@@ -154,5 +155,5 @@
     "prettier": "2.3.1",
     "sass": "^1.42.1"
   },
-  "buildDate": 1707472435332
+  "buildDate": 1707477666962
 }

@@ -92,7 +92,6 @@ const MainApp = () => {
       onMessageListener()
         .then((message) => {
           toast.success(message.notification.title, message.notification.body)
-
         })
         .catch((err) => {
           toast.error(JSON.stringify(err))
@@ -347,7 +346,7 @@ const MainApp = () => {
     return (
       <>
         <Layout>
-          <RouteIdentifier routes={routes} fallback={<Loading />} />
+        <RouteIdentifier routes={routes} fallback={<Loading />} />
         </Layout>
         <Modal
           show={show}
@@ -503,7 +502,6 @@ const MainApp = () => {
 //   return (
 //     <>
 //       <ClearCacheComponent />
-     
 //     </>
 //   );
 // }

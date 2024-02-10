@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ICafeAdminProductList, ICafeAdminProductNameURL, ICafeAdminProductViewURL, ICafeFeedbackListURL } from 'Redux/IcafeAdminRedux/Feedbackredux/feedbackdux';
 import Rating from 'react-rating-stars-component';
 import { ExportExcel } from 'Export';
+import DatePicker from 'react-date-picker';
+import '../Order/datepicker.css'
+import moment from 'moment';
+import 'react-date-picker/dist/DatePicker.css';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownList, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
@@ -31,7 +35,7 @@ const feedback = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [option, setOption] = useState('');
-    const [option1,setOption1]=useState('');
+    const [option1, setOption1] = useState('');
     console.log(option, 'hsbdvhgbfberu')
     const [comapanyOption, setComapanyOption] = useState('')
 
@@ -214,21 +218,38 @@ const feedback = () => {
     // })
 
     const selectdropdown = (text) => {
-        console.log(text,'grfgrvger')
+        console.log(text, 'grfgrvger')
         setOption(text?.value ? text?.value : '')
         setOption1(text)
         dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, text === null ? '' : text?.value, startDate, endDate))
     }
 
     const ChangeStartData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setStartDate(e.target.value);
-        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, e.target.value, endDate))
+        if (e) {
+            const formattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedDate, 'sdvhhjdfsgvghg');
+
+            setStartDate(formattedDate);
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, formattedDate, endDate))
+        }
+        else {
+            setStartDate('');
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, '', endDate))
+        }
     };
     const ChangeEndData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setEndDate(e.target.value);
-        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, e.target.value))
+
+        if (e) {
+            const formattedEndDate = moment(e).format('MM-DD-YYYY');
+            console.log(formattedEndDate, 'zvdchgsdv')
+
+            setEndDate(formattedEndDate);
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, formattedEndDate))
+        }
+        else {
+            setEndDate('');
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, ''))
+        }
     };
 
     const ProductCompanyDropdown = []
@@ -345,16 +366,16 @@ const feedback = () => {
                         <Col md="2" lg="2" xxl="2" className="mb-1" >
                             {/* <div className="mb-3"> */}
                             <Form.Label>Start date</Form.Label>
-                            <Form.Control type="date" onChange={ChangeStartData} placeholder="Start date" />
+                            <DatePicker value={startDate} onChange={ChangeStartData} placeholder="Start date" />
                         </Col>
                         <Col md="2" lg="2" xxl="2" className="mb-1" >
                             <Form.Label>End date</Form.Label>
-                            <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
+                            <DatePicker value={endDate} onChange={ChangeEndData} placeholder="End date" />
                             {/* </div> */}
                         </Col>
                         <Col xs="1" md="1" className='mt-4' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "10px" }} >
-                    {/* Export Dropdown Start */}
-                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                            {/* Export Dropdown Start */}
+                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
@@ -366,14 +387,14 @@ const feedback = () => {
                             <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    
-                    <Button onClick={exportfunction}>
-                        Export
-                    </Button>
-                    {/* Export Dropdown End */}
 
-                    {/* Length Start */}
-                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                            <Button onClick={exportfunction}>
+                                Export
+                            </Button>
+                            {/* Export Dropdown End */}
+
+                            {/* Length Start */}
+                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
                                 {limit} Items
@@ -385,9 +406,9 @@ const feedback = () => {
                             <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    {/* Length End */}
+                            {/* Length End */}
 
-                </Col>
+                        </Col>
                         <Col lg="1" className="mb-1 text-end mt-5">
 
 

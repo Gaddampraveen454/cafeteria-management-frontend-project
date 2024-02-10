@@ -60,7 +60,7 @@ function withClearCache(Component) {
     }, []);
 
     return (
-      <Layout >
+      <Layout>
         {isLatestBuildDate ? <Component {...props} /> : null}
       </Layout>
     );

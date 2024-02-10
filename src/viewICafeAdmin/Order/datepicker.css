@@ -1,0 +1,8 @@
+.react-date-picker__wrapper{
+   border-radius: 10px !important;
+   height: 35px !important;
+   -webkit-border-radius: 10px !important;
+   -moz-border-radius: 10px !important;
+   -ms-border-radius: 10px !important;
+   -o-border-radius: 10px !important;
+}

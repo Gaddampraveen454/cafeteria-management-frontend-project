@@ -7,12 +7,15 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
-import DatePicker from 'react-datepicker';
+import DatePicker from 'react-date-picker';
+import '../Order/datepicker.css'
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
+import 'react-date-picker/dist/DatePicker.css';
 import { ExportExcel } from 'Export';
 import { ICafeAdminReportListURL, ICafeAdminUserDropdownList } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, ICafeAdminCategoryStoreDropDownList } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
+import moment from 'moment';
 
 const AdminReports = () => {
     const dispatch = useDispatch()
@@ -70,13 +73,13 @@ const AdminReports = () => {
     const { AdminReportData, notification, userDrop } = useSelector((state) => state.admindashbord)
     console.log(userDrop, 'dbsvhhvhvdsghvgh');
 
-    useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        setStartDate(today);
-        setEndDate(today);
-        setOrderStartDate(today);
-        setOrderEndDate(today);
-    }, []);
+    // useEffect(() => {
+    //     const today = new Date().toISOString().split('T')[0];
+    //     setStartDate(today);
+    //     setEndDate(today);
+    //     setOrderStartDate(today);
+    //     setOrderEndDate(today);
+    // }, []);
 
     // useEffect(() => {
     //   dispatch(AdminReportListURL(currentUser.token))
@@ -97,25 +100,57 @@ const AdminReports = () => {
 
 
     const ChangeStartData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setStartDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, e?.target?.value, endDate));
+        if (e) {
+            const formattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedDate, 'sdvhhjdfsgv');
+
+            setStartDate(formattedDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, formattedDate, endDate));
+        }
+        else {
+            setStartDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, '', endDate));
+        }
     };
     const ChangeEndData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setEndDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, e?.target?.value));
+        if (e) {
+            const formattedEndDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedEndDate, 'sdvhhjdfsgv');
+
+            setEndDate(formattedEndDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, formattedEndDate));
+        }
+        else {
+            setEndDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, ''));
+        }
     };
 
     const OrderStartData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setOrderStartDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, e?.target?.value, orderEndDate));
+        if (e) {
+            const orderFormattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(orderFormattedDate, 'sdvhhjdfsgv');
+
+            setOrderStartDate(orderFormattedDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderFormattedDate, orderEndDate));
+        }
+        else {
+            setOrderStartDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, '', orderEndDate));
+        }
     };
     const OrderEndData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setOrderEndDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, e?.target?.value));
+        if (e) {
+            const orderFormattedEndDate = moment(e).format("MM-DD-YYYY");
+            console.log(orderFormattedEndDate, 'sdvhhjdfsgv');
+
+            setOrderEndDate(orderFormattedEndDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, orderFormattedEndDate));
+        }
+        else {
+            setOrderEndDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, ''));
+        }
     };
 
     const { AdmincategoryDropdown, storeDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
@@ -403,11 +438,11 @@ const AdminReports = () => {
                 <Col md="2" lg="2" xxl="2" className="mb-1" >
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
-                    <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
+                    <DatePicker value={startDate} onChange={ChangeStartData} placeholder="Start date" />
                 </Col>
                 <Col md="2" lg="2" xxl="2" className="mb-1" >
                     <Form.Label>End date</Form.Label>
-                    <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
+                    <DatePicker value={endDate} onChange={ChangeEndData} placeholder="End date" />
                     {/* </div> */}
                 </Col>
                 {/* <Col lg="3" className="mb-1 text-end"> */}
@@ -437,7 +472,7 @@ const AdminReports = () => {
                             <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    
+
                     <Button onClick={exportfunction}>
                         Download
                     </Button>
@@ -542,11 +577,11 @@ const AdminReports = () => {
                 <Col md="2" lg="2" className="mb-1" >
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
-                    <Form.Control type="date" value={orderStartDate} onChange={OrderStartData} placeholder="Start date" />
+                    <DatePicker value={orderStartDate} onChange={OrderStartData} placeholder="Start date" />
                 </Col>
                 <Col md="2" lg="2" className="mb-1" >
                     <Form.Label>End date</Form.Label>
-                    <Form.Control type="date" value={orderEndDate} onChange={OrderEndData} placeholder="End date" />
+                    <DatePicker value={orderEndDate} onChange={OrderEndData} placeholder="End date" />
                     {/* </div> */}
                 </Col>
                 <Col md="2" lg="2" className="mb-1">
