@@ -7,7 +7,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import Select from 'react-select';
 import CheckAll from 'components/check-all/CheckAll';
-import { ICafeAdminCompnayUpdateURL, ICafeAdminCompanyStatusUpdateURL } from "Redux/IcafeAdminRedux/CompanyManagement/companymanagement";
+import { ICafeAdminCompnayUpdateURL } from "Redux/IcafeAdminRedux/CompanyManagement/companymanagement";
 import {
     Dialog,
     DialogActions,
@@ -19,7 +19,7 @@ import {
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QRCode from "react-qr-code";
-import { RolesListURL } from 'Redux/IcafeAdminRedux/AdminRoles/rolesredux';
+import { ICafeRoleCompanyStatusUpdateURL, RoleUpdateURL, RolesListURL } from 'Redux/IcafeAdminRedux/AdminRoles/rolesredux';
 
 const Roles = () => {
     const title = 'Roles List';
@@ -33,7 +33,9 @@ const Roles = () => {
     const [companyName, setComapnayName] = useState("")
     const [walletamount, setwalletamount] = useState("")
     const [email, setEmail] = useState("")
+    const [name, setName] = useState('');
     const [mobile, setMobile] = useState("")
+    const [id, setId] = useState('');
     const [location, setLocation] = useState("")
     const [address, setAddress] = useState("")
     const [gstin, setGstin] = useState('')
@@ -52,7 +54,7 @@ const Roles = () => {
     const [UploadedFile, setUploadedFile] = useState('')
     const [image, setImage] = useState(null);
     const [image1, setImage1] = useState();
-    const[group,setGroup]=useState('');
+    const [group, setGroup] = useState('');
 
     console.log(image, "image45634rthyft")
     // console.log(page,limit,search,"sdsasfasasdasd")
@@ -91,24 +93,16 @@ const Roles = () => {
 
     console.log(companyData, "currentUsersdffscurrentUser")
 
-    
+
 
     const eventHandler = (event) => {
         setOpen(true)
 
         console.log(event, "eventxcvvxcvv5667")
-        setComapnayName(event.company_name)
-        setwalletamount(event.wallet_amount)
+        setName(event.name)
         setEmail(event.email)
         setMobile(event.mobile)
-        setLocation(event.location)
-        setAddress(event.address)
-        setGstin(event.gstin)
-        setFssai(event.fssai_no)
-        setCompnayId(event.uuid)
-        setimageUrl(event?.logo)
-        setAutoAccept(event.auto_accept)
-
+        setId(event.uuid)
 
     };
 
@@ -181,49 +175,24 @@ const Roles = () => {
     const update = (event) => {
         event.preventDefault()
         const value = event.target.elements
+        console.log(event, 'sdjbvhjds')
 
-        if (UploadedFile) {
-            const payload = {
-                "company_name": companyName,
-                "email": email,
-                "mobile": mobile,
-                "wallet_amount": walletamount,
-                "location": location,
-                "address": address,
-                "gstin": gstin,
-                "fssai_no": fssai,
-                "logo": UploadedFile,
-                "auto_accept": selectautoaccpet?.value
-
-            }
-            dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
-            setSuc(true)
+        const payload = {
+            "name": name,
+            "mobile": mobile,
+            "email": email
 
 
         }
-        else {
+        dispatch(RoleUpdateURL(id, payload, currentUser.token))
+        setSuc(true)
 
-            const payload = {
-                "company_name": companyName,
-                "email": email,
-                "mobile": mobile,
-                "wallet_amount": walletamount,
-                "location": location,
-                "address": address,
-                "gstin": gstin,
-                "fssai_no": fssai,
-                "auto_accept": selectautoaccpet?.value
-                // "logo":UploadedFile
-
-            }
-            dispatch(ICafeAdminCompnayUpdateURL(compnayId, payload, currentUser.token))
-            setSuc(true)
-        }
     }
 
 
+
     useEffect(() => {
-        dispatch(RolesListURL(page, search, currentUser.token, limit,group))
+        dispatch(RolesListURL(page, search, currentUser.token, limit, group))
     }, [])
 
 
@@ -233,32 +202,32 @@ const Roles = () => {
             console.log(pages, type, "ghjkfgdfgssdvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(RolesListURL(0, pages, currentUser.token, limit,group))
+            dispatch(RolesListURL(0, pages, currentUser.token, limit, group))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(RolesListURL(page - 1, search, currentUser.token, limit,group))
+            dispatch(RolesListURL(page - 1, search, currentUser.token, limit, group))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(RolesListURL(page + 1, search, currentUser.token, limit,group))
+            dispatch(RolesListURL(page + 1, search, currentUser.token, limit, group))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(RolesListURL(page, search, currentUser.token, limit,group))
+            dispatch(RolesListURL(page, search, currentUser.token, limit, group))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(RolesListURL(page + 1, search, currentUser.token, limit,group))
+            dispatch(RolesListURL(page + 1, search, currentUser.token, limit, group))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(RolesListURL(page + 2, search, currentUser.token, limit,group))
+            dispatch(RolesListURL(page + 2, search, currentUser.token, limit, group))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(RolesListURL(0, search, currentUser.token, pages,group))
+            dispatch(RolesListURL(0, search, currentUser.token, pages, group))
         }
     }
 
@@ -269,10 +238,10 @@ const Roles = () => {
     ]
 
     const handleGroup = (selectValue) => {
-        console.log(selectValue,'vcghvehg')
+        console.log(selectValue, 'vcghvehg')
         setGroup(selectValue?.value)
-        dispatch(RolesListURL(page, search, currentUser.token, limit,selectValue === null ? "" : selectValue?.value))
-        
+        dispatch(RolesListURL(page, search, currentUser.token, limit, selectValue === null ? "" : selectValue?.value))
+
     }
 
 
@@ -284,7 +253,7 @@ const Roles = () => {
             // "uuid": event.uuid,
             "status": !event.is_active
         }
-        dispatch(ICafeAdminCompanyStatusUpdateURL(payload, currentUser?.token, event.uuid))
+        dispatch(ICafeRoleCompanyStatusUpdateURL(payload, currentUser?.token, event.uuid))
         setSuc(true)
 
     };
@@ -321,7 +290,7 @@ const Roles = () => {
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(RolesListURL(page, search, currentUser.token, limit,group))
+                    dispatch(RolesListURL(page, search, currentUser.token, limit, group))
                     setOpen(false)
                     setTimeout(() => {
                         setImage(null)
@@ -456,7 +425,7 @@ const Roles = () => {
                             <div className="text-muted text-medium cursor-pointer sort"></div>
                         </Col> */}
 
-                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer ">Contact No</div>
                         </Col>
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
@@ -473,6 +442,9 @@ const Roles = () => {
                         </Col>
                         <Col xs="1" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer ">Added By</div>
+                        </Col>
+                        <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium cursor-pointer sort">Action</div>
                         </Col>
                         {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Action</div>
@@ -503,7 +475,7 @@ const Roles = () => {
                                         {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                             <div className="lh-1 text-alternate">{item.location}</div>
                                         </Col> */}
-                                        <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                             <div className="lh-1 text-alternate">{item.mobile}</div>
                                         </Col>
                                         <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -520,6 +492,49 @@ const Roles = () => {
                                         </Col>
                                         <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                                             <div className="lh-1 text-alternate">{item.added_by_group}</div>
+                                        </Col>
+                                        <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                                            <div className="lh-1 text-alternate">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={item.is_active}
+                                                                onClick={() => { HandleCompanyStatus(item) }}
+
+                                                            />
+                                                        </td>
+                                                        {/* <td>
+                                                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                                                onClick={() => { eventHandler(item); setEventType(true) }}
+                                                            >
+                                                                <CsLineIcons icon="eye" />
+                                                            </Button>
+                                                        </td> */}
+                                                        <td>
+                                                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
+                                                                <CsLineIcons icon="edit-square" />
+                                                            </Button>
+                                                        </td>
+                                                        {/* <td>
+                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
+                 <CsLineIcons icon="check" />
+                 </Button>
+                  </td>
+                  <td>
+                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
+                 <CsLineIcons icon="close" />
+                 </Button>
+                  </td> */}
+                                                        {/* <td>
+                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
+                 <CsLineIcons icon="bin" />
+                 </Button>
+                  </td> */}
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </Col>
                                         {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                                             <div className="lh-1 text-alternate">
@@ -561,7 +576,7 @@ const Roles = () => {
                                                                 <CsLineIcons icon="edit-square" />
                                                             </Button>
                                                         </td> */}
-                                                        {/* <td>
+                                        {/* <td>
                   <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
                  <CsLineIcons icon="check" />
                  </Button>
@@ -571,12 +586,12 @@ const Roles = () => {
                  <CsLineIcons icon="close" />
                  </Button>
                   </td> */}
-                                                        {/* <td>
+                                        {/* <td>
                   <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
                  <CsLineIcons icon="bin" />
                  </Button>
                   </td> */}
-                                                    {/* </tr>
+                                        {/* </tr>
                                                 </table>
                                             </div>
                                         </Col> */}
@@ -643,16 +658,16 @@ const Roles = () => {
                         >
                             <Row className="g-3">
                                 <Col lg="6">
-                                    <Form.Label>Company Name</Form.Label>
-                                    <Form.Control type="text" value={companyName} onChange={(e) => { setComapnayName(e.target.value) }} disabled={eventType} />
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control type="text" value={name} onChange={(e) => { setName(e.target.value) }} disabled={eventType} />
                                     {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
                                 </Col>
-                                <Col lg="6">
+                                {/* <Col lg="6">
                                     <Form.Label>Wallet Amount</Form.Label>
                                     <Form.Control type="text" value={walletamount} onChange={(e) => { setwalletamount(e.target.value) }} disabled={eventType} />
-                                </Col>
+                                </Col> */}
                                 <Col lg="6">
-                                    <Form.Label>Contact No</Form.Label>
+                                    <Form.Label>Mobile</Form.Label>
                                     <Form.Control type="text" value={mobile} maxLength={10} minLength={10} onKeyPress={(e) => {
 
                                         const regex = /^[0-9\b]+$/;
@@ -665,17 +680,17 @@ const Roles = () => {
 
                                     }} onChange={(e) => { setMobile(e.target.value) }} disabled={eventType} />
                                 </Col>
-                                <Col lg="6">
+                                <Col lg="12">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control type="email" value={email} onChange={(e) => { setEmail(e.target.value) }} disabled={eventType} />
                                 </Col>
-                                <Col lg="6">
+                                {/* <Col lg="6">
                                     <Form.Label>Location</Form.Label>
                                     <Form.Control as="textarea" rows={2} value={location} onChange={(e) => { setLocation(e.target.value) }} disabled={eventType} />
-                                </Col>
+                                </Col> */}
 
 
-                                <Col lg="6">
+                                {/* <Col lg="6">
                                     <Form.Label>Address</Form.Label>
                                     <Form.Control as="textarea" rows={2} value={address} onChange={(e) => { setAddress(e.target.value) }} disabled={eventType} />
                                 </Col>
@@ -685,9 +700,9 @@ const Roles = () => {
                                 </Col>
                                 <Col lg="6">
                                     <Form.Label>GSTIN</Form.Label>
-                                    <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} />
-                                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                                </Col>
+                                    <Form.Control type="text" value={gstin} onChange={(e) => { setGstin(e.target.value) }} disabled={eventType} /> */}
+                                {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                                {/* </Col>
                                 <Col lg="6">
                                     <Form.Label>FSSAI NO</Form.Label>
                                     <Form.Control type="text" value={fssai} onChange={(e) => { setFssai(e.target.value) }} disabled={eventType}
@@ -696,9 +711,9 @@ const Roles = () => {
                                             if (!regex.test(e.key)) {
                                                 e.preventDefault();
                                             }
-                                        }} />
-                                    {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                                </Col>
+                                        }} /> */}
+                                {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
+                                {/* </Col>
                                 <Col lg="12">
                                     <h6>Logo</h6>
                                     {image ? null
@@ -707,7 +722,7 @@ const Roles = () => {
                                         <img src={imageUrl} alt="company image" crossOrigin="anonymous" style={{ width: "200px", height: "200px" }} />
                                     }
 
-                                </Col>
+                                </Col> */}
                                 {/* <Col lg="12">
                     <Col lg="3">
                     <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" type="submit">
@@ -717,7 +732,7 @@ const Roles = () => {
                   </Col> */}
 
 
-                                {eventType ?
+                                {/* {eventType ?
                                     null
                                     :
                                     <Col lg="12">
@@ -726,15 +741,15 @@ const Roles = () => {
                                                 <div >
                                                     <img src={URL.createObjectURL(image)} alt="Preview" style={{ width: "200px", height: "200px" }} crossOrigin='anonymous' />
                                                 </div>
-                                            )}
-                                            {/* <input type="file" onChange={handleImageChange} /> */}
-                                            <Form.Control type="file" onChange={handleImageChange} />
+                                            )} */}
+                                {/* <input type="file" onChange={handleImageChange} /> */}
+                                {/* <Form.Control type="file" onChange={handleImageChange} />
 
                                         </div>
                                     </Col>
 
 
-                                }
+                                } */}
 
 
                                 <Col lg="6">

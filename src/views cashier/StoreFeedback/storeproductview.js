@@ -129,13 +129,13 @@ const storeproductview = () => {
     };
 
     const renderStars = (rating) => {
-        console.log(rating,'fdbvhgvf')
+        console.log(rating, 'fdbvhgvf')
         const stars = [];
 
         for (let i = 0; i < 5; i += 1) {
             stars.push(
                 // <CsLineIcons icon="star" size="20" fill={i < Number(rating) ? 'gold' : ''} />
-                <FontAwesomeIcon icon={faStar}  color={i < Number(rating) ? 'gold' : ''} style={{size:"25"}} />
+                <FontAwesomeIcon icon={faStar} color={i < Number(rating) ? 'gold' : ''} style={{ size: "25" }} />
             );
         }
 
@@ -242,17 +242,20 @@ const storeproductview = () => {
                 <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-small cursor-pointer ">Name</div>
                 </Col>
-                <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
+                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Rating</div>
                 </Col>
-                <Col md="7" className="d-flex flex-column pe-1 justify-content-center">
+                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">Order Id</div>
+                </Col>
+                <Col md="6" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Review</div>
                 </Col>
 
             </Row>
             {
                 productreviewdata?.data?.length > 0 && productreviewdata?.data?.map((text, index) => {
-                    console.log(text?.rating, 'bsdkkhbhf')
+                    console.log(text, 'bsdkkhbhfsssssdd')
                     return (
                         <Card className="mb-2" key={index}>
                             <Card.Body className="pt-0 pb-0 sh-40 sh-md-8">
@@ -262,12 +265,15 @@ const storeproductview = () => {
                                         {/* <NavLink to="/orders/detail" className="text-truncate h-100 d-flex align-items-center"> */}
                                         <div className="text-alternate">{text?.users[0]?.name}</div>
                                     </Col>
-
-                                    <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                         <div className="text-muted text-small d-md-none">Rating</div>
                                         <div>{renderStars(text.rating)}</div>
                                     </Col>
-                                    <Col xs="6" md="7" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                        <div className="text-muted text-small d-md-none">Order Id</div>
+                                        <div>{text.order_uuid}</div>
+                                    </Col>
+                                    <Col xs="6" md="6" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                         <div className="text-muted text-small d-md-none">Review</div>
                                         <div className="text-alternate">{text?.reviews?.length > 0 ? text?.reviews[0]?.review : "No Review Available"}</div>
                                     </Col>
@@ -293,7 +299,6 @@ const storeproductview = () => {
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
-
                     }
                     <Pagination.Next className="shadow" disabled={Math.ceil(productreviewdata && productreviewdata.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                         <CsLineIcons icon="chevron-right" />

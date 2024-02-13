@@ -86,40 +86,42 @@ export const RolesAddURL = (payload, token) => async (dispatch) => {
 
 // };
 
-// export const ProductUpdateURL = (uuid, payload, token) => async (dispatch) => {
-//   const response = await axios.put(`${process.env.REACT_APP_URL}/product/update/${uuid}`, payload, {
-//     headers: {
-//       "x-auth-token": token
-//     }
-//   }).then((res) => {
-//     console.log(res, "sdfsddffsdff")
-//     dispatch(setToast({ status: true, message: res.data.message }))
-//   })
-//     .catch((err) => {
-//       console.log(err && err.response, "hjgjghgjhghj")
-//       dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
+export const RoleUpdateURL = (uuid, payload, token) => async (dispatch) => {
+  const response = await axios.put(`${process.env.REACT_APP_URL}/company/role/update/${uuid}`, payload, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsddffsdff")
+    dispatch(setToast({ status: true, message: res.data.message }))
+  })
+    .catch((err) => {
+      console.log(err && err.response, "hjgjghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
 
-//     })
-//   // console.log(response, "sdfsfsdfs")
+    })
+  
 
-// };
+};
 
 
-// export const ProductStatusUpdateURL = (payload, token) => async (dispatch) => {
-//   const response = await axios.put(`${process.env.REACT_APP_URL}/product/change/status`, payload, {
-//     headers: {
-//       "x-auth-token": token
-//     }
-//   }).then((res) => {
-//     console.log(res, "sdfsddffsdff")
-//     dispatch(setToast({ status: true, message: res.data.message }))
-//   })
-//     .catch((err) => {
-//       console.log(err && err.response, "hjgjghgjhghj")
-//       dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))
+export const ICafeRoleCompanyStatusUpdateURL = (payload, token ,uuid) => async (dispatch) => {
+  const response = await axios.put(`${process.env.REACT_APP_URL}/company/status/update/${uuid}`, payload, {
+    headers: {
+      "x-auth-token": token
+    }
+  }).then((res) => {
+    console.log(res, "sdfsddffsdfbfcgbf")
+    dispatch(setToast({ status: true, message: res.data.message }))
+  })
+    .catch((err) => {
+      console.log(err && err.response,"hjgjxcvdfvghgjhghj")
+      dispatch(setToast({ status: false, message: err && err.response? err && err.response.data:"Something went wrong" }))
 
-//     })
-// };
+    })
+  // console.log(response, "sdfsfsdfs")
+
+};
 const AdminRolesReducer = RolesSlice.reducer;
 
 export default AdminRolesReducer;

@@ -25,7 +25,7 @@ import { CompanyConsumerUpdateURL, CompanyConsumerBulkUploadURL, CompanyConsumer
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { CompanyRoleListURL } from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux';
+import { CompanyRoleListURL, CompanyRoleUpdateURL, RoleStatusUpdateURL } from 'Redux/AdminRedux/CompanyRoleRedux/companyroleredux';
 
 const role = () => {
     const dispatch = useDispatch()
@@ -161,6 +161,7 @@ const role = () => {
     const [designation, setDesignation] = useState("")
     const [WalletAmount, setWalletAmount] = useState("")
     const [EmpId, setEmpId] = useState("")
+    const[id,setId]=useState('')
     const [consmerId, setConsumerId] = useState("")
     const [selectedCompany, setSelectedCompany] = useState();
     console.log(selectedCompany, "selectedCompany")
@@ -176,36 +177,27 @@ const role = () => {
         // setComapnayName(event.company_name)
         setEmail(event.email)
         setMobile(event.mobile)
-        setSelectedCompany({ label: event.company_name, value: event.company_uuid })
-        setEmpId(event.emp_id)
-        setLocation(event.location)
-        setDesignation(event.designation)
-        setDayAmount(event.per_day_amount)
-        setWalletAmount(event.wallet_amount)
-        setConsumerId(event.uuid)
+        setId(event.uuid)
+        
 
 
 
     };
-    const UpdateConsumer = (event) => {
+    const UpdateRole = (event) => {
         event.preventDefault()
         const value = event.target.elements
         const payload = {
             "name": name,
             "mobile": mobile,
             "email": email,
-            "company_uuid": currentUser?.data?.uuid,
-            "emp_id": EmpId,
-            "location": location,
-            "designation": designation,
-            "per_day_amount": dayAmount,
+            
 
 
         }
 
-        dispatch(CompanyConsumerUpdateURL(consmerId, payload, currentUser.token))
+        dispatch(CompanyRoleUpdateURL(id, payload, currentUser.token))
         setSuc(true)
-        // dispatch(CompanyListURL(currentUser.token))
+       
     }
 
 
@@ -257,6 +249,18 @@ const role = () => {
         }
     }
 
+
+    const HandleCompanyStatus = (event) => {
+        console.log(event, "comapnystatus")
+        // if (event.is_delivered)
+        const payload = {
+            // "uuid": event.uuid,
+            "status": !event.is_active
+        }
+        dispatch(RoleStatusUpdateURL(payload, currentUser?.token, event.uuid))
+        setSuc(true)
+
+    };
 
     const searchfunction = (type, pages) => {
         if (type === "search") {
@@ -518,7 +522,7 @@ const role = () => {
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Company Name</div>
                         </Col>
-                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Code</div>
                         </Col>
                         {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -532,10 +536,10 @@ const role = () => {
                         </Col>
                         {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Status</div>
-                        </Col>
+                        </Col> */}
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Action</div>
-                        </Col> */}
+                        </Col>
                     </Row>
                 </Col>
             </Row>
@@ -574,7 +578,7 @@ const role = () => {
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.company[0].company_name}</div>
                                     </Col>
-                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.uuid}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -583,6 +587,49 @@ const role = () => {
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.added_by_group}</div>
                                     </Col>
+                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                                            <div className="lh-1 text-alternate">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={item.is_active}
+                                                                onClick={() => { HandleCompanyStatus(item) }}
+
+                                                            />
+                                                        </td>
+                                                        {/* <td>
+                                                            <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                                                onClick={() => { eventHandler(item); setEventType(true) }}
+                                                            >
+                                                                <CsLineIcons icon="eye" />
+                                                            </Button>
+                                                        </td> */}
+                                                        <td>
+                                                            <Button title="EDIT" variant="outline-success" className="btn px-2 py-2" onClick={() => { eventHandler(item); setEventType(false) }}>
+                                                                <CsLineIcons icon="edit-square" />
+                                                            </Button>
+                                                        </td>
+                                                        {/* <td>
+                  <Button title="ACTIVATE" variant="outline-info"  className="btn px-2 py-2">
+                 <CsLineIcons icon="check" />
+                 </Button>
+                  </td>
+                  <td>
+                  <Button title="DEACTIVATE" variant="outline-danger"  className="btn px-2 py-2">
+                 <CsLineIcons icon="close" />
+                 </Button>
+                  </td> */}
+                                                        {/* <td>
+                  <Button title="DELETE" variant="outline-danger" className="btn px-2 py-2">
+                 <CsLineIcons icon="bin" />
+                 </Button>
+                  </td> */}
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </Col>
                                     {/* <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
                     <div className="lh-1 text-alternate">{item.location}</div>
                   </Col> */}
@@ -700,7 +747,7 @@ const role = () => {
         </DialogTitle> */}
                     <DialogContent style={{ width: "500px", height: "auto" }}>
                         <Form
-                            onSubmit={UpdateConsumer}
+                            onSubmit={UpdateRole}
                         >
                             <Row className="g-3">
                                 <Col lg="6">
@@ -745,7 +792,7 @@ const role = () => {
                                         disabled={eventType} />
                                 </Col>
 
-                                <Col lg="6">
+                                {/* <Col lg="6">
                                     <Form.Label>Employee Id</Form.Label>
                                     <Form.Control type="text"
                                         value={EmpId}
@@ -772,7 +819,7 @@ const role = () => {
                                         value={dayAmount}
                                         onChange={(e) => { setDayAmount(e.target.value) }}
                                         disabled={eventType} />
-                                </Col>
+                                </Col> */}
                                 {/* <Col lg="12">
                   <Form.Label>Wallet Amount</Form.Label>
                   <Form.Control type="text"

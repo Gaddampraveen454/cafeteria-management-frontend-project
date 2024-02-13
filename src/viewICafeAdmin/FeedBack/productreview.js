@@ -243,17 +243,20 @@ const productview = () => {
                 <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                     <div className="text-muted text-small cursor-pointer ">Name</div>
                 </Col>
-                <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
+                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Rating</div>
                 </Col>
-                <Col md="7" className="d-flex flex-column pe-1 justify-content-center">
+                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">Order Id</div>
+                </Col>
+                <Col md="6" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Review</div>
                 </Col>
 
             </Row>
             {
                 productreviewdata?.data?.length > 0 && productreviewdata?.data?.map((text, index) => {
-                    console.log(text?.rating, 'bsdkkhbhf')
+                    console.log(text, 'bsdkkhbhf')
                     return (
                         <Card className="mb-2" key={index}>
                             <Card.Body className="pt-0 pb-0 sh-40 sh-md-8">
@@ -264,11 +267,15 @@ const productview = () => {
                                         <div className="text-alternate">{text?.users[0]?.name}</div>
                                     </Col>
 
-                                    <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                         <div className="text-muted text-small d-md-none">Rating</div>
                                         <div>{renderStars(text.rating)}</div>
                                     </Col>
-                                    <Col xs="6" md="7" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                    <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                        <div className="text-muted text-small d-md-none">Order Id</div>
+                                        <div>{text?.order_uuid}</div>
+                                    </Col>
+                                    <Col xs="6" md="6" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                         <div className="text-muted text-small d-md-none">Review</div>
                                         <div className="text-alternate">{text?.reviews?.length > 0 ? text?.reviews[0]?.review : "No Review Available"}</div>
                                     </Col>
