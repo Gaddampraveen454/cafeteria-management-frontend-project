@@ -6,6 +6,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux'
 import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Profile = () => {
   const title = 'Customer Detail';
@@ -46,6 +47,15 @@ const Profile = () => {
       dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
+
+  // useEffect(() => {
+  //   // Check if userType is 'consumer' in the state
+  //   if (location.state && location.state.userType === 'consumer') {
+  //     // Reload the window once
+  //     window.location.reload(false);
+  //   }
+  // }, [location.state]);
+  
 
   return (
     <>

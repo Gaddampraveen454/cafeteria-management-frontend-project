@@ -21,6 +21,7 @@ import Loading from 'components/loading/Loading';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
 import cashRoutesAndMenuItems from 'cashRoutes';
+import EmployeeRoutesAndMenuItems from 'EmployeeRoutes';
 import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
 // import { getMes } from 'firebase';
 import io from 'socket.io-client';
@@ -41,7 +42,8 @@ import beep2 from "./Assests/audio/telephone.mp3"
 
 
 
-const MainApp = () => {
+
+const App = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const LoginDetails = JSON.parse(localStorage.getItem("user"));
   const audioRef = useRef(null);
@@ -50,8 +52,10 @@ const MainApp = () => {
     routsData = adminRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === "store") {
     routsData = cashierRoutesAndMenuItems.mainMenuItems
-  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer" && currentUser?.data?.change === false) {
     routsData = consumerRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer" && currentUser?.data?.change === true) {
+    routsData = EmployeeRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
     routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === 'manager') {
@@ -341,12 +345,27 @@ const MainApp = () => {
 
   const loopset = true;
 
+  //   console.log(routsData, "routes")
+  // useEffect(() => {
+  //   const findIndex = routsData.map((item, index) => {
+  //     if( currentUser?.data?.change === false && item.path === '/userchangepassword'){
+  //      routsData.splice(index, 1)
+  //     }
+  //     return true;
+  //    })
+  // },[currentUser])
+
   const routes = useMemo(() => getRoutes({ data: routsData, isLogin, userRole: currentUser.role }), [isLogin, currentUser]);
+
+  //  if(findIndex){
+  //   routesData = routes.splice(findIndex, 1)
+  //  }
+  console.log(routes, routsData, "routes")
   if (routes) {
     return (
       <>
         <Layout>
-        <RouteIdentifier routes={routes} fallback={<Loading />} />
+          <RouteIdentifier routes={routes} fallback={<Loading />} />
         </Layout>
         <Modal
           show={show}
@@ -505,5 +524,5 @@ const MainApp = () => {
 //     </>
 //   );
 // }
-export default MainApp;
+export default App;
 

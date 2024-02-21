@@ -631,7 +631,7 @@ const UserOrderRating = () => {
                                             <Form.Label>Review</Form.Label>
                                             {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
                                             <Form.Control as="textarea" name="review" rows={3}
-                                                defaultValue={location?.state?.event?.reviews[0]?.review || ''}
+                                                defaultValue={location?.state?.event?.reviews.length > 0 ? location?.state?.event?.reviews[0]?.review : ''}
                                             />
                                         </Col>
                                     </Row>
