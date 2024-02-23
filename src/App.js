@@ -43,7 +43,7 @@ import beep2 from "./Assests/audio/telephone.mp3"
 
 
 
-const App = () => {
+const MainApp = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const LoginDetails = JSON.parse(localStorage.getItem("user"));
   const audioRef = useRef(null);
@@ -364,9 +364,9 @@ const App = () => {
   if (routes) {
     return (
       <>
-        <Layout>
+        {/* <Layout> */}
           <RouteIdentifier routes={routes} fallback={<Loading />} />
-        </Layout>
+        {/* </Layout> */}
         <Modal
           show={show}
           id="settings"
@@ -515,14 +515,14 @@ const App = () => {
   return <></>;
 };
 
-// const ClearCacheComponent = withClearCache(MainApp);
+const ClearCacheComponent = withClearCache(MainApp);
 
-// function App() {
-//   return (
-//     <>
-//       <ClearCacheComponent />
-//     </>
-//   );
-// }
+function App() {
+  return (
+    <>
+      <ClearCacheComponent />
+    </>
+  );
+}
 export default App;
 

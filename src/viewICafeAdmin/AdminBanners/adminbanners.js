@@ -16,7 +16,7 @@ import {
     TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductListURL, AdminProductUpdateURL, AdminProductBulkUplodURL, AdminProductStatusUpdateURL, AdminProductStoreDropDownListURL, AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
+import { AdminProductBulkUplodURL, AdminProductStatusUpdateURL, AdminProductStoreDropDownListURL, AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
 import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
@@ -24,10 +24,13 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { AdminBannersListURL, AdminBannersStatusUpdateURL, AdminBannersUpdateURL } from 'Redux/IcafeAdminRedux/IcafeBanners/icafebanners';
 
-const productmanagement = () => {
+import Swal from 'sweetalert2';
+
+const AdminBanners = () => {
     const dispatch = useDispatch()
-    const title = 'Product Management';
+    const title = 'Banner';
     // const description = 'Ecommerce Product Management Page';
 
     const [selectValueState, setSelectValueState] = useState();
@@ -81,7 +84,7 @@ const productmanagement = () => {
     const [openEditViewOpupup, setOpenEditViewOpupup] = React.useState(false);
     const [eventType, setEventType] = useState(false)
 
-    const [name, setName] = useState("")
+    const [titlee, setTitle] = useState("")
     const [price, setPrice] = useState("")
     const [quantity, setQuantity] = useState("")
 
@@ -123,7 +126,7 @@ const productmanagement = () => {
     const [categoryId, setCategoryId] = useState('')
     const [option, setOption] = useState('');
     const [comapanyOption, setComapanyOption] = useState('');
-
+    const [bannerId, setBannerId] = useState('');
     const [storeOption, setStoreOption] = useState('');
     const [comOption, setComOption] = useState('');
     const [company1, setCompany1] = useState('');
@@ -135,6 +138,7 @@ const productmanagement = () => {
 
     const [UploadedFile, setUploadedFile] = useState()
     const [image, setImage] = useState(null);
+    console.log(image, 'sdjbdh')
 
 
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -160,7 +164,8 @@ const productmanagement = () => {
     const { companyData } = useSelector((state) => state.companyList)
     const { ActiveCompnayData } = useSelector((state) => state.ActiveCompnayList)
     const { categoryList, storeList } = useSelector((state) => state.adminproducts);
-    console.log(categoryList, 'hsdvghdghfhgfdav');
+    const { bannersData, notification } = useSelector((state) => state.adminbanners);
+    console.log(bannersData, 'bfvbfdjvhbivsnfu');
     // const { AdmincategoryDropdown ,storeDropdown} = useSelector(
     //     ({ adminCategorySlice }) => adminCategorySlice
     //   );
@@ -170,21 +175,20 @@ const productmanagement = () => {
 
     const ActivcompanyList = ActiveCompnayData && ActiveCompnayData.data && ActiveCompnayData.data.map((item) => { return { label: item.company_name, value: item.uuid } })
 
-    useEffect(() => {
-        // dispatch(ActiveCompnyURL(currentUser.token))
-        dispatch(CategoryListURL(page, search, currentUser.token, limit, '', ''))
-    }, [])
-    useEffect(() => {
-        // dispatch(AdminProductCategoryDropDownListURL(companyOption,option))
-        dispatch(AdminProductStoreDropDownList(company1))
-    }, [])
+    // useEffect(() => {
+    //     // dispatch(ActiveCompnyURL(currentUser.token))
+    //     dispatch(CategoryListURL(page, search, currentUser.token, limit, '', ''))
+    // }, [])
+    // useEffect(() => {
+    //     // dispatch(AdminProductCategoryDropDownListURL(companyOption,option))
+    //     dispatch(AdminProductStoreDropDownList(company1))
+    // }, [])
 
-    const { ProductData, notification } = useSelector((state) => state.adminproducts)
-    console.log(ProductData, 'sdvhgdgfbrf')
+
     useEffect(() => {
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, option))
+        dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
     }, [compnayId, categoryId])
-    // console.log(ProductData, "ProductDatasdfdsfdsf");
+    // console.log(bannersData, "ProductDatasdfdsfdsf");
     useEffect(() => {
         if (suc === true) {
             if (notification.status === true) {
@@ -194,7 +198,7 @@ const productmanagement = () => {
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, option))
+                    dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
                     setOpenEditViewOpupup(false)
                     setTimeout(() => {
                         setImage(null)
@@ -245,76 +249,35 @@ const productmanagement = () => {
         setOpenEditViewOpupup(true)
 
         console.log(event, "sdfssdfsdfsf")
-        setName(event.name)
-        setSelectCompany({ label: event.company_name, value: event.company_uuid })
-        setSelectCategory({ label: event.category_name, value: event.category_uuid })
-        setStoreOption({ label: event.store_name, value: event.store_uuid })
-        setSelectType({ label: event.type, value: event.type })
-        setPrice(event.price)
-        setQuantity(event.quantity)
-        setProductId(event.uuid)
-        setimageUrl(event.image_url)
-        setStockQuantity(event.stock_quantity)
-        setDescription(event.description)
-        setSgst(event.sgst_tax)
-        setCgst(event.cgst_tax)
-        setSortOrder(event.sort_order)
-
+        setTitle(event?.title)
+        setimageUrl(event?.image)
+        setBannerId(event?.uuid)
     };
 
 
     const updateProduct = (event) => {
         event.preventDefault()
-        if (sortOrder <= 0) {
-            toast.error("Sort order must be greater than zero");
-            return; // Stop the function if validation fails
-        }
+
         if (UploadedFile) {
             const payload = {
-                "name": name,
-                "type": selectType.value,
-                "category_uuid": selectCategory.value,
-                "price": price,
-                "quantity": quantity,
-                "company_uuid": selectCompany1,
+                "title": titlee,
                 "image": UploadedFile,
-                "stock_quantity": stockQuantity,
-                "cgst_tax": cgst,
-                "sgst_tax": sgst,
-                "store_uuid": storeOption.value,
-                "description": description,
-                "sort_order": sortOrder,
             }
 
 
-            dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
+            dispatch(AdminBannersUpdateURL(bannerId, payload, currentUser.token))
 
             // dispatch(CompanyListURL(currentUser.token))
             setSuc(true)
 
         } else {
-            if (sortOrder <= 0) {
-                toast.error("Sort order must be greater than zero");
-                return; // Stop the function if validation fails
-            }
+
             const payload = {
-                "name": name,
-                "type": selectType.value,
-                "category_uuid": selectCategory.value,
-                "price": price,
-                "quantity": quantity,
-                "company_uuid": selectCompany1,
-                "stock_quantity": stockQuantity,
-                // "image": UploadedFile,
-                "cgst_tax": cgst,
-                "sgst_tax": sgst,
-                "store_uuid": storeOption.value,
-                "sort_order": sortOrder,
-                "description": description
+                "title": titlee,
             }
 
 
-            dispatch(AdminProductUpdateURL(productId, payload, currentUser.token))
+            dispatch(AdminBannersUpdateURL(bannerId, payload, currentUser.token))
             // dispatch(CompanyListURL(currentUser.token))
             setSuc(true)
 
@@ -361,44 +324,44 @@ const productmanagement = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(AdminProductListURL(0, pages, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminBannersListURL(0, pages, currentUser.token, limit))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(AdminProductListURL(page - 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminBannersListURL(page - 1, search, currentUser.token, limit))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(AdminProductListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminBannersListURL(page + 1, search, currentUser.token, limit))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(AdminProductListURL(page + 1, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminBannersListURL(page + 1, search, currentUser.token, limit))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(AdminProductListURL(page + 2, search, currentUser.token, limit, comapanyOption, option))
+            dispatch(AdminBannersListURL(page + 2, search, currentUser.token, limit))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(AdminProductListURL(0, search, currentUser.token, pages, comapanyOption, option))
+            dispatch(AdminBannersListURL(0, search, currentUser.token, pages))
         }
     }
 
 
-    const HandleProductStatus = (event) => {
+    const HandleBannerStatus = (event) => {
         console.log(event, "eventxcvvxcvv")
         // if (event.is_delivered)
         const payload = {
-            //   "uuid": event.uuid,
+            "uuid": event.uuid,
             "status": !event.is_active
         }
-        dispatch(AdminProductStatusUpdateURL(payload, currentUser.token, event.uuid))
+        dispatch(AdminBannersStatusUpdateURL(payload, currentUser.token))
 
         setSuc(true)
 
@@ -447,9 +410,9 @@ const productmanagement = () => {
 
     }, [image])
 
-    useEffect(() => {
-        dispatch(ICafeAdminCategoryDropDownListURL());
-    }, [])
+    // useEffect(() => {
+    //     dispatch(ICafeAdminCategoryDropDownListURL());
+    // }, [])
 
     const CompanyDropDown = [];
 
@@ -473,7 +436,7 @@ const productmanagement = () => {
         setCompany1(selectvalue);
         setStore1('');
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminProductListURL(page, search, currentUser?.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
+        dispatch(AdminBannersListURL(page, search, currentUser?.token, limit))
         dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
     }
 
@@ -488,7 +451,7 @@ const productmanagement = () => {
         console.log(comapanyOption, 'hsdbvudgsfy')
         setOption(text?.value)
         setStore1(text);
-        dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
+        dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
         dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
     }
 
@@ -521,6 +484,51 @@ const productmanagement = () => {
         dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
     }
 
+    const Bannerdelte = (id) => {
+        axios.delete(`${process.env.REACT_APP_URL}/banner/${id?.uuid}`, {
+            headers: {
+                "x-auth-token": currentUser && currentUser.token
+            }
+        })
+            .then((res) => {
+                console.log(res, "delete")
+                toast.success(" deleted template successfully")
+                dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
+                //   setTimeout(() => {
+                //     window.location.reload();
+                //   }, 2000);
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(err.response.data)
+            })
+    }
+
+    const deletebannersweetalert = (data) => {
+        Swal.fire({
+            title: 'Are You sure want to Delete Banner ! ',
+            text: 'if you delete it will remove permanently from Banner list',
+            icon: 'warning',
+            showDenyButton: true,
+            confirmButtonText: 'Delete',
+            // confirmButtonAriaLabel:'Template',
+            denyButtonText: 'Cancel',
+            confirmButtonColor: 'green',
+            denyButtonColor: 'green',
+            customClass: 'swal-height'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Bannerdelte(data)
+              dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
+            }
+            else if (result.isDenied) {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500)
+            }
+        })
+    }
+
     return (
         <>
             <Dialog
@@ -540,10 +548,10 @@ const productmanagement = () => {
                     <DialogContentText >
                         {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                        <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={UpdateSelectCompany} placeholder="Select Company" />
+                        {/* <Select classNamePrefix="react-select" options={CompanyDropDown} value={selectCompany} onChange={UpdateSelectCompany} placeholder="Select Company" /> */}
                         {/* <Form.Label>Select Company</Form.Label> */}
                         {/* <Select classNamePrefix="react-select" options={optionsState} value={selectValueState} onChange={setSelectValueState} placeholder="" /> */}
-                        <Select classNamePrefix="react-select" options={dropdownValues} value={selectStore1} onChange={setSelectStore} placeholder="Select Stores" className="mt-3" />
+                        {/* <Select classNamePrefix="react-select" options={dropdownValues} value={selectStore1} onChange={setSelectStore} placeholder="Select Stores" className="mt-3" /> */}
                     </DialogContentText><br />
 
 
@@ -592,17 +600,17 @@ const productmanagement = () => {
 
                     {/* Top Buttons Start */}
                     <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                        <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
+                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
                             <CsLineIcons icon="plus" /> <span>Upload Product</span>
-                        </Button>
-                        <NavLink to="/add_product">
+                        </Button> */}
+                        <NavLink to="/add_banner">
                             <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
-                                <CsLineIcons icon="plus" /> <span>Add Product</span>
+                                <CsLineIcons icon="plus" /> <span>Add Banner</span>
                             </Button>
                         </NavLink>
-                        <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
+                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
                             <CsLineIcons icon="sort" />
-                        </Button>
+                        </Button> */}
                         {/* <div className="btn-group ms-1 check-all-container">
               <CheckAll
                 allItems={allItems}
@@ -652,8 +660,8 @@ const productmanagement = () => {
                 {/* disabled={eventType} */}
                 {/* /> */}
                 {/* </Col> */}
-                <Col lg="3">
-                    {/* <Form.Label>Company</Form.Label> */}
+                {/* <Col lg="3">
+                    <Form.Label>Company</Form.Label>
                     <Select
                         className="basic-single"
                         classNamePrefix="select company"
@@ -672,7 +680,7 @@ const productmanagement = () => {
                             }),
                         }}
                     />
-                </Col>
+                </Col> */}
                 {/* <Col lg="3"> */}
                 {/* <Autocomplete
                     // disablePortal
@@ -683,8 +691,8 @@ const productmanagement = () => {
                     renderInput={(params) => <TextField {...params} label="Movie" />}
                 /> */}
                 {/* </Col> */}
-                <Col lg="3">
-                    {/* <Form.Label>Category</Form.Label> */}
+                {/* <Col lg="3">
+                    <Form.Label>Category</Form.Label>
 
                     <Select
                         className="basic-single"
@@ -704,8 +712,8 @@ const productmanagement = () => {
                         }}
                         placeholder="Select Store"
                     />
-                </Col>
-                <Col md="7" lg="3" xxl="10" className="mb-1 text-end">
+                </Col> */}
+                <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
 
                     {/* Length Start */}
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -730,15 +738,15 @@ const productmanagement = () => {
                 <Col>
                     <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
                         <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                            <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+                            <div className="text-muted text-medium cursor-pointer sort">Banner Id</div>
                         </Col>
-                        <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                            <div className="text-muted text-medium cursor-pointer sort">Name</div>
-                        </Col>
-                        <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-medium cursor-pointer sort">Category</div>
+                        <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                            <div className="text-muted text-medium cursor-pointer sort">Title</div>
                         </Col>
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium cursor-pointer sort">image</div>
+                        </Col>
+                        {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Company</div>
                         </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -752,11 +760,11 @@ const productmanagement = () => {
                         </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Quantity</div>
-                        </Col>
+                        </Col> */}
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-medium cursor-pointer " />
+                            <div className="text-muted text-medium cursor-pointer " >Status</div>
                         </Col>
-                        <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Action</div>
                         </Col>
 
@@ -766,9 +774,9 @@ const productmanagement = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {ProductData?.data?.length > 0 && ProductData && ProductData?.data && ProductData?.data?.map((item, index) => {
-                // {ProductData?.data?.map((item, index) => {
-                console.log(item, 'svdghvsdghf')
+            {bannersData?.data?.length > 0 && bannersData && bannersData?.data && bannersData?.data?.map((item, index) => {
+                // {bannersData?.data?.map((item, index) => {
+                console.log(item, 'svdghvfdfdsdghf')
                 return <div key={index}>
                     <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`}>
                         <Row className="g-0 h-100 sh-lg-9 position-relative">
@@ -777,13 +785,15 @@ const productmanagement = () => {
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.uuid}</div>
                                     </Col>
-                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.name}</div>
-                                    </Col>
-                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.category_name}</div>
+                                    <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <div className="lh-1 text-alternate">{item.title}</div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <div className="lh-1 text-alternate">
+                                            <img src={item.image} alt="Banner" crossOrigin='anonymous' className="card-img card-img-horizontal sw-11" style={{ height: "50px", width: "auto" }} />
+                                        </div>
+                                    </Col>
+                                    {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.company_name}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
@@ -797,7 +807,7 @@ const productmanagement = () => {
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.quantity}</div>
-                                    </Col>
+                                    </Col> */}
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">
                                             <div className="mb-n1">
@@ -805,7 +815,7 @@ const productmanagement = () => {
                                                 <Form.Check
                                                     type="switch"
                                                     checked={item.is_active}
-                                                    onClick={() => HandleProductStatus(item)}
+                                                    onClick={() => HandleBannerStatus(item)}
 
                                                 />
                                                 {/* <Form.Check type="switch" id="quantitySwitch3" label="Display quantity at storefront" /> */}
@@ -830,6 +840,11 @@ const productmanagement = () => {
                                                                 onClick={() => { eventHandler(item); setEventType(false) }}
                                                             >
                                                                 <CsLineIcons icon="edit-square" />
+                                                            </Button>
+                                                        </td>
+                                                        <td>
+                                                            <Button title="DELETE"  onClick={() => deletebannersweetalert(item)} className="btn px-2 py-2">
+                                                                <CsLineIcons icon="bin" />
                                                             </Button>
                                                         </td>
 
@@ -872,16 +887,16 @@ const productmanagement = () => {
                     <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                         {page + 1}
                     </Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(bannersData && bannersData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(bannersData && bannersData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                    {Math.ceil(ProductData && ProductData.count / limit) > page + 3 &&
+                    {Math.ceil(bannersData && bannersData.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
 
                     }
-                    <Pagination.Next className="shadow" disabled={Math.ceil(ProductData && ProductData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                    <Pagination.Next className="shadow" disabled={Math.ceil(bannersData && bannersData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                         <CsLineIcons icon="chevron-right" />
                     </Pagination.Next>
                 </Pagination>
@@ -909,113 +924,12 @@ const productmanagement = () => {
                                 <Col lg="6">
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control type="text"
-                                        onChange={(e) => { setName(e.target.value) }}
-                                        value={name}
-                                        disabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Company</Form.Label>
-                                    <Select classNamePrefix="react-select"
-                                        options={CompanyDropDown}
-                                        value={selectCompany}
-                                        onChange={UpdateSelectCompany}
-                                        placeholder=""
-                                        isDisabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Store</Form.Label>
-                                    <Select classNamePrefix="react-select"
-                                        options={dropdownValues}
-                                        value={storeOption}
-                                        onChange={UpdateselectStore}
-                                        placeholder=""
-                                        isDisabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Category</Form.Label>
-                                    <Select classNamePrefix="react-select"
-                                        options={CategoryDropdown}
-                                        value={selectCategory}
-                                        onChange={selectCategoryfunction}
-                                        placeholder=""
-                                        isDisabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Veg/Non Veg</Form.Label>
-
-                                    <Select classNamePrefix="react-select"
-                                        options={optionsType}
-                                        value={selectType}
-                                        onChange={setSelectType}
-                                        placeholder=""
-                                        isDisabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Price</Form.Label>
-                                    <Form.Control type="text"
-                                        onChange={(e) => { setPrice(e.target.value) }}
-                                        disabled={eventType}
-                                        value={price}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Quantity</Form.Label>
-                                    <Form.Control type="text" rows={1}
-                                        onChange={(e) => { setQuantity(e.target.value) }}
-                                        value={quantity}
-
-                                        disabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Stock Quantity</Form.Label>
-                                    <Form.Control type="text"
-                                        rows={1}
-                                        value={stockQuantity}
-                                        onChange={(e) => { setStockQuantity(e.target.value) }}
-                                        disabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>CGST(%)</Form.Label>
-                                    <Form.Control type="text"
-                                        rows={1}
-                                        value={cgst}
-                                        onChange={(e) => { setCgst(e.target.value) }}
-                                        disabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>SGST(%)</Form.Label>
-                                    <Form.Control type="text"
-                                        rows={1} value={sgst}
-                                        onChange={(e) => { setSgst(e.target.value) }}
-                                        disabled={eventType}
-                                    />
-                                </Col>
-                                <Col lg="6">
-                                    <Form.Label>Description</Form.Label>
-                                    <Form.Control type="text"
-                                        rows={1}
-                                        value={description}
-                                        onChange={(e) => { setDescription(e.target.value) }}
+                                        onChange={(e) => { setTitle(e.target.value) }}
+                                        value={titlee}
                                         disabled={eventType}
                                     />
                                 </Col>
 
-                                <Col lg="6">
-                                    <Form.Label>Sort</Form.Label>
-                                    <Form.Control type="text"
-                                        onChange={(e) => { setSortOrder(e.target.value) }}
-                                        value={sortOrder}
-                                        disabled={eventType}
-                                    />
-                                </Col>
 
 
                                 <Col lg="12">
@@ -1095,4 +1009,5 @@ const productmanagement = () => {
     );
 };
 
-export default productmanagement;
+export default AdminBanners;
+
