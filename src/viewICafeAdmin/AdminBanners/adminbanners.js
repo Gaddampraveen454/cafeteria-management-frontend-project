@@ -99,6 +99,7 @@ const AdminBanners = () => {
     const [selectStore1, setSelectStore] = useState([])
     const [productId, setProductId] = useState("")
     const [imageUrl, setimageUrl] = useState("")
+    console.log(imageUrl, 'sdvhdsaghv')
     let selectCompany1
     if (selectCompany?.value === undefined) {
         selectCompany1 = '';
@@ -274,6 +275,7 @@ const AdminBanners = () => {
 
             const payload = {
                 "title": titlee,
+                "image": imageUrl.replace('https://cmsapi.scienstechnologies.com/product/images/', ""),
             }
 
 
@@ -299,21 +301,21 @@ const AdminBanners = () => {
     }
 
     function handleSubmit(event) {
-        if (!file) {
-            console.log("zxczxczxcz")
-            toast.error("Please Select File")
-        }
-        else {
+        // if (!file) {
+        //     console.log("zxczxczxcz")
+        //     toast.error("Please Select File")
+        // }
+        // else {
 
 
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('fileName', file.name);
-            formData.append('company_uuid', selectCompany1);
-            formData.append('store_uuid', selectStores);
-            dispatch(AdminProductBulkUplodURL(formData, currentUser.token))
-            setSuc(true)
-        }
+        //     const formData = new FormData();
+        //     formData.append('file', file);
+        //     formData.append('fileName', file.name);
+        //     formData.append('company_uuid', selectCompany1);
+        //     formData.append('store_uuid', selectStores);
+        //     dispatch(AdminProductBulkUplodURL(formData, currentUser.token))
+        //     setSuc(true)
+        // }
     }
 
 
@@ -383,7 +385,6 @@ const AdminBanners = () => {
 
 
     const handleUpdateImage = () => {
-
         const formData = new FormData();
         formData.append('image', image);
         axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
@@ -519,7 +520,7 @@ const AdminBanners = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 Bannerdelte(data)
-              dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
+                dispatch(AdminBannersListURL(page, search, currentUser.token, limit))
             }
             else if (result.isDenied) {
                 setTimeout(() => {
@@ -843,7 +844,7 @@ const AdminBanners = () => {
                                                             </Button>
                                                         </td>
                                                         <td>
-                                                            <Button title="DELETE"  onClick={() => deletebannersweetalert(item)} className="btn px-2 py-2">
+                                                            <Button title="DELETE" onClick={() => deletebannersweetalert(item)} className="btn px-2 py-2">
                                                                 <CsLineIcons icon="bin" />
                                                             </Button>
                                                         </td>
