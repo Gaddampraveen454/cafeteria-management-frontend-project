@@ -26,13 +26,18 @@ const addbanners = () => {
     const { notification } = useSelector((state) => state.adminbanners);
     const [suc, setSuc] = useState(false);
     const [titlee, setTitle] = useState("")
+    const [sortOrder, setSortOrder] = useState('');
 
     const AddBanner = (event) => {
         event.preventDefault()
-
+       if(sortOrder <= 0){
+        toast.error('Sort order must be greater than Zero');
+        return;
+       }
         const payload = {
             "title": titlee,
-            "image": UploadedFile
+            "image": UploadedFile,
+            "sort_order":sortOrder
         }
         dispatch(AdminBannersAddURL(payload, currentUser.token))
         setSuc(true)
@@ -138,6 +143,10 @@ const addbanners = () => {
                                     <Col lg="4">
                                         <Form.Label>Title</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setTitle(e.target.value) }} />
+                                    </Col>
+                                    <Col lg="4">
+                                        <Form.Label>Sort</Form.Label>
+                                        <Form.Control type="number" rows={1} onChange={(e) => { setSortOrder(e.target.value) }} />
                                     </Col>
                                     <Col lg="4">
                                         <div>

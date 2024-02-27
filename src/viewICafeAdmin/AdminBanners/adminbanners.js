@@ -253,16 +253,22 @@ const AdminBanners = () => {
         setTitle(event?.title)
         setimageUrl(event?.image)
         setBannerId(event?.uuid)
+        setSortOrder(String(event?.sort_order))
     };
 
 
     const updateProduct = (event) => {
         event.preventDefault()
+        if (sortOrder <= 0) {
+            toast.error("Sort order must be greater than zero");
+            return; // Stop the function if validation fails
+        }
 
         if (UploadedFile) {
             const payload = {
                 "title": titlee,
                 "image": UploadedFile,
+                "sort_order": sortOrder
             }
 
 
@@ -272,10 +278,14 @@ const AdminBanners = () => {
             setSuc(true)
 
         } else {
-
+            if (sortOrder <= 0) {
+                toast.error("Sort order must be greater than zero");
+                return; // Stop the function if validation fails
+            }
             const payload = {
                 "title": titlee,
                 "image": imageUrl.replace('https://cmsapi.scienstechnologies.com/product/images/', ""),
+                "sort_order": sortOrder
             }
 
 
@@ -747,10 +757,10 @@ const AdminBanners = () => {
                         <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">image</div>
                         </Col>
-                        {/* <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
-                            <div className="text-muted text-medium cursor-pointer sort">Company</div>
-                        </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-medium cursor-pointer sort">Sort Order</div>
+                        </Col>
+                        {/* <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
                         </Col>
                         <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -793,6 +803,9 @@ const AdminBanners = () => {
                                         <div className="lh-1 text-alternate">
                                             <img src={item.image} alt="Banner" crossOrigin='anonymous' className="card-img card-img-horizontal sw-11" style={{ height: "50px", width: "auto" }} />
                                         </div>
+                                    </Col>
+                                    <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                        <div className="lh-1 text-alternate">{item.sort_order}</div>
                                     </Col>
                                     {/* <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">{item.company_name}</div>
@@ -927,6 +940,14 @@ const AdminBanners = () => {
                                     <Form.Control type="text"
                                         onChange={(e) => { setTitle(e.target.value) }}
                                         value={titlee}
+                                        disabled={eventType}
+                                    />
+                                </Col>
+                                <Col lg="6">
+                                    <Form.Label>Sort</Form.Label>
+                                    <Form.Control type="number"
+                                        onChange={(e) => { setSortOrder(e.target.value) }}
+                                        value={sortOrder}
                                         disabled={eventType}
                                     />
                                 </Col>

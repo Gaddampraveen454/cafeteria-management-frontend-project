@@ -244,7 +244,7 @@ const productmanagement = () => {
     const eventHandler = (event) => {
         setOpenEditViewOpupup(true)
 
-        console.log(event, "sdfssdfsdfsf")
+        console.log(event, "sdfssdfsdfshjf")
         setName(event.name)
         setSelectCompany({ label: event.company_name, value: event.company_uuid })
         setSelectCategory({ label: event.category_name, value: event.category_uuid })
