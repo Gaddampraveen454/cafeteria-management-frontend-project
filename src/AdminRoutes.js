@@ -28,6 +28,8 @@ const changepassword = lazy(() => import('views/ChangePassword/changepassword'))
 const CompanyNotifications = lazy(() => import('views/CompanyNotifications/companynotifications'))
 const CompanyRole = lazy(()=>import('views/CompanyRoles/role'));
 const CompanyAddRole = lazy(()=>import('views/CompanyRoles/addrole'));
+const CompanyFeedback=lazy(()=>import('views/CompanyFeedback/companyfeedback'));
+const CompanyProductView = lazy(()=>import('views/CompanyFeedback/companyproductview'));
 
 
 const Cards = lazy(() => import('views/company Management/Cards'));
@@ -215,6 +217,18 @@ const adminRoutesAndMenuItems = {
       component: report,
       label: 'Report',
       icon: 'news',
+    },
+    {
+      path: `${appRoot}/feedback`,
+      component: CompanyFeedback,
+      label: 'Feedback',
+      icon: 'user',
+    },
+    {
+      path: `${appRoot}/product_view`,
+      component: CompanyProductView,
+      // label: 'User Management',
+      // icon: 'user',
     },
     {
       path: `${appRoot}/changepassword`,

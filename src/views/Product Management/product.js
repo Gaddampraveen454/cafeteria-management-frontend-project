@@ -666,6 +666,9 @@ const product = () => {
         {/* <Col xs="auto" className="sw-11 d-none d-lg-flex" /> */}
         <Col>
           <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
+          <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+              <div className="text-muted text-medium cursor-pointer sort">Product Id</div>
+            </Col>
             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
               <div className="text-muted text-medium cursor-pointer sort">Name</div>
             </Col>
@@ -675,10 +678,10 @@ const product = () => {
             <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Store</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">Veg/Non Veg</div>
             </Col>
-            <Col xs="2" lg="2" className="d-flex flex-column pe-1 justify-content-center">
+            <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
               <div className="text-muted text-medium cursor-pointer sort">stock quantity</div>
             </Col>
             <Col xs="2" lg="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -709,7 +712,9 @@ const product = () => {
 
               <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
                 <Row className="g-0 h-100 ">
-
+                <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                    <div className="lh-1 text-alternate">{item.uuid}</div>
+                  </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.name}</div>
                   </Col>
@@ -720,10 +725,10 @@ const product = () => {
                     <div className="lh-1 text-alternate">{item.store_name}</div>
                   </Col>
 
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.type}</div>
                   </Col>
-                  <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                  <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                     <div className="lh-1 text-alternate">{item.stock_quantity}</div>
                   </Col>
                   <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">

@@ -230,16 +230,17 @@ const UserOrderRating = () => {
                                         <Row className="g-3">
                                             <Col lg="6">
                                                 <Form.Label>Review</Form.Label>
-                                                <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} />
+                                                {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
+                                                <Form.Control as="textarea" name="review" rows={3}  defaultValue={OrderView?.data?.reviews[0]?.review} />
                                             </Col>
                                         </Row>
-                                        {OrderView?.data?.reviews.length !== 1 &&
+                                        {/* {OrderView?.data?.reviews.length !== 1 && */}
                                             <Row className="mt-3">
                                                 <Col lg="6">
                                                     <Button variant="outline-primary" type='submit'>Submit</Button>
                                                 </Col>
                                             </Row>
-                                        }
+                                        {/* } */}
                                     </Form>
                                 </Card.Body>
                             </Card>
@@ -413,7 +414,7 @@ const UserOrderRating = () => {
                                       </Col>
                                     } */}
                                                                         <Col xs="auto" lg="12">
-                                                                            {item?.feedbacks.length === 1 ?
+                                                                            {/* {item?.feedbacks.length === 1 ?
                                                                                 <Rating
                                                                                     count={5}
                                                                                     value={item?.feedbacks[0]?.rating}
@@ -422,7 +423,7 @@ const UserOrderRating = () => {
                                                                                     activeColor="#ffd700"
                                                                                     edit={false}
                                                                                 />
-                                                                                :
+                                                                                : */}
                                                                                 <Rating
                                                                                     count={5}
                                                                                     value={item?.feedbacks[0]?.rating}
@@ -430,7 +431,7 @@ const UserOrderRating = () => {
                                                                                     size={25}
                                                                                     activeColor="#ffd700"
                                                                                 />
-                                                                            }
+                                                                            {/* } */}
                                                                         </Col>
 
                                                                     </Row>
