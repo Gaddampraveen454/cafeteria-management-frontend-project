@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, Col, Form, Row, Spinner } from 'react-bootstrap';
+import { Card, Button, Col, Form, Row, Spinner, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
@@ -15,6 +15,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { removeCoupon } from 'Redux/ConsumerRedux/Coupons/CouponsRedux';
+import ApplyCoupons from './ApplyCoupon';
+import promoSuccessicon from './Img/promo-success-icon.svg';
 
 
 
@@ -38,7 +41,8 @@ const Categories = () => {
   const location = useLocation();
   const dispatch = useDispatch()
   const history = useHistory();
-  const { CartData, notification } = useSelector((state) => state.CartList)
+  const { CartData } = useSelector((state) => state.CartList)
+  const { CouponData, discountAmount, coupon, notification } = useSelector((state) => state.coupons)
   console.log(CartData, "CartData")
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const { WalletData } = useSelector((state) => state.WalletData);
@@ -52,6 +56,10 @@ const Categories = () => {
   const [mobile, setMobile] = useState("")
   const [orderData, setOrderData] = useState([])
   const [loading, setLoading] = useState(false);
+
+  const [discount, setDiscount] = useState(0);
+  const [appliedcoupon, setAppliedCoupon] = useState([]);
+  const [couponnotaplied, setNotAppllied] = useState("")
 
   const [count, setCount] = useState(0);
 
@@ -83,15 +91,35 @@ const Categories = () => {
     }
   }, [])
 
+  useEffect(() => {
+    setDiscount(discountAmount);
+    setAppliedCoupon(coupon);
+    setNotAppllied(coupon?.coupon_uuid)
+
+  }, [discountAmount, coupon]);
+
   const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
 
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleOpen = () => {
+    setShow(true);
+  };
 
 
   useEffect(() => {
     dispatch(IpAddressDataURL())
   }, [])
 
+  let coup
+  if (couponnotaplied === undefined) {
+    coup = '';
+  } else {
+    coup = couponnotaplied;
+  }
 
   const data = "ord012356"
   // const RAZORPAY_KEY_ID = "rzp_test_SEA53JLJICNZPH"
@@ -126,6 +154,7 @@ const Categories = () => {
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
               console.log(resp.data, "checkout123")
+              dispatch(removeCoupon())
               if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
                 setLoading(false)
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
@@ -360,7 +389,10 @@ const Categories = () => {
             "checkout_uuid": CheckoutData.data.uuid,
             "user_uuid": currentUser.data.uuid,
             "company_uuid": CheckoutData.data.company_uuid,
-            "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
+            "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+            "instructions": "Spicy and Tasty gaa undali",
+            "coupon_uuid": `${coup}`,
+            "discount_amount": discount
           }
 
           axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -433,7 +465,10 @@ const Categories = () => {
           "checkout_uuid": CheckoutData.data.uuid,
           "user_uuid": currentUser.data.uuid,
           "company_uuid": CheckoutData.data.company_uuid,
-          "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
+          "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+          "instructions": "Spicy and Tasty gaa undali",
+          "coupon_uuid": `${coup}`,
+          "discount_amount": discount
         }
 
         axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -569,29 +604,19 @@ const Categories = () => {
   console.log(checkoutnotification, "ProductDataProductData")
 
 
-  // useEffect(() => {
-  //   if (suc1 === true) {
-  //     if (notification.status === true) {
-
-  //       // toast.success(notification.message, {
-  //       //   position: "top-right",
-  //       // })
-
-
-  //       setTimeout(() => {
-  //         ConsumerCheckout()
-  //       }, 1000)
-  //       setSuc1(false)
-
-  //     }
-  //     else if (notification.status === false) {
-  //       toast.error(notification.message)
-  //       setSuc1(false)
-  //     }
-  //   }
-
-  // }, [notification])
-  // console.log(notification, "ProductDataProductData")
+  useEffect(() => {
+    if (notification?.message !== undefined) {
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+      }
+    }
+  }, [notification])
+  console.log(notification, "ProductDataProductData")
 
   return (
     <>
@@ -638,6 +663,25 @@ const Categories = () => {
             )}
           </div>
         </Col>
+        <Modal
+          className="modal fade"
+          show={show}
+          onHide={handleClose}
+          // size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          size="lg"
+        >
+          <Modal.Header closeButton className="modal-header">
+            <h3>Offers</h3>
+          </Modal.Header>
+          <h5 className="mt-5" style={{ textAlign: 'center' }}>
+            You can apply both store & bank/wallet offer in one order
+          </h5>
+          <Modal.Body>
+            <ApplyCoupons show={show} onHide={handleClose} CartData={CartData} />
+          </Modal.Body>
+        </Modal>
         <Col xs={12} md={4} >
           <div>
             <h2 className="small-title">Summary</h2>
@@ -691,13 +735,100 @@ const Categories = () => {
                     </p>
                   </div>
                   <div className="mb-2">
-                    <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                    <div className="cta-2">
-                      <span>
-                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
-                      </span>
-                    </div>
+                    <p className="text-small text-muted mb-1">Discount</p>
+                    <p>
+                      ₹ {discount}
+                    </p>
                   </div>
+                  {/* <div className="mb-2">
+                    <p className="text-small text-muted mb-1">To Pay</p>
+                    <p>
+                      {CartData && CartData.total_amount !== undefined
+                        ? `₹ ${Number(CartData.total_amount).toFixed(2).replace(/(\.0+|(?<=\.\d)0+)$/, '')}`
+                        : '₹ 0'}
+                    </p>
+                  </div> */}
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                    {/* <div className="cta-2"> */}
+                    {/* <span>
+                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
+                      </span> */}
+                    <p >
+                      {CartData && CartData.total_amount !== undefined && discount !== undefined
+                        ? (() => {
+                          const calculatedAmount = CartData.total_amount - discount;
+                          const formattedAmount = calculatedAmount % 1 === 0
+                            ? `₹ ${calculatedAmount.toFixed(0)}`
+                            : `₹ ${calculatedAmount.toFixed(2)}`;
+
+                          return formattedAmount.replace(/(\.0+|(?<=\.\d)0+)$/, ''); // Remove unnecessary zeros
+
+                        })()
+                        : '0'}
+                    </p>
+                    {/* </div> */}
+                  </div>
+                  <hr />
+                  {Object.keys(currentUser).length > 0 ? (
+                    <>
+                      {discount !== 0 ? (
+                        <div
+                          className="mb-4"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            border: '1px dashed',
+                            padding: '15px',
+                          }}
+                          onClick={handleOpen}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div>
+                              <img src={promoSuccessicon} alt="product" style={{ width: '100%' }} />
+                            </div>
+                            &nbsp;&nbsp;
+                            <div style={{ color: 'red' }}> Applied Coupon {appliedcoupon?.code}</div>
+                            <hr />
+                            <div style={{ color: 'red' }}> You have saved ₹ {(CartData.total_amount - appliedcoupon?.amount).toFixed(2)}</div>
+                          </div>
+
+                          <div>
+                            <Button
+                              size="sm"
+                              className="btn-icon btn-icon-only position-absolute t-9 e-2"
+                              variant="foreground-alternate"
+
+                              onClick={() => dispatch(removeCoupon())}
+                              style={{ display: 'contents' }}
+                            >
+                              <CsLineIcons icon="error-hexagon" />
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="mb-4"
+                          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                          onClick={handleOpen}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div>
+                              <img src={promoSuccessicon} alt="product" style={{ width: '100%' }} />
+                            </div>
+                            &nbsp;&nbsp;
+                            <div style={{ color: '#1da52b' }}> Apply your coupon </div>
+                          </div>
+                          <div>
+                            <CsLineIcons style={{ color: '#1da52b' }} icon="chevron-right" />
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : ""}
+                  <hr />
                 </div>
                 {/* <div className="form-check mb-4">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={(e) => console.log(e.target.value, "DSfsdfsdfsdfsdf")} />
