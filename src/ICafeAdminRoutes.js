@@ -26,6 +26,9 @@ const FeedBack = lazy(() => import('viewICafeAdmin/FeedBack/feedback'));
 const ProductReview = lazy(() => import('viewICafeAdmin/FeedBack/productreview'));
 const AdminBanner = lazy(() => import('viewICafeAdmin/AdminBanners/adminbanners'));
 const AdminAddBanner = lazy(()=>import('viewICafeAdmin/AdminBanners/addbanners'));
+const Coupons = lazy(()=>import('viewICafeAdmin/Coupons/couponlist'))
+const Addcoupons = lazy(()=>import('viewICafeAdmin/Coupons/AddCoupon'))
+const Updatecoupons = lazy(()=>import('viewICafeAdmin/Coupons/UpdateCoupon'))
 
 
 const FooterRoutes = {
@@ -172,6 +175,27 @@ const iCafeAdminRoutesAndMenuItems = {
       label: 'Roles',
       icon: 'shop',
     },
+    {
+      path: `${appRoot}/couponlist`,
+      component: Coupons,
+      label: 'Coupon list',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/AddCoupon`,
+      component: Addcoupons,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/Update-Coupon`,
+      component: Updatecoupons,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    // Updatecoupons
+    // Addcoupons
+    // Coupons
     {
       path: `${appRoot}/add_roles`,
       component: AddRoles,

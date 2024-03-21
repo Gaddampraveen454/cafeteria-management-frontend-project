@@ -62,6 +62,7 @@ import ICafeFeedbackReducer from 'Redux/IcafeAdminRedux/Feedbackredux/feedbackdu
 import CompanyFeedbackReducer from 'Redux/AdminRedux/Feedback/feedbackRedux';
 import StoreFeedbackReducer from 'Redux/CashierRedux/Feedback/storefeedback';
 import adminBannersReducer from 'Redux/IcafeAdminRedux/IcafeBanners/icafebanners';
+import couponCompanyReducer from 'Redux/IcafeAdminRedux/CouponsRedux/coponscompanyredux';
 
 
 const persistConfig = {
@@ -90,6 +91,7 @@ const persistedReducer = persistReducer(
     adminorder: AdminOrderReducer,
     iCafeAdminStoreSlice: iCafeAdminStoreReducer,
     companyDashbaord: CompanyDashboard,
+    companycoupons: couponCompanyReducer,
     admincategory: adminCategoryReducer,
     forgetpassword: forgetPasswordReducer,
     adminproducts: adminProductReducer,
