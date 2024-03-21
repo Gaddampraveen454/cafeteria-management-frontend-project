@@ -24,7 +24,7 @@ const Changepassword = () => {
 
     const { isLogin, currentUser } = useSelector((state) => state.auth);
 
-    console.log(currentUser,"currentUsercurrentUser")
+    console.log(currentUser, "currentUsercurrentUser")
 
     const [validated, setValidated] = useState(false);
     const [suc, setSuc] = useState(false);
@@ -66,7 +66,7 @@ const Changepassword = () => {
                 const payload = {
                     // "old_password": oldpassword,
                     // "new_password": newpassword1
-                    "user_uuid": currentUser.data.uuid,
+                    "user_uuid": currentUser?.data?.uuid,
                     "old_password": oldpassword,
                     "new_password": newpassword1
                 }
@@ -115,9 +115,9 @@ const Changepassword = () => {
                 <Row className="g-0">
                     {/* Title Start */}
                     <Col className="col-auto mb-3 mb-sm-0 me-auto">
-                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/">
-                            {/* <CsLineIcons icon="chevron-left" size="13" />
-                            <span className="align-middle text-small ms-1">Home</span> */}
+                        <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard">
+                            <CsLineIcons icon="chevron-left" size="13" />
+                            <span className="align-middle text-small ms-1">Dashboard</span>
                         </NavLink>
                         <h1 className="mb-0 pb-0 display-4" id="title">
                             {title}

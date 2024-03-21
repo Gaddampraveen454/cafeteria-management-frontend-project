@@ -81,7 +81,7 @@ const addproduct = () => {
 
 
   useEffect(() => {
-    dispatch(StoreCategoryDropDownL(currentUser?.data?.uuid))
+    dispatch(StoreCategoryDropDownL(currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
     dispatch(CompanyDropDown())
   }, [])
 
@@ -141,7 +141,7 @@ const addproduct = () => {
       "stock_quantity": stockQuantity,
       "cgst_tax": cgst,
       "sgst_tax": sgst,
-      "store_uuid": currentUser?.data?.uuid,
+      "store_uuid": currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ,
       "description": descriptionvalue,
       "sort_order": sortorder
     }

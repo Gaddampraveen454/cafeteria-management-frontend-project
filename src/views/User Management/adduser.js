@@ -63,7 +63,7 @@ const adduser = () => {
       "name": formValues.name,
       "mobile": formValues.mobile,
       "email": formValues.email,
-      "company_uuid": currentUser?.data?.uuid,
+      "company_uuid": currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid,
       "emp_id": formValues.EmpId,
       "location": formValues.location,
       "designation": formValues.designation,

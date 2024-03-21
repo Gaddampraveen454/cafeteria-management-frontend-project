@@ -24,8 +24,8 @@ const icafeAdminConsumerSlice = createSlice({
 export const { setConsumerData , setToast} = icafeAdminConsumerSlice.actions;
 
 
-export const iCafeAdminConsumerListURL = (pageNUm, search, token, limit) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/user/consumer/list?pagenum=${pageNUm}&limit=${limit}&search=${search}`,{headers:{
+export const iCafeAdminConsumerListURL = (pageNUm, search, token, limit,companyId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/user/consumer/list?pagenum=${pageNUm}&limit=${limit}&search=${search}&company_uuid=${companyId}`,{headers:{
     "x-auth-token" : token
   }});
   console.log(response.data.data, "dfghj")

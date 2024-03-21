@@ -23,7 +23,7 @@ const orderview = () => {
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location, "dghsfjdsjjjgfdhgjhf")
+    console.log(location, "dghsjgfdhgjhf")
 
     const optionsState = [
         { value: 'Fougasse', label: 'Fougasse' },
@@ -268,18 +268,17 @@ const orderview = () => {
                                                                         {location?.state?.feedbacks.map((feedback, ind) => {
                                                                             console.log(feedback, "hdvfsjdgfdsj")
                                                                             return <Col xs="6" lg="12" key={ind}  className='d-flex align-items-center'>
-                                                                                {feedback?.product_uuid === item?.uuid ?
+                                                                                {feedback?.product_uuid === item?.uuid &&
                                                                                     <Rating
                                                                                         count={5}
                                                                                         value={feedback?.rating}
                                                                                         // onChange={handleRatingChange}
-                                                                                        size={20}
+                                                                                        size={16}
                                                                                         activeColor="#ffd700"
                                                                                         edit={false}
-                                                                                        className="lh-1 text-alternate  mt-2"
+                                                                                        className="lh-1 text-alternate "
                                                                                     />
-                                                                                    :
-                                                                                    <span className="lh-1 text-alternate">No Rating</span>
+                                                                                    
                                                                                 }
                                                                             </Col>
                                                                         })}

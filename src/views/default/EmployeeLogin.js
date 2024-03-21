@@ -34,11 +34,8 @@ const Login = () => {
     useEffect(() => {
         if (suc === true) {
             if (notification?.status === true) {
-                toast.success(notification.message, {
-                    position: "top-right",
-                    duration: 2000
-                })
-                setSuc(false)
+                toast.success(notification.message)
+                setTimeout(()=>{
                 if (location.state === "withoutLogin" && isLogin === true && currentUser && currentUser.data && currentUser.data.group === "consumer") {
                     // history.push('/dashboard')
                     history.push(({
@@ -50,6 +47,7 @@ const Login = () => {
 
                     }));
                     localStorage.setItem('token', currentUser)
+                 
                 }
                 else {
                     history.push(({
@@ -58,12 +56,15 @@ const Login = () => {
                             userType: "consumer"
                         }
                     }));
+                    
                 }
+            },100)
 
                 // else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "admin") {
                 //     history.push('/dashboard')
                 //     localStorage.setItem('token', currentUser)
                 // }
+                
 
             }
             else if (notification.status === false) {
@@ -160,7 +161,7 @@ const Login = () => {
                 <div className="mb-5">
                     <p className="h6">Please use your credentials to login.</p>
                     <p className="h6">
-                        If you are not a member, please <NavLink to="/register" style={{ color: "#672100" }}>Register</NavLink>.
+                        If you are not a member, please <NavLink to="/register" style={{ color: "red", fontWeight: '900px' }}>Register</NavLink>.
                     </p>
                 </div>
                 <div>

@@ -40,6 +40,7 @@ const companymanagement = () => {
   const [compnayId, setCompnayId] = useState("")
   const [suc, setSuc] = useState(false);
   const [autoaccept, setAutoAccept] = useState('');
+  console.log({ label: autoaccept === true ? "Yes" : "No", value: autoaccept ? 'true' : 'false' }, "autoaccept")
 
 
   const [page, setPage] = useState(0);
@@ -88,7 +89,8 @@ const companymanagement = () => {
 
   console.log(companyData, "currentUsersdffscurrentUser")
 
-
+  const [selectautoaccpet, setSelectAutoAccept] = useState('');
+  console.log(selectautoaccpet, 'selectautoaccpet')
 
 
   const eventHandler = (event) => {
@@ -105,8 +107,8 @@ const companymanagement = () => {
     setFssai(event.fssai_no)
     setCompnayId(event.uuid)
     setimageUrl(event?.logo)
-    setAutoAccept(event.auto_accept)
-
+    setAutoAccept(event?.auto_accept)
+    setSelectAutoAccept({ label: event?.auto_accept ? "Yes" : "No", value: event?.auto_accept ? 'true' : 'false' })
 
   };
 
@@ -164,14 +166,13 @@ const companymanagement = () => {
 
   }, [image])
 
-  const [selectautoaccpet, setSelectAutoAccept] = useState({ label: autoaccept === true ? "Yes" : "No", value: autoaccept === true ? "Yes" : "No" });
-
   const AutoAcceptOption = [
     { label: "Yes", value: true },
     { label: "No", value: false }
   ]
 
   const AutoacceptFunction = (details) => {
+    console.log(details, 'dhbvhg')
     setSelectAutoAccept(details)
   }
 

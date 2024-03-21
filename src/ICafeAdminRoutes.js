@@ -3,27 +3,32 @@ import { lazy } from 'react';
 import { USER_ROLE } from 'constants.js';
 import { DEFAULT_PATHS } from 'config.js';
 
-const IcafeDashboard = lazy(()=>import('viewICafeAdmin/Dashboard/dashboard'))
-const CompanyManagement = lazy(()=>import('viewICafeAdmin/CompanyManagement/companymanagement'))
-const UserManagement = lazy(()=>import('viewICafeAdmin/AdminUserManagement/adminuser'));
-const UserAdd = lazy(()=>import('viewICafeAdmin/AdminUserManagement/adminadduser'));
+const IcafeDashboard = lazy(() => import('viewICafeAdmin/Dashboard/dashboard'))
+const CompanyManagement = lazy(() => import('viewICafeAdmin/CompanyManagement/companymanagement'))
+const UserManagement = lazy(() => import('viewICafeAdmin/AdminUserManagement/adminuser'));
+const UserAdd = lazy(() => import('viewICafeAdmin/AdminUserManagement/adminadduser'));
 const addAdimcafeCompany = lazy(() => import('viewICafeAdmin/CompanyManagement/addAdminCompany'));
-const StoreManagement = lazy(()=> import('viewICafeAdmin/StoreManagement/storemanagement'));
-const addAdminStore = lazy(()=>import('viewICafeAdmin/StoreManagement/addAdminStoreManagement'));
-const AdminCategory = lazy(()=>import('viewICafeAdmin/AdminCategoryManagement/admincategory'));
-const AdminAddCategory = lazy(()=>import('viewICafeAdmin/AdminCategoryManagement/adminaddcategory'));
-const AdminProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/productmanagement'));
-const AdminAddProduct = lazy(()=>import('viewICafeAdmin/AdminProductManagement/addproductmanagement'));
-const OrderList=lazy(()=>import('viewICafeAdmin/Order/Order'));
-const Reports = lazy(()=>import('viewICafeAdmin/Reports/adminreports'));
-const AdminOrderView = lazy(()=>import('viewICafeAdmin/Order/orderview'));
-const AdminNotification = lazy(()=>import('viewICafeAdmin/AdminNotifications/adminnotifications'));
-const AdminChangePassword=lazy(()=>import('viewICafeAdmin/ChangePassword/adminchangepassword'));
-const Roles = lazy(()=>import('viewICafeAdmin/Roles/roles'));
-const AddRoles = lazy(()=>import('viewICafeAdmin/Roles/addroles'));
-const FeedBack=lazy(()=>import('viewICafeAdmin/FeedBack/feedback'));
+const StoreManagement = lazy(() => import('viewICafeAdmin/StoreManagement/storemanagement'));
+const addAdminStore = lazy(() => import('viewICafeAdmin/StoreManagement/addAdminStoreManagement'));
+const AdminCategory = lazy(() => import('viewICafeAdmin/AdminCategoryManagement/admincategory'));
+const AdminAddCategory = lazy(() => import('viewICafeAdmin/AdminCategoryManagement/adminaddcategory'));
+const AdminProduct = lazy(() => import('viewICafeAdmin/AdminProductManagement/productmanagement'));
+const AdminAddProduct = lazy(() => import('viewICafeAdmin/AdminProductManagement/addproductmanagement'));
+const OrderList = lazy(() => import('viewICafeAdmin/Order/Order'));
+const Reports = lazy(() => import('viewICafeAdmin/Reports/adminreports'));
+const AdminOrderView = lazy(() => import('viewICafeAdmin/Order/orderview'));
+const AdminNotification = lazy(() => import('viewICafeAdmin/AdminNotifications/adminnotifications'));
+const AdminChangePassword = lazy(() => import('viewICafeAdmin/ChangePassword/adminchangepassword'));
+const Roles = lazy(() => import('viewICafeAdmin/Roles/roles'));
+const AddRoles = lazy(() => import('viewICafeAdmin/Roles/addroles'));
+const FeedBack = lazy(() => import('viewICafeAdmin/FeedBack/feedback'));
 // const ViewReview = lazy(()=>import('viewICafeAdmin/FeedBack/viewreview'));
-const ProductReview = lazy(()=>import('viewICafeAdmin/FeedBack/productreview'));
+const ProductReview = lazy(() => import('viewICafeAdmin/FeedBack/productreview'));
+const AdminBanner = lazy(() => import('viewICafeAdmin/AdminBanners/adminbanners'));
+const AdminAddBanner = lazy(()=>import('viewICafeAdmin/AdminBanners/addbanners'));
+const Coupons = lazy(()=>import('viewICafeAdmin/Coupons/couponlist'))
+const Addcoupons = lazy(()=>import('viewICafeAdmin/Coupons/AddCoupon'))
+const Updatecoupons = lazy(()=>import('viewICafeAdmin/Coupons/UpdateCoupon'))
 
 
 const FooterRoutes = {
@@ -171,6 +176,27 @@ const iCafeAdminRoutesAndMenuItems = {
       icon: 'shop',
     },
     {
+      path: `${appRoot}/couponlist`,
+      component: Coupons,
+      label: 'Coupon list',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/AddCoupon`,
+      component: Addcoupons,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/Update-Coupon`,
+      component: Updatecoupons,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    // Updatecoupons
+    // Addcoupons
+    // Coupons
+    {
       path: `${appRoot}/add_roles`,
       component: AddRoles,
       // label: 'User Management',
@@ -197,14 +223,30 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/feedback`,
       component: FeedBack,
-      label: 'Feedback',
+      label: 'Feedbacks',
       icon: 'shop',
+    },
+    {
+      path: `${appRoot}/feedback_by_product`,
+      component: FeedBack,
+      // label: 'Feedback',
+      // icon: 'shop',
     },
     {
       path: `${appRoot}/product_view`,
       component: ProductReview,
       // label: 'User Management',
       // icon: 'user',
+    },
+    {
+      path: `${appRoot}/banner`,
+      component:AdminBanner,
+      label: 'Banner',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/add_banner`,
+      component:AdminAddBanner,
     },
     {
       path: `${appRoot}/termsconditions`,
@@ -263,8 +305,8 @@ const iCafeAdminRoutesAndMenuItems = {
     // {
     //   path: `${appRoot}/addcompany`,
     //   component: addcompany,
-      // label: 'User Management',
-      // icon: 'user',
+    // label: 'User Management',
+    // icon: 'user',
     // },
     // {
     //   path: `${appRoot}/User`,
@@ -275,8 +317,8 @@ const iCafeAdminRoutesAndMenuItems = {
     // {
     //   path: `${appRoot}/adduser`,
     //   component: adduser,
-      // label: 'User Management',
-      // icon: 'user',
+    // label: 'User Management',
+    // icon: 'user',
     // },
     // {
     //   path: `${appRoot}/executive`,
@@ -287,8 +329,8 @@ const iCafeAdminRoutesAndMenuItems = {
     // {
     //   path: `${appRoot}/addexecutive`,
     //   component: addexecutive,
-      // label: 'Front Desk Executive',
-      // icon: 'user',
+    // label: 'Front Desk Executive',
+    // icon: 'user',
     // },
     // {
     //   path: `${appRoot}/category`,
@@ -299,8 +341,8 @@ const iCafeAdminRoutesAndMenuItems = {
     // {
     //   path: `${appRoot}/addcategory`,
     //   component: addcategory,
-      // label: 'Category Management',
-      // icon: 'user',
+    // label: 'Category Management',
+    // icon: 'user',
     // },
     // {
     //   path: `${appRoot}/product`,

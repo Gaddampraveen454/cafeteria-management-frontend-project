@@ -167,8 +167,8 @@ const addrole = () => {
     }, [formErrors])
 
     const RolesGroup = [
-        { label: "cashier", value: "cashier" },
-        { label: "manager", value: "manager" }
+        { label: "Cashier", value: "cashier" },
+        { label: "Manager", value: "manager" }
     ]
 
     const handleGroup = (selectValue) => {

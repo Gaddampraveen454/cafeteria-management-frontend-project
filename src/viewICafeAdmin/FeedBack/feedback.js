@@ -8,11 +8,17 @@ import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { ICafeAdminProductList, ICafeAdminProductNameURL, ICafeAdminProductViewURL, ICafeFeedbackListURL } from 'Redux/IcafeAdminRedux/Feedbackredux/feedbackdux';
 import Rating from 'react-rating-stars-component';
+import { ExportExcel } from 'Export';
+import DatePicker from 'react-date-picker';
+import '../Order/datepicker.css'
+import moment from 'moment';
+import 'react-date-picker/dist/DatePicker.css';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownList, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 
 const feedback = () => {
-    const title = "Feedback"
+    const title = "Feedbacks"
     const review = "Review"
     const productReview = "Product Wise Review"
     const history = useHistory('');
@@ -25,11 +31,22 @@ const feedback = () => {
     const [search1, setSearch1] = useState('')
     const [discountModal, setDiscountModal] = useState(false);
     const [view, setView] = useState('');
-    console.log(view, 'hsbdvhgbfberu')
+
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [option, setOption] = useState('');
+    const [option1, setOption1] = useState('');
+    console.log(option, 'hsbdvhgbfberu')
+    const [comapanyOption, setComapanyOption] = useState('')
+
+    const [productCompanyDropdown, setProductCompanyDropdown] = useState('')
+    const [productStoreDropdown, setProductStoreDropdown] = useState('')
+    const [productStoreDropdown1, setProductStoreDropdown1] = useState('')
 
     const [modal, setModal] = useState(false);
     const [viewProduct, setViewProduct] = useState('');
     console.log(viewProduct, 'hsbdvhgbfhgthberu')
+
 
     const { currentUser } = useSelector((state) => state.auth);
     console.log(currentUser, 'hbvhsfh')
@@ -39,41 +56,55 @@ const feedback = () => {
 
 
     useEffect(() => {
-        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit))
-        dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1))
+        if (window.location.pathname === '/feedback') {
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate))
+        }
+        else {
+            dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1, productCompanyDropdown, productStoreDropdown))
+        }
     }, [])
 
+    const [tab, setTab] = useState("tab1")
+    useEffect(() => {
+        console.log(window.location.pathname, "feedbackbyproduct")
+        if (window.location.pathname === "/feedback_by_product") {
+            setTab("tab2")
+        }
+        else {
+            setTab("tab1")
+        }
+    }, [])
     const searchfunction = (type, pages) => {
         if (type === "search") {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(ICafeFeedbackListURL(0, pages, currentUser.token, limit))
+            dispatch(ICafeFeedbackListURL(0, pages, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(ICafeFeedbackListURL(page - 1, search, currentUser.token, limit))
+            dispatch(ICafeFeedbackListURL(page - 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(ICafeFeedbackListURL(page + 1, search, currentUser.token, limit))
+            dispatch(ICafeFeedbackListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(ICafeFeedbackListURL(page, search, currentUser.token, limit))
+            dispatch(ICafeFeedbackListURL(page, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(ICafeFeedbackListURL(page + 1, search, currentUser.token, limit))
+            dispatch(ICafeFeedbackListURL(page + 1, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(ICafeFeedbackListURL(page + 2, search, currentUser.token, limit))
+            dispatch(ICafeFeedbackListURL(page + 2, search, currentUser.token, limit, comapanyOption, option, startDate, endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(ICafeFeedbackListURL(0, search, currentUser.token, pages))
+            dispatch(ICafeFeedbackListURL(0, search, currentUser.token, pages, comapanyOption, option, startDate, endDate))
         }
     }
 
@@ -84,32 +115,32 @@ const feedback = () => {
             console.log(pages1, "ghjkvbnm")
             setSearch1(pages1)
             setPage1(0)
-            dispatch(ICafeAdminProductList(0, pages1, currentUser.token, limit1))
+            dispatch(ICafeAdminProductList(0, pages1, currentUser.token, limit1, productCompanyDropdown, productStoreDropdown))
         }
         if (type1 === "prev") {
             setPage1(page1 - 1)
-            dispatch(ICafeAdminProductList(page1 - 1, search1, currentUser.token, limit1))
+            dispatch(ICafeAdminProductList(page1 - 1, search1, currentUser.token, limit1, productCompanyDropdown, productStoreDropdown))
         }
         else if (type1 === "next") {
             setPage1(page1 + 1)
-            dispatch(ICafeAdminProductList(page1 + 1, search1, currentUser.token, limit1))
+            dispatch(ICafeAdminProductList(page1 + 1, search1, currentUser.token, limit1, productCompanyDropdown, productStoreDropdown))
         }
         else if (type1 === "page") {
             setPage1(page1)
-            dispatch(ICafeAdminProductList(page1, search1, currentUser.token, limit1))
+            dispatch(ICafeAdminProductList(page1, search1, currentUser.token, limit1, productCompanyDropdown, productStoreDropdown))
         }
         else if (type1 === "page+1") {
             setPage1(page1 + 1)
-            dispatch(ICafeAdminProductList(page1 + 1, search1, currentUser.token, limit1))
+            dispatch(ICafeAdminProductList(page1 + 1, search1, currentUser.token, limit1, productCompanyDropdown, productStoreDropdown))
         }
         else if (type1 === "page+2") {
             setPage1(page1 + 2)
-            dispatch(ICafeAdminProductList(page1 + 2, search1, currentUser.token, limit1))
+            dispatch(ICafeAdminProductList(page1 + 2, search1, currentUser.token, limit1, productCompanyDropdown, productStoreDropdown))
         }
         else if (type1 === "limit") {
             setLimit1(pages1)
             setPage1(0)
-            dispatch(ICafeAdminProductList(0, search1, currentUser.token, pages1))
+            dispatch(ICafeAdminProductList(0, search1, currentUser.token, pages1, productCompanyDropdown, productStoreDropdown))
         }
     }
 
@@ -129,19 +160,137 @@ const feedback = () => {
 
         setTimeout(() => {
             setDiscountModal(true);
-        }, 1000)
+        }, 1200)
 
     }
 
     const viewEventHandler = (value) => {
         history.push({
             pathname: '/product_view',
-            state: value
+            state: {
+                data: value,
+                url: window.location.pathname
+            }
         })
         // console.log(value, 'vdshdgfvhbjh')
         // setModal(true)
         // setViewProduct(value)
         // dispatch(ICafeAdminProductViewURL(value?.product_uuid,currentUser.token))
+    }
+    const { AdmincategoryDropdown, storeDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
+
+    useEffect(() => {
+        dispatch(ICafeAdminCategoryDropDownListURL());
+        dispatch(ICafeAdminCategoryStoreDropDownListURL());
+
+    }, [])
+
+    const [isClearable, setIsClearable] = useState(true);
+    const [isRemove, setIsRemove] = useState(true);
+
+
+
+    const CompanyDropDown = [];
+
+    AdmincategoryDropdown?.data?.map((text) => {
+        return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
+    })
+
+    const selectedCompany = (selectvalue) => {
+        setComapanyOption(selectvalue?.value ? selectvalue?.value : "")
+        setOption("")
+        setOption1('')
+        dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
+        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, selectvalue === null ? '' : selectvalue?.value, '', startDate, endDate))
+    }
+
+    const StoreDropp = [];
+
+    storeDropdownByCompanyId?.data?.map((text) => {
+        return StoreDropp.push({ value: text?.uuid, label: text?.store_name })
+    })
+
+
+    // const dropdownValues = [];
+
+    // storeDropdown?.data?.map((text) => {
+    //     return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
+    // })
+
+    const selectdropdown = (text) => {
+        console.log(text, 'grfgrvger')
+        setOption(text?.value ? text?.value : '')
+        setOption1(text)
+        dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, text === null ? '' : text?.value, startDate, endDate))
+    }
+
+    const ChangeStartData = (e) => {
+        if (e) {
+            const formattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedDate, 'sdvhhjdfsgvghg');
+
+            setStartDate(formattedDate);
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, formattedDate, endDate))
+        }
+        else {
+            setStartDate('');
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, '', endDate))
+        }
+    };
+    const ChangeEndData = (e) => {
+
+        if (e) {
+            const formattedEndDate = moment(e).format('MM-DD-YYYY');
+            console.log(formattedEndDate, 'zvdchgsdv')
+
+            setEndDate(formattedEndDate);
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, formattedEndDate))
+        }
+        else {
+            setEndDate('');
+            dispatch(ICafeFeedbackListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, ''))
+        }
+    };
+
+    const ProductCompanyDropdown = []
+
+    AdmincategoryDropdown?.data?.map((text) => {
+        return ProductCompanyDropdown.push({ label: text?.company_name, value: text?.uuid })
+    })
+
+    const handleProductCompanyDropdown = (selectvalue) => {
+        setProductCompanyDropdown(selectvalue?.value ? selectvalue?.value : '')
+        setProductStoreDropdown("")
+        setProductStoreDropdown1("")
+        dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
+        dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1, selectvalue === null ? "" : selectvalue?.value, ''))
+    }
+
+    const StoreDropdown = []
+
+    storeDropdownByCompanyId?.data?.map((text) => {
+        return StoreDropdown.push({ value: text?.uuid, label: text?.store_name })
+    })
+
+    const hnadleProductStoredropdown = (text) => {
+        setProductStoreDropdown(text?.value ? text?.value : '')
+        setProductStoreDropdown1(text)
+        dispatch(ICafeAdminProductList(page1, search1, currentUser?.token, limit1, productCompanyDropdown, text === null ? "" : text?.value))
+    }
+
+    const TabChange = (tabdata) => {
+        if (tabdata === "tab1") {
+            setTab('tab1')
+            history.push('/feedback')
+        }
+        else {
+            setTab('tab2')
+            history.push('/feedback_by_product')
+        }
+    }
+
+    const exportfunction = async () => {
+        await ExportExcel(`/feedback/export?company_uuid=${comapanyOption}&store_uuid=${option}&start_date=${startDate}&end_date=${endDate}`, "Feedbacks", currentUser.token)
     }
     return (
 
@@ -155,10 +304,10 @@ const feedback = () => {
                     {title}
                 </h1>
             </div>
-            <Tabs className='mt-2' defaultActiveKey="tab1" id="tabs-example">
+            <Tabs className='mt-2' defaultActiveKey="tab1" id="tabs-example" activeKey={tab} onSelect={(k) => TabChange(k)}>
                 <Tab eventKey="tab1" title={review}>
                     <Row className="mb-3 mt-5">
-                        <Col lg="3" className="mb-1">
+                        <Col lg="2" className="mb-1 mt-5">
                             {/* Search Start */}
                             {/* <Form.Label/> */}
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -174,87 +323,59 @@ const feedback = () => {
                             {/* Search End */}
                         </Col>
 
-                        {/* <Col lg="3"> */}
-                        {/* <Form.Label>Company</Form.Label> */}
-                        {/* <Select classNamePrefix="react-select"
-                        options={ActivcompanyList}
-                        value={compnayId}
-                        onChange={setCompnayId}
-                        placeholder="Select Company" */}
-                        {/* disabled={eventType} */}
-                        {/* /> */}
-                        {/* </Col> */}
-
-                        {/* <Col lg="2"  className='mb-1'>
-                    <Form.Label>Company</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select company"
-                        // isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
-                        // onChange={selectedCompany}
-                        name="color"
-                        border="none"
-                        // options={CompanyDropDown}
-                        placeholder='Select Company'
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Form.Label>Category</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select Store"
-                        // options={StoredropdownValues}
-                        // isClearable={isRemove}
-                        // value={categoryId}
-                        // onChange={selectdropdown}
-                        placeholder="Select Store"
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    // disabled={eventType}
-                    />
-                </Col> */}
-                        {/* <Col md="2" lg="2" className='mb-1'>
-                    <Select
-                        classNamePrefix="react-select"
-                        // options={OrderStatus}
-                        // value={selectorderstatus}
-                        // onChange={OrderStatusFunction}
-                        placeholder="Order Status" />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                        onClick={() => setQROpen(true)}>
-                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        {/* <Col lg="1"className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh  <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        <Col lg="9" className="mb-1 text-end">
-                            {/* Print Button Start */}
-                            {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-                            <CsLineIcons icon="print" />
-                        </Button>
-                    </OverlayTrigger> */}
-                            {/* Print Button End */}
-
+                        <Col lg="2">
+                            <Form.Label>Select Company</Form.Label>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select company"
+                                isClearable={isClearable}
+                                // defaultValue={colourOptions[0]}
+                                // value={companyOption1}
+                                onChange={selectedCompany}
+                                name="color"
+                                border="none"
+                                options={CompanyDropDown}
+                                placeholder='Select Company'
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        borderRadius: '12px',
+                                    }),
+                                }}
+                            />
+                        </Col>
+                        <Col lg="2">
+                            <Form.Label>Select Store</Form.Label>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select Store"
+                                options={StoreDropp}
+                                isClearable={isRemove}
+                                value={option1}
+                                onChange={selectdropdown}
+                                placeholder="Select Store"
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        borderRadius: '12px',
+                                    }),
+                                }}
+                            // disabled={eventType}
+                            />
+                        </Col>
+                        <Col md="2" lg="2" xxl="2" className="mb-1" >
+                            {/* <div className="mb-3"> */}
+                            <Form.Label>Start date</Form.Label>
+                            <DatePicker value={startDate} onChange={ChangeStartData} placeholder="Start date" />
+                        </Col>
+                        <Col md="2" lg="2" xxl="2" className="mb-1" >
+                            <Form.Label>End date</Form.Label>
+                            <DatePicker value={endDate} onChange={ChangeEndData} placeholder="End date" />
+                            {/* </div> */}
+                        </Col>
+                        <Col xs="1" md="1" className='mt-4' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "10px" }} >
                             {/* Export Dropdown Start */}
-                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
+                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
@@ -262,11 +383,34 @@ const feedback = () => {
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
                             <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
                             <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> */}
+
+                            <Button onClick={exportfunction}>
+                                Export
+                            </Button>
                             {/* Export Dropdown End */}
+
+                            {/* Length Start */}
+                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
+                            <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
+                                {limit} Items
+                            </Dropdown.Toggle>
+                        </OverlayTrigger>
+                        <Dropdown.Menu className="shadow dropdown-menu-end">
+                            <Dropdown.Item onClick={() => searchfunction("limit", 5)}>5 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 10)}>10 Items</Dropdown.Item>
+                            <Dropdown.Item onClick={() => searchfunction("limit", 20)}>20 Items</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown> */}
+                            {/* Length End */}
+
+                        </Col>
+                        <Col lg="1" className="mb-1 text-end mt-5">
+
 
                             {/* Length Start */}
                             <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -291,13 +435,16 @@ const feedback = () => {
                         <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-small cursor-pointer ">Order ID</div>
                         </Col>
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-small cursor-pointer ">Company Name</div>
+                        </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Name</div>
                         </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Email</div>
                         </Col>
-                        <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Mobile</div>
                         </Col>
                         <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -326,6 +473,10 @@ const feedback = () => {
                                                 {text?.feedback[0]?.order_uuid}
                                             </Button>
                                         </Col>
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                            <div className="text-muted text-small d-md-none">Name</div>
+                                            <div className="text-alternate">{text?.companies[0]?.company_name}</div>
+                                        </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Name</div>
                                             <div className="text-alternate">{text?.users[0]?.name}</div>
@@ -334,7 +485,7 @@ const feedback = () => {
                                             <div className="text-muted text-small d-md-none">Email</div>
                                             <div className="text-alternate">{text?.users[0]?.email}</div>
                                         </Col>
-                                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Mobile</div>
                                             <div className="text-alternate">{text?.users[0]?.mobile}</div>
                                         </Col>
@@ -356,7 +507,7 @@ const feedback = () => {
                                         </Col>
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
+                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No reviews available"}</div>
                                         </Col>
 
                                     </Row>
@@ -420,7 +571,7 @@ const feedback = () => {
                                         <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
                                             {view?.reviews && view.reviews.length > 0 ? (
-                                                <Form.Control type="text" value={view.reviews[0].review} readOnly />
+                                                <Form.Control type="text" as='textarea' value={view.reviews[0].review} readOnly />
                                             ) : (
                                                 <p>No reviews available</p>
                                             )}
@@ -476,7 +627,7 @@ const feedback = () => {
 
                 <Tab eventKey="tab2" title={productReview}>
                     <Row className="mb-3 mt-5">
-                        <Col lg="3" className="mb-1">
+                        <Col lg="3" className="mb-1 mt-5">
                             {/* Search Start */}
                             {/* <Form.Label/> */}
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -491,102 +642,49 @@ const feedback = () => {
                             </div>
                             {/* Search End */}
                         </Col>
+                        <Col lg="2">
+                            <Form.Label>Select Company</Form.Label>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select company"
+                                isClearable={isClearable}
+                                // defaultValue={colourOptions[0]}
+                                // value={companyOption1}
+                                onChange={handleProductCompanyDropdown}
+                                name="color"
+                                border="none"
+                                options={ProductCompanyDropdown}
+                                placeholder='Select Company'
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        borderRadius: '12px',
+                                    }),
+                                }}
+                            />
+                        </Col>
+                        <Col lg="2">
+                            <Form.Label>Select Store</Form.Label>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select Store"
+                                options={StoreDropdown}
+                                isClearable={isRemove}
+                                value={productStoreDropdown1}
+                                onChange={hnadleProductStoredropdown}
+                                placeholder="Select Store"
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        borderRadius: '12px',
+                                    }),
+                                }}
+                            // disabled={eventType}
+                            />
+                        </Col>
 
-                        {/* <Col lg="3"> */}
-                        {/* <Form.Label>Company</Form.Label> */}
-                        {/* <Select classNamePrefix="react-select"
-                        options={ActivcompanyList}
-                        value={compnayId}
-                        onChange={setCompnayId}
-                        placeholder="Select Company" */}
-                        {/* disabled={eventType} */}
-                        {/* /> */}
-                        {/* </Col> */}
+                        <Col lg="5" className="mb-1 text-end mt-5">
 
-                        {/* <Col lg="2"  className='mb-1'>
-                    <Form.Label>Company</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select company"
-                        // isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
-                        // onChange={selectedCompany}
-                        name="color"
-                        border="none"
-                        // options={CompanyDropDown}
-                        placeholder='Select Company'
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Form.Label>Category</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select Store"
-                        // options={StoredropdownValues}
-                        // isClearable={isRemove}
-                        // value={categoryId}
-                        // onChange={selectdropdown}
-                        placeholder="Select Store"
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    // disabled={eventType}
-                    />
-                </Col> */}
-                        {/* <Col md="2" lg="2" className='mb-1'>
-                    <Select
-                        classNamePrefix="react-select"
-                        // options={OrderStatus}
-                        // value={selectorderstatus}
-                        // onChange={OrderStatusFunction}
-                        placeholder="Order Status" />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                        onClick={() => setQROpen(true)}>
-                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        {/* <Col lg="1"className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh  <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        <Col lg="9" className="mb-1 text-end">
-                            {/* Print Button Start */}
-                            {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-                            <CsLineIcons icon="print" />
-                        </Button>
-                    </OverlayTrigger> */}
-                            {/* Print Button End */}
-
-                            {/* Export Dropdown Start */}
-                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                                <CsLineIcons icon="download" />
-                            </Dropdown.Toggle>
-                        </OverlayTrigger>
-                        <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
-                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-                            {/* Export Dropdown End */}
-
-                            {/* Length Start */}
                             <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                                 <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
                                     <Dropdown.Toggle variant="foreground-alternate" className="shadow sw-13">
@@ -664,7 +762,7 @@ const feedback = () => {
                                         </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Type</div>
-                                            <div className="text-alternate">{text?.type}</div>
+                                            <div className="text-alternate">{text?.type?.charAt(0).toLowerCase() ? text?.type?.charAt(0).toUpperCase() + text?.type.slice(1) : text?.type}</div>
                                         </Col>
                                         {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Mobile</div>
@@ -672,19 +770,7 @@ const feedback = () => {
                                         </Col> */}
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Average Rating</div>
-
-                                            <Rating
-                                                count={5}
-                                                value={text?.avg_rating}
-                                                // onChange={handleRatingChange}
-                                                size={25}
-                                                activeColor="#ffd700"
-                                                edit={false}
-                                                className="lh-1 text-alternate  mt-2"
-                                            />
-                                            {/* :
-                                                <span className="lh-1 text-alternate">No Rating</span>
-                                            } */}
+                                            <div className="text-alternate">{text?.avg_rating}</div>
                                         </Col>
                                         {/* <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Review</div>

@@ -79,7 +79,7 @@ const Storeaddcategory = () => {
     
     const payload = {
       "company_uuid": currentUser?.data?.company_uuid,
-      "store_uuid": currentUser?.data?.uuid,
+      "store_uuid": currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ,
       "name": name,
       "sort_order": sortorder
 

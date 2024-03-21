@@ -9,6 +9,8 @@ import { ConsumerOrderView, ConsumerOrderReview, ConsumerFeedback } from 'Redux/
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rating from 'react-rating-stars-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import {
     Dialog,
     DialogActions,
@@ -26,7 +28,7 @@ const UserOrderRating = () => {
     const { id } = useParams();
 
     const location = useLocation('')
-    console.log(location?.state?.detailsValue, "11111111111111")
+    console.log(location?.state, "111111")
 
     const title = 'Order Rating';
     const description = 'Ecommerce Category Management Page';
@@ -76,23 +78,36 @@ const UserOrderRating = () => {
     const { currentUser } = useSelector((state) => state.auth)
 
     const { OrderView, consumerfeedback, notification } = useSelector((state) => state.OrderPlacedData)
-    console.log(OrderView, "ConsumerOrderView")
+    console.log(OrderView, location?.state?.event?.uuid, id, OrderView?.data?.uuid, "ConsumerOrderView")
 
     const [ratingValue, setRating] = React.useState('');
     const [success, setSuccess] = useState(false);
 
-    const OrderViewFunction = () => {
-        dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-    }
 
     useEffect(() => {
-        OrderViewFunction()
+        dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
     }, [])
 
 
+
+
+
+    // const [review,setReview]=useState(OrderView?.data?.reviews.length > 0  ? OrderView?.data?.reviews[0]?.review : '')
     const [productuuid, setProductuuid] = useState('');
 
+    const [RatingValue, setRatingValue1] = useState(location?.state?.event?.feedbacks?.length > 0 && location?.state?.event?.feedbacks.map((items) => {
+        return items?.rating
+    }))
+
+    useEffect(() => {
+        setRatingValue1(location?.state?.event?.feedbacks?.length > 0 && location?.state?.event?.feedbacks.map((items) => {
+            return console.log(items?.rating, "RatingValue")
+        }))
+    }, [location?.state])
+    // console.log(RatingValue,"RatingValue")
+
     const handleRatingChange = (newRating, productID) => {
+        console.log("jdvcdbchbcsjh")
 
         const payload = {
             "user_uuid": currentUser?.data?.uuid,
@@ -104,7 +119,7 @@ const UserOrderRating = () => {
         setSuccess(true)
         setTimeout(() => {
             dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-        }, 200)
+        }, 500)
     }
 
     const ConsumerReviewApi = (event) => {
@@ -120,7 +135,10 @@ const UserOrderRating = () => {
         setSuccess(true)
         setTimeout(() => {
             dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
-        }, 200)
+            history.push("/Order")
+        }, 1000)
+
+
     }
 
     const [ratingvalue, setRatingValue] = useState('')
@@ -136,6 +154,7 @@ const UserOrderRating = () => {
     useEffect(() => {
         if (success === true) {
             if (notification?.status === true) {
+                // dispatch(ConsumerOrderView(currentUser?.data?.token, location?.state?.event?.uuid || id || OrderView?.data?.uuid))
                 toast.success(notification?.message, {
                     position: "top-right",
                 })
@@ -156,6 +175,20 @@ const UserOrderRating = () => {
         setProductuuid(event?.uuid)
         setRatingOpen(true)
     }
+
+    const RenderStars = ({ rating, onStarClick }) => {
+        console.log(rating, 'fdbvhgvf')
+        const stars = [];
+
+        for (let i = 1; i <= 5; i += 1) {
+            stars.push(
+                // <CsLineIcons icon="star" size="20" fill={i < Number(rating) ? 'gold' : ''} />
+                <FontAwesomeIcon icon={faStar} onClick={() => onStarClick(i)} color={i <= Number(rating) ? 'gold' : ''} style={{ size: "25" }} />
+            );
+        }
+
+        return <div>{stars}</div>;
+    };
 
 
     return (
@@ -220,33 +253,7 @@ const UserOrderRating = () => {
                         </Card.Body>
                     </Card>
 
-                    <Row>
-                        <Col xs="12" className="col-lg order-1 order-lg-0">
 
-                            <Card className="mb-5">
-                                <Card.Body>
-                                    <Form onSubmit={ConsumerReviewApi}>
-                                        <h3>Order Review : </h3>
-                                        <Row className="g-3">
-                                            <Col lg="6">
-                                                <Form.Label>Review</Form.Label>
-                                                {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
-                                                <Form.Control as="textarea" name="review" rows={3}  defaultValue={OrderView?.data?.reviews[0]?.review} />
-                                            </Col>
-                                        </Row>
-                                        {/* {OrderView?.data?.reviews.length !== 1 && */}
-                                            <Row className="mt-3">
-                                                <Col lg="6">
-                                                    <Button variant="outline-primary" type='submit'>Submit</Button>
-                                                </Col>
-                                            </Row>
-                                        {/* } */}
-                                    </Form>
-                                </Card.Body>
-                            </Card>
-
-                        </Col>
-                    </Row>
 
                     <Card>
                         <Card.Body>
@@ -273,10 +280,13 @@ const UserOrderRating = () => {
                                             <Col xs="2" lg="1" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort">Price</div>
                                             </Col>
-                                            <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
-                                                <div className="text-muted text-medium cursor-pointer sort">Rating</div>
-                                            </Col>
-
+                                            {location?.state?.event?.order_status === "Cancelled" ?
+                                                ""
+                                                :
+                                                <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                                    <div className="text-muted text-medium cursor-pointer sort">Rating</div>
+                                                </Col>
+                                            }
                                         </Row>
                                     </Col>
                                 </Row>
@@ -412,28 +422,24 @@ const UserOrderRating = () => {
                                           <CsLineIcons icon="star" />s
                                         </Button>
                                       </Col>
-                                    } */}
-                                                                        <Col xs="auto" lg="12">
-                                                                            {/* {item?.feedbacks.length === 1 ?
-                                                                                <Rating
-                                                                                    count={5}
-                                                                                    value={item?.feedbacks[0]?.rating}
-                                                                                    onChange={(rating) => handleRatingChange(rating, item)}
-                                                                                    size={25}
-                                                                                    activeColor="#ffd700"
-                                                                                    edit={false}
-                                                                                />
-                                                                                : */}
-                                                                                <Rating
-                                                                                    count={5}
-                                                                                    value={item?.feedbacks[0]?.rating}
-                                                                                    onChange={(rating) => handleRatingChange(rating, item)}
-                                                                                    size={25}
-                                                                                    activeColor="#ffd700"
-                                                                                />
-                                                                            {/* } */}
-                                                                        </Col>
+                                    } */}                              {location?.state?.event?.order_status === "Cancelled" ?
+                                                                            ""
+                                                                            :
+                                                                            <Col xs="auto" lg="12">
+                                                                                {/* <Rating
+                                                                                count={5}
+                                                                                // value={item?.feedbacks[0]?.rating}
+                                                                                value={item?.feedbacks[0]?.rating || 0}
+                                                                                onChange={(rating) => handleRatingChange(rating, item)}
+                                                                                size={25}
+                                                                                activeColor="#ffd700"
+                                                                            /> */}
 
+                                                                                {/* <div>{renderStars(item?.feedbacks[0]?.rating)}</div> */}
+                                                                                <RenderStars rating={item?.feedbacks[0]?.rating} onStarClick={(rating) => handleRatingChange(rating, item)} />
+
+                                                                            </Col>
+                                                                        }
                                                                     </Row>
                                                                 </Col>
                                                             </Row>
@@ -611,6 +617,37 @@ const UserOrderRating = () => {
           </Card> */}
                 {/* </Col> */}
             </Row >
+            <Row className='mt-5'>
+                <Col xs="12" className="col-lg order-1 order-lg-0">
+                    {location?.state?.event?.order_status === "Cancelled" ?
+                        ""
+                        :
+                        <Card className="mb-5">
+                            <Card.Body>
+                                <Form onSubmit={ConsumerReviewApi}>
+                                    <h3>Order Review : </h3>
+                                    <Row className="g-3">
+                                        <Col lg="6">
+                                            <Form.Label>Review</Form.Label>
+                                            {/* <Form.Control as="textarea" name="review" rows={3} disabled={OrderView?.data?.reviews?.length === 1} defaultValue={OrderView?.data?.reviews[0]?.review} /> */}
+                                            <Form.Control as="textarea" name="review" rows={3}
+                                                defaultValue={location?.state?.event?.reviews.length > 0 ? location?.state?.event?.reviews[0]?.review : ''}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    {/* {OrderView?.data?.reviews.length !== 1 && */}
+                                    <Row className="mt-3">
+                                        <Col lg="6">
+                                            <Button variant="outline-primary" type='submit'>Submit</Button>
+                                        </Col>
+                                    </Row>
+                                    {/* } */}
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    }
+                </Col>
+            </Row>
         </>
     );
 };

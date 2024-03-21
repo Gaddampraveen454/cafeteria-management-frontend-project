@@ -44,9 +44,9 @@ const AdminUser = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
   console.log(selectCompany, "sfsfsdfdsfsfds")
-
+  const [selectCompanyDropdown, setSelectCompanyDropDown] = useState('');
   useEffect(() => {
-    dispatch(iCafeAdminConsumerListURL(page, search, currentUser.token, limit))
+    dispatch(iCafeAdminConsumerListURL(page, search, currentUser.token, limit,selectCompanyDropdown))
   }, [])
 
 
@@ -148,7 +148,8 @@ const AdminUser = () => {
   const [consmerId, setConsumerId] = useState("")
   const [selectedCompany, setSelectedCompany] = useState();
   console.log(selectedCompany, "selectedCompany")
-
+  const [isClearable, setIsClearable] = useState(true);
+ 
   const [suc, setSuc] = useState(false);
   const { AdmincategoryDropdown, storeDropdown } = useSelector((state) => state.admincategory)
   //   const { AdmincategoryDropdown } = useSelector(
@@ -205,7 +206,7 @@ const AdminUser = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(iCafeAdminConsumerListURL(page, search, currentUser.token, limit))
+          dispatch(iCafeAdminConsumerListURL(page, search, currentUser.token, limit,selectCompanyDropdown))
           setOpenPopup(false)
         }, 1000)
 
@@ -249,32 +250,32 @@ const AdminUser = () => {
       console.log(pages, "ghjkvbnm")
       setSearch(pages)
       setPage(0)
-      dispatch(iCafeAdminConsumerListURL(0, pages, currentUser.token, limit))
+      dispatch(iCafeAdminConsumerListURL(0, pages, currentUser.token, limit,selectCompanyDropdown))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(iCafeAdminConsumerListURL(page - 1, search, currentUser.token, limit))
+      dispatch(iCafeAdminConsumerListURL(page - 1, search, currentUser.token, limit,selectCompanyDropdown))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(iCafeAdminConsumerListURL(page + 1, search, currentUser.token, limit))
+      dispatch(iCafeAdminConsumerListURL(page + 1, search, currentUser.token, limit,selectCompanyDropdown))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(iCafeAdminConsumerListURL(page, search, currentUser.token, limit))
+      dispatch(iCafeAdminConsumerListURL(page, search, currentUser.token, limit,selectCompanyDropdown))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(iCafeAdminConsumerListURL(page + 1, search, currentUser.token, limit))
+      dispatch(iCafeAdminConsumerListURL(page + 1, search, currentUser.token, limit,selectCompanyDropdown))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(iCafeAdminConsumerListURL(page + 2, search, currentUser.token, limit))
+      dispatch(iCafeAdminConsumerListURL(page + 2, search, currentUser.token, limit,selectCompanyDropdown))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(iCafeAdminConsumerListURL(0, search, currentUser.token, pages))
+      dispatch(iCafeAdminConsumerListURL(0, search, currentUser.token, pages,selectCompanyDropdown))
     }
   }
 
@@ -305,6 +306,19 @@ const AdminUser = () => {
     console.log(text, 'dvhgdvgbhfvbj')
     return CompanyDropDown.push({ label: text?.company_name, value: text?.uuid })
   })
+
+  const CompanyFilterDropdown = [];
+
+  AdmincategoryDropdown?.data?.map((text) => {
+    console.log(text, 'dvhgdvgbhfvbj')
+    return CompanyFilterDropdown.push({ label: text?.company_name, value: text?.uuid })
+  })
+
+  const handleCompanyDropDown = (text) => {
+    console.log(text,'dhbvjfhdsc')
+    setSelectCompanyDropDown(text?.value) 
+    dispatch(iCafeAdminConsumerListURL(0, search, currentUser.token, limit,text === null ? '' : text?.value))
+  }
 
   return (
     <>
@@ -420,7 +434,28 @@ const AdminUser = () => {
           </div>
           {/* Search End */}
         </Col>
-        <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+        <Col lg="3">
+          {/* <Form.Label>Company</Form.Label> */}
+          <Select
+            className="basic-single"
+            classNamePrefix="select company"
+            isClearable={isClearable}
+            // borderRadius="10px"
+            // defaultValue={colourOptions[0]}
+            onChange={handleCompanyDropDown}
+            placeholder="Select company"
+            name="color"
+            border="none"
+            options={CompanyFilterDropdown}
+            styles={{
+              control: provided => ({
+                ...provided,
+                borderRadius: '12px',
+              }),
+            }}
+          />
+        </Col>
+        <Col md="5" lg="6" xxl="10" className="mb-1 text-end">
           {/* Print Button Start */}
           {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
             <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">

@@ -2,11 +2,14 @@
   "name": "acorn-react",
   "version": "1.0.1",
   "private": true,
-  "proxy": "http://localhost:3009",
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@firebase/analytics": "^0.10.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@fullcalendar/bootstrap": "^5.9.0",
     "@fullcalendar/daygrid": "^5.9.0",
     "@fullcalendar/interaction": "^5.9.0",
@@ -53,6 +56,7 @@
     "react-click-away-listener": "^2.2.2",
     "react-contexify": "^5.0.0",
     "react-countdown": "^2.3.2",
+    "react-date-picker": "^10.6.0",
     "react-datepicker": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-dropzone-uploader": "^2.11.0",
@@ -87,6 +91,7 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.2",
     "sortablejs": "^1.14.0",
+    "sweetalert2": "^11.10.5",
     "uncontrollable": "^7.2.1",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.9"
@@ -95,7 +100,7 @@
     "start-js": " set PORT=3009 && react-scripts start --dev",
     "start-css": "sass --style=compressed --watch src/sass/styles.scss:public/css/styles.css",
     "start": "concurrently \"npm run start-js\" \"npm run start-css\"",
-    "build-js": "react-scripts build --prod",
+    "build-js": "node ./update-build.js &&  react-scripts build --prod",
     "build-css": "sass --style=compressed --no-source-map src/sass/styles.scss:public/css/styles.css",
     "build": "concurrently \"npm run build-css\" \"npm run build-js\"",
     "test": "react-scripts test",
@@ -150,5 +155,6 @@
     "lint-staged": "^11.0.0",
     "prettier": "2.3.1",
     "sass": "^1.42.1"
-  }
+  },
+  "buildDate": 1708945071445
 }

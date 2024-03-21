@@ -57,6 +57,16 @@ const Login = () => {
           // /dashboard
           localStorage.setItem('token', currentUser)
         }
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "manager") {
+          history.push('/dashboard')
+          // /dashboard
+          localStorage.setItem('token', currentUser)
+        }
+        else if (isLogin === true && currentUser && currentUser.data && currentUser.data.group === "cashier") {
+          history.push('/Storedashboard')
+          // /dashboard
+          localStorage.setItem('token', currentUser)
+        }
       }
       else if (notification.status === false) {
         toast.error(notification.message)
@@ -115,7 +125,7 @@ const Login = () => {
     <div className="sw-lg-70 min-h-100 bg-foreground d-flex justify-content-center align-items-center shadow-deep py-5 full-page-content-right-border">
       <div className="sw-lg-50 px-5">
         <div className="sh-11">
-          <NavLink to="/">
+          <NavLink to="/login">
             {/* <div className="logo-default" /> */}
             <img src={logo} alt="logo" style={{ width: "100px", height: "auto" }} />
           </NavLink>

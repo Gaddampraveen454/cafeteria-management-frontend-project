@@ -223,7 +223,7 @@ const StoreManagement = () => {
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(ICafeAdminStoreListURL(0, search, currentUser.token, pages))
+            dispatch(ICafeAdminStoreListURL(0, search, currentUser.token, pages,option))
         }
     }
 

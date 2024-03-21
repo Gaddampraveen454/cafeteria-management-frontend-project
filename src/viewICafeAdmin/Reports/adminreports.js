@@ -7,12 +7,15 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import CheckAll from 'components/check-all/CheckAll';
 import Select from 'react-select';
-import DatePicker from 'react-datepicker';
+import DatePicker from 'react-date-picker';
+import '../Order/datepicker.css'
 import { CompanyListURL } from 'Redux/AdminRedux/Comapny/Company';
 // import Export from 'Export';
+import 'react-date-picker/dist/DatePicker.css';
 import { ExportExcel } from 'Export';
 import { ICafeAdminReportListURL, ICafeAdminUserDropdownList } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
 import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownListURL, ICafeAdminCategoryStoreDropDownList } from "Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux";
+import moment from 'moment';
 
 const AdminReports = () => {
     const dispatch = useDispatch()
@@ -54,9 +57,12 @@ const AdminReports = () => {
     const [orderComapnyOption, setOrderCompanyOption] = useState('');
     const [orderComapnyOption1, setOrderCompanyOption1] = useState('');
     const [orderOption, setOrderOption] = useState('');
+    const [orderOption1, setOrderOption1] = useState('');
     const [option, setOption] = useState('');
+    const [option1, setOption1] = useState('');
     const [selectuser, setSelectUser] = useState('');
     const [selectuser1, setSelectUser1] = useState('');
+    const [selectType, setSelectType] = useState('');
 
 
     console.log(companyData, "sfsdfdsfs");
@@ -67,13 +73,13 @@ const AdminReports = () => {
     const { AdminReportData, notification, userDrop } = useSelector((state) => state.admindashbord)
     console.log(userDrop, 'dbsvhhvhvdsghvgh');
 
-    useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        setStartDate(today);
-        setEndDate(today);
-        setOrderStartDate(today);
-        setOrderEndDate(today);
-    }, []);
+    // useEffect(() => {
+    //     const today = new Date().toISOString().split('T')[0];
+    //     setStartDate(today);
+    //     setEndDate(today);
+    //     setOrderStartDate(today);
+    //     setOrderEndDate(today);
+    // }, []);
 
     // useEffect(() => {
     //   dispatch(AdminReportListURL(currentUser.token))
@@ -94,25 +100,57 @@ const AdminReports = () => {
 
 
     const ChangeStartData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setStartDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, e?.target?.value, endDate));
+        if (e) {
+            const formattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedDate, 'sdvhhjdfsgv');
+
+            setStartDate(formattedDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, formattedDate, endDate));
+        }
+        else {
+            setStartDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, '', endDate));
+        }
     };
     const ChangeEndData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setEndDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, e?.target?.value));
+        if (e) {
+            const formattedEndDate = moment(e).format("MM-DD-YYYY");
+            console.log(formattedEndDate, 'sdvhhjdfsgv');
+
+            setEndDate(formattedEndDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, formattedEndDate));
+        }
+        else {
+            setEndDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, ''));
+        }
     };
 
     const OrderStartData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setOrderStartDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, e?.target?.value, orderEndDate));
+        if (e) {
+            const orderFormattedDate = moment(e).format("MM-DD-YYYY");
+            console.log(orderFormattedDate, 'sdvhhjdfsgv');
+
+            setOrderStartDate(orderFormattedDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderFormattedDate, orderEndDate));
+        }
+        else {
+            setOrderStartDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, '', orderEndDate));
+        }
     };
     const OrderEndData = (e) => {
-        console.log("ChangeStartData: ", e.target.value);
-        setOrderEndDate(e.target.value);
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, e?.target?.value));
+        if (e) {
+            const orderFormattedEndDate = moment(e).format("MM-DD-YYYY");
+            console.log(orderFormattedEndDate, 'sdvhhjdfsgv');
+
+            setOrderEndDate(orderFormattedEndDate);
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, orderFormattedEndDate));
+        }
+        else {
+            setOrderEndDate('');
+            dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, orderStartDate, ''));
+        }
     };
 
     const { AdmincategoryDropdown, storeDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
@@ -121,13 +159,14 @@ const AdminReports = () => {
     //   );
     console.log(storeDropdownByCompanyId, 'sbdvhjsdvsdv')
 
-    useEffect(() => {
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
-    }, [])
+    // useEffect(() => {
+    //     dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, comapanyOption, option, startDate, endDate));
+    //     dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
+    // }, [])
 
-    useEffect(() => {
-        dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
-    }, [])
+    // useEffect(() => {
+    //     dispatch(ICafeAdminReportListURL(page, search, currentUser?.token, limit, orderComapnyOption, orderOption, startDate, endDate));
+    // }, [])
 
     // const searchfunction = (type, pages) => {
     //     if (type === "search") {
@@ -184,8 +223,9 @@ const AdminReports = () => {
         setComapanyOption(selectvalue?.value)
         setCompanyOption1(selectvalue)
         setOption("")
+        setOption1('');
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
-        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === null ? "" : option, startDate, endDate))
+        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, '', startDate, endDate))
     }
 
     const StoreDropp = [];
@@ -203,10 +243,11 @@ const AdminReports = () => {
 
     const selectdropdown = (text) => {
         setOption(text?.value)
-        dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
+        setOption1(text)
+        // dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value, startDate, endDate))
     }
 
-    
+
 
 
     const OrderCompanyDropDown = [];
@@ -216,10 +257,11 @@ const AdminReports = () => {
     })
 
     const OrderCompanyHandle = (selectvalue) => {
-        console.log(selectvalue,'dshvhgdv')
+        console.log(selectvalue, 'dshvhgdv')
         setOrderCompanyOption(selectvalue?.value)
         setOrderCompanyOption1(selectvalue)
         setOrderOption("")
+        setOrderOption1('')
         dispatch(ICafeAdminCategoryStoreDropDownList(selectvalue === null ? "" : selectvalue?.value));
         dispatch(ICafeAdminUserDropdownList(currentUser?.token, selectvalue === null ? "" : selectvalue?.value))
     }
@@ -233,6 +275,7 @@ const AdminReports = () => {
 
     const selectOrderdropdown = (text) => {
         setOrderOption(text?.value)
+        setOrderOption1(text)
         dispatch(ICafeAdminReportListURL(0, search, currentUser.token, limit, orderComapnyOption === undefined ? "" : orderComapnyOption, text === null ? "" : text?.value, orderStartDate, orderEndDate))
     }
 
@@ -243,9 +286,9 @@ const AdminReports = () => {
 
     if (userDrop?.length > 0) {
         userDrop?.map((item) => {
-          return UserDropdown.push({ label: item?.name, value: item?.uuid })
+            return UserDropdown.push({ label: item?.name, value: item?.uuid })
         })
-      }
+    }
 
     const SelectUserDropdown = (select) => {
         console.log(select, "select")
@@ -253,14 +296,22 @@ const AdminReports = () => {
         setSelectUser1(select?.value)
     }
 
+    const types = [
+        { label: "Lunch", value: 'Lunch' },
+        { label: "Dinner", value: 'Dinner' },
+    ]
 
+    const handleType = (type) => {
+        console.log(type, 'dbdgshvsda')
+        setSelectType(type?.value)
+    }
 
 
     const exportfunction = async () => {
         await ExportExcel(`/report/date/wise/admin?start_date=${startDate}&end_date=${endDate}&company_uuid=${comapanyOption}&store_uuid=${option === null ? "" : option}`, "ItemwiseReports", currentUser.token)
     }
     const exportfunction1 = async () => {
-        await ExportExcel(`/report/list/admin/export?company_uuid=${orderComapnyOption}&store_uuid=${orderOption}&user_uuid=${selectuser1}&start_date=${orderStartDate}&end_date=${orderEndDate}`, "OrderwiseReports", currentUser.token)
+        await ExportExcel(`/report/list/admin/export?company_uuid=${orderComapnyOption}&store_uuid=${orderOption}&user_uuid=${selectuser1}&start_date=${orderStartDate}&end_date=${orderEndDate}&type=${selectType}`, "OrderwiseReports", currentUser.token)
     }
     // /report/list/admin/export?pagenum=0&limit=10&search=&user_uuid=&start_date=&end_date='
     useEffect(() => {
@@ -351,7 +402,7 @@ const AdminReports = () => {
                         classNamePrefix="select company"
                         isClearable={isClearable}
                         // defaultValue={colourOptions[0]}
-                        value={companyOption1}
+                        // value={companyOption1}
                         onChange={selectedCompany}
                         name="color"
                         border="none"
@@ -372,7 +423,7 @@ const AdminReports = () => {
                         classNamePrefix="select Store"
                         options={StoreDropp}
                         isClearable={isRemove}
-                        // value={categoryId}
+                        value={option1}
                         onChange={selectdropdown}
                         placeholder="Select Store"
                         styles={{
@@ -387,11 +438,11 @@ const AdminReports = () => {
                 <Col md="2" lg="2" xxl="2" className="mb-1" >
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
-                    <Form.Control type="date" value={startDate} onChange={ChangeStartData} placeholder="Start date" />
+                    <DatePicker value={startDate} onChange={ChangeStartData} placeholder="Start date" />
                 </Col>
                 <Col md="2" lg="2" xxl="2" className="mb-1" >
                     <Form.Label>End date</Form.Label>
-                    <Form.Control type="date" value={endDate} onChange={ChangeEndData} placeholder="End date" />
+                    <DatePicker value={endDate} onChange={ChangeEndData} placeholder="End date" />
                     {/* </div> */}
                 </Col>
                 {/* <Col lg="3" className="mb-1 text-end"> */}
@@ -407,20 +458,24 @@ const AdminReports = () => {
                 {/* </Col> */}
 
 
-                <Col xs="1" md="1" style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                <Col xs="2" md="2" className='mt-4' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "10px" }} >
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
                             </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
-                            {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Copy</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={exportfunction}>Excel</Dropdown.Item>
-                            {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
+
+                    <Button onClick={exportfunction}>
+                        Download
+                    </Button>
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}
@@ -497,7 +552,7 @@ const AdminReports = () => {
                         classNamePrefix="select Store"
                         options={orderDropdownValues}
                         isClearable={isRemove}
-                        // value={categoryId}
+                        value={orderOption1}
                         onChange={selectOrderdropdown}
                         placeholder="Select Store"
                         styles={{
@@ -522,12 +577,22 @@ const AdminReports = () => {
                 <Col md="2" lg="2" className="mb-1" >
                     {/* <div className="mb-3"> */}
                     <Form.Label>Start date</Form.Label>
-                    <Form.Control type="date" value={orderStartDate} onChange={OrderStartData} placeholder="Start date" />
+                    <DatePicker value={orderStartDate} onChange={OrderStartData} placeholder="Start date" />
                 </Col>
                 <Col md="2" lg="2" className="mb-1" >
                     <Form.Label>End date</Form.Label>
-                    <Form.Control type="date" value={orderEndDate} onChange={OrderEndData} placeholder="End date" />
+                    <DatePicker value={orderEndDate} onChange={OrderEndData} placeholder="End date" />
                     {/* </div> */}
+                </Col>
+                <Col md="2" lg="2" className="mb-1">
+                    <Form.Label>Type</Form.Label>
+                    <Select classNamePrefix="react-select"
+                        options={types}
+                        // value={selectType}
+                        onChange={handleType}
+                        placeholder="Type"
+                    // disabled={eventType}
+                    />
                 </Col>
                 {/* <Col lg="3" className="mb-1 text-end"> */}
                 {/* Print Button Start */}
@@ -542,20 +607,23 @@ const AdminReports = () => {
                 {/* </Col> */}
 
 
-                <Col md="1" style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                <Col md="2" className='mt-3' style={{ display: "flex", justifyContent: "start", alignItems: "center", marginBottom: "15px" }} >
+                    <Button onClick={exportfunction1}>
+                        Download
+                    </Button>
                     {/* Export Dropdown Start */}
-                    <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
+                    {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1 mt-4">
                         <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
                             <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
                                 <CsLineIcons icon="download" />
                             </Dropdown.Toggle>
                         </OverlayTrigger>
                         <Dropdown.Menu className="shadow dropdown-menu-end">
-                            {/* <Dropdown.Item href="#">Copy</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Copy</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={exportfunction1}>Excel</Dropdown.Item>
-                            {/* <Dropdown.Item href="#">Cvs</Dropdown.Item> */}
+                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                     {/* Export Dropdown End */}
 
                     {/* Length Start */}

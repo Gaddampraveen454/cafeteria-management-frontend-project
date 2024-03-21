@@ -346,7 +346,7 @@ const OrderRating = lazy(() => import('view Consumer/orders/orderRating'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
-const Changepassword = lazy(() => import('view Consumer/Changepassword/changepassword'))
+
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
@@ -399,9 +399,12 @@ const FooterRoutes = {
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
+console.log(companyId,'dsbvsdjhds')
 let compNewId = !companyId ? "qr" : companyId
 const [url, newCompId] = window.location.pathname.split("menu/")
 const Logindetailes = localStorage.getItem("ChangePassword")
+// const ChangePass = JSON.parse(localStorage.getItem('ChangeWithChangepassword'));
+// console.log(ChangePass?.data?.change, 'jhdsbvhsbvjfvhd')
 // if(newCompId!=="qr"){
 // compNewId=newCompId
 // }else if(companyId!==null){
@@ -484,12 +487,12 @@ const consumerRoutesAndMenuItems = {
       label: 'Notifications',
       icon: 'news',
     },
-    {
-      path: `${appRoot}/userchangepassword`,
-      component: Changepassword,
-      label: 'Change Password',
-      icon: 'lock-off',
-    },
+    // {
+    //   path: `${appRoot}/userchangepassword`,
+    //   component:  Changepassword ,
+    //   label: 'Change Password',
+    //   icon:  'lock-off',
+    // },
     {
       path: `${appRoot}/TransitionsModalUser`,
       component: TransitionsModalUser,

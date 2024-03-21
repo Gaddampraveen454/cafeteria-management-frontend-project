@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Col, Dropdown, Form, Modal, OverlayTrigger, Pagination, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import './companyfeedback.css'
@@ -6,14 +6,15 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { NavLink, useHistory } from 'react-router-dom/cjs/react-router-dom';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { ExportExcel } from 'views/ExportData';
 import Rating from 'react-rating-stars-component';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { CompanyFeedbackListURL, CompanyProductNameURL,CompanyProductList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
+import { CompanyFeedbackListURL, CompanyProductNameURL, CompanyProductList, CompanyStoreDropDownList } from 'Redux/AdminRedux/Feedback/feedbackRedux';
+import { ICafeAdminCategoryDropDownListURL, ICafeAdminCategoryStoreDropDownList, ICafeAdminCategoryStoreDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 
 const companyfeedback = () => {
-    const title = "Feedback"
+    const title = "Feedbacks"
     const review = "Review"
     const productReview = "Product Wise Review"
     const history = useHistory('');
@@ -28,6 +29,12 @@ const companyfeedback = () => {
     const [view, setView] = useState('');
     console.log(view, 'hsbdvhgbfberu')
 
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [option, setOption] = useState('');
+    console.log(option, 'hsbdvhgbfberu')
+    const [productStoreDropdown, setProductStoreDropdown] = useState('')
+
     const [modal, setModal] = useState(false);
     const [viewProduct, setViewProduct] = useState('');
     console.log(viewProduct, 'hsbdvhgbfhgthberu')
@@ -36,13 +43,30 @@ const companyfeedback = () => {
     console.log(currentUser, 'hbvhsfh')
 
     // const {companyProductList ,ProductView} = useSelector((state) => state.adminfeedback);
-    const { companyFeedback,companyProductName,companyProductList} = useSelector((state) => state.companyfeedback);
+    const { companyFeedback, companyProductName, companyProductList ,store} = useSelector((state) => state.companyfeedback);
     console.log(companyFeedback, 'companyFeedback')
 
 
     useEffect(() => {
-        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit,currentUser?.data?.uuid))
-        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1,currentUser?.data?.uuid))
+        if (window.location.pathname === '/feedback') {
+            dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
+            dispatch(CompanyStoreDropDownList(currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
+        }
+        else {
+            dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
+            dispatch(CompanyStoreDropDownList(currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid))
+        }
+    }, [])
+
+    const [tab, setTab] = useState('tab1')
+
+    useEffect(() => {
+        if (window.location.pathname === '/feedback') {
+            setTab('tab1')
+        }
+        else {
+            setTab('tab2')
+        }
     }, [])
 
     const searchfunction = (type, pages) => {
@@ -50,32 +74,32 @@ const companyfeedback = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(0, pages, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page - 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page + 1, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(page + 2, search, currentUser.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages,currentUser?.data?.uuid))
+            dispatch(CompanyFeedbackListURL(0, search, currentUser.token, pages, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, endDate))
         }
     }
 
@@ -86,32 +110,32 @@ const companyfeedback = () => {
             console.log(pages1, "ghjkvbnm")
             setSearch1(pages1)
             setPage1(0)
-            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(0, pages1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         if (type1 === "prev") {
             setPage1(page1 - 1)
-            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 - 1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "next") {
             setPage1(page1 + 1)
-            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "page") {
             setPage1(page1)
-            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "page+1") {
             setPage1(page1 + 1)
-            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 + 1, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "page+2") {
             setPage1(page1 + 2)
-            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(page1 + 2, search1, currentUser.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
         else if (type1 === "limit") {
             setLimit1(pages1)
             setPage1(0)
-            dispatch(CompanyProductList(0, search1, currentUser.token, pages1,currentUser?.data?.uuid))
+            dispatch(CompanyProductList(0, search1, currentUser.token, pages1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, productStoreDropdown))
         }
     }
 
@@ -124,43 +148,108 @@ const companyfeedback = () => {
 
     const viewEventHandlerSamePage = (event) => {
         console.log(event, 'vdshdgfv')
-      
+
         // dispatch(ConsumerOrderView(currentUser?.token, event?.uuid))
         setView(event);
 
         dispatch(CompanyProductNameURL(event?.feedback?.length > 0 ? event?.feedback[0]?.order_uuid : '', currentUser?.token))
-        setTimeout(()=>{
+        setTimeout(() => {
             setDiscountModal(true);
-        },1000)
-      
+        }, 1200)
+
     }
 
     const viewEventHandler = (value) => {
         history.push({
-            pathname:'/product_view',
-            state:value
+            pathname: '/product_view',
+            state: {
+                data: value,
+                url: window.location.pathname
+            }
         })
         // console.log(value, 'vdshdgfvhbjh')
         // setModal(true)
         // setViewProduct(value)
         // dispatch(ICafeAdminProductViewURL(value?.product_uuid,currentUser.token))
     }
+
+    const handleTab = (selectTab) => {
+        if (selectTab === "tab1") {
+            setTab('tab1')
+            history.push('/feedback')
+        }
+        else {
+            setTab('tab2')
+            history.push('/feedback_by_product')
+        }
+    }
+    const { AdmincategoryDropdown, storeDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
+
+    useEffect(() => {
+        // dispatch(ICafeAdminCategoryDropDownListURL());
+        // dispatch(ICafeAdminCategoryStoreDropDownListURL());
+
+    }, [])
+
+    const [isClearable, setIsClearable] = useState(true);
+    const [isRemove, setIsRemove] = useState(true);
+
+
+
+
+    const dropdownValues = [];
+
+    store?.data?.map((text) => {
+        return dropdownValues.push({ label: text?.store_name, value: text?.uuid })
+    })
+
+    const selectdropdown = (text) => {
+        setOption(text?.value)
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, text === null ? '' : text?.value, startDate, endDate))
+    }
+
+    const ChangeStartData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setStartDate(e.target.value);
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, e.target.value, endDate))
+    };
+    const ChangeEndData = (e) => {
+        console.log("ChangeStartData: ", e.target.value);
+        setEndDate(e.target.value);
+        dispatch(CompanyFeedbackListURL(page, search, currentUser?.token, limit, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, option, startDate, e.target.value))
+    };
+
+
+    const StoreDropdown = []
+
+    store?.data?.map((text) => {
+        return StoreDropdown.push({ label: text?.store_name, value: text?.uuid })
+    })
+
+    const hnadleProductStoredropdown = (text) => {
+        setProductStoreDropdown(text?.value)
+        dispatch(CompanyProductList(page1, search1, currentUser?.token, limit1, currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid, text === null ? '' : text?.value))
+    }
+
+    const Feedbackexportfunction = async () => {
+        await ExportExcel(`/feedback/export?company_uuid=${currentUser.data && currentUser.data.group === 'manager' ? currentUser?.data?.company_uuid : currentUser?.data?.uuid}&store_uuid=${option}&start_date=${startDate}&end_date=${endDate}`, "CompanyFeedbackReports", currentUser.token)
+    }
     return (
 
         <div>
             <div className="page-title-container">
-                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/icafe_dashboard">
+                <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/dashboard">
                     <CsLineIcons icon="chevron-left" size="20" />
-                    <span className="align-middle text-medium ms-1">Back</span>
+                    <span className="align-middle text-medium ms-1">Dashboard</span>
                 </NavLink>
                 <h1 className="mb-0 pb-0 display-4" id="title">
                     {title}
                 </h1>
             </div>
-            <Tabs className='mt-2' defaultActiveKey="tab1" id="tabs-example">
+            <Tabs className='mt-2' defaultActiveKey="tab1" id="tabs-example" activeKey={tab} onSelect={(key) => handleTab(key)}>
                 <Tab eventKey="tab1" title={review}>
                     <Row className="mb-3 mt-5">
-                        <Col lg="3" className="mb-1">
+                        <Col lg="2" className="mb-1 mt-5">
                             {/* Search Start */}
                             {/* <Form.Label/> */}
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -176,100 +265,43 @@ const companyfeedback = () => {
                             {/* Search End */}
                         </Col>
 
-                        {/* <Col lg="3"> */}
-                        {/* <Form.Label>Company</Form.Label> */}
-                        {/* <Select classNamePrefix="react-select"
-                        options={ActivcompanyList}
-                        value={compnayId}
-                        onChange={setCompnayId}
-                        placeholder="Select Company" */}
-                        {/* disabled={eventType} */}
-                        {/* /> */}
-                        {/* </Col> */}
 
-                        {/* <Col lg="2"  className='mb-1'>
-                    <Form.Label>Company</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select company"
-                        // isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
-                        // onChange={selectedCompany}
-                        name="color"
-                        border="none"
-                        // options={CompanyDropDown}
-                        placeholder='Select Company'
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Form.Label>Category</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select Store"
-                        // options={StoredropdownValues}
-                        // isClearable={isRemove}
-                        // value={categoryId}
-                        // onChange={selectdropdown}
-                        placeholder="Select Store"
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    // disabled={eventType}
-                    />
-                </Col> */}
-                        {/* <Col md="2" lg="2" className='mb-1'>
-                    <Select
-                        classNamePrefix="react-select"
-                        // options={OrderStatus}
-                        // value={selectorderstatus}
-                        // onChange={OrderStatusFunction}
-                        placeholder="Order Status" />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                        onClick={() => setQROpen(true)}>
-                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        {/* <Col lg="1"className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh  <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        <Col lg="9" className="mb-1 text-end">
-                            {/* Print Button Start */}
-                            {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-                            <CsLineIcons icon="print" />
-                        </Button>
-                    </OverlayTrigger> */}
-                            {/* Print Button End */}
-
-                            {/* Export Dropdown Start */}
-                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                                <CsLineIcons icon="download" />
-                            </Dropdown.Toggle>
-                        </OverlayTrigger>
-                        <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
-                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-                            {/* Export Dropdown End */}
-
+                        <Col lg="2">
+                            <Form.Label>Select Store</Form.Label>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select Store"
+                                options={dropdownValues}
+                                isClearable={isRemove}
+                                // value={categoryId}
+                                onChange={selectdropdown}
+                                placeholder="Select Store"
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        borderRadius: '12px',
+                                    }),
+                                }}
+                            // disabled={eventType}
+                            />
+                        </Col>
+                        <Col md="2" lg="2" xxl="2" className="mb-1" >
+                            {/* <div className="mb-3"> */}
+                            <Form.Label>Start date</Form.Label>
+                            <Form.Control type="date" onChange={ChangeStartData} placeholder="Start date" />
+                        </Col>
+                        <Col md="2" lg="2" xxl="2" className="mb-1" >
+                            <Form.Label>End date</Form.Label>
+                            <Form.Control type="date" onChange={ChangeEndData} placeholder="End date" />
+                            {/* </div> */}
+                        </Col>
+                        <Col md="1" lg="1" xxl="1" className="mb-1 mt-5" >
+                           
+                            <Button onClick={Feedbackexportfunction}>
+                                Export
+                            </Button>
+                        </Col>
+                        <Col lg="2" className="mb-1 text-end mt-5">
                             {/* Length Start */}
                             <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
                                 <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Item Count</Tooltip>}>
@@ -293,13 +325,16 @@ const companyfeedback = () => {
                         <Col md="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                             <div className="text-muted text-small cursor-pointer ">Order ID</div>
                         </Col>
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
+                            <div className="text-muted text-small cursor-pointer ">Store Name</div>
+                        </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Name</div>
                         </Col>
                         <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Email</div>
                         </Col>
-                        <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                        <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Mobile</div>
                         </Col>
                         <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
@@ -308,21 +343,7 @@ const companyfeedback = () => {
                         <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
                             <div className="text-muted text-small cursor-pointer ">Review</div>
                         </Col>
-                        {/* <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">TOKEN NO</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">PRICE</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">ORDER DATE</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer "> PAYMENT STATUS</div>
-                </Col>
-                <Col md="1" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">ORDER STATUS</div>
-                </Col> */}
+
                     </Row>
                     {/* List Header End */}
 
@@ -342,6 +363,10 @@ const companyfeedback = () => {
                                                 {text?.feedback[0]?.order_uuid}
                                             </Button>
                                         </Col>
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                            <div className="text-muted text-small d-md-none">Mobile</div>
+                                            <div className="text-alternate">{text?.stores[0]?.store_name}</div>
+                                        </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Name</div>
                                             <div className="text-alternate">{text?.users[0]?.name}</div>
@@ -350,7 +375,7 @@ const companyfeedback = () => {
                                             <div className="text-muted text-small d-md-none">Email</div>
                                             <div className="text-alternate">{text?.users[0]?.email}</div>
                                         </Col>
-                                        <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
+                                        <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Mobile</div>
                                             <div className="text-alternate">{text?.users[0]?.mobile}</div>
                                         </Col>
@@ -372,48 +397,9 @@ const companyfeedback = () => {
                                         </Col>
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
+                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No reviews available"}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div className="text-muted text-small d-md-none">Token No</div>
-                                    <div className="text-alternate">{text?.token_no}</div>
-                                </Col>
-                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">Price</div>
-                                    <div className="text-alternate">
-                                        <span>
-                                            <span className="text-small">₹</span>
-                                            {text?.amount}
-                                        </span>
-                                    </div>
-                                </Col> */}
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                                    <div className="text-muted text-small d-md-none">Order Date</div>
-                                    <div className="text-alternate"> {moment(text?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
-                                </Col>
-                                <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">Payment Status</div>
-                                    <div>
-                                        <Badge bg="outline-primary">{text?.payment_status}</Badge>
-                                    </div>
-                                </Col> */}
-                                        {/* <Col xs="1" md="1" className="d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                            <Form.Check className="form-check mt-2 ps-5 ps-md-2" type="checkbox" checked={selectedItems.includes(1)} onChange={() => { }} />
-                        </Col> */}
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">Order Status</div>
-                                    <div className="text-alternate">
-                                        {text?.order_status}
-                                    </div>
-                                </Col> */}
-                                        {/* <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                            <div className="text-muted text-small d-md-none">View</div>
-                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                                onClick={() => redirectReview(text)}>
-                                                <CsLineIcons icon="eye" />
-                                            </Button>
-                                            </div>
-                                        </Col> */}
+
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -475,7 +461,7 @@ const companyfeedback = () => {
                                         <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
                                             {view?.reviews && view.reviews.length > 0 ? (
-                                                <Form.Control type="text" value={view.reviews[0].review} readOnly />
+                                                <Form.Control type="text" as='textarea' value={view.reviews[0].review} readOnly />
                                             ) : (
                                                 <p>No reviews available</p>
                                             )}
@@ -531,7 +517,7 @@ const companyfeedback = () => {
 
                 <Tab eventKey="tab2" title={productReview}>
                     <Row className="mb-3 mt-5">
-                        <Col lg="3" className="mb-1">
+                        <Col lg="3" className="mb-1 mt-5">
                             {/* Search Start */}
                             {/* <Form.Label/> */}
                             <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -547,99 +533,29 @@ const companyfeedback = () => {
                             {/* Search End */}
                         </Col>
 
-                        {/* <Col lg="3"> */}
-                        {/* <Form.Label>Company</Form.Label> */}
-                        {/* <Select classNamePrefix="react-select"
-                        options={ActivcompanyList}
-                        value={compnayId}
-                        onChange={setCompnayId}
-                        placeholder="Select Company" */}
-                        {/* disabled={eventType} */}
-                        {/* /> */}
-                        {/* </Col> */}
+                        <Col lg="2">
+                            <Form.Label>Select Store</Form.Label>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select Store"
+                                options={StoreDropdown}
+                                isClearable={isRemove}
+                                // value={categoryId}
+                                onChange={hnadleProductStoredropdown}
+                                placeholder="Select Store"
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        borderRadius: '12px',
+                                    }),
+                                }}
+                            // disabled={eventType}
+                            />
+                        </Col>
 
-                        {/* <Col lg="2"  className='mb-1'>
-                    <Form.Label>Company</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select company"
-                        // isClearable={isClearable}
-                        // defaultValue={colourOptions[0]}
-                        // onChange={selectedCompany}
-                        name="color"
-                        border="none"
-                        // options={CompanyDropDown}
-                        placeholder='Select Company'
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Form.Label>Category</Form.Label>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select Store"
-                        // options={StoredropdownValues}
-                        // isClearable={isRemove}
-                        // value={categoryId}
-                        // onChange={selectdropdown}
-                        placeholder="Select Store"
-                        styles={{
-                            control: provided => ({
-                                ...provided,
-                                borderRadius: '12px',
-                            }),
-                        }}
-                    // disabled={eventType}
-                    />
-                </Col> */}
-                        {/* <Col md="2" lg="2" className='mb-1'>
-                    <Select
-                        classNamePrefix="react-select"
-                        // options={OrderStatus}
-                        // value={selectorderstatus}
-                        // onChange={OrderStatusFunction}
-                        placeholder="Order Status" />
-                </Col> */}
-                        {/* <Col lg="2" className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                        onClick={() => setQROpen(true)}>
-                        <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        {/* <Col lg="1"className='mb-1'>
-                    <Button xs="4" variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
-                       onClick={handleRefresh} >
-                      Refresh  <CsLineIcons icon="scanner" /><span>Scan QR Code </span>
-                    </Button>
-                </Col> */}
-                        <Col lg="9" className="mb-1 text-end">
-                            {/* Print Button Start */}
-                            {/* <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Print</Tooltip>}>
-                        <Button variant="foreground-alternate" className="btn-icon btn-icon-only shadow">
-                            <CsLineIcons icon="print" />
-                        </Button>
-                    </OverlayTrigger> */}
-                            {/* Print Button End */}
 
-                            {/* Export Dropdown Start */}
-                            {/* <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
-                        <OverlayTrigger delay={{ show: 1000, hide: 0 }} placement="top" overlay={<Tooltip id="tooltip-top">Export</Tooltip>}>
-                            <Dropdown.Toggle variant="foreground-alternate" className="dropdown-toggle-no-arrow btn btn-icon btn-icon-only shadow">
-                                <CsLineIcons icon="download" />
-                            </Dropdown.Toggle>
-                        </OverlayTrigger>
-                        <Dropdown.Menu className="shadow dropdown-menu-end">
-                            <Dropdown.Item href="#">Copy</Dropdown.Item>
-                            <Dropdown.Item href="#">Excel</Dropdown.Item>
-                            <Dropdown.Item href="#">Cvs</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-                            {/* Export Dropdown End */}
+                        <Col lg="7" className="mb-1 text-end mt-5">
+
 
                             {/* Length Start */}
                             <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
@@ -719,41 +635,23 @@ const companyfeedback = () => {
                                         </Col>
                                         <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Type</div>
-                                            <div className="text-alternate">{text?.type}</div>
+                                            <div className="text-alternate">{text?.type?.charAt(0).toLowerCase() ? text?.type?.charAt(0).toUpperCase() + text?.type.slice(1) : text?.type}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                            <div className="text-muted text-small d-md-none">Mobile</div>
-                                            <div className="text-alternate">{text?.users[0]?.mobile}</div>
-                                        </Col> */}
+
                                         <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
                                             <div className="text-muted text-small d-md-none">Average Rating</div>
-
-                                            <Rating
-                                                count={5}
-                                                value={text?.avg_rating}
-                                                // onChange={handleRatingChange}
-                                                size={25}
-                                                activeColor="#ffd700"
-                                                edit={false}
-                                                className="lh-1 text-alternate  mt-2"
-                                            />
-                                            {/* :
-                                                <span className="lh-1 text-alternate">No Rating</span>
-                                            } */}
+                                            <div className="text-alternate ">{text?.avg_rating}</div>
                                         </Col>
-                                        {/* <Col xs="6" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                            <div className="text-muted text-small d-md-none">Review</div>
-                                            <div className="text-alternate">{text?.reviews[0]?.review?.length > 40 ? text?.reviews[0]?.review?.slice(0, 40) : text?.reviews[0]?.review || "No Review"}</div>
-                                        </Col> */}
+
                                         <Col xs="6" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div className="text-muted text-small d-md-none">View</div>
-                                    <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
-                                        onClick={() => viewEventHandler(text)}
-                                    >
-                                        <CsLineIcons icon="eye" />
-                                    </Button>
-                                    </div>
-                                </Col>
+                                            <div className="text-muted text-small d-md-none">View</div>
+                                            <div className="lh-1 text-alternate"> <Button title="VIEW" variant="outline-primary" className="btn px-2 py-2"
+                                                onClick={() => viewEventHandler(text)}
+                                            >
+                                                <CsLineIcons icon="eye" />
+                                            </Button>
+                                            </div>
+                                        </Col>
 
                                     </Row>
                                 </Card.Body>
@@ -808,7 +706,7 @@ const companyfeedback = () => {
                                             })}
                                         </Col>
                                     </Row> */}
-                                    {/* <Row>
+                    {/* <Row>
                     
                     <Col xs='12' lg="12">
                                             <Form.Label>Review</Form.Label>
@@ -820,7 +718,7 @@ const companyfeedback = () => {
                                         </Col>
                                     </Row> */}
 
-                                {/* </Form>
+                    {/* </Form>
 
                             </OverlayScrollbarsComponent>
                         </Modal.Body>

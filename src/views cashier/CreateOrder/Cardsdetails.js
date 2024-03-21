@@ -52,7 +52,7 @@ const Cardsdetails = ({ onClose }) => {
   console.log(currentUser.data.company_uuid, "currentUser")
 
   useEffect(() => {
-    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser?.data?.uuid))
+    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid))
 
     // currentUser.data.company_uuid
     // setCategory(categoryForConsumer && categoryForConsumer.data[0] && categoryForConsumer.data[0].uuid)
@@ -65,7 +65,7 @@ const Cardsdetails = ({ onClose }) => {
   }, [categoryForConsumer])
 
   useEffect(() => {
-    dispatch(StoreProductsList(currentUser.token, currentUser?.data?.uuid, search, ""))
+    dispatch(StoreProductsList(currentUser.token, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid, search, ""))
   }, [])
 
   const closeFunction = () => {
@@ -94,7 +94,7 @@ const Cardsdetails = ({ onClose }) => {
                       closeFunction()
                     }}
                   >
-                    <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: category === item?.uuid ? "red": 'rgb(72 72 72/1)', lineHeight: "1rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
+                    <p style={{ marginBottom: '15px', fontWeight: '500', fontSize: '1rem', color: category === item?.uuid ? "#672100": 'rgb(72 72 72/1)', lineHeight: "1rem", fontFamily: "proxima-nova,sans-serif" }}>{item.name}</p>
                   </a>
                   {/* <label style={{ cursor: "pointer" }} title className="form-check-label  mb-3 d-flex justify-content-left align-items-left"
                     onClick={() => { setCategory(item.uuid); closeFunction() }}

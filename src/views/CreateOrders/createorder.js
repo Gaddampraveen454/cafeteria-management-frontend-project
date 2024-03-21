@@ -1331,7 +1331,7 @@ const CreateOrder = () => {
                                                     {items && items.map((item) => {
                                                         console.log(item, "itemcxxxvxcvxcv")
                                                         return <>
-                                                            <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} style={{ border: "1px solid #ed6789" }} >
+                                                            <Card className={`mb-2 ${selectedItems.includes(1) && 'selected'}`} style={{ border: "1px solid #772804" }} >
                                                                 <Row className="g-0 h-100 sh-lg-9 position-relative" >
 
                                                                     <Col className="py-4 py-lg-0 ps-5 pe-4 h-100">
@@ -1735,13 +1735,13 @@ const CreateOrder = () => {
                                                                             <div>
                                                                                 {
                                                                                     item.stock_quantity <= 0 ?
-                                                                                        <Col style={{ color: "red" }}>
+                                                                                        <Col style={{ color: "#772804" }}>
                                                                                             Out of Stock
                                                                                         </Col>
                                                                                         :
                                                                                         <div>
                                                                                             {item.stock_quantity <= 5 ?
-                                                                                                <Col style={{ color: "red" }}>
+                                                                                                <Col style={{ color: "#772804" }}>
                                                                                                     Only {item?.stock_quantity} Item Left
                                                                                                 </Col>
                                                                                                 :

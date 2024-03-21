@@ -34,6 +34,10 @@ const StoreRole = lazy(()=>import('views cashier/StoreRoles/storerole'));
 const StoreAddRole = lazy(()=>import('views cashier/StoreRoles/addstorerole'));
 const StoreFeedback = lazy(()=>import('views cashier/StoreFeedback/storefeedback'));
 const StoreProductView = lazy(()=>import('views cashier/StoreFeedback/storeproductview'));
+const CouponList = lazy(()=>import('views cashier/Coupons/coupon'))
+// const Addcoupons = lazy(()=> import('view Consumer/'))
+const Addcoupons = lazy(()=>import('views cashier/Coupons/Addcoupons'))
+const Updatecoupon = lazy(()=>import('views cashier/Coupons/UpdateCoupon'))
 
 
 const products = {
@@ -163,18 +167,18 @@ const cashierRoutesAndMenuItems = {
       // label: 'Product Management',
       // icon: 'web-page',
     },
-    {
-      path: `${appRoot}/role_list`,
-      component: StoreRole,
-      label: 'Roles',
-      icon: 'web-page',
-    },
-    {
-      path: `${appRoot}/add_roles`,
-      component: StoreAddRole,
-      // label: 'Product Management',
-      // icon: 'web-page',
-    },
+    // {
+    //   path: `${appRoot}/role_list`,
+    //   component: StoreRole,
+    //   label: 'Roles',
+    //   icon: 'web-page',
+    // },
+    // {
+    //   path: `${appRoot}/add_roles`,
+    //   component: StoreAddRole,
+    //   // label: 'Product Management',
+    //   // icon: 'web-page',
+    // },
     {
       path: `${appRoot}/cashierMenu`,
       component: CashierMenu,
@@ -214,11 +218,38 @@ const cashierRoutesAndMenuItems = {
       icon: 'news',
     },
     {
+      path: `${appRoot}/CouponList`,
+      component: CouponList,
+      label: 'CouponList',
+      icon: 'news',
+    },
+    // CouponList
+    {
       path: `${appRoot}/feedback`,
       component: StoreFeedback,
-      label: 'Feedback',
+      label: 'Feedbacks',
       icon: 'user',
     },
+    {
+      path: `${appRoot}/feedbackbyproduct`,
+      component: StoreFeedback,
+      // label: 'Feedback',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/Addcoupons`,
+      component: Addcoupons,
+      // label: 'Feedback',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/Updatecoupon`,
+      component: Updatecoupon,
+      // label: 'Feedback',
+      // icon: 'user',
+    },
+    // Updatecoupon
+    // Addcoupons
     {
       path: `${appRoot}/product_view`,
       component: StoreProductView ,

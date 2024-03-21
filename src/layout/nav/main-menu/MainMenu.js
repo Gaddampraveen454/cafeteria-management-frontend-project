@@ -8,10 +8,13 @@ import { useWindowSize } from 'hooks/useWindowSize';
 import { useWindowScroll } from 'hooks/useWindowScroll';
 import routesAndMenuItems from 'routes.js';
 import adminRoutesAndMenuItems from 'AdminRoutes';
+import EmployeeRoutesAndMenuItems from 'EmployeeRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
+import managerRoutesAndMenuItems from 'managerRoutes';
 import consumerRoutesAndMenuItems from 'customerRoutes';
+import cashRoutesAndMenuItems from 'cashRoutes';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import { layoutShowingNavMenu } from 'layout/layoutSlice';
 import companyReducer from 'Redux/AdminRedux/Comapny/Company';
@@ -32,6 +35,9 @@ import { checkBehaviour, checkPlacement, isDeeplyDiffBehaviourStatus, isDeeplyDi
 
 
 
+
+
+
 const MainMenu = () => {
   const dispatch = useDispatch();
   const { placement, behaviour, placementStatus, behaviourStatus, attrMobile, breakpoints, useSidebar } = useSelector((state) => state.menu);
@@ -41,21 +47,71 @@ const MainMenu = () => {
 
 
   console.log(currentUser, "currentUser")
+  const consumerDuplcateRoutes = consumerRoutesAndMenuItems.mainMenuItems;
   let routsData = ''
-  if(currentUser && currentUser.data && currentUser.data.group === "company") {
+  if (currentUser && currentUser.data && currentUser.data.group === "company") {
     routsData = adminRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === "store") {
     routsData = cashierRoutesAndMenuItems.mainMenuItems
-  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer" && currentUser?.data?.change === false) {
+    // Normal User Login
     routsData = consumerRoutesAndMenuItems.mainMenuItems
-  } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
-    routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+    // routsData?.map((item, index) => {
+    //   if (currentUser?.data?.group === "consumer" && currentUser?.data?.change === false && item.path === '/userchangepassword') {
+    //     routsData?.splice(index, 1)
+    //   }
+    //   return routsData;
+    // })
+    // console.log("enter1...", "rou")
+    // // if (currentUser?.data?.change === false) {
+    // //   consumerRoutesAndMenuItems.mainMenuItems.map((item, index) => {
+    // //     if (currentUser?.data?.group === "consumer" && currentUser?.data?.change === false && item.path === '/userchangepassword') {
+    // //       routsData = consumerRoutesAndMenuItems.mainMenuItems.splice(index, 1)
+    // //     }
+    // //     return true;
+    // //   })
+    // // }
+    // // else {
+    // //   routsData = consumerRoutesAndMenuItems.mainMenuItems
+    // // }
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer" && currentUser?.data?.change === true){
+    // Employee User Login
+    routsData = EmployeeRoutesAndMenuItems.mainMenuItems
+    // console.log("enter2...",consumerRoutesAndMenuItems.mainMenuItems,consumerDuplcateRoutes,  "rou")
   }
- 
-  else {
+  else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
+    routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'manager') {
+    routsData = managerRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'cashier') {
+    routsData = cashRoutesAndMenuItems.mainMenuItems
+  } else {
     routsData = defaultRoutesAndMenuItems.mainMenuItems
   }
 
+  // const findIndex = routsData.map((item, index) => {
+  //   if (currentUser?.data?.group === "consumer" && currentUser?.data?.change === false && item.path === '/userchangepassword') {
+  //     routsData.splice(index, 1)
+  //   }
+  //   return true;
+  // })
+
+  // const routesDuplicateData = () => {
+  //   if (currentUser?.data?.group === "consumer" && currentUser?.data?.change === false) {
+  //     routsData.map((item, index) => {
+  //       if (currentUser?.data?.group === "consumer" && currentUser?.data?.change === false && item.path === '/userchangepassword') {
+  //         routsData.splice(index, 1)
+  //       }
+  //       return true;
+  //     })
+  //   }
+  //   else {
+  //     return routsData;
+  //   }
+  //   return routsData;
+  // }
+
+  console.log(routsData, currentUser, "routsData")
 
   const menuItemsMemo = useMemo(
     () =>
@@ -64,7 +120,7 @@ const MainMenu = () => {
         isLogin,
         userRole: currentUser.role,
       }),
-    [isLogin, currentUser, attrMobile, useSidebar]
+    [isLogin, currentUser, attrMobile, useSidebar, routsData]
   );
 
   useEffect(() => {

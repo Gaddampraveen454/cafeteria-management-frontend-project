@@ -22,6 +22,7 @@ const addreport = lazy(() => import('views/Reports/addreport'));
 const Cards = lazy(() => import('views/company Management/Cards'));
 const Cardcart = lazy(() => import('views/company Management/Cardcart'));
 const adddetails = lazy(() => import('views/Add details/adddetails'));
+const couponslist = lazy(()=> import('views/Coupons/couponslist'))
 
 
 
@@ -124,6 +125,13 @@ const routesAndMenuItems = {
       label: 'Category Management',
       icon: 'save',
     },
+    {
+      path: `${appRoot}/couponslist`,
+      component: couponslist,
+      label: 'couponslist',
+      icon: 'save',
+    },
+    // Coupons
     {
       path: `${appRoot}/addcategory`,
       component: addcategory,

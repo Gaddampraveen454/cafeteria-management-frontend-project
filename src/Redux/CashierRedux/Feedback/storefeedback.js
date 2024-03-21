@@ -36,8 +36,8 @@ const storeFeedbackSlice = createSlice({
 export const { setStoreFeedback,setStoreProductName,setStoreProductList,setStoreProductView,setToast } = storeFeedbackSlice.actions;
 
 
-export const StoreFeedbackListURL = (page,search,token,limit,storeId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/store/list?pagenum=${page}&limit=${limit}&search=${search}&store_uuid=${storeId}&start_date=&end_date=`, {
+export const StoreFeedbackListURL = (page,search,token,limit,storeId,startDate,endDate) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/store/list?pagenum=${page}&limit=${limit}&search=${search}&store_uuid=${storeId}&start_date=${startDate}&end_date=${endDate}`, {
     headers: {
       "x-auth-token": token
     }
@@ -80,20 +80,20 @@ export const StoreProductList = (page1,search1,token,limit1,storeId) => async (d
 
 };
 
-export const StoreProductViewURL = (page,search,token,limit,productId,rating) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${page}&limit=${limit}&search=${search}&product_uuid=${productId}&rating=${rating}`, {
-    headers: {
-      "x-auth-token": token
-    }
-  }).then((res) => {
-    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
-    dispatch(setStoreProductView(res.data));
-  })
-    .catch((err) => {
-      console.log("err");
-    })
+// export const StoreProductViewURL = (page,search,token,limit,productId,rating) => async (dispatch) => {
+//   const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${page}&limit=${limit}&search=${search}&product_uuid=${productId}&rating=${rating}`, {
+//     headers: {
+//       "x-auth-token": token
+//     }
+//   }).then((res) => {
+//     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+//     dispatch(setStoreProductView(res.data));
+//   })
+//     .catch((err) => {
+//       console.log("err");
+//     })
 
-};
+// };
 
 
 

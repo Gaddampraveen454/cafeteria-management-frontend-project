@@ -50,12 +50,17 @@ const NavIconMenu = () => {
 
 
   const redirect = () => {
-    console.log("enter1")
-    const companyId = localStorage.getItem('companyId');
-console.log(companyId, "companyId")
-const compNewId = !companyId ? "qr" : companyId
-    dispatch(LogOutURL())
-    history.push(`/menu/company/${compNewId}`)
+    if (currentUser.data.group === "store" || currentUser.data.group === "company" || currentUser.data.group === "icafe_admin" || currentUser.data.group === "manager" || currentUser.data.group === "cashier") {
+      dispatch(LogOutURL())
+      history.push('/login')
+    }
+    else {
+      const companyId = localStorage.getItem('companyId');
+      console.log(companyId, "companyId")
+      const compNewId = !companyId ? "qr" : companyId
+      dispatch(LogOutURL())
+      history.push(`/menu/company/${compNewId}`)
+    }
   }
 
   const Loginredirect = () => {
@@ -67,6 +72,8 @@ const compNewId = !companyId ? "qr" : companyId
       {currentUser?.data?.group === "company" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
       {currentUser?.data?.group === "store" && <Button>{currentUser?.data?.store_name?.toUpperCase()}</Button>}
       {currentUser?.data?.group === "icafe_admin" && <Button>{currentUser?.data?.company_name?.toUpperCase()}</Button>}
+      {currentUser?.data?.group === "manager" && <Button>{currentUser?.data?.name?.toUpperCase()}</Button>}
+      {currentUser?.data?.group === "cashier" && <Button>{currentUser?.data?.name?.toUpperCase()}</Button>}
 
       <ul className="list-unstyled list-inline text-center menu-icons">
         {/* <li className="list-inline-item">
@@ -112,8 +119,8 @@ const compNewId = !companyId ? "qr" : companyId
           }
         </li>
         {isLogin === true && currentUser && currentUser?.data?.group === "consumer" &&
-            <IconMenuNotifications />
-          }
+          <IconMenuNotifications />
+        }
       </ul>
       <SearchModal show={showSearchModal} setShow={setShowSearchModal} />
     </>

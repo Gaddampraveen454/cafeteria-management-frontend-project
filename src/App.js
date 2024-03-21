@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 // import layout
 import Layout from 'layout/Layout';
-
+// import "./App.css"
 // import routing modules
 import RouteIdentifier from 'routing/components/RouteIdentifier';
 import { getRoutes } from 'routing/helper';
@@ -16,14 +16,19 @@ import { Modal, Row, Col } from 'react-bootstrap';
 import adminRoutesAndMenuItems from 'AdminRoutes';
 import cashierRoutesAndMenuItems from 'CashierRouts';
 import consumerRoutesAndMenuItems from 'customerRoutes';
+import managerRoutesAndMenuItems from 'managerRoutes';
 import Loading from 'components/loading/Loading';
 import defaultRoutesAndMenuItems from 'defaultRoutes';
 import iCafeAdminRoutesAndMenuItems from 'ICafeAdminRoutes';
+import cashRoutesAndMenuItems from 'cashRoutes';
+import EmployeeRoutesAndMenuItems from 'EmployeeRoutes';
 import { fetchNotifications } from 'layout/nav/notifications/notificationSlice';
 // import { getMes } from 'firebase';
 import io from 'socket.io-client';
 import { Button } from '@mui/material';
+import Footer from 'layout/footer/Footer';
 import axios from 'axios';
+import withClearCache from './clearCache';
 // import companyRoutesAndMenuItems from 'ICafeAdminRoutes';
 import { getMes, onMessageListener } from './firebase';
 
@@ -32,7 +37,13 @@ import beep2 from "./Assests/audio/telephone.mp3"
 
 
 
-const App = () => {
+
+
+
+
+
+
+const MainApp = () => {
   const { currentUser, isLogin } = useSelector((state) => state.auth);
   const LoginDetails = JSON.parse(localStorage.getItem("user"));
   const audioRef = useRef(null);
@@ -41,10 +52,16 @@ const App = () => {
     routsData = adminRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === "store") {
     routsData = cashierRoutesAndMenuItems.mainMenuItems
-  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer" && currentUser?.data?.change === false) {
     routsData = consumerRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === "consumer" && currentUser?.data?.change === true) {
+    routsData = EmployeeRoutesAndMenuItems.mainMenuItems
   } else if (currentUser && currentUser.data && currentUser.data.group === 'icafe_admin') {
     routsData = iCafeAdminRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'manager') {
+    routsData = managerRoutesAndMenuItems.mainMenuItems
+  } else if (currentUser && currentUser.data && currentUser.data.group === 'cashier') {
+    routsData = cashRoutesAndMenuItems.mainMenuItems
   }
   else {
     routsData = defaultRoutesAndMenuItems.mainMenuItems
@@ -79,7 +96,6 @@ const App = () => {
       onMessageListener()
         .then((message) => {
           toast.success(message.notification.title, message.notification.body)
-
         })
         .catch((err) => {
           toast.error(JSON.stringify(err))
@@ -329,13 +345,28 @@ const App = () => {
 
   const loopset = true;
 
+  //   console.log(routsData, "routes")
+  // useEffect(() => {
+  //   const findIndex = routsData.map((item, index) => {
+  //     if( currentUser?.data?.change === false && item.path === '/userchangepassword'){
+  //      routsData.splice(index, 1)
+  //     }
+  //     return true;
+  //    })
+  // },[currentUser])
+
   const routes = useMemo(() => getRoutes({ data: routsData, isLogin, userRole: currentUser.role }), [isLogin, currentUser]);
+
+  //  if(findIndex){
+  //   routesData = routes.splice(findIndex, 1)
+  //  }
+  console.log(routes, routsData, "routes")
   if (routes) {
     return (
       <>
-        <Layout>
+        {/* <Layout> */}
           <RouteIdentifier routes={routes} fallback={<Loading />} />
-        </Layout>
+        {/* </Layout> */}
         <Modal
           show={show}
           id="settings"
@@ -484,4 +515,14 @@ const App = () => {
   return <></>;
 };
 
+const ClearCacheComponent = withClearCache(MainApp);
+
+function App() {
+  return (
+    <>
+      <ClearCacheComponent />
+    </>
+  );
+}
 export default App;
+

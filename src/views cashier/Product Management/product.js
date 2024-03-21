@@ -153,8 +153,8 @@ const product = () => {
   const { ProductData, notification } = useSelector((state) => state.StoreproductSlice)
   const { categoryDropdown } = useSelector((state) => state.StorecategorySlice)
   useEffect(() => {
-    dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, selectcat1))
-    dispatch(StoreCategoryDropDownL(currentUser?.data?.uuid))
+    dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
+    dispatch(StoreCategoryDropDownL(currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ))
   }, [selectcat1])
   useEffect(() => {
     if (suc === true) {
@@ -164,7 +164,7 @@ const product = () => {
         })
         setSuc(false)
         setTimeout(() => {
-          dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+          dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
           setOpenEditViewOpupup(false)
         }, 1000)
 
@@ -270,7 +270,7 @@ const product = () => {
       "stock_quantity": stockQuantity,
       "cgst_tax": cgst,
       "sgst_tax": sgst,
-      "store_uuid": currentUser?.data?.uuid,
+      "store_uuid": currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid ,
       "description": descriptionvalue,
       "sort_order": sortorder
     }
@@ -300,7 +300,7 @@ const product = () => {
       formData.append('file', file);
       formData.append('fileName', file.name);
       formData.append('company_uuid', currentUser?.data?.company_uuid);
-      formData.append('store_uuid', currentUser?.data?.uuid)
+      formData.append('store_uuid', currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid )
       dispatch(StoreProductBulkUplodURL(formData, currentUser.token))
       setSuc(true)
     }
@@ -313,32 +313,32 @@ const product = () => {
     if (type === "search") {
       setSearch(pages)
       setPage(0)
-      dispatch(StoreProductListURL(0, pages, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(0, pages, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
     if (type === "prev") {
       setPage(page - 1)
-      dispatch(StoreProductListURL(page - 1, search, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(page - 1, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
     else if (type === "next") {
       setPage(page + 1)
-      dispatch(StoreProductListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(page + 1, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
     else if (type === "page") {
       setPage(page)
-      dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(page, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
     else if (type === "page+1") {
       setPage(page + 1)
-      dispatch(StoreProductListURL(page + 1, search, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(page + 1, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
     else if (type === "page+2") {
       setPage(page + 2)
-      dispatch(StoreProductListURL(page + 2, search, currentUser.token, limit, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(page + 2, search, currentUser.token, limit, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
     else if (type === "limit") {
       setLimit(pages)
       setPage(0)
-      dispatch(StoreProductListURL(0, search, currentUser.token, pages, currentUser.data.uuid, selectcat1))
+      dispatch(StoreProductListURL(0, search, currentUser.token, pages, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid , selectcat1))
     }
   }
 
@@ -407,7 +407,7 @@ const product = () => {
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
             <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back mb-2" to="/">
               <CsLineIcons icon="chevron-left" size="20" />
-              <span className="align-middle text-medium ms-1">Home</span>
+              <span className="align-middle text-medium ms-1">Dashboard</span>
             </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}

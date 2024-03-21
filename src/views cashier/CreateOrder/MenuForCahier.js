@@ -191,7 +191,7 @@ const MenuForCashier = () => {
   const SelectVegFunction = (type) => {
     console.log(type, "gsdhfgkdshkfjh")
     setVegType(type?.value)
-    dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, search, type?.value));
+    dispatch(StoreProductsList(currentUser?.token, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid, search, type?.value));
   }
 
   // const prod = ProductForConsumer && ProductForConsumer.data && ProductForConsumer.data.map((item) => {
@@ -210,7 +210,7 @@ const MenuForCashier = () => {
     });
 
   useEffect(() => {
-    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser?.data?.uuid));
+    dispatch(categoryForConsumerListURL(currentUser?.data?.company_uuid, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid));
 
     // currentUser.data.company_uuid
   }, []);
@@ -222,7 +222,7 @@ const MenuForCashier = () => {
   }, [categoryForConsumer]);
 
   useEffect(() => {
-    dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, search, vegtype));
+    dispatch(StoreProductsList(currentUser?.token, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid, search, vegtype));
   }, []);
 
   const searchfunction = (type, pages) => {
@@ -232,7 +232,7 @@ const MenuForCashier = () => {
       setSearch(pages);
       setPage(0);
       // dispatch(ProductForConsumerListURL(currentUser.data.company_uuid, category, 0, pages, currentUser.token, limit))
-      dispatch(StoreProductsList(currentUser?.token, currentUser?.data?.uuid, pages, vegtype));
+      dispatch(StoreProductsList(currentUser?.token, currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid, pages, vegtype));
     }
     // if (type === "prev") {
     //   setPage(page - 1)
@@ -408,7 +408,7 @@ const MenuForCashier = () => {
     // event.preventDefault()
 
     const payload = {
-      store_uuid: currentUser?.data?.uuid,
+      store_uuid: currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid,
       company_uuid: currentUser.data.company_uuid,
       item: items,
     };
@@ -438,7 +438,7 @@ const MenuForCashier = () => {
     const payload = {
       payment_type: selectPaymentType1,
       company_uuid: currentUser.data.company_uuid,
-      store_uuid: currentUser?.data?.uuid,
+      store_uuid: currentUser && currentUser.data && currentUser.data.group === "cashier" ? currentUser?.data?.store_uuid : currentUser?.data?.uuid,
       item: items,
     };
 
@@ -540,10 +540,10 @@ const MenuForCashier = () => {
         <Row className="g-0">
           {/* Title Start */}
           <Col className="col-auto mb-3 mb-sm-0 me-auto">
-            {/* <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/dashboard"> */}
+            <NavLink className="muted-link pb-1 d-inline-block hidden breadcrumb-back" to="/">
             <CsLineIcons icon="chevron-left" size="20" />
-            <span className="align-middle text-medium ms-1">Home</span>
-            {/* </NavLink> */}
+            <span className="align-middle text-medium ms-1">Dashboard</span>
+            </NavLink>
             <h1 className="mb-0 pb-0 display-4" id="title">
               {title}
             </h1>
@@ -909,10 +909,10 @@ const MenuForCashier = () => {
                                             />
                                             <div>
                                               {item.stock_quantity <= 0 ? (
-                                                <Col style={{ color: 'red' }}>Out of Stock</Col>
+                                                <Col style={{ color: '#8d2f04' }}>Out of Stock</Col>
                                               ) : (
                                                 <div>
-                                                  {item.stock_quantity <= 5 ? <Col style={{ color: 'red' }}>Only {item.stock_quantity} Item Left</Col> : null}
+                                                  {item.stock_quantity <= 5 ? <Col style={{ color: '#8d2f04' }}>Only {item.stock_quantity} Item Left</Col> : null}
 
                                                   {items && items.find((data1) => data1.item_uuid === item.uuid) !== undefined ? (
                                                     <InputGroup className="spinner sw-11">

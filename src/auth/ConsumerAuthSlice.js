@@ -45,6 +45,7 @@ export const ConsumerLoginURL = (values) => async (dispatch) => {
       dispatch(setToast({ status: true, message: res?.data?.message }))
       localStorage.setItem("user", JSON.stringify(res));
       localStorage.setItem("ChangePassword", JSON.stringify(res?.data?.company_uuid));
+     
     })
     .catch((err) => {
       console.log(err.response, "dfgfsdfsfdsfsdhj")
@@ -73,7 +74,7 @@ export const ConsumerSignUpURL = (payload) => async (dispatch) => {
       console.log(err.response, "dfgfsdfsfdsfsdhj")
       dispatch(setToast({
         status: false,
-        message: err && err.response ? err && err.response.data.message : "Something went wrong"
+        message: err && err.response ? err && err.response.data : "Something went wrong"
       }))
 
     })

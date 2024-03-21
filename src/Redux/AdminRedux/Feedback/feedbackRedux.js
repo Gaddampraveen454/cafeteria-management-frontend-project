@@ -8,7 +8,8 @@ const initialState = {
   companyProductName:{},
   companyProductList:{},
 companyProductView:{},
-  notification: {}
+  notification: {},
+  store:{}
 };
 
 const companyFeedbackSlice = createSlice({
@@ -30,14 +31,18 @@ const companyFeedbackSlice = createSlice({
     setToast(state, action) {
       state.notification = action.payload;
     },
+    setStore(state, action) {
+      state.store = action.payload;
+    },
+
   },
 });
 
-export const { setCompanyFeedback,setCompanyProductName,setCompanyProductList,setCompanyProductView,setToast } = companyFeedbackSlice.actions;
+export const { setCompanyFeedback,setCompanyProductName,setCompanyProductList,setCompanyProductView,setToast,setStore } = companyFeedbackSlice.actions;
 
 
-export const CompanyFeedbackListURL = (page,search,token,limit,companyId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/company/list?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${companyId}`, {
+export const CompanyFeedbackListURL = (page,search,token,limit,companyId,storeId,start,end) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/company/list?pagenum=${page}&limit=${limit}&search=${search}&company_uuid=${companyId}&store_uuid=${storeId}&start_date=${start}&end_date=${end}`, {
     headers: {
       "x-auth-token": token
     }
@@ -64,9 +69,20 @@ export const CompanyProductNameURL = (orderId,token) => async (dispatch) => {
     })
 
 };
+export const CompanyStoreDropDownList = (companyId) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/company/get/order/stores?company_uuid=${companyId}`)
+  // {
+  //     headers: {
+  //         "x-auth-token": token
+  //     }
+  // });
+  console.log(response.data, "dhbhjrjgnr")
+  dispatch(setStore(response.data));
 
-export const CompanyProductList = (page1,search1,token,limit1,companyId) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/product/company/list?pagenum=${page1}&limit=${limit1}&search=${search1}&company_uuid=${companyId}&store_uuid=`, {
+};
+
+export const CompanyProductList = (page1,search1,token,limit1,companyId,store) => async (dispatch) => {
+  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/product/company/list?pagenum=${page1}&limit=${limit1}&search=${search1}&company_uuid=${companyId}&store_uuid=${store}`, {
     headers: {
       "x-auth-token": token
     }
@@ -80,20 +96,20 @@ export const CompanyProductList = (page1,search1,token,limit1,companyId) => asyn
 
 };
 
-export const CompanyProductViewURL = (page,search,token,limit,productId,rating) => async (dispatch) => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${page}&limit=${limit}&search=${search}&product_uuid=${productId}&rating=${rating}`, {
-    headers: {
-      "x-auth-token": token
-    }
-  }).then((res) => {
-    console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
-    dispatch(setCompanyProductView(res.data));
-  })
-    .catch((err) => {
-      console.log("err");
-    })
+// export const CompanyProductViewURL = (page,search,token,limit,productId,rating) => async (dispatch) => {
+//   const response = await axios.get(`${process.env.REACT_APP_URL}/feedback/user/product?pagenum=${page}&limit=${limit}&search=${search}&product_uuid=${productId}&rating=${rating}`, {
+//     headers: {
+//       "x-auth-token": token
+//     }
+//   }).then((res) => {
+//     console.log(res, "sdfsdfsdsdfsdfsdfsdfff")
+//     dispatch(setCompanyProductView(res.data));
+//   })
+//     .catch((err) => {
+//       console.log("err");
+//     })
 
-};
+// };
 
 
 

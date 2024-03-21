@@ -45,7 +45,7 @@ const Menu = () => {
   const [suc, setSuc] = useState(false);
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);
-  const [result1, setResult1] = useState();
+  const [result1, setResult1] = useState('');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('')
@@ -77,16 +77,17 @@ const Menu = () => {
   const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
 
   const Reload = () => {
-    window.onload = function () {
+    console.log('dfbvhdfbvjh')
+    // window.onload = function () {
       if (!window.location.hash) {
         window.location += '#loaded';
         window.location.reload();
       }
-    }
+    // };
   }
 
+
   useEffect(() => {
-    console.log("enter..")
     Reload();
   }, [])
 
