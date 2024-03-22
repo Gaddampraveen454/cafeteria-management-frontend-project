@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
+import Select from 'react-select';
 import ReactTags from 'react-tag-autocomplete';
 import { Row, Col, Button, Dropdown, Card, Badge, Form } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux'
-import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
+import { toast } from 'react-toastify';
+import { getWalletURL, ProfileData, ProfileUpdate } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+} from '@mui/material';
 
 const Profile = () => {
   const title = 'Customer Detail';
   const description = 'Ecommerce Customer Detail Page';
   const dispatch = useDispatch()
+  const history = useHistory();
   // Tags
   const [tags, setTags] = useState([
     { id: 0, name: 'Rates' },
@@ -29,13 +40,15 @@ const Profile = () => {
     });
   };
 
+  const [open, setOpen] = React.useState(false);
+  const [suc, setSuc] = useState(false);
 
   const [ConsumerData, setConsumerData] = useState()
   console.log(ConsumerData, "ConsumerData")
   const { currentUser } = useSelector((state) => state.auth)
   console.log(currentUser, "currentUser")
-  const { WalletData } = useSelector((state) => state.WalletData);
-  console.log(WalletData, "WalletData")
+  const { WalletData, Profiledatap, notification } = useSelector((state) => state.WalletData);
+  console.log(notification, "notificationnotification")
   useEffect(() => {
     if (currentUser.data) {
       setConsumerData(currentUser.data)
@@ -45,21 +58,113 @@ const Profile = () => {
   useEffect(() => {
     if (currentUser && currentUser.data) {
       dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
+      dispatch(ProfileData(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
+  const [data, setdata] = useState('')
+  const handlefunction = (item) => {
+    console.log(item, "itemitemitem6345gdf")
+    setdata(item)
+    setOpen(true)
+  }
 
-  // useEffect(() => {
-  //   // Check if userType is 'consumer' in the state
-  //   if (location.state && location.state.userType === 'consumer') {
-  //     // Reload the window once
-  //     window.location.reload(false);
-  //   }
-  // }, [location.state]);
-  
+  useEffect(() => {
+    if (suc === true) {
+      console.log(notification.message, "fdgsdfhfgh456456")
+      if (notification.status === true) {
+        toast.success(notification.message, {
+          position: "top-right",
+        })
+        setSuc(false)
+        setTimeout(() => {
+          setOpen(false)
+          // dispatch(ProductListURL(page, search,currentUser.token,limit))
+          dispatch(ProfileData(currentUser.data.uuid, currentUser?.data?.token))
+        }, 500)
+      }
+      else if (notification.status === false) {
+        toast.error(notification.message)
+        setSuc(false)
+      }
+    }
+
+  }, [notification])
+
+
+  const [name, setname] = useState({ value: Profiledatap?.data?.name, label: Profiledatap?.data?.name })
+  console.log(name, "namename435654")
+  const [mail, setemail] = useState({ value: Profiledatap?.data?.email, label: Profiledatap?.data?.email })
+  const [mobile, setmobile] = useState({ value: Profiledatap?.data?.mobile, label: Profiledatap?.data?.mobile })
+
+  const update = (event) => {
+    event.preventDefault()
+    const value = event.target.elements
+
+    const payload = {
+      "name": name,
+      "email": mail?.value,
+      "mobile": mobile?.value
+    }
+    dispatch(ProfileUpdate(Profiledatap?.data?.uuid, payload, currentUser?.data?.token))
+    setSuc(true)
+
+  }
+
+
 
   return (
     <>
       <HtmlHead title={title} description={description} />
+
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent style={{ width: "500px", height: "auto" }}>
+          <Form onSubmit={update}
+          >
+            <Row className="g-3">
+              <Col lg="12">
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" placeholder='name' defaultValue={Profiledatap?.data?.name} onChange={(e) => { setname(e.target.value) }}
+
+                />
+              </Col>
+              <Col lg="12">
+                <Form.Label>Mobile</Form.Label>
+                <Form.Control type="text" placeholder='mobile' defaultValue={Profiledatap?.data?.mobile} onChange={(e) => { setemail(e.target.value) }}
+                />
+              </Col>
+              <Col lg="12">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" placeholder='email' defaultValue={Profiledatap?.data?.email} onChange={(e) => { setmobile(e.target.value) }}
+
+                />
+              </Col>
+
+            </Row>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <Row className="g-3">
+              <Col lg="6">
+                <Button type="submit">
+                  sudmit
+                </Button>
+              </Col>
+              <Col lg="6">
+                <Button onClick={() => setOpen(false)} autoFocus>
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
+
+          </Form>
+
+        </DialogContent>
+
+      </Dialog>
+
       <div className="page-title-container">
         <Row className="g-0">
           {/* Title Start */}
@@ -104,7 +209,7 @@ const Profile = () => {
                   <div className="sw-6 sh-6 mb-3 d-inline-block bg-primary d-flex justify-content-center align-items-center rounded-xl">
                     <div className="text-white">BC</div>
                   </div>
-                  <div className="h5 mb-1">{ConsumerData ? ConsumerData.name : "Guest"}</div>
+                  <div className="h5 mb-1">{Profiledatap ? Profiledatap?.data?.name : "Guest"}</div>
                   <div className="text-muted">
                     {/* <CsLineIcons icon="pin" className="me-1" /> */}
                     <span className="align-middle">{ConsumerData ? ConsumerData.emp_id : ""}</span>
@@ -138,8 +243,35 @@ const Profile = () => {
                         <div className="sh-5 d-flex align-items-center">₹ {ConsumerData ? WalletData?.data?.wallet_amount : "0"}</div>
                       </Col>
                     </Row>
+
                   </Col>
                 </Row>
+
+                <Row className="g-0 align-items-center mb-2">
+                  <Col xs="auto">
+                    <div className="border border-primary sw-5 sh-5 rounded-xl d-flex justify-content-center align-items-center">
+                      <CsLineIcons icon="credit-card" className="text-primary" />
+                    </div>
+                  </Col>
+                  <Col className="ps-3">
+                    <Row className="g-0">
+                      <Col>
+                        <div className="sh-5 d-flex align-items-center lh-1-25">Icash </div>
+                      </Col>
+                      <Col xs="auto">
+                        <div className="sh-5 d-flex align-items-center"> {Profiledatap ? Profiledatap?.data?.icash : "0"}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+                {/* <Row className="g-0">
+                  <Col>
+                    <div className="sh-5 d-flex align-items-center lh-1-25">Icash </div>
+                  </Col>
+                  <Col xs="auto">
+                    <div className="sh-5 d-flex align-items-center"> {Profiledatap ? Profiledatap?.data?.icash : "0"}</div>
+                  </Col>
+                </Row> */}
 
                 {/* <Row className="g-0 align-items-center mb-2">
                   <Col xs="auto">
@@ -179,12 +311,17 @@ const Profile = () => {
               <div className="mb-5">
                 <p className="text-small text-muted mb-2">Details</p>
                 <Row className="g-0 mb-2">
+                  <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+                    <Button title="EDIT" variant="outline-success" className="btn px-1 py-1" onClick={() => handlefunction(ConsumerData)}>
+                      <CsLineIcons icon="edit" />
+                    </Button>
+                  </Col>
                   <Col xs="auto">
                     <div className="sw-3 me-1">
                       <CsLineIcons icon="user" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData ? ConsumerData.name : "Guest"}</Col>
+                  <Col className="text-alternate">{Profiledatap ? Profiledatap?.data?.name : "Guest"}</Col>
                 </Row>
                 {/* <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -200,7 +337,7 @@ const Profile = () => {
                       <CsLineIcons icon="phone" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData ? ConsumerData.mobile : "Guest"}</Col>
+                  <Col className="text-alternate">{Profiledatap ? Profiledatap?.data?.mobile : "Guest"}</Col>
                 </Row>
                 <Row className="g-0 mb-2">
                   <Col xs="auto">
@@ -208,7 +345,7 @@ const Profile = () => {
                       <CsLineIcons icon="email" size="17" className="text-primary" />
                     </div>
                   </Col>
-                  <Col className="text-alternate">{ConsumerData ? ConsumerData.email : "guest@gmail.com"}</Col>
+                  <Col className="text-alternate">{Profiledatap ? Profiledatap?.data?.email : "guest@gmail.com"}</Col>
                 </Row>
               </div>
               {/* <div className="mb-5">

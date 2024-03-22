@@ -63,6 +63,7 @@ import CompanyFeedbackReducer from 'Redux/AdminRedux/Feedback/feedbackRedux';
 import StoreFeedbackReducer from 'Redux/CashierRedux/Feedback/storefeedback';
 import adminBannersReducer from 'Redux/IcafeAdminRedux/IcafeBanners/icafebanners';
 import couponCompanyReducer from 'Redux/IcafeAdminRedux/CouponsRedux/coponscompanyredux';
+import IcashSliceUserReducer from 'Redux/ConsumerRedux/IcashRedux/icashSlice';
 
 
 const persistConfig = {
@@ -127,7 +128,8 @@ const persistedReducer = persistReducer(
     companyNotify: companyNotificationReducer,
     CompanyRoleSlice: CompanyRoleReducer,
     StoreRoleSlice: StoreRoleReducer,
-    storeNotify: storeNotificationReducer
+    storeNotify: storeNotificationReducer,
+    usericash:IcashSliceUserReducer
 
   })
 );

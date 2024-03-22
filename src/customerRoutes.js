@@ -346,6 +346,7 @@ const OrderRating = lazy(() => import('view Consumer/orders/orderRating'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
+const IcashList = lazy(()=>import('view Consumer/Icash/icashlist'))
 
 
 
@@ -482,11 +483,19 @@ const consumerRoutesAndMenuItems = {
       // icon: 'shipping',
     },
     {
+      path: `${appRoot}/Icash`,
+      component: IcashList,
+      label: 'Icash',
+      icon: 'news',
+    },
+    {
       path: `${appRoot}/usernotification`,
       component: notification,
       label: 'Notifications',
       icon: 'news',
     },
+   
+    // IcashList
     // {
     //   path: `${appRoot}/userchangepassword`,
     //   component:  Changepassword ,

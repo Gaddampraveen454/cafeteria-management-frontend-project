@@ -162,7 +162,6 @@ const AdminUser = () => {
 
     console.log(event, "eventxsddsdcvvxcvv")
     setName(event.name)
-    // setComapnayName(event.company_name)
     setEmail(event.email)
     setMobile(event.mobile)
     setSelectedCompany({ label: event.company_name, value: event.company_uuid })
