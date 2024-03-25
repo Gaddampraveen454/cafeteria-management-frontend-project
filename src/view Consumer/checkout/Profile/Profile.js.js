@@ -91,10 +91,10 @@ const Profile = () => {
   }, [notification])
 
 
-  const [name, setname] = useState({ value: Profiledatap?.data?.name, label: Profiledatap?.data?.name })
+  const [name, setname] = useState(Profiledatap?.data?.name)
   console.log(name, "namename435654")
-  const [mail, setemail] = useState({ value: Profiledatap?.data?.email, label: Profiledatap?.data?.email })
-  const [mobile, setmobile] = useState({ value: Profiledatap?.data?.mobile, label: Profiledatap?.data?.mobile })
+  const [mail, setemail] = useState(Profiledatap?.data?.email)
+  const [mobile, setmobile] = useState(Profiledatap?.data?.mobile)
 
   const update = (event) => {
     event.preventDefault()
@@ -102,8 +102,8 @@ const Profile = () => {
 
     const payload = {
       "name": name,
-      "email": mail?.value,
-      "mobile": mobile?.value
+      "email": mail,
+      "mobile": mobile
     }
     dispatch(ProfileUpdate(Profiledatap?.data?.uuid, payload, currentUser?.data?.token))
     setSuc(true)
@@ -207,7 +207,7 @@ const Profile = () => {
               <div className="d-flex align-items-center flex-column mb-5">
                 <div className="mb-5 d-flex align-items-center flex-column">
                   <div className="sw-6 sh-6 mb-3 d-inline-block bg-primary d-flex justify-content-center align-items-center rounded-xl">
-                    <div className="text-white">BC</div>
+                    <div className="text-white">{Profiledatap?.data?.name.charAt(0)}</div>
                   </div>
                   <div className="h5 mb-1">{Profiledatap ? Profiledatap?.data?.name : "Guest"}</div>
                   <div className="text-muted">

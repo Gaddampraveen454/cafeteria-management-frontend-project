@@ -31,6 +31,8 @@ const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/Order
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
 const Changepassword = lazy(() => import('view Consumer/Changepassword/changepassword'))
+const IcashList = lazy(() => import('view Consumer/Icash/icashlist'))
+const AddICashUser = lazy(() => import('view Consumer/Icash/AddCash'))
 
 
 const productsCards = lazy(() => import('views/company Management/productsUserCards'));
@@ -165,6 +167,18 @@ const EmployeeRoutesAndMenuItems = {
       // icon: 'shipping',
     },
     {
+      path: `${appRoot}/Icash`,
+      component: IcashList,
+      label: 'Icash',
+      icon: 'news',
+    },
+    {
+      path: `${appRoot}/AddICash`,
+      component: AddICashUser,
+      // label: 'Company Management',
+      // icon: 'shipping',
+    },
+    {
       path: `${appRoot}/usernotification`,
       component: notification,
       label: 'Notifications',
@@ -172,9 +186,9 @@ const EmployeeRoutesAndMenuItems = {
     },
     {
       path: `${appRoot}/userchangepassword`,
-      component:  Changepassword ,
+      component: Changepassword,
       label: 'Change Password',
-      icon:  'lock-off',
+      icon: 'lock-off',
     },
     {
       path: `${appRoot}/TransitionsModalUser`,

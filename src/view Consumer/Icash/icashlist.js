@@ -9,6 +9,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { UserNotificationsURL } from 'Redux/ConsumerRedux/NotificationRedux/notification';
 import { UserIcashUrl } from 'Redux/ConsumerRedux/IcashRedux/icashSlice';
+import { ProfileData } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import CheckAll from 'components/check-all/CheckAll';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,24 +27,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Notification = () => {
-    const title = 'Icash';
+const ICashList = () => {
+    const title = 'Icash List';
     const description = 'Ecommerce Notification Page';
     const dispatch = useDispatch()
     const history = useHistory()
-
-
-
-    // const { subscriptionData } = useSelector((state) => state.subscription)
-
 
     const { currentUser } = useSelector((state) => state.auth)
 
     // icashdata
     const { icashdata } = useSelector((state) => state.usericash)
-    console.log(icashdata, "icashdataicashdata")
-    const { notificationValue } = useSelector((state) => state.Usernotification)
-   
+    const { Profiledatap, notification } = useSelector((state) => state.WalletData);
+    console.log(Profiledatap, "icashdataicashdata")
+
 
     const allItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [selectedItems, setSelectedItems] = useState([]);
@@ -83,46 +79,46 @@ const Notification = () => {
         setOpen(false);
     };
 
-    // useEffect(()=>{
-    //   dispatch(notification(pageNumber, limit,currentUser.token))
-    // })
+    useEffect(() => {
+        dispatch(ProfileData(currentUser.data.uuid, currentUser?.data?.token))
+    }, [])
 
     const pageChange = (type) => {
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(UserIcashUrl(page - 1, limit,  currentUser?.data?.uuid,currentUser?.data?.token));
+            dispatch(UserIcashUrl(page - 1, limit, currentUser?.data?.uuid, currentUser?.data?.token));
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(UserIcashUrl(page + 1, limit,  currentUser?.data?.uuid,currentUser?.data?.token));
+            dispatch(UserIcashUrl(page + 1, limit, currentUser?.data?.uuid, currentUser?.data?.token));
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(UserIcashUrl(page, limit,  currentUser.data.uuid,currentUser.data.token))
+            dispatch(UserIcashUrl(page, limit, currentUser.data.uuid, currentUser.data.token))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(UserIcashUrl(page + 1, limit, currentUser.data.uuid,currentUser.data.token))
+            dispatch(UserIcashUrl(page + 1, limit, currentUser.data.uuid, currentUser.data.token))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(UserIcashUrl(page + 2, limit,  currentUser.data.uuid,currentUser.data.token))
+            dispatch(UserIcashUrl(page + 2, limit, currentUser.data.uuid, currentUser.data.token))
         }
         else if (type === "5Items") {
             setLimit(5)
             setPage(0)
-            dispatch(UserIcashUrl(0, 5,  currentUser?.data?.uuid,currentUser?.data?.token));
+            dispatch(UserIcashUrl(0, 5, currentUser?.data?.uuid, currentUser?.data?.token));
         }
         else if (type === "10Items") {
             setLimit(10)
             setPage(0)
-            dispatch(UserIcashUrl(0, 10,  currentUser?.data?.uuid,currentUser?.data?.token));
+            dispatch(UserIcashUrl(0, 10, currentUser?.data?.uuid, currentUser?.data?.token));
 
         }
         else if (type === "20Items") {
             setLimit(20)
             setPage(0)
-            dispatch(UserIcashUrl(0, 20,  currentUser?.data?.uuid,currentUser?.data?.token));
+            dispatch(UserIcashUrl(0, 20, currentUser?.data?.uuid, currentUser?.data?.token));
 
         }
 
@@ -134,11 +130,11 @@ const Notification = () => {
         // GetList(p-1)
     };
     const notificationsDatas = () => {
-        dispatch(UserIcashUrl(page, limit,  currentUser?.data?.uuid,currentUser?.data?.token));
+        dispatch(UserIcashUrl(page, limit, currentUser?.data?.uuid, currentUser?.data?.token));
     }
     useEffect(() => {
-        dispatch( UserIcashUrl("","", currentUser?.data?.uuid,currentUser?.data?.token))
-    }, [page])
+        dispatch(UserIcashUrl(page, limit, currentUser?.data?.uuid, currentUser?.data?.token))
+    }, [])
 
 
 
@@ -186,33 +182,31 @@ const Notification = () => {
                     {/* <Col xs="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
             <Button type="button" >Add</Button>
           </Col> */}
+                    <Col>
+                        <Card border="primary" style={{ width: '15rem', marginLeft: '30%', backgroundColor: "#672100" }}>
+                            <Card.Body>
+                                <Card.Title style={{ color: "white" }}>Available Balance <CsLineIcons icon="wallet" size="20" /></Card.Title>
+                                <Card.Text>
+                                    <h1 style={{ color: "white", fontWeight: "bold" }}>₹ {Profiledatap?.data?.icash}</h1>
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Col>
 
                     {/* Top Buttons Start */}
-                    <Col xs="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
-                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-only ms-1 d-inline-block d-lg-none">
-                            <CsLineIcons icon="sort" />
+                    <Col xs="12" sm="auto" className="d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+                        {/* <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" onClick={() => setOpen(true)}>
+                            <CsLineIcons icon="plus" /> <span>Upload Product</span>
                         </Button> */}
-                        <div className="btn-group ms-1 check-all-container">
-                            {/* <CheckAll
-                allItems={allItems}
-                selectedItems={selectedItems}
-                onToggle={toggleCheckAll}
-                inputClassName="form-check"
-                className="btn btn-outline-primary btn-custom-control py-0"
-              /> */}
-                            {/* <Dropdown align="end">
-                <Dropdown.Toggle className="dropdown-toggle dropdown-toggle-split" variant="outline-primary" />
-                <Dropdown.Menu>
-                  <Dropdown.Item>Move</Dropdown.Item>
-                  <Dropdown.Item>Archive</Dropdown.Item>
-                  <Dropdown.Item>Delete</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown> */}
-                        </div>
+                        <NavLink to="/AddICash">
+                            <Button variant="outline-primary" className="btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                                <CsLineIcons icon="plus" /> <span>Add Balance</span>
+                            </Button>
+                        </NavLink>
                     </Col>
                     {/* Top Buttons End */}
                 </Row>
-            </div>
+            </div >
             <Row className="mb-3">
                 <Col md="5" lg="3" xxl="2" className="mb-1">
                     {/* Search Start */}
@@ -301,11 +295,12 @@ const Notification = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {icashdata && icashdata?.data?.map((item, index) => {
-                console.log(item, "hgsdfgsjhgsdj")
-                return <Card key="" className='mb-2'>
-                    <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
-                        {/* <NavLink to={item?.link.startsWith('/Orderrating/') ? `${item?.link}` : `/OrderView/${item?.link}`}> */}
+            {
+                icashdata && icashdata?.data?.map((item, index) => {
+                    console.log(item, "hgsdfgsjhgsdj")
+                    return <Card key="" className='mb-2'>
+                        <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
+                            {/* <NavLink to={item?.link.startsWith('/Orderrating/') ? `${item?.link}` : `/OrderView/${item?.link}`}> */}
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
                                 <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">S NO.</div>
@@ -348,7 +343,7 @@ const Notification = () => {
                                     <div className="text-muted text-small d-md-none">DATE</div>
                                     <div className="text-alternate">
                                         <span>
-                                            {(moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"))}
+                                            {(moment(item.createdAt).format("YYYY-MM-DD"))}
                                         </span>
                                     </div>
                                 </Col>
@@ -384,10 +379,11 @@ const Notification = () => {
 &nbsp; */}
                                 {/* </Col> */}
                             </Row>
-                        {/* </NavLink> */}
-                    </Card.Body>
-                </Card>
-            })}
+                            {/* </NavLink> */}
+                        </Card.Body>
+                    </Card>
+                })
+            }
 
 
 
@@ -404,16 +400,16 @@ const Notification = () => {
                     <Pagination.Item className="shadow" active onClick={() => pageChange("page")} >
                         {page + 1}
                     </Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= page + 1} onClick={() => pageChange("page+1", page + 1)}>{page + 2}</Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= page + 2} onClick={() => pageChange("page+2", page + 2)}>{page + 3}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(icashdata && icashdata.count / limit) <= page + 1} onClick={() => pageChange("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(icashdata && icashdata.count / limit) <= page + 2} onClick={() => pageChange("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                    {Math.ceil(notificationValue && notificationValue.count / limit) > page + 3 &&
+                    {Math.ceil(icashdata && icashdata.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
 
                     }
-                    <Pagination.Next className="shadow" disabled={Math.ceil(notificationValue && notificationValue.count / limit) <= page + 1} onClick={() => pageChange("next")}>
+                    <Pagination.Next className="shadow" disabled={Math.ceil(icashdata && icashdata.count / limit) <= page + 1} onClick={() => pageChange("next")}>
                         <CsLineIcons icon="chevron-right" />
                     </Pagination.Next>
                 </Pagination>
@@ -446,4 +442,4 @@ const Notification = () => {
         </>
     );
 };
-export default Notification;
+export default ICashList;

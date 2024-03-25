@@ -8,7 +8,7 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { IfLogedinUpdateCartURL, CartListURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
-import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
+import { getWalletURL, ProfileData } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { LogOutURL, LoginURL } from 'auth/authSlice';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { toast } from 'react-toastify';
@@ -45,7 +45,7 @@ const Categories = () => {
   const { CouponData, discountAmount, coupon, notification } = useSelector((state) => state.coupons)
   console.log(CartData, "CartData")
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-  const { WalletData } = useSelector((state) => state.WalletData);
+  const { WalletData, Profiledatap } = useSelector((state) => state.WalletData);
   const { CheckoutData, checkoutnotification } = useSelector((state) => state.checkoutdata);
   // const { OrderData } = useSelector((state) => state.checkoutdata);
 
@@ -64,10 +64,38 @@ const Categories = () => {
   const [count, setCount] = useState(0);
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
+  const ICashAmount = Profiledatap && Profiledatap?.data && Profiledatap?.data?.icash ? Profiledatap && Profiledatap?.data && Profiledatap?.data?.icash : 0
+
   const TotaleAmount = walletAmount > CartData.total_amount ? CartData.total_amount : (CartData.total_amount - walletAmount) * 100
 
+  let TotalAmount;
 
-  console.log(count, "TotaleAmount")
+  if (walletAmount > CartData.total_amount) {
+    TotalAmount = CartData.total_amount;
+  }
+  else if (walletAmount < CartData.total_amount && ICashAmount >= (CartData.total_amount - walletAmount)) {
+    TotalAmount = CartData.total_amount;
+  }
+  else {
+    TotalAmount = (Number(CartData.total_amount) - Number(walletAmount) - Number(ICashAmount));
+  }
+
+  const [Icashvalue, setIcashValue] = useState(0);
+  console.log(Icashvalue, "Icashvalue")
+
+  useEffect(() => {
+    if (walletAmount < CartData.total_amount) {
+      const Ivalue = (Number(CartData.total_amount) - Number(walletAmount));
+
+      if (Ivalue === ICashAmount) {
+        setIcashValue(ICashAmount);
+      } else if (Ivalue > ICashAmount) {
+        setIcashValue(Ivalue > ICashAmount && ICashAmount);
+      } else if (Ivalue < ICashAmount) {
+        setIcashValue(Ivalue);
+      }
+    }
+  }, [walletAmount, CartData.total_amount, ICashAmount]);
 
   const FinalAmount = CartData.total_amount < walletAmount ? 0 : CartData.total_amount - walletAmount
 
@@ -88,6 +116,7 @@ const Categories = () => {
   useEffect(() => {
     if (currentUser && currentUser.data) {
       dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
+      dispatch(ProfileData(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
 
@@ -137,7 +166,7 @@ const Categories = () => {
       setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        "amount": String(TotaleAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": String(TotalAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Cafeteria",
         "description": "Cafeteria",
@@ -390,6 +419,7 @@ const Categories = () => {
             "user_uuid": currentUser.data.uuid,
             "company_uuid": CheckoutData.data.company_uuid,
             "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+            "icash": Icashvalue,
             "instructions": "Spicy and Tasty gaa undali",
             "coupon_uuid": `${coup}`,
             "discount_amount": discount
@@ -468,7 +498,8 @@ const Categories = () => {
           "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
           "instructions": "Spicy and Tasty gaa undali",
           "coupon_uuid": `${coup}`,
-          "discount_amount": discount
+          "discount_amount": discount,
+          "icash": Icashvalue
         }
 
         axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -731,6 +762,14 @@ const Categories = () => {
                     <p>
                       <span className="text-alternate">
                         <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount : 0}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">Icash Amount</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? ICashAmount : 0}
                       </span>
                     </p>
                   </div>
