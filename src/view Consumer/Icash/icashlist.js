@@ -279,11 +279,11 @@ const ICashList = () => {
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Transaction Id</div>
                 </Col>
-                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">Type</div>
-                </Col>
                 <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">DATE</div>
+                </Col>
+                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">Type</div>
                 </Col>
                 {/* <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
           <div className="text-muted text-small cursor-pointer ">TYPE</div>
@@ -298,6 +298,12 @@ const ICashList = () => {
             {
                 icashdata && icashdata?.data?.map((item, index) => {
                     console.log(item, "hgsdfgsjhgsdj")
+                    const textStyle = {
+                        backgroundColor: item.type === 'credited' ? 'green' : 'red',
+                        color: 'white',
+                        padding: '5px 10px',
+                        borderRadius: '5px'
+                    };
                     return <Card key="" className='mb-2'>
                         <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
                             {/* <NavLink to={item?.link.startsWith('/Orderrating/') ? `${item?.link}` : `/OrderView/${item?.link}`}> */}
@@ -309,13 +315,13 @@ const ICashList = () => {
                                     </div>
                                 </Col>
                                 <Col xs="3" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div className="text-muted text-small d-md-none">TITLE</div>
+                                    <div className="text-muted text-small d-md-none">Amount</div>
                                     <div className="text-alternate">
                                         {item?.amount}
                                     </div>
                                 </Col>
                                 <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">DESCRIPTION</div>
+                                    <div className="text-muted text-small d-md-none">Status</div>
                                     <div className="text-alternate">
                                         <span>
                                             {item?.status}
@@ -323,27 +329,27 @@ const ICashList = () => {
                                     </div>
                                 </Col>
                                 <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">DESCRIPTION</div>
+                                    <div className="text-muted text-small d-md-none">Transaction Id</div>
                                     <div className="text-alternate">
                                         <span>
                                             {item?.transaction_uuid}
                                         </span>
                                     </div>
                                 </Col>
-                                <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">DESCRIPTION</div>
+                                {/* transaction_uuid */}
+                                <Col xs="3" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">Date</div>
                                     <div className="text-alternate">
                                         <span>
-                                            {item?.type}
+                                            {(moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"))}
                                         </span>
                                     </div>
                                 </Col>
-                                {/* transaction_uuid */}
-                                <Col xs="3" md="3" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">DATE</div>
+                                <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">Type</div>
                                     <div className="text-alternate">
-                                        <span>
-                                            {(moment(item.createdAt).format("YYYY-MM-DD"))}
+                                        <span style={textStyle}>
+                                            {item?.type === "credited" ? "Credited" : "Debited"}
                                         </span>
                                     </div>
                                 </Col>

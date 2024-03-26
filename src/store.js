@@ -65,6 +65,7 @@ import adminBannersReducer from 'Redux/IcafeAdminRedux/IcafeBanners/icafebanners
 import couponCompanyReducer from 'Redux/IcafeAdminRedux/CouponsRedux/coponscompanyredux';
 import IcashSliceUserReducer from 'Redux/ConsumerRedux/IcashRedux/icashSlice';
 import usercouponsReducer from 'Redux/ConsumerRedux/Coupons/CouponsRedux';
+import adminICashReducer from 'Redux/IcafeAdminRedux/AdminIcash/adminicashRedux';
 
 
 const persistConfig = {
@@ -130,8 +131,9 @@ const persistedReducer = persistReducer(
     CompanyRoleSlice: CompanyRoleReducer,
     StoreRoleSlice: StoreRoleReducer,
     storeNotify: storeNotificationReducer,
-    usericash:IcashSliceUserReducer,
-    coupons: usercouponsReducer
+    usericash: IcashSliceUserReducer,
+    coupons: usercouponsReducer,
+    adminIcash: adminICashReducer
 
   })
 );

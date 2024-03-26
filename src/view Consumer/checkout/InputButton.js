@@ -70,7 +70,7 @@ export default function InputPromoCode({ apply, CartData }) {
     console.log(notification, "ProductDataProductData")
 
     return (
-        <Form onSubmit={handleSubmit} id="demo">
+        <Form onSubmit={handleSubmit} id="demo" style={{ display: "flex" }}>
             <Form.Control
                 sx={{ '--Input-decoratorChildHeight': '45px' }}
                 placeholder="Enter promo code here"
@@ -78,11 +78,12 @@ export default function InputPromoCode({ apply, CartData }) {
                 required
                 value={coupon.code}
                 onChange={(e) => setCoupon(e.target.value)}
+                style={{ width: "60%" }}
             // endDecorator={
 
             // }
             />
-            <Button variant="primary" color="#000" type="submit">
+            <Button variant="primary" color="#000" type="submit" style={{ marginLeft: "18%" }}>
                 Apply
             </Button>
         </Form>

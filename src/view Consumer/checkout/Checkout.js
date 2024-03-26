@@ -81,7 +81,7 @@ const Categories = () => {
   }
 
   const [Icashvalue, setIcashValue] = useState(0);
-  console.log(Icashvalue, "Icashvalue")
+
 
   useEffect(() => {
     if (walletAmount < CartData.total_amount) {
@@ -97,6 +97,70 @@ const Categories = () => {
     }
   }, [walletAmount, CartData.total_amount, ICashAmount]);
 
+  const [RadioButtonWalletCheck, setRadioButtonWalletCheck] = useState(false);
+  const [RadioButtonICashCheck, setRadioButtonICashCheck] = useState(false);
+
+  const [radioWallet, setRadioWallet] = useState(0);
+  const [radioIcash, setRadioICash] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  const handleWalletCheckboxChange = (e) => {
+    setRadioButtonWalletCheck(e.target.checked);
+
+    const CheckValue = e.target.checked;
+
+    if (CheckValue) {
+      if (CartData?.total_amount === walletAmount) {
+        setRadioWallet(walletAmount);
+      }
+      else if (CartData?.total_amount > walletAmount) {
+        setRadioWallet(walletAmount);
+      }
+      else if (CartData?.total_amount < walletAmount) {
+        setRadioWallet(CartData?.total_amount);
+      }
+    }
+    if (CheckValue && RadioButtonICashCheck) {
+      if (CartData?.total_amount === ICashAmount + walletAmount) {
+        setTotalAmount(CartData?.total_amount)
+      }
+      else if (CartData?.total_amount > ICashAmount + walletAmount) {
+        setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
+      }
+      else if (CartData?.total_amount < ICashAmount + walletAmount) {
+        setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
+      }
+    }
+  };
+
+  const handleICashCheckboxChange = (e) => {
+    setRadioButtonICashCheck(e.target.checked);
+
+    const CheckValue = e.target.checked;
+
+    if (CheckValue) {
+      if (CartData?.total_amount === ICashAmount) {
+        setRadioICash(ICashAmount);
+      }
+      else if (CartData?.total_amount > ICashAmount) {
+        setRadioICash(ICashAmount);
+      }
+      else if (CartData?.total_amount < ICashAmount) {
+        setRadioICash(CartData?.total_amount);
+      }
+    }
+    if (CheckValue && RadioButtonWalletCheck) {
+      if (CartData?.total_amount === ICashAmount + walletAmount) {
+        setTotalAmount(CartData?.total_amount)
+      }
+      else if (CartData?.total_amount > ICashAmount + walletAmount) {
+        setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
+      }
+      else if (CartData?.total_amount < ICashAmount + walletAmount) {
+        setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
+      }
+    }
+  };
   const FinalAmount = CartData.total_amount < walletAmount ? 0 : CartData.total_amount - walletAmount
 
   console.log(walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount, "gfhggfhgg")
@@ -166,7 +230,7 @@ const Categories = () => {
       setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        "amount": String(TotalAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": String(totalAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Cafeteria",
         "description": "Cafeteria",
@@ -418,8 +482,10 @@ const Categories = () => {
             "checkout_uuid": CheckoutData.data.uuid,
             "user_uuid": currentUser.data.uuid,
             "company_uuid": CheckoutData.data.company_uuid,
-            "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
-            "icash": Icashvalue,
+            // "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+            // "icash": Icashvalue,
+            "paid_from_wallet": radioWallet,
+            "icash": radioIcash,
             "instructions": "Spicy and Tasty gaa undali",
             "coupon_uuid": `${coup}`,
             "discount_amount": discount
@@ -495,11 +561,13 @@ const Categories = () => {
           "checkout_uuid": CheckoutData.data.uuid,
           "user_uuid": currentUser.data.uuid,
           "company_uuid": CheckoutData.data.company_uuid,
-          "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+          // "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+          // "icash": Icashvalue,
+          "paid_from_wallet": radioWallet,
+          "icash": radioIcash,
           "instructions": "Spicy and Tasty gaa undali",
           "coupon_uuid": `${coup}`,
           "discount_amount": discount,
-          "icash": Icashvalue
         }
 
         axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -706,9 +774,9 @@ const Categories = () => {
           <Modal.Header closeButton className="modal-header">
             <h3>Offers</h3>
           </Modal.Header>
-          <h5 className="mt-5" style={{ textAlign: 'center' }}>
+          {/* <h5 className="mt-5" style={{ textAlign: 'center' }}>
             You can apply both store & bank/wallet offer in one order
-          </h5>
+          </h5> */}
           <Modal.Body>
             <ApplyCoupons show={show} onHide={handleClose} CartData={CartData} />
           </Modal.Body>
@@ -757,7 +825,7 @@ const Categories = () => {
                       </span>
                     </p>
                   </div>
-                  <div className="mb-2">
+                  {/* <div className="mb-2">
                     <p className="text-small text-muted mb-1">Wallet Amount</p>
                     <p>
                       <span className="text-alternate">
@@ -772,7 +840,7 @@ const Categories = () => {
                         <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? ICashAmount : 0}
                       </span>
                     </p>
-                  </div>
+                  </div> */}
                   <div className="mb-2">
                     <p className="text-small text-muted mb-1">Discount</p>
                     <p>
@@ -787,6 +855,32 @@ const Categories = () => {
                         : '₹ 0'}
                     </p>
                   </div> */}
+                  <Row>
+                    <Col lg="12">
+                      <div>
+                        <div className="form-check">
+                          <label className="form-check-label" htmlFor="walletCheckbox">
+                            <p className="text-medium text-muted mb-1">Wallet ₹ {currentUser && currentUser.data ? walletAmount : 0}</p>
+                          </label>
+                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('Wallet')} /> */}
+                          <input type="checkbox" className="form-check-input" name="terms" onChange={handleWalletCheckboxChange} />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="12">
+                      <div>
+                        <div className="form-check">
+                          <label className="form-check-label" htmlFor="icashCheckbox">
+                            <p className="text-medium text-muted mb-1">ICash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
+                          </label>
+                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('ICash')} /> */}
+                          <input type="checkbox" className="form-check-input" name="terms" onChange={handleICashCheckboxChange} />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
                   <div className="mb-2">
                     <p className="text-small text-muted mb-1">GRAND TOTAL</p>
                     {/* <div className="cta-2"> */}

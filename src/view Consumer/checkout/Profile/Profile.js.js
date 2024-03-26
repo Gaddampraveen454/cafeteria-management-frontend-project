@@ -149,7 +149,7 @@ const Profile = () => {
             <Row className="g-3">
               <Col lg="6">
                 <Button type="submit">
-                  sudmit
+                  Submit
                 </Button>
               </Col>
               <Col lg="6">
@@ -259,7 +259,7 @@ const Profile = () => {
                         <div className="sh-5 d-flex align-items-center lh-1-25">Icash </div>
                       </Col>
                       <Col xs="auto">
-                        <div className="sh-5 d-flex align-items-center"> {Profiledatap ? Profiledatap?.data?.icash : "0"}</div>
+                        <div className="sh-5 d-flex align-items-center">₹ {Profiledatap ? Profiledatap?.data?.icash : "0"}</div>
                       </Col>
                     </Row>
                   </Col>

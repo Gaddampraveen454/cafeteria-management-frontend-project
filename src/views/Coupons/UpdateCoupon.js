@@ -32,8 +32,8 @@ const addcategory = () => {
     ];
 
     const optionstype = [
-        { value: 'flat', label: 'flat' },
-        { value: 'percentage', label: 'percentage' },
+        { value: 'flat', label: 'Flat' },
+        { value: 'percentage', label: 'Percentage' },
     ];
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
@@ -82,6 +82,7 @@ const addcategory = () => {
     const [sortorder, setSortOrder] = useState("")
     const [error, setError] = useState("");
     const [suc, setSuc] = useState(false);
+    const [uptodiscount, setUptoDiscount] = useState('')
 
     const { currentUser } = useSelector((state) => state.auth)
     console.log(currentUser, 'currentUsercurrentUser')
@@ -174,7 +175,7 @@ const addcategory = () => {
             "image": UploadedFile === '' ? location?.state?.image?.replace('https://cmsapi.scienstechnologies.com/product/images/', '') : UploadedFile,
             "description": description1,
             "minimum_purchase": minpuches,
-            // "upto_discount": ""
+            "upto_discount": Number(uptodiscount)
         }
         dispatch(AllLoginUpdateCoupon(location?.state?.uuid, payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
@@ -325,6 +326,12 @@ const addcategory = () => {
                                         />
                                     </Col>
                                     {/* optionstype */}
+                                    {type?.label === "Percentage" &&
+                                        <Col lg="6">
+                                            <Form.Label> Upto Discount</Form.Label>
+                                            <Form.Control type="text" defaultValue={location?.state?.upto_discount} onChange={(e) => { setUptoDiscount(e.target.value) }} />
+                                        </Col>
+                                    }
                                     <Col lg="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setamount(e.target.value) }} defaultValue={location?.state?.amount} />

@@ -127,6 +127,14 @@ const CompanyOrderView = () => {
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
                                     </Col>
                                     <Col lg="6" xs='6'>
+                                        <Form.Label>ICash Amount</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.icash} />
+                                    </Col>
+                                    <Col lg="6" xs='6'>
+                                        <Form.Label>Discount</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.discount_amount} />
+                                    </Col>
+                                    <Col lg="6" xs='6'>
                                         <Form.Label>SGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.sgst_tax} />
                                     </Col>

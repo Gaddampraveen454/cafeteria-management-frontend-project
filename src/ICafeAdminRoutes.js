@@ -25,10 +25,11 @@ const FeedBack = lazy(() => import('viewICafeAdmin/FeedBack/feedback'));
 // const ViewReview = lazy(()=>import('viewICafeAdmin/FeedBack/viewreview'));
 const ProductReview = lazy(() => import('viewICafeAdmin/FeedBack/productreview'));
 const AdminBanner = lazy(() => import('viewICafeAdmin/AdminBanners/adminbanners'));
-const AdminAddBanner = lazy(()=>import('viewICafeAdmin/AdminBanners/addbanners'));
-const Coupons = lazy(()=>import('viewICafeAdmin/Coupons/couponlist'))
-const Addcoupons = lazy(()=>import('viewICafeAdmin/Coupons/AddCoupon'))
-const Updatecoupons = lazy(()=>import('viewICafeAdmin/Coupons/UpdateCoupon'))
+const AdminAddBanner = lazy(() => import('viewICafeAdmin/AdminBanners/addbanners'));
+const Coupons = lazy(() => import('viewICafeAdmin/Coupons/couponlist'))
+const Addcoupons = lazy(() => import('viewICafeAdmin/Coupons/AddCoupon'))
+const Updatecoupons = lazy(() => import('viewICafeAdmin/Coupons/UpdateCoupon'))
+const AdminICashList = lazy(() => import('viewICafeAdmin/AdminICashList/adminicashlist'))
 
 
 const FooterRoutes = {
@@ -215,6 +216,12 @@ const iCafeAdminRoutesAndMenuItems = {
       // icon: 'user',
     },
     {
+      path: `${appRoot}/icashlist`,
+      component: AdminICashList,
+      label: 'ICash List',
+      icon: 'shop',
+    },
+    {
       path: `${appRoot}/reports`,
       component: Reports,
       label: 'Reports',
@@ -240,13 +247,13 @@ const iCafeAdminRoutesAndMenuItems = {
     },
     {
       path: `${appRoot}/banner`,
-      component:AdminBanner,
+      component: AdminBanner,
       label: 'Banner',
       icon: 'shop',
     },
     {
       path: `${appRoot}/add_banner`,
-      component:AdminAddBanner,
+      component: AdminAddBanner,
     },
     {
       path: `${appRoot}/termsconditions`,

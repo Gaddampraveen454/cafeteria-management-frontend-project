@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { AllLoginAddCoupon } from 'Redux/IcafeAdminRedux/CouponsRedux/coponscompanyredux';
-import {  ICafeAdminCategoryStoreDropDownList } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryStoreDropDownList } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +22,7 @@ const addcategory = () => {
     const title = 'Add Coupon';
     const description = 'Ecommerce Category Management Page';
     const { StoreList } = useSelector((state) => state.products)
-    console.log(StoreList,"StoreList")
+    console.log(StoreList, "StoreList")
     const [selectValueState, setSelectValueState] = useState();
     const optionsoffertype = [
         { value: 'special', label: 'special' },
@@ -30,12 +30,13 @@ const addcategory = () => {
     ];
 
     const optionstype = [
-        { value: 'flat', label: 'flat' },
-        { value: 'percentage', label: 'percentage' },
+        { value: 'flat', label: 'Flat' },
+        { value: 'percentage', label: 'Percentage' },
     ];
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
     const [description1, setDescription] = useState('')
+    const [uptodiscount, setUptoDiscount] = useState('')
 
     const [selectValueCity, setSelectValueCity] = useState();
     const optionsCity = [
@@ -145,10 +146,10 @@ const addcategory = () => {
         //     toast.error("Sort order must be greater than zero");
         //     return; // Stop the function if validation fails
         // }
-       
+
         const payload = {
             "company_uuid": currentUser?.data?.company_uuid,
-            "store_uuid":  currentUser?.data?.uuid,
+            "store_uuid": currentUser?.data?.uuid,
             // "sort_order": sortorder,
             "offer_type": offertype?.value,
             "type": type?.value,
@@ -160,7 +161,7 @@ const addcategory = () => {
             "image": UploadedFile,
             "description": description1,
             "minimum_purchase": minpuches,
-            // "upto_discount": ""
+            "upto_discount": Number(uptodiscount)
         }
         dispatch(AllLoginAddCoupon(payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
@@ -299,7 +300,7 @@ const addcategory = () => {
                                         <Form.Label>Type</Form.Label>
                                         <Select
 
-                                        
+
                                             classNamePrefix="react-select"
                                             className=""
                                             name="type"
@@ -312,6 +313,12 @@ const addcategory = () => {
                                         />
                                     </Col>
                                     {/* optionstype */}
+                                    {type?.label === "Percentage" &&
+                                        <Col lg="6">
+                                            <Form.Label> Upto Discount</Form.Label>
+                                            <Form.Control type="text" value={uptodiscount} onChange={(e) => { setUptoDiscount(e.target.value) }} />
+                                        </Col>
+                                    }
                                     <Col lg="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setamount(e.target.value) }} />

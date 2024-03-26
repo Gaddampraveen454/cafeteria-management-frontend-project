@@ -28,14 +28,15 @@ const addcategory = () => {
     const [UploadedFile, setUploadedFile] = useState('')
     console.log(UploadedFile, "UploadedFile")
     const [image, setImage] = useState(null);
+    const [uptodiscount, setUptoDiscount] = useState('')
     const optionsoffertype = [
         { value: 'special', label: 'special' },
         { value: 'normal', label: 'normal' },
     ];
 
     const optionstype = [
-        { value: 'flat', label: 'flat' },
-        { value: 'percentage', label: 'percentage' },
+        { value: 'flat', label: 'Flat' },
+        { value: 'percentage', label: 'Percentage' },
     ];
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
@@ -360,6 +361,12 @@ const addcategory = () => {
                                         />
                                     </Col>
                                     {/* optionstype */}
+                                    {type?.label === "Percentage" &&
+                                        <Col lg="6">
+                                            <Form.Label> Upto Discount</Form.Label>
+                                            <Form.Control type="text" value={location?.state?.upto_discount} onChange={(e) => { setUptoDiscount(e.target.value) }} />
+                                        </Col>
+                                    }
                                     <Col lg="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setamount(e.target.value) }} defaultValue={location?.state?.amount} />
@@ -369,7 +376,7 @@ const addcategory = () => {
                                         <Form.Control type="text" onChange={(e) => { setcouponcode(e.target.value) }} defaultValue={location?.state?.code} />code
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>max_use_per_user</Form.Label>
+                                        <Form.Label>Max Use Per User</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setmaxuser(e.target.value) }} defaultValue={location?.state?.max_use_per_user} />
                                     </Col>
                                     <Col lg="6">

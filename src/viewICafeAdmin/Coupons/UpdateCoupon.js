@@ -34,8 +34,8 @@ const addcategory = () => {
     ];
 
     const optionstype = [
-        { value: 'flat', label: 'flat' },
-        { value: 'percentage', label: 'percentage' },
+        { value: 'flat', label: 'Flat' },
+        { value: 'percentage', label: 'Percentage' },
     ];
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
@@ -82,6 +82,7 @@ const addcategory = () => {
     const [companyUpdateDrop, setCompanyUpdateDrop] = useState({ label: location?.state?.company[0]?.company_name, value: location?.state?.company[0]?.uuid });
     const [couponcode, setcouponcode] = useState('')
     const [maxuser, setmaxuser] = useState('')
+    const [uptodiscount, setUptoDiscount] = useState('')
     const [sortorder, setSortOrder] = useState("")
     const [error, setError] = useState("");
     const [suc, setSuc] = useState(false);
@@ -194,7 +195,7 @@ const addcategory = () => {
             // UploadedFile === '' ? location?.state?.image?.replace(`${process.env.REACT_APP_IMAGE_URL}`, '') : UploadedFile
             "description": description1,
             "minimum_purchase": minpuches,
-            // "upto_discount": ""
+            "upto_discount": Number(uptodiscount)
         }
         dispatch(AllLoginUpdateCoupon(location?.state?.uuid, payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
@@ -359,6 +360,12 @@ const addcategory = () => {
                                         />
                                     </Col>
                                     {/* optionstype */}
+                                    {type?.label === "Percentage" &&
+                                        <Col lg="6">
+                                            <Form.Label> Upto Discount</Form.Label>
+                                            <Form.Control type="text" defaultValue={location?.state?.upto_discount} onChange={(e) => { setUptoDiscount(e.target.value) }} />
+                                        </Col>
+                                    }
                                     <Col lg="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setamount(e.target.value) }} defaultValue={location?.state?.amount} />

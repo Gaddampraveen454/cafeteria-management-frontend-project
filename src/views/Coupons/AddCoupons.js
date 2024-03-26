@@ -26,8 +26,8 @@ const addcategory = () => {
     ];
 
     const optionstype = [
-        { value: 'flat', label: 'flat' },
-        { value: 'percentage', label: 'percentage' },
+        { value: 'flat', label: 'Flat' },
+        { value: 'percentage', label: 'Percentage' },
     ];
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
@@ -76,6 +76,7 @@ const addcategory = () => {
     const [sortorder, setSortOrder] = useState("")
     const [error, setError] = useState("");
     const [suc, setSuc] = useState(false);
+    const [uptodiscount, setUptoDiscount] = useState('')
 
     const { currentUser } = useSelector((state) => state.auth)
     console.log(currentUser, 'currentUsercurrentUser')
@@ -142,44 +143,44 @@ const addcategory = () => {
             "image": UploadedFile,
             "description": description1,
             "minimum_purchase": minpuches,
-            // "upto_discount": ""
+            "upto_discount": Number(uptodiscount)
         }
         dispatch(AllLoginAddCoupon(payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
         setSuc(true)
     }
-   
 
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-    
+
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
     const imagecoupon = (event) => {
         const formData = new FormData();
         formData.append('image', image);
         axios.post(`${process.env.REACT_APP_URL}/product/upload/image`, formData,
-          {
-            headers: {
-              "x-access-token": `${currentUser.token}`,
-            }
-          })
-          .then(res => {
-            console.log(res.data.image, "resp00");
-            setUploadedFile(res.data.image.filename)
-          })
-          .catch(err => {
-            console.log(err, "err00")
-    
-          });
+            {
+                headers: {
+                    "x-access-token": `${currentUser.token}`,
+                }
+            })
+            .then(res => {
+                console.log(res.data.image, "resp00");
+                setUploadedFile(res.data.image.filename)
+            })
+            .catch(err => {
+                console.log(err, "err00")
+
+            });
 
     }
     useEffect(() => {
         if (image !== null) {
             imagecoupon()
         }
-    
-      }, [image])
+
+    }, [image])
 
     useEffect(() => {
         if (suc === true) {
@@ -277,6 +278,12 @@ const addcategory = () => {
                                         />
                                     </Col>
                                     {/* optionstype */}
+                                    {type?.label === "Percentage" &&
+                                        <Col lg="6">
+                                            <Form.Label> Upto Discount</Form.Label>
+                                            <Form.Control type="text" value={uptodiscount} onChange={(e) => { setUptoDiscount(e.target.value) }} />
+                                        </Col>
+                                    }
                                     <Col lg="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setamount(e.target.value) }} />

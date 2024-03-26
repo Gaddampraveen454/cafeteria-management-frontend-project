@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { AllLoginAddCoupon } from 'Redux/IcafeAdminRedux/CouponsRedux/coponscompanyredux';
-import {  ICafeAdminCategoryStoreDropDownList } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import { ICafeAdminCategoryStoreDropDownList } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +22,7 @@ const addcategory = () => {
     const title = 'Add Coupon';
     const description = 'Ecommerce Category Management Page';
     const { StoreList } = useSelector((state) => state.products)
-    console.log(StoreList,"StoreList")
+    console.log(StoreList, "StoreList")
     const [selectValueState, setSelectValueState] = useState();
     const optionsoffertype = [
         { value: 'special', label: 'special' },
@@ -30,8 +30,8 @@ const addcategory = () => {
     ];
 
     const optionstype = [
-        { value: 'flat', label: 'flat' },
-        { value: 'percentage', label: 'percentage' },
+        { value: 'flat', label: 'Flat' },
+        { value: 'percentage', label: 'Percentage' },
     ];
     const [startdate, setStartDate] = useState("");
     const [enddate, setEndDate] = useState("");
@@ -77,6 +77,7 @@ const addcategory = () => {
     const [amount, setamount] = useState('')
     const [couponcode, setcouponcode] = useState('')
     const [maxuser, setmaxuser] = useState('')
+    const [uptodiscount, setUptoDiscount] = useState('')
     const [sortorder, setSortOrder] = useState("")
     const [error, setError] = useState("");
     const [suc, setSuc] = useState(false);
@@ -160,7 +161,7 @@ const addcategory = () => {
             "image": UploadedFile,
             "description": description1,
             "minimum_purchase": minpuches,
-            // "upto_discount": ""
+            "upto_discount": Number(uptodiscount)
         }
         dispatch(AllLoginAddCoupon(payload, currentUser.token))
         // dispatch(CompanyListURL(currentUser.token))
@@ -253,7 +254,7 @@ const addcategory = () => {
                             <Form onSubmit={Addcoupon}>
                                 <Row className="g-3">
                                     <Col lg='6' className="mb-1">
-                                    <Form.Label>Select Company</Form.Label>
+                                        <Form.Label>Select Company</Form.Label>
                                         <Select
                                             classNamePrefix="react-select"
                                             className=""
@@ -264,7 +265,7 @@ const addcategory = () => {
                                             placeholder="Select Company"
                                             required
                                             style={{ borderRadius: '10px' }}
-                                            // isDisabled={eventType}
+                                        // isDisabled={eventType}
                                         />
                                     </Col>
                                     <Col lg='6' className="mb-1">
@@ -310,6 +311,12 @@ const addcategory = () => {
                                         />
                                     </Col>
                                     {/* optionstype */}
+                                    {type?.label === "Percentage" &&
+                                        <Col lg="6">
+                                            <Form.Label> Upto Discount</Form.Label>
+                                            <Form.Control type="text" value={uptodiscount} onChange={(e) => { setUptoDiscount(e.target.value) }} />
+                                        </Col>
+                                    }
                                     <Col lg="6">
                                         <Form.Label>Amount</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setamount(e.target.value) }} />
@@ -319,7 +326,7 @@ const addcategory = () => {
                                         <Form.Control type="text" onChange={(e) => { setcouponcode(e.target.value) }} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>max_use_per_user</Form.Label>
+                                        <Form.Label>Maximum Use Per User</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setmaxuser(e.target.value) }} />
                                     </Col>
                                     <Col lg="6">

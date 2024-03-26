@@ -153,16 +153,16 @@ const ApplyCoupons = ({ show, onHide, CartData }) => {
 
     return (
         <Box sx={{ width: "100%" }} >
-            <Box sx={{ borderBottom: 1, borderColor: "divider", display: "flex", justifyContent: "space-around" }}>
-                <Tabs
+            {/* <Box sx={{ borderBottom: 1, borderColor: "divider", display: "flex", justifyContent: "space-around" }}> */}
+                {/* <Tabs
                     value={value}
                     onChange={handleChange}
                     aria-label="basic tabs example"
                 >
                     <Tab style={{ color: "yellowgreen" }} label="Store Offers  " {...a11yProps(0)} />
                     <Tab style={{ color: "red" }} label=" / Offline Coupon Apply" {...a11yProps(1)} />
-                </Tabs>
-            </Box>
+                </Tabs> */}
+            {/* </Box> */}
             <TabPanel value={value} index={0}>
                 <InputPromoCode apply={apply} CartData={CartData} />
                 {CouponData?.data?.map((coup, id) => {

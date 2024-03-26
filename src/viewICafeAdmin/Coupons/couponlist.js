@@ -72,7 +72,7 @@ const category = () => {
     // const { cashierData } = useSelector((state) => state.cashierList)
     const { categoryData, AdmincategoryDropdown, storeDropdownByCompanyId } = useSelector((state) => state.admincategory)
     const { Couponsdata, notification } = useSelector((state) => state.companycoupons)
-    console.log(storeDropdownByCompanyId, "CouponsdataCouponsdataer")
+    console.log(Couponsdata, "Couponsdata")
     // companycoupons
     console.log(AdmincategoryDropdown, 'evhgfvgefvef')
     // /Updatecoupon
@@ -550,16 +550,16 @@ const category = () => {
                     <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                         {page + 1}
                     </Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(categoryData && categoryData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(categoryData && categoryData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(Couponsdata && Couponsdata.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(Couponsdata && Couponsdata.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                    {Math.ceil(categoryData && categoryData.count / limit) > page + 3 &&
+                    {Math.ceil(Couponsdata && Couponsdata.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
 
                     }
-                    <Pagination.Next className="shadow" disabled={Math.ceil(categoryData && categoryData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                    <Pagination.Next className="shadow" disabled={Math.ceil(Couponsdata && Couponsdata.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                         <CsLineIcons icon="chevron-right" />
                     </Pagination.Next>
                 </Pagination>
