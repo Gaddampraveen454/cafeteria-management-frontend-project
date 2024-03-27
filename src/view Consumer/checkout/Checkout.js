@@ -18,6 +18,7 @@ import io from 'socket.io-client';
 import { removeCoupon } from 'Redux/ConsumerRedux/Coupons/CouponsRedux';
 import ApplyCoupons from './ApplyCoupon';
 import promoSuccessicon from './Img/promo-success-icon.svg';
+import Logo from "../../Assests/images/cafe.png";
 
 
 
@@ -35,7 +36,7 @@ function loadScript(src) {
   })
 }
 
-const Categories = () => {
+const Checkout = () => {
   const title = 'Checkout';
   const description = 'Ecommerce Storefront Checkout Page';
   const location = useLocation();
@@ -60,6 +61,8 @@ const Categories = () => {
   const [discount, setDiscount] = useState(0);
   const [appliedcoupon, setAppliedCoupon] = useState([]);
   const [couponnotaplied, setNotAppllied] = useState("")
+
+  const [instructionsvalue, setInstructionValue] = useState("");
 
   const [count, setCount] = useState(0);
 
@@ -104,9 +107,12 @@ const Categories = () => {
   const [radioIcash, setRadioICash] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
+  const [checkwalletvalue, setCheckWalleteValue] = useState(false);
+  const [checkICashvalue, setCheckICashValue] = useState(false);
+
   const handleWalletCheckboxChange = (e) => {
     setRadioButtonWalletCheck(e.target.checked);
-
+    setCheckWalleteValue(false);
     const CheckValue = e.target.checked;
 
     if (CheckValue) {
@@ -118,6 +124,7 @@ const Categories = () => {
       }
       else if (CartData?.total_amount < walletAmount) {
         setRadioWallet(CartData?.total_amount);
+        setCheckWalleteValue(true);
       }
     }
     if (CheckValue && RadioButtonICashCheck) {
@@ -135,7 +142,7 @@ const Categories = () => {
 
   const handleICashCheckboxChange = (e) => {
     setRadioButtonICashCheck(e.target.checked);
-
+    setCheckICashValue(false);
     const CheckValue = e.target.checked;
 
     if (CheckValue) {
@@ -147,6 +154,7 @@ const Categories = () => {
       }
       else if (CartData?.total_amount < ICashAmount) {
         setRadioICash(CartData?.total_amount);
+        setCheckICashValue(true);
       }
     }
     if (CheckValue && RadioButtonWalletCheck) {
@@ -234,7 +242,7 @@ const Categories = () => {
         "currency": "INR",
         "name": "Cafeteria",
         "description": "Cafeteria",
-        "image": "https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "image": Logo,
         "order_id": orderData?.data?.razorpay_id,
         handler: (response) => {
           const payLoad = {
@@ -486,7 +494,7 @@ const Categories = () => {
             // "icash": Icashvalue,
             "paid_from_wallet": radioWallet,
             "icash": radioIcash,
-            "instructions": "Spicy and Tasty gaa undali",
+            "instructions": instructionsvalue,
             "coupon_uuid": `${coup}`,
             "discount_amount": discount
           }
@@ -565,7 +573,7 @@ const Categories = () => {
           // "icash": Icashvalue,
           "paid_from_wallet": radioWallet,
           "icash": radioIcash,
-          "instructions": "Spicy and Tasty gaa undali",
+          "instructions": instructionsvalue,
           "coupon_uuid": `${coup}`,
           "discount_amount": discount,
         }
@@ -863,7 +871,7 @@ const Categories = () => {
                             <p className="text-medium text-muted mb-1">Wallet ₹ {currentUser && currentUser.data ? walletAmount : 0}</p>
                           </label>
                           {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('Wallet')} /> */}
-                          <input type="checkbox" className="form-check-input" name="terms" onChange={handleWalletCheckboxChange} />
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkICashvalue} onChange={handleWalletCheckboxChange} />
                         </div>
                       </div>
                     </Col>
@@ -876,7 +884,7 @@ const Categories = () => {
                             <p className="text-medium text-muted mb-1">ICash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
                           </label>
                           {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('ICash')} /> */}
-                          <input type="checkbox" className="form-check-input" name="terms" onChange={handleICashCheckboxChange} />
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkwalletvalue} onChange={handleICashCheckboxChange} />
                         </div>
                       </div>
                     </Col>
@@ -901,6 +909,12 @@ const Categories = () => {
                         : '0'}
                     </p>
                     {/* </div> */}
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">Cooking Instructions</p>
+                    <p>
+                      <Form.Control type="text" name="instructions" onChange={(e) => setInstructionValue(e.target.value)} placeholder="Instructions" />
+                    </p>
                   </div>
                   <hr />
                   {Object.keys(currentUser).length > 0 ? (
@@ -997,4 +1011,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Checkout;

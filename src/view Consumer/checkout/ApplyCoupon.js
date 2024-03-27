@@ -130,31 +130,31 @@ const ApplyCoupons = ({ show, onHide, CartData }) => {
         }
     }
 
-    React.useEffect(() => {
-        if (suc === true) {
-            if (notification.status === true) {
-                toast.success(notification.message, {
-                    position: "top-right",
-                    duration: 2000
-                })
-                setSuc(false)
-                dispatch(CouponList(currentUser?.data?.token, StoreData?.company_uuid, StoreData?.uuid))
-            }
-            else if (notification.status === false) {
-                toast.error(notification.message, {
-                    position: "top-right",
-                    duration: 2000
-                })
-                setSuc(false)
-            }
-        }
+    // React.useEffect(() => {
+    //     if (suc === true) {
+    //         if (notification.status === true) {
+    //             toast.success(notification.message, {
+    //                 position: "top-right",
+    //                 duration: 2000
+    //             })
+    //             setSuc(false)
+    //             dispatch(CouponList(currentUser?.data?.token, StoreData?.company_uuid, StoreData?.uuid))
+    //         }
+    //         else if (notification.status === false) {
+    //             toast.error(notification.message, {
+    //                 position: "top-right",
+    //                 duration: 2000
+    //             })
+    //             setSuc(false)
+    //         }
+    //     }
 
-    }, [notification])
+    // }, [notification])
 
     return (
         <Box sx={{ width: "100%" }} >
             {/* <Box sx={{ borderBottom: 1, borderColor: "divider", display: "flex", justifyContent: "space-around" }}> */}
-                {/* <Tabs
+            {/* <Tabs
                     value={value}
                     onChange={handleChange}
                     aria-label="basic tabs example"

@@ -294,9 +294,18 @@ const Notification = () => {
             {/* List Items Start */}
             {notificationValue && notificationValue?.data?.map((item, index) => {
                 console.log(item, "hgsdfgsjhgsdj")
+                let link;
+                if (item?.link.startsWith('/Orderrating/')) {
+                    link = item?.link;
+                } else if (item?.link.startsWith('/Icash')) {
+                    link = item?.link;
+                } else {
+                    link = `/OrderView/${item?.link}`;
+                }
+
                 return <Card key="" className='mb-2'>
                     <Card.Body className="pt-0 pb-0 sh-35 sh-md-8">
-                        <NavLink to={item?.link.startsWith('/Orderrating/') ? `${item?.link}` : `/OrderView/${item?.link}`}>
+                        <NavLink to={link}>
                             <Row className="g-0 h-100 align-content-center cursor-default" onClick={() => checkItem(0)}>
                                 <Col xs="11" md="1" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
                                     <div className="text-muted text-small d-md-none">S NO.</div>

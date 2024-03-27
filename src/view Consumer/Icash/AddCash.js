@@ -10,6 +10,7 @@ import axios from 'axios';
 import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Logo from "../../Assests/images/cafe.png";
 
 
 
@@ -117,7 +118,7 @@ const addcategory = () => {
                 "currency": "INR",
                 "name": "Cafeteria",
                 "description": "Cafeteria",
-                "image": "https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=600",
+                "image": Logo,
                 "order_id": cashData?.razorpay_id,
                 handler: (response) => {
                     const payLoad = {
