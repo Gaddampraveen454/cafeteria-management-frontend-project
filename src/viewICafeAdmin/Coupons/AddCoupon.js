@@ -148,7 +148,7 @@ const addcategory = () => {
         // }
 
         const payload = {
-            "company_uuid": currentUser?.data?.uuid,
+            "company_uuid": companyUpdateDrop?.value,
             "store_uuid": storeuuid?.value,
             // "sort_order": sortorder,
             "offer_type": offertype?.value,

@@ -218,11 +218,11 @@ const category = () => {
         dispatch(ICafeAdminCategoryDropDownListURL());
     }, [])
 
-    const categoryDrop = [];
+    const CompanyDrop = [];
 
     AdmincategoryDropdown?.data?.map((text) => {
         console.log(text, 'sbdvhbsdvb')
-        return categoryDrop.push({ value: text?.uuid, label: text?.company_name })
+        return CompanyDrop.push({ value: text?.uuid, label: text?.company_name })
     })
 
     const selectCompanyFunction = (selectedEvent) => {
@@ -252,7 +252,7 @@ const category = () => {
         dispatch(AllLogincouponslist(page, search, limit, Typevalue1, offerTypevalue1, currentUser?.data?.uuid, storeDroped === null ? "" : storeDroped?.value, currentUser?.token))
     }
 
-    const handleUpdateDrop = (select) => {
+    const handleUpdateCompanyDrop = (select) => {
         console.log(select, 'sbdvhbsdvjrthritb')
         setCompanyUpdateDrop(select)
         setCompanyUpdateDrop1(select?.value)
@@ -344,9 +344,9 @@ const category = () => {
                         classNamePrefix="react-select"
                         className=""
                         name="categery"
-                        options={categoryDrop}
+                        options={CompanyDrop}
                         value={companyUpdateDrop}
-                        onChange={handleUpdateDrop}
+                        onChange={handleUpdateCompanyDrop}
                         placeholder="Select Company"
                         required
                         style={{ borderRadius: '10px' }}
@@ -596,9 +596,9 @@ const category = () => {
                                         classNamePrefix="react-select"
                                         className=""
                                         name="categery"
-                                        options={categoryDrop}
+                                        options={CompanyDrop}
                                         defaultValue={companyUpdateDrop}
-                                        onChange={handleUpdateDrop}
+                                        onChange={handleUpdateCompanyDrop}
                                         placeholder="Select Company"
                                         required
                                         style={{ borderRadius: '10px' }}

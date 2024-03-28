@@ -16,18 +16,11 @@ import {
     TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminProductBulkUplodURL, AdminProductStatusUpdateURL, AdminProductStoreDropDownListURL, AdminProductStoreDropDownList } from 'Redux/IcafeAdminRedux/ProductManagement/productmanagementredux';
-import { ActiveCompnyURL } from 'Redux/AdminRedux/Comapny/ActiveCompany';
-import { CategoryListURL, CategoryAddURL, CategoryUpdateURL, CategoryStatusUpdateURL } from 'Redux/AdminRedux/Cataogy/categoryRedux';
 import { toast } from 'react-toastify';
-import moment from 'moment';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
-import { ICafeAdminCategoryDropDownListURL } from 'Redux/IcafeAdminRedux/CategoryManagement/admincategorymanagementredux';
+import moment from 'moment';
 import { ICafeAdminUserDropdownList } from 'Redux/IcafeAdminRedux/Reports/reportsredux';
 import { AdminICashListURL } from 'Redux/IcafeAdminRedux/AdminIcash/adminicashRedux';
-
-import Swal from 'sweetalert2';
 
 const AdminICashList = () => {
     const dispatch = useDispatch()
@@ -121,42 +114,42 @@ const AdminICashList = () => {
     const [WithdrawType, setWithdrawType] = useState('');
     const [WithdrawType1, setWithdrawType1] = useState('');
 
-    const UsersList = userDrop.map((item) => {
-        return { label: item.name, value: item.uuid };
+    const UsersList = userDrop?.map((item) => {
+        return { label: item?.name, value: item?.uuid };
     });
 
     const HandleUserSelect = (event) => {
         setUsersList(event)
         setUsersList1(event?.value)
-        dispatch(AdminICashListURL(page, currentUser.token, limit, event === null ? "" : event?.value, ''))
+        dispatch(AdminICashListURL(page, currentUser?.token, limit, event === null ? "" : event?.value, ''))
     }
 
     const HandleTypeSelect = (event) => {
         setWithdrawType(event);
         setWithdrawType1(event?.value)
-        dispatch(AdminICashListURL(page, currentUser.token, limit, userslist1 === undefined ? "" : userslist1, event === null ? "" : event?.value))
+        dispatch(AdminICashListURL(page, currentUser?.token, limit, userslist1 === undefined ? "" : userslist1, event === null ? "" : event?.value))
     }
 
     useEffect(() => {
-        dispatch(AdminICashListURL(page, currentUser.token, limit, userslist1, WithdrawType1))
-        dispatch(ICafeAdminUserDropdownList(currentUser.token, ""))
+        dispatch(AdminICashListURL(page, currentUser?.token, limit, userslist1, WithdrawType1))
+        dispatch(ICafeAdminUserDropdownList(currentUser?.token, ""))
     }, [])
 
     useEffect(() => {
         if (suc === true) {
-            if (notification.status === true) {
-                toast.success(notification.message, {
+            if (notification?.status === true) {
+                toast.success(notification?.message, {
                     position: "top-right",
                     duration: 1000
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(AdminICashListURL(page, currentUser.token, limit, userslist1, WithdrawType1))
+                    dispatch(AdminICashListURL(page, currentUser?.token, limit, userslist1, WithdrawType1))
                 }, 1000)
 
             }
-            else if (notification.status === false) {
-                toast.error(notification.message)
+            else if (notification?.status === false) {
+                toast.error(notification?.message)
                 setSuc(false)
             }
         }
@@ -168,32 +161,32 @@ const AdminICashList = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(AdminICashListURL(0, currentUser.token, limit, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(0, currentUser?.token, limit, userslist1, WithdrawType1))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(AdminICashListURL(page - 1, currentUser.token, limit, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(page - 1, currentUser?.token, limit, userslist1, WithdrawType1))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(AdminICashListURL(page + 1, currentUser.token, limit, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(page + 1, currentUser?.token, limit, userslist1, WithdrawType1))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(AdminICashListURL(page, currentUser.token, limit, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(page, currentUser?.token, limit, userslist1, WithdrawType1))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(AdminICashListURL(page + 1, currentUser.token, limit, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(page + 1, currentUser?.token, limit, userslist1, WithdrawType1))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(AdminICashListURL(page + 2, currentUser.token, limit, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(page + 2, currentUser?.token, limit, userslist1, WithdrawType1))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(AdminICashListURL(0, currentUser.token, pages, userslist1, WithdrawType1))
+            dispatch(AdminICashListURL(0, currentUser?.token, pages, userslist1, WithdrawType1))
         }
     }
 
@@ -415,11 +408,11 @@ const AdminICashList = () => {
             {/* List Header End */}
 
             {/* List Items Start */}
-            {IcashListData?.data?.length > 0 && IcashListData && IcashListData?.data && IcashListData?.data?.map((item, index) => {
+            {IcashListData?.data?.length > 0 && IcashListData?.data?.map((item, index) => {
 
                 console.log(item, 'svdghvfdfdsdghf')
                 const textStyle = {
-                    backgroundColor: item.type === 'credited' ? 'green' : 'red',
+                    backgroundColor: item?.type === 'credited' ? 'green' : 'red',
                     color: 'white',
                     padding: '5px 10px',
                     borderRadius: '5px'
@@ -436,19 +429,19 @@ const AdminICashList = () => {
                                         </div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.transaction_uuid}</div>
+                                        <div className="lh-1 text-alternate">{item?.transaction_uuid}</div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.users[0].name}</div>
+                                        <div className="lh-1 text-alternate">{item?.users[0]?.name}</div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{(moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"))}</div>
+                                        <div className="lh-1 text-alternate">{(moment(item?.createdAt).format("YYYY-MM-DD HH:mm:ss"))}</div>
                                     </Col>
                                     <Col lg="2" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.amount}</div>
+                                        <div className="lh-1 text-alternate">{item?.amount}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
-                                        <div className="lh-1 text-alternate">{item.status}</div>
+                                        <div className="lh-1 text-alternate">{item?.status}</div>
                                     </Col>
                                     <Col lg="1" className="d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
                                         <div className="lh-1 text-alternate">
@@ -517,16 +510,16 @@ const AdminICashList = () => {
                     <Pagination.Item className="shadow" active onClick={() => searchfunction("page")} >
                         {page + 1}
                     </Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(IcashListData && IcashListData.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
-                    <Pagination.Item className="shadow" disabled={Math.ceil(IcashListData && IcashListData.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(IcashListData && IcashListData?.count / limit) <= page + 1} onClick={() => searchfunction("page+1", page + 1)}>{page + 2}</Pagination.Item>
+                    <Pagination.Item className="shadow" disabled={Math.ceil(IcashListData && IcashListData?.count / limit) <= page + 2} onClick={() => searchfunction("page+2", page + 2)}>{page + 3}</Pagination.Item>
 
-                    {Math.ceil(IcashListData && IcashListData.count / limit) > page + 3 &&
+                    {Math.ceil(IcashListData && IcashListData?.count / limit) > page + 3 &&
                         <>
                             <Pagination.Item className="shadow" >...</Pagination.Item>
                         </>
 
                     }
-                    <Pagination.Next className="shadow" disabled={Math.ceil(IcashListData && IcashListData.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
+                    <Pagination.Next className="shadow" disabled={Math.ceil(IcashListData && IcashListData?.count / limit) <= page + 1} onClick={() => searchfunction("next")}>
                         <CsLineIcons icon="chevron-right" />
                     </Pagination.Next>
                 </Pagination>

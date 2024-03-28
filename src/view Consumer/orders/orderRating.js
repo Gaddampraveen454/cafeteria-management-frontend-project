@@ -251,6 +251,10 @@ const UserOrderRating = () => {
                                         <Form.Label>Total Amount</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.amount} />
                                     </Col>
+                                    <Col xs='6' lg="6">
+                                        <Form.Label>Instructions</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.instructions} />
+                                    </Col>
                                 </Row>
 
                             </Form>

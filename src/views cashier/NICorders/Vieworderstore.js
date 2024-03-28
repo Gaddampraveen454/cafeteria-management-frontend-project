@@ -145,6 +145,10 @@ const StoreOrderView = () => {
                                         <Form.Label>CGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.cgst_tax} />
                                     </Col>
+                                    <Col xs="6" lg="6">
+                                        <Form.Label>Instructions</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.instructions} />
+                                    </Col>
                                 </Row>
 
                             </Form>

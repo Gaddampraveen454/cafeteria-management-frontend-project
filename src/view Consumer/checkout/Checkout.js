@@ -110,14 +110,35 @@ const Checkout = () => {
   const [checkwalletvalue, setCheckWalleteValue] = useState(false);
   const [checkICashvalue, setCheckICashValue] = useState(false);
 
+  console.log(radioWallet, radioIcash, totalAmount, "hjgfjhfkjrhkerh")
+
   const handleWalletCheckboxChange = (e) => {
     setRadioButtonWalletCheck(e.target.checked);
     setCheckWalleteValue(false);
     const CheckValue = e.target.checked;
 
-    if (CheckValue) {
+    if (CheckValue && RadioButtonICashCheck) {
+      if (CartData?.total_amount === ICashAmount + walletAmount) {
+        setTotalAmount(ICashAmount + walletAmount === CartData?.total_amount ? 0 : CartData?.total_amount)
+        setRadioWallet(walletAmount)
+      }
+      else if (CartData.total_amount > ICashAmount) {
+        setRadioWallet((walletAmount + ICashAmount) < CartData.total_amount ? walletAmount : ICashAmount - CartData?.total_amount)
+      }
+      else if (CartData?.total_amount > ICashAmount + walletAmount) {
+        setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
+      }
+      else if (CartData?.total_amount < ICashAmount + walletAmount) {
+        setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
+      }
+    }
+    else if (!CheckValue) {
+      setRadioWallet(0)
+    }
+    else if (CheckValue) {
       if (CartData?.total_amount === walletAmount) {
         setRadioWallet(walletAmount);
+        setCheckWalleteValue(true);
       }
       else if (CartData?.total_amount > walletAmount) {
         setRadioWallet(walletAmount);
@@ -127,17 +148,7 @@ const Checkout = () => {
         setCheckWalleteValue(true);
       }
     }
-    if (CheckValue && RadioButtonICashCheck) {
-      if (CartData?.total_amount === ICashAmount + walletAmount) {
-        setTotalAmount(CartData?.total_amount)
-      }
-      else if (CartData?.total_amount > ICashAmount + walletAmount) {
-        setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
-      }
-      else if (CartData?.total_amount < ICashAmount + walletAmount) {
-        setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
-      }
-    }
+
   };
 
   const handleICashCheckboxChange = (e) => {
@@ -145,21 +156,13 @@ const Checkout = () => {
     setCheckICashValue(false);
     const CheckValue = e.target.checked;
 
-    if (CheckValue) {
-      if (CartData?.total_amount === ICashAmount) {
-        setRadioICash(ICashAmount);
-      }
-      else if (CartData?.total_amount > ICashAmount) {
-        setRadioICash(ICashAmount);
-      }
-      else if (CartData?.total_amount < ICashAmount) {
-        setRadioICash(CartData?.total_amount);
-        setCheckICashValue(true);
-      }
-    }
-    if (CheckValue && RadioButtonWalletCheck) {
+    if (RadioButtonWalletCheck && CheckValue) {
       if (CartData?.total_amount === ICashAmount + walletAmount) {
-        setTotalAmount(CartData?.total_amount)
+        setTotalAmount(ICashAmount + walletAmount === CartData?.total_amount ? 0 : CartData?.total_amount)
+        setRadioICash(ICashAmount)
+      }
+      else if (CartData.total_amount > walletAmount) {
+        setRadioICash((walletAmount + ICashAmount) < CartData.total_amount ? ICashAmount : Number(CartData?.total_amount) - Number(walletAmount))
       }
       else if (CartData?.total_amount > ICashAmount + walletAmount) {
         setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
@@ -168,6 +171,25 @@ const Checkout = () => {
         setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
       }
     }
+    else if (!CheckValue) {
+      setRadioICash(0)
+    }
+    else if (CheckValue) {
+      if (CartData?.total_amount === ICashAmount) {
+        setRadioICash(ICashAmount);
+        setCheckICashValue(true);
+      }
+      else if (CartData?.total_amount > ICashAmount) {
+        console.log(CartData?.total_amount, walletAmount, "hgdsgjhdsghgshdsj")
+        setRadioICash(ICashAmount);
+      }
+      else if (CartData?.total_amount < ICashAmount) {
+        console.log(CartData?.total_amount, "hgdsgjhdsghgshdsj")
+        setRadioICash(CartData?.total_amount);
+        setCheckICashValue(true);
+      }
+    }
+
   };
   const FinalAmount = CartData.total_amount < walletAmount ? 0 : CartData.total_amount - walletAmount
 
@@ -711,18 +733,18 @@ const Checkout = () => {
   console.log(checkoutnotification, "ProductDataProductData")
 
 
-  useEffect(() => {
-    if (notification?.message !== undefined) {
-      if (notification.status === true) {
-        toast.success(notification.message, {
-          position: "top-right",
-        })
-      }
-      else if (notification.status === false) {
-        toast.error(notification.message)
-      }
-    }
-  }, [notification])
+  // useEffect(() => {
+  //   if (notification?.message !== undefined) {
+  //     if (notification.status === true) {
+  //       toast.success(notification.message, {
+  //         position: "top-right",
+  //       })
+  //     }
+  //     else if (notification.status === false) {
+  //       toast.error(notification.message)
+  //     }
+  //   }
+  // }, [notification])
   console.log(notification, "ProductDataProductData")
 
   return (
@@ -871,7 +893,7 @@ const Checkout = () => {
                             <p className="text-medium text-muted mb-1">Wallet ₹ {currentUser && currentUser.data ? walletAmount : 0}</p>
                           </label>
                           {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('Wallet')} /> */}
-                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkICashvalue} onChange={handleWalletCheckboxChange} />
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkICashvalue} checked={RadioButtonWalletCheck} onChange={handleWalletCheckboxChange} />
                         </div>
                       </div>
                     </Col>

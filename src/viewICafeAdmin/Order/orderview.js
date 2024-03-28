@@ -151,6 +151,10 @@ const orderview = () => {
                                         <Form.Label>CGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={location?.state?.cgst_tax} />
                                     </Col>
+                                    <Col lg="6" xs='6'>
+                                        <Form.Label>Instructions</Form.Label>
+                                        <Form.Control type="text" disabled value={location?.state?.instructions} />
+                                    </Col>
                                 </Row>
 
                             </Form>
