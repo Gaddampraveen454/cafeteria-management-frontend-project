@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const initialState = {
   WalletData: [],
-  Profiledatap:[],
+  Profiledatap: [],
   notification: {}
 
 };
@@ -26,7 +26,7 @@ const WalletSlice = createSlice({
   },
 });
 
-export const { setWalletData, setprofiledata,setToast } = WalletSlice.actions;
+export const { setWalletData, setprofiledata, setToast } = WalletSlice.actions;
 
 // /user/consumer/profile/CN-458FBF7C
 export const getWalletURL = (id, token) => async (dispatch) => {
@@ -66,7 +66,7 @@ export const ProfileUpdate = (uuid, payload, token) => async (dispatch) => {
     }
   }).then((res) => {
     console.log(res, "sdfsdfsdff")
-    dispatch(setToast({ status: true, message: res.data.message }))
+    dispatch(setToast({ status: true, message: res?.data?.message }))
   })
     .catch((err) => {
       dispatch(setToast({ status: false, message: err && err.response ? err && err.response.data : "Something went wrong" }))

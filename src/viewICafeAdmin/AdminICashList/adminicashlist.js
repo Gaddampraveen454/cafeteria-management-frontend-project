@@ -114,9 +114,15 @@ const AdminICashList = () => {
     const [WithdrawType, setWithdrawType] = useState('');
     const [WithdrawType1, setWithdrawType1] = useState('');
 
-    const UsersList = userDrop?.map((item) => {
-        return { label: item?.name, value: item?.uuid };
-    });
+    const UsersList = [];
+
+    if (userDrop?.length > 0) {
+        userDrop?.map((text) => {
+            console.log(text, 'sbdvhbsdvb')
+            return UsersList.push({ value: text?.uuid, label: text?.name })
+        })
+    }
+
 
     const HandleUserSelect = (event) => {
         setUsersList(event)

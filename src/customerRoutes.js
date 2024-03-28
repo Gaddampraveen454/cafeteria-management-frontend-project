@@ -486,7 +486,7 @@ const consumerRoutesAndMenuItems = {
     {
       path: `${appRoot}/Icash`,
       component: IcashList,
-      label: 'Icash',
+      label: 'iCash',
       icon: 'news',
     },
     {

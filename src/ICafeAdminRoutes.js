@@ -179,7 +179,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/couponlist`,
       component: Coupons,
-      label: 'Coupon list',
+      label: 'Coupons',
       icon: 'shop',
     },
     {
@@ -206,7 +206,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/orders`,
       component: OrderList,
-      label: 'Order List',
+      label: 'Orders',
       icon: 'shop',
     },
     {
@@ -218,7 +218,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/icashlist`,
       component: AdminICashList,
-      label: 'ICash List',
+      label: 'iCash',
       icon: 'shop',
     },
     {
@@ -248,7 +248,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/banner`,
       component: AdminBanner,
-      label: 'Banner',
+      label: 'Banners',
       icon: 'shop',
     },
     {

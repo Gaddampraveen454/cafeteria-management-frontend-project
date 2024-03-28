@@ -257,7 +257,7 @@ const Checkout = () => {
         return
       }
       console.log(orderData, "orderData")
-      setLoading(true)
+      // setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
         "amount": String(totalAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -334,7 +334,7 @@ const Checkout = () => {
             .catch((err) => {
               // toast.success(err.response.data.message)
               console.log(err.response.data, "sdfsdfsdffsd")
-
+              setLoading(false)
             })
 
         },
@@ -817,20 +817,71 @@ const Checkout = () => {
             <Card className="mb-5 w-100 sw-lg-35">
               <Card.Body>
                 <div className="mb-3">
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">ITEMS</p>
-                    <p>
-                      <span className="text-alternate">{CartData.count}</span>
-                    </p>
-                  </div>
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">TOTAL</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span>{CartData.amount}
-                      </span>
-                    </p>
-                  </div>
+                  <Row>
+                    <Col>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">ITEMS</p>
+                        <p>
+                          <span className="text-alternate">{CartData.count}</span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">CGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">Discount</p>
+                        <p>
+                          ₹ {discount}
+                        </p>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">TOTAL</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>{CartData.amount}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                        {/* <div className="cta-2"> */}
+                        {/* <span>
+                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
+                      </span> */}
+                        <p >
+                          {CartData && CartData.total_amount !== undefined && discount !== undefined
+                            ? (() => {
+                              const calculatedAmount = CartData.total_amount - discount;
+                              const formattedAmount = calculatedAmount % 1 === 0
+                                ? `₹ ${calculatedAmount.toFixed(0)}`
+                                : `₹ ${calculatedAmount.toFixed(2)}`;
+
+                              return formattedAmount.replace(/(\.0+|(?<=\.\d)0+)$/, ''); // Remove unnecessary zeros
+
+                            })()
+                            : '0'}
+                        </p>
+                        {/* </div> */}
+                      </div>
+                    </Col>
+                  </Row>
+
+
                   {/* <div className="mb-2">
                   <p className="text-small text-muted mb-1">SHIPPING</p>
                   <p>
@@ -838,23 +889,8 @@ const Checkout = () => {
                       <span className="text-small text-muted">₹</span> 0
                     </span>
                   </p>
-                </div> */}
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">CGST(%)</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">SGST(%)</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
-                      </span>
-                    </p>
-                  </div>
+                 </div> */}
+
                   {/* <div className="mb-2">
                     <p className="text-small text-muted mb-1">Wallet Amount</p>
                     <p>
@@ -871,12 +907,7 @@ const Checkout = () => {
                       </span>
                     </p>
                   </div> */}
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">Discount</p>
-                    <p>
-                      ₹ {discount}
-                    </p>
-                  </div>
+
                   {/* <div className="mb-2">
                     <p className="text-small text-muted mb-1">To Pay</p>
                     <p>
@@ -903,7 +934,7 @@ const Checkout = () => {
                       <div>
                         <div className="form-check">
                           <label className="form-check-label" htmlFor="icashCheckbox">
-                            <p className="text-medium text-muted mb-1">ICash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
+                            <p className="text-medium text-muted mb-1">iCash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
                           </label>
                           {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('ICash')} /> */}
                           <input type="checkbox" className="form-check-input" name="terms" disabled={checkwalletvalue} onChange={handleICashCheckboxChange} />
@@ -911,27 +942,6 @@ const Checkout = () => {
                       </div>
                     </Col>
                   </Row>
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                    {/* <div className="cta-2"> */}
-                    {/* <span>
-                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
-                      </span> */}
-                    <p >
-                      {CartData && CartData.total_amount !== undefined && discount !== undefined
-                        ? (() => {
-                          const calculatedAmount = CartData.total_amount - discount;
-                          const formattedAmount = calculatedAmount % 1 === 0
-                            ? `₹ ${calculatedAmount.toFixed(0)}`
-                            : `₹ ${calculatedAmount.toFixed(2)}`;
-
-                          return formattedAmount.replace(/(\.0+|(?<=\.\d)0+)$/, ''); // Remove unnecessary zeros
-
-                        })()
-                        : '0'}
-                    </p>
-                    {/* </div> */}
-                  </div>
                   <div className="mb-2">
                     <p className="text-small text-muted mb-1">Cooking Instructions</p>
                     <p>

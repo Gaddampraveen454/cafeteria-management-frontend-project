@@ -25,8 +25,8 @@ const addcategory = () => {
     console.log(StoreList, "StoreList")
     const [selectValueState, setSelectValueState] = useState();
     const optionsoffertype = [
-        { value: 'special', label: 'special' },
-        { value: 'normal', label: 'normal' },
+        { value: 'special', label: 'Special' },
+        { value: 'normal', label: 'Normal' },
     ];
 
     const optionstype = [
@@ -291,7 +291,7 @@ const addcategory = () => {
                                             options={optionsoffertype}
                                             value={offertype}
                                             onChange={SelectoffertypeName}
-                                            placeholder="Select Store"
+                                            placeholder="Select Offer Type"
                                             required
                                             style={{ borderRadius: '10px' }}
                                         />
@@ -305,7 +305,7 @@ const addcategory = () => {
                                             options={optionstype}
                                             value={type}
                                             onChange={selecttype}
-                                            placeholder="Select Store"
+                                            placeholder="Select Type"
                                             required
                                             style={{ borderRadius: '10px' }}
                                         />
@@ -326,11 +326,11 @@ const addcategory = () => {
                                         <Form.Control type="text" onChange={(e) => { setcouponcode(e.target.value) }} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Maximum Use Per User</Form.Label>
+                                        <Form.Label>Max Use Per User</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setmaxuser(e.target.value) }} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Min Purches</Form.Label>
+                                        <Form.Label>Min Purchase</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setminpurches(e.target.value) }} />
                                     </Col>
                                     {/* setminpurches */}

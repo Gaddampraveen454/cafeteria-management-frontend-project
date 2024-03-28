@@ -29,8 +29,8 @@ const addcategory = () => {
     console.log(UploadedFile, "UploadedFile")
     const [image, setImage] = useState(null);
     const optionsoffertype = [
-        { value: 'special', label: 'special' },
-        { value: 'normal', label: 'normal' },
+        { value: 'special', label: 'Special' },
+        { value: 'normal', label: 'Normal' },
     ];
 
     const optionstype = [
@@ -339,7 +339,7 @@ const addcategory = () => {
                                             // offer_type
                                             defaultValue={location?.state?.offer_type}
 
-                                            placeholder="Select Store"
+                                            placeholder="Select offer type"
                                             required
                                             style={{ borderRadius: '10px' }}
                                         />
@@ -354,7 +354,7 @@ const addcategory = () => {
                                             defaultValue={location?.state?.type}
                                             value={type}
                                             onChange={selecttype}
-                                            placeholder="Select Store"
+                                            placeholder="Select type"
                                             required
                                             style={{ borderRadius: '10px' }}
                                         />
@@ -375,11 +375,11 @@ const addcategory = () => {
                                         <Form.Control type="text" onChange={(e) => { setcouponcode(e.target.value) }} defaultValue={location?.state?.code} />code
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>max_use_per_user</Form.Label>
+                                        <Form.Label>Max Use Per User</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setmaxuser(e.target.value) }} defaultValue={location?.state?.max_use_per_user} />
                                     </Col>
                                     <Col lg="6">
-                                        <Form.Label>Min Purches</Form.Label>
+                                        <Form.Label>Min Purchase</Form.Label>
                                         <Form.Control type="text" onChange={(e) => { setminpurches(e.target.value) }} defaultValue={location?.state?.minimum_purchase} />
                                     </Col>
                                     {/* setminpurches */}

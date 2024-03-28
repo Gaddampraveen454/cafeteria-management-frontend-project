@@ -180,7 +180,7 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/couponslist`,
       component: couponslist,
-      label: 'coupons list',
+      label: 'Coupons',
       icon: 'save',
     },
     // Addcoupon
@@ -219,7 +219,7 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/Pendingorders`,
       component: PendingOrder,
-      label: 'Pending List',
+      label: 'Pending Orders',
       icon: 'wallet',
     },
     {

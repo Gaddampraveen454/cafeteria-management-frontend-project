@@ -30,14 +30,14 @@ const Storeaddcategory = lazy(() => import('views cashier/CategoryMnagement/Stor
 const Changepassword = lazy(() => import('views cashier/ChangePassword/changepassword'))
 
 const StoreNotifications = lazy(() => import('views cashier/StoreNotifications/storenotifications'))
-const StoreRole = lazy(()=>import('views cashier/StoreRoles/storerole'));
-const StoreAddRole = lazy(()=>import('views cashier/StoreRoles/addstorerole'));
-const StoreFeedback = lazy(()=>import('views cashier/StoreFeedback/storefeedback'));
-const StoreProductView = lazy(()=>import('views cashier/StoreFeedback/storeproductview'));
-const CouponList = lazy(()=>import('views cashier/Coupons/coupon'))
+const StoreRole = lazy(() => import('views cashier/StoreRoles/storerole'));
+const StoreAddRole = lazy(() => import('views cashier/StoreRoles/addstorerole'));
+const StoreFeedback = lazy(() => import('views cashier/StoreFeedback/storefeedback'));
+const StoreProductView = lazy(() => import('views cashier/StoreFeedback/storeproductview'));
+const CouponList = lazy(() => import('views cashier/Coupons/coupon'))
 // const Addcoupons = lazy(()=> import('view Consumer/'))
-const Addcoupons = lazy(()=>import('views cashier/Coupons/Addcoupons'))
-const Updatecoupon = lazy(()=>import('views cashier/Coupons/UpdateCoupon'))
+const Addcoupons = lazy(() => import('views cashier/Coupons/Addcoupons'))
+const Updatecoupon = lazy(() => import('views cashier/Coupons/UpdateCoupon'))
 
 
 const products = {
@@ -220,7 +220,7 @@ const cashierRoutesAndMenuItems = {
     {
       path: `${appRoot}/CouponList`,
       component: CouponList,
-      label: 'CouponList',
+      label: 'Coupons',
       icon: 'news',
     },
     // CouponList
@@ -252,7 +252,7 @@ const cashierRoutesAndMenuItems = {
     // Addcoupons
     {
       path: `${appRoot}/product_view`,
-      component: StoreProductView ,
+      component: StoreProductView,
       // label: 'User Management',
       // icon: 'user',
     },

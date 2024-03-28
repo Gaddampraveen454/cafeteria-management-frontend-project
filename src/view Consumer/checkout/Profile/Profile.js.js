@@ -7,6 +7,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getWalletURL, ProfileData, ProfileUpdate } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import {
@@ -70,20 +71,21 @@ const Profile = () => {
 
   useEffect(() => {
     if (suc === true) {
-      console.log(notification.message, "fdgsdfhfgh456456")
-      if (notification.status === true) {
-        toast.success(notification.message, {
+      if (notification?.status === true) {
+        toast.success(notification?.message, {
           position: "top-right",
         })
         setSuc(false)
         setTimeout(() => {
           setOpen(false)
           // dispatch(ProductListURL(page, search,currentUser.token,limit))
-          dispatch(ProfileData(currentUser.data.uuid, currentUser?.data?.token))
+          dispatch(ProfileData(currentUser?.data?.uuid, currentUser?.data?.token))
         }, 500)
       }
-      else if (notification.status === false) {
-        toast.error(notification.message)
+      else if (notification?.status === false) {
+        toast.error(notification?.message, {
+          position: "top-right"
+        })
         setSuc(false)
       }
     }
@@ -134,14 +136,11 @@ const Profile = () => {
               </Col>
               <Col lg="12">
                 <Form.Label>Mobile</Form.Label>
-                <Form.Control type="text" placeholder='mobile' defaultValue={Profiledatap?.data?.mobile} onChange={(e) => { setemail(e.target.value) }}
-                />
+                <Form.Control type="text" placeholder='mobile' defaultValue={Profiledatap?.data?.mobile} maxLength={10} minLength={10} onChange={(e) => { setmobile(e.target.value) }} />
               </Col>
               <Col lg="12">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder='email' defaultValue={Profiledatap?.data?.email} onChange={(e) => { setmobile(e.target.value) }}
-
-                />
+                <Form.Control type="email" placeholder='email' defaultValue={Profiledatap?.data?.email} onChange={(e) => { setemail(e.target.value) }} />
               </Col>
 
             </Row>
