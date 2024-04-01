@@ -56,7 +56,7 @@ const ApplyCoupons = ({ show, onHide, CartData }) => {
     const { currentUser, isLogin } = useSelector((state) => state.auth);
     const { CouponData, discountAmount, coupon, notification } = useSelector((state) => state.coupons)
 
-    console.log(notification?.message, "gdjsgfhbfjkdhfkj")
+    console.log(notification, "gdjsgfhbfjkdhfkj")
 
     const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
 
@@ -72,7 +72,7 @@ const ApplyCoupons = ({ show, onHide, CartData }) => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(CouponList(currentUser?.data?.token, StoreData?.company_uuid, StoreData?.uuid))
+        dispatch(CouponList(currentUser?.data?.token, StoreData?.company_uuid, StoreData?.uuid, currentUser?.data?.uuid))
     }, [customerid])
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -127,6 +127,9 @@ const ApplyCoupons = ({ show, onHide, CartData }) => {
         console.log(e, "yutr")
         if (CartData?.total_amount < e?.minimum_purchase) {
             setCouponNotApply("Coupon is not Eligible")
+            toast.error('Coupon is not Eligible', {
+                position: "top-right"
+            })
         }
     }
 
@@ -138,7 +141,7 @@ const ApplyCoupons = ({ show, onHide, CartData }) => {
                     duration: 2000
                 })
                 setSuc(false)
-                dispatch(CouponList(currentUser?.data?.token, StoreData?.company_uuid, StoreData?.uuid))
+                dispatch(CouponList(currentUser?.data?.token, StoreData?.company_uuid, StoreData?.uuid, currentUser?.data?.uuid))
             }
             else if (notification.status === false) {
                 toast.error(notification.message, {

@@ -31,8 +31,8 @@ const CouponSlice = createSlice({
 
 export const { setCouponData, setDiscountAmount, setCoupon, setToast } = CouponSlice.actions;
 
-export const CouponList = (token, companyId, storeId) => async (dispatch) => {
-    const response = await axios.get(`${process.env.REACT_APP_URL}/coupon/list/consumer?company_uuid=${companyId}&store_uuid=${storeId}`,
+export const CouponList = (token, companyId, storeId, userId) => async (dispatch) => {
+    const response = await axios.get(`${process.env.REACT_APP_URL}/coupon/list/consumer?company_uuid=${companyId}&store_uuid=${storeId}&user_uuid=${userId}`,
         {
             headers: {
                 "x-auth-token": token

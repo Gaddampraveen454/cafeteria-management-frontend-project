@@ -55,7 +55,7 @@ const Checkout = () => {
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
-  const [orderData, setOrderData] = useState([])
+  const [orderData, setOrderData] = useState('')
   const [loading, setLoading] = useState(false);
 
   const [discount, setDiscount] = useState(0);
@@ -105,12 +105,11 @@ const Checkout = () => {
 
   const [radioWallet, setRadioWallet] = useState(0);
   const [radioIcash, setRadioICash] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
 
   const [checkwalletvalue, setCheckWalleteValue] = useState(false);
   const [checkICashvalue, setCheckICashValue] = useState(false);
 
-  console.log(radioWallet, radioIcash, totalAmount, "hjgfjhfkjrhkerh")
+  console.log(radioWallet, radioIcash, "hjgfjhfkjrhkerh")
 
   const handleWalletCheckboxChange = (e) => {
     setRadioButtonWalletCheck(e.target.checked);
@@ -119,17 +118,13 @@ const Checkout = () => {
 
     if (CheckValue && RadioButtonICashCheck) {
       if (CartData?.total_amount === ICashAmount + walletAmount) {
-        setTotalAmount(ICashAmount + walletAmount === CartData?.total_amount ? 0 : CartData?.total_amount)
+        setRadioWallet(discountAmount > 0 ? walletAmount - discountAmount : walletAmount)
+      }
+      else if (CartData.total_amount > ICashAmount + ICashAmount) {
         setRadioWallet(walletAmount)
       }
-      else if (CartData.total_amount > ICashAmount) {
-        setRadioWallet((walletAmount + ICashAmount) < CartData.total_amount ? walletAmount : ICashAmount - CartData?.total_amount)
-      }
-      else if (CartData?.total_amount > ICashAmount + walletAmount) {
-        setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
-      }
-      else if (CartData?.total_amount < ICashAmount + walletAmount) {
-        setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
+      else if (CartData.total_amount < ICashAmount + ICashAmount) {
+        setRadioWallet(discountAmount > 0 ? CartData?.total_amount - ICashAmount - discountAmount : CartData?.total_amount - ICashAmount);
       }
     }
     else if (!CheckValue) {
@@ -137,14 +132,14 @@ const Checkout = () => {
     }
     else if (CheckValue) {
       if (CartData?.total_amount === walletAmount) {
-        setRadioWallet(walletAmount);
+        setRadioWallet(discountAmount > 0 ? walletAmount - discountAmount : walletAmount);
         setCheckWalleteValue(true);
       }
       else if (CartData?.total_amount > walletAmount) {
         setRadioWallet(walletAmount);
       }
       else if (CartData?.total_amount < walletAmount) {
-        setRadioWallet(CartData?.total_amount);
+        setRadioWallet(discountAmount > 0 ? CartData?.total_amount - discountAmount : CartData?.total_amount);
         setCheckWalleteValue(true);
       }
     }
@@ -158,17 +153,13 @@ const Checkout = () => {
 
     if (RadioButtonWalletCheck && CheckValue) {
       if (CartData?.total_amount === ICashAmount + walletAmount) {
-        setTotalAmount(ICashAmount + walletAmount === CartData?.total_amount ? 0 : CartData?.total_amount)
+        setRadioICash(discountAmount > 0 ? ICashAmount - discountAmount : ICashAmount)
+      }
+      else if (CartData.total_amount > walletAmount + ICashAmount) {
         setRadioICash(ICashAmount)
       }
-      else if (CartData.total_amount > walletAmount) {
-        setRadioICash((walletAmount + ICashAmount) < CartData.total_amount ? ICashAmount : Number(CartData?.total_amount) - Number(walletAmount))
-      }
-      else if (CartData?.total_amount > ICashAmount + walletAmount) {
-        setTotalAmount(CartData?.total_amount - ICashAmount - walletAmount)
-      }
-      else if (CartData?.total_amount < ICashAmount + walletAmount) {
-        setTotalAmount(walletAmount + ICashAmount - CartData?.total_amount)
+      else if (CartData.total_amount < walletAmount + ICashAmount) {
+        setRadioICash(discountAmount > 0 ? CartData?.total_amount - walletAmount - discountAmount : CartData?.total_amount - walletAmount)
       }
     }
     else if (!CheckValue) {
@@ -176,16 +167,14 @@ const Checkout = () => {
     }
     else if (CheckValue) {
       if (CartData?.total_amount === ICashAmount) {
-        setRadioICash(ICashAmount);
+        setRadioICash(discountAmount > 0 ? ICashAmount - discountAmount : ICashAmount);
         setCheckICashValue(true);
       }
       else if (CartData?.total_amount > ICashAmount) {
-        console.log(CartData?.total_amount, walletAmount, "hgdsgjhdsghgshdsj")
         setRadioICash(ICashAmount);
       }
       else if (CartData?.total_amount < ICashAmount) {
-        console.log(CartData?.total_amount, "hgdsgjhdsghgshdsj")
-        setRadioICash(CartData?.total_amount);
+        setRadioICash(discountAmount > 0 ? CartData?.total_amount - discountAmount : CartData?.total_amount);
         setCheckICashValue(true);
       }
     }
@@ -260,7 +249,7 @@ const Checkout = () => {
       // setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        "amount": String(totalAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": String(orderData?.data?.total), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Cafeteria",
         "description": "Cafeteria",
