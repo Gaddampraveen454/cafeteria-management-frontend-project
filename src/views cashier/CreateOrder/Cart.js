@@ -64,7 +64,7 @@ const Cart = () => {
       setSuc(false)
     }else if (ip) {
    // if (ip)
-   dispatch(CartListURL(ip))
+    dispatch(CartListURL(ip))
     }
 
  

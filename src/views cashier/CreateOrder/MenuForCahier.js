@@ -965,7 +965,7 @@ const MenuForCashier = () => {
                                                       }}
                                                     >
                                                       <CsLineIcons icon="plus" />
-                                                      <span>Add</span>
+                                                      <span>Addddd</span>
                                                     </Button>
                                                   )}
                                                 </div>
