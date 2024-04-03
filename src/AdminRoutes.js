@@ -30,6 +30,9 @@ const CompanyRole = lazy(()=>import('views/CompanyRoles/role'));
 const CompanyAddRole = lazy(()=>import('views/CompanyRoles/addrole'));
 const CompanyFeedback=lazy(()=>import('views/CompanyFeedback/companyfeedback'));
 const CompanyProductView = lazy(()=>import('views/CompanyFeedback/companyproductview'));
+const couponslist = lazy(()=> import('views/Coupons/couponslist'));
+const Addcoupon = lazy(()=> import('views/Coupons/AddCoupons'))
+const Updatecoupon = lazy(()=> import('views/Coupons/UpdateCoupon'))
 
 
 const Cards = lazy(() => import('views/company Management/Cards'));
@@ -175,11 +178,32 @@ const adminRoutesAndMenuItems = {
       icon: 'save',
     },
     {
+      path: `${appRoot}/couponslist`,
+      component: couponslist,
+      label: 'Coupons',
+      icon: 'save',
+    },
+    // Addcoupon
+    {
+      path: `${appRoot}/Addcoupon`,
+      component: Addcoupon,
+      // label: 'Category Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/Updatecoupon`,
+      component: Updatecoupon,
+      // label: 'Category Management',
+      // icon: 'user',
+    },
+    // Updatecoupon
+    {
       path: `${appRoot}/add_role`,
       component: CompanyAddRole,
       // label: 'Category Management',
       // icon: 'user',
     },
+    // couponslist
     {
       path: `${appRoot}/create_order`,
       component: CreateOrder,
@@ -195,7 +219,7 @@ const adminRoutesAndMenuItems = {
     {
       path: `${appRoot}/Pendingorders`,
       component: PendingOrder,
-      label: 'Pending List',
+      label: 'Pending Orders',
       icon: 'wallet',
     },
     {

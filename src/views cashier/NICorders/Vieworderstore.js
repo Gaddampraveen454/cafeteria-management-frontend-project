@@ -130,12 +130,24 @@ const StoreOrderView = () => {
                                         <Form.Control type="text" disabled value={OrderView?.data?.payment_type} />
                                     </Col>
                                     <Col xs="6" lg="6">
+                                        <Form.Label>ICash Amount</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.icash} />
+                                    </Col>
+                                    <Col xs="6" lg="6">
+                                        <Form.Label>Discount</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.discount_amount} />
+                                    </Col>
+                                    <Col xs="6" lg="6">
                                         <Form.Label>SGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.sgst_tax} />
                                     </Col>
                                     <Col xs="6" lg="6">
                                         <Form.Label>CGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={OrderView?.data?.cgst_tax} />
+                                    </Col>
+                                    <Col xs="6" lg="6">
+                                        <Form.Label>Instructions</Form.Label>
+                                        <Form.Control type="text" disabled value={OrderView?.data?.instructions} />
                                     </Col>
                                 </Row>
 

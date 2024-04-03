@@ -64,7 +64,7 @@ const NICorders = () => {
     const { OrderData, notification } = useSelector((state) => state.orderList)
     const { StoreList } = useSelector((state) => state.products)
     useEffect(() => {
-        dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+        dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         dispatch(ProductStoreListURL(currentUser?.token, currentUser?.data?.uuid))
     }, [])
     console.log(OrderData, "dfgdgdgdfgd");
@@ -76,32 +76,32 @@ const NICorders = () => {
             console.log(pages, "ghjkvbnm")
             setSearch(pages)
             setPage(0)
-            dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(0, pages, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
         if (type === "prev") {
             setPage(page - 1)
-            dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(page - 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
         else if (type === "next") {
             setPage(page + 1)
-            dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
         else if (type === "page") {
             setPage(page)
-            dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
         else if (type === "page+1") {
             setPage(page + 1)
-            dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(page + 1, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
         else if (type === "page+2") {
             setPage(page + 2)
-            dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(page + 2, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
         else if (type === "limit") {
             setLimit(pages)
             setPage(0)
-            dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, "Pending"))
+            dispatch(OrderListURL(0, search, currentUser.token, pages, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
         }
     }
 
@@ -117,7 +117,7 @@ const NICorders = () => {
         console.log(event)
         setStoreUUID(event?.value)
         setStoreUUID1(event)
-        dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, "Pending"))
+        dispatch(OrderListURL(0, search, currentUser.token, limit, currentUser?.data?.uuid, event?.value, "Pending", "", ""))
     }
 
 
@@ -148,7 +148,7 @@ const NICorders = () => {
                 })
                 setSuc(false)
                 setTimeout(() => {
-                    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending"))
+                    dispatch(OrderListURL(page, search, currentUser.token, limit, currentUser?.data?.uuid, storeuuid, "Pending", "", ""))
                     // setOpen(false)
 
                 }, 1000)

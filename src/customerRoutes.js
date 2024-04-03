@@ -346,6 +346,8 @@ const OrderRating = lazy(() => import('view Consumer/orders/orderRating'))
 const orderSuccessPage = lazy(() => import('view Consumer/orderSuccessPage/OrderSuccessPage'))
 const notification = lazy(() => import('view Consumer/userNotifications/usernotifications'))
 const TransitionsModalUser = lazy(() => import('views/company Management/TransitionsModalUser'))
+const IcashList = lazy(() => import('view Consumer/Icash/icashlist'))
+const AddICashUser = lazy(() => import('view Consumer/Icash/AddCash'))
 
 
 
@@ -399,7 +401,7 @@ const FooterRoutes = {
 const appRoot = DEFAULT_PATHS.APP.endsWith('/') ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length) : DEFAULT_PATHS.APP;
 
 const companyId = localStorage.getItem('companyId');
-console.log(companyId,'dsbvsdjhds')
+console.log(companyId, 'dsbvsdjhds')
 let compNewId = !companyId ? "qr" : companyId
 const [url, newCompId] = window.location.pathname.split("menu/")
 const Logindetailes = localStorage.getItem("ChangePassword")
@@ -482,11 +484,25 @@ const consumerRoutesAndMenuItems = {
       // icon: 'shipping',
     },
     {
+      path: `${appRoot}/Icash`,
+      component: IcashList,
+      label: 'iCash',
+      icon: 'news',
+    },
+    {
+      path: `${appRoot}/AddICash`,
+      component: AddICashUser,
+      // label: 'Company Management',
+      // icon: 'shipping',
+    },
+    {
       path: `${appRoot}/usernotification`,
       component: notification,
       label: 'Notifications',
       icon: 'news',
     },
+
+    // IcashList
     // {
     //   path: `${appRoot}/userchangepassword`,
     //   component:  Changepassword ,

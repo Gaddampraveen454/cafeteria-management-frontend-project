@@ -136,6 +136,14 @@ const orderview = () => {
                                         <Form.Control type="text" disabled value={location?.state?.payment_type} />
                                     </Col>
                                     <Col lg="6" xs='6'>
+                                        <Form.Label>ICash Amount</Form.Label>
+                                        <Form.Control type="text" disabled value={location?.state?.icash} />
+                                    </Col>
+                                    <Col lg="6" xs='6'>
+                                        <Form.Label>Discount</Form.Label>
+                                        <Form.Control type="text" disabled value={location?.state?.discount_amount} />
+                                    </Col>
+                                    <Col lg="6" xs='6'>
                                         <Form.Label>SGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={location?.state?.sgst_tax} />
                                     </Col>
@@ -143,13 +151,17 @@ const orderview = () => {
                                         <Form.Label>CGST Tax</Form.Label>
                                         <Form.Control type="text" disabled value={location?.state?.cgst_tax} />
                                     </Col>
+                                    <Col lg="6" xs='6'>
+                                        <Form.Label>Instructions</Form.Label>
+                                        <Form.Control type="text" disabled value={location?.state?.instructions} />
+                                    </Col>
                                 </Row>
 
                             </Form>
                         </Card.Body>
                     </Card>
 
-                
+
                     <Card className='mt-3'>
                         <Card.Body>
                             <Form>
@@ -158,7 +170,7 @@ const orderview = () => {
                                     <Col>
                                         <Row className="g-0 h-100 align-content-center custom-sort ps-5 pe-4 h-100">
                                             <Col xs="2" lg="2" className="d-flex align-items-center justify-content-center">
-                                                <div className="text-muted text-medium cursor-pointer orderView" style={{paddingRight:"35px"}}>S.No</div>
+                                                <div className="text-muted text-medium cursor-pointer orderView" style={{ paddingRight: "35px" }}>S.No</div>
                                             </Col>
                                             <Col xs="2" lg="2" className="d-flex flex-column mb-lg-0 pe-3 d-flex">
                                                 <div className="text-muted text-medium cursor-pointer sort" >Product Name</div>
@@ -186,118 +198,118 @@ const orderview = () => {
                                     return <div key="">
                                         {console.log(item, "ccccbhjgjhrbgr")}
                                         {/* <Card className=''> */}
-                                            <Row className="g-0 h-100 sh-25 sh-lg-9 position-relative">
+                                        <Row className="g-0 h-100 sh-25 sh-lg-9 position-relative">
 
-                                                {/* <Col> */}
-                                                    <Row className="g-0 h-100 ">
-                                                        <Col lg="2" className='d-flex align-items-start justify-content-center'>
-                                                            {/* <Row className="gx-2 align-items-center "> */}
+                                            {/* <Col> */}
+                                            <Row className="g-0 h-100 ">
+                                                <Col lg="2" className='d-flex align-items-start justify-content-center'>
+                                                    {/* <Row className="gx-2 align-items-center "> */}
 
-                                                                {/* <Col lg="12" className="col"> */}
-                                                                    {/* <Row className="p-0 mb-2 d-none d-lg-flex"> */}
-                                                                        {/* <Col  lg="12" > */}
-                                                                            <div className="text-alternate index">{index + 1}</div>
-                                                                        {/* </Col> */}
-                                                                    {/* </Row> */}
-                                                                {/* </Col> */}
-                                                            {/* </Row> */}
-                                                        </Col>
-                                                        <Col lg="2">
-                                                            <Row className="align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col xs="6" className="d-lg-none">
-                                                                            <div className="text-alternate d-flex align-items-start lh-1-25" style={{fontWeight:'bold'}}>Name</div>
-                                                                        </Col>
-                                                                        <Col xs="6" lg="12" className=' d-flex align-items-center'>
-                                                                            <div className="lh-1 text-alternate orderView" style={{paddingLeft:"30px"}}>{item.name}</div>
-                                                                        </Col>
-                                                                    </Row>
+                                                    {/* <Col lg="12" className="col"> */}
+                                                    {/* <Row className="p-0 mb-2 d-none d-lg-flex"> */}
+                                                    {/* <Col  lg="12" > */}
+                                                    <div className="text-alternate index">{index + 1}</div>
+                                                    {/* </Col> */}
+                                                    {/* </Row> */}
+                                                    {/* </Col> */}
+                                                    {/* </Row> */}
+                                                </Col>
+                                                <Col lg="2">
+                                                    <Row className="align-items-center">
+                                                        <Col lg="12" className="col">
+                                                            <Row className="g-0">
+                                                                <Col xs="6" className="d-lg-none">
+                                                                    <div className="text-alternate d-flex align-items-start lh-1-25" style={{ fontWeight: 'bold' }}>Name</div>
+                                                                </Col>
+                                                                <Col xs="6" lg="12" className=' d-flex align-items-center'>
+                                                                    <div className="lh-1 text-alternate orderView" style={{ paddingLeft: "30px" }}>{item.name}</div>
                                                                 </Col>
                                                             </Row>
                                                         </Col>
-                                                        <Col lg="2">
-                                                            <Row className=" align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col xs='6' className="d-lg-none">
-                                                                            <div className="text-alternate d-flex align-items-center lh-1-25" style={{fontWeight:'bold'}}>Product Id</div>
-                                                                        </Col>
-                                                                        <Col xs="6" lg="12" className='d-flex align-items-center'>
-                                                                            <div className="lh-1 text-alternate">{item.uuid}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="2">
-                                                            <Row className=" align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col xs='6' className="d-lg-none">
-                                                                            <div className="text-alternate d-flex align-items-center lh-1-25" style={{fontWeight:'bold'}}>Quantity</div>
-                                                                        </Col>
-                                                                        <Col xs="6" lg="12" className='d-flex align-items-center'>
-                                                                            <div className="lh-1 text-alternate">{item.quantity}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="2">
-                                                            <Row className="align-items-center">
-                                                                <Col lg="12" className="col">
-                                                                    <Row className="g-0">
-                                                                        <Col xs='6' lg='12' className="d-lg-none">
-                                                                            <div className="text-alternate d-flex align-items-center lh-1-25" style={{fontWeight:'bold'}}>Price</div>
-                                                                        </Col>
-                                                                        <Col xs="6" lg="12" className='d-flex align-items-center'>
-                                                                            <div className="lh-1 text-alternate">{item.price}</div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        <Col lg="2" className='mb-4'>
-                                                            <Row className="align-items-center">
-                                                                <Col lg="12" >
-                                                                    <Row className="g-0">
-                                                                        <Col xs='6' className="d-lg-none">
-                                                                            <div className="text-alternate d-flex align-items-center" style={{fontWeight:'bold'}}>Rating</div>
-                                                                        </Col>
-                                                                        {location?.state?.feedbacks.map((feedback, ind) => {
-                                                                            console.log(feedback, "hdvfsjdgfdsj")
-                                                                            return <Col xs="6" lg="12" key={ind}  className='d-flex align-items-center'>
-                                                                                {feedback?.product_uuid === item?.uuid &&
-                                                                                    <Rating
-                                                                                        count={5}
-                                                                                        value={feedback?.rating}
-                                                                                        // onChange={handleRatingChange}
-                                                                                        size={16}
-                                                                                        activeColor="#ffd700"
-                                                                                        edit={false}
-                                                                                        className="lh-1 text-alternate "
-                                                                                    />
-                                                                                    
-                                                                                }
-                                                                            </Col>
-                                                                        })}
-                                                                        {location?.state?.feedbacks?.length === 0 &&
-                                                                            <Col>
-                                                                                <span>No Rating</span>
-                                                                            </Col>
-                                                                        }
-
-                                                                    </Row>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-
-
                                                     </Row>
-                                                {/* </Col> */}
+                                                </Col>
+                                                <Col lg="2">
+                                                    <Row className=" align-items-center">
+                                                        <Col lg="12" className="col">
+                                                            <Row className="g-0">
+                                                                <Col xs='6' className="d-lg-none">
+                                                                    <div className="text-alternate d-flex align-items-center lh-1-25" style={{ fontWeight: 'bold' }}>Product Id</div>
+                                                                </Col>
+                                                                <Col xs="6" lg="12" className='d-flex align-items-center'>
+                                                                    <div className="lh-1 text-alternate">{item.uuid}</div>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                                <Col lg="2">
+                                                    <Row className=" align-items-center">
+                                                        <Col lg="12" className="col">
+                                                            <Row className="g-0">
+                                                                <Col xs='6' className="d-lg-none">
+                                                                    <div className="text-alternate d-flex align-items-center lh-1-25" style={{ fontWeight: 'bold' }}>Quantity</div>
+                                                                </Col>
+                                                                <Col xs="6" lg="12" className='d-flex align-items-center'>
+                                                                    <div className="lh-1 text-alternate">{item.quantity}</div>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                                <Col lg="2">
+                                                    <Row className="align-items-center">
+                                                        <Col lg="12" className="col">
+                                                            <Row className="g-0">
+                                                                <Col xs='6' lg='12' className="d-lg-none">
+                                                                    <div className="text-alternate d-flex align-items-center lh-1-25" style={{ fontWeight: 'bold' }}>Price</div>
+                                                                </Col>
+                                                                <Col xs="6" lg="12" className='d-flex align-items-center'>
+                                                                    <div className="lh-1 text-alternate">{item.price}</div>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                                <Col lg="2" className='mb-4'>
+                                                    <Row className="align-items-center">
+                                                        <Col lg="12" >
+                                                            <Row className="g-0">
+                                                                <Col xs='6' className="d-lg-none">
+                                                                    <div className="text-alternate d-flex align-items-center" style={{ fontWeight: 'bold' }}>Rating</div>
+                                                                </Col>
+                                                                {location?.state?.feedbacks.map((feedback, ind) => {
+                                                                    console.log(feedback, "hdvfsjdgfdsj")
+                                                                    return <Col xs="6" lg="12" key={ind} className='d-flex align-items-center'>
+                                                                        {feedback?.product_uuid === item?.uuid &&
+                                                                            <Rating
+                                                                                count={5}
+                                                                                value={feedback?.rating}
+                                                                                // onChange={handleRatingChange}
+                                                                                size={20}
+                                                                                activeColor="#ffd700"
+                                                                                edit={false}
+                                                                                className="lh-1 text-alternate "
+                                                                            />
+
+                                                                        }
+                                                                    </Col>
+                                                                })}
+                                                                {location?.state?.feedbacks?.length === 0 &&
+                                                                    <Col>
+                                                                        <span>No Rating</span>
+                                                                    </Col>
+                                                                }
+
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+
+
                                             </Row>
-                                            
+                                            {/* </Col> */}
+                                        </Row>
+
                                         {/* </Card> */}
 
                                     </div>

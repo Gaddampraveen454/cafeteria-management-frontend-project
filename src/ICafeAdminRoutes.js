@@ -25,7 +25,11 @@ const FeedBack = lazy(() => import('viewICafeAdmin/FeedBack/feedback'));
 // const ViewReview = lazy(()=>import('viewICafeAdmin/FeedBack/viewreview'));
 const ProductReview = lazy(() => import('viewICafeAdmin/FeedBack/productreview'));
 const AdminBanner = lazy(() => import('viewICafeAdmin/AdminBanners/adminbanners'));
-const AdminAddBanner = lazy(()=>import('viewICafeAdmin/AdminBanners/addbanners'));
+const AdminAddBanner = lazy(() => import('viewICafeAdmin/AdminBanners/addbanners'));
+const Coupons = lazy(() => import('viewICafeAdmin/Coupons/couponlist'))
+const Addcoupons = lazy(() => import('viewICafeAdmin/Coupons/AddCoupon'))
+const Updatecoupons = lazy(() => import('viewICafeAdmin/Coupons/UpdateCoupon'))
+const AdminICashList = lazy(() => import('viewICafeAdmin/AdminICashList/adminicashlist'))
 
 
 const FooterRoutes = {
@@ -173,6 +177,27 @@ const iCafeAdminRoutesAndMenuItems = {
       icon: 'shop',
     },
     {
+      path: `${appRoot}/couponlist`,
+      component: Coupons,
+      label: 'Coupons',
+      icon: 'shop',
+    },
+    {
+      path: `${appRoot}/AddCoupon`,
+      component: Addcoupons,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    {
+      path: `${appRoot}/Update-Coupon`,
+      component: Updatecoupons,
+      // label: 'User Management',
+      // icon: 'user',
+    },
+    // Updatecoupons
+    // Addcoupons
+    // Coupons
+    {
       path: `${appRoot}/add_roles`,
       component: AddRoles,
       // label: 'User Management',
@@ -181,7 +206,7 @@ const iCafeAdminRoutesAndMenuItems = {
     {
       path: `${appRoot}/orders`,
       component: OrderList,
-      label: 'Order List',
+      label: 'Orders',
       icon: 'shop',
     },
     {
@@ -189,6 +214,12 @@ const iCafeAdminRoutesAndMenuItems = {
       component: AdminOrderView,
       // label: 'User Management',
       // icon: 'user',
+    },
+    {
+      path: `${appRoot}/icashlist`,
+      component: AdminICashList,
+      label: 'iCash',
+      icon: 'shop',
     },
     {
       path: `${appRoot}/reports`,
@@ -216,13 +247,13 @@ const iCafeAdminRoutesAndMenuItems = {
     },
     {
       path: `${appRoot}/banner`,
-      component:AdminBanner,
-      label: 'Banner',
+      component: AdminBanner,
+      label: 'Banners',
       icon: 'shop',
     },
     {
       path: `${appRoot}/add_banner`,
-      component:AdminAddBanner,
+      component: AdminAddBanner,
     },
     {
       path: `${appRoot}/termsconditions`,

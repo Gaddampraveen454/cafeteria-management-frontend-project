@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, Col, Form, Row, Spinner } from 'react-bootstrap';
+import { Card, Button, Col, Form, Row, Spinner, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import HtmlHead from 'components/html-head/HtmlHead';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { createOrderURL, createOrderAsGuestURL, CreateCheckOutURL, CreateCheckOutGuestURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { IpAddressDataURL } from 'Redux/ConsumerRedux/IpAddressRedux/IpAddress';
 import { IfLogedinUpdateCartURL, CartListURL, ConsumerCartListURL } from 'Redux/ConsumerRedux/Cart/CartRedux';
-import { getWalletURL } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
+import { getWalletURL, ProfileData } from 'Redux/ConsumerRedux/WalletRedux/WalletRedux';
 import { LogOutURL, LoginURL } from 'auth/authSlice';
 // import { CreateCheckOutGuestURL, CreateCheckOutURL } from 'Redux/ConsumerRedux/Checkout/CheckoutRedux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { removeCoupon } from 'Redux/ConsumerRedux/Coupons/CouponsRedux';
+import ApplyCoupons from './ApplyCoupon';
+import promoSuccessicon from './Img/promo-success-icon.svg';
+import Logo from "../../Assests/images/cafe.png";
 
 
 
@@ -32,16 +36,17 @@ function loadScript(src) {
   })
 }
 
-const Categories = () => {
+const Checkout = () => {
   const title = 'Checkout';
   const description = 'Ecommerce Storefront Checkout Page';
   const location = useLocation();
   const dispatch = useDispatch()
   const history = useHistory();
-  const { CartData, notification } = useSelector((state) => state.CartList)
+  const { CartData } = useSelector((state) => state.CartList)
+  const { CouponData, discountAmount, coupon, notification } = useSelector((state) => state.coupons)
   console.log(CartData, "CartData")
   const { currentUser, isLogin } = useSelector((state) => state.auth);
-  const { WalletData } = useSelector((state) => state.WalletData);
+  const { WalletData, Profiledatap } = useSelector((state) => state.WalletData);
   const { CheckoutData, checkoutnotification } = useSelector((state) => state.checkoutdata);
   // const { OrderData } = useSelector((state) => state.checkoutdata);
 
@@ -50,17 +55,131 @@ const Categories = () => {
 
   const { IpAddressData } = useSelector((state) => state.IpAddressList);
   const [mobile, setMobile] = useState("")
-  const [orderData, setOrderData] = useState([])
+  const [orderData, setOrderData] = useState('')
   const [loading, setLoading] = useState(false);
+
+  const [discount, setDiscount] = useState(0);
+  const [appliedcoupon, setAppliedCoupon] = useState([]);
+  const [couponnotaplied, setNotAppllied] = useState("")
+
+  const [instructionsvalue, setInstructionValue] = useState("");
 
   const [count, setCount] = useState(0);
 
   const walletAmount = WalletData && WalletData.data && WalletData.data.wallet_amount ? WalletData && WalletData.data && WalletData.data.wallet_amount : 0
+  const ICashAmount = Profiledatap && Profiledatap?.data && Profiledatap?.data?.icash ? Profiledatap && Profiledatap?.data && Profiledatap?.data?.icash : 0
+
   const TotaleAmount = walletAmount > CartData.total_amount ? CartData.total_amount : (CartData.total_amount - walletAmount) * 100
 
+  let TotalAmount;
 
-  console.log(count, "TotaleAmount")
+  if (walletAmount > CartData.total_amount) {
+    TotalAmount = CartData.total_amount;
+  }
+  else if (walletAmount < CartData.total_amount && ICashAmount >= (CartData.total_amount - walletAmount)) {
+    TotalAmount = CartData.total_amount;
+  }
+  else {
+    TotalAmount = (Number(CartData.total_amount) - Number(walletAmount) - Number(ICashAmount));
+  }
 
+  const [Icashvalue, setIcashValue] = useState(0);
+
+
+  useEffect(() => {
+    if (walletAmount < CartData.total_amount) {
+      const Ivalue = (Number(CartData.total_amount) - Number(walletAmount));
+
+      if (Ivalue === ICashAmount) {
+        setIcashValue(ICashAmount);
+      } else if (Ivalue > ICashAmount) {
+        setIcashValue(Ivalue > ICashAmount && ICashAmount);
+      } else if (Ivalue < ICashAmount) {
+        setIcashValue(Ivalue);
+      }
+    }
+  }, [walletAmount, CartData.total_amount, ICashAmount]);
+
+  const [RadioButtonWalletCheck, setRadioButtonWalletCheck] = useState(false);
+  const [RadioButtonICashCheck, setRadioButtonICashCheck] = useState(false);
+
+  const [radioWallet, setRadioWallet] = useState(0);
+  const [radioIcash, setRadioICash] = useState(0);
+
+  const [checkwalletvalue, setCheckWalleteValue] = useState(false);
+  const [checkICashvalue, setCheckICashValue] = useState(false);
+
+  console.log(radioWallet, radioIcash, "hjgfjhfkjrhkerh")
+
+  const handleWalletCheckboxChange = (e) => {
+    setRadioButtonWalletCheck(e.target.checked);
+    setCheckWalleteValue(false);
+    const CheckValue = e.target.checked;
+
+    if (CheckValue && RadioButtonICashCheck) {
+      if (CartData?.total_amount === ICashAmount + walletAmount) {
+        setRadioWallet(discountAmount > 0 ? walletAmount - discountAmount : walletAmount)
+      }
+      else if (CartData.total_amount > ICashAmount + ICashAmount) {
+        setRadioWallet(walletAmount)
+      }
+      else if (CartData.total_amount < ICashAmount + ICashAmount) {
+        setRadioWallet(discountAmount > 0 ? CartData?.total_amount - ICashAmount - discountAmount : CartData?.total_amount - ICashAmount);
+      }
+    }
+    else if (!CheckValue) {
+      setRadioWallet(0)
+    }
+    else if (CheckValue) {
+      if (CartData?.total_amount === walletAmount) {
+        setRadioWallet(discountAmount > 0 ? walletAmount - discountAmount : walletAmount);
+        setCheckWalleteValue(true);
+      }
+      else if (CartData?.total_amount > walletAmount) {
+        setRadioWallet(walletAmount);
+      }
+      else if (CartData?.total_amount < walletAmount) {
+        setRadioWallet(discountAmount > 0 ? CartData?.total_amount - discountAmount : CartData?.total_amount);
+        setCheckWalleteValue(true);
+      }
+    }
+
+  };
+
+  const handleICashCheckboxChange = (e) => {
+    setRadioButtonICashCheck(e.target.checked);
+    setCheckICashValue(false);
+    const CheckValue = e.target.checked;
+
+    if (RadioButtonWalletCheck && CheckValue) {
+      if (CartData?.total_amount === ICashAmount + walletAmount) {
+        setRadioICash(discountAmount > 0 ? ICashAmount - discountAmount : ICashAmount)
+      }
+      else if (CartData.total_amount > walletAmount + ICashAmount) {
+        setRadioICash(ICashAmount)
+      }
+      else if (CartData.total_amount < walletAmount + ICashAmount) {
+        setRadioICash(discountAmount > 0 ? CartData?.total_amount - walletAmount - discountAmount : CartData?.total_amount - walletAmount)
+      }
+    }
+    else if (!CheckValue) {
+      setRadioICash(0)
+    }
+    else if (CheckValue) {
+      if (CartData?.total_amount === ICashAmount) {
+        setRadioICash(discountAmount > 0 ? ICashAmount - discountAmount : ICashAmount);
+        setCheckICashValue(true);
+      }
+      else if (CartData?.total_amount > ICashAmount) {
+        setRadioICash(ICashAmount);
+      }
+      else if (CartData?.total_amount < ICashAmount) {
+        setRadioICash(discountAmount > 0 ? CartData?.total_amount - discountAmount : CartData?.total_amount);
+        setCheckICashValue(true);
+      }
+    }
+
+  };
   const FinalAmount = CartData.total_amount < walletAmount ? 0 : CartData.total_amount - walletAmount
 
   console.log(walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount, "gfhggfhgg")
@@ -80,18 +199,39 @@ const Categories = () => {
   useEffect(() => {
     if (currentUser && currentUser.data) {
       dispatch(getWalletURL(currentUser.data.uuid, currentUser?.data?.token))
+      dispatch(ProfileData(currentUser.data.uuid, currentUser?.data?.token))
     }
   }, [])
 
+  useEffect(() => {
+    setDiscount(discountAmount);
+    setAppliedCoupon(coupon);
+    setNotAppllied(coupon?.coupon_uuid)
+
+  }, [discountAmount, coupon]);
+
   const StoreData = JSON.parse(localStorage.getItem("storeDatiles"));
 
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleOpen = () => {
+    setShow(true);
+  };
 
 
   useEffect(() => {
     dispatch(IpAddressDataURL())
   }, [])
 
+  let coup
+  if (couponnotaplied === undefined) {
+    coup = '';
+  } else {
+    coup = couponnotaplied;
+  }
 
   const data = "ord012356"
   // const RAZORPAY_KEY_ID = "rzp_test_SEA53JLJICNZPH"
@@ -106,14 +246,14 @@ const Categories = () => {
         return
       }
       console.log(orderData, "orderData")
-      setLoading(true)
+      // setLoading(true)
       const options = {
         "key": process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-        "amount": String(TotaleAmount), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": String(orderData?.data?.total), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Cafeteria",
         "description": "Cafeteria",
-        "image": "https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "image": Logo,
         "order_id": orderData?.data?.razorpay_id,
         handler: (response) => {
           const payLoad = {
@@ -126,6 +266,7 @@ const Categories = () => {
           axios.put(`${process.env.REACT_APP_URL}/order/payment/update`, payLoad)
             .then((resp) => {
               console.log(resp.data, "checkout123")
+              dispatch(removeCoupon())
               if (currentUser && currentUser.data && currentUser.data.group === "consumer") {
                 setLoading(false)
                 dispatch(ConsumerCartListURL(currentUser && currentUser.data && currentUser.data.uuid))
@@ -182,7 +323,7 @@ const Categories = () => {
             .catch((err) => {
               // toast.success(err.response.data.message)
               console.log(err.response.data, "sdfsdfsdffsd")
-
+              setLoading(false)
             })
 
         },
@@ -360,7 +501,13 @@ const Categories = () => {
             "checkout_uuid": CheckoutData.data.uuid,
             "user_uuid": currentUser.data.uuid,
             "company_uuid": CheckoutData.data.company_uuid,
-            "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
+            // "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+            // "icash": Icashvalue,
+            "paid_from_wallet": radioWallet,
+            "icash": radioIcash,
+            "instructions": instructionsvalue,
+            "coupon_uuid": `${coup}`,
+            "discount_amount": discount
           }
 
           axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -433,7 +580,13 @@ const Categories = () => {
           "checkout_uuid": CheckoutData.data.uuid,
           "user_uuid": currentUser.data.uuid,
           "company_uuid": CheckoutData.data.company_uuid,
-          "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount
+          // "paid_from_wallet": walletAmount > CartData.total_amount ? CartData.total_amount : walletAmount,
+          // "icash": Icashvalue,
+          "paid_from_wallet": radioWallet,
+          "icash": radioIcash,
+          "instructions": instructionsvalue,
+          "coupon_uuid": `${coup}`,
+          "discount_amount": discount,
         }
 
         axios.post(`${process.env.REACT_APP_URL}/order/create`, payload,
@@ -570,28 +723,18 @@ const Categories = () => {
 
 
   // useEffect(() => {
-  //   if (suc1 === true) {
+  //   if (notification?.message !== undefined) {
   //     if (notification.status === true) {
-
-  //       // toast.success(notification.message, {
-  //       //   position: "top-right",
-  //       // })
-
-
-  //       setTimeout(() => {
-  //         ConsumerCheckout()
-  //       }, 1000)
-  //       setSuc1(false)
-
+  //       toast.success(notification.message, {
+  //         position: "top-right",
+  //       })
   //     }
   //     else if (notification.status === false) {
   //       toast.error(notification.message)
-  //       setSuc1(false)
   //     }
   //   }
-
   // }, [notification])
-  // console.log(notification, "ProductDataProductData")
+  console.log(notification, "ProductDataProductData")
 
   return (
     <>
@@ -638,26 +781,96 @@ const Categories = () => {
             )}
           </div>
         </Col>
+        <Modal
+          className="modal fade"
+          show={show}
+          onHide={handleClose}
+          // size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          size="lg"
+        >
+          <Modal.Header closeButton className="modal-header">
+            <h3>Offers</h3>
+          </Modal.Header>
+          {/* <h5 className="mt-5" style={{ textAlign: 'center' }}>
+            You can apply both store & bank/wallet offer in one order
+          </h5> */}
+          <Modal.Body>
+            <ApplyCoupons show={show} onHide={handleClose} CartData={CartData} />
+          </Modal.Body>
+        </Modal>
         <Col xs={12} md={4} >
           <div>
             <h2 className="small-title">Summary</h2>
             <Card className="mb-5 w-100 sw-lg-35">
               <Card.Body>
                 <div className="mb-3">
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">ITEMS</p>
-                    <p>
-                      <span className="text-alternate">{CartData.count}</span>
-                    </p>
-                  </div>
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">TOTAL</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span>{CartData.amount}
-                      </span>
-                    </p>
-                  </div>
+                  <Row>
+                    <Col>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">ITEMS</p>
+                        <p>
+                          <span className="text-alternate">{CartData.count}</span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">CGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">Discount</p>
+                        <p>
+                          ₹ {discount}
+                        </p>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">TOTAL</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>{CartData.amount}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">SGST(%)</p>
+                        <p>
+                          <span className="text-alternate">
+                            <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="mb-2">
+                        <p className="text-small text-muted mb-1">GRAND TOTAL</p>
+                        {/* <div className="cta-2"> */}
+                        {/* <span>
+                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
+                      </span> */}
+                        <p >
+                          {CartData && CartData.total_amount !== undefined && discount !== undefined
+                            ? (() => {
+                              const calculatedAmount = CartData.total_amount - discount;
+                              const formattedAmount = calculatedAmount % 1 === 0
+                                ? `₹ ${calculatedAmount.toFixed(0)}`
+                                : `₹ ${calculatedAmount.toFixed(2)}`;
+
+                              return formattedAmount.replace(/(\.0+|(?<=\.\d)0+)$/, ''); // Remove unnecessary zeros
+
+                            })()
+                            : '0'}
+                        </p>
+                        {/* </div> */}
+                      </div>
+                    </Col>
+                  </Row>
+
+
                   {/* <div className="mb-2">
                   <p className="text-small text-muted mb-1">SHIPPING</p>
                   <p>
@@ -665,24 +878,9 @@ const Categories = () => {
                       <span className="text-small text-muted">₹</span> 0
                     </span>
                   </p>
-                </div> */}
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">CGST(%)</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span> {CartData.cgst_tax}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">SGST(%)</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span>{CartData.sgst_tax}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="mb-2">
+                 </div> */}
+
+                  {/* <div className="mb-2">
                     <p className="text-small text-muted mb-1">Wallet Amount</p>
                     <p>
                       <span className="text-alternate">
@@ -691,13 +889,114 @@ const Categories = () => {
                     </p>
                   </div>
                   <div className="mb-2">
-                    <p className="text-small text-muted mb-1">GRAND TOTAL</p>
-                    <div className="cta-2">
-                      <span>
-                        <span className="text-small text-muted cta-2">₹</span>{currentUser && currentUser.data ? FinalAmount?.toFixed(2) : CartData?.total_amount?.toFixed(2)}
+                    <p className="text-small text-muted mb-1">Icash Amount</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? ICashAmount : 0}
                       </span>
-                    </div>
+                    </p>
+                  </div> */}
+
+                  {/* <div className="mb-2">
+                    <p className="text-small text-muted mb-1">To Pay</p>
+                    <p>
+                      {CartData && CartData.total_amount !== undefined
+                        ? `₹ ${Number(CartData.total_amount).toFixed(2).replace(/(\.0+|(?<=\.\d)0+)$/, '')}`
+                        : '₹ 0'}
+                    </p>
+                  </div> */}
+                  <Row>
+                    <Col lg="12">
+                      <div>
+                        <div className="form-check">
+                          <label className="form-check-label" htmlFor="walletCheckbox">
+                            <p className="text-medium text-muted mb-1">Wallet ₹ {currentUser && currentUser.data ? walletAmount : 0}</p>
+                          </label>
+                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('Wallet')} /> */}
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkICashvalue} checked={RadioButtonWalletCheck} onChange={handleWalletCheckboxChange} />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="12">
+                      <div>
+                        <div className="form-check">
+                          <label className="form-check-label" htmlFor="icashCheckbox">
+                            <p className="text-medium text-muted mb-1">iCash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
+                          </label>
+                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('ICash')} /> */}
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkwalletvalue} onChange={handleICashCheckboxChange} />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">Cooking Instructions</p>
+                    <p>
+                      <Form.Control type="text" name="instructions" onChange={(e) => setInstructionValue(e.target.value)} placeholder="Instructions" />
+                    </p>
                   </div>
+                  <hr />
+                  {Object.keys(currentUser).length > 0 ? (
+                    <>
+                      {discount !== 0 ? (
+                        <div
+                          className="mb-4"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            border: '1px dashed',
+                            padding: '15px',
+                          }}
+                          onClick={handleOpen}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div>
+                              <img src={promoSuccessicon} alt="product" style={{ width: '100%' }} />
+                            </div>
+                            &nbsp;&nbsp;
+                            <div style={{ color: 'red' }}> Applied Coupon {appliedcoupon?.code}</div>
+                            <hr />
+                            <div style={{ color: 'red' }}> You have saved ₹ {(CartData.total_amount - appliedcoupon?.amount).toFixed(2)}</div>
+                          </div>
+
+                          <div>
+                            <Button
+                              size="sm"
+                              className="btn-icon btn-icon-only position-absolute t-9 e-2"
+                              variant="foreground-alternate"
+
+                              onClick={() => dispatch(removeCoupon())}
+                              style={{ display: 'contents' }}
+                            >
+                              <CsLineIcons icon="error-hexagon" />
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="mb-4"
+                          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                          onClick={handleOpen}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div>
+                              <img src={promoSuccessicon} alt="product" style={{ width: '100%' }} />
+                            </div>
+                            &nbsp;&nbsp;
+                            <div style={{ color: '#1da52b' }}> Apply your coupon </div>
+                          </div>
+                          <div>
+                            <CsLineIcons style={{ color: '#1da52b' }} icon="chevron-right" />
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : ""}
+                  <hr />
                 </div>
                 {/* <div className="form-check mb-4">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={(e) => console.log(e.target.value, "DSfsdfsdfsdfsdf")} />
@@ -733,4 +1032,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Checkout;
