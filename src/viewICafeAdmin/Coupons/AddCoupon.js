@@ -106,12 +106,7 @@ const addcategory = () => {
             return StoreUUid.push({ label: text?.store_name, value: text?.uuid })
         }, [])
     }
-    const handleUpdateDrop = (select) => {
-        console.log(select, 'sbdvhbsdvjrthritb')
-        setCompanyUpdateDrop(select)
-        dispatch(ICafeAdminCategoryStoreDropDownList(select === null ? "" : select?.value));
-        // dispatch(companycouponslist(page, search, limit, "", select?.value, "", currentUser?.token))
-    }
+
 
     const [storeuuid, setStoreUUID] = useState('');
     const [offertype, setoffertype] = useState('')
@@ -120,6 +115,15 @@ const addcategory = () => {
     const [image, setImage] = useState(null);
     const [minpuches, setminpurches] = useState('')
     // const [image,setimage] = useState('')
+
+    const handleUpdateDrop = (select) => {
+        console.log(select, 'sbdvhbsdvjrthritb')
+        setCompanyUpdateDrop(select)
+        setStoreUUID('')
+        dispatch(ICafeAdminCategoryStoreDropDownList(select === null ? "" : select?.value));
+        // dispatch(companycouponslist(page, search, limit, "", select?.value, "", currentUser?.token))
+    }
+
     const SelectStoreName = (event) => {
         console.log(event)
         setStoreUUID(event)

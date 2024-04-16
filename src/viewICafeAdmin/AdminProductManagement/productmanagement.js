@@ -468,7 +468,7 @@ const productmanagement = () => {
 
 
     const selectedCompany = (selectvalue) => {
-        console.log(selectvalue, 'selectvalue')
+        console.log(option, 'selectvalue')
         setComapanyOption(selectvalue?.value)
         setCompany1(selectvalue);
         setStore1('');
@@ -690,7 +690,7 @@ const productmanagement = () => {
                         className="basic-single"
                         classNamePrefix="select Store"
                         isClearable={isClearable}
-                        Value={store1}
+                        value={store1}
                         onChange={selectdropdown}
                         name="color"
                         border="none"
