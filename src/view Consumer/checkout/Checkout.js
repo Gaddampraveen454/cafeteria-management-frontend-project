@@ -111,6 +111,15 @@ const Checkout = () => {
 
   console.log(radioWallet, radioIcash, "hjgfjhfkjrhkerh")
 
+  useEffect(() => {
+    if (coupon?.status === true) {
+      setRadioButtonWalletCheck(false)
+      setRadioButtonICashCheck(false)
+      setRadioWallet(0)
+      setRadioICash(0)
+    }
+  }, [coupon])
+
   const handleWalletCheckboxChange = (e) => {
     setRadioButtonWalletCheck(e.target.checked);
     setCheckWalleteValue(false);
@@ -120,10 +129,10 @@ const Checkout = () => {
       if (CartData?.total_amount === ICashAmount + walletAmount) {
         setRadioWallet(discountAmount > 0 ? walletAmount - discountAmount : walletAmount)
       }
-      else if (CartData.total_amount > ICashAmount + ICashAmount) {
+      else if (CartData?.total_amount > walletAmount + ICashAmount) {
         setRadioWallet(walletAmount)
       }
-      else if (CartData.total_amount < ICashAmount + ICashAmount) {
+      else if (CartData?.total_amount < walletAmount + ICashAmount) {
         setRadioWallet(discountAmount > 0 ? CartData?.total_amount - ICashAmount - discountAmount : CartData?.total_amount - ICashAmount);
       }
     }
@@ -869,68 +878,6 @@ const Checkout = () => {
                       </div>
                     </Col>
                   </Row>
-
-
-                  {/* <div className="mb-2">
-                  <p className="text-small text-muted mb-1">SHIPPING</p>
-                  <p>
-                    <span className="text-alternate">
-                      <span className="text-small text-muted">₹</span> 0
-                    </span>
-                  </p>
-                 </div> */}
-
-                  {/* <div className="mb-2">
-                    <p className="text-small text-muted mb-1">Wallet Amount</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount : 0}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="mb-2">
-                    <p className="text-small text-muted mb-1">Icash Amount</p>
-                    <p>
-                      <span className="text-alternate">
-                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? ICashAmount : 0}
-                      </span>
-                    </p>
-                  </div> */}
-
-                  {/* <div className="mb-2">
-                    <p className="text-small text-muted mb-1">To Pay</p>
-                    <p>
-                      {CartData && CartData.total_amount !== undefined
-                        ? `₹ ${Number(CartData.total_amount).toFixed(2).replace(/(\.0+|(?<=\.\d)0+)$/, '')}`
-                        : '₹ 0'}
-                    </p>
-                  </div> */}
-                  <Row>
-                    <Col lg="12">
-                      <div>
-                        <div className="form-check">
-                          <label className="form-check-label" htmlFor="walletCheckbox">
-                            <p className="text-medium text-muted mb-1">Wallet ₹ {currentUser && currentUser.data ? walletAmount : 0}</p>
-                          </label>
-                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('Wallet')} /> */}
-                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkICashvalue} checked={RadioButtonWalletCheck} onChange={handleWalletCheckboxChange} />
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg="12">
-                      <div>
-                        <div className="form-check">
-                          <label className="form-check-label" htmlFor="icashCheckbox">
-                            <p className="text-medium text-muted mb-1">iCash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
-                          </label>
-                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('ICash')} /> */}
-                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkwalletvalue} onChange={handleICashCheckboxChange} />
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
                   <div className="mb-2">
                     <p className="text-small text-muted mb-1">Cooking Instructions</p>
                     <p>
@@ -997,6 +944,66 @@ const Checkout = () => {
                     </>
                   ) : ""}
                   <hr />
+                  {/* <div className="mb-2">
+                  <p className="text-small text-muted mb-1">SHIPPING</p>
+                  <p>
+                    <span className="text-alternate">
+                      <span className="text-small text-muted">₹</span> 0
+                    </span>
+                  </p>
+                 </div> */}
+
+                  {/* <div className="mb-2">
+                    <p className="text-small text-muted mb-1">Wallet Amount</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? walletAmount : 0}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-small text-muted mb-1">Icash Amount</p>
+                    <p>
+                      <span className="text-alternate">
+                        <span className="text-small text-muted">₹</span> {currentUser && currentUser.data ? ICashAmount : 0}
+                      </span>
+                    </p>
+                  </div> */}
+
+                  {/* <div className="mb-2">
+                    <p className="text-small text-muted mb-1">To Pay</p>
+                    <p>
+                      {CartData && CartData.total_amount !== undefined
+                        ? `₹ ${Number(CartData.total_amount).toFixed(2).replace(/(\.0+|(?<=\.\d)0+)$/, '')}`
+                        : '₹ 0'}
+                    </p>
+                  </div> */}
+                  <Row>
+                    <Col lg="12">
+                      <div>
+                        <div className="form-check">
+                          <label className="form-check-label" htmlFor="walletCheckbox">
+                            <p className="text-medium text-muted mb-1">Wallet ₹ {currentUser && currentUser.data ? walletAmount : 0}</p>
+                          </label>
+                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('Wallet')} /> */}
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkICashvalue} checked={RadioButtonWalletCheck} onChange={handleWalletCheckboxChange} />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="12">
+                      <div>
+                        <div className="form-check">
+                          <label className="form-check-label" htmlFor="icashCheckbox">
+                            <p className="text-medium text-muted mb-1">iCash ₹ {currentUser && currentUser.data ? ICashAmount : 0}</p>
+                          </label>
+                          {/* <input className="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onClick={() => HandleRadioBalance('ICash')} /> */}
+                          <input type="checkbox" className="form-check-input" name="terms" disabled={checkwalletvalue} checked={RadioButtonICashCheck} onChange={handleICashCheckboxChange} />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
                 </div>
                 {/* <div className="form-check mb-4">
                 <input type="checkbox" className="form-check-input" name="terms" onChange={(e) => console.log(e.target.value, "DSfsdfsdfsdfsdf")} />
