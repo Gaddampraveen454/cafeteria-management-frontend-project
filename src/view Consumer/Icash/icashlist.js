@@ -274,9 +274,6 @@ const ICashList = () => {
                     <div className="text-muted text-small cursor-pointer ">Amount</div>
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
-                    <div className="text-muted text-small cursor-pointer ">Status</div>
-                </Col>
-                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Transaction Id</div>
                 </Col>
                 <Col md="3" className="d-flex flex-column pe-1 justify-content-center">
@@ -284,6 +281,9 @@ const ICashList = () => {
                 </Col>
                 <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
                     <div className="text-muted text-small cursor-pointer ">Type</div>
+                </Col>
+                <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
+                    <div className="text-muted text-small cursor-pointer ">Status</div>
                 </Col>
                 {/* <Col md="2" className="d-flex flex-column pe-1 justify-content-center">
           <div className="text-muted text-small cursor-pointer ">TYPE</div>
@@ -298,8 +298,16 @@ const ICashList = () => {
             {
                 icashdata && icashdata?.data?.map((item, index) => {
                     console.log(item, "hgsdfgsjhgsdj")
+                    let backgroundColor1;
+                    if (item?.status === 'Pending') {
+                        backgroundColor1 = 'Orange';
+                    } else if (item.status === 'Success') {
+                        backgroundColor1 = 'green';
+                    } else {
+                        backgroundColor1 = 'red';
+                    }
                     const textStyle = {
-                        backgroundColor: item.type === 'credited' ? 'green' : 'red',
+                        backgroundColor: backgroundColor1,
                         color: 'white',
                         padding: '5px 10px',
                         borderRadius: '5px'
@@ -318,14 +326,6 @@ const ICashList = () => {
                                     <div className="text-muted text-small d-md-none">Amount</div>
                                     <div className="text-alternate">
                                         {item?.amount}
-                                    </div>
-                                </Col>
-                                <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div className="text-muted text-small d-md-none">Status</div>
-                                    <div className="text-alternate">
-                                        <span>
-                                            {item?.status}
-                                        </span>
                                     </div>
                                 </Col>
                                 <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
@@ -348,8 +348,16 @@ const ICashList = () => {
                                 <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
                                     <div className="text-muted text-small d-md-none">Type</div>
                                     <div className="text-alternate">
-                                        <span style={textStyle}>
+                                        <span>
                                             {item?.type === "credited" ? "Credited" : "Debited"}
+                                        </span>
+                                    </div>
+                                </Col>
+                                <Col xs="5" md="2" className="d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
+                                    <div className="text-muted text-small d-md-none">Status</div>
+                                    <div className="text-alternate">
+                                        <span style={textStyle}>
+                                            {item?.status}
                                         </span>
                                     </div>
                                 </Col>

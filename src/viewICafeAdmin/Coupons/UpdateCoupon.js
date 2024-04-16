@@ -149,6 +149,7 @@ const addcategory = () => {
     const handleUpdateDrop = (select) => {
         console.log(select, 'sbdvhbsdvjrthritb')
         setCompanyUpdateDrop(select)
+        setStoreUUID('')
         dispatch(ICafeAdminCategoryStoreDropDownList(select === null ? "" : select?.value));
         // dispatch(companycouponslist(page, search, limit, "", select?.value, "", currentUser?.token))
     }

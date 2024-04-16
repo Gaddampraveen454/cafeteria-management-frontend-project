@@ -253,7 +253,7 @@ const AdminICashList = () => {
             </div>
 
             <Row className="mb-3">
-                <Col md="5" lg="3" xxl="2" className="mb-1">
+                <Col md="3" lg="3" xxl="2" className="mb-1">
                     {/* Search Start */}
                     {/* <Form.Label/> */}
                     {/* <div className="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
@@ -351,7 +351,7 @@ const AdminICashList = () => {
                         placeholder="Select Store"
                     />
                 </Col> */}
-                <Col md="7" lg="9" xxl="10" className="mb-1 text-end">
+                <Col md="3" lg="3" xxl="10" className="mb-1 text-end mt-5">
 
                     {/* Length Start */}
                     <Dropdown align={{ xs: 'end' }} className="d-inline-block ms-1">
