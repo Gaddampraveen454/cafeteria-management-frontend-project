@@ -468,13 +468,13 @@ const productmanagement = () => {
 
 
     const selectedCompany = (selectvalue) => {
-        console.log(option, 'selectvalue')
+        console.log(selectvalue, 'selectvalue')
         setComapanyOption(selectvalue?.value)
         setCompany1(selectvalue);
         setStore1('');
         dispatch(AdminProductStoreDropDownList(selectvalue === null ? "" : selectvalue?.value))
-        dispatch(AdminProductListURL(page, search, currentUser?.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
-        dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value, option === undefined ? "" : option))
+        dispatch(AdminProductListURL(page, search, currentUser?.token, limit, selectvalue === null ? "" : selectvalue?.value, ''))
+        // dispatch(CategoryListURL(page, search, currentUser.token, limit, selectvalue === null ? "" : selectvalue?.value,''))
     }
 
     const dropdownValues = [];
@@ -485,11 +485,11 @@ const productmanagement = () => {
     })
 
     const selectdropdown = (text) => {
-        console.log(comapanyOption, 'hsdbvudgsfy')
+        console.log(text, 'hsdbvudgsfy')
         setOption(text?.value)
         setStore1(text);
         dispatch(AdminProductListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
-        dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption === undefined ? "" : comapanyOption, text === null ? "" : text?.value))
+        // dispatch(CategoryListURL(page, search, currentUser.token, limit, comapanyOption, text === null ? "" : text?.value))
     }
 
     const CategoryDropdown = []

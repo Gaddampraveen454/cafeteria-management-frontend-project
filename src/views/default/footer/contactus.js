@@ -24,14 +24,20 @@ const Contactus = () => {
                         <Col className="header-term1">
                             <center><h1><strong>Contact Us</strong></h1></center>
                         </Col>
-
-                        <Col>
-                            <h1>Mobile
-                            </h1>
-                            <h4>9206884884</h4>
-                            <h1>Email</h1>
-                            <h4>icafe@mistaeats.com</h4>
-                        </Col>
+                        <Row>
+                            <Col>
+                                <center><h1><strong>Address : </strong></h1></center>
+                                <center><h4>4th Floor, Plot no. 57, <br /> Dwaraka Central Building,<br /> Hitech City Rd, VIP Hills,<br /> Jaihind Enclave, Madhapur, Hyderabad,<br /> Telangana 500081.</h4></center>
+                            </Col>
+                            <Col>
+                                <center><h1><strong>Mobile : </strong></h1></center>
+                                <center><h4>9206884884</h4></center>
+                            </Col>
+                            <Col>
+                                <center><h1><strong>Email : </strong></h1></center>
+                                <center><h4>icafe@mistaeats.com</h4></center>
+                            </Col>
+                        </Row>
                     </div>
 
                 </Col>
